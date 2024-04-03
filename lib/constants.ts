@@ -21,12 +21,12 @@ const AUTOCRAT_V0_1_IDL: AutocratProgram = require('./idl/autocrat_v0.1.json');
 export const AUTOCRAT_VERSIONS: ProgramVersion[] = [
   {
     label: 'V0.1',
-    programId: new PublicKey('metaX99LHn3A7Gr7VAcCfXhpfocvpMpqQ3eyp3PGUUq'),
+    programId: new PublicKey('FuTPR6ScKMPHtZFwacq9qrtf9VjscawNEFTb2wSYr1gY'),
     idl: AUTOCRAT_V0_1_IDL,
   },
   {
     label: 'V0',
-    programId: new PublicKey('meta3cxKzFBmWYgCVozmvCQAS3y9b3fGxrG9HkHL7Wi'),
+    programId: new PublicKey('FuTPR6ScKMPHtZFwacq9qrtf9VjscawNEFTb2wSYr1gY'),
     idl: AUTOCRAT_V0_IDL,
   },
 ];

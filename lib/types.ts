@@ -133,3 +133,24 @@ export type InstructionSet = {
   name: string;
   actions: InstructionAction[];
 };
+
+export type TokenProps = (
+  | {
+      url: string;
+      publicKey?: never;
+    }
+  | {
+      url?: never;
+      publicKey: string;
+    } 
+    | {
+      url: string;
+      publicKey: string;
+    }
+) & { symbol: string };
+
+export type Dao = {
+  daoState: DaoState;
+  baseToken: TokenProps;
+  daoTreasury: PublicKey;
+};

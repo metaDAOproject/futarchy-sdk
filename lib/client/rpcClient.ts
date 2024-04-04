@@ -1,18 +1,22 @@
 import { Program, Provider, utils } from "@coral-xyz/anchor";
-import { AutocratProgram, Dao, ProgramVersion } from "../types";
+import { AutocratProgram, Dao, DaoState, ProgramVersion } from "../types";
 import { Metaplex } from "@metaplex-foundation/js";
-import { TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
+import {
+  TokenStandard,
+  MPL_TOKEN_METADATA_PROGRAM_ID,
+  deserializeMetadata,
+  JsonMetadata,
+} from "@metaplex-foundation/mpl-token-metadata";
+import { RpcAccount } from "@metaplex-foundation/umi";
 import { PublicKey } from "@solana/web3.js";
 import { MetaDAOClient } from "./client";
 
 export class MetaDAORPClient implements MetaDAOClient {
   private programVersion: ProgramVersion;
   private rpcProvider: Provider;
-  private metaplex: Metaplex;
   private constructor(programVersion: ProgramVersion, rpcProvider: Provider) {
     this.programVersion = programVersion;
     this.rpcProvider = rpcProvider;
-    this.metaplex = Metaplex.make(this.rpcProvider.connection);
   }
   static make(programVersion: ProgramVersion, rpcProvider: Provider) {
     return new MetaDAORPClient(programVersion, rpcProvider);
@@ -34,25 +38,38 @@ export class MetaDAORPClient implements MetaDAOClient {
       programId,
       this.rpcProvider
     );
-    const daoState = await autocratProgram.account.dao.fetch(dao);
-    const baseToken = await this.metaplex
-      .nfts()
-      .findByMint({ mintAddress: daoState.tokenMint });
+    const daoState: DaoState = await autocratProgram.account.dao.fetch(dao);
 
-    if (
-      daoState &&
-      baseToken.tokenStandard === TokenStandard.Fungible &&
-      baseToken.json?.symbol
-    ) {
-      return {
-        daoState,
-        baseToken: {
-          symbol: baseToken.json.symbol,
-          publicKey: daoState.tokenMint.toString(),
-          url: baseToken.json.image,
-        },
-        daoTreasury,
-      };
+    const mplTokenProgramID = new PublicKey(MPL_TOKEN_METADATA_PROGRAM_ID);
+    const tokenMetaDataAddress = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("metadata", "utf8"),
+        mplTokenProgramID.toBuffer(),
+        daoState.metaMint.toBuffer(),
+      ],
+      mplTokenProgramID
+    )[0];
+    const tokenMetaDataAccount =
+      await this.rpcProvider.connection.getAccountInfo(tokenMetaDataAddress);
+
+    if (tokenMetaDataAccount) {
+      const decodedMetadata = deserializeMetadata(
+        tokenMetaDataAccount as unknown as RpcAccount
+      );
+      const uriRes = await fetch(decodedMetadata.uri);
+      const json = (await uriRes.json()) as JsonMetadata;
+
+      if (daoState && json.symbol && json.image) {
+        return {
+          daoState,
+          baseToken: {
+            symbol: json.symbol,
+            publicKey: daoState.metaMint.toString(),
+            url: json.image,
+          },
+          daoTreasury,
+        };
+      }
     }
   }
 }

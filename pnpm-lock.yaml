@@ -14,6 +14,9 @@ dependencies:
   '@metaplex-foundation/mpl-token-metadata':
     specifier: ^3.2.1
     version: 3.2.1(@metaplex-foundation/umi@0.9.1)
+  '@metaplex-foundation/umi':
+    specifier: ^0.9.1
+    version: 0.9.1
   '@openbook-dex/openbook-v2':
     specifier: ^0.1.9
     version: 0.1.10

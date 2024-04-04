@@ -1,15 +1,8 @@
 import { Program, Provider, utils } from "@coral-xyz/anchor";
 import { AutocratProgram, Dao, DaoState, ProgramVersion } from "../types";
-import { Metaplex } from "@metaplex-foundation/js";
-import {
-  TokenStandard,
-  MPL_TOKEN_METADATA_PROGRAM_ID,
-  deserializeMetadata,
-  JsonMetadata,
-} from "@metaplex-foundation/mpl-token-metadata";
-import { RpcAccount } from "@metaplex-foundation/umi";
 import { PublicKey } from "@solana/web3.js";
 import { MetaDAOClient } from "./client";
+import { enrichTokenMetadata } from "../tokens";
 
 export class MetaDAORPClient implements MetaDAOClient {
   private programVersion: ProgramVersion;
@@ -40,36 +33,11 @@ export class MetaDAORPClient implements MetaDAOClient {
     );
     const daoState: DaoState = await autocratProgram.account.dao.fetch(dao);
 
-    const mplTokenProgramID = new PublicKey(MPL_TOKEN_METADATA_PROGRAM_ID);
-    const tokenMetaDataAddress = PublicKey.findProgramAddressSync(
-      [
-        Buffer.from("metadata", "utf8"),
-        mplTokenProgramID.toBuffer(),
-        daoState.metaMint.toBuffer(),
-      ],
-      mplTokenProgramID
-    )[0];
-    const tokenMetaDataAccount =
-      await this.rpcProvider.connection.getAccountInfo(tokenMetaDataAddress);
-
-    if (tokenMetaDataAccount) {
-      const decodedMetadata = deserializeMetadata(
-        tokenMetaDataAccount as unknown as RpcAccount
-      );
-      const uriRes = await fetch(decodedMetadata.uri);
-      const json = (await uriRes.json()) as JsonMetadata;
-
-      if (daoState && json.symbol && json.image) {
-        return {
-          daoState,
-          baseToken: {
-            symbol: json.symbol,
-            publicKey: daoState.metaMint.toString(),
-            url: json.image,
-          },
-          daoTreasury,
-        };
-      }
-    }
+    const baseToken = await enrichTokenMetadata(daoState.metaMint);
+    return {
+      daoState,
+      baseToken,
+      daoTreasury,
+    };
   }
 }

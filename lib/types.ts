@@ -1,10 +1,10 @@
-import { Idl, IdlAccounts, IdlTypes } from '@coral-xyz/anchor';
-import { Connection, PublicKey, Signer, Transaction } from '@solana/web3.js';
-import { AutocratV0 } from './idl/autocrat_v0';
-import { AutocratV0 as AutocratV0_1 } from './idl/autocrat_v0.1';
-import { OpenbookTwap } from './idl/openbook_twap';
-import { OpenbookV2 } from './idl/openbook_v2';
-import { ConditionalVault } from './idl/conditional_vault';
+import { Idl, IdlAccounts, IdlTypes } from "@coral-xyz/anchor";
+import { Connection, PublicKey, Signer, Transaction } from "@solana/web3.js";
+import { AutocratV0 } from "./idl/autocrat_v0";
+import { AutocratV0 as AutocratV0_1 } from "./idl/autocrat_v0.1";
+import { OpenbookTwap } from "./idl/openbook_twap";
+import { OpenbookV2 } from "./idl/openbook_v2";
+import { ConditionalVault } from "./idl/conditional_vault";
 
 type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];
@@ -17,22 +17,22 @@ export type AccountWithKey<T> = { publicKey: PublicKey; account: T };
 export type ProgramVersion = { label: string; programId: PublicKey; idl: Idl };
 export type AutocratProgram = AutocratV0 | AutocratV0_1;
 export type DaoState = MergeWithOptionalFields<
-  IdlAccounts<AutocratV0>['dao'],
-  IdlAccounts<AutocratV0_1>['dao']
+  IdlAccounts<AutocratV0>["dao"],
+  IdlAccounts<AutocratV0_1>["dao"]
 >;
 export type ProposalAccount = MergeWithOptionalFields<
-  IdlAccounts<AutocratV0>['proposal'],
-  IdlAccounts<AutocratV0_1>['proposal']
+  IdlAccounts<AutocratV0>["proposal"],
+  IdlAccounts<AutocratV0_1>["proposal"]
 >;
 export type ProposalInstruction = MergeWithOptionalFields<
-  IdlTypes<AutocratV0>['ProposalInstruction'],
-  IdlTypes<AutocratV0_1>['ProposalInstruction']
+  IdlTypes<AutocratV0>["ProposalInstruction"],
+  IdlTypes<AutocratV0_1>["ProposalInstruction"]
 >;
 export type ProposalAccountWithKey = AccountWithKey<ProposalAccount>;
-export type VaultAccount = IdlAccounts<ConditionalVault>['conditionalVault'];
+export type VaultAccount = IdlAccounts<ConditionalVault>["conditionalVault"];
 export type VaultAccountWithKey = AccountWithKey<VaultAccount>;
-export type TwapMarketAccount = IdlAccounts<OpenbookTwap>['twapMarket'];
-export type TWAPOracle = IdlTypes<OpenbookTwap>['TWAPOracle'];
+export type TwapMarketAccount = IdlAccounts<OpenbookTwap>["twapMarket"];
+export type TWAPOracle = IdlTypes<OpenbookTwap>["TWAPOracle"];
 export type OrderBookSide = {
   parsed: {
     price: any;
@@ -92,22 +92,23 @@ export type Proposal = ProposalAccountWithKey & {
 };
 
 /// Avoid importing Openbook because it uses a NodeWallet
-export type PlaceOrderArgs = IdlTypes<OpenbookV2>['PlaceOrderArgs'];
-export type PlaceOrderPeggedArgs = IdlTypes<OpenbookV2>['PlaceOrderPeggedArgs'];
-export type OracleConfigParams = IdlTypes<OpenbookV2>['OracleConfigParams'];
-export type OracleConfig = IdlTypes<OpenbookV2>['OracleConfig'];
-export type MarketAccount = IdlAccounts<OpenbookV2>['market'];
+export type PlaceOrderArgs = IdlTypes<OpenbookV2>["PlaceOrderArgs"];
+export type PlaceOrderPeggedArgs = IdlTypes<OpenbookV2>["PlaceOrderPeggedArgs"];
+export type OracleConfigParams = IdlTypes<OpenbookV2>["OracleConfigParams"];
+export type OracleConfig = IdlTypes<OpenbookV2>["OracleConfig"];
+export type MarketAccount = IdlAccounts<OpenbookV2>["market"];
 export type MarketAccountWithKey = AccountWithKey<MarketAccount>;
-export type OpenOrdersAccount = IdlAccounts<OpenbookV2>['openOrdersAccount'];
+export type OpenOrdersAccount = IdlAccounts<OpenbookV2>["openOrdersAccount"];
 export type OpenOrdersAccountWithKey = AccountWithKey<OpenOrdersAccount>;
 export type AllOrders = { [proposalKey: string]: OpenOrdersAccountWithKey[] };
-export type OpenOrdersIndexerAccount = IdlAccounts<OpenbookV2>['openOrdersIndexer'];
-export type EventHeapAccount = IdlAccounts<OpenbookV2>['eventHeap'];
-export type BookSideAccount = IdlAccounts<OpenbookV2>['bookSide'];
-export type LeafNode = IdlTypes<OpenbookV2>['LeafNode'];
-export type AnyNode = IdlTypes<OpenbookV2>['AnyNode'];
-export type FillEvent = IdlTypes<OpenbookV2>['FillEvent'];
-export type OutEvent = IdlTypes<OpenbookV2>['OutEvent'];
+export type OpenOrdersIndexerAccount =
+  IdlAccounts<OpenbookV2>["openOrdersIndexer"];
+export type EventHeapAccount = IdlAccounts<OpenbookV2>["eventHeap"];
+export type BookSideAccount = IdlAccounts<OpenbookV2>["bookSide"];
+export type LeafNode = IdlTypes<OpenbookV2>["LeafNode"];
+export type AnyNode = IdlTypes<OpenbookV2>["AnyNode"];
+export type FillEvent = IdlTypes<OpenbookV2>["FillEvent"];
+export type OutEvent = IdlTypes<OpenbookV2>["OutEvent"];
 
 export enum InstructionFieldTypes {
   Text,
@@ -126,7 +127,7 @@ export type InstructionAction = {
   fields: InstructionFieldType[];
   instruction: (
     params: any[],
-    options?: { connection?: Connection },
+    options?: { connection?: Connection }
   ) => Promise<ProposalInstruction>;
 };
 export type InstructionSet = {
@@ -142,8 +143,8 @@ export type TokenProps = (
   | {
       url?: never;
       publicKey: string;
-    } 
-    | {
+    }
+  | {
       url: string;
       publicKey: string;
     }

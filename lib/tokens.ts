@@ -21,6 +21,7 @@ export async function enrichTokenMetadata(
       symbol: tokenOnJup.symbol,
       publicKey: tokenAddress.toString(),
       url: tokenOnJup.logoURI,
+      decimals: tokenOnJup.decimals,
     };
   }
 
@@ -31,6 +32,7 @@ export async function enrichTokenMetadata(
       symbol: jsonMetadata.symbol,
       publicKey: tokenAddress.toString(),
       url: jsonMetadata.image,
+      decimals: jsonMetadata.seller_fee_basis_points,
     };
   }
 

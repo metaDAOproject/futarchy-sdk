@@ -148,7 +148,7 @@ export type TokenProps = (
       url: string;
       publicKey: string;
     }
-) & { symbol: string };
+) & { symbol: string; decimals?: number; name?: string };
 
 export type Dao = {
   daoState: DaoState;

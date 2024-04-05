@@ -1,7 +1,7 @@
 import { AutocratProgram, Dao, ProgramVersion } from "../types";
-import { MetaDAOClient } from "./client";
+import { FutarchyClient } from "./client";
 
-export class MetaDAOIndexerClient implements MetaDAOClient {
+export class FutarchyIndexerClient implements FutarchyClient {
   async fetchDao(daoAddress: string): Promise<Dao | undefined> {
     //TODO: use the indexer
     return;

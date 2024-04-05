@@ -45,26 +45,32 @@ export async function enrichTokenMetadata(
 
 type Token = {
   address: string;
-  chainId: number;
   decimals: number;
   name: string;
   symbol: string;
   logoURI: string;
-  tags: string[];
-  extensions: {
-    coingeckoId: string;
-  };
 };
 
 async function getTokenFromJupStrictList(
   address: PublicKey
 ): Promise<Token | null> {
   try {
+    const tokens = await fetchJupTokenListFromGithub();
+    // First, the token with the given address in github file
+    let matchingToken = tokens.find(
+      (token) => token.address === address.toString()
+    );
+
+    if (matchingToken) {
+      return matchingToken;
+    }
+
+    // try from API url next
     const response = await fetch("https://token.jup.ag/strict");
     const tokenList: Token[] = await response.json();
 
     // Find the token with the given address
-    const matchingToken = tokenList.find(
+    matchingToken = tokenList.find(
       (token) => token.address === address.toString()
     );
 
@@ -100,4 +106,43 @@ async function getMetaplexMetadataForToken(
     return (await uriRes.json()) as JsonMetadata;
   }
   return null;
+}
+
+async function fetchJupTokenListFromGithub(): Promise<Token[]> {
+  try {
+    const url =
+      "https://api.github.com/repos/jup-ag/token-list/contents/validated-tokens.csv";
+    const response = await fetch(url);
+    const data = await response.json();
+
+    // Check if the content is base64 encoded
+    if (data.encoding !== "base64") {
+      throw new Error("Content is not base64 encoded.");
+    }
+
+    // Decode content from Base64
+    const csvContent = Buffer.from(data.content, "base64").toString();
+
+    const lines = csvContent.split("\n");
+    const tokens: Token[] = [];
+    const headers = lines[0].split(",");
+
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(",");
+      if (values.length !== headers.length) continue; // Skip malformed rows
+      const token: Token = {
+        name: values[0],
+        symbol: values[1],
+        address: values[2],
+        decimals: parseInt(values[3]),
+        logoURI: values[4],
+      };
+      tokens.push(token);
+    }
+
+    return tokens;
+  } catch (error) {
+    console.error("Error fetching or decoding CSV:", error);
+    return [];
+  }
 }

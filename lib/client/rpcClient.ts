@@ -1,10 +1,10 @@
 import { Program, Provider, utils } from "@coral-xyz/anchor";
 import { AutocratProgram, Dao, DaoState, ProgramVersion } from "../types";
 import { PublicKey } from "@solana/web3.js";
-import { MetaDAOClient } from "./client";
+import { FutarchyClient } from "./client";
 import { enrichTokenMetadata } from "../tokens";
 
-export class MetaDAORPClient implements MetaDAOClient {
+export class FutarchyRPClient implements FutarchyClient {
   private programVersion: ProgramVersion;
   private rpcProvider: Provider;
   private constructor(programVersion: ProgramVersion, rpcProvider: Provider) {
@@ -12,7 +12,7 @@ export class MetaDAORPClient implements MetaDAOClient {
     this.rpcProvider = rpcProvider;
   }
   static make(programVersion: ProgramVersion, rpcProvider: Provider) {
-    return new MetaDAORPClient(programVersion, rpcProvider);
+    return new FutarchyRPClient(programVersion, rpcProvider);
   }
   async fetchDao(daoAddress: string): Promise<Dao | undefined> {
     const { programId, idl } = this.programVersion!;

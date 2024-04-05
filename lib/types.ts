@@ -20,7 +20,6 @@ export type ProgramVersion = {
   label: string;
   programId: PublicKey;
   idl: Idl;
-  isMultiDAO?: boolean;
 };
 export type AutocratProgram = AutocratV0 | AutocratV0_1;
 export type DaoStateV0_1 = MergeWithOptionalFields<

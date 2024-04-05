@@ -2,6 +2,8 @@ import { Idl, IdlAccounts, IdlTypes } from "@coral-xyz/anchor";
 import { Connection, PublicKey, Signer, Transaction } from "@solana/web3.js";
 import { AutocratV0 } from "./idl/autocrat_v0";
 import { AutocratV0 as AutocratV0_1 } from "./idl/autocrat_v0.1";
+import { AutocratV0 as AutocratV0_2 } from "./idl/autocrat_v0.2";
+import { AutocratV0 as AutocratV0_3 } from "./idl/autocrat_v0.3";
 import { OpenbookTwap } from "./idl/openbook_twap";
 import { OpenbookV2 } from "./idl/openbook_v2";
 import { ConditionalVault } from "./idl/conditional_vault";
@@ -14,11 +16,24 @@ type MergeWithOptionalFields<T, U> = {
   [K in keyof Omit<T, keyof U>]?: NonNullable<T[K]>;
 };
 export type AccountWithKey<T> = { publicKey: PublicKey; account: T };
-export type ProgramVersion = { label: string; programId: PublicKey; idl: Idl };
+export type ProgramVersion = {
+  label: string;
+  programId: PublicKey;
+  idl: Idl;
+  isMultiDAO?: boolean;
+};
 export type AutocratProgram = AutocratV0 | AutocratV0_1;
-export type DaoState = MergeWithOptionalFields<
+export type DaoStateV0_1 = MergeWithOptionalFields<
   IdlAccounts<AutocratV0>["dao"],
   IdlAccounts<AutocratV0_1>["dao"]
+>;
+export type DaoStateV0_2 = MergeWithOptionalFields<
+  DaoStateV0_1,
+  IdlAccounts<AutocratV0_2>["dao"]
+>;
+export type DaoState = MergeWithOptionalFields<
+  DaoStateV0_2,
+  IdlAccounts<AutocratV0_3>["dao"]
 >;
 export type ProposalAccount = MergeWithOptionalFields<
   IdlAccounts<AutocratV0>["proposal"],
@@ -153,5 +168,5 @@ export type TokenProps = (
 export type Dao = {
   daoState: DaoState;
   baseToken: TokenProps;
-  daoTreasury: PublicKey;
+  quoteToken: TokenProps;
 };

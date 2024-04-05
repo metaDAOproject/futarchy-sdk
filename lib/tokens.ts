@@ -6,15 +6,23 @@ import {
   deserializeMetadata,
 } from "@metaplex-foundation/mpl-token-metadata";
 import { RpcAccount } from "@metaplex-foundation/umi";
+import { Provider } from "@coral-xyz/anchor";
+import { USDCAddress, USDCMetadata } from "./constants";
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
  * if that fails, use metaplex with RPC call and fetch metadata json
  * if THAT fails, take MINT address and truncate by 5 characters and that's the symbol (no image)
  */
 export async function enrichTokenMetadata(
-  tokenAddress: PublicKey
+  tokenAddress: PublicKey,
+  rpcProvider: Provider
 ): Promise<TokenProps> {
-  // first check strict list
+  // first, is it USDC?
+  if (tokenAddress.toString() === USDCAddress) {
+    return USDCMetadata;
+  }
+
+  // second check jup list
   const tokenOnJup = await getTokenFromJupStrictList(tokenAddress);
   if (tokenOnJup) {
     return {
@@ -25,8 +33,11 @@ export async function enrichTokenMetadata(
     };
   }
 
-  // try metaplex
-  const jsonMetadata = await getMetaplexMetadataForToken(tokenAddress);
+  // next, try metaplex
+  const jsonMetadata = await getMetaplexMetadataForToken(
+    tokenAddress,
+    rpcProvider
+  );
   if (jsonMetadata && jsonMetadata.symbol) {
     return {
       symbol: jsonMetadata.symbol,
@@ -82,30 +93,36 @@ async function getTokenFromJupStrictList(
 }
 
 async function getMetaplexMetadataForToken(
-  tokenAddress: PublicKey
+  tokenAddress: PublicKey,
+  rpcProvider: Provider
 ): Promise<JsonMetadata | null> {
-  const mplTokenProgramID = new PublicKey(MPL_TOKEN_METADATA_PROGRAM_ID);
-  const tokenMetaDataAddress = PublicKey.findProgramAddressSync(
-    [
-      Buffer.from("metadata", "utf8"),
-      mplTokenProgramID.toBuffer(),
-      tokenAddress.toBuffer(),
-    ],
-    mplTokenProgramID
-  )[0];
+  try {
+    const mplTokenProgramID = new PublicKey(MPL_TOKEN_METADATA_PROGRAM_ID);
+    const tokenMetaDataAddress = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("metadata", "utf8"),
+        mplTokenProgramID.toBuffer(),
+        tokenAddress.toBuffer(),
+      ],
+      mplTokenProgramID
+    )[0];
 
-  const tokenMetaDataAccount = await this.rpcProvider.connection.getAccountInfo(
-    tokenMetaDataAddress
-  );
-
-  if (tokenMetaDataAccount) {
-    const decodedMetadata = deserializeMetadata(
-      tokenMetaDataAccount as unknown as RpcAccount
+    const tokenMetaDataAccount = await rpcProvider.connection.getAccountInfo(
+      tokenMetaDataAddress
     );
-    const uriRes = await fetch(decodedMetadata.uri);
-    return (await uriRes.json()) as JsonMetadata;
+
+    if (tokenMetaDataAccount) {
+      const decodedMetadata = deserializeMetadata(
+        tokenMetaDataAccount as unknown as RpcAccount
+      );
+      const uriRes = await fetch(decodedMetadata.uri);
+      return (await uriRes.json()) as JsonMetadata;
+    }
+    return null;
+  } catch (e) {
+    console.error("could not find token metadata from metaplex", e);
+    return null;
   }
-  return null;
 }
 
 async function fetchJupTokenListFromGithub(): Promise<Token[]> {

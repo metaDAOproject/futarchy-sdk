@@ -1,6 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
-import { AutocratProgram, ProgramVersion } from "./types";
+import { AutocratProgram, ProgramVersion, TokenProps } from "./types";
+const usdcLogo = require("../assets/images/usdc-logo.svg") as string;
 
 export const OPENBOOK_PROGRAM_ID = new PublicKey(
   "opnb2LAfJYbRMAHHvqjCwQxanZn7ReEHp1k81EohpZb"
@@ -8,6 +9,15 @@ export const OPENBOOK_PROGRAM_ID = new PublicKey(
 export const OPENBOOK_TWAP_PROGRAM_ID = new PublicKey(
   "TWAPrdhADy2aTKN5iFZtNnkQYXERD9NvKjPFVPMSCNN"
 );
+
+export const USDCAddress = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
+export const USDCMetadata: TokenProps = {
+  symbol: "USDC",
+  decimals: 6,
+  name: "USD Coin",
+  publicKey: USDCAddress,
+  url: usdcLogo,
+};
 
 export const NUMERAL_FORMAT = "0,0.00";
 export const BASE_FORMAT = "0,0";
@@ -26,6 +36,7 @@ export const AUTOCRAT_VERSIONS: ProgramVersion[] = [
     label: "V0.3",
     programId: new PublicKey("FuTPR6ScKMPHtZFwacq9qrtf9VjscawNEFTb2wSYr1gY"),
     idl: AUTOCRAT_V0_3_IDL,
+    isMultiDAO: true,
   },
   {
     label: "V0.2",

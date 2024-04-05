@@ -7,11 +7,9 @@ import {
 } from "@metaplex-foundation/mpl-token-metadata";
 import { RpcAccount } from "@metaplex-foundation/umi";
 /**
- * enrichTokenMetadata
- * Start with jup.ag strict list to find token JUP maintains a list of quality tokens
- * if that fails, use metaplex call and RPC
- * dear god if THAT fails, take MINT address and truncate by 5 characters and that's the symbol (no image - need fallback option)
- *
+ * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
+ * if that fails, use metaplex with RPC call and fetch metadata json
+ * if THAT fails, take MINT address and truncate by 5 characters and that's the symbol (no image)
  */
 export async function enrichTokenMetadata(
   tokenAddress: PublicKey

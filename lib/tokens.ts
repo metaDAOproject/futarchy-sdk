@@ -8,7 +8,7 @@ import {
 import { RpcAccount } from "@metaplex-foundation/umi";
 import { Provider } from "@coral-xyz/anchor";
 import { USDCAddress, USDCMetadata } from "./constants";
-import { getMint } from "@solana/spl-token";
+import { Mint, TOKEN_2022_PROGRAM_ID, getMint } from "@solana/spl-token";
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
  * if that fails, use metaplex with RPC call and fetch metadata json
@@ -49,8 +49,17 @@ export async function enrichTokenMetadata(
   }
 
   // finally just return truncated address for symbol and decimals from SPL
-  const mint = await getMint(rpcProvider.connection, tokenAddress);
-
+  let mint: Mint | undefined = undefined;
+  try {
+    mint = await getMint(rpcProvider.connection, tokenAddress);
+  } catch (e) {
+    mint = await getMint(
+      rpcProvider.connection,
+      tokenAddress,
+      undefined,
+      TOKEN_2022_PROGRAM_ID
+    );
+  }
   return {
     symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
     publicKey: tokenAddress.toString(),

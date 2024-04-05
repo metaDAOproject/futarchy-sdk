@@ -1,6 +1,5 @@
-import { Program, Provider, utils } from "@coral-xyz/anchor";
+import { Program, Provider } from "@coral-xyz/anchor";
 import { AutocratProgram, Dao, DaoState, ProgramVersion } from "../types";
-import { PublicKey } from "@solana/web3.js";
 import { FutarchyClient } from "./client";
 import { enrichTokenMetadata } from "../tokens";
 

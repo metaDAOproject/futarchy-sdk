@@ -24,7 +24,7 @@ export async function enrichTokenMetadata(
     };
   }
 
-  // then do metaplex
+  // try metaplex
   const jsonMetadata = await getMetaplexMetadataForToken(tokenAddress);
   if (jsonMetadata && jsonMetadata.symbol) {
     return {
@@ -34,9 +34,9 @@ export async function enrichTokenMetadata(
     };
   }
 
-  // finally just return truncated version
+  // finally just return truncated address for symbol
   return {
-    symbol: tokenAddress.toString().slice(0, 5),
+    symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
     publicKey: tokenAddress.toString(),
   };
 }

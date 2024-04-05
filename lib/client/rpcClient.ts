@@ -16,6 +16,7 @@ export class MetaDAORPClient implements MetaDAOClient {
   }
   async fetchDao(daoAddress: string): Promise<Dao | undefined> {
     const { programId, idl } = this.programVersion!;
+
     const dao = PublicKey.findProgramAddressSync(
       [utils.bytes.utf8.encode(daoAddress)],
       programId
@@ -31,9 +32,11 @@ export class MetaDAORPClient implements MetaDAOClient {
       programId,
       this.rpcProvider
     );
+
     const daoState: DaoState = await autocratProgram.account.dao.fetch(dao);
 
     const baseToken = await enrichTokenMetadata(daoState.metaMint);
+
     return {
       daoState,
       baseToken,

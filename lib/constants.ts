@@ -36,7 +36,6 @@ export const AUTOCRAT_VERSIONS: ProgramVersion[] = [
     label: "V0.3",
     programId: new PublicKey("FuTPR6ScKMPHtZFwacq9qrtf9VjscawNEFTb2wSYr1gY"),
     idl: AUTOCRAT_V0_3_IDL,
-    isMultiDAO: true,
   },
   {
     label: "V0.2",

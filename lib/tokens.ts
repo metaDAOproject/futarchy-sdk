@@ -8,7 +8,12 @@ import {
 import { RpcAccount } from "@metaplex-foundation/umi";
 import { Provider } from "@coral-xyz/anchor";
 import { USDCAddress, USDCMetadata } from "./constants";
-import { Mint, getMint, getTokenMetadata } from "@solana/spl-token";
+import {
+  Mint,
+  TOKEN_2022_PROGRAM_ID,
+  getMint,
+  getTokenMetadata,
+} from "@solana/spl-token";
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
  * if that fails, use metaplex with RPC call and fetch metadata json
@@ -52,7 +57,9 @@ export async function enrichTokenMetadata(
     //try getting metadata from token 2022
     const token2022Metadata = await getTokenMetadata(
       rpcProvider.connection,
-      tokenAddress
+      tokenAddress,
+      undefined,
+      TOKEN_2022_PROGRAM_ID
     );
     if (token2022Metadata) {
       return {

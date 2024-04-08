@@ -8,7 +8,7 @@ import {
 import { RpcAccount } from "@metaplex-foundation/umi";
 import { Provider } from "@coral-xyz/anchor";
 import { USDCAddress, USDCMetadata } from "./constants";
-import { Mint, TOKEN_2022_PROGRAM_ID, getMint } from "@solana/spl-token";
+import { Mint, getMint, getTokenMetadata } from "@solana/spl-token";
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
  * if that fails, use metaplex with RPC call and fetch metadata json
@@ -47,23 +47,29 @@ export async function enrichTokenMetadata(
       decimals: jsonMetadata.seller_fee_basis_points,
     };
   }
-
-  // finally just return truncated address for symbol and decimals from SPL
   let mint: Mint | undefined = undefined;
   try {
-    mint = await getMint(rpcProvider.connection, tokenAddress);
-  } catch (e) {
-    mint = await getMint(
+    //try getting metadata from token 2022
+    const token2022Metadata = await getTokenMetadata(
       rpcProvider.connection,
-      tokenAddress,
-      undefined,
-      TOKEN_2022_PROGRAM_ID
+      tokenAddress
     );
+    if (token2022Metadata) {
+      return {
+        symbol: token2022Metadata.symbol,
+        publicKey: tokenAddress.toString(),
+        url: token2022Metadata.uri,
+        decimals: 6,
+      };
+    }
+  } catch (e) {
+    // finally just get mint return truncated address for symbol and decimals from SPL
+    mint = await getMint(rpcProvider.connection, tokenAddress);
   }
   return {
     symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
     publicKey: tokenAddress.toString(),
-    decimals: mint.decimals,
+    decimals: mint?.decimals ?? 6,
   };
 }
 

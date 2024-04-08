@@ -1,14 +1,15 @@
 import { Idl, IdlAccounts, IdlTypes } from "@coral-xyz/anchor";
-import { Connection, PublicKey, Signer, Transaction } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import { AutocratV0 } from "./idl/autocrat_v0";
 import { AutocratV0 as AutocratV0_1 } from "./idl/autocrat_v0.1";
 import { AutocratV0 as AutocratV0_2 } from "./idl/autocrat_v0.2";
 import { AutocratV0 as AutocratV0_3 } from "./idl/autocrat_v0.3";
 import { OpenbookTwap } from "./idl/openbook_twap";
 import { OpenbookV2 } from "./idl/openbook_v2";
-import { ConditionalVault } from "./idl/conditional_vault";
+import { VaultAccount } from "./types/conditionalVault";
+import { ProposalAccount } from "./types/proposals";
 
-type MergeWithOptionalFields<T, U> = {
+export type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];
 } & {
   [K in keyof Omit<U, keyof T>]?: NonNullable<U[K]>;
@@ -34,17 +35,11 @@ export type DaoState = MergeWithOptionalFields<
   DaoStateV0_2,
   IdlAccounts<AutocratV0_3>["dao"]
 >;
-export type ProposalAccount = MergeWithOptionalFields<
-  IdlAccounts<AutocratV0>["proposal"],
-  IdlAccounts<AutocratV0_1>["proposal"]
->;
 export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0>["ProposalInstruction"],
   IdlTypes<AutocratV0_1>["ProposalInstruction"]
 >;
 export type ProposalAccountWithKey = AccountWithKey<ProposalAccount>;
-export type VaultAccount = IdlAccounts<ConditionalVault>["conditionalVault"];
-export type VaultAccountWithKey = AccountWithKey<VaultAccount>;
 export type TwapMarketAccount = IdlAccounts<OpenbookTwap>["twapMarket"];
 export type TWAPOracle = IdlTypes<OpenbookTwap>["TWAPOracle"];
 export type OrderBookSide = {
@@ -93,18 +88,6 @@ export type Markets = {
   quoteVault: VaultAccount;
 };
 export type AllMarketsInfo = { [proposalKey: string]: Markets | undefined };
-export interface InitializedVault {
-  tx?: Transaction;
-  signers: Signer[];
-  vault: PublicKey;
-  finalizeMint: PublicKey;
-  revertMint: PublicKey;
-}
-export type Proposal = ProposalAccountWithKey & {
-  title: string;
-  description: string;
-};
-
 /// Avoid importing Openbook because it uses a NodeWallet
 export type PlaceOrderArgs = IdlTypes<OpenbookV2>["PlaceOrderArgs"];
 export type PlaceOrderPeggedArgs = IdlTypes<OpenbookV2>["PlaceOrderPeggedArgs"];
@@ -163,6 +146,8 @@ export type TokenProps = (
       publicKey: string;
     }
 ) & { symbol: string; decimals?: number; name?: string };
+
+export type TokenWithBalance = { token: TokenProps; balance: number };
 
 export type Dao = {
   daoState: DaoState;

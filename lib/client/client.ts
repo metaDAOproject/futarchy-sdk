@@ -1,17 +1,17 @@
 import { PublicKey } from "@solana/web3.js";
-import { Dao, TokenWithBalance } from "../types";
+import { DaoAccount, DaoWithTokens, TokenWithBalance } from "../types";
 import { Proposal, ProposalWithVaults } from "../types/proposals";
 
 export interface FutarchyClient {
-  fetchAllDaos(): Promise<Dao[]>;
-  fetchDao(daoAddress: string): Promise<Dao | undefined>;
+  fetchAllDaos(): Promise<DaoWithTokens[]>;
+  fetchDao(daoAddress: string): Promise<DaoWithTokens | undefined>;
   fetchMainTokenWalletBalances(
-    dao: Dao,
+    dao: DaoWithTokens,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]>;
-  fetchProposals(dao: Dao): Promise<ProposalWithVaults[]>;
+  fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]>;
   fetchAllConditionalTokenWalletBalances(
-    dao: Dao,
+    dao: DaoWithTokens,
     ownerWallet: PublicKey,
     proposals: ProposalWithVaults[]
   ): Promise<TokenWithBalance[]>;

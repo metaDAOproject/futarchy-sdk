@@ -23,16 +23,16 @@ export type ProgramVersion = {
   idl: Idl;
 };
 export type AutocratProgram = AutocratV0 | AutocratV0_1;
-export type DaoStateV0_1 = MergeWithOptionalFields<
+export type DaoAccountV0_1 = MergeWithOptionalFields<
   IdlAccounts<AutocratV0>["dao"],
   IdlAccounts<AutocratV0_1>["dao"]
 >;
-export type DaoStateV0_2 = MergeWithOptionalFields<
-  DaoStateV0_1,
+export type DaoAccountV0_2 = MergeWithOptionalFields<
+  DaoAccountV0_1,
   IdlAccounts<AutocratV0_2>["dao"]
 >;
-export type DaoState = MergeWithOptionalFields<
-  DaoStateV0_2,
+export type DaoAccount = MergeWithOptionalFields<
+  DaoAccountV0_2,
   IdlAccounts<AutocratV0_3>["dao"]
 >;
 export type ProposalInstruction = MergeWithOptionalFields<
@@ -149,8 +149,8 @@ export type TokenProps = (
 
 export type TokenWithBalance = { token: TokenProps; balance: number };
 
-export type Dao = {
-  daoState: DaoState;
+export type DaoWithTokens = {
+  daoAccount: DaoAccount;
   baseToken: TokenProps;
   quoteToken: TokenProps;
 };

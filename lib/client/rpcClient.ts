@@ -1,8 +1,8 @@
 import { Program, Provider } from "@coral-xyz/anchor";
 import {
   AutocratProgram,
-  Dao,
-  DaoState,
+  DaoWithTokens,
+  DaoAccount,
   ProgramVersion,
   TokenWithBalance,
 } from "../types";
@@ -45,39 +45,41 @@ export class FutarchyRPClient implements FutarchyClient {
     return new FutarchyRPClient(programVersion, rpcProvider);
   }
 
-  async fetchAllDaos(): Promise<Dao[]> {
+  async fetchAllDaos(): Promise<DaoWithTokens[]> {
     const allDaoAccounts = await this.autocratProgram.account.dao.all();
-    const allDaos: (Dao | undefined)[] = await Promise.all(
-      allDaoAccounts.map(async (d) => this.fetchFullDaoFromState(d.account))
+    const allDaos: (DaoWithTokens | undefined)[] = await Promise.all(
+      allDaoAccounts.map(async (d) =>
+        this.fetchDaoWithTokensFromState(d.account)
+      )
     );
-    return allDaos.filter((d): d is Dao => !!d);
+    return allDaos.filter((d): d is DaoWithTokens => !!d);
   }
-  async fetchDao(daoAddress: string): Promise<Dao | undefined> {
-    const daoState = await this.fetchDaoState(daoAddress);
-    if (daoState) {
-      return await this.fetchFullDaoFromState(daoState);
+  async fetchDao(daoAddress: string): Promise<DaoWithTokens | undefined> {
+    const daoAccount = await this.fetchDaoAccount(daoAddress);
+    if (daoAccount) {
+      return await this.fetchDaoWithTokensFromState(daoAccount);
     }
   }
 
-  private async fetchDaoState(
+  private async fetchDaoAccount(
     daoAddress: string
-  ): Promise<DaoState | undefined> {
+  ): Promise<DaoAccount | undefined> {
     const daoAccount = await this.autocratProgram.account.dao.fetch(daoAddress);
     return daoAccount;
   }
 
-  private async fetchFullDaoFromState(
-    daoState: DaoState
-  ): Promise<Dao | undefined> {
+  private async fetchDaoWithTokensFromState(
+    daoAccount: DaoAccount
+  ): Promise<DaoWithTokens | undefined> {
     const baseMint = ["V0.2", "V0.3"].includes(this.programVersion.label)
-      ? daoState.tokenMint
-      : daoState.metaMint;
-    const quoteMint = daoState.usdcMint;
+      ? daoAccount.tokenMint
+      : daoAccount.metaMint;
+    const quoteMint = daoAccount.usdcMint;
     if (baseMint) {
       const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);
       const quoteToken = await enrichTokenMetadata(quoteMint, this.rpcProvider);
       return {
-        daoState,
+        daoAccount,
         baseToken,
         quoteToken,
       };
@@ -85,7 +87,7 @@ export class FutarchyRPClient implements FutarchyClient {
   }
 
   async fetchMainTokenWalletBalances(
-    dao: Dao,
+    dao: DaoWithTokens,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]> {
     if (ownerWallet && dao.baseToken.publicKey && dao.quoteToken.publicKey) {
@@ -140,7 +142,7 @@ export class FutarchyRPClient implements FutarchyClient {
     return [];
   }
 
-  async fetchProposals(dao: Dao): Promise<ProposalWithVaults[]> {
+  async fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]> {
     const allProposals = (
       await this.autocratProgram.account.proposal.all()
     ).map((prop) => ({
@@ -168,7 +170,7 @@ export class FutarchyRPClient implements FutarchyClient {
       const { baseVaultAccount } = p;
       return (
         baseVaultAccount.settlementAuthority.toString() ===
-        dao.daoState.treasury.toString()
+        dao.treasury.toString()
       );
     });
 
@@ -183,7 +185,7 @@ export class FutarchyRPClient implements FutarchyClient {
    * @returns
    */
   async fetchAllConditionalTokenWalletBalances(
-    dao: Dao,
+    dao: DaoWithTokens,
     ownerWallet: PublicKey,
     proposalsWithVaults: ProposalWithVaults[]
   ): Promise<TokenWithBalance[]> {

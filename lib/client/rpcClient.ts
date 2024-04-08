@@ -151,30 +151,27 @@ export class FutarchyRPClient implements FutarchyClient {
       ...prop,
     }));
     const allVaults = await this.vaultProgram.account.conditionalVault.all();
-    const vaultsByAuthority: Record<string, VaultAccount> = allVaults.reduce(
+    const vaultsByAddress: Record<string, VaultAccount> = allVaults.reduce(
       (prev, curr) => {
-        prev[curr.account.settlementAuthority.toString()] = curr.account;
+        prev[curr.publicKey.toString()] = curr.account;
         return prev;
       },
       {} as Record<string, VaultAccount>
     );
     const proposalsWithVaults: ProposalWithVaults[] = allProposals.map((p) => {
-      const baseVaultAccount =
-        vaultsByAuthority[p.account.baseVault.toString()];
+      const baseVaultAccount = vaultsByAddress[p.account.baseVault.toString()];
       const quoteVaultAccount =
-        vaultsByAuthority[p.account.quoteVault.toString()];
+        vaultsByAddress[p.account.quoteVault.toString()];
       return { ...p, baseVaultAccount, quoteVaultAccount };
     });
 
-    const daoProposals = proposalsWithVaults.filter((p) => {
+    return proposalsWithVaults.filter((p) => {
       const { baseVaultAccount } = p;
       return (
         baseVaultAccount.settlementAuthority.toString() ===
         dao.treasury.toString()
       );
     });
-
-    return daoProposals.map((pv) => pv[0]);
   }
 
   /**
@@ -190,74 +187,84 @@ export class FutarchyRPClient implements FutarchyClient {
     proposalsWithVaults: ProposalWithVaults[]
   ): Promise<TokenWithBalance[]> {
     if (ownerWallet && dao.baseToken.publicKey && dao.quoteToken.publicKey) {
-      const tokensWithPDA = proposalsWithVaults.map((p) => {
-        return [
-          {
-            pda: getAssociatedTokenAddressSync(
-              new PublicKey(p.baseVaultAccount.conditionalOnFinalizeTokenMint), // needs to be vault.conditionalOnFinalizeTokenMint
-              ownerWallet,
-              true
-            ),
-            token: dao.baseToken,
-          },
-          {
-            pda: getAssociatedTokenAddressSync(
-              new PublicKey(p.baseVaultAccount.conditionalOnRevertTokenMint), // needs to be vault.conditionalOnFinalizeTokenMint
-              ownerWallet,
-              true
-            ),
-            token: dao.baseToken,
-          },
-          {
-            pda: getAssociatedTokenAddressSync(
-              new PublicKey(p.quoteVaultAccount.conditionalOnFinalizeTokenMint), // needs to be vault.conditionalOnFinalizeTokenMint
-              ownerWallet,
-              true
-            ),
-            token: dao.quoteToken,
-          },
-          {
-            pda: getAssociatedTokenAddressSync(
-              new PublicKey(p.quoteVaultAccount.conditionalOnRevertTokenMint), // needs to be vault.conditionalOnFinalizeTokenMint
-              ownerWallet,
-              true
-            ),
-            token: dao.quoteToken,
-          },
-        ];
-      });
+      const tokensWithPDA = proposalsWithVaults
+        .map((p) => {
+          return [
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(
+                  p.baseVaultAccount.conditionalOnFinalizeTokenMint
+                ),
+                ownerWallet,
+                true
+              ),
+              token: {
+                ...dao.baseToken,
+                symbol: "p" + dao.baseToken.symbol,
+              },
+            },
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(p.baseVaultAccount.conditionalOnRevertTokenMint),
+                ownerWallet,
+                true
+              ),
+              token: {
+                ...dao.baseToken,
+                symbol: "f" + dao.baseToken.symbol,
+              },
+            },
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(
+                  p.quoteVaultAccount.conditionalOnFinalizeTokenMint
+                ),
+                ownerWallet,
+                true
+              ),
+              token: {
+                ...dao.quoteToken,
+                symbol: "p" + dao.quoteToken.symbol,
+              },
+            },
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(p.quoteVaultAccount.conditionalOnRevertTokenMint),
+                ownerWallet,
+                true
+              ),
+              token: {
+                ...dao.quoteToken,
+                symbol: "f" + dao.quoteToken.symbol,
+              },
+            },
+          ];
+        })
+        .flat();
       const tokensBalances = await Promise.all(
-        tokensWithPDA.map(async (tokenWithPDA) => {
-          return await Promise.all(
-            tokenWithPDA.map<Promise<TokenWithBalance | undefined>>(
-              async (t) => {
-                try {
-                  const tokenBalance =
-                    await this.rpcProvider.connection.getTokenAccountBalance(
-                      t.pda
-                    );
-                  return {
-                    balance: tokenBalance.value.uiAmount ?? 0,
-                    token: t.token,
-                  };
-                } catch (e) {
-                  if (!JSON.stringify(e).includes("not found")) {
-                    console.info(
-                      "error fetching wallet balance for token:",
-                      t.token.symbol
-                    );
-                  }
-                  return {
-                    balance: 0,
-                    token: t.token,
-                  };
-                }
-              }
-            )
-          );
+        tokensWithPDA.map(async (t) => {
+          try {
+            const tokenBalance =
+              await this.rpcProvider.connection.getTokenAccountBalance(t.pda);
+            return {
+              balance: tokenBalance.value.uiAmount ?? 0,
+              token: t.token,
+            };
+          } catch (e) {
+            if (!JSON.stringify(e).includes("not found")) {
+              console.info(
+                "error fetching wallet balance for token:",
+                t.token.symbol
+              );
+            }
+            return {
+              balance: 0,
+              token: t.token,
+            };
+          }
         })
       );
-      return tokensBalances.flat().filter((b): b is TokenWithBalance => !!b);
+      return tokensBalances.filter((b): b is TokenWithBalance => !!b);
     }
     return [];
   }

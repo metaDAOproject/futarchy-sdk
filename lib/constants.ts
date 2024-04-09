@@ -10,12 +10,16 @@ export const OPENBOOK_TWAP_PROGRAM_ID = new PublicKey(
   "TWAPrdhADy2aTKN5iFZtNnkQYXERD9NvKjPFVPMSCNN"
 );
 
-export const USDCAddress = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
+export const USDCAddressDevNet = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
+export const mUSDCAddressDevNet =
+  "B9CZDrwg7d34MiPiWoUSmddriCtQB5eB2h9EUSDHt48b";
+export const USDCAddressMainNet =
+  "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 export const USDCMetadata: TokenProps = {
   symbol: "USDC",
   decimals: 6,
   name: "USD Coin",
-  publicKey: USDCAddress,
+  publicKey: "", // depends on network
   url: usdcLogo,
 };
 

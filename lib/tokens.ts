@@ -7,10 +7,16 @@ import {
 } from "@metaplex-foundation/mpl-token-metadata";
 import { RpcAccount } from "@metaplex-foundation/umi";
 import { Provider } from "@coral-xyz/anchor";
-import { USDCAddress, USDCMetadata } from "./constants";
+import {
+  USDCAddressDevNet,
+  USDCAddressMainNet,
+  USDCMetadata,
+  mUSDCAddressDevNet,
+} from "./constants";
 import {
   Mint,
   TOKEN_2022_PROGRAM_ID,
+  TOKEN_PROGRAM_ID,
   getMint,
   getTokenMetadata,
 } from "@solana/spl-token";
@@ -23,10 +29,17 @@ export async function enrichTokenMetadata(
   tokenAddress: PublicKey,
   rpcProvider: Provider
 ): Promise<TokenProps> {
-  // first, is it USDC?
-  if (tokenAddress.toString() === USDCAddress) {
-    return USDCMetadata;
+  // first, is it USDC? we handle that manually with no fetching
+  if (
+    [USDCAddressDevNet, USDCAddressMainNet, mUSDCAddressDevNet].includes(
+      tokenAddress.toString()
+    )
+  ) {
+    return { ...USDCMetadata, publicKey: tokenAddress.toString() };
   }
+
+  // get the mint
+  const mint = await getMint(rpcProvider.connection, tokenAddress);
 
   // second check jup list
   const tokenOnJup = await getTokenFromJupStrictList(tokenAddress);
@@ -52,27 +65,18 @@ export async function enrichTokenMetadata(
       decimals: jsonMetadata.seller_fee_basis_points,
     };
   }
-  let mint: Mint | undefined = undefined;
-  try {
-    //try getting metadata from token 2022
-    const token2022Metadata = await getTokenMetadata(
-      rpcProvider.connection,
-      tokenAddress,
-      undefined,
-      TOKEN_2022_PROGRAM_ID
-    );
-    if (token2022Metadata) {
-      return {
-        symbol: token2022Metadata.symbol,
-        publicKey: tokenAddress.toString(),
-        url: token2022Metadata.uri,
-        decimals: 6,
-      };
-    }
-  } catch (e) {
-    // finally just get mint return truncated address for symbol and decimals from SPL
-    mint = await getMint(rpcProvider.connection, tokenAddress);
+
+  // next, try token keg and token 2022
+  const tokenProps = await getMetadataFromTokenPrograms(
+    rpcProvider,
+    tokenAddress,
+    mint
+  );
+  if (tokenProps) {
+    return tokenProps;
   }
+
+  // finally just return truncated address for symbol and decimals from SPL
   return {
     symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
     publicKey: tokenAddress.toString(),
@@ -187,5 +191,56 @@ async function fetchJupTokenListFromGithub(): Promise<Token[]> {
   } catch (error) {
     console.error("Error fetching or decoding CSV:", error);
     return [];
+  }
+}
+
+async function getMetadataFromTokenPrograms(
+  rpcProvider: Provider,
+  tokenAddress: PublicKey,
+  mint: Mint
+): Promise<TokenProps | undefined> {
+  try {
+    //try getting metadata from token keg
+    const tokenKegMetadata = await getTokenMetadata(
+      rpcProvider.connection,
+      tokenAddress,
+      undefined,
+      TOKEN_PROGRAM_ID
+    );
+    if (tokenKegMetadata) {
+      const tokenKegUriMetadataRes = await fetch(tokenKegMetadata.uri);
+      const tokenKegUriMetadataJson: Partial<JsonMetadata> =
+        await tokenKegUriMetadataRes.json();
+
+      return {
+        symbol: tokenKegMetadata.symbol,
+        publicKey: tokenAddress.toString(),
+        url: tokenKegUriMetadataJson.image,
+        decimals: mint.decimals,
+      };
+    }
+  } catch (e) {
+    try {
+      //next, try getting metadata from token 2022
+      const token2022Metadata = await getTokenMetadata(
+        rpcProvider.connection,
+        tokenAddress,
+        undefined,
+        TOKEN_2022_PROGRAM_ID
+      );
+      if (token2022Metadata) {
+        const token2022UriRes = await fetch(token2022Metadata.uri);
+        const token2022UriJson: Partial<JsonMetadata> =
+          await token2022UriRes.json();
+        return {
+          symbol: token2022Metadata.symbol,
+          publicKey: tokenAddress.toString(),
+          url: token2022UriJson.image,
+          decimals: mint.decimals,
+        };
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

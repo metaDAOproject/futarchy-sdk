@@ -35,11 +35,19 @@ export class FutarchyRPClient implements FutarchyClient {
       programVersion.programId,
       this.rpcProvider
     );
+
+    //autocrat program maps to conditional vault program ID
     this.vaultProgram = new Program<ConditionalVault>(
       ConditionalVaultIDL,
       conditionalVaultProgramID ?? conditionalVaultProgramIDs["V0.3"],
       this.rpcProvider
     );
+
+    // multiple twap program IDs
+    // in theory it's the , this is where I've talked to profit and you are deploying IDLs with no different versions
+    // at the version of the autocrat, if it's greater than the greatest version of the other program
+    // less than or equal to
+    // there is no v0.1 of conditional vault
   }
   static make(programVersion: ProgramVersion, rpcProvider: Provider) {
     return new FutarchyRPClient(programVersion, rpcProvider);

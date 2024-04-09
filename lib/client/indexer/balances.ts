@@ -1,4 +1,3 @@
-import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import {
   DaoWithTokens,
   TokenWithBalance,

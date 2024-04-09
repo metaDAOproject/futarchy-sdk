@@ -1,12 +1,5 @@
-import { Program, Provider } from "@coral-xyz/anchor";
-import {
-  AutocratProgram,
-  DaoAccount,
-  DaoWithTokens,
-  ProgramVersion,
-} from "../../types";
+import { DaoAccount, DaoWithTokens } from "../../types";
 import { FutarchyDaoClient } from "../client";
-import { enrichTokenMetadata } from "../../tokens";
 
 export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
   constructor() {}

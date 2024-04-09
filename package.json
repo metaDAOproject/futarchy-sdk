@@ -1,6 +1,6 @@
 {
   "name": "@themetadao/futarchy-ts",
-  "version": "0.0.2-alpha",
+  "version": "1.0.2-alpha",
   "main": "lib",
   "keywords": [
     "solana",

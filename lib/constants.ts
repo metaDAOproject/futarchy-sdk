@@ -6,8 +6,11 @@ const usdcLogo = require("../assets/images/usdc-logo.svg") as string;
 export const OPENBOOK_PROGRAM_ID = new PublicKey(
   "opnb2LAfJYbRMAHHvqjCwQxanZn7ReEHp1k81EohpZb"
 );
-export const OPENBOOK_TWAP_PROGRAM_ID = new PublicKey(
+export const OPENBOOK_TWAP_PROGRAM_IDV0_1 = new PublicKey(
   "TWAPrdhADy2aTKN5iFZtNnkQYXERD9NvKjPFVPMSCNN"
+);
+export const OPENBOOK_TWAP_PROGRAM_IDV0_2 = new PublicKey(
+  "twAP5sArq2vDS1mZCT7f4qRLwzTfHvf5Ay5R5Q5df1m"
 );
 
 export const USDCAddressDevNet = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";

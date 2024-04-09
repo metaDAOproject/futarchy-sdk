@@ -15,7 +15,7 @@ import {
   ConditionalVault,
   IDL as ConditionalVaultIDL,
 } from "../idl/conditional_vault";
-import { conditionalVaultProgramIDs } from "../constants/conditionalVault";
+import { autocratVersionToConditionalVaultMap } from "../constants/conditionalVault";
 import { ProposalWithVaults } from "../types/proposals";
 
 export class FutarchyRPClient implements FutarchyClient {
@@ -23,11 +23,7 @@ export class FutarchyRPClient implements FutarchyClient {
   private autocratProgram: Program<AutocratProgram>;
   private vaultProgram: Program<ConditionalVault>;
   private rpcProvider: Provider;
-  private constructor(
-    programVersion: ProgramVersion,
-    rpcProvider: Provider,
-    conditionalVaultProgramID?: PublicKey
-  ) {
+  private constructor(programVersion: ProgramVersion, rpcProvider: Provider) {
     this.programVersion = programVersion;
     this.rpcProvider = rpcProvider;
     this.autocratProgram = new Program<AutocratProgram>(
@@ -36,18 +32,11 @@ export class FutarchyRPClient implements FutarchyClient {
       this.rpcProvider
     );
 
-    //autocrat program maps to conditional vault program ID
     this.vaultProgram = new Program<ConditionalVault>(
       ConditionalVaultIDL,
-      conditionalVaultProgramID ?? conditionalVaultProgramIDs["V0.3"],
+      autocratVersionToConditionalVaultMap[programVersion.label],
       this.rpcProvider
     );
-
-    // multiple twap program IDs
-    // in theory it's the , this is where I've talked to profit and you are deploying IDLs with no different versions
-    // at the version of the autocrat, if it's greater than the greatest version of the other program
-    // less than or equal to
-    // there is no v0.1 of conditional vault
   }
   static make(programVersion: ProgramVersion, rpcProvider: Provider) {
     return new FutarchyRPClient(programVersion, rpcProvider);

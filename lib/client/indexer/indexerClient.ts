@@ -1,14 +1,20 @@
 import { PublicKey } from "@solana/web3.js";
-import { DaoAccount, DaoWithTokens, TokenWithBalance } from "../types";
-import { FutarchyClient } from "./client";
-import { ProposalWithVaults } from "../types/proposals";
-import { FutarchyRPClient } from "./rpcClient";
+import { DaoAccount, DaoWithTokens, TokenWithBalance } from "../../types";
+import { FutarchyClient } from "../client";
+import { ProposalWithVaults } from "../../types/proposals";
+import { FutarchyRPCClient } from "../rpc/rpcClient";
+import { FutarchyIndexerDaoClient } from "./dao";
+import { FutarchyIndexerProposalsClient } from "./proposals";
+import { FutarchyIndexerBalancesClient } from "./balances";
 
 /**
  * This class is not yet implemented. Use the RPC client for now instead
  */
 export class FutarchyIndexerClient implements FutarchyClient {
-  private rpcClientFallback: FutarchyRPClient;
+  public daos: FutarchyIndexerDaoClient;
+  public proposals: FutarchyIndexerProposalsClient;
+  public balances: FutarchyIndexerBalancesClient;
+  private rpcClientFallback: FutarchyRPCClient;
   //TODO: implement all this
   async fetchAllDaos(): Promise<DaoWithTokens[]> {
     return [];

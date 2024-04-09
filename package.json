@@ -2,6 +2,12 @@
   "name": "@themetadao/futarchy-ts",
   "version": "0.0.2-alpha",
   "main": "lib",
+  "keywords": [
+    "solana",
+    "dao",
+    "futarchy",
+    "crypto"
+  ],
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.1-beta.2",
     "@metaplex-foundation/js": "^0.20.1",

@@ -1,6 +1,6 @@
-import { PublicKey } from '@solana/web3.js';
-import { OPENBOOK_TWAP_PROGRAM_ID, QUOTE_LOTS } from './constants';
-import { TWAPOracle } from './types';
+import { PublicKey } from "@solana/web3.js";
+import { QUOTE_LOTS } from "./constants";
+import { TWAPOracle } from "./types";
 
 export const calculateTWAP = (twapOracle?: TWAPOracle) => {
   if (!twapOracle) return undefined;
@@ -24,8 +24,8 @@ export const getLastObservedAndSlot = (twapOracle?: TWAPOracle) => {
   };
 };
 
-export const getTwapMarketKey = (market: PublicKey) =>
+export const getTwapMarketKey = (market: PublicKey, programId: PublicKey) =>
   PublicKey.findProgramAddressSync(
-    [Buffer.from('twap_market'), market.toBuffer()],
-    OPENBOOK_TWAP_PROGRAM_ID,
+    [Buffer.from("twap_market"), market.toBuffer()],
+    programId
   )[0];

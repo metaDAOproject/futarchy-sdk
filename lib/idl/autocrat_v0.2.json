@@ -152,7 +152,7 @@
       "args": []
     },
     {
-      "name": "setPassThresholdBps",
+      "name": "updateDao",
       "accounts": [
         {
           "name": "dao",
@@ -167,50 +167,10 @@
       ],
       "args": [
         {
-          "name": "passThresholdBps",
-          "type": "u16"
-        }
-      ]
-    },
-    {
-      "name": "setLastProposalSlot",
-      "accounts": [
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "daoTreasury",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "lastProposalSlot",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "setBaseBurnLamports",
-      "accounts": [
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "daoTreasury",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "baseBurnLamports",
-          "type": "u64"
+          "name": "daoParams",
+          "type": {
+            "defined": "UpdateDaoParams"
+          }
         }
       ]
     }
@@ -222,16 +182,20 @@
         "kind": "struct",
         "fields": [
           {
+            "name": "treasuryPdaBump",
+            "type": "u8"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
             "name": "metaMint",
             "type": "publicKey"
           },
           {
             "name": "usdcMint",
             "type": "publicKey"
-          },
-          {
-            "name": "passThresholdBps",
-            "type": "u16"
           },
           {
             "name": "proposalCount",
@@ -242,6 +206,10 @@
             "type": "u64"
           },
           {
+            "name": "passThresholdBps",
+            "type": "u16"
+          },
+          {
             "name": "baseBurnLamports",
             "type": "u64"
           },
@@ -250,12 +218,20 @@
             "type": "u64"
           },
           {
-            "name": "treasuryPdaBump",
-            "type": "u8"
+            "name": "slotsPerProposal",
+            "type": "u64"
           },
           {
-            "name": "treasury",
-            "type": "publicKey"
+            "name": "marketTakerFee",
+            "type": "i64"
+          },
+          {
+            "name": "twapExpectedValue",
+            "type": "u64"
+          },
+          {
+            "name": "maxObservationChangePerUpdateLots",
+            "type": "u64"
           }
         ]
       }
@@ -367,6 +343,56 @@
       }
     },
     {
+      "name": "UpdateDaoParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "passThresholdBps",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "baseBurnLamports",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "burnDecayPerSlotLamports",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "slotsPerProposal",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "marketTakerFee",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "twapExpectedValue",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "maxObservationChangePerUpdateLots",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "ProposalState",
       "type": {
         "kind": "enum",
@@ -397,41 +423,43 @@
     },
     {
       "code": 6002,
-      "name": "TWAPMarketInvalidExpectedValue",
-      "msg": "`TWAPMarket` must have an expected value of 1000, or 0.1 USDC per META"
+      "name": "TWAPOracleWrongChangeLots",
+      "msg": "`TWAPOracle` has an incorrect max_observation_change_per_update_lots value"
     },
     {
       "code": 6003,
+      "name": "TWAPMarketInvalidExpectedValue",
+      "msg": "`TWAPMarket` has the wrong `expected_value`"
+    },
+    {
+      "code": 6004,
       "name": "InvalidSettlementAuthority",
       "msg": "One of the vaults has an invalid `settlement_authority`"
     },
     {
-      "code": 6004,
+      "code": 6005,
       "name": "ProposalTooYoung",
       "msg": "Proposal is too young to be executed or rejected"
     },
     {
-      "code": 6005,
+      "code": 6006,
       "name": "MarketsTooYoung",
       "msg": "Markets too young for proposal to be finalized"
     },
     {
-      "code": 6006,
+      "code": 6007,
       "name": "ProposalCannotPass",
       "msg": "The market dictates that this proposal cannot pass"
     },
     {
-      "code": 6007,
+      "code": 6008,
       "name": "ProposalAlreadyFinalized",
       "msg": "This proposal has already been finalized"
     },
     {
-      "code": 6008,
+      "code": 6009,
       "name": "InvalidVaultNonce",
       "msg": "A conditional vault has an invalid nonce. A nonce should encode pass = 0 / fail = 1 in its most significant bit, base = 0 / quote = 1 in its second most significant bit, and the proposal number in least significant 32 bits"
     }
-  ],
-  "metadata": {
-    "address": "meta3cxKzFBmWYgCVozmvCQAS3y9b3fGxrG9HkHL7Wi"
-  }
+  ]
 }

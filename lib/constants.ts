@@ -1,7 +1,9 @@
 import { PublicKey } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
 import { AutocratProgram, ProgramVersion, TokenProps } from "./types";
-const usdcLogo = require("../assets/images/usdc-logo.svg") as string;
+const usdcLogo = require("../assets/images/usdc-logo.svg") as {
+  default: { src: string };
+};
 
 export const OPENBOOK_PROGRAM_ID = new PublicKey(
   "opnb2LAfJYbRMAHHvqjCwQxanZn7ReEHp1k81EohpZb"
@@ -23,7 +25,7 @@ export const USDCMetadata: TokenProps = {
   decimals: 6,
   name: "USD Coin",
   publicKey: "", // depends on network
-  url: usdcLogo,
+  url: usdcLogo.default.src,
 };
 
 export const NUMERAL_FORMAT = "0,0.00";

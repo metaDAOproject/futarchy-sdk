@@ -1,6 +1,6 @@
 {
   "name": "@themetadao/futarchy-ts",
-  "version": "0.0.2-alpha",
+  "private": "false",
   "main": "lib",
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.1-beta.2",

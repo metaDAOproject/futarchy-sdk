@@ -1,6 +1,13 @@
 import { PublicKey } from "@solana/web3.js";
-import { DaoAccount, DaoWithTokens, TokenWithBalance } from "../types";
-import { ProposalWithVaults } from "../types/proposals";
+import {
+  DaoAccount,
+  DaoWithTokens,
+  TokenProps,
+  TokenWithBalance,
+  TokenWithBalanceWithProposal,
+} from "../types";
+import { Proposal, ProposalWithVaults } from "../types/proposals";
+import { Market, Order } from "../types/markets";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -22,4 +29,22 @@ export interface FutarchyBalancesClient {
     dao: DaoWithTokens,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]>;
+  fetchAllConditionalTokenWalletBalances(
+    dao: DaoWithTokens,
+    ownerWallet: PublicKey,
+    proposalsWithVaults: ProposalWithVaults[]
+  ): Promise<TokenWithBalanceWithProposal[]>;
+}
+
+export interface FutarchyMarketsClient {
+  fetchConditionalMarketsFromProposal(
+    proposal: Proposal,
+    baseToken: TokenProps,
+    quoteToken: TokenProps
+  ): Promise<[Market, Market] | undefined>;
+  filterUserOpenOrdersFromProposalMarkets(
+    passMarket: Market,
+    failMarket: Market,
+    owner: PublicKey
+  ): Promise<Order[]>;
 }

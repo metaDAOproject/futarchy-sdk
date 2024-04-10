@@ -1,7 +1,10 @@
 {
   "name": "@themetadao/futarchy-ts",
-  "version": "1.0.2-alpha",
+  "version": "1.0.3-alpha",
   "main": "lib",
+  "scripts": {
+    "build": "tsc"
+  },
   "keywords": [
     "solana",
     "dao",
@@ -18,5 +21,8 @@
     "@solana/web3.js": "^1.90.0",
     "@types/numeral": "^2.0.4",
     "numeral": "^2.0.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
   }
 }

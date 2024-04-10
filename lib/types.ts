@@ -18,7 +18,7 @@ export type MergeWithOptionalFields<T, U> = {
 };
 export type AccountWithKey<T> = { publicKey: PublicKey; account: T };
 export type ProgramVersion = {
-  label: string;
+  label: "V0.3" | "V0.2" | "V0.1" | "V0";
   programId: PublicKey;
   idl: Idl;
 };

@@ -14,7 +14,12 @@ export class FutarchyIndexerClient implements FutarchyClient {
   public daos: FutarchyIndexerDaoClient;
   public proposals: FutarchyIndexerProposalsClient;
   public balances: FutarchyIndexerBalancesClient;
-  private rpcClientFallback: FutarchyRPCClient;
+
+  constructor() {
+    this.daos = new FutarchyIndexerDaoClient();
+    this.proposals = new FutarchyIndexerProposalsClient();
+    this.balances = new FutarchyIndexerBalancesClient();
+  }
   //TODO: implement all this
   async fetchAllDaos(): Promise<DaoWithTokens[]> {
     return [];

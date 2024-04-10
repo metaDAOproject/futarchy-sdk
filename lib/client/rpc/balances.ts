@@ -1,86 +1,19 @@
-import { Program, Provider } from "@coral-xyz/anchor";
-import {
-  AutocratProgram,
-  DaoWithTokens,
-  DaoAccount,
-  ProgramVersion,
-  TokenWithBalance,
-} from "../types";
-import { FutarchyClient } from "./client";
-import { enrichTokenMetadata } from "../tokens";
-import { PublicKey } from "@solana/web3.js";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
-import { VaultAccount } from "../types/conditionalVault";
 import {
-  ConditionalVault,
-  IDL as ConditionalVaultIDL,
-} from "../idl/conditional_vault";
-import { autocratVersionToConditionalVaultMap } from "../constants/conditionalVault";
-import { ProposalWithVaults } from "../types/proposals";
+  DaoWithTokens,
+  TokenWithBalance,
+  TokenWithBalanceWithProposal,
+} from "../../types";
+import { FutarchyBalancesClient } from "../client";
+import { PublicKey } from "@solana/web3.js";
+import { ProposalWithVaults } from "../../types/proposals";
+import { Provider } from "@coral-xyz/anchor";
 
-export class FutarchyRPClient implements FutarchyClient {
-  private programVersion: ProgramVersion;
-  private autocratProgram: Program<AutocratProgram>;
-  private vaultProgram: Program<ConditionalVault>;
+export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
   private rpcProvider: Provider;
-  private constructor(programVersion: ProgramVersion, rpcProvider: Provider) {
-    this.programVersion = programVersion;
+
+  constructor(rpcProvider: Provider) {
     this.rpcProvider = rpcProvider;
-    this.autocratProgram = new Program<AutocratProgram>(
-      programVersion.idl as AutocratProgram,
-      programVersion.programId,
-      this.rpcProvider
-    );
-
-    this.vaultProgram = new Program<ConditionalVault>(
-      ConditionalVaultIDL,
-      autocratVersionToConditionalVaultMap[programVersion.label],
-      this.rpcProvider
-    );
-  }
-  static make(programVersion: ProgramVersion, rpcProvider: Provider) {
-    return new FutarchyRPClient(programVersion, rpcProvider);
-  }
-
-  async fetchAllDaos(): Promise<DaoWithTokens[]> {
-    const allDaoAccounts = await this.autocratProgram.account.dao.all();
-    const allDaos: (DaoWithTokens | undefined)[] = await Promise.all(
-      allDaoAccounts.map(async (d) =>
-        this.fetchDaoWithTokensFromState(d.account)
-      )
-    );
-    return allDaos.filter((d): d is DaoWithTokens => !!d);
-  }
-  async fetchDao(daoAddress: string): Promise<DaoWithTokens | undefined> {
-    const daoAccount = await this.fetchDaoAccount(daoAddress);
-    if (daoAccount) {
-      return await this.fetchDaoWithTokensFromState(daoAccount);
-    }
-  }
-
-  private async fetchDaoAccount(
-    daoAddress: string
-  ): Promise<DaoAccount | undefined> {
-    const daoAccount = await this.autocratProgram.account.dao.fetch(daoAddress);
-    return daoAccount;
-  }
-
-  private async fetchDaoWithTokensFromState(
-    daoAccount: DaoAccount
-  ): Promise<DaoWithTokens | undefined> {
-    const baseMint = ["V0.2", "V0.3"].includes(this.programVersion.label)
-      ? daoAccount.tokenMint
-      : daoAccount.metaMint;
-    const quoteMint = daoAccount.usdcMint;
-    if (baseMint) {
-      const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);
-      const quoteToken = await enrichTokenMetadata(quoteMint, this.rpcProvider);
-      return {
-        daoAccount,
-        baseToken,
-        quoteToken,
-      };
-    }
   }
 
   async fetchMainTokenWalletBalances(
@@ -139,38 +72,6 @@ export class FutarchyRPClient implements FutarchyClient {
     return [];
   }
 
-  async fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]> {
-    const allProposals = (
-      await this.autocratProgram.account.proposal.all()
-    ).map((prop) => ({
-      title: `Proposal ${prop.account.number}`,
-      description: "",
-      ...prop,
-    }));
-    const allVaults = await this.vaultProgram.account.conditionalVault.all();
-    const vaultsByAddress: Record<string, VaultAccount> = allVaults.reduce(
-      (prev, curr) => {
-        prev[curr.publicKey.toString()] = curr.account;
-        return prev;
-      },
-      {} as Record<string, VaultAccount>
-    );
-    const proposalsWithVaults: ProposalWithVaults[] = allProposals.map((p) => {
-      const baseVaultAccount = vaultsByAddress[p.account.baseVault.toString()];
-      const quoteVaultAccount =
-        vaultsByAddress[p.account.quoteVault.toString()];
-      return { ...p, baseVaultAccount, quoteVaultAccount };
-    });
-
-    return proposalsWithVaults.filter((p) => {
-      const { baseVaultAccount } = p;
-      return (
-        baseVaultAccount.settlementAuthority.toString() ===
-        dao.treasury.toString()
-      );
-    });
-  }
-
   /**
    * Fetching all the conditional token wallet balances for all the providers is expensive because it fetches the token balances on each proposal.
    * @param dao
@@ -182,7 +83,7 @@ export class FutarchyRPClient implements FutarchyClient {
     dao: DaoWithTokens,
     ownerWallet: PublicKey,
     proposalsWithVaults: ProposalWithVaults[]
-  ): Promise<TokenWithBalance[]> {
+  ): Promise<TokenWithBalanceWithProposal[]> {
     if (ownerWallet && dao.baseToken.publicKey && dao.quoteToken.publicKey) {
       const tokensWithPDA = proposalsWithVaults
         .map((p) => {
@@ -199,6 +100,7 @@ export class FutarchyRPClient implements FutarchyClient {
                 ...dao.baseToken,
                 symbol: "p" + dao.baseToken.symbol,
               },
+              proposal: p.publicKey,
             },
             {
               pda: getAssociatedTokenAddressSync(
@@ -210,6 +112,7 @@ export class FutarchyRPClient implements FutarchyClient {
                 ...dao.baseToken,
                 symbol: "f" + dao.baseToken.symbol,
               },
+              proposal: p.publicKey,
             },
             {
               pda: getAssociatedTokenAddressSync(
@@ -223,6 +126,7 @@ export class FutarchyRPClient implements FutarchyClient {
                 ...dao.quoteToken,
                 symbol: "p" + dao.quoteToken.symbol,
               },
+              proposal: p.publicKey,
             },
             {
               pda: getAssociatedTokenAddressSync(
@@ -234,10 +138,12 @@ export class FutarchyRPClient implements FutarchyClient {
                 ...dao.quoteToken,
                 symbol: "f" + dao.quoteToken.symbol,
               },
+              proposal: p.publicKey,
             },
           ];
         })
         .flat();
+
       const tokensBalances = await Promise.all(
         tokensWithPDA.map(async (t) => {
           try {
@@ -246,9 +152,10 @@ export class FutarchyRPClient implements FutarchyClient {
             return {
               balance: tokenBalance.value.uiAmount ?? 0,
               token: t.token,
+              proposal: t.proposal,
             };
           } catch (e) {
-            if (!JSON.stringify(e).includes("not found")) {
+            if (!JSON.stringify(e).includes("could not find account")) {
               console.info(
                 "error fetching wallet balance for token:",
                 t.token.symbol
@@ -257,11 +164,15 @@ export class FutarchyRPClient implements FutarchyClient {
             return {
               balance: 0,
               token: t.token,
+              proposal: t.proposal,
             };
           }
         })
       );
-      return tokensBalances.filter((b): b is TokenWithBalance => !!b);
+
+      return tokensBalances.filter(
+        (b): b is TokenWithBalanceWithProposal => !!b
+      );
     }
     return [];
   }

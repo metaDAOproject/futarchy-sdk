@@ -7,7 +7,7 @@ import { AutocratV0 as AutocratV0_3 } from "./idl/autocrat_v0.3";
 import { OpenbookTwap } from "./idl/openbook_twap";
 import { OpenbookV2 } from "./idl/openbook_v2";
 import { VaultAccount } from "./types/conditionalVault";
-import { ProposalAccount } from "./types/proposals";
+import { Proposal, ProposalAccount } from "./types/proposals";
 
 export type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];
@@ -148,6 +148,10 @@ export type TokenProps = (
 ) & { symbol: string; decimals?: number; name?: string };
 
 export type TokenWithBalance = { token: TokenProps; balance: number };
+
+export type TokenWithBalanceWithProposal = TokenWithBalance & {
+  proposal: PublicKey;
+};
 
 export type DaoWithTokens = {
   daoAccount: DaoAccount;

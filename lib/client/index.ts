@@ -1,3 +1,3 @@
 export * from "./client";
-export * from "./rpcClient";
-export * from "./indexerClient";
+export * from "./rpc/rpcClient";
+export * from "./indexer/indexerClient";

@@ -60,8 +60,6 @@ export interface FutarchyMarketsClient<
   cancelUserOrder(
     market: M,
     order: O,
-    proposal: ProposalWithVaults,
-    baseMint: PublicKey,
-    quoteMint: PublicKey
+    proposal: ProposalWithVaults
   ): Promise<string[]>;
 }

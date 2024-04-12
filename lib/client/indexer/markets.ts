@@ -30,9 +30,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   async cancelUserOrder(
     market: OpenbookProposalMarket,
     order: Order,
-    proposal: ProposalWithVaults,
-    baseMint: PublicKey,
-    quoteMint: PublicKey
+    proposal: ProposalWithVaults
   ): Promise<string[]> {
     return [];
   }

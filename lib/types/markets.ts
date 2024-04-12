@@ -4,6 +4,7 @@ import { OpenbookTwap } from "../idl/openbook_twap";
 import { OpenbookTwapV0_1 } from "../idl/openbook_twap_v0.1";
 import { OpenbookTwapV0_2 } from "../idl/openbook_twap_v0.2";
 import { PublicKey } from "@solana/web3.js";
+import { MarketAccount } from "@openbook-dex/openbook-v2";
 
 export type MarketType = "pass" | "fail";
 
@@ -30,7 +31,6 @@ export type OpenbookOrder = Order & {
 
 export type Market = {
   marketType: MarketType;
-  marketAuthority: PublicKey;
   baseVault: PublicKey;
   quoteVault: PublicKey;
   publicKey: PublicKey;
@@ -38,10 +38,8 @@ export type Market = {
   asks: Order[];
 };
 export type OpenbookProposalMarket = {
-  asksPublicKey: PublicKey;
-  bidsPublicKey: PublicKey;
+  openbookMarketAccount: MarketAccount;
   marketType: MarketType;
-  marketAuthority: PublicKey;
   baseVault: PublicKey;
   quoteVault: PublicKey;
   publicKey: PublicKey;

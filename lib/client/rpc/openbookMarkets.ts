@@ -130,11 +130,9 @@ export class FutarchyOpenbookMarketsRPCClient
       this.openbook
     );
     const passMarket: OpenbookProposalMarket = {
-      marketAuthority: passOpenBookMarket.marketAuthority,
+      openbookMarketAccount: passOpenBookMarket,
       baseVault: passOpenBookMarket.marketBaseVault,
       quoteVault: passOpenBookMarket.marketQuoteVault,
-      bidsPublicKey: passOpenBookMarket.bids,
-      asksPublicKey: passOpenBookMarket.asks,
       publicKey: proposal.account.openbookPassMarket,
       marketType: "pass",
       bids: passBidsNodes.map((leafNode) => {
@@ -180,17 +178,16 @@ export class FutarchyOpenbookMarketsRPCClient
         };
       }),
     };
+    // pass it through here or just add nested object for god sakes?
     const failMarket: OpenbookProposalMarket = {
-      marketAuthority: failOpenBookMarket.marketAuthority,
+      openbookMarketAccount: failOpenBookMarket,
       baseVault: failOpenBookMarket.marketBaseVault,
       quoteVault: failOpenBookMarket.marketQuoteVault,
-      bidsPublicKey: failOpenBookMarket.bids,
-      asksPublicKey: failOpenBookMarket.asks,
-      publicKey: proposal.account.openbookPassMarket,
+      publicKey: proposal.account.openbookFailMarket,
       marketType: "fail",
       bids: failBidsNodes.map((leafNode) => {
-        const size = baseLotsToUi(passOpenBookMarket, leafNode.quantity);
-        const price = priceLotsToUi(passOpenBookMarket, leafNode.key.shrn(64));
+        const size = baseLotsToUi(failOpenBookMarket, leafNode.quantity);
+        const price = priceLotsToUi(failOpenBookMarket, leafNode.key.shrn(64));
         return {
           price,
           size,
@@ -210,8 +207,8 @@ export class FutarchyOpenbookMarketsRPCClient
         };
       }),
       asks: failAsksNodes.map((leafNode) => {
-        const size = baseLotsToUi(passOpenBookMarket, leafNode.quantity);
-        const price = priceLotsToUi(passOpenBookMarket, leafNode.key.shrn(64));
+        const size = baseLotsToUi(failOpenBookMarket, leafNode.quantity);
+        const price = priceLotsToUi(failOpenBookMarket, leafNode.key.shrn(64));
         return {
           price,
           size,
@@ -264,9 +261,7 @@ export class FutarchyOpenbookMarketsRPCClient
   async cancelUserOrder(
     market: OpenbookProposalMarket,
     order: OpenbookOrder,
-    proposal: ProposalWithVaults,
-    baseMint: PublicKey,
-    quoteMint: PublicKey
+    proposal: ProposalWithVaults
   ): Promise<string[]> {
     const txs = await this.cancelAndSettleFundsTransactions(
       this.transactionSender.owner,
@@ -275,9 +270,7 @@ export class FutarchyOpenbookMarketsRPCClient
       proposal.baseVaultAccount.conditionalOnFinalizeTokenMint,
       proposal.quoteVaultAccount.conditionalOnRevertTokenMint,
       proposal.baseVaultAccount.conditionalOnRevertTokenMint,
-      market,
-      baseMint,
-      quoteMint
+      market
     );
     return this.transactionSender.send(txs, this.rpcProvider.connection);
   }
@@ -289,9 +282,7 @@ export class FutarchyOpenbookMarketsRPCClient
     baseConditionalOnFinalizeTokenMint: PublicKey,
     quoteConditionalOnRevertTokenMint: PublicKey,
     baseConditionalOnRevertTokenMint: PublicKey,
-    market: OpenbookProposalMarket,
-    baseMint: PublicKey,
-    quoteMint: PublicKey
+    market: OpenbookProposalMarket
   ) {
     const openOrdersAccount = findOpenOrders(new BN(orderId), owner);
     const userBaseAccount = getAssociatedTokenAddressSync(
@@ -316,9 +307,9 @@ export class FutarchyOpenbookMarketsRPCClient
         penaltyPayer: owner,
         openOrdersAccount,
         market: market.publicKey,
-        marketAuthority: market.marketAuthority,
-        marketBaseVault: market.baseVault,
-        marketQuoteVault: market.quoteVault,
+        marketAuthority: market.openbookMarketAccount.marketAuthority,
+        marketBaseVault: market.openbookMarketAccount.marketBaseVault,
+        marketQuoteVault: market.openbookMarketAccount.marketQuoteVault,
         userBaseAccount,
         userQuoteAccount,
         referrerAccount: null,
@@ -330,8 +321,8 @@ export class FutarchyOpenbookMarketsRPCClient
           .cancelOrderByClientId(new BN(orderId))
           .accounts({
             openOrdersAccount,
-            asks: market.asksPublicKey,
-            bids: market.bidsPublicKey,
+            asks: market.openbookMarketAccount.asks,
+            bids: market.openbookMarketAccount.bids,
             market: market.publicKey,
             twapMarket: PublicKey.findProgramAddressSync(
               [Buffer.from("twap_market"), market.publicKey.toBuffer()],
@@ -344,13 +335,13 @@ export class FutarchyOpenbookMarketsRPCClient
           owner,
           userBaseAccount,
           owner,
-          baseMint
+          market.openbookMarketAccount.baseMint
         ),
         createAssociatedTokenAccountIdempotentInstruction(
           owner,
           userQuoteAccount,
           owner,
-          quoteMint
+          market.openbookMarketAccount.quoteMint
         ),
       ])
       .transaction();

@@ -25,11 +25,7 @@ import {
   NUMERAL_FORMAT,
   OPENBOOK_PROGRAM_ID,
 } from "./constants";
-
-export type Order = {
-  price: number;
-  size: number;
-};
+import { OpenbookOrder } from "./types/markets";
 
 const BooksideSpace = 90944 + 8;
 const EventHeapSpace = 91280 + 8;
@@ -229,7 +225,10 @@ export function getLeafNodes(
   );
 }
 
-export function getParsedOrders(side: LeafNode[], isBidSide: boolean): Order[] {
+export function getParsedOrders(
+  side: LeafNode[],
+  isBidSide: boolean
+): Pick<OpenbookOrder, "price" | "size">[] {
   if (side.length === 0) {
     return [];
   }

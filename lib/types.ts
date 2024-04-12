@@ -8,6 +8,9 @@ import { OpenbookTwap } from "./idl/openbook_twap";
 import { OpenbookV2 } from "./idl/openbook_v2";
 import { VaultAccount } from "./types/conditionalVault";
 import { Proposal, ProposalAccount } from "./types/proposals";
+import { TwapMarketAccount } from "./types/markets";
+
+// TODO move all this into the types folder because imports are getting messy
 
 export type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];
@@ -40,7 +43,6 @@ export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0_1>["ProposalInstruction"]
 >;
 export type ProposalAccountWithKey = AccountWithKey<ProposalAccount>;
-export type TwapMarketAccount = IdlAccounts<OpenbookTwap>["twapMarket"];
 export type TWAPOracle = IdlTypes<OpenbookTwap>["TWAPOracle"];
 export type OrderBookSide = {
   parsed: {

@@ -5,6 +5,10 @@ const usdcLogo = require("../assets/images/usdc-logo.svg") as {
   default: { src: string };
 };
 
+export const SYSTEM_PROGRAM: PublicKey = new PublicKey(
+  "11111111111111111111111111111111"
+);
+
 export const OPENBOOK_PROGRAM_ID = new PublicKey(
   "opnb2LAfJYbRMAHHvqjCwQxanZn7ReEHp1k81EohpZb"
 );

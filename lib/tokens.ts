@@ -20,6 +20,7 @@ import {
   getMint,
   getTokenMetadata,
 } from "@solana/spl-token";
+
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
  * if that fails, use metaplex with RPC call and fetch metadata json

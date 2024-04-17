@@ -151,6 +151,42 @@ export const findOpenOrdersIndexer = (owner: PublicKey): PublicKey => {
   return openOrdersIndexer;
 };
 
+export const findOpenOrdersIndex = async ({
+  signer,
+  indexOffset,
+  openbook,
+}: {
+  signer: PublicKey;
+  indexOffset?: number;
+  openbook: Program<OpenbookV2>;
+}) => {
+  const openTx = new Transaction();
+  const openOrdersIndexer = findOpenOrdersIndexer(signer);
+  let accountIndex = new BN(1);
+  try {
+    const indexer = await openbook.account.openOrdersIndexer.fetch(
+      openOrdersIndexer
+    );
+    accountIndex = new BN(
+      (indexer?.createdCounter || 0) + 1 + (indexOffset || 0)
+    );
+  } catch {
+    if (!indexOffset) {
+      openTx.add(
+        await createOpenOrdersIndexerInstruction(
+          openbook,
+          openOrdersIndexer,
+          signer
+        )
+      );
+    } else {
+      accountIndex = new BN(1 + (indexOffset || 0));
+    }
+  }
+
+  return [accountIndex, openTx];
+};
+
 export const createOpenOrdersIndexerInstruction = async (
   program: Program<OpenbookV2>,
   openOrdersIndexer: PublicKey,

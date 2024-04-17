@@ -3,22 +3,32 @@ import {
   ConditionalMarkets,
   OpenbookOrder,
   OpenbookProposalMarket,
+  PlaceOrderType,
 } from "../../types/markets";
 import { Proposal, ProposalWithVaults } from "../../types/proposals";
 import { FutarchyMarketsClient } from "../client";
 import {
   OpenbookV2,
+  OrderType,
+  PlaceOrderArgs,
+  SelfTradeBehavior,
+  SideUtils,
   baseLotsToUi,
   priceLotsToUi,
+  uiBaseToLots,
+  uiPriceToLots,
+  uiQuoteToLots,
 } from "@openbook-dex/openbook-v2";
 import { MarketAccount, OpenBookV2Client } from "@openbook-dex/openbook-v2";
-import { MarketAccountWithKey, ProgramVersion, TokenProps } from "../../types";
+import { ProgramVersion, TokenProps } from "../../types";
 import {
   findOpenOrders,
+  findOpenOrdersIndex,
+  findOpenOrdersIndexer,
   getLeafNodes,
   getUsersOpenOrderPks,
 } from "../../openbook";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, TransactionInstruction } from "@solana/web3.js";
 import { OpenbookTwapV0_2 } from "../../idl/openbook_twap_v0.2";
 import OPENBOOK_TWAP_IDLV0_1 from "../../idl/openbook_twap_v0.1.json";
 import OPENBOOK_TWAP_IDLV0_2 from "../../idl/openbook_twap_v0.2.json";
@@ -34,7 +44,9 @@ import {
   createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddressSync,
 } from "@solana/spl-token";
-import { VaultAccount } from "../../types/conditionalVault";
+
+import { shortKey } from "../../utils";
+import { getTwapMarketKey } from "../../openbookTwap";
 
 export class FutarchyOpenbookMarketsRPCClient
   implements FutarchyMarketsClient<OpenbookProposalMarket, OpenbookOrder>
@@ -256,6 +268,160 @@ export class FutarchyOpenbookMarketsRPCClient
       .sort((a, b) => (a.clientOrderId < b.clientOrderId ? 1 : -1));
 
     return userOrders ?? [];
+  }
+
+  async placeUserOrder(
+    market: OpenbookProposalMarket,
+    order: Omit<OpenbookOrder, "status">,
+    placeOrderType: PlaceOrderType
+  ): Promise<string[]> {
+    const mint =
+      order.side === "ask"
+        ? market.openbookMarketAccount.baseMint
+        : market.openbookMarketAccount.quoteMint;
+    const openOrdersIndexer = findOpenOrdersIndexer(
+      this.transactionSender.owner
+    );
+    const marketVault =
+      order.side === "ask"
+        ? market.openbookMarketAccount.marketBaseVault
+        : market.openbookMarketAccount.marketQuoteVault;
+    const [accountIndex, openTx] = await findOpenOrdersIndex({
+      signer: this.transactionSender.owner,
+      openbook: this.openbook,
+    });
+    const [ixs, openOrdersAccount] = await this.createOpenOrdersInstruction(
+      market.publicKey,
+      accountIndex,
+      `${shortKey(this.transactionSender.owner)}-${accountIndex.toString()}`,
+      this.transactionSender.owner,
+      openOrdersIndexer
+    );
+    openTx.add(...ixs);
+
+    const args = this.createPlaceOrderArgs({
+      order,
+      orderType:
+        placeOrderType === "limit" ? OrderType.Limit : OrderType.Market,
+      placeOrderType,
+      isAsk: order.side === "ask",
+      accountIndex,
+      market: market.openbookMarketAccount,
+    });
+    if (!args) {
+      console.error("Error matching price");
+      return [];
+    }
+
+    const placeTx = await this.openbookTwap.methods
+      .placeOrder(args)
+      .accounts({
+        openOrdersAccount,
+        asks: market.openbookMarketAccount.asks,
+        bids: market.openbookMarketAccount.bids,
+        eventHeap: market.openbookMarketAccount.eventHeap,
+        market: market.publicKey,
+        marketVault,
+        twapMarket: getTwapMarketKey(
+          market.publicKey,
+          this.openbookTwap.programId
+        ),
+        userTokenAccount: getAssociatedTokenAddressSync(
+          mint,
+          this.transactionSender.owner,
+          true
+        ),
+        openbookProgram: this.openbook.programId,
+      })
+      .preInstructions(openTx.instructions)
+      .transaction();
+
+    return this.transactionSender.send([placeTx], this.rpcProvider.connection);
+  }
+
+  private async createOpenOrdersInstruction(
+    market: PublicKey,
+    accountIndex: BN,
+    name: string,
+    owner: PublicKey,
+    openOrdersIndexer: PublicKey
+  ): Promise<[TransactionInstruction[], PublicKey]> {
+    const ixs: TransactionInstruction[] = [];
+
+    if (accountIndex.toNumber() === 0) {
+      throw Object.assign(new Error("accountIndex can not be 0"), {
+        code: 403,
+      });
+    }
+    const openOrdersAccount = findOpenOrders(accountIndex, owner);
+
+    ixs.push(
+      await this.openbook.methods
+        .createOpenOrdersAccount(name)
+        .accounts({
+          openOrdersIndexer,
+          openOrdersAccount,
+          market,
+          owner,
+          delegateAccount: null,
+        })
+        .instruction()
+    );
+
+    return [ixs, openOrdersAccount];
+  }
+
+  private createPlaceOrderArgs({
+    order,
+    orderType,
+    placeOrderType,
+    isAsk,
+    accountIndex,
+    market,
+  }: {
+    order: Omit<OpenbookOrder, "status">;
+    orderType: (typeof OrderType)["Limit"] | (typeof OrderType)["Market"];
+    placeOrderType: PlaceOrderType;
+    isAsk?: boolean;
+    accountIndex: number;
+    market: MarketAccount;
+  }): PlaceOrderArgs | null {
+    // TODO: Update openbook lib to LATEST
+    let priceLots = uiPriceToLots(market, order.price);
+    const _priceLots = uiPriceToLots(market, order.price);
+    const maxBaseLots = uiBaseToLots(market, order.size);
+    let maxQuoteLotsIncludingFees = uiQuoteToLots(
+      market,
+      priceLots.mul(maxBaseLots)
+    );
+
+    if (placeOrderType === "limit") {
+      if (!isAsk) {
+        // TODO: Want to setup max price (TBD)
+        priceLots = new BN(1_000_000_000_000_000);
+        maxQuoteLotsIncludingFees = priceLots.mul(maxBaseLots);
+      } else {
+        // TODO: Check working
+        priceLots = market.quoteLotSize;
+        maxQuoteLotsIncludingFees = priceLots.mul(maxBaseLots);
+      }
+    }
+    if (_priceLots === priceLots) {
+      console.error("error price");
+      return null;
+    }
+
+    return {
+      side: isAsk ? SideUtils.Ask : SideUtils.Bid,
+      priceLots,
+      maxBaseLots,
+      maxQuoteLotsIncludingFees,
+      clientOrderId: accountIndex,
+      orderType,
+      expiryTimestamp: new BN(0),
+      selfTradeBehavior: SelfTradeBehavior.AbortTransaction,
+      limit: 255,
+    };
   }
 
   async cancelUserOrder(

@@ -7,7 +7,12 @@ import {
   TokenWithBalanceWithProposal,
 } from "../types";
 import { Proposal, ProposalWithVaults } from "../types/proposals";
-import { ConditionalMarkets, Market, Order } from "../types/markets";
+import {
+  ConditionalMarkets,
+  Market,
+  Order,
+  PlaceOrderType,
+} from "../types/markets";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -37,12 +42,6 @@ export interface FutarchyBalancesClient {
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 
-export class TestClass {
-  constructor() {
-    console.log("hey you initialized me");
-  }
-}
-
 export interface FutarchyMarketsClient<
   M extends Market = Market,
   O extends Order = Order
@@ -57,6 +56,11 @@ export interface FutarchyMarketsClient<
     failMarket: M,
     owner: PublicKey
   ): Promise<O[]>;
+  placeUserOrder(
+    market: M,
+    order: Omit<O, "status">,
+    placeOrderType: PlaceOrderType
+  ): Promise<string[]>;
   cancelUserOrder(
     market: M,
     order: O,

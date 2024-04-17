@@ -1,14 +1,16 @@
-import { BN, IdlAccounts } from "@coral-xyz/anchor";
+import { BN, IdlAccounts, IdlTypes } from "@coral-xyz/anchor";
 import { MergeWithOptionalFields, TokenProps } from "../types";
 import { OpenbookTwap } from "../idl/openbook_twap";
 import { OpenbookTwapV0_1 } from "../idl/openbook_twap_v0.1";
 import { OpenbookTwapV0_2 } from "../idl/openbook_twap_v0.2";
 import { PublicKey } from "@solana/web3.js";
-import { MarketAccount } from "@openbook-dex/openbook-v2";
+import { MarketAccount, OpenbookV2 } from "@openbook-dex/openbook-v2";
 
 export type MarketType = "pass" | "fail";
 
 export type OrderBookSideType = "ask" | "bid";
+
+export type PlaceOrderType = "limit" | "market" | "grid";
 
 export type Order = {
   time: Date;
@@ -63,3 +65,5 @@ export type TwapMarketAccount = MergeWithOptionalFields<
 >;
 
 export type OpenbookTwapIDLs = OpenbookTwapV0_1 | OpenbookTwapV0_2;
+
+export type PlaceOrderArgs = IdlTypes<OpenbookV2>["PlaceOrderArgs"];

@@ -302,27 +302,6 @@ export class FutarchyOpenbookMarketsRPCClient
     return [];
   }
 
-  // private createOrderToPlace(
-  //   order: Omit<OpenbookOrder, "status">,
-  //   placeOrderType: PlaceOrderType
-  // ): OrderToPlace {
-  //   // TODO support more types
-  //   const orderType =
-  //     placeOrderType === "limit"
-  //       ? PlaceOrderTypeUtils.Limit
-  //       : PlaceOrderTypeUtils.Market;
-  //   const orderToPlace: OrderToPlace = {
-  //     price: order.price,
-  //     side: order.side === "ask" ? SideUtils.Ask : SideUtils.Bid,
-  //     size: order.size,
-  //     clientOrderId: order.clientOrderId,
-  //     expiryTimestamp: new BN(0),
-  //     selfTradeBehavior: SelfTradeBehaviorUtils.AbortTransaction,
-  //     orderType,
-  //   };
-  //   return orderToPlace;
-  // }
-
   private createPlaceOrderArgs({
     orderType,
     amount,

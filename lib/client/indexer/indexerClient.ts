@@ -1,4 +1,4 @@
-import { FutarchyClient } from "../client";
+import { FutarchyClient } from "@/client";
 import { FutarchyIndexerDaoClient } from "./dao";
 import { FutarchyIndexerProposalsClient } from "./proposals";
 import { FutarchyIndexerBalancesClient } from "./balances";

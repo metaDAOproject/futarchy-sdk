@@ -1,11 +1,11 @@
-import { AnchorProvider, Program, Provider } from "@coral-xyz/anchor";
-import { AutocratProgram, ProgramVersion } from "../../types";
-import { FutarchyClient, FutarchyMarketsClient } from "../client";
+import { AnchorProvider, Program } from "@coral-xyz/anchor";
+import { AutocratProgram, ProgramVersion } from "@/types";
+import { FutarchyClient } from "@/client";
 import {
   ConditionalVault,
   IDL as ConditionalVaultIDL,
-} from "../../idl/conditional_vault";
-import { autocratVersionToConditionalVaultMap } from "../../constants/conditionalVault";
+} from "@/idl/conditional_vault";
+import { autocratVersionToConditionalVaultMap } from "@/constants/conditionalVault";
 import { FutarchyRPCDaoClient } from "./dao";
 import { FutarchyRPCProposalsClient } from "./proposals";
 import { FutarchyRPCBalancesClient } from "./balances";

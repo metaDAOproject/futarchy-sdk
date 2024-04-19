@@ -1,9 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
-import { AutocratProgram, ProgramVersion, TokenProps } from "./types";
-const usdcLogo = require("../assets/images/usdc-logo.svg") as {
-  default: { src: string };
-};
+import { AutocratProgram, ProgramVersion } from "@/types";
 
 export const SYSTEM_PROGRAM: PublicKey = new PublicKey(
   "11111111111111111111111111111111"
@@ -24,13 +21,6 @@ export const mUSDCAddressDevNet =
   "B9CZDrwg7d34MiPiWoUSmddriCtQB5eB2h9EUSDHt48b";
 export const USDCAddressMainNet =
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
-export const USDCMetadata: TokenProps = {
-  symbol: "USDC",
-  decimals: 6,
-  name: "USD Coin",
-  publicKey: "", // depends on network
-  url: usdcLogo.default.src,
-};
 
 export const NUMERAL_FORMAT = "0,0.00";
 export const BASE_FORMAT = "0,0";

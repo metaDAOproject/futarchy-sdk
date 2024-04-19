@@ -1,7 +1,7 @@
 {
   "name": "@themetadao/futarchy-ts",
   "version": "1.0.4-alpha",
-  "main": "lib",
+  "main": "dist",
   "scripts": {
     "build": "tsc"
   },

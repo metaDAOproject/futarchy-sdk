@@ -1,7 +1,7 @@
 import {
   OPENBOOK_TWAP_PROGRAM_IDV0_1,
   OPENBOOK_TWAP_PROGRAM_IDV0_2,
-} from "../constants";
+} from "@/constants";
 
 export const autocratVersionToTwapMap = {
   "V0.1": OPENBOOK_TWAP_PROGRAM_IDV0_1,

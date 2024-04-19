@@ -1,5 +1,4 @@
 import { PublicKey } from "@solana/web3.js";
-import { TokenProps } from "./types";
 import {
   JsonMetadata,
   MPL_TOKEN_METADATA_PROGRAM_ID,
@@ -8,18 +7,13 @@ import {
 import { RpcAccount } from "@metaplex-foundation/umi";
 import { Provider } from "@coral-xyz/anchor";
 import {
-  USDCAddressDevNet,
-  USDCAddressMainNet,
-  USDCMetadata,
-  mUSDCAddressDevNet,
-} from "./constants";
-import {
   Mint,
   TOKEN_2022_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
   getMint,
   getTokenMetadata,
 } from "@solana/spl-token";
+import { TokenProps } from "@/types";
 
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
@@ -30,15 +24,6 @@ export async function enrichTokenMetadata(
   tokenAddress: PublicKey,
   rpcProvider: Provider
 ): Promise<TokenProps & { isFallback?: boolean }> {
-  // first, is it USDC? we handle that manually with no fetching
-  if (
-    [USDCAddressDevNet, USDCAddressMainNet, mUSDCAddressDevNet].includes(
-      tokenAddress.toString()
-    )
-  ) {
-    return { ...USDCMetadata, publicKey: tokenAddress.toString() };
-  }
-
   // get the mint
   const mint = await getMint(rpcProvider.connection, tokenAddress);
 

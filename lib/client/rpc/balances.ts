@@ -3,10 +3,10 @@ import {
   DaoWithTokens,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
-} from "../../types";
-import { FutarchyBalancesClient } from "../client";
+} from "@/types";
+import { FutarchyBalancesClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
-import { ProposalWithVaults } from "../../types/proposals";
+import { ProposalWithVaults } from "@/types/proposals";
 import { Provider } from "@coral-xyz/anchor";
 
 export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {

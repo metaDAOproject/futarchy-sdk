@@ -4,10 +4,13 @@ import {
   DaoWithTokens,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
-} from "../types";
-import { ProposalWithVaults } from "../types/proposals";
-import { Market, Order, Orderbook, PlaceOrderType } from "../types/markets";
-import { VaultAccount } from "../types/conditionalVault";
+  VaultAccount,
+  Market,
+  Order,
+  ProposalWithVaults,
+  Orderbook,
+  PlaceOrderType,
+} from "@/types";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;

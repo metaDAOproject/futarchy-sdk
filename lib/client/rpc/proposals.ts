@@ -1,17 +1,17 @@
+import { PublicKey, Transaction } from "@solana/web3.js";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
-import { AutocratProgram, DaoAccount, ProgramVersion } from "../../types";
-import { ProposalWithVaults } from "../../types/proposals";
-import { FutarchyProposalsClient } from "../client";
-import { ConditionalVault } from "../../idl/conditional_vault";
-import { VaultAccount } from "../../types/conditionalVault";
 import {
   createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddressSync,
 } from "@solana/spl-token";
 import numeral from "numeral";
-import { enrichTokenMetadata } from "../../tokens";
-import { PublicKey, Transaction } from "@solana/web3.js";
-import { TransactionSender } from "../../transactions";
+import { AutocratProgram, DaoAccount } from "@/types";
+import { ProposalWithVaults } from "@/types/proposals";
+import { FutarchyProposalsClient } from "@/client";
+import { ConditionalVault } from "@/idl/conditional_vault";
+import { VaultAccount } from "@/types/conditionalVault";
+import { TransactionSender } from "@/transactions";
+import { enrichTokenMetadata } from "@/tokens";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: Provider;

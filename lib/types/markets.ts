@@ -23,6 +23,20 @@ export type PlaceOrderType =
   | "postOnly"
   | "postOnlySlide";
 
+export const validOrderTypes = [
+  "limit",
+  "market",
+  "grid",
+  "immediateOrCancel",
+  "fillOrKill",
+  "postOnly",
+  "postOnlySlide",
+];
+
+export function isPlaceOrderType(str: string): str is PlaceOrderType {
+  return validOrderTypes.includes(str);
+}
+
 export type Order = {
   time: Date;
   status: "open" | "closed";
@@ -97,3 +111,4 @@ export type TwapMarketAccount = MergeWithOptionalFields<
 export type OpenbookTwapIDLs = OpenbookTwapV0_1 | OpenbookTwapV0_2;
 
 export type PlaceOrderArgs = IdlTypes<OpenbookV2>["PlaceOrderArgs"];
+export type PlaceTakeOrderArgs = IdlTypes<OpenbookV2>["PlaceTakeOrderArgs"];

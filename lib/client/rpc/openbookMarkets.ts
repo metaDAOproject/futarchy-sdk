@@ -5,6 +5,7 @@ import {
   OrderBookSideType,
   Orderbook,
   PlaceOrderType,
+  PlaceTakeOrderArgs,
   TwapPlaceOrderArgs,
 } from "../../types/markets";
 import { FutarchyMarketsClient } from "../client";
@@ -219,79 +220,120 @@ export class FutarchyOpenbookMarketsRPCClient
         : market.marketInstance.account.marketQuoteVault;
     // TODO not sure how this works when clientOrderId not specified
     const clientOrderId = new BN(order.clientOrderId || Date.now());
-    const placeOrderArgs = this.createPlaceOrderArgs({
-      accountIndex: clientOrderId,
-      market: market.marketInstance,
-      isAsk: order.side === "ask",
-      amount: order.size,
-      price: order.price,
-      isLimitOrder: placeOrderType === "limit",
-      isPostOnlyOrder: false,
-    });
-    if (placeOrderArgs) {
-      const placeTx = await this.openbookTwap.methods
-        .placeOrder(placeOrderArgs)
-        .accounts({
-          openOrdersAccount: openOrdersAccountAddress,
-          asks: market.marketInstance.account.asks,
-          bids: market.marketInstance.account.bids,
-          eventHeap: market.marketInstance.account.eventHeap,
-          market: market.publicKey,
-          marketVault,
-          twapMarket: getTwapMarketKey(
+
+    let placeTx: Transaction | undefined = undefined;
+    switch (placeOrderType) {
+      case "limit":
+        const placeLimitOrderArgs = this.createPlaceOrderArgs({
+          orderType: placeOrderType,
+          accountIndex: clientOrderId,
+          market: market.marketInstance,
+          isAsk: order.side === "ask",
+          amount: order.size,
+          price: order.price,
+        });
+        if (placeLimitOrderArgs) {
+          placeTx = await this.openbookTwap.methods
+            .placeOrder(placeLimitOrderArgs)
+            .accounts({
+              openOrdersAccount: openOrdersAccountAddress,
+              asks: market.marketInstance.account.asks,
+              bids: market.marketInstance.account.bids,
+              eventHeap: market.marketInstance.account.eventHeap,
+              market: market.publicKey,
+              marketVault,
+              twapMarket: getTwapMarketKey(
+                market.publicKey,
+                this.openbookTwap.programId
+              ),
+              userTokenAccount: getAssociatedTokenAddressSync(
+                mint,
+                this.transactionSender.owner,
+                true
+              ),
+              openbookProgram: this.openbook.programId,
+            })
+            .transaction();
+        }
+
+        break;
+      case "market":
+        const userBaseAccount = getAssociatedTokenAddressSync(
+          market.baseMint,
+          this.transactionSender.owner,
+          true
+        );
+        const userQuoteAccount = getAssociatedTokenAddressSync(
+          market.quoteMint,
+          this.transactionSender.owner,
+          true
+        );
+
+        const placeMarketOrderArgs = this.createPlaceOrderArgs({
+          orderType: placeOrderType,
+          accountIndex: clientOrderId,
+          market: market.marketInstance,
+          isAsk: order.side === "ask",
+          amount: order.size,
+          price: order.price,
+        });
+        if (placeMarketOrderArgs) {
+          const [ix] = await this.openbookClient.placeTakeOrderIx(
             market.publicKey,
-            this.openbookTwap.programId
-          ),
-          userTokenAccount: getAssociatedTokenAddressSync(
-            mint,
-            this.transactionSender.owner,
-            true
-          ),
-          openbookProgram: this.openbook.programId,
-        })
-        .transaction();
+            market.marketInstance.account,
+            userBaseAccount,
+            userQuoteAccount,
+            null,
+            placeMarketOrderArgs,
+            []
+          );
+          placeTx = new Transaction().add(ix);
+        }
+        break;
+    }
+
+    if (placeTx) {
       return this.transactionSender.send(
         [placeTx],
         this.rpcProvider.connection
       );
     }
+
     return [];
   }
 
-  private createOrderToPlace(
-    order: Omit<OpenbookOrder, "status">,
-    placeOrderType: PlaceOrderType
-  ): OrderToPlace {
-    // TODO support more types
-    const orderType =
-      placeOrderType === "limit"
-        ? PlaceOrderTypeUtils.Limit
-        : PlaceOrderTypeUtils.Market;
-    const orderToPlace: OrderToPlace = {
-      price: order.price,
-      side: order.side === "ask" ? SideUtils.Ask : SideUtils.Bid,
-      size: order.size,
-      clientOrderId: order.clientOrderId,
-      expiryTimestamp: new BN(0),
-      selfTradeBehavior: SelfTradeBehaviorUtils.AbortTransaction,
-      orderType,
-    };
-    return orderToPlace;
-  }
+  // private createOrderToPlace(
+  //   order: Omit<OpenbookOrder, "status">,
+  //   placeOrderType: PlaceOrderType
+  // ): OrderToPlace {
+  //   // TODO support more types
+  //   const orderType =
+  //     placeOrderType === "limit"
+  //       ? PlaceOrderTypeUtils.Limit
+  //       : PlaceOrderTypeUtils.Market;
+  //   const orderToPlace: OrderToPlace = {
+  //     price: order.price,
+  //     side: order.side === "ask" ? SideUtils.Ask : SideUtils.Bid,
+  //     size: order.size,
+  //     clientOrderId: order.clientOrderId,
+  //     expiryTimestamp: new BN(0),
+  //     selfTradeBehavior: SelfTradeBehaviorUtils.AbortTransaction,
+  //     orderType,
+  //   };
+  //   return orderToPlace;
+  // }
 
   private createPlaceOrderArgs({
+    orderType,
     amount,
     price,
-    isLimitOrder,
-    isPostOnlyOrder,
     isAsk,
     accountIndex,
     market,
   }: {
+    orderType: PlaceOrderType;
     amount: number;
     price: number;
-    isLimitOrder?: boolean;
-    isPostOnlyOrder?: boolean;
     isAsk?: boolean;
     accountIndex: number;
     market: OBMarket;
@@ -303,28 +345,10 @@ export class FutarchyOpenbookMarketsRPCClient
       priceLots * maxBaseLots
     );
 
-    if (!isLimitOrder) {
-      if (!isAsk) {
-        // TODO: Want to setup max price (TBD)
-        priceLots = new BN(1_000_000_000_000_000);
-        maxQuoteLotsIncludingFees = priceLots * maxBaseLots;
-      } else {
-        // TODO: Check working
-        priceLots = market.account.quoteLotSize;
-        maxQuoteLotsIncludingFees = priceLots * maxBaseLots;
-      }
-    }
     if (_priceLots === priceLots) {
       console.error("price lots not matching on create place order args");
       return;
     }
-    // Setup our order type
-    // eslint-disable-next-line max-len
-    const orderType = isPostOnlyOrder
-      ? PlaceOrderTypeUtils.PostOnly
-      : isLimitOrder
-      ? PlaceOrderTypeUtils.Limit
-      : PlaceOrderTypeUtils.Market;
 
     return {
       side: isAsk ? SideUtils.Ask : SideUtils.Bid,
@@ -332,7 +356,10 @@ export class FutarchyOpenbookMarketsRPCClient
       maxBaseLots,
       maxQuoteLotsIncludingFees,
       clientOrderId: accountIndex,
-      orderType,
+      orderType:
+        orderType === "limit"
+          ? PlaceOrderTypeUtils.Limit
+          : PlaceOrderTypeUtils.Market,
       expiryTimestamp: new BN(0),
       selfTradeBehavior: SelfTradeBehaviorUtils.AbortTransaction,
       limit: 255,
@@ -341,13 +368,10 @@ export class FutarchyOpenbookMarketsRPCClient
 
   async cancelOrder(
     market: OpenbookMarket,
-    orderWithAccountAddress: OpenbookOrder & {
-      openOrdersAccountAddress: PublicKey;
-    }
+    orderWithAccountAddress: OpenbookOrder
   ): Promise<string[]> {
     const tx = await this.cancelAndSettleFundsTransactions(
       orderWithAccountAddress,
-      orderWithAccountAddress.openOrdersAccountAddress,
       market
     );
     return this.transactionSender.send([tx], this.rpcProvider.connection);
@@ -355,14 +379,16 @@ export class FutarchyOpenbookMarketsRPCClient
 
   private async cancelAndSettleFundsTransactions(
     order: OpenbookOrder,
-    openOrdersAccountAddress: PublicKey,
     market: OpenbookMarket
   ) {
     const obMarket = await OBMarket.load(this.openbookClient, market.publicKey);
-    const openOrders = await OpenOrders.load(
-      openOrdersAccountAddress,
-      obMarket
+    const openOrders = await OpenOrders.loadNullableForMarketAndOwner(
+      obMarket,
+      this.transactionSender.owner
     );
+    if (!openOrders) {
+      return [];
+    }
 
     const userBaseAccount = getAssociatedTokenAddressSync(
       market.baseMint,

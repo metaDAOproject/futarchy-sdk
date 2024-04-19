@@ -25,7 +25,11 @@ export type ProgramVersion = {
   programId: PublicKey;
   idl: Idl;
 };
-export type AutocratProgram = AutocratV0 | AutocratV0_1;
+export type AutocratProgram =
+  | AutocratV0
+  | AutocratV0_1
+  | AutocratV0_2
+  | AutocratV0_3;
 export type DaoAccountV0_1 = MergeWithOptionalFields<
   IdlAccounts<AutocratV0>["dao"],
   IdlAccounts<AutocratV0_1>["dao"]

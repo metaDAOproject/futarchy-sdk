@@ -1,6 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { QUOTE_LOTS } from "./constants";
 import { TWAPOracle } from "./types";
+import { BN } from "@coral-xyz/anchor";
 
 export const calculateTWAP = (twapOracle?: TWAPOracle) => {
   if (!twapOracle) return undefined;

@@ -16,6 +16,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
     this.rpcProvider = rpcProvider;
   }
 
+  //TODO create a more general function for fetching balances on an array of token mints
   async fetchMainTokenWalletBalances(
     dao: DaoWithTokens,
     ownerWallet: PublicKey

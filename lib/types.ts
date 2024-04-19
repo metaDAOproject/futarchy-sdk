@@ -7,7 +7,10 @@ import { AutocratV0 as AutocratV0_3 } from "./idl/autocrat_v0.3";
 import { OpenbookTwap } from "./idl/openbook_twap";
 import { OpenbookV2 } from "./idl/openbook_v2";
 import { VaultAccount } from "./types/conditionalVault";
-import { Proposal, ProposalAccount } from "./types/proposals";
+import { ProposalAccount } from "./types/proposals";
+import { TwapMarketAccount } from "./types/markets";
+
+// TODO move all this into the types folder because imports are getting messy
 
 export type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];
@@ -18,7 +21,7 @@ export type MergeWithOptionalFields<T, U> = {
 };
 export type AccountWithKey<T> = { publicKey: PublicKey; account: T };
 export type ProgramVersion = {
-  label: string;
+  label: "V0.3" | "V0.2" | "V0.1" | "V0";
   programId: PublicKey;
   idl: Idl;
 };
@@ -40,7 +43,6 @@ export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0_1>["ProposalInstruction"]
 >;
 export type ProposalAccountWithKey = AccountWithKey<ProposalAccount>;
-export type TwapMarketAccount = IdlAccounts<OpenbookTwap>["twapMarket"];
 export type TWAPOracle = IdlTypes<OpenbookTwap>["TWAPOracle"];
 export type OrderBookSide = {
   parsed: {
@@ -89,7 +91,6 @@ export type Markets = {
 };
 export type AllMarketsInfo = { [proposalKey: string]: Markets | undefined };
 /// Avoid importing Openbook because it uses a NodeWallet
-export type PlaceOrderArgs = IdlTypes<OpenbookV2>["PlaceOrderArgs"];
 export type PlaceOrderPeggedArgs = IdlTypes<OpenbookV2>["PlaceOrderPeggedArgs"];
 export type OracleConfigParams = IdlTypes<OpenbookV2>["OracleConfigParams"];
 export type OracleConfig = IdlTypes<OpenbookV2>["OracleConfig"];

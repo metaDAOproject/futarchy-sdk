@@ -26,6 +26,18 @@ export const mUSDCAddressDevNet =
 export const USDCAddressMainNet =
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 
+const usdcLogo = require("./assets/images/usdc-logo.svg") as {
+  default: { src: string };
+};
+
+export const USDCMetadata: TokenProps = {
+  symbol: "USDC",
+  decimals: 6,
+  name: "USD Coin",
+  publicKey: "", // depends on network
+  url: usdcLogo.default.src,
+};
+
 export const NUMERAL_FORMAT = "0,0.00";
 export const BASE_FORMAT = "0,0";
 export const SLOTS_PER_10_SECS: number = 25;

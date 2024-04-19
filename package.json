@@ -3,7 +3,7 @@
   "version": "1.0.4-alpha",
   "main": "dist",
   "scripts": {
-    "build": "tsc && cp -r ./lib/assets/ ./dist/"
+    "build": "tsc && tscpaths -p tsconfig.json -s ./lib -o ./dist && cp -r ./lib/assets/ ./dist/"
   },
   "keywords": [
     "solana",
@@ -23,6 +23,8 @@
     "numeral": "^2.0.6"
   },
   "devDependencies": {
+    "tsconfig-paths": "^4.2.0",
+    "tscpaths": "^0.0.9",
     "typescript": "^5.4.5"
   }
 }

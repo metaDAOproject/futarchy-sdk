@@ -14,6 +14,12 @@ import {
   getTokenMetadata,
 } from "@solana/spl-token";
 import { TokenProps } from "@/types";
+import {
+  USDCAddressDevNet,
+  USDCAddressMainNet,
+  USDCMetadata,
+  mUSDCAddressDevNet,
+} from "./constants";
 
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
@@ -24,6 +30,14 @@ export async function enrichTokenMetadata(
   tokenAddress: PublicKey,
   rpcProvider: Provider
 ): Promise<TokenProps & { isFallback?: boolean }> {
+  // first, is it USDC? we handle that manually with no fetching
+  if (
+    [USDCAddressDevNet, USDCAddressMainNet, mUSDCAddressDevNet].includes(
+      tokenAddress.toString()
+    )
+  ) {
+    return { ...USDCMetadata, publicKey: tokenAddress.toString() };
+  }
   // get the mint
   const mint = await getMint(rpcProvider.connection, tokenAddress);
 

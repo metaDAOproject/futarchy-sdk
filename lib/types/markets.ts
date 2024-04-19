@@ -4,25 +4,39 @@ import { OpenbookTwap } from "../idl/openbook_twap";
 import { OpenbookTwapV0_1 } from "../idl/openbook_twap_v0.1";
 import { OpenbookTwapV0_2 } from "../idl/openbook_twap_v0.2";
 import { PublicKey } from "@solana/web3.js";
-import { MarketAccount, OpenbookV2 } from "@openbook-dex/openbook-v2";
+import {
+  MarketAccount,
+  OpenbookV2,
+  Market as OBMarket,
+} from "@openbook-dex/openbook-v2";
 
-export type MarketType = "pass" | "fail";
+export type MarketType = "openbook";
 
 export type OrderBookSideType = "ask" | "bid";
 
-export type PlaceOrderType = "limit" | "market" | "grid";
+export type PlaceOrderType =
+  | "limit"
+  | "market"
+  | "grid"
+  | "immediateOrCancel"
+  | "fillOrKill"
+  | "postOnly"
+  | "postOnlySlide";
 
 export type Order = {
   time: Date;
-  marketType: MarketType;
   status: "open" | "closed";
   size: number;
   price: number;
   side: OrderBookSideType;
   token: TokenProps;
+  owner: PublicKey;
 };
 
-export type OrderbookOrder = Pick<Order, "price" | "size" | "side">;
+export type Orderbook<O extends Order = Order> = {
+  asks: O[];
+  bids: O[];
+};
 
 export type OpenbookOrder = Order & {
   market: PublicKey;
@@ -32,13 +46,24 @@ export type OpenbookOrder = Order & {
 };
 
 export type Market = {
-  marketType: MarketType;
-  baseVault: PublicKey;
-  quoteVault: PublicKey;
+  type: MarketType;
   publicKey: PublicKey;
-  bids: Order[];
-  asks: Order[];
+  minOrderAmount: number;
+  minPriceIncrement: number;
+  baseMint: PublicKey;
+  baseToken: TokenProps;
+  quoteMint: PublicKey;
+  quoteToken: TokenProps;
+  createdAt: number;
+  makerFee: number;
+  takerFee: number;
 };
+
+export type OpenbookMarket = Market & {
+  marketAuthority: PublicKey;
+  marketInstance: OBMarket;
+};
+
 export type OpenbookProposalMarket = {
   openbookMarketAccount: MarketAccount;
   marketType: MarketType;
@@ -57,6 +82,11 @@ export type ConditionalMarkets<M extends Market> = {
 export type TwapMarketAccount1And2 = MergeWithOptionalFields<
   IdlAccounts<OpenbookTwapV0_1>["twapMarket"],
   IdlAccounts<OpenbookTwapV0_2>["twapMarket"]
+>;
+
+export type TwapPlaceOrderArgs = MergeWithOptionalFields<
+  IdlTypes<OpenbookTwapV0_1>["PlaceOrderArgs"],
+  IdlTypes<OpenbookTwapV0_2>["PlaceOrderArgs"]
 >;
 
 export type TwapMarketAccount = MergeWithOptionalFields<

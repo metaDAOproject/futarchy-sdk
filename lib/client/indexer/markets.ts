@@ -1,36 +1,37 @@
 import {
-  ConditionalMarkets,
   Market,
-  OpenbookOrder,
-  OpenbookProposalMarket,
+  OpenbookMarket,
   Order,
+  Orderbook,
+  PlaceOrderType,
 } from "../../types/markets";
-import { Proposal, ProposalWithVaults } from "../../types/proposals";
 import { FutarchyMarketsClient } from "../client";
-import { TokenProps } from "../../types";
 import { PublicKey } from "@solana/web3.js";
 
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
-  async fetchConditionalMarketsFromProposal(
-    proposal: Proposal,
-    baseToken: TokenProps,
-    quoteToken: TokenProps
-  ): Promise<ConditionalMarkets<Market> | undefined> {
-    return;
-  }
-
-  async filterUserOpenOrdersFromProposalMarkets(
-    passMarket: OpenbookProposalMarket,
-    failMarket: OpenbookProposalMarket,
-    owner: PublicKey
-  ): Promise<OpenbookOrder[]> {
+  async cancelOrder(market: OpenbookMarket, order: Order): Promise<string[]> {
     return [];
   }
 
-  async cancelUserOrder(
-    market: OpenbookProposalMarket,
-    order: Order,
-    proposal: ProposalWithVaults
+  async fetchMarket(marketKey: PublicKey): Promise<Market | undefined> {
+    return;
+  }
+
+  async fetchOrderBook(market: Market): Promise<Orderbook<Order> | undefined> {
+    return;
+  }
+
+  async fetchUserOrdersFromOrderbooks(
+    owner: PublicKey,
+    orderbooks: Orderbook<Order>[]
+  ): Promise<Order[]> {
+    return [];
+  }
+
+  async placeOrder(
+    market: Market,
+    order: Omit<Order, "status">,
+    placeOrderType: PlaceOrderType
   ): Promise<string[]> {
     return [];
   }

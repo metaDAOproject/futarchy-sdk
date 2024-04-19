@@ -1,55 +1,47 @@
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
-  ConditionalMarkets,
+  OpenbookMarket,
   OpenbookOrder,
-  OpenbookProposalMarket,
+  OrderBookSideType,
+  Orderbook,
   PlaceOrderType,
+  TwapPlaceOrderArgs,
 } from "../../types/markets";
-import { Proposal, ProposalWithVaults } from "../../types/proposals";
 import { FutarchyMarketsClient } from "../client";
 import {
+  Market as OBMarket,
+  Order as OBOrder,
   OpenbookV2,
-  OrderType,
-  PlaceOrderArgs,
-  SelfTradeBehavior,
   SideUtils,
-  baseLotsToUi,
-  priceLotsToUi,
-  uiBaseToLots,
-  uiPriceToLots,
-  uiQuoteToLots,
+  OpenBookV2Client,
+  OpenOrders,
+  OrderToPlace,
+  SelfTradeBehaviorUtils,
+  PlaceOrderTypeUtils,
+  PlaceOrderArgs,
 } from "@openbook-dex/openbook-v2";
-import { MarketAccount, OpenBookV2Client } from "@openbook-dex/openbook-v2";
-import { ProgramVersion, TokenProps } from "../../types";
+import { ProgramVersion } from "../../types";
 import {
-  findOpenOrders,
-  findOpenOrdersIndex,
-  findOpenOrdersIndexer,
-  getLeafNodes,
-  getUsersOpenOrderPks,
-} from "../../openbook";
-import { PublicKey, TransactionInstruction } from "@solana/web3.js";
+  PublicKey,
+  Transaction,
+  TransactionInstruction,
+} from "@solana/web3.js";
 import { OpenbookTwapV0_2 } from "../../idl/openbook_twap_v0.2";
 import OPENBOOK_TWAP_IDLV0_1 from "../../idl/openbook_twap_v0.1.json";
 import OPENBOOK_TWAP_IDLV0_2 from "../../idl/openbook_twap_v0.2.json";
 import {
   OPENBOOK_TWAP_PROGRAM_IDV0_1,
   OPENBOOK_TWAP_PROGRAM_IDV0_2,
-  SYSTEM_PROGRAM,
 } from "../../constants";
 import { OpenbookTwapV0_1 } from "../../idl/openbook_twap_v0.1";
 import { TransactionSender } from "../../transactions";
-import {
-  TOKEN_PROGRAM_ID,
-  createAssociatedTokenAccountIdempotentInstruction,
-  getAssociatedTokenAddressSync,
-} from "@solana/spl-token";
+import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 
-import { shortKey } from "../../utils";
+import { enrichTokenMetadata } from "../../tokens";
 import { getTwapMarketKey } from "../../openbookTwap";
 
 export class FutarchyOpenbookMarketsRPCClient
-  implements FutarchyMarketsClient<OpenbookProposalMarket, OpenbookOrder>
+  implements FutarchyMarketsClient<OpenbookMarket, OpenbookOrder>
 {
   private openbook: Program<OpenbookV2>;
   private openbookClient: OpenBookV2Client;
@@ -82,334 +74,257 @@ export class FutarchyOpenbookMarketsRPCClient
     }
     this.transactionSender = transactionSender;
   }
-  async fetchConditionalMarketsFromProposal(
-    proposal: Proposal,
-    baseToken: TokenProps,
-    quoteToken: TokenProps
-  ): Promise<ConditionalMarkets<OpenbookProposalMarket> | undefined> {
-    const accountInfos =
-      await this.rpcProvider.connection.getMultipleAccountsInfo([
-        proposal.account.openbookPassMarket,
-        proposal.account.openbookFailMarket,
-        proposal.account.openbookTwapPassMarket,
-        proposal.account.openbookTwapFailMarket,
-        proposal.account.baseVault,
-        proposal.account.quoteVault,
-      ]);
-    if (!accountInfos || accountInfos.indexOf(null) >= 0) return;
 
-    const [passOpenBookMarket, failOpenBookMarket] =
-      await Promise.all<MarketAccount>([
-        // pass market is index 0
-        this.openbook.coder.accounts.decode("market", accountInfos[0]!.data),
-        // fail market is index 1
-        this.openbook.coder.accounts.decode("market", accountInfos[1]!.data),
-      ]);
+  async fetchMarket(marketKey: PublicKey): Promise<OpenbookMarket | undefined> {
+    const obMarket = await OBMarket.load(this.openbookClient, marketKey);
 
-    const bookAccountInfos =
-      await this.rpcProvider.connection.getMultipleAccountsInfo([
-        passOpenBookMarket.asks,
-        passOpenBookMarket.bids,
-        failOpenBookMarket.asks,
-        failOpenBookMarket.bids,
-      ]);
-    const passAsksNodes = getLeafNodes(
-      await this.openbook.coder.accounts.decode(
-        "bookSide",
-        bookAccountInfos[0]!.data
-      ),
-      this.openbook
+    const baseToken = await enrichTokenMetadata(
+      obMarket.account.baseMint,
+      this.rpcProvider
     );
-    const passBidsNodes = getLeafNodes(
-      await this.openbook.coder.accounts.decode(
-        "bookSide",
-        bookAccountInfos[1]!.data
-      ),
-      this.openbook
+    const quoteToken = await enrichTokenMetadata(
+      obMarket.account.quoteMint,
+      this.rpcProvider
     );
-    const failAsksNodes = getLeafNodes(
-      await this.openbook.coder.accounts.decode(
-        "bookSide",
-        bookAccountInfos[2]!.data
-      ),
-      this.openbook
-    );
-    const failBidsNodes = getLeafNodes(
-      await this.openbook.coder.accounts.decode(
-        "bookSide",
-        bookAccountInfos[3]!.data
-      ),
-      this.openbook
-    );
-    const passMarket: OpenbookProposalMarket = {
-      openbookMarketAccount: passOpenBookMarket,
-      baseVault: passOpenBookMarket.marketBaseVault,
-      quoteVault: passOpenBookMarket.marketQuoteVault,
-      publicKey: proposal.account.openbookPassMarket,
-      marketType: "pass",
-      bids: passBidsNodes.map((leafNode) => {
-        const size = baseLotsToUi(passOpenBookMarket, leafNode.quantity);
-        const price = priceLotsToUi(passOpenBookMarket, leafNode.key.shrn(64));
-        return {
-          price,
-          size,
-          market: proposal?.account.openbookPassMarket,
-          marketType: "pass",
-          owner: leafNode.owner,
-          ownerSlot: leafNode.ownerSlot,
-          side: "bid" as const,
-          timestamp: leafNode.timestamp,
-          time: new Date(leafNode.timestamp),
-          status: "open",
-          token: {
-            ...quoteToken,
-            symbol: "p" + quoteToken.symbol,
-          },
-          clientOrderId: leafNode.clientOrderId,
+
+    const marketName = "blah";
+
+    const baseTokenWithSymbol = !baseToken.isFallback
+      ? baseToken
+      : {
+          ...baseToken,
+          symbol: marketName.split("/")[0],
         };
-      }),
-      asks: passAsksNodes.map((leafNode) => {
-        const size = baseLotsToUi(passOpenBookMarket, leafNode.quantity);
-        const price = priceLotsToUi(passOpenBookMarket, leafNode.key.shrn(64));
-        return {
-          price,
-          size,
-          market: proposal?.account.openbookPassMarket,
-          marketType: "pass",
-          owner: leafNode.owner,
-          ownerSlot: leafNode.ownerSlot,
-          side: "ask" as const,
-          timestamp: leafNode.timestamp,
-          time: new Date(leafNode.timestamp),
-          status: "open",
-          token: {
-            ...baseToken,
-            symbol: "p" + baseToken.symbol,
-          },
-          clientOrderId: leafNode.clientOrderId,
-        };
-      }),
+
+    return {
+      baseMint: obMarket.account.baseMint,
+      baseToken,
+      quoteMint: obMarket.account.quoteMint,
+      quoteToken,
+      createdAt: obMarket.account.registrationTime,
+      makerFee: obMarket.account.makerFee,
+      marketAuthority: obMarket.account.marketAuthority,
+      minOrderAmount: obMarket.minOrderSize,
+      minPriceIncrement: obMarket.quoteLotFactor,
+      publicKey: marketKey,
+      takerFee: obMarket.account.takerFee,
+      type: "openbook",
+      // can avoid refetching market for the orderbook if we pass this in
+      marketInstance: obMarket,
     };
-    // pass it through here or just add nested object for god sakes?
-    const failMarket: OpenbookProposalMarket = {
-      openbookMarketAccount: failOpenBookMarket,
-      baseVault: failOpenBookMarket.marketBaseVault,
-      quoteVault: failOpenBookMarket.marketQuoteVault,
-      publicKey: proposal.account.openbookFailMarket,
-      marketType: "fail",
-      bids: failBidsNodes.map((leafNode) => {
-        const size = baseLotsToUi(failOpenBookMarket, leafNode.quantity);
-        const price = priceLotsToUi(failOpenBookMarket, leafNode.key.shrn(64));
-        return {
-          price,
-          size,
-          market: proposal?.account.openbookFailMarket,
-          marketType: "fail",
-          owner: leafNode.owner,
-          ownerSlot: leafNode.ownerSlot,
-          side: "bid" as const,
-          timestamp: leafNode.timestamp,
-          time: new Date(leafNode.timestamp),
-          status: "open",
-          token: {
-            ...quoteToken,
-            symbol: "f" + quoteToken.symbol,
-          },
-          clientOrderId: leafNode.clientOrderId,
-        };
-      }),
-      asks: failAsksNodes.map((leafNode) => {
-        const size = baseLotsToUi(failOpenBookMarket, leafNode.quantity);
-        const price = priceLotsToUi(failOpenBookMarket, leafNode.key.shrn(64));
-        return {
-          price,
-          size,
-          market: proposal?.account.openbookFailMarket,
-          marketType: "fail",
-          owner: leafNode.owner,
-          ownerSlot: leafNode.ownerSlot,
-          side: "ask" as const,
-          timestamp: leafNode.timestamp,
-          time: new Date(leafNode.timestamp),
-          status: "open",
-          token: {
-            ...baseToken,
-            symbol: "f" + baseToken.symbol,
-          },
-          clientOrderId: leafNode.clientOrderId,
-        };
-      }),
-    };
-
-    return { pass: passMarket, fail: failMarket };
   }
 
-  async filterUserOpenOrdersFromProposalMarkets(
-    passMarket: OpenbookProposalMarket,
-    failMarket: OpenbookProposalMarket,
-    owner: PublicKey
-  ): Promise<OpenbookOrder[]> {
-    const openOrdersPks = (
-      await getUsersOpenOrderPks(this.openbookClient, owner)
-    ).map((p) => p.toString());
+  async fetchOrderBook(
+    market: OpenbookMarket
+  ): Promise<Orderbook<OpenbookOrder> | undefined> {
+    const obMarket = new OBMarket(
+      this.openbookClient,
+      market.publicKey,
+      market.marketInstance.account
+    );
+    const bids: OpenbookOrder[] = [];
+    const bidsBookSide = await obMarket.loadBids();
+    for (const bid of bidsBookSide.items()) {
+      const bidOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
+        bid,
+        "bid",
+        market
+      );
+      bids.push(bidOrder);
+    }
+    const asks: OpenbookOrder[] = [];
+    const asksBookSide = await obMarket.loadAsks();
+    for (const ask of asksBookSide.items()) {
+      const askOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
+        ask,
+        "ask",
+        market
+      );
+      asks.push(askOrder);
+    }
+    return {
+      asks,
+      bids,
+    };
+  }
 
-    const allOrders = [
-      ...passMarket.asks,
-      ...passMarket.bids,
-      ...failMarket.asks,
-      ...failMarket.bids,
-    ];
+  private getOrderbookOrderFromBookSideOrder(
+    bookSideOrder: OBOrder,
+    side: OrderBookSideType,
+    market: OpenbookMarket
+  ): OpenbookOrder {
+    return {
+      price: bookSideOrder.price,
+      side: side,
+      size: bookSideOrder.size,
+      owner: bookSideOrder.leafNode.owner,
+      clientOrderId: bookSideOrder.leafNode.clientOrderId,
+      market: bookSideOrder.market.pubkey,
+      ownerSlot: bookSideOrder.leafNode.ownerSlot,
+      status: "open",
+      time: new Date(bookSideOrder.leafNode.timestamp),
+      token: side === "bid" ? market.quoteToken : market.baseToken,
+    };
+  }
+
+  private async getUsersOpenOrderPks(
+    userWalletPk: PublicKey
+  ): Promise<PublicKey[]> {
+    const indexerPk = this.openbookClient.findOpenOrdersIndexer(userWalletPk);
+    const indexerAcc =
+      await this.openbookClient.deserializeOpenOrdersIndexerAccount(indexerPk);
+    const openOrdersPks = indexerAcc?.addresses;
+    return openOrdersPks ?? [];
+  }
+
+  async fetchUserOrdersFromOrderbooks(
+    owner: PublicKey,
+    orderbooks: Orderbook[]
+  ): Promise<OpenbookOrder[]> {
+    const openOrdersPks = (await this.getUsersOpenOrderPks(owner)).map((p) =>
+      p.toString()
+    );
+
+    const allOrders = orderbooks.map((ob) => [...ob.bids, ...ob.asks]).flat();
 
     const userOrders = allOrders
-      .filter(
-        (o): o is OpenbookOrder =>
-          !!o.market && openOrdersPks.includes(o.owner?.toString())
+      .filter((o): o is OpenbookOrder =>
+        openOrdersPks.includes(o.owner?.toString())
       )
       .sort((a, b) => (a.clientOrderId < b.clientOrderId ? 1 : -1));
 
     return userOrders ?? [];
   }
 
-  async placeUserOrder(
-    market: OpenbookProposalMarket,
+  async placeOrder(
+    market: OpenbookMarket,
     order: Omit<OpenbookOrder, "status">,
-    placeOrderType: PlaceOrderType
+    placeOrderType: PlaceOrderType,
+    openOrdersAccountAddress?: PublicKey
   ): Promise<string[]> {
+    if (!openOrdersAccountAddress) {
+      // use the first open orders account by default
+      const openOrdersIndexer = await this.getUsersOpenOrderPks(
+        this.transactionSender.owner
+      );
+      openOrdersAccountAddress = openOrdersIndexer[0];
+    }
     const mint =
       order.side === "ask"
-        ? market.openbookMarketAccount.baseMint
-        : market.openbookMarketAccount.quoteMint;
-    const openOrdersIndexer = findOpenOrdersIndexer(
-      this.transactionSender.owner
-    );
+        ? market.marketInstance.account.baseMint
+        : market.marketInstance.account.quoteMint;
     const marketVault =
       order.side === "ask"
-        ? market.openbookMarketAccount.marketBaseVault
-        : market.openbookMarketAccount.marketQuoteVault;
-    const [accountIndex, openTx] = await findOpenOrdersIndex({
-      signer: this.transactionSender.owner,
-      openbook: this.openbook,
-    });
-    const [ixs, openOrdersAccount] = await this.createOpenOrdersInstruction(
-      market.publicKey,
-      accountIndex,
-      `${shortKey(this.transactionSender.owner)}-${accountIndex.toString()}`,
-      this.transactionSender.owner,
-      openOrdersIndexer
-    );
-    openTx.add(...ixs);
-
-    const args = this.createPlaceOrderArgs({
-      order,
-      orderType:
-        placeOrderType === "limit" ? OrderType.Limit : OrderType.Market,
-      placeOrderType,
+        ? market.marketInstance.account.marketBaseVault
+        : market.marketInstance.account.marketQuoteVault;
+    // TODO not sure how this works when clientOrderId not specified
+    const clientOrderId = new BN(order.clientOrderId || Date.now());
+    const placeOrderArgs = this.createPlaceOrderArgs({
+      accountIndex: clientOrderId,
+      market: market.marketInstance,
       isAsk: order.side === "ask",
-      accountIndex,
-      market: market.openbookMarketAccount,
+      amount: order.size,
+      price: order.price,
+      isLimitOrder: placeOrderType === "limit",
+      isPostOnlyOrder: false,
     });
-    if (!args) {
-      console.error("Error matching price");
-      return [];
+    if (placeOrderArgs) {
+      const placeTx = await this.openbookTwap.methods
+        .placeOrder(placeOrderArgs)
+        .accounts({
+          openOrdersAccount: openOrdersAccountAddress,
+          asks: market.marketInstance.account.asks,
+          bids: market.marketInstance.account.bids,
+          eventHeap: market.marketInstance.account.eventHeap,
+          market: market.publicKey,
+          marketVault,
+          twapMarket: getTwapMarketKey(
+            market.publicKey,
+            this.openbookTwap.programId
+          ),
+          userTokenAccount: getAssociatedTokenAddressSync(
+            mint,
+            this.transactionSender.owner,
+            true
+          ),
+          openbookProgram: this.openbook.programId,
+        })
+        .transaction();
+      return this.transactionSender.send(
+        [placeTx],
+        this.rpcProvider.connection
+      );
     }
-
-    const placeTx = await this.openbookTwap.methods
-      .placeOrder(args)
-      .accounts({
-        openOrdersAccount,
-        asks: market.openbookMarketAccount.asks,
-        bids: market.openbookMarketAccount.bids,
-        eventHeap: market.openbookMarketAccount.eventHeap,
-        market: market.publicKey,
-        marketVault,
-        twapMarket: getTwapMarketKey(
-          market.publicKey,
-          this.openbookTwap.programId
-        ),
-        userTokenAccount: getAssociatedTokenAddressSync(
-          mint,
-          this.transactionSender.owner,
-          true
-        ),
-        openbookProgram: this.openbook.programId,
-      })
-      .preInstructions(openTx.instructions)
-      .transaction();
-
-    return this.transactionSender.send([placeTx], this.rpcProvider.connection);
+    return [];
   }
 
-  private async createOpenOrdersInstruction(
-    market: PublicKey,
-    accountIndex: BN,
-    name: string,
-    owner: PublicKey,
-    openOrdersIndexer: PublicKey
-  ): Promise<[TransactionInstruction[], PublicKey]> {
-    const ixs: TransactionInstruction[] = [];
-
-    if (accountIndex.toNumber() === 0) {
-      throw Object.assign(new Error("accountIndex can not be 0"), {
-        code: 403,
-      });
-    }
-    const openOrdersAccount = findOpenOrders(accountIndex, owner);
-
-    ixs.push(
-      await this.openbook.methods
-        .createOpenOrdersAccount(name)
-        .accounts({
-          openOrdersIndexer,
-          openOrdersAccount,
-          market,
-          owner,
-          delegateAccount: null,
-        })
-        .instruction()
-    );
-
-    return [ixs, openOrdersAccount];
+  private createOrderToPlace(
+    order: Omit<OpenbookOrder, "status">,
+    placeOrderType: PlaceOrderType
+  ): OrderToPlace {
+    // TODO support more types
+    const orderType =
+      placeOrderType === "limit"
+        ? PlaceOrderTypeUtils.Limit
+        : PlaceOrderTypeUtils.Market;
+    const orderToPlace: OrderToPlace = {
+      price: order.price,
+      side: order.side === "ask" ? SideUtils.Ask : SideUtils.Bid,
+      size: order.size,
+      clientOrderId: order.clientOrderId,
+      expiryTimestamp: new BN(0),
+      selfTradeBehavior: SelfTradeBehaviorUtils.AbortTransaction,
+      orderType,
+    };
+    return orderToPlace;
   }
 
   private createPlaceOrderArgs({
-    order,
-    orderType,
-    placeOrderType,
+    amount,
+    price,
+    isLimitOrder,
+    isPostOnlyOrder,
     isAsk,
     accountIndex,
     market,
   }: {
-    order: Omit<OpenbookOrder, "status">;
-    orderType: (typeof OrderType)["Limit"] | (typeof OrderType)["Market"];
-    placeOrderType: PlaceOrderType;
+    amount: number;
+    price: number;
+    isLimitOrder?: boolean;
+    isPostOnlyOrder?: boolean;
     isAsk?: boolean;
     accountIndex: number;
-    market: MarketAccount;
-  }): PlaceOrderArgs | null {
-    // TODO: Update openbook lib to LATEST
-    let priceLots = uiPriceToLots(market, order.price);
-    const _priceLots = uiPriceToLots(market, order.price);
-    const maxBaseLots = uiBaseToLots(market, order.size);
-    let maxQuoteLotsIncludingFees = uiQuoteToLots(
-      market,
-      priceLots.mul(maxBaseLots)
+    market: OBMarket;
+  }): TwapPlaceOrderArgs | undefined {
+    let priceLots = market.priceLotsToUi(price);
+    const _priceLots = market.priceLotsToUi(price);
+    const maxBaseLots = market.baseLotsToUi(amount);
+    let maxQuoteLotsIncludingFees = market.quoteLotsToUi(
+      priceLots * maxBaseLots
     );
 
-    if (placeOrderType === "limit") {
+    if (!isLimitOrder) {
       if (!isAsk) {
         // TODO: Want to setup max price (TBD)
         priceLots = new BN(1_000_000_000_000_000);
-        maxQuoteLotsIncludingFees = priceLots.mul(maxBaseLots);
+        maxQuoteLotsIncludingFees = priceLots * maxBaseLots;
       } else {
         // TODO: Check working
-        priceLots = market.quoteLotSize;
-        maxQuoteLotsIncludingFees = priceLots.mul(maxBaseLots);
+        priceLots = market.account.quoteLotSize;
+        maxQuoteLotsIncludingFees = priceLots * maxBaseLots;
       }
     }
     if (_priceLots === priceLots) {
-      console.error("error price");
-      return null;
+      console.error("price lots not matching on create place order args");
+      return;
     }
+    // Setup our order type
+    // eslint-disable-next-line max-len
+    const orderType = isPostOnlyOrder
+      ? PlaceOrderTypeUtils.PostOnly
+      : isLimitOrder
+      ? PlaceOrderTypeUtils.Limit
+      : PlaceOrderTypeUtils.Market;
 
     return {
       side: isAsk ? SideUtils.Ask : SideUtils.Bid,
@@ -419,98 +334,68 @@ export class FutarchyOpenbookMarketsRPCClient
       clientOrderId: accountIndex,
       orderType,
       expiryTimestamp: new BN(0),
-      selfTradeBehavior: SelfTradeBehavior.AbortTransaction,
+      selfTradeBehavior: SelfTradeBehaviorUtils.AbortTransaction,
       limit: 255,
     };
   }
 
-  async cancelUserOrder(
-    market: OpenbookProposalMarket,
-    order: OpenbookOrder,
-    proposal: ProposalWithVaults
+  async cancelOrder(
+    market: OpenbookMarket,
+    orderWithAccountAddress: OpenbookOrder & {
+      openOrdersAccountAddress: PublicKey;
+    }
   ): Promise<string[]> {
-    const txs = await this.cancelAndSettleFundsTransactions(
-      this.transactionSender.owner,
-      order.clientOrderId,
-      proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint,
-      proposal.baseVaultAccount.conditionalOnFinalizeTokenMint,
-      proposal.quoteVaultAccount.conditionalOnRevertTokenMint,
-      proposal.baseVaultAccount.conditionalOnRevertTokenMint,
+    const tx = await this.cancelAndSettleFundsTransactions(
+      orderWithAccountAddress,
+      orderWithAccountAddress.openOrdersAccountAddress,
       market
     );
-    return this.transactionSender.send(txs, this.rpcProvider.connection);
+    return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
 
   private async cancelAndSettleFundsTransactions(
-    owner: PublicKey,
-    orderId: BN | number,
-    quoteConditionalOnFinalizeTokenMint: PublicKey,
-    baseConditionalOnFinalizeTokenMint: PublicKey,
-    quoteConditionalOnRevertTokenMint: PublicKey,
-    baseConditionalOnRevertTokenMint: PublicKey,
-    market: OpenbookProposalMarket
+    order: OpenbookOrder,
+    openOrdersAccountAddress: PublicKey,
+    market: OpenbookMarket
   ) {
-    const openOrdersAccount = findOpenOrders(new BN(orderId), owner);
+    const obMarket = await OBMarket.load(this.openbookClient, market.publicKey);
+    const openOrders = await OpenOrders.load(
+      openOrdersAccountAddress,
+      obMarket
+    );
+
     const userBaseAccount = getAssociatedTokenAddressSync(
-      market.marketType === "pass"
-        ? baseConditionalOnFinalizeTokenMint
-        : baseConditionalOnRevertTokenMint,
-      owner,
+      market.baseMint,
+      this.transactionSender.owner,
       true
     );
     const userQuoteAccount = getAssociatedTokenAddressSync(
-      market.marketType === "pass"
-        ? quoteConditionalOnFinalizeTokenMint
-        : quoteConditionalOnRevertTokenMint,
-      owner,
+      market.quoteMint,
+      this.transactionSender.owner,
       true
     );
-    // TODO: 2x Txns for each side..
-    const placeTx = await this.openbook.methods
-      .settleFunds()
-      .accounts({
-        owner: owner,
-        penaltyPayer: owner,
-        openOrdersAccount,
-        market: market.publicKey,
-        marketAuthority: market.openbookMarketAccount.marketAuthority,
-        marketBaseVault: market.openbookMarketAccount.marketBaseVault,
-        marketQuoteVault: market.openbookMarketAccount.marketQuoteVault,
-        userBaseAccount,
-        userQuoteAccount,
-        referrerAccount: null,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        systemProgram: SYSTEM_PROGRAM,
-      })
-      .preInstructions([
-        await this.openbookTwap.methods
-          .cancelOrderByClientId(new BN(orderId))
-          .accounts({
-            openOrdersAccount,
-            asks: market.openbookMarketAccount.asks,
-            bids: market.openbookMarketAccount.bids,
-            market: market.publicKey,
-            twapMarket: PublicKey.findProgramAddressSync(
-              [Buffer.from("twap_market"), market.publicKey.toBuffer()],
-              this.openbookTwap.programId
-            )[0],
-            openbookProgram: this.openbook.programId,
-          })
-          .instruction(),
-        createAssociatedTokenAccountIdempotentInstruction(
-          owner,
-          userBaseAccount,
-          owner,
-          market.openbookMarketAccount.baseMint
-        ),
-        createAssociatedTokenAccountIdempotentInstruction(
-          owner,
-          userQuoteAccount,
-          owner,
-          market.openbookMarketAccount.quoteMint
-        ),
-      ])
-      .transaction();
-    return [placeTx];
+
+    const ixs: TransactionInstruction[] = [];
+    const id = new BN(order.clientOrderId);
+    const [cancelIx] = await openOrders.cancelOrderByClientIdIx(id);
+    ixs.push(cancelIx);
+    const [settleIx] = await openOrders.settleFundsIx(
+      userBaseAccount,
+      userQuoteAccount,
+      // TODO: what is referrer address and what about penaltyfee payer??
+      null,
+      this.transactionSender.owner
+    );
+    ixs.push(settleIx);
+
+    return new Transaction().add(...ixs);
+  }
+
+  public async withdraw(
+    owner: PublicKey,
+    amount: number,
+    mint: number
+  ): Promise<number | undefined> {
+    return;
   }
 }

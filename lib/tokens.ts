@@ -29,7 +29,7 @@ import {
 export async function enrichTokenMetadata(
   tokenAddress: PublicKey,
   rpcProvider: Provider
-): Promise<TokenProps> {
+): Promise<TokenProps & { isFallback?: boolean }> {
   // first, is it USDC? we handle that manually with no fetching
   if (
     [USDCAddressDevNet, USDCAddressMainNet, mUSDCAddressDevNet].includes(
@@ -82,6 +82,7 @@ export async function enrichTokenMetadata(
     symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
     publicKey: tokenAddress.toString(),
     decimals: mint?.decimals ?? 6,
+    isFallback: true,
   };
 }
 

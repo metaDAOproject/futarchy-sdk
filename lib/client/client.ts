@@ -2,17 +2,12 @@ import { PublicKey } from "@solana/web3.js";
 import {
   DaoAccount,
   DaoWithTokens,
-  TokenProps,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
 } from "../types";
-import { Proposal, ProposalWithVaults } from "../types/proposals";
-import {
-  ConditionalMarkets,
-  Market,
-  Order,
-  PlaceOrderType,
-} from "../types/markets";
+import { ProposalWithVaults } from "../types/proposals";
+import { Market, Order, Orderbook, PlaceOrderType } from "../types/markets";
+import { VaultAccount } from "../types/conditionalVault";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -28,6 +23,16 @@ export interface FutarchyDaoClient {
 
 export interface FutarchyProposalsClient {
   fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]>;
+  deposit(
+    amount: number,
+    vaultAccountAddress: PublicKey,
+    vaultAccount: VaultAccount
+  ): Promise<string[] | undefined>;
+  withdraw(
+    amount: number,
+    vaultAccountAddress: PublicKey,
+    vaultAccount: VaultAccount
+  ): Promise<string[] | undefined>;
 }
 
 export interface FutarchyBalancesClient {
@@ -42,28 +47,21 @@ export interface FutarchyBalancesClient {
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 
+// heyyy refactor thus
 export interface FutarchyMarketsClient<
   M extends Market = Market,
   O extends Order = Order
 > {
-  fetchConditionalMarketsFromProposal(
-    proposal: Proposal,
-    baseToken: TokenProps,
-    quoteToken: TokenProps
-  ): Promise<ConditionalMarkets<M> | undefined>;
-  filterUserOpenOrdersFromProposalMarkets(
-    passMarket: M,
-    failMarket: M,
-    owner: PublicKey
+  fetchMarket(marketKey: PublicKey): Promise<M | undefined>;
+  fetchOrderBook(market: M): Promise<Orderbook<O> | undefined>;
+  fetchUserOrdersFromOrderbooks(
+    owner: PublicKey,
+    orderbooks: Orderbook<O>[]
   ): Promise<O[]>;
-  placeUserOrder(
+  placeOrder(
     market: M,
     order: Omit<O, "status">,
     placeOrderType: PlaceOrderType
   ): Promise<string[]>;
-  cancelUserOrder(
-    market: M,
-    order: O,
-    proposal: ProposalWithVaults
-  ): Promise<string[]>;
+  cancelOrder(market: M, order: O): Promise<string[]>;
 }

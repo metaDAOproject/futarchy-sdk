@@ -25,6 +25,8 @@ export class FutarchyRPCClient implements FutarchyClient {
   public markets: FutarchyOpenbookMarketsRPCClient;
 
   private constructor(
+    // no more program versions anymore
+    // just return data across autocrat versions, but we need to have results aggregated
     programVersion: ProgramVersion,
     // has to be AnchorProvider because of Openbook SDK
     rpcProvider: AnchorProvider,
@@ -47,8 +49,10 @@ export class FutarchyRPCClient implements FutarchyClient {
       autocratProgram
     );
     this.proposals = new FutarchyRPCProposalsClient(
+      rpcProvider,
       autocratProgram,
-      vaultProgram
+      vaultProgram,
+      transactionSender
     );
     this.balances = new FutarchyRPCBalancesClient(rpcProvider);
 

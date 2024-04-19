@@ -16,7 +16,7 @@
     "@metaplex-foundation/js": "^0.20.1",
     "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
     "@metaplex-foundation/umi": "^0.9.1",
-    "@openbook-dex/openbook-v2": "^0.1.9",
+    "@openbook-dex/openbook-v2": "^0.2.5",
     "@solana/spl-token": "^0.3.8",
     "@solana/web3.js": "^1.90.0",
     "@types/numeral": "^2.0.4",

@@ -5,7 +5,7 @@ import AUTOCRAT_V0_IDL from "./idl/autocrat_v0.json";
 import AUTOCRAT_V0_1_IDL from "./idl/autocrat_v0.1.json";
 import AUTOCRAT_V0_2_IDL from "./idl/autocrat_v0.2.json";
 import AUTOCRAT_V0_3_IDL from "./idl/autocrat_v0.3.json";
-const usdcLogo = require("../assets/images/usdc-logo.svg") as {
+const usdcLogo = require("./assets/images/usdc-logo.svg") as {
   default: { src: string };
 };
 

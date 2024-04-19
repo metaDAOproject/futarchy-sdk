@@ -70,7 +70,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     if (!this.rpcProvider.publicKey) {
       return;
     }
-    // we fetch metadata with finalize token mint, but it doesn't matter
+    // we fetch metadata with finalize token mint, but it could be revert mint instead
     const { decimals } = await enrichTokenMetadata(
       vaultAccount.conditionalOnFinalizeTokenMint,
       this.rpcProvider
@@ -134,28 +134,61 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   }
 
   public async withdraw(
-    amount: number,
     vaultAccountAddress: PublicKey,
-    vaultAccount: {
-      status:
-        | ({ finalized?: undefined; reverted?: undefined } & {
-            active: Record<string, never>;
-          })
-        | ({ active?: undefined; reverted?: undefined } & {
-            finalized: Record<string, never>;
-          })
-        | ({ active?: undefined; finalized?: undefined } & {
-            reverted: Record<string, never>;
-          });
-      settlementAuthority: PublicKey;
-      underlyingTokenMint: PublicKey;
-      nonce: BN;
-      underlyingTokenAccount: PublicKey;
-      conditionalOnFinalizeTokenMint: PublicKey;
-      conditionalOnRevertTokenMint: PublicKey;
-      pdaBump: number;
-    }
+    vaultAccount: VaultAccount
   ): Promise<string[] | undefined> {
-    return [];
+    if (!this.vaultProgram.provider.publicKey) {
+      return;
+    }
+    const userConditionalOnFinalizeTokenAccount = getAssociatedTokenAddressSync(
+      vaultAccount.conditionalOnFinalizeTokenMint,
+      this.vaultProgram.provider.publicKey,
+      true
+    );
+    const userConditionalOnRevertTokenAccount = getAssociatedTokenAddressSync(
+      vaultAccount.conditionalOnRevertTokenMint,
+      this.vaultProgram.provider.publicKey,
+      true
+    );
+    const userUnderlyingTokenAccount = getAssociatedTokenAddressSync(
+      vaultAccount.underlyingTokenMint,
+      this.vaultProgram.provider.publicKey,
+      true
+    );
+    const tx = await this.vaultProgram.methods
+      .redeemConditionalTokensForUnderlyingTokens()
+      .accounts({
+        vault: vaultAccountAddress,
+        conditionalOnFinalizeTokenMint:
+          vaultAccount.conditionalOnFinalizeTokenMint,
+        conditionalOnRevertTokenMint: vaultAccount.conditionalOnRevertTokenMint,
+        vaultUnderlyingTokenAccount: vaultAccount.underlyingTokenAccount,
+        userConditionalOnFinalizeTokenAccount,
+        userConditionalOnRevertTokenAccount,
+        userUnderlyingTokenAccount,
+      })
+      .preInstructions([
+        createAssociatedTokenAccountIdempotentInstruction(
+          this.vaultProgram.provider.publicKey,
+          userConditionalOnFinalizeTokenAccount,
+          this.vaultProgram.provider.publicKey,
+          vaultAccount.conditionalOnFinalizeTokenMint
+        ),
+        createAssociatedTokenAccountIdempotentInstruction(
+          this.vaultProgram.provider.publicKey,
+          userConditionalOnRevertTokenAccount,
+          this.vaultProgram.provider.publicKey,
+          vaultAccount.conditionalOnRevertTokenMint
+        ),
+        createAssociatedTokenAccountIdempotentInstruction(
+          this.vaultProgram.provider.publicKey,
+          userUnderlyingTokenAccount,
+          this.vaultProgram.provider.publicKey,
+          vaultAccount.underlyingTokenMint
+        ),
+      ])
+      .transaction();
+
+    return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
 }

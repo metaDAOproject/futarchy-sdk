@@ -29,7 +29,6 @@ export interface FutarchyProposalsClient {
     vaultAccount: VaultAccount
   ): Promise<string[] | undefined>;
   withdraw(
-    amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccount
   ): Promise<string[] | undefined>;

@@ -15,7 +15,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   }
 
   async withdraw(
-    amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccount
   ): Promise<string[] | undefined> {

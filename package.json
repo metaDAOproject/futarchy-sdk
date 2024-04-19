@@ -3,7 +3,7 @@
   "version": "1.0.4-alpha",
   "main": "dist",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && cp -r ./lib/assets/ ./dist/"
   },
   "keywords": [
     "solana",

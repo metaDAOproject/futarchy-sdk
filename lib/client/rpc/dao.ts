@@ -4,9 +4,9 @@ import {
   DaoAccount,
   DaoWithTokens,
   ProgramVersion,
-} from "../../types";
-import { FutarchyDaoClient } from "../client";
-import { enrichTokenMetadata } from "../../tokens";
+} from "@/types";
+import { FutarchyDaoClient } from "@/client";
+import { enrichTokenMetadata } from "@/tokens";
 
 export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   private autocratProgram: Program<AutocratProgram>;

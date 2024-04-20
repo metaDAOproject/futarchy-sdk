@@ -1,5 +1,12 @@
 import { Program, BN } from "@coral-xyz/anchor";
-import { OpenBookV2Client, OpenbookV2 } from "@openbook-dex/openbook-v2";
+import {
+  AnyNode,
+  BookSideAccount,
+  LeafNode,
+  OpenBookV2Client,
+  OpenbookV2,
+  OracleConfigParams,
+} from "@openbook-dex/openbook-v2";
 import {
   Keypair,
   PublicKey,
@@ -11,21 +18,17 @@ import {
 import numeral from "numeral";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import {
-  AnyNode,
-  BookSideAccount,
-  LeafNode,
   Markets,
+  OpenbookOrder,
   OpenOrdersAccountWithKey,
-  OracleConfigParams,
   ProposalAccountWithKey,
-} from "./types";
+} from "@/types";
 import {
   BASE_FORMAT,
   BN_0,
   NUMERAL_FORMAT,
   OPENBOOK_PROGRAM_ID,
-} from "./constants";
-import { OpenbookOrder } from "./types/markets";
+} from "@/constants";
 
 const BooksideSpace = 90944 + 8;
 const EventHeapSpace = 91280 + 8;

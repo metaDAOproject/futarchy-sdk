@@ -1,5 +1,5 @@
-import { DaoAccount, DaoWithTokens } from "../../types";
-import { FutarchyDaoClient } from "../client";
+import { DaoAccount, DaoWithTokens } from "@/types";
+import { FutarchyDaoClient } from "@/client";
 
 export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
   constructor() {}

@@ -17,7 +17,9 @@ import {
 } from "@solana/web3.js";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import {
+  FutarchyProtocol,
   OpenbookMarket,
+  OpenbookMarketFetchRequest,
   OpenbookOrder,
   OrderBookSideType,
   Orderbook,
@@ -28,7 +30,6 @@ import {
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
-import { ProgramVersion } from "@/types";
 import { enrichTokenMetadata } from "@/tokens";
 import { getTwapMarketKey } from "@/openbookTwap";
 import {
@@ -42,20 +43,21 @@ export class FutarchyOpenbookMarketsRPCClient
 {
   private openbook: Program<OpenbookV2>;
   private openbookClient: OpenBookV2Client;
-  private openbookTwap: TwapProgram;
+  private futarchyProtocols: FutarchyProtocol[];
   private rpcProvider: Provider;
-  private transactionSender: TransactionSender;
+  private transactionSender: TransactionSender | undefined;
 
   constructor(
     rpcProvider: Provider,
-    programVersion: ProgramVersion,
     openbook: Program<OpenbookV2>,
     openbookClient: OpenBookV2Client,
-    transactionSender: TransactionSender
+    futarchyProtocols: FutarchyProtocol[],
+    transactionSender: TransactionSender | undefined
   ) {
     this.openbook = openbook;
     this.openbookClient = openbookClient;
     this.rpcProvider = rpcProvider;
+    this.futarchyProtocols = futarchyProtocols;
     this.transactionSender = transactionSender;
 
     const twapInfo = autocratVersionToTwapMap[programVersion.label];
@@ -66,8 +68,13 @@ export class FutarchyOpenbookMarketsRPCClient
     );
   }
 
-  async fetchMarket(marketKey: PublicKey): Promise<OpenbookMarket | undefined> {
-    const obMarket = await OBMarket.load(this.openbookClient, marketKey);
+  async fetchMarket(
+    request: OpenbookMarketFetchRequest
+  ): Promise<OpenbookMarket | undefined> {
+    const obMarket = await OBMarket.load(
+      this.openbookClient,
+      request.marketKey
+    );
 
     const baseToken = await enrichTokenMetadata(
       obMarket.account.baseMint,
@@ -78,21 +85,37 @@ export class FutarchyOpenbookMarketsRPCClient
       this.rpcProvider
     );
 
+    const marketName = "blah";
+
+    const baseTokenWithSymbol = !baseToken.isFallback
+      ? baseToken
+      : {
+          ...baseToken,
+          symbol: marketName.split("/")[0],
+        };
+    const quoteTokenWithSymbol = !quoteToken.isFallback
+      ? quoteToken
+      : {
+          ...quoteToken,
+          symbol: marketName.split("/")[0],
+        };
+
     return {
       baseMint: obMarket.account.baseMint,
-      baseToken,
+      baseToken: baseTokenWithSymbol,
       quoteMint: obMarket.account.quoteMint,
-      quoteToken,
-      createdAt: obMarket.account.registrationTime,
-      makerFee: obMarket.account.makerFee,
+      quoteToken: quoteTokenWithSymbol,
+      createdAt: obMarket.account.registrationTime.toNumber(),
+      makerFee: obMarket.account.makerFee.toNumber(),
       marketAuthority: obMarket.account.marketAuthority,
       minOrderAmount: obMarket.minOrderSize,
       minPriceIncrement: obMarket.quoteLotFactor,
-      publicKey: marketKey,
-      takerFee: obMarket.account.takerFee,
+      publicKey: request.marketKey,
+      takerFee: obMarket.account.takerFee.toNumber(),
       type: "openbook",
       // can avoid refetching market for the orderbook if we pass this in
       marketInstance: obMarket,
+      twapProgram: request.twapProgram,
     };
   }
 
@@ -147,7 +170,7 @@ export class FutarchyOpenbookMarketsRPCClient
       market: bookSideOrder.market.pubkey,
       ownerSlot: bookSideOrder.leafNode.ownerSlot,
       status: "open",
-      time: new Date(bookSideOrder.leafNode.timestamp),
+      time: new Date(bookSideOrder.leafNode.timestamp.toNumber()),
       token: side === "bid" ? market.quoteToken : market.baseToken,
     };
   }
@@ -177,12 +200,20 @@ export class FutarchyOpenbookMarketsRPCClient
     placeOrderType: PlaceOrderType,
     openOrdersAccountAddress?: PublicKey
   ): Promise<string[]> {
+    if (!this.transactionSender) {
+      return [];
+    }
     if (!openOrdersAccountAddress) {
       // use the first open orders account by default
-      const openOrdersAccounts = await this.openbookClient.findAllOpenOrders(
+      const openOrders = await OpenOrders.loadNullableForMarketAndOwner(
+        market.marketInstance,
         this.transactionSender.owner
       );
-      openOrdersAccountAddress = openOrdersAccounts[0];
+      openOrdersAccountAddress = openOrders?.pubkey;
+    }
+    if (!openOrdersAccountAddress) {
+      console.error("no OpenOrders address found");
+      return [];
     }
     const mint =
       order.side === "ask"
@@ -194,20 +225,20 @@ export class FutarchyOpenbookMarketsRPCClient
         : market.marketInstance.account.marketQuoteVault;
     // TODO not sure how this works when clientOrderId not specified
     const clientOrderId = new BN(order.clientOrderId || Date.now());
-
     let placeTx: Transaction | undefined = undefined;
     switch (placeOrderType) {
       case "limit":
         const placeLimitOrderArgs = this.createPlaceOrderArgs({
           orderType: placeOrderType,
-          accountIndex: clientOrderId,
+          accountIndex: clientOrderId.toNumber(),
           market: market.marketInstance,
           isAsk: order.side === "ask",
           amount: order.size,
           price: order.price,
         });
         if (placeLimitOrderArgs) {
-          placeTx = await this.openbookTwap.methods
+          //TODO: place limit order in current UI and accept and compare differences in values
+          placeTx = await market.twapProgram.methods
             .placeOrder(placeLimitOrderArgs)
             .accounts({
               openOrdersAccount: openOrdersAccountAddress,
@@ -218,7 +249,7 @@ export class FutarchyOpenbookMarketsRPCClient
               marketVault,
               twapMarket: getTwapMarketKey(
                 market.publicKey,
-                this.openbookTwap.programId
+                market.twapProgram.programId
               ),
               userTokenAccount: getAssociatedTokenAddressSync(
                 mint,
@@ -232,6 +263,7 @@ export class FutarchyOpenbookMarketsRPCClient
 
         break;
       case "market":
+        console.log("okay this is for a market order");
         const userBaseAccount = getAssociatedTokenAddressSync(
           market.baseMint,
           this.transactionSender.owner,
@@ -245,7 +277,7 @@ export class FutarchyOpenbookMarketsRPCClient
 
         const placeMarketOrderArgs = this.createPlaceOrderArgs({
           orderType: placeOrderType,
-          accountIndex: clientOrderId,
+          accountIndex: clientOrderId.toNumber(),
           market: market.marketInstance,
           isAsk: order.side === "ask",
           amount: order.size,
@@ -267,6 +299,7 @@ export class FutarchyOpenbookMarketsRPCClient
     }
 
     if (placeTx) {
+      console.log("send tx", placeTx);
       return this.transactionSender.send(
         [placeTx],
         this.rpcProvider.connection
@@ -291,11 +324,14 @@ export class FutarchyOpenbookMarketsRPCClient
     accountIndex: number;
     market: OBMarket;
   }): TwapPlaceOrderArgs | undefined {
-    let priceLots = market.priceLotsToUi(price);
-    const _priceLots = market.priceLotsToUi(price);
-    const maxBaseLots = market.baseLotsToUi(amount);
+    console.log("createPlaceOrderArgs price", price);
+    let priceLots = market.priceUiToLots(price);
+    console.log("market tickSize", priceLots.toNumber());
+    console.log("createPlaceOrderArgs priceLots", priceLots.toNumber());
+    const _priceLots = market.priceUiToLots(price);
+    const maxBaseLots = market.baseUiToLots(amount);
     let maxQuoteLotsIncludingFees = market.quoteLotsToUi(
-      priceLots * maxBaseLots
+      priceLots.mul(maxBaseLots)
     );
 
     if (_priceLots === priceLots) {
@@ -307,8 +343,8 @@ export class FutarchyOpenbookMarketsRPCClient
       side: isAsk ? SideUtils.Ask : SideUtils.Bid,
       priceLots,
       maxBaseLots,
-      maxQuoteLotsIncludingFees,
-      clientOrderId: accountIndex,
+      maxQuoteLotsIncludingFees: new BN(maxQuoteLotsIncludingFees),
+      clientOrderId: new BN(accountIndex),
       orderType:
         orderType === "limit"
           ? PlaceOrderTypeUtils.Limit
@@ -323,6 +359,7 @@ export class FutarchyOpenbookMarketsRPCClient
     market: OpenbookMarket,
     order: OpenbookOrder
   ): Promise<string[]> {
+    if (!this.transactionSender) return [];
     const tx = await this.cancelAndSettleFundsTransactions(order, market);
     return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
@@ -331,6 +368,7 @@ export class FutarchyOpenbookMarketsRPCClient
     order: OpenbookOrder,
     market: OpenbookMarket
   ) {
+    if (!this.transactionSender) return [];
     const obMarket = await OBMarket.load(this.openbookClient, market.publicKey);
     const openOrders = await OpenOrders.loadNullableForMarketAndOwner(
       obMarket,
@@ -365,14 +403,6 @@ export class FutarchyOpenbookMarketsRPCClient
     ixs.push(settleIx);
 
     return new Transaction().add(...ixs);
-  }
-
-  public async withdraw(
-    owner: PublicKey,
-    amount: number,
-    mint: number
-  ): Promise<number | undefined> {
-    return;
   }
 }
 

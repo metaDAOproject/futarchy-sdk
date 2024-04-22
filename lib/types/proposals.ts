@@ -2,7 +2,12 @@ import { IdlAccounts, IdlTypes } from "@coral-xyz/anchor";
 import { AutocratV0 } from "@/idl/autocrat_v0";
 import { AutocratV0 as AutocratV0_1 } from "@/idl/autocrat_v0.1";
 import { AutocratV0 as AutocratV0_2 } from "@/idl/autocrat_v0.2";
-import { AccountWithKey, MergeWithOptionalFields, VaultAccount } from "@/types";
+import {
+  AccountWithKey,
+  MergeWithOptionalFields,
+  FutarchyProtocol,
+  VaultAccountWithProtocol,
+} from "@/types";
 
 export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0_2>["ProposalInstruction"],
@@ -26,6 +31,7 @@ export type ProposalAccount = MergeWithOptionalFields<
 >;
 
 export type ProposalWithVaults = Proposal & {
-  baseVaultAccount: VaultAccount;
-  quoteVaultAccount: VaultAccount;
+  protocol: FutarchyProtocol;
+  baseVaultAccount: VaultAccountWithProtocol;
+  quoteVaultAccount: VaultAccountWithProtocol;
 };

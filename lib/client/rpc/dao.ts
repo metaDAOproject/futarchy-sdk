@@ -1,52 +1,98 @@
 import { Program, Provider } from "@coral-xyz/anchor";
 import {
   AutocratProgram,
+  FutarchyProtocol,
   DaoAccount,
-  DaoWithTokens,
-  ProgramVersion,
+  Dao,
+  DaoAggregate,
 } from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
+import { PublicKey } from "@solana/web3.js";
+import { createSlug } from "@/utils";
 
 export class FutarchyRPCDaoClient implements FutarchyDaoClient {
-  private autocratProgram: Program<AutocratProgram>;
-  private programVersion: ProgramVersion;
+  private futarchyProtocols: FutarchyProtocol[];
   private rpcProvider: Provider;
-  constructor(
-    rpcProvider: Provider,
-    programVersion: ProgramVersion,
-    autocratProgram: Program<AutocratProgram>
-  ) {
+  constructor(rpcProvider: Provider, futarchyProtocols: FutarchyProtocol[]) {
     this.rpcProvider = rpcProvider;
-    this.programVersion = programVersion;
-    this.autocratProgram = autocratProgram;
+    this.futarchyProtocols = futarchyProtocols;
   }
-  async fetchAllDaos(): Promise<DaoWithTokens[]> {
-    const allDaoAccounts = await this.autocratProgram.account.dao.all();
-    const allDaos: (DaoWithTokens | undefined)[] = await Promise.all(
-      allDaoAccounts.map(async (d) =>
-        this.fetchDaoWithTokensFromState(d.account)
+  async fetchAllDaos(): Promise<DaoAggregate[]> {
+    const allDaoAccounts = (
+      await Promise.all(
+        this.futarchyProtocols.map(async (p) => {
+          const daos = await p.autocrat.account.dao.all();
+          return daos.map((d) => ({ dao: d, protocol: p }));
+        })
       )
+    ).flat();
+    const allDaos: (Dao | undefined)[] = await Promise.all(
+      allDaoAccounts.map(async (d) => {
+        const daoWithTokens = await this.fetchDaoWithTokensFromState(
+          d.dao.account,
+          d.protocol
+        );
+        if (daoWithTokens) {
+          return { ...daoWithTokens, publicKey: d.dao.publicKey };
+        }
+      })
     );
-    return allDaos.filter((d): d is DaoWithTokens => !!d);
+
+    const daosByName: Record<string, Dao[]> = allDaos.reduce((prev, curr) => {
+      // we are using the token name to group doas right now... mkay
+      const daoName = curr?.baseToken.name;
+      if (!daoName) {
+        return prev;
+      }
+      if (prev[daoName]) {
+        prev[daoName].push(curr);
+      } else {
+        prev[daoName] = [curr];
+      }
+      return prev;
+    }, {} as Record<string, Dao[]>);
+
+    const doaAggregates: DaoAggregate[] = [];
+    for (const key in daosByName) {
+      const daoAgg: DaoAggregate = {
+        daoName: key,
+        daos: daosByName[key],
+        daoSlug: createSlug(key),
+      };
+      doaAggregates.push(daoAgg);
+    }
+    return doaAggregates;
   }
-  async fetchDao(daoAddress: string): Promise<DaoWithTokens | undefined> {
-    const daoAccount = await this.fetchDaoAccount(daoAddress);
-    if (daoAccount) {
-      return await this.fetchDaoWithTokensFromState(daoAccount);
+  async fetchDao(
+    daoAddress: string,
+    protocol: FutarchyProtocol
+  ): Promise<Dao | undefined> {
+    const daoAccount = await this.fetchDaoAccount(
+      daoAddress,
+      protocol.autocrat
+    );
+    if (daoAccount && protocol) {
+      const dao = await this.fetchDaoWithTokensFromState(daoAccount, protocol);
+      if (dao) {
+        return { ...dao, publicKey: new PublicKey(daoAddress) };
+      }
     }
   }
+
   private async fetchDaoAccount(
-    daoAddress: string
+    daoAddress: string,
+    autocrat: Program<AutocratProgram>
   ): Promise<DaoAccount | undefined> {
-    const daoAccount = await this.autocratProgram.account.dao.fetch(daoAddress);
+    const daoAccount = await autocrat.account.dao.fetch(daoAddress);
     return daoAccount;
   }
 
   private async fetchDaoWithTokensFromState(
-    daoAccount: DaoAccount
-  ): Promise<DaoWithTokens | undefined> {
-    const baseMint = ["V0.2", "V0.3"].includes(this.programVersion.label)
+    daoAccount: DaoAccount,
+    protocol: FutarchyProtocol
+  ): Promise<Omit<Dao, "publicKey"> | undefined> {
+    const baseMint = ["V0.2", "V0.3"].includes(protocol.deploymentVersion)
       ? daoAccount.tokenMint
       : daoAccount.metaMint;
     const quoteMint = daoAccount.usdcMint;
@@ -57,6 +103,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
         daoAccount,
         baseToken,
         quoteToken,
+        protocol,
       };
     }
   }

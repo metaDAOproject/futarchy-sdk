@@ -19,7 +19,7 @@ export const getLastObservedAndSlot = (twapOracle?: TWAPOracle) => {
   if (!twapOracle) return undefined;
 
   return {
-    lastObservationValue: twapOracle.lastObservation * QUOTE_LOTS,
+    lastObservationValue: twapOracle.lastObservation.toNumber() * QUOTE_LOTS,
     lastObservationSlot: twapOracle.lastObservedSlot,
   };
 };

@@ -5,69 +5,95 @@ import {
   getAssociatedTokenAddressSync,
 } from "@solana/spl-token";
 import numeral from "numeral";
-import { AutocratProgram, DaoAccount } from "@/types";
+import {
+  AutocratProgram,
+  DaoAccount,
+  DaoAggregate,
+  FutarchyProtocol,
+} from "@/types";
 import { ProposalWithVaults } from "@/types/proposals";
 import { FutarchyProposalsClient } from "@/client";
-import { ConditionalVault } from "@/idl/conditional_vault";
-import { VaultAccount } from "@/types/conditionalVault";
+import {
+  VaultAccount,
+  VaultAccountWithProtocol,
+} from "@/types/conditionalVault";
 import { TransactionSender } from "@/transactions";
 import { enrichTokenMetadata } from "@/tokens";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: Provider;
-  private autocratProgram: Program<AutocratProgram>;
-  private vaultProgram: Program<ConditionalVault>;
-  private transactionSender: TransactionSender;
+  private futarchyProtocols: FutarchyProtocol[];
+  private transactionSender: TransactionSender | undefined;
 
   constructor(
     rpcProvider: Provider,
-    autocratProgram: Program<AutocratProgram>,
-    vaultProgram: Program<ConditionalVault>,
-    transactionSender: TransactionSender
+    futarchyProtocols: FutarchyProtocol[],
+    transactionSender: TransactionSender | undefined
   ) {
     this.rpcProvider = rpcProvider;
-    this.autocratProgram = autocratProgram;
-    this.vaultProgram = vaultProgram;
+    this.futarchyProtocols = futarchyProtocols;
     this.transactionSender = transactionSender;
   }
-  async fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]> {
-    const allProposals = (
-      await this.autocratProgram.account.proposal.all()
-    ).map((prop) => ({
-      title: `Proposal ${prop.account.number}`,
-      description: "",
-      ...prop,
-    }));
-    const allVaults = await this.vaultProgram.account.conditionalVault.all();
-    const vaultsByAddress: Record<string, VaultAccount> = allVaults.reduce(
-      (prev, curr) => {
-        prev[curr.publicKey.toString()] = curr.account;
-        return prev;
-      },
-      {} as Record<string, VaultAccount>
-    );
-    const proposalsWithVaults: ProposalWithVaults[] = allProposals.map((p) => {
-      const baseVaultAccount = vaultsByAddress[p.account.baseVault.toString()];
-      const quoteVaultAccount =
-        vaultsByAddress[p.account.quoteVault.toString()];
-      return { ...p, baseVaultAccount, quoteVaultAccount };
-    });
+  async fetchProposals(
+    daoAggregate: DaoAggregate
+  ): Promise<ProposalWithVaults[]> {
+    return (
+      await Promise.all(
+        daoAggregate.daos.map(async (dao) => {
+          const allProposals = (
+            await dao.protocol.autocrat.account.proposal.all()
+          ).map((prop) => ({
+            title: `Proposal ${prop.account.number}`,
+            description: "",
+            ...prop,
+          }));
+          const allVaults =
+            await dao.protocol.vault.account.conditionalVault.all();
+          const vaultsByAddress: Record<string, VaultAccount> =
+            allVaults.reduce((prev, curr) => {
+              // add protocol assignment here
+              prev[curr.publicKey.toString()] = curr.account;
+              return prev;
+            }, {} as Record<string, VaultAccount>);
+          const proposalsWithVaults: ProposalWithVaults[] = allProposals.map(
+            (p) => {
+              const baseVaultAccount =
+                vaultsByAddress[p.account.baseVault.toString()];
+              const quoteVaultAccount =
+                vaultsByAddress[p.account.quoteVault.toString()];
+              return {
+                ...p,
+                protocol: dao.protocol,
+                baseVaultAccount: {
+                  ...baseVaultAccount,
+                  protocol: dao.protocol,
+                },
+                quoteVaultAccount: {
+                  ...quoteVaultAccount,
+                  protocol: dao.protocol,
+                },
+              };
+            }
+          );
 
-    return proposalsWithVaults.filter((p) => {
-      const { baseVaultAccount } = p;
-      return (
-        baseVaultAccount.settlementAuthority.toString() ===
-        dao.treasury.toString()
-      );
-    });
+          return proposalsWithVaults.filter((p) => {
+            const { baseVaultAccount } = p;
+            return (
+              baseVaultAccount.settlementAuthority.toString() ===
+              dao.daoAccount.treasury.toString()
+            );
+          });
+        })
+      )
+    ).flat();
   }
 
   public async deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccount
+    vaultAccount: VaultAccountWithProtocol
   ): Promise<string[] | undefined> {
-    if (!this.rpcProvider.publicKey) {
+    if (!this.rpcProvider.publicKey || !this.transactionSender) {
       return;
     }
     // we fetch metadata with finalize token mint, but it could be revert mint instead
@@ -96,7 +122,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         this.rpcProvider.publicKey,
         vaultAccount.conditionalOnRevertTokenMint
       ),
-      await this.vaultProgram.methods
+      await vaultAccount.protocol.vault.methods
         .mintConditionalTokens(
           new BN(
             numeral(amount)
@@ -135,27 +161,30 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
   public async withdraw(
     vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccount
+    vaultAccount: VaultAccountWithProtocol
   ): Promise<string[] | undefined> {
-    if (!this.vaultProgram.provider.publicKey) {
+    if (
+      !vaultAccount.protocol.vault.provider.publicKey ||
+      !this.transactionSender
+    ) {
       return;
     }
     const userConditionalOnFinalizeTokenAccount = getAssociatedTokenAddressSync(
       vaultAccount.conditionalOnFinalizeTokenMint,
-      this.vaultProgram.provider.publicKey,
+      vaultAccount.protocol.vault.provider.publicKey,
       true
     );
     const userConditionalOnRevertTokenAccount = getAssociatedTokenAddressSync(
       vaultAccount.conditionalOnRevertTokenMint,
-      this.vaultProgram.provider.publicKey,
+      vaultAccount.protocol.vault.provider.publicKey,
       true
     );
     const userUnderlyingTokenAccount = getAssociatedTokenAddressSync(
       vaultAccount.underlyingTokenMint,
-      this.vaultProgram.provider.publicKey,
+      vaultAccount.protocol.vault.provider.publicKey,
       true
     );
-    const tx = await this.vaultProgram.methods
+    const tx = await vaultAccount.protocol.vault.methods
       .redeemConditionalTokensForUnderlyingTokens()
       .accounts({
         vault: vaultAccountAddress,
@@ -169,21 +198,21 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       })
       .preInstructions([
         createAssociatedTokenAccountIdempotentInstruction(
-          this.vaultProgram.provider.publicKey,
+          vaultAccount.protocol.vault.provider.publicKey,
           userConditionalOnFinalizeTokenAccount,
-          this.vaultProgram.provider.publicKey,
+          vaultAccount.protocol.vault.provider.publicKey,
           vaultAccount.conditionalOnFinalizeTokenMint
         ),
         createAssociatedTokenAccountIdempotentInstruction(
-          this.vaultProgram.provider.publicKey,
+          vaultAccount.protocol.vault.provider.publicKey,
           userConditionalOnRevertTokenAccount,
-          this.vaultProgram.provider.publicKey,
+          vaultAccount.protocol.vault.provider.publicKey,
           vaultAccount.conditionalOnRevertTokenMint
         ),
         createAssociatedTokenAccountIdempotentInstruction(
-          this.vaultProgram.provider.publicKey,
+          vaultAccount.protocol.vault.provider.publicKey,
           userUnderlyingTokenAccount,
-          this.vaultProgram.provider.publicKey,
+          vaultAccount.protocol.vault.provider.publicKey,
           vaultAccount.underlyingTokenMint
         ),
       ])

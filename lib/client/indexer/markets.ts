@@ -1,5 +1,6 @@
 import {
   Market,
+  MarketFetchRequest,
   OpenbookMarket,
   Order,
   Orderbook,
@@ -13,7 +14,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return [];
   }
 
-  async fetchMarket(marketKey: PublicKey): Promise<Market | undefined> {
+  async fetchMarket(request: MarketFetchRequest): Promise<Market | undefined> {
     return;
   }
 

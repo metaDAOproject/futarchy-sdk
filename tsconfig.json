@@ -2,11 +2,12 @@
   "compilerOptions": {
     "target": "es2019",
     "downlevelIteration": true,
-    "module": "commonjs",
+    "module": "esnext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "outDir": "dist",
     "sourceMap": true,

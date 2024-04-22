@@ -9,6 +9,7 @@ import {
   SelfTradeBehaviorUtils,
   PlaceOrderTypeUtils,
 } from "@openbook-dex/openbook-v2";
+import numeral from "numeral";
 import {
   Transaction,
   PublicKey,
@@ -21,28 +22,27 @@ import {
   OrderBookSideType,
   Orderbook,
   PlaceOrderType,
+  ProposalAccountWithKey,
   TwapPlaceOrderArgs,
+  TwapProgram,
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
-import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
-import OPENBOOK_TWAP_IDLV0_1 from "@/idl/openbook_twap_v0.1.json";
-import OPENBOOK_TWAP_IDLV0_2 from "@/idl/openbook_twap_v0.2.json";
-import {
-  OPENBOOK_TWAP_PROGRAM_IDV0_1,
-  OPENBOOK_TWAP_PROGRAM_IDV0_2,
-} from "@/constants";
-import { OpenbookTwapV0_1 } from "@/idl/openbook_twap_v0.1";
 import { TransactionSender } from "@/transactions";
 import { ProgramVersion } from "@/types";
 import { enrichTokenMetadata } from "@/tokens";
 import { getTwapMarketKey } from "@/openbookTwap";
+import {
+  BASE_FORMAT,
+  NUMERAL_FORMAT,
+  autocratVersionToTwapMap,
+} from "@/constants";
 
 export class FutarchyOpenbookMarketsRPCClient
   implements FutarchyMarketsClient<OpenbookMarket, OpenbookOrder>
 {
   private openbook: Program<OpenbookV2>;
   private openbookClient: OpenBookV2Client;
-  private openbookTwap: Program<OpenbookTwapV0_2> | Program<OpenbookTwapV0_1>;
+  private openbookTwap: TwapProgram;
   private rpcProvider: Provider;
   private transactionSender: TransactionSender;
 
@@ -56,20 +56,14 @@ export class FutarchyOpenbookMarketsRPCClient
     this.openbook = openbook;
     this.openbookClient = openbookClient;
     this.rpcProvider = rpcProvider;
-    if (["V0.2", "V0.3"].includes(programVersion?.label!)) {
-      this.openbookTwap = new Program<OpenbookTwapV0_2>(
-        OPENBOOK_TWAP_IDLV0_2 as OpenbookTwapV0_2,
-        OPENBOOK_TWAP_PROGRAM_IDV0_2,
-        rpcProvider
-      );
-    } else {
-      this.openbookTwap = new Program<OpenbookTwapV0_1>(
-        OPENBOOK_TWAP_IDLV0_1 as OpenbookTwapV0_1,
-        OPENBOOK_TWAP_PROGRAM_IDV0_1,
-        rpcProvider
-      );
-    }
     this.transactionSender = transactionSender;
+
+    const twapInfo = autocratVersionToTwapMap[programVersion.label];
+    this.openbookTwap = new Program(
+      twapInfo.idl as any,
+      twapInfo.programId,
+      rpcProvider
+    );
   }
 
   async fetchMarket(marketKey: PublicKey): Promise<OpenbookMarket | undefined> {
@@ -83,15 +77,6 @@ export class FutarchyOpenbookMarketsRPCClient
       obMarket.account.quoteMint,
       this.rpcProvider
     );
-
-    const marketName = "blah";
-
-    const baseTokenWithSymbol = !baseToken.isFallback
-      ? baseToken
-      : {
-          ...baseToken,
-          symbol: marketName.split("/")[0],
-        };
 
     return {
       baseMint: obMarket.account.baseMint,
@@ -154,6 +139,9 @@ export class FutarchyOpenbookMarketsRPCClient
       price: bookSideOrder.price,
       side: side,
       size: bookSideOrder.size,
+      filled:
+        bookSideOrder.size -
+        getPartiallyFilledAmountFromBookSideOrder(bookSideOrder),
       owner: bookSideOrder.leafNode.owner,
       clientOrderId: bookSideOrder.leafNode.clientOrderId,
       market: bookSideOrder.market.pubkey,
@@ -164,23 +152,13 @@ export class FutarchyOpenbookMarketsRPCClient
     };
   }
 
-  private async getUsersOpenOrderPks(
-    userWalletPk: PublicKey
-  ): Promise<PublicKey[]> {
-    const indexerPk = this.openbookClient.findOpenOrdersIndexer(userWalletPk);
-    const indexerAcc =
-      await this.openbookClient.deserializeOpenOrdersIndexerAccount(indexerPk);
-    const openOrdersPks = indexerAcc?.addresses;
-    return openOrdersPks ?? [];
-  }
-
   async fetchUserOrdersFromOrderbooks(
     owner: PublicKey,
     orderbooks: Orderbook[]
   ): Promise<OpenbookOrder[]> {
-    const openOrdersPks = (await this.getUsersOpenOrderPks(owner)).map((p) =>
-      p.toString()
-    );
+    const openOrdersPks = (
+      await this.openbookClient.findAllOpenOrders(owner)
+    ).map((p) => p.toString());
 
     const allOrders = orderbooks.map((ob) => [...ob.bids, ...ob.asks]).flat();
 
@@ -201,10 +179,10 @@ export class FutarchyOpenbookMarketsRPCClient
   ): Promise<string[]> {
     if (!openOrdersAccountAddress) {
       // use the first open orders account by default
-      const openOrdersIndexer = await this.getUsersOpenOrderPks(
+      const openOrdersAccounts = await this.openbookClient.findAllOpenOrders(
         this.transactionSender.owner
       );
-      openOrdersAccountAddress = openOrdersIndexer[0];
+      openOrdersAccountAddress = openOrdersAccounts[0];
     }
     const mint =
       order.side === "ask"
@@ -343,12 +321,9 @@ export class FutarchyOpenbookMarketsRPCClient
 
   async cancelOrder(
     market: OpenbookMarket,
-    orderWithAccountAddress: OpenbookOrder
+    order: OpenbookOrder
   ): Promise<string[]> {
-    const tx = await this.cancelAndSettleFundsTransactions(
-      orderWithAccountAddress,
-      market
-    );
+    const tx = await this.cancelAndSettleFundsTransactions(order, market);
     return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
 
@@ -400,3 +375,62 @@ export class FutarchyOpenbookMarketsRPCClient
     return;
   }
 }
+
+/**
+ * Get the already filled quantity
+ * @param order Openbook order
+ * @returns Partially filled quantity
+ */
+export const getPartiallyFilledAmountFromBookSideOrder = (order: OBOrder) =>
+  order.leafNode.quantity.div(new BN(order.sizeLots)); // TODO: Check this computation
+
+export const isPass = (
+  order: OpenbookOrder,
+  proposal: ProposalAccountWithKey
+) => proposal?.account.openbookPassMarket.equals(order.market)!!;
+
+export const isPartiallyFilled = (order: OpenbookOrder): boolean =>
+  order.filled > 0 && order.filled < order.size;
+
+export const isEmptyOrder = (order: OpenbookOrder): boolean => order.size === 0;
+
+export const isClosableOrder = (order: OpenbookOrder): boolean =>
+  order.filled === order.size;
+
+export const isOpenOrder = (order: OpenbookOrder): boolean =>
+  order.status === "open";
+
+export const isBid = (order: OpenbookOrder) => order.side === "bid";
+
+/**
+ * The total value (in quote asset) of the given orders
+ * @param orders The orders used to compute the sum
+ * @returns A formatted string of the total
+ */
+export const totalValueInOrders = (orders: OpenbookOrder[]): string => {
+  const total = orders
+    .map((order) =>
+      order.side === "bid" ? order.size / order.price : order.size
+    )
+    .reduce((a, b) => a + b, 0);
+  return numeral(total).format(NUMERAL_FORMAT);
+};
+
+/**
+ * The total amount of quote asset in the given orders
+ * @param orders The orders used to compute the sum
+ * @returns A formatted string of the total
+ */
+export const totalQuoteAssetInOrders = (orders: OpenbookOrder[]) => {
+  const total = orders
+    .map((order) => (order.side === "bid" ? order.size : 0))
+    .reduce((a, b) => a + b, 0);
+  return numeral(total).format(NUMERAL_FORMAT);
+};
+
+export const totalBaseAssetInOrders = (orders: OpenbookOrder[]) => {
+  const total = orders
+    .map((order) => (order.side === "bid" ? 0 : order.size))
+    .reduce((a, b) => a + b, 0);
+  return numeral(total).format(BASE_FORMAT);
+};

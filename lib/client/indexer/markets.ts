@@ -4,8 +4,8 @@ import {
   Order,
   Orderbook,
   PlaceOrderType,
-} from "../../types/markets";
-import { FutarchyMarketsClient } from "../client";
+} from "@/types";
+import { FutarchyMarketsClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
 
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {

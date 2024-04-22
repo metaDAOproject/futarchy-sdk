@@ -1,9 +1,9 @@
 {
   "name": "@themetadao/futarchy-ts",
-  "version": "1.0.4-alpha",
+  "version": "1.0.5-alpha",
   "main": "dist",
   "scripts": {
-    "build": "tsc && tscpaths -p tsconfig.json -s ./lib -o ./dist && cp -r ./lib/assets/ ./dist/"
+    "build": "tsc && tscpaths -p tsconfig.json -s ./lib -o ./dist"
   },
   "keywords": [
     "solana",
@@ -17,7 +17,7 @@
     "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
     "@metaplex-foundation/umi": "^0.9.1",
     "@openbook-dex/openbook-v2": "^0.2.5",
-    "@solana/spl-token": "^0.3.8",
+    "@solana/spl-token": "^0.3.11",
     "@solana/web3.js": "^1.90.0",
     "@types/numeral": "^2.0.4",
     "numeral": "^2.0.6"

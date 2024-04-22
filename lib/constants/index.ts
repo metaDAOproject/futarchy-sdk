@@ -1,10 +1,13 @@
+export * from "./twap";
+export * from "./conditionalVault";
+
 import { PublicKey } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
-import { AutocratProgram, ProgramVersion, TokenProps } from "./types";
-import AUTOCRAT_V0_IDL from "./idl/autocrat_v0.json";
-import AUTOCRAT_V0_1_IDL from "./idl/autocrat_v0.1.json";
-import AUTOCRAT_V0_2_IDL from "./idl/autocrat_v0.2.json";
-import AUTOCRAT_V0_3_IDL from "./idl/autocrat_v0.3.json";
+import { AutocratProgram, ProgramVersion } from "@/types";
+import AUTOCRAT_V0_IDL from "@/idl/autocrat_v0.json";
+import AUTOCRAT_V0_1_IDL from "@/idl/autocrat_v0.1.json";
+import AUTOCRAT_V0_2_IDL from "@/idl/autocrat_v0.2.json";
+import AUTOCRAT_V0_3_IDL from "@/idl/autocrat_v0.3.json";
 
 export const SYSTEM_PROGRAM: PublicKey = new PublicKey(
   "11111111111111111111111111111111"
@@ -13,30 +16,12 @@ export const SYSTEM_PROGRAM: PublicKey = new PublicKey(
 export const OPENBOOK_PROGRAM_ID = new PublicKey(
   "opnb2LAfJYbRMAHHvqjCwQxanZn7ReEHp1k81EohpZb"
 );
-export const OPENBOOK_TWAP_PROGRAM_IDV0_1 = new PublicKey(
-  "TWAPrdhADy2aTKN5iFZtNnkQYXERD9NvKjPFVPMSCNN"
-);
-export const OPENBOOK_TWAP_PROGRAM_IDV0_2 = new PublicKey(
-  "twAP5sArq2vDS1mZCT7f4qRLwzTfHvf5Ay5R5Q5df1m"
-);
 
 export const USDCAddressDevNet = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
 export const mUSDCAddressDevNet =
   "B9CZDrwg7d34MiPiWoUSmddriCtQB5eB2h9EUSDHt48b";
 export const USDCAddressMainNet =
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
-
-const usdcLogo = require("./assets/images/usdc-logo.svg") as {
-  default: { src: string };
-};
-
-export const USDCMetadata: TokenProps = {
-  symbol: "USDC",
-  decimals: 6,
-  name: "USD Coin",
-  publicKey: "", // depends on network
-  url: usdcLogo.default.src,
-};
 
 export const NUMERAL_FORMAT = "0,0.00";
 export const BASE_FORMAT = "0,0";

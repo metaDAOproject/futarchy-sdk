@@ -24,18 +24,17 @@ export type AutocratProgram =
 /**
  * DAOs
  */
-export type DaoAccountV0_1 = MergeWithOptionalFields<
-  IdlAccounts<AutocratV0>["dao"],
-  IdlAccounts<AutocratV0_1>["dao"]
->;
-export type DaoAccountV0_2 = MergeWithOptionalFields<
-  DaoAccountV0_1,
-  IdlAccounts<AutocratV0_2>["dao"]
->;
 export type DaoAccount = MergeWithOptionalFields<
-  DaoAccountV0_2,
-  IdlAccounts<AutocratV0_3>["dao"]
+  IdlAccounts<AutocratV0_3>["dao"],
+  MergeWithOptionalFields<
+    IdlAccounts<AutocratV0_2>["dao"],
+    MergeWithOptionalFields<
+      IdlAccounts<AutocratV0_1>["dao"],
+      IdlAccounts<AutocratV0>["dao"]
+    >
+  >
 >;
+
 export type DaoWithTokens = {
   daoAccount: DaoAccount;
   baseToken: TokenProps;

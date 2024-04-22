@@ -1,4 +1,10 @@
 import { AnchorProvider, Program } from "@coral-xyz/anchor";
+import {
+  IDL as OPENBOOK_IDL,
+  OPENBOOK_PROGRAM_ID,
+  OpenBookV2Client,
+  OpenbookV2,
+} from "@openbook-dex/openbook-v2";
 import { AutocratProgram, ProgramVersion } from "@/types";
 import { FutarchyClient } from "@/client";
 import {
@@ -6,17 +12,11 @@ import {
   IDL as ConditionalVaultIDL,
 } from "@/idl/conditional_vault";
 import { autocratVersionToConditionalVaultMap } from "@/constants/conditionalVault";
-import { FutarchyRPCDaoClient } from "./dao";
+import { FutarchyRPCDaoClient } from "@/client/rpc/dao";
 import { FutarchyRPCProposalsClient } from "./proposals";
 import { FutarchyRPCBalancesClient } from "./balances";
 import { FutarchyOpenbookMarketsRPCClient } from "./openbookMarkets";
-import {
-  IDL as OPENBOOK_IDL,
-  OPENBOOK_PROGRAM_ID,
-  OpenBookV2Client,
-  OpenbookV2,
-} from "@openbook-dex/openbook-v2";
-import { TransactionSender } from "../../transactions";
+import { TransactionSender } from "@/transactions";
 
 export class FutarchyRPCClient implements FutarchyClient {
   public daos: FutarchyRPCDaoClient;

@@ -52,6 +52,10 @@ export type Orderbook<O extends Order = Order> = {
  */
 export type MarketType = "openbook";
 
+export type MarketFetchRequest = {
+  marketKey: PublicKey;
+};
+
 export type Market = {
   type: MarketType;
   publicKey: PublicKey;

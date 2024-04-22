@@ -1,9 +1,14 @@
 import { PublicKey } from "@solana/web3.js";
-import { DaoAccount, VaultAccount, ProposalWithVaults } from "@/types";
+import {
+  DaoAccount,
+  VaultAccount,
+  ProposalWithVaults,
+  DaoAggregate,
+} from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
-  async fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]> {
+  async fetchProposals(dao: DaoAggregate): Promise<ProposalWithVaults[]> {
     return [];
   }
   async deposit(

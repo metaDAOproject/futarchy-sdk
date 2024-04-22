@@ -1,7 +1,8 @@
 import { PublicKey } from "@solana/web3.js";
 import {
   DaoAccount,
-  DaoWithTokens,
+  Dao,
+  DaoAggregate,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
   VaultAccount,
@@ -10,6 +11,8 @@ import {
   ProposalWithVaults,
   Orderbook,
   PlaceOrderType,
+  FutarchyProtocol,
+  MarketFetchRequest,
 } from "@/types";
 
 export interface FutarchyClient {
@@ -20,12 +23,15 @@ export interface FutarchyClient {
 }
 
 export interface FutarchyDaoClient {
-  fetchAllDaos(): Promise<DaoWithTokens[]>;
-  fetchDao(daoAddress: string): Promise<DaoWithTokens | undefined>;
+  fetchAllDaos(): Promise<DaoAggregate[]>;
+  fetchDao(
+    daoAddress: string,
+    protocol: FutarchyProtocol
+  ): Promise<Dao | undefined>;
 }
 
 export interface FutarchyProposalsClient {
-  fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]>;
+  fetchProposals(dadaoAggregateo: DaoAggregate): Promise<ProposalWithVaults[]>;
   deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
@@ -39,13 +45,12 @@ export interface FutarchyProposalsClient {
 
 export interface FutarchyBalancesClient {
   fetchMainTokenWalletBalances(
-    dao: DaoWithTokens,
+    dao: DaoAggregate,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]>;
   fetchAllConditionalTokenWalletBalances(
-    dao: DaoWithTokens,
     ownerWallet: PublicKey,
-    proposalsWithVaults: ProposalWithVaults[]
+    doasWithProposals: [Dao, ProposalWithVaults][]
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 
@@ -54,7 +59,7 @@ export interface FutarchyMarketsClient<
   M extends Market = Market,
   O extends Order = Order
 > {
-  fetchMarket(marketKey: PublicKey): Promise<M | undefined>;
+  fetchMarket(request: MarketFetchRequest): Promise<M | undefined>;
   fetchOrderBook(market: M): Promise<Orderbook<O> | undefined>;
   fetchUserOrdersFromOrderbooks(
     owner: PublicKey,

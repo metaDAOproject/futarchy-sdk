@@ -8,3 +8,13 @@ export const shortKey = (key?: PublicKey | string) => {
     str.length
   )}`;
 };
+
+export const createSlug = (text: string) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w\-]+/g, "") // Remove all non-word chars
+    .replace(/\-\-+/g, "-"); // Replace multiple - with single -
+};

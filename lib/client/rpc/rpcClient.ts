@@ -5,7 +5,7 @@ import {
   OpenBookV2Client,
   OpenbookV2,
 } from "@openbook-dex/openbook-v2";
-import { AutocratProgram, ProgramVersion } from "@/types";
+import { AutocratProgram, FutarchyProtocol } from "@/types";
 import { FutarchyClient } from "@/client";
 import {
   ConditionalVault,
@@ -17,6 +17,15 @@ import { FutarchyRPCProposalsClient } from "./proposals";
 import { FutarchyRPCBalancesClient } from "./balances";
 import { FutarchyOpenbookMarketsRPCClient } from "./openbookMarkets";
 import { TransactionSender } from "@/transactions";
+import {
+  AUTOCRAT_VERSIONS,
+  OPENBOOK_TWAP_PROGRAM_IDV0_1,
+  OPENBOOK_TWAP_PROGRAM_IDV0_2,
+} from "@/constants";
+import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
+import { OpenbookTwapV0_1 } from "@/idl/openbook_twap_v0.1";
+import OPENBOOK_TWAP_IDLV0_1_JSON from "@/idl/openbook_twap_v0.1.json";
+import OPENBOOK_TWAP_IDLV0_2_JSON from "@/idl/openbook_twap_v0.2.json";
 
 export class FutarchyRPCClient implements FutarchyClient {
   public daos: FutarchyRPCDaoClient;
@@ -24,55 +33,78 @@ export class FutarchyRPCClient implements FutarchyClient {
   public balances: FutarchyRPCBalancesClient;
   public markets: FutarchyOpenbookMarketsRPCClient;
 
+  // TODO how to use the protocol for a specific DAO based on the market or proposal...
+  // V2 Future DAO is where stuff thing
+
   private constructor(
     // no more program versions anymore
     // just return data across autocrat versions, but we need to have results aggregated
-    programVersion: ProgramVersion,
     // has to be AnchorProvider because of Openbook SDK
     rpcProvider: AnchorProvider,
-    transactionSender: TransactionSender
+    transactionSender: TransactionSender | undefined
   ) {
-    const autocratProgram = new Program<AutocratProgram>(
-      programVersion.idl as AutocratProgram,
-      programVersion.programId,
-      rpcProvider
-    );
+    const futarchyProtocols = AUTOCRAT_VERSIONS.reduce((prev, curr) => {
+      const autocrat = new Program<AutocratProgram>(
+        curr.idl as AutocratProgram,
+        curr.programId,
+        rpcProvider
+      );
+      const vaultProgram = new Program<ConditionalVault>(
+        ConditionalVaultIDL,
+        autocratVersionToConditionalVaultMap[curr.label],
+        rpcProvider
+      );
+      let openbookTwap:
+        | undefined
+        | Program<OpenbookTwapV0_2>
+        | Program<OpenbookTwapV0_1>;
+      if (["V0.2", "V0.3"].includes(curr.label)) {
+        openbookTwap = new Program<OpenbookTwapV0_2>(
+          OPENBOOK_TWAP_IDLV0_2_JSON as OpenbookTwapV0_2,
+          OPENBOOK_TWAP_PROGRAM_IDV0_2,
+          rpcProvider
+        );
+      } else {
+        openbookTwap = new Program<OpenbookTwapV0_1>(
+          OPENBOOK_TWAP_IDLV0_1_JSON as OpenbookTwapV0_1,
+          OPENBOOK_TWAP_PROGRAM_IDV0_1,
+          rpcProvider
+        );
+      }
+      const protocol: FutarchyProtocol = {
+        key: autocrat.programId.toString(),
+        autocrat: autocrat,
+        deploymentVersion: curr.label,
+        vault: vaultProgram,
+        pricingModel: openbookTwap,
+      };
+      prev.push(protocol);
+      return prev;
+    }, [] as FutarchyProtocol[]);
 
-    const vaultProgram = new Program<ConditionalVault>(
-      ConditionalVaultIDL,
-      autocratVersionToConditionalVaultMap[programVersion.label],
-      rpcProvider
-    );
-    this.daos = new FutarchyRPCDaoClient(
-      rpcProvider,
-      programVersion,
-      autocratProgram
-    );
+    this.daos = new FutarchyRPCDaoClient(rpcProvider, futarchyProtocols);
     this.proposals = new FutarchyRPCProposalsClient(
       rpcProvider,
-      autocratProgram,
-      vaultProgram,
+      futarchyProtocols,
       transactionSender
     );
-    this.balances = new FutarchyRPCBalancesClient(rpcProvider);
+    this.balances = new FutarchyRPCBalancesClient(
+      rpcProvider,
+      futarchyProtocols
+    );
 
     this.markets = new FutarchyOpenbookMarketsRPCClient(
       rpcProvider,
-      programVersion,
       new Program<OpenbookV2>(OPENBOOK_IDL, OPENBOOK_PROGRAM_ID, rpcProvider),
       new OpenBookV2Client(rpcProvider, OPENBOOK_PROGRAM_ID),
+      futarchyProtocols,
       transactionSender
     );
   }
   static make(
-    programVersion: ProgramVersion,
     rpcProvider: AnchorProvider,
     transactionSender: TransactionSender
   ) {
-    return new FutarchyRPCClient(
-      programVersion,
-      rpcProvider,
-      transactionSender
-    );
+    return new FutarchyRPCClient(rpcProvider, transactionSender);
   }
 }

@@ -97,7 +97,6 @@ export class FutarchyRPCClient implements FutarchyClient {
       rpcProvider,
       new Program<OpenbookV2>(OPENBOOK_IDL, OPENBOOK_PROGRAM_ID, rpcProvider),
       new OpenBookV2Client(rpcProvider, OPENBOOK_PROGRAM_ID),
-      futarchyProtocols,
       transactionSender
     );
   }

@@ -43,7 +43,6 @@ export class FutarchyOpenbookMarketsRPCClient
 {
   private openbook: Program<OpenbookV2>;
   private openbookClient: OpenBookV2Client;
-  private futarchyProtocols: FutarchyProtocol[];
   private rpcProvider: Provider;
   private transactionSender: TransactionSender | undefined;
 
@@ -51,21 +50,12 @@ export class FutarchyOpenbookMarketsRPCClient
     rpcProvider: Provider,
     openbook: Program<OpenbookV2>,
     openbookClient: OpenBookV2Client,
-    futarchyProtocols: FutarchyProtocol[],
     transactionSender: TransactionSender | undefined
   ) {
     this.openbook = openbook;
     this.openbookClient = openbookClient;
     this.rpcProvider = rpcProvider;
-    this.futarchyProtocols = futarchyProtocols;
     this.transactionSender = transactionSender;
-
-    const twapInfo = autocratVersionToTwapMap[programVersion.label];
-    this.openbookTwap = new Program(
-      twapInfo.idl as any,
-      twapInfo.programId,
-      rpcProvider
-    );
   }
 
   async fetchMarket(

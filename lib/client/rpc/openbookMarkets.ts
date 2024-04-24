@@ -391,6 +391,8 @@ export class FutarchyOpenbookMarketsRPCClient
     );
     ixs.push(settleIx);
 
+    //TODO: close the account too
+
     return new Transaction().add(...ixs);
   }
 

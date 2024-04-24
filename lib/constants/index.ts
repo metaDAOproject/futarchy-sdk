@@ -1,5 +1,6 @@
 export * from "./twap";
 export * from "./conditionalVault";
+export * from "./markets";
 
 import { PublicKey } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
@@ -39,6 +40,11 @@ export const AUTOCRAT_VERSIONS: ProgramVersion[] = [
   {
     label: "V0.2",
     programId: new PublicKey("metaRK9dUBnrAdZN6uUDKvxBVKW5pyCbPVmLtUZwtBp"),
+    idl: AUTOCRAT_V0_2_IDL as AutocratProgram,
+  },
+  {
+    label: "V0.2",
+    programId: new PublicKey("fut5MzSUFcmxaEHMvo9qQThrAL4nAv5FQ52McqhniSt"),
     idl: AUTOCRAT_V0_2_IDL as AutocratProgram,
   },
   {

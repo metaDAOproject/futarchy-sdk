@@ -13,6 +13,8 @@ import {
   PlaceOrderType,
   FutarchyProtocol,
   MarketFetchRequest,
+  TokenProps,
+  Proposal,
 } from "@/types";
 
 export interface FutarchyClient {
@@ -31,16 +33,13 @@ export interface FutarchyDaoClient {
 }
 
 export interface FutarchyProposalsClient {
-  fetchProposals(dadaoAggregateo: DaoAggregate): Promise<ProposalWithVaults[]>;
+  fetchProposals(daoAggregate: DaoAggregate): Promise<ProposalWithVaults[]>;
   deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccount
   ): Promise<string[] | undefined>;
-  withdraw(
-    vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccount
-  ): Promise<string[] | undefined>;
+  withdraw(proposal: Proposal): Promise<string[] | undefined>;
 }
 
 export interface FutarchyBalancesClient {
@@ -50,7 +49,9 @@ export interface FutarchyBalancesClient {
   ): Promise<TokenWithBalance[]>;
   fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
-    doasWithProposals: [Dao, ProposalWithVaults][]
+    quoteToken: TokenProps,
+    baseToken: TokenProps,
+    proposals: ProposalWithVaults[]
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 
@@ -67,7 +68,7 @@ export interface FutarchyMarketsClient<
   ): Promise<O[]>;
   placeOrder(
     market: M,
-    order: Omit<O, "status">,
+    order: Omit<O, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType
   ): Promise<string[]>;
   cancelOrder(market: M, order: O): Promise<string[]>;

@@ -2,6 +2,7 @@ import { PublicKey } from "@solana/web3.js";
 import {
   Dao,
   DaoAggregate,
+  TokenProps,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
 } from "@/types";
@@ -17,7 +18,9 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   }
   async fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
-    proposalsWithVaults: [Dao, ProposalWithVaults][]
+    baseToken: TokenProps,
+    quoteToken: TokenProps,
+    proposalsWithVaults: ProposalWithVaults[]
   ): Promise<TokenWithBalanceWithProposal[]> {
     return [];
   }

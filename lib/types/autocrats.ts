@@ -30,7 +30,7 @@ export type FutarchyProtocol = {
   deploymentVersion: ProgramVersionLabel;
   autocrat: Program<AutocratProgram>;
   vault: Program<ConditionalVault>;
-  pricingModel: Program<OpenbookTwapV0_2> | Program<OpenbookTwapV0_1>;
+  pricingModel: Program<OpenbookTwapV0_2 | OpenbookTwapV0_1>;
 };
 
 /**
@@ -55,6 +55,7 @@ export type Dao = {
   quoteToken: TokenProps;
 };
 
+// we might want to consider changing this to be DaoDetails as the main component and
 export type DaoAggregate = {
   daoName: string;
   daoSlug: string;

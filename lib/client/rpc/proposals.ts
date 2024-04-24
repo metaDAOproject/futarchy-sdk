@@ -1,4 +1,8 @@
-import { PublicKey, Transaction } from "@solana/web3.js";
+import {
+  PublicKey,
+  Transaction,
+  TransactionInstruction,
+} from "@solana/web3.js";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   createAssociatedTokenAccountIdempotentInstruction,
@@ -63,6 +67,10 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
                 vaultsByAddress[p.account.quoteVault.toString()];
               return {
                 ...p,
+                dao: {
+                  daoAccount: dao.daoAccount,
+                  publicKey: dao.publicKey,
+                },
                 protocol: dao.protocol,
                 baseVaultAccount: {
                   ...baseVaultAccount,
@@ -159,10 +167,29 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
 
-  public async withdraw(
+  public async withdraw(proposal: ProposalWithVaults) {
+    const withdrawBaseIx = await this.withdrawFromVaultIx(
+      proposal.account.baseVault,
+      proposal.baseVaultAccount
+    );
+    const withdrawQuoteIx = await this.withdrawFromVaultIx(
+      proposal.account.quoteVault,
+      proposal.quoteVaultAccount
+    );
+
+    if (withdrawBaseIx && withdrawQuoteIx) {
+      const ixs: TransactionInstruction[] = [withdrawBaseIx, withdrawQuoteIx];
+      return this.transactionSender?.send(
+        [new Transaction().add(...ixs)],
+        this.rpcProvider.connection
+      );
+    }
+  }
+
+  private async withdrawFromVaultIx(
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccountWithProtocol
-  ): Promise<string[] | undefined> {
+  ): Promise<TransactionInstruction | undefined> {
     if (
       !vaultAccount.protocol.vault.provider.publicKey ||
       !this.transactionSender
@@ -184,7 +211,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       vaultAccount.protocol.vault.provider.publicKey,
       true
     );
-    const tx = await vaultAccount.protocol.vault.methods
+    const ix = await vaultAccount.protocol.vault.methods
       .redeemConditionalTokensForUnderlyingTokens()
       .accounts({
         vault: vaultAccountAddress,
@@ -216,8 +243,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
           vaultAccount.underlyingTokenMint
         ),
       ])
-      .transaction();
+      .instruction();
 
-    return this.transactionSender.send([tx], this.rpcProvider.connection);
+    return ix;
   }
 }

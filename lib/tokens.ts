@@ -25,50 +25,66 @@ export async function enrichTokenMetadata(
   rpcProvider: Provider
 ): Promise<TokenProps & { isFallback?: boolean }> {
   // get the mint
-  const mint = await getMint(rpcProvider.connection, tokenAddress);
+  try {
+    const mint = await getMint(rpcProvider.connection, tokenAddress);
 
-  // second check jup list
-  const tokenOnJup = await getTokenFromJupStrictList(tokenAddress);
-  if (tokenOnJup) {
+    // second check jup list
+    const tokenOnJup = await getTokenFromJupStrictList(tokenAddress);
+    if (tokenOnJup) {
+      return {
+        symbol: tokenOnJup.symbol,
+        publicKey: tokenAddress.toString(),
+        url: tokenOnJup.logoURI,
+        decimals: tokenOnJup.decimals,
+        name: tokenOnJup.name,
+      };
+    }
+
+    // next, try metaplex
+    const jsonMetadata = await getMetaplexMetadataForToken(
+      tokenAddress,
+      rpcProvider
+    );
+    if (jsonMetadata && jsonMetadata.symbol) {
+      return {
+        symbol: jsonMetadata.symbol,
+        publicKey: tokenAddress.toString(),
+        url: jsonMetadata.image,
+        decimals: jsonMetadata.seller_fee_basis_points,
+        name: jsonMetadata.name,
+      };
+    }
+
+    // next, try token keg and token 2022
+    const tokenProps = await getMetadataFromTokenPrograms(
+      rpcProvider,
+      tokenAddress,
+      mint
+    );
+    if (tokenProps) {
+      return tokenProps;
+    }
+
+    // finally just return truncated address for symbol and decimals from SPL
     return {
-      symbol: tokenOnJup.symbol,
+      symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
       publicKey: tokenAddress.toString(),
-      url: tokenOnJup.logoURI,
-      decimals: tokenOnJup.decimals,
+      decimals: mint?.decimals ?? 6,
+      isFallback: true,
+      name: tokenAddress.toString().slice(0, 5).toUpperCase(),
+    };
+  } catch (e) {
+    console.error(
+      `error fetching tokenMetadata for mint [${tokenAddress.toString()}]`,
+      e
+    );
+    return {
+      symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
+      publicKey: tokenAddress.toString(),
+      decimals: 6,
+      isFallback: true,
     };
   }
-
-  // next, try metaplex
-  const jsonMetadata = await getMetaplexMetadataForToken(
-    tokenAddress,
-    rpcProvider
-  );
-  if (jsonMetadata && jsonMetadata.symbol) {
-    return {
-      symbol: jsonMetadata.symbol,
-      publicKey: tokenAddress.toString(),
-      url: jsonMetadata.image,
-      decimals: jsonMetadata.seller_fee_basis_points,
-    };
-  }
-
-  // next, try token keg and token 2022
-  const tokenProps = await getMetadataFromTokenPrograms(
-    rpcProvider,
-    tokenAddress,
-    mint
-  );
-  if (tokenProps) {
-    return tokenProps;
-  }
-
-  // finally just return truncated address for symbol and decimals from SPL
-  return {
-    symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
-    publicKey: tokenAddress.toString(),
-    decimals: mint?.decimals ?? 6,
-    isFallback: true,
-  };
 }
 
 type Token = {

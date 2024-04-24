@@ -64,7 +64,7 @@ export class TransactionSender {
           tx.feePayer = this.owner!;
           // Compute limit ix & priority fee ix
           tx.instructions = [
-            ComputeBudgetProgram.setComputeUnitLimit({ units: 150_000 }),
+            ComputeBudgetProgram.setComputeUnitLimit({ units: 200_000 }),
             ComputeBudgetProgram.setComputeUnitPrice({
               microLamports: this.priorityFee,
             }),

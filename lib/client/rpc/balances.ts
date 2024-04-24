@@ -107,6 +107,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
           proposalWithVaults.publicKey &&
           quoteToken.publicKey
         ) {
+          //TODO create proper type or even class with functionality for this(for readability)
           const tokensWithPDA = [
             {
               pda: getAssociatedTokenAddressSync(

@@ -9,7 +9,6 @@ import { Provider } from "@coral-xyz/anchor";
 import {
   Mint,
   TOKEN_2022_PROGRAM_ID,
-  TOKEN_PROGRAM_ID,
   getMint,
   getTokenMetadata,
 } from "@solana/spl-token";
@@ -29,34 +28,22 @@ export async function enrichTokenMetadata(
     const mint = await getMint(rpcProvider.connection, tokenAddress);
 
     // second check jup list
-    const tokenOnJup = await getTokenFromJupStrictList(tokenAddress);
-    if (tokenOnJup) {
-      return {
-        symbol: tokenOnJup.symbol,
-        publicKey: tokenAddress.toString(),
-        url: tokenOnJup.logoURI,
-        decimals: tokenOnJup.decimals,
-        name: tokenOnJup.name,
-      };
+    const tokenPropsOnJup = await getTokenFromJupStrictList(tokenAddress);
+    if (tokenPropsOnJup) {
+      return tokenPropsOnJup;
     }
 
     // next, try metaplex
-    const jsonMetadata = await getMetaplexMetadataForToken(
+    const tokenPropsFromMetaplex = await getMetaplexMetadataForToken(
       tokenAddress,
       rpcProvider
     );
-    if (jsonMetadata && jsonMetadata.symbol) {
-      return {
-        symbol: jsonMetadata.symbol,
-        publicKey: tokenAddress.toString(),
-        url: jsonMetadata.image,
-        decimals: jsonMetadata.seller_fee_basis_points,
-        name: jsonMetadata.name,
-      };
+    if (tokenPropsFromMetaplex) {
+      return tokenPropsFromMetaplex;
     }
 
-    // next, try token keg and token 2022
-    const tokenProps = await getMetadataFromTokenPrograms(
+    // next, try token token 2022
+    const tokenProps = await getMetadataFromToken2022(
       rpcProvider,
       tokenAddress,
       mint
@@ -97,7 +84,7 @@ type Token = {
 
 async function getTokenFromJupStrictList(
   address: PublicKey
-): Promise<Token | null> {
+): Promise<TokenProps | null> {
   try {
     const tokens = await fetchJupTokenListFromGithub();
     // First, the token with the given address in github file
@@ -118,7 +105,15 @@ async function getTokenFromJupStrictList(
       (token) => token.address === address.toString()
     );
 
-    return matchingToken || null;
+    return matchingToken
+      ? {
+          symbol: matchingToken.symbol,
+          publicKey: address.toString(),
+          url: matchingToken.logoURI,
+          decimals: matchingToken.decimals,
+          name: matchingToken.name,
+        }
+      : null;
   } catch (error) {
     console.error("Error fetching token list:", error);
     return null;
@@ -128,7 +123,7 @@ async function getTokenFromJupStrictList(
 async function getMetaplexMetadataForToken(
   tokenAddress: PublicKey,
   rpcProvider: Provider
-): Promise<JsonMetadata | null> {
+): Promise<TokenProps | null> {
   try {
     const mplTokenProgramID = new PublicKey(MPL_TOKEN_METADATA_PROGRAM_ID);
     const tokenMetaDataAddress = PublicKey.findProgramAddressSync(
@@ -149,7 +144,16 @@ async function getMetaplexMetadataForToken(
         tokenMetaDataAccount as unknown as RpcAccount
       );
       const uriRes = await fetch(decodedMetadata.uri);
-      return (await uriRes.json()) as JsonMetadata;
+      const jsonMetadata = (await uriRes.json()) as JsonMetadata;
+      return jsonMetadata && jsonMetadata.symbol
+        ? {
+            symbol: jsonMetadata.symbol,
+            publicKey: tokenAddress.toString(),
+            url: jsonMetadata.image,
+            decimals: jsonMetadata.seller_fee_basis_points,
+            name: jsonMetadata.name,
+          }
+        : null;
     }
     return null;
   } catch (e) {
@@ -197,53 +201,31 @@ async function fetchJupTokenListFromGithub(): Promise<Token[]> {
   }
 }
 
-async function getMetadataFromTokenPrograms(
+async function getMetadataFromToken2022(
   rpcProvider: Provider,
   tokenAddress: PublicKey,
   mint: Mint
 ): Promise<TokenProps | undefined> {
   try {
-    //try getting metadata from token keg
-    const tokenKegMetadata = await getTokenMetadata(
+    const token2022Metadata = await getTokenMetadata(
       rpcProvider.connection,
       tokenAddress,
       undefined,
-      TOKEN_PROGRAM_ID
+      TOKEN_2022_PROGRAM_ID
     );
-    if (tokenKegMetadata) {
-      const tokenKegUriMetadataRes = await fetch(tokenKegMetadata.uri);
-      const tokenKegUriMetadataJson: Partial<JsonMetadata> =
-        await tokenKegUriMetadataRes.json();
-
+    if (token2022Metadata) {
+      const token2022UriRes = await fetch(token2022Metadata.uri);
+      const token2022UriJson: Partial<JsonMetadata> =
+        await token2022UriRes.json();
       return {
-        symbol: tokenKegMetadata.symbol,
+        symbol: token2022Metadata.symbol,
         publicKey: tokenAddress.toString(),
-        url: tokenKegUriMetadataJson.image,
+        url: token2022UriJson.image,
         decimals: mint.decimals,
+        name: token2022UriJson.name,
       };
     }
   } catch (e) {
-    try {
-      //next, try getting metadata from token 2022
-      const token2022Metadata = await getTokenMetadata(
-        rpcProvider.connection,
-        tokenAddress,
-        undefined,
-        TOKEN_2022_PROGRAM_ID
-      );
-      if (token2022Metadata) {
-        const token2022UriRes = await fetch(token2022Metadata.uri);
-        const token2022UriJson: Partial<JsonMetadata> =
-          await token2022UriRes.json();
-        return {
-          symbol: token2022Metadata.symbol,
-          publicKey: tokenAddress.toString(),
-          url: token2022UriJson.image,
-          decimals: mint.decimals,
-        };
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(e);
   }
 }

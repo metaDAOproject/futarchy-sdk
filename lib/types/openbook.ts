@@ -45,13 +45,13 @@ export type PlaceTakeOrderArgs = IdlTypes<OpenbookV2>["PlaceTakeOrderArgs"];
 export type OpenbookMarketFetchRequest = MarketFetchRequest & {
   // TODO: not sure of a better way to do this. We pretty much just pass this in so we can return it...
   // maybe the client should just handle that instead but it allows the models to be cleaner right now
-  twapProgram: Program<OpenbookTwapV0_2> | Program<OpenbookTwapV0_1>;
+  twapProgram: Program<OpenbookTwapV0_2 | OpenbookTwapV0_1>;
 };
 
 export type OpenbookMarket = Market & {
   marketAuthority: PublicKey;
   marketInstance: OBMarket;
-  twapProgram: Program<OpenbookTwapV0_2> | Program<OpenbookTwapV0_1>;
+  twapProgram: Program<OpenbookTwapV0_2 | OpenbookTwapV0_1>;
 };
 
 /**

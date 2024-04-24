@@ -18,6 +18,7 @@ export type ProgramVersion = {
   label: ProgramVersionLabel;
   programId: PublicKey;
   idl: Idl;
+  dao: string;
 };
 export type AutocratProgram =
   | AutocratV0

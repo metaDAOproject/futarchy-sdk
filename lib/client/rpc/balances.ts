@@ -11,6 +11,7 @@ import { FutarchyBalancesClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
 import { ProposalWithVaults } from "@/types/proposals";
 import { Provider } from "@coral-xyz/anchor";
+import { Token } from "@metaplex-foundation/js";
 
 export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
   private rpcProvider: Provider;
@@ -53,7 +54,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
         }
 
         return mapping;
-      }, {} as Map<string, { token: TokenProps; pda: PublicKey }>);
+      }, new Map() as Map<string, { token: TokenProps; pda: PublicKey }>);
 
       return (
         await Promise.all(
@@ -95,15 +96,16 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
    */
   async fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
-    doasWithProposals: [Dao, ProposalWithVaults][]
+    baseToken: TokenProps,
+    quoteToken: TokenProps,
+    proposals: ProposalWithVaults[]
   ): Promise<TokenWithBalanceWithProposal[]> {
     const tokenBalances = await Promise.all(
-      doasWithProposals.map(async (dp) => {
-        const [dao, proposalWithVaults] = dp;
+      proposals.map(async (proposalWithVaults) => {
         if (
           ownerWallet &&
-          dao.baseToken.publicKey &&
-          dao.quoteToken.publicKey
+          proposalWithVaults.publicKey &&
+          quoteToken.publicKey
         ) {
           const tokensWithPDA = [
             {
@@ -115,10 +117,10 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
                 true
               ),
               token: {
-                ...dao.baseToken,
+                ...baseToken,
                 publicKey:
                   proposalWithVaults.baseVaultAccount.conditionalOnFinalizeTokenMint.toString(),
-                symbol: "p" + dao.baseToken.symbol,
+                symbol: "p" + baseToken.symbol,
               } as TokenProps,
               proposal: proposalWithVaults.publicKey,
             },
@@ -131,10 +133,10 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
                 true
               ),
               token: {
-                ...dao.baseToken,
+                ...baseToken,
                 publicKey:
                   proposalWithVaults.baseVaultAccount.conditionalOnRevertTokenMint.toString(),
-                symbol: "f" + dao.baseToken.symbol,
+                symbol: "f" + baseToken.symbol,
               } as TokenProps,
               proposal: proposalWithVaults.publicKey,
             },
@@ -147,10 +149,10 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
                 true
               ),
               token: {
-                ...dao.quoteToken,
+                ...quoteToken,
                 publicKey:
                   proposalWithVaults.quoteVaultAccount.conditionalOnFinalizeTokenMint.toString(),
-                symbol: "p" + dao.quoteToken.symbol,
+                symbol: "p" + quoteToken.symbol,
               } as TokenProps,
               proposal: proposalWithVaults.publicKey,
             },
@@ -163,10 +165,10 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
                 true
               ),
               token: {
-                ...dao.quoteToken,
+                ...quoteToken,
                 publicKey:
                   proposalWithVaults.quoteVaultAccount.conditionalOnRevertTokenMint.toString(),
-                symbol: "f" + dao.quoteToken.symbol,
+                symbol: "f" + quoteToken.symbol,
               } as TokenProps,
               proposal: proposalWithVaults.publicKey,
             },

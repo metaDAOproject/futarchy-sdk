@@ -7,6 +7,8 @@ import {
   MergeWithOptionalFields,
   FutarchyProtocol,
   VaultAccountWithProtocol,
+  DaoAccount,
+  Dao,
 } from "@/types";
 
 export type ProposalInstruction = MergeWithOptionalFields<
@@ -31,6 +33,7 @@ export type ProposalAccount = MergeWithOptionalFields<
 >;
 
 export type ProposalWithVaults = Proposal & {
+  dao: Pick<Dao, "daoAccount" | "publicKey">;
   protocol: FutarchyProtocol;
   baseVaultAccount: VaultAccountWithProtocol;
   quoteVaultAccount: VaultAccountWithProtocol;

@@ -1,8 +1,14 @@
 import { PublicKey } from "@solana/web3.js";
 import { Idl } from "@coral-xyz/anchor";
 import { ProgramVersionLabel } from "@/types";
-import { IDL as OPENBOOK_TWAP_IDLV0_1 } from "@/idl/openbook_twap_v0.1";
-import { IDL as OPENBOOK_TWAP_IDLV0_2 } from "@/idl/openbook_twap_v0.2";
+import {
+  IDL as OPENBOOK_TWAP_IDLV0_1,
+  OpenbookTwapV0_1,
+} from "@/idl/openbook_twap_v0.1";
+import {
+  IDL as OPENBOOK_TWAP_IDLV0_2,
+  OpenbookTwapV0_2,
+} from "@/idl/openbook_twap_v0.2";
 
 export const OPENBOOK_TWAP_PROGRAM_IDV0_1 = new PublicKey(
   "TWAPrdhADy2aTKN5iFZtNnkQYXERD9NvKjPFVPMSCNN"
@@ -13,7 +19,7 @@ export const OPENBOOK_TWAP_PROGRAM_IDV0_2 = new PublicKey(
 
 export const autocratVersionToTwapMap: Record<
   ProgramVersionLabel,
-  { programId: PublicKey; idl: Idl }
+  { programId: PublicKey; idl: OpenbookTwapV0_1 | OpenbookTwapV0_2 }
 > = {
   V0: {
     programId: OPENBOOK_TWAP_PROGRAM_IDV0_1,

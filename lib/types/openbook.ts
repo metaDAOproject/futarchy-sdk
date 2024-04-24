@@ -27,6 +27,7 @@ import { OpenbookTwap } from "@/idl/openbook_twap";
 export type OpenbookOrder = Order & {
   market: PublicKey;
   clientOrderId: BN;
+  // this is the owning OpenOrdersAccount address
   owner: PublicKey;
   ownerSlot: number;
 };
@@ -53,6 +54,9 @@ export type OpenbookMarket = Market & {
   twapProgram: Program<OpenbookTwapV0_2> | Program<OpenbookTwapV0_1>;
 };
 
+/**
+ * @deprecated
+ */
 export type OpenbookProposalMarket = {
   openbookMarketAccount: MarketAccount;
   marketType: MarketType;
@@ -63,6 +67,9 @@ export type OpenbookProposalMarket = {
   asks: OpenbookOrder[];
 };
 
+/**
+ * @deprecated
+ */
 export type Markets = {
   pass: MarketAccount;
   passAsks: LeafNode[];

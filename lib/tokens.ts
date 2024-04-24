@@ -89,7 +89,7 @@ async function getTokenFromJupStrictList(
     const tokens = await fetchJupTokenListFromGithub();
     // First, the token with the given address in github file
     let matchingToken = tokens.find(
-      (token) => token.address === address.toString()
+      (token) => token.publicKey === address.toString()
     );
 
     if (matchingToken) {
@@ -105,15 +105,7 @@ async function getTokenFromJupStrictList(
       (token) => token.address === address.toString()
     );
 
-    return matchingToken
-      ? {
-          symbol: matchingToken.symbol,
-          publicKey: address.toString(),
-          url: matchingToken.logoURI,
-          decimals: matchingToken.decimals,
-          name: matchingToken.name,
-        }
-      : null;
+    return matchingToken ?? null;
   } catch (error) {
     console.error("Error fetching token list:", error);
     return null;
@@ -145,9 +137,9 @@ async function getMetaplexMetadataForToken(
       );
       const uriRes = await fetch(decodedMetadata.uri);
       const jsonMetadata = (await uriRes.json()) as JsonMetadata;
-      return jsonMetadata && jsonMetadata.symbol
+      return !!jsonMetadata
         ? {
-            symbol: jsonMetadata.symbol,
+            symbol: jsonMetadata.symbol ?? "",
             publicKey: tokenAddress.toString(),
             url: jsonMetadata.image,
             decimals: jsonMetadata.seller_fee_basis_points,
@@ -162,7 +154,7 @@ async function getMetaplexMetadataForToken(
   }
 }
 
-async function fetchJupTokenListFromGithub(): Promise<Token[]> {
+async function fetchJupTokenListFromGithub(): Promise<TokenProps[]> {
   try {
     const url =
       "https://api.github.com/repos/jup-ag/token-list/contents/validated-tokens.csv";
@@ -178,18 +170,18 @@ async function fetchJupTokenListFromGithub(): Promise<Token[]> {
     const csvContent = Buffer.from(data.content, "base64").toString();
 
     const lines = csvContent.split("\n");
-    const tokens: Token[] = [];
+    const tokens: TokenProps[] = [];
     const headers = lines[0].split(",");
 
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].split(",");
       if (values.length !== headers.length) continue; // Skip malformed rows
-      const token: Token = {
+      const token: TokenProps = {
         name: values[0],
         symbol: values[1],
-        address: values[2],
+        publicKey: values[2],
         decimals: parseInt(values[3]),
-        logoURI: values[4],
+        url: values[4],
       };
       tokens.push(token);
     }
@@ -205,7 +197,7 @@ async function getMetadataFromToken2022(
   rpcProvider: Provider,
   tokenAddress: PublicKey,
   mint: Mint
-): Promise<TokenProps | undefined> {
+): Promise<TokenProps | null> {
   try {
     const token2022Metadata = await getTokenMetadata(
       rpcProvider.connection,
@@ -226,6 +218,11 @@ async function getMetadataFromToken2022(
       };
     }
   } catch (e) {
-    console.log(e);
+    console.log(
+      "error fetching from token 2022 for address:",
+      tokenAddress.toString()
+    );
+  } finally {
+    return null;
   }
 }

@@ -1,5 +1,6 @@
 export * from "./twap";
 export * from "./conditionalVault";
+export * from "./markets";
 
 import { PublicKey } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
@@ -35,20 +36,30 @@ export const AUTOCRAT_VERSIONS: ProgramVersion[] = [
     label: "V0.3",
     programId: new PublicKey("FuTPR6ScKMPHtZFwacq9qrtf9VjscawNEFTb2wSYr1gY"),
     idl: AUTOCRAT_V0_3_IDL as AutocratProgram,
+    dao: "multidao",
+  },
+  {
+    label: "V0.2",
+    programId: new PublicKey("fut5MzSUFcmxaEHMvo9qQThrAL4nAv5FQ52McqhniSt"),
+    idl: AUTOCRAT_V0_2_IDL as AutocratProgram,
+    dao: "futuredao",
   },
   {
     label: "V0.2",
     programId: new PublicKey("metaRK9dUBnrAdZN6uUDKvxBVKW5pyCbPVmLtUZwtBp"),
     idl: AUTOCRAT_V0_2_IDL as AutocratProgram,
+    dao: "metadao",
   },
   {
     label: "V0.1",
     programId: new PublicKey("metaX99LHn3A7Gr7VAcCfXhpfocvpMpqQ3eyp3PGUUq"),
     idl: AUTOCRAT_V0_1_IDL as AutocratProgram,
+    dao: "metadao",
   },
   {
     label: "V0",
     programId: new PublicKey("meta3cxKzFBmWYgCVozmvCQAS3y9b3fGxrG9HkHL7Wi"),
     idl: AUTOCRAT_V0_IDL as unknown as AutocratProgram,
+    dao: "metadao",
   },
 ];

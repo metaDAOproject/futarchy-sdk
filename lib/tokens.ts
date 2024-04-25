@@ -9,7 +9,6 @@ import { Provider } from "@coral-xyz/anchor";
 import {
   Mint,
   TOKEN_2022_PROGRAM_ID,
-  TOKEN_PROGRAM_ID,
   getMint,
   getTokenMetadata,
 } from "@solana/spl-token";
@@ -25,50 +24,54 @@ export async function enrichTokenMetadata(
   rpcProvider: Provider
 ): Promise<TokenProps & { isFallback?: boolean }> {
   // get the mint
-  const mint = await getMint(rpcProvider.connection, tokenAddress);
+  try {
+    const mint = await getMint(rpcProvider.connection, tokenAddress);
 
-  // second check jup list
-  const tokenOnJup = await getTokenFromJupStrictList(tokenAddress);
-  if (tokenOnJup) {
+    // second check jup list
+    const tokenPropsOnJup = await getTokenFromJupStrictList(tokenAddress);
+    if (tokenPropsOnJup) {
+      return tokenPropsOnJup;
+    }
+
+    // next, try metaplex
+    const tokenPropsFromMetaplex = await getMetaplexMetadataForToken(
+      tokenAddress,
+      rpcProvider
+    );
+    if (tokenPropsFromMetaplex) {
+      return tokenPropsFromMetaplex;
+    }
+
+    // next, try token token 2022
+    const tokenProps = await getMetadataFromToken2022(
+      rpcProvider,
+      tokenAddress,
+      mint
+    );
+    if (tokenProps) {
+      return tokenProps;
+    }
+
+    // finally just return truncated address for symbol and decimals from SPL
     return {
-      symbol: tokenOnJup.symbol,
+      symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
       publicKey: tokenAddress.toString(),
-      url: tokenOnJup.logoURI,
-      decimals: tokenOnJup.decimals,
+      decimals: mint?.decimals ?? 6,
+      isFallback: true,
+      name: tokenAddress.toString().slice(0, 5).toUpperCase(),
+    };
+  } catch (e) {
+    console.error(
+      `error fetching tokenMetadata for mint [${tokenAddress.toString()}]`,
+      e
+    );
+    return {
+      symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
+      publicKey: tokenAddress.toString(),
+      decimals: 6,
+      isFallback: true,
     };
   }
-
-  // next, try metaplex
-  const jsonMetadata = await getMetaplexMetadataForToken(
-    tokenAddress,
-    rpcProvider
-  );
-  if (jsonMetadata && jsonMetadata.symbol) {
-    return {
-      symbol: jsonMetadata.symbol,
-      publicKey: tokenAddress.toString(),
-      url: jsonMetadata.image,
-      decimals: jsonMetadata.seller_fee_basis_points,
-    };
-  }
-
-  // next, try token keg and token 2022
-  const tokenProps = await getMetadataFromTokenPrograms(
-    rpcProvider,
-    tokenAddress,
-    mint
-  );
-  if (tokenProps) {
-    return tokenProps;
-  }
-
-  // finally just return truncated address for symbol and decimals from SPL
-  return {
-    symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
-    publicKey: tokenAddress.toString(),
-    decimals: mint?.decimals ?? 6,
-    isFallback: true,
-  };
 }
 
 type Token = {
@@ -81,12 +84,12 @@ type Token = {
 
 async function getTokenFromJupStrictList(
   address: PublicKey
-): Promise<Token | null> {
+): Promise<TokenProps | null> {
   try {
     const tokens = await fetchJupTokenListFromGithub();
     // First, the token with the given address in github file
     let matchingToken = tokens.find(
-      (token) => token.address === address.toString()
+      (token) => token.publicKey === address.toString()
     );
 
     if (matchingToken) {
@@ -102,7 +105,7 @@ async function getTokenFromJupStrictList(
       (token) => token.address === address.toString()
     );
 
-    return matchingToken || null;
+    return matchingToken ?? null;
   } catch (error) {
     console.error("Error fetching token list:", error);
     return null;
@@ -112,7 +115,7 @@ async function getTokenFromJupStrictList(
 async function getMetaplexMetadataForToken(
   tokenAddress: PublicKey,
   rpcProvider: Provider
-): Promise<JsonMetadata | null> {
+): Promise<TokenProps | null> {
   try {
     const mplTokenProgramID = new PublicKey(MPL_TOKEN_METADATA_PROGRAM_ID);
     const tokenMetaDataAddress = PublicKey.findProgramAddressSync(
@@ -133,7 +136,16 @@ async function getMetaplexMetadataForToken(
         tokenMetaDataAccount as unknown as RpcAccount
       );
       const uriRes = await fetch(decodedMetadata.uri);
-      return (await uriRes.json()) as JsonMetadata;
+      const jsonMetadata = (await uriRes.json()) as JsonMetadata;
+      return !!jsonMetadata
+        ? {
+            symbol: jsonMetadata.symbol ?? "",
+            publicKey: tokenAddress.toString(),
+            url: jsonMetadata.image,
+            decimals: jsonMetadata.seller_fee_basis_points,
+            name: jsonMetadata.name,
+          }
+        : null;
     }
     return null;
   } catch (e) {
@@ -142,7 +154,7 @@ async function getMetaplexMetadataForToken(
   }
 }
 
-async function fetchJupTokenListFromGithub(): Promise<Token[]> {
+async function fetchJupTokenListFromGithub(): Promise<TokenProps[]> {
   try {
     const url =
       "https://api.github.com/repos/jup-ag/token-list/contents/validated-tokens.csv";
@@ -158,18 +170,18 @@ async function fetchJupTokenListFromGithub(): Promise<Token[]> {
     const csvContent = Buffer.from(data.content, "base64").toString();
 
     const lines = csvContent.split("\n");
-    const tokens: Token[] = [];
+    const tokens: TokenProps[] = [];
     const headers = lines[0].split(",");
 
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].split(",");
       if (values.length !== headers.length) continue; // Skip malformed rows
-      const token: Token = {
+      const token: TokenProps = {
         name: values[0],
         symbol: values[1],
-        address: values[2],
+        publicKey: values[2],
         decimals: parseInt(values[3]),
-        logoURI: values[4],
+        url: values[4],
       };
       tokens.push(token);
     }
@@ -181,53 +193,36 @@ async function fetchJupTokenListFromGithub(): Promise<Token[]> {
   }
 }
 
-async function getMetadataFromTokenPrograms(
+async function getMetadataFromToken2022(
   rpcProvider: Provider,
   tokenAddress: PublicKey,
   mint: Mint
-): Promise<TokenProps | undefined> {
+): Promise<TokenProps | null> {
   try {
-    //try getting metadata from token keg
-    const tokenKegMetadata = await getTokenMetadata(
+    const token2022Metadata = await getTokenMetadata(
       rpcProvider.connection,
       tokenAddress,
       undefined,
-      TOKEN_PROGRAM_ID
+      TOKEN_2022_PROGRAM_ID
     );
-    if (tokenKegMetadata) {
-      const tokenKegUriMetadataRes = await fetch(tokenKegMetadata.uri);
-      const tokenKegUriMetadataJson: Partial<JsonMetadata> =
-        await tokenKegUriMetadataRes.json();
-
+    if (token2022Metadata) {
+      const token2022UriRes = await fetch(token2022Metadata.uri);
+      const token2022UriJson: Partial<JsonMetadata> =
+        await token2022UriRes.json();
       return {
-        symbol: tokenKegMetadata.symbol,
+        symbol: token2022Metadata.symbol,
         publicKey: tokenAddress.toString(),
-        url: tokenKegUriMetadataJson.image,
+        url: token2022UriJson.image,
         decimals: mint.decimals,
+        name: token2022UriJson.name,
       };
     }
   } catch (e) {
-    try {
-      //next, try getting metadata from token 2022
-      const token2022Metadata = await getTokenMetadata(
-        rpcProvider.connection,
-        tokenAddress,
-        undefined,
-        TOKEN_2022_PROGRAM_ID
-      );
-      if (token2022Metadata) {
-        const token2022UriRes = await fetch(token2022Metadata.uri);
-        const token2022UriJson: Partial<JsonMetadata> =
-          await token2022UriRes.json();
-        return {
-          symbol: token2022Metadata.symbol,
-          publicKey: tokenAddress.toString(),
-          url: token2022UriJson.image,
-          decimals: mint.decimals,
-        };
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(
+      "error fetching from token 2022 for address:",
+      tokenAddress.toString()
+    );
+  } finally {
+    return null;
   }
 }

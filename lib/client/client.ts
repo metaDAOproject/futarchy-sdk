@@ -1,7 +1,8 @@
 import { PublicKey } from "@solana/web3.js";
 import {
   DaoAccount,
-  DaoWithTokens,
+  Dao,
+  DaoAggregate,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
   VaultAccount,
@@ -10,6 +11,10 @@ import {
   ProposalWithVaults,
   Orderbook,
   PlaceOrderType,
+  FutarchyProtocol,
+  MarketFetchRequest,
+  TokenProps,
+  Proposal,
 } from "@/types";
 
 export interface FutarchyClient {
@@ -20,32 +25,33 @@ export interface FutarchyClient {
 }
 
 export interface FutarchyDaoClient {
-  fetchAllDaos(): Promise<DaoWithTokens[]>;
-  fetchDao(daoAddress: string): Promise<DaoWithTokens | undefined>;
+  fetchAllDaos(): Promise<DaoAggregate[]>;
+  fetchDao(
+    daoAddress: string,
+    protocol: FutarchyProtocol
+  ): Promise<Dao | undefined>;
 }
 
 export interface FutarchyProposalsClient {
-  fetchProposals(dao: DaoAccount): Promise<ProposalWithVaults[]>;
+  fetchProposals(daoAggregate: DaoAggregate): Promise<ProposalWithVaults[]>;
   deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccount
   ): Promise<string[] | undefined>;
-  withdraw(
-    vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccount
-  ): Promise<string[] | undefined>;
+  withdraw(proposal: Proposal): Promise<string[] | undefined>;
 }
 
 export interface FutarchyBalancesClient {
   fetchMainTokenWalletBalances(
-    dao: DaoWithTokens,
+    dao: DaoAggregate,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]>;
   fetchAllConditionalTokenWalletBalances(
-    dao: DaoWithTokens,
     ownerWallet: PublicKey,
-    proposalsWithVaults: ProposalWithVaults[]
+    quoteToken: TokenProps,
+    baseToken: TokenProps,
+    proposals: ProposalWithVaults[]
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 
@@ -54,7 +60,7 @@ export interface FutarchyMarketsClient<
   M extends Market = Market,
   O extends Order = Order
 > {
-  fetchMarket(marketKey: PublicKey): Promise<M | undefined>;
+  fetchMarket(request: MarketFetchRequest): Promise<M | undefined>;
   fetchOrderBook(market: M): Promise<Orderbook<O> | undefined>;
   fetchUserOrdersFromOrderbooks(
     owner: PublicKey,
@@ -62,7 +68,7 @@ export interface FutarchyMarketsClient<
   ): Promise<O[]>;
   placeOrder(
     market: M,
-    order: Omit<O, "status">,
+    order: Omit<O, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType
   ): Promise<string[]>;
   cancelOrder(market: M, order: O): Promise<string[]>;

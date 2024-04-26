@@ -4,7 +4,7 @@ export type TokenProps = {
   url?: string;
   publicKey?: string;
   symbol: string;
-  decimals?: number;
+  decimals: number;
   name?: string;
 };
 

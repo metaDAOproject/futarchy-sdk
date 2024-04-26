@@ -12,12 +12,14 @@ import { FutarchyRPCBalancesClient } from "./balances";
 import { FutarchyOpenbookMarketsRPCClient } from "./openbookMarkets";
 import { TransactionSender } from "@/transactions";
 import { getFutarchyProtocols } from "@/utils";
+import { FutarchyProtocol } from "@/types";
 
 export class FutarchyRPCClient implements FutarchyClient {
   public daos: FutarchyRPCDaoClient;
   public proposals: FutarchyRPCProposalsClient;
   public balances: FutarchyRPCBalancesClient;
   public markets: FutarchyOpenbookMarketsRPCClient;
+  public futarchyProtocols: FutarchyProtocol[];
 
   private constructor(
     // has to be AnchorProvider because of Openbook SDK
@@ -25,6 +27,7 @@ export class FutarchyRPCClient implements FutarchyClient {
     transactionSender: TransactionSender | undefined
   ) {
     const futarchyProtocols = getFutarchyProtocols(rpcProvider);
+    this.futarchyProtocols = futarchyProtocols;
 
     this.daos = new FutarchyRPCDaoClient(rpcProvider, futarchyProtocols);
     this.proposals = new FutarchyRPCProposalsClient(

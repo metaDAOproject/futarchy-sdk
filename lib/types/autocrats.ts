@@ -51,9 +51,20 @@ export type DaoAccount = MergeWithOptionalFields<
 export type Dao = {
   protocol: FutarchyProtocol;
   publicKey: PublicKey;
-  daoAccount: DaoAccount;
-  baseToken: TokenProps;
-  quoteToken: TokenProps;
+  daoAccount: Pick<
+    DaoAccount,
+    "treasury" | "tokenMint" | "usdcMint" | "proposalCount"
+  > & { tokenMint: PublicKey };
+  baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
+    name: string;
+    publicKey: string;
+    url: string;
+  };
+  quoteToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
+    name: string;
+    publicKey: string;
+    url: string;
+  };
 };
 
 // we might want to consider changing this to be DaoDetails as the main component and

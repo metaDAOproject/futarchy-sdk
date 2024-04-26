@@ -15,7 +15,7 @@ import {
   DaoAggregate,
   FutarchyProtocol,
 } from "@/types";
-import { ProposalWithVaults } from "@/types/proposals";
+import { Proposal } from "@/types/proposals";
 import { FutarchyProposalsClient } from "@/client";
 import {
   VaultAccount,
@@ -23,6 +23,7 @@ import {
 } from "@/types/conditionalVault";
 import { TransactionSender } from "@/transactions";
 import { enrichTokenMetadata } from "@/tokens";
+import { getProposalFromAccount } from "@/proposal";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: Provider;
@@ -38,9 +39,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     this.futarchyProtocols = futarchyProtocols;
     this.transactionSender = transactionSender;
   }
-  async fetchProposals(
-    daoAggregate: DaoAggregate
-  ): Promise<ProposalWithVaults[]> {
+  async fetchProposals(daoAggregate: DaoAggregate): Promise<Proposal[]> {
     return (
       await Promise.all(
         daoAggregate.daos.map(async (dao) => {
@@ -55,34 +54,23 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
             await dao.protocol.vault.account.conditionalVault.all();
           const vaultsByAddress: Record<string, VaultAccount> =
             allVaults.reduce((prev, curr) => {
-              // add protocol assignment here
               prev[curr.publicKey.toString()] = curr.account;
               return prev;
             }, {} as Record<string, VaultAccount>);
-          const proposalsWithVaults: ProposalWithVaults[] = allProposals.map(
-            (p) => {
-              const baseVaultAccount =
-                vaultsByAddress[p.account.baseVault.toString()];
-              const quoteVaultAccount =
-                vaultsByAddress[p.account.quoteVault.toString()];
-              return {
-                ...p,
-                dao: {
-                  daoAccount: dao.daoAccount,
-                  publicKey: dao.publicKey,
-                },
-                protocol: dao.protocol,
-                baseVaultAccount: {
-                  ...baseVaultAccount,
-                  protocol: dao.protocol,
-                },
-                quoteVaultAccount: {
-                  ...quoteVaultAccount,
-                  protocol: dao.protocol,
-                },
-              };
-            }
-          );
+          const proposalsWithVaults: Proposal[] = allProposals.map((p) => {
+            const baseVaultAccount =
+              vaultsByAddress[p.account.baseVault.toString()];
+            const quoteVaultAccount =
+              vaultsByAddress[p.account.quoteVault.toString()];
+            return {
+              ...getProposalFromAccount(
+                p,
+                dao,
+                baseVaultAccount,
+                quoteVaultAccount
+              ),
+            };
+          });
 
           return proposalsWithVaults.filter((p) => {
             const { baseVaultAccount } = p;
@@ -167,7 +155,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
 
-  public async withdraw(proposal: ProposalWithVaults) {
+  public async withdraw(proposal: Proposal) {
     const withdrawBaseIx = await this.withdrawFromVaultIx(
       proposal.account.baseVault,
       proposal.baseVaultAccount

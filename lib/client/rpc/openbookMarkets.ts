@@ -306,7 +306,6 @@ export class FutarchyOpenbookMarketsRPCClient
     market: OBMarket;
   }): TwapPlaceOrderArgs | undefined {
     const priceCalc = orderType === "limit" ? price : 0;
-    console.log("price calc", priceCalc);
     let priceLots = market.priceUiToLots(priceCalc);
     const _priceLots = market.priceUiToLots(priceCalc);
     const maxBaseLots = market.baseUiToLots(amount);
@@ -503,7 +502,6 @@ export class FutarchyOpenbookMarketsRPCClient
           price: order.price,
         });
         if (placeMarketOrderArgs) {
-          console.log(placeMarketOrderArgs);
           placeIx = await market.twapProgram.methods
             .placeTakeOrder(placeMarketOrderArgs)
             .accounts({

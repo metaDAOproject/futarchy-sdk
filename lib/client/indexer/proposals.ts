@@ -1,5 +1,10 @@
 import { PublicKey } from "@solana/web3.js";
-import { VaultAccount, Proposal, DaoAggregate } from "@/types";
+import {
+  VaultAccount,
+  Proposal,
+  DaoAggregate,
+  VaultAccountWithProtocol,
+} from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
 
@@ -9,17 +14,21 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     this.rpcProposalsClient = rpcProposalsClient;
   }
   async fetchProposals(dao: DaoAggregate): Promise<Proposal[]> {
-    return [];
+    return this.rpcProposalsClient.fetchProposals(dao);
   }
   async deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccount
+    vaultAccount: VaultAccountWithProtocol
   ): Promise<string[] | undefined> {
-    return;
+    return this.rpcProposalsClient.deposit(
+      amount,
+      vaultAccountAddress,
+      vaultAccount
+    );
   }
 
   async withdraw(proposal: Proposal): Promise<string[] | undefined> {
-    return [];
+    return this.rpcProposalsClient.withdraw(proposal);
   }
 }

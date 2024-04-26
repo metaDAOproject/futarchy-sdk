@@ -25,20 +25,23 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   async fetchMarket(
     request: OpenbookMarketFetchRequest
   ): Promise<OpenbookMarket | undefined> {
-    return;
+    return this.rpcMarketsClient.fetchMarket(request);
   }
 
   async fetchOrderBook(
     market: OpenbookMarket
   ): Promise<Orderbook<Order> | undefined> {
-    return;
+    return this.fetchOrderBook(market);
   }
 
   async fetchUserOrdersFromOrderbooks(
     owner: PublicKey,
     orderbooks: Orderbook<Order>[]
   ): Promise<OpenbookOrder[]> {
-    return [];
+    return this.rpcMarketsClient.fetchUserOrdersFromOrderbooks(
+      owner,
+      orderbooks
+    );
   }
 
   async placeOrder(

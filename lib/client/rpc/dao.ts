@@ -56,9 +56,9 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     const doaAggregates: DaoAggregate[] = [];
     for (const key in daosByName) {
       const daoAgg: DaoAggregate = {
-        daoName: key,
+        name: key,
         daos: daosByName[key],
-        daoSlug: createSlug(key),
+        slug: createSlug(key),
       };
       doaAggregates.push(daoAgg);
     }
@@ -99,8 +99,14 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     if (baseMint) {
       const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);
       const quoteToken = await enrichTokenMetadata(quoteMint, this.rpcProvider);
+      const dao = {
+        ...daoAccount,
+        tokenMint: daoAccount.tokenMint
+          ? daoAccount.tokenMint
+          : new PublicKey(daoAccount.metaMint ?? ""),
+      };
       return {
-        daoAccount,
+        daoAccount: dao,
         baseToken,
         quoteToken,
         protocol,

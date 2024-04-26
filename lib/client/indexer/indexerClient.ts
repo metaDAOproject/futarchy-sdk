@@ -27,9 +27,10 @@ export class FutarchyIndexerClient implements FutarchyClient {
 
     const options = {
       url: indexerURL,
-      // TODO this will not work long term......
       headers: {
+        // TODO this admin secret in the request... should not be deployed to staging probably
         "x-hasura-admin-secret": indexerApiKey,
+        // TODO should we add user wallet address here for adding querying user-specific data?
       },
     };
     const graphqlClient = createClient(options);

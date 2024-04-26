@@ -19,7 +19,10 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     dao: DaoAggregate,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]> {
-    return [];
+    return this.rpcBalancesClient.fetchMainTokenWalletBalances(
+      dao,
+      ownerWallet
+    );
   }
   async fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
@@ -27,6 +30,11 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     quoteToken: TokenProps,
     proposalsWithVaults: Proposal[]
   ): Promise<TokenWithBalanceWithProposal[]> {
-    return [];
+    return this.rpcBalancesClient.fetchAllConditionalTokenWalletBalances(
+      ownerWallet,
+      baseToken,
+      quoteToken,
+      proposalsWithVaults
+    );
   }
 }

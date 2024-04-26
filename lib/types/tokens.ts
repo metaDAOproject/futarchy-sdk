@@ -1,11 +1,11 @@
 import { PublicKey } from "@solana/web3.js";
 
 export type TokenProps = {
-  url?: string;
-  publicKey?: string;
+  url: string | null;
+  publicKey: string | null;
   symbol: string;
   decimals: number;
-  name?: string;
+  name: string | null;
 };
 
 export type TokenWithBalance = { token: TokenProps; balance: number };

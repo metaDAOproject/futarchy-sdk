@@ -54,22 +54,23 @@ export type Dao = {
   daoAccount: Pick<
     DaoAccount,
     "treasury" | "tokenMint" | "usdcMint" | "proposalCount"
-  > & { tokenMint: PublicKey };
+  >;
   baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
-    name: string;
-    publicKey: string;
-    url: string;
+    name: string | null;
+    publicKey: string | null;
+    url: string | null;
   };
   quoteToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
-    name: string;
-    publicKey: string;
-    url: string;
+    name: string | null;
+    publicKey: string | null;
+    url: string | null;
   };
 };
 
 // we might want to consider changing this to be DaoDetails as the main component and
 export type DaoAggregate = {
-  daoName: string;
-  daoSlug: string;
+  name: string;
+  slug: string;
   daos: Dao[];
+  logo?: string | null;
 };

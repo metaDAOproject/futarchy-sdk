@@ -29,6 +29,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           github: true,
           x_account: true,
           description: true,
+          logo: true,
           daos: {
             program_acct: true,
             dao_acct: true,
@@ -56,8 +57,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
 
       const daoAggregates = dao_details.map<DaoAggregate>((daoDetails) => {
         return {
-          daoName: daoDetails.name ?? "",
-          daoSlug: daoDetails.slug ?? "",
+          name: daoDetails.name ?? "",
+          slug: daoDetails.slug ?? "",
+          logo: daoDetails.logo as string | null,
           daos: daoDetails.daos
             .map((d) => {
               if (this.protocolMap.get(d.program_acct)) {
@@ -65,16 +67,16 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                   baseToken: {
                     symbol: d.tokenByBaseAcct.symbol,
                     decimals: d.tokenByBaseAcct.decimals,
-                    name: d.tokenByBaseAcct.name ?? "",
+                    name: d.tokenByBaseAcct.name ?? null,
                     publicKey: d.tokenByBaseAcct.mint_acct,
-                    url: "https://app.themetadao.org/_next/static/media/meta.5003001f.png",
+                    url: "",
                   },
                   quoteToken: {
                     symbol: d.tokenByQuoteAcct?.symbol,
                     decimals: d.tokenByQuoteAcct?.decimals,
                     name: d.tokenByQuoteAcct?.name,
                     publicKey: d.tokenByQuoteAcct?.mint_acct,
-                    url: "https://app.themetadao.org/_next/static/media/meta.5003001f.png",
+                    url: "",
                   },
                   daoAccount: {
                     usdcMint: new PublicKey(
@@ -91,7 +93,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                 };
               }
             })
-            .filter((d): d is Dao => !!d),
+            .filter((d) => !!d) as Dao[],
         };
       });
 

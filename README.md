@@ -10,13 +10,9 @@ The Futarchy TypeScript SDK provides developers with a powerful, easy-to-use int
 
 ## Installation
 
-To use the Futarchy TypeScript SDK in your project, you'll need to install it via npm or yarn. Ensure you have Node.js installed before proceeding.
-
 ```bash
-npm install @themetadao/futarchy-ts
+pnpm install -P @themetadao/futarchy-sdk
 ```
-
-Or install via other package manager like yarn, pnpm, bun, etc.
 
 ## Usage
 
@@ -24,7 +20,7 @@ To start using the SDK, you need to import it into your project, along with nece
 
 ```typescript
 import { PublicKey } from "@solana/web3.js";
-import { FutarchyRPCClient, AUTOCRAT_VERSIONS } from "@themetadao/futarchy-ts";
+import { FutarchyRPCClient, AUTOCRAT_VERSIONS } from "@themetadao/futarchy-sdk";
 ```
 
 ### Initializing the Client

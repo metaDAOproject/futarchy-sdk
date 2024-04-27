@@ -11,7 +11,7 @@ The Futarchy TypeScript SDK provides developers with a powerful, easy-to-use int
 ## Installation
 
 ```bash
-pnpm install -P @themetadao/futarchy-sdk
+pnpm install -P @metadaoproject/futarchy-sdk
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ To start using the SDK, you need to import it into your project, along with nece
 
 ```typescript
 import { PublicKey } from "@solana/web3.js";
-import { FutarchyRPCClient, AUTOCRAT_VERSIONS } from "@themetadao/futarchy-sdk";
+import { FutarchyRPCClient, AUTOCRAT_VERSIONS } from "@metadaoproject/futarchy-sdk";
 ```
 
 ### Initializing the Client

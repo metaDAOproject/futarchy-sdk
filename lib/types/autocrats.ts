@@ -74,3 +74,34 @@ export type DaoAggregate = {
   daos: Dao[];
   logo?: string | null;
 };
+
+/** INDEXER GRAPHQL TYPES */
+export type DaoDetails__GQL = {
+  name: string | null;
+  slug: string | null;
+  image_url: string | null;
+  daos: Array<{
+    program_acct: string;
+    dao_acct: string;
+    treasury_acct: string | null;
+    tokenByBaseAcct: {
+      symbol: string;
+      decimals: number;
+      name: string | null;
+      mint_acct: string;
+      image_url: string | null;
+    } | null;
+    tokenByQuoteAcct: {
+      symbol: string;
+      decimals: number | null;
+      name: string | null;
+      mint_acct: string | null;
+      image_url: string | null;
+    } | null;
+    proposals_aggregate: {
+      aggregate: {
+        count: number | null;
+      } | null;
+    };
+  }>;
+};

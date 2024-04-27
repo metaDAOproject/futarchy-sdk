@@ -14,6 +14,7 @@ import {
   FutarchyProtocol,
   MarketFetchRequest,
   TokenProps,
+  VaultAccountWithProtocol,
 } from "@/types";
 
 export interface FutarchyClient {
@@ -28,7 +29,7 @@ export interface FutarchyDaoClient {
   fetchDao(
     daoAddress: string,
     protocol: FutarchyProtocol
-  ): Promise<Dao | undefined>;
+  ): Promise<DaoAggregate | null>;
 }
 
 export interface FutarchyProposalsClient {
@@ -36,7 +37,7 @@ export interface FutarchyProposalsClient {
   deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccount
+    vaultAccount: VaultAccountWithProtocol
   ): Promise<string[] | undefined>;
   withdraw(proposal: Proposal): Promise<string[] | undefined>;
 }

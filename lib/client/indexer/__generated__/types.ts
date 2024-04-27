@@ -11,94 +11,96 @@ export default {
         60,
         72,
         84,
-        92,
-        98,
-        108,
-        116,
-        131,
-        143,
-        155,
-        163,
-        173,
-        183,
-        187,
-        194,
-        204,
+        100,
+        111,
+        115,
+        117,
+        123,
+        133,
+        141,
+        156,
+        168,
+        180,
+        188,
+        198,
+        208,
         212,
-        217,
-        232,
-        244,
-        245,
-        246,
-        258,
-        276,
-        288,
-        300,
-        308,
-        310,
-        323,
+        219,
+        229,
+        237,
+        242,
+        257,
+        269,
+        270,
+        271,
+        283,
+        301,
+        313,
+        325,
+        333,
         335,
-        336,
-        337,
-        349,
-        377,
-        388,
-        389,
-        390,
-        391,
-        392,
-        393,
-        394,
-        395,
-        396,
-        408,
+        348,
+        360,
+        361,
+        362,
+        374,
+        402,
+        413,
+        414,
+        415,
+        416,
+        417,
+        418,
+        419,
+        420,
         421,
-        431,
-        439,
-        455,
-        470,
-        482,
-        506,
-        538,
+        433,
+        446,
+        456,
+        464,
+        480,
+        495,
+        507,
+        535,
+        547,
+        548,
+        549,
         550,
         551,
         552,
         553,
         554,
         555,
-        556,
-        557,
-        558,
-        570,
-        588,
-        599,
-        611,
-        619,
-        631,
-        643,
-        655,
-        663,
-        675,
-        687,
-        699,
-        712,
-        722,
-        730,
-        745,
-        756,
-        768,
-        786,
-        798,
-        810,
-        823,
-        833,
-        841,
-        856,
-        867,
-        879,
-        891,
-        898,
-        902
+        567,
+        585,
+        596,
+        608,
+        616,
+        628,
+        640,
+        652,
+        660,
+        672,
+        684,
+        696,
+        709,
+        719,
+        727,
+        742,
+        753,
+        765,
+        783,
+        795,
+        807,
+        820,
+        830,
+        838,
+        853,
+        864,
+        876,
+        888,
+        895,
+        899
     ],
     "types": {
         "Boolean": {},
@@ -284,7 +286,7 @@ export default {
                 7
             ],
             "market": [
-                266
+                291
             ],
             "market_acct": [
                 5
@@ -293,7 +295,7 @@ export default {
                 7
             ],
             "timestamp": [
-                663
+                660
             ],
             "volume": [
                 7
@@ -390,7 +392,7 @@ export default {
                 17
             ],
             "count": [
-                310
+                335
             ],
             "max": [
                 23
@@ -465,28 +467,28 @@ export default {
         },
         "candles_avg_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -521,7 +523,7 @@ export default {
                 8
             ],
             "market": [
-                275
+                300
             ],
             "market_acct": [
                 6
@@ -530,7 +532,7 @@ export default {
                 8
             ],
             "timestamp": [
-                664
+                661
             ],
             "volume": [
                 8
@@ -589,7 +591,7 @@ export default {
                 7
             ],
             "market": [
-                284
+                309
             ],
             "market_acct": [
                 5
@@ -598,7 +600,7 @@ export default {
                 7
             ],
             "timestamp": [
-                663
+                660
             ],
             "volume": [
                 7
@@ -633,7 +635,7 @@ export default {
                 7
             ],
             "timestamp": [
-                663
+                660
             ],
             "volume": [
                 7
@@ -644,34 +646,34 @@ export default {
         },
         "candles_max_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "timestamp": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -703,7 +705,7 @@ export default {
                 7
             ],
             "timestamp": [
-                663
+                660
             ],
             "volume": [
                 7
@@ -714,34 +716,34 @@ export default {
         },
         "candles_min_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "timestamp": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -774,37 +776,37 @@ export default {
         },
         "candles_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "market": [
-                286
+                311
             ],
             "market_acct": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "timestamp": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -818,7 +820,7 @@ export default {
                 5
             ],
             "timestamp": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -851,7 +853,7 @@ export default {
                 7
             ],
             "timestamp": [
-                663
+                660
             ],
             "volume": [
                 7
@@ -891,28 +893,28 @@ export default {
         },
         "candles_stddev_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -949,28 +951,28 @@ export default {
         },
         "candles_stddev_pop_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1007,28 +1009,28 @@ export default {
         },
         "candles_stddev_samp_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1039,7 +1041,7 @@ export default {
                 39
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -1071,7 +1073,7 @@ export default {
                 7
             ],
             "timestamp": [
-                663
+                660
             ],
             "volume": [
                 7
@@ -1111,28 +1113,28 @@ export default {
         },
         "candles_sum_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1184,28 +1186,28 @@ export default {
         },
         "candles_var_pop_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1242,28 +1244,28 @@ export default {
         },
         "candles_var_samp_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1300,28 +1302,28 @@ export default {
         },
         "candles_variance_order_by": {
             "candle_average": [
-                310
+                335
             ],
             "candle_duration": [
-                310
+                335
             ],
             "close": [
-                310
+                335
             ],
             "cond_market_twap": [
-                310
+                335
             ],
             "high": [
-                310
+                335
             ],
             "low": [
-                310
+                335
             ],
             "open": [
-                310
+                335
             ],
             "volume": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1385,19 +1387,19 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "proposal": [
-                518
+                515
             ],
             "proposal_acct": [
                 5
             ],
             "reactions": [
-                578,
+                575,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -1407,19 +1409,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
             "reactions_aggregate": [
-                579,
+                576,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -1429,11 +1431,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
@@ -1532,7 +1534,7 @@ export default {
                 58
             ],
             "count": [
-                310
+                335
             ],
             "max": [
                 64
@@ -1589,10 +1591,10 @@ export default {
         },
         "comments_avg_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1627,19 +1629,19 @@ export default {
                 6
             ],
             "created_at": [
-                664
+                661
             ],
             "proposal": [
-                537
+                534
             ],
             "proposal_acct": [
                 6
             ],
             "reactions": [
-                587
+                584
             ],
             "reactions_aggregate": [
-                580
+                577
             ],
             "responding_comment_id": [
                 8
@@ -1677,16 +1679,16 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "proposal": [
-                546
+                543
             ],
             "proposal_acct": [
                 5
             ],
             "reactions": [
-                584
+                581
             ],
             "responding_comment_id": [
                 7
@@ -1706,7 +1708,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "proposal_acct": [
                 5
@@ -1720,22 +1722,22 @@ export default {
         },
         "comments_max_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "commentor_acct": [
-                310
+                335
             ],
             "content": [
-                310
+                335
             ],
             "created_at": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1752,7 +1754,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "proposal_acct": [
                 5
@@ -1766,22 +1768,22 @@ export default {
         },
         "comments_min_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "commentor_acct": [
-                310
+                335
             ],
             "content": [
-                310
+                335
             ],
             "created_at": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1828,31 +1830,31 @@ export default {
                 70
             ],
             "comment_id": [
-                310
+                335
             ],
             "commentor_acct": [
-                310
+                335
             ],
             "comments_aggregate": [
                 55
             ],
             "content": [
-                310
+                335
             ],
             "created_at": [
-                310
+                335
             ],
             "proposal": [
-                548
+                545
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "reactions_aggregate": [
-                583
+                580
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1878,7 +1880,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "proposal_acct": [
                 5
@@ -1903,10 +1905,10 @@ export default {
         },
         "comments_stddev_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1925,10 +1927,10 @@ export default {
         },
         "comments_stddev_pop_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1947,10 +1949,10 @@ export default {
         },
         "comments_stddev_samp_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -1961,7 +1963,7 @@ export default {
                 81
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -1978,7 +1980,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "proposal_acct": [
                 5
@@ -2003,10 +2005,10 @@ export default {
         },
         "comments_sum_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -2040,10 +2042,10 @@ export default {
         },
         "comments_var_pop_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -2062,10 +2064,10 @@ export default {
         },
         "comments_var_samp_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -2084,10 +2086,598 @@ export default {
         },
         "comments_variance_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "responding_comment_id": [
-                310
+                335
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults": {
+            "cond_finalize_token_mint_acct": [
+                5
+            ],
+            "cond_revert_token_mint_acct": [
+                5
+            ],
+            "cond_vault_acct": [
+                5
+            ],
+            "dao": [
+                146
+            ],
+            "nonce": [
+                5
+            ],
+            "proposals": [
+                515,
+                {
+                    "distinct_on": [
+                        547,
+                        "[proposals_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        545,
+                        "[proposals_order_by!]"
+                    ],
+                    "where": [
+                        534
+                    ]
+                }
+            ],
+            "proposalsByQuoteVault": [
+                515,
+                {
+                    "distinct_on": [
+                        547,
+                        "[proposals_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        545,
+                        "[proposals_order_by!]"
+                    ],
+                    "where": [
+                        534
+                    ]
+                }
+            ],
+            "proposalsByQuoteVault_aggregate": [
+                516,
+                {
+                    "distinct_on": [
+                        547,
+                        "[proposals_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        545,
+                        "[proposals_order_by!]"
+                    ],
+                    "where": [
+                        534
+                    ]
+                }
+            ],
+            "proposals_aggregate": [
+                516,
+                {
+                    "distinct_on": [
+                        547,
+                        "[proposals_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        545,
+                        "[proposals_order_by!]"
+                    ],
+                    "where": [
+                        534
+                    ]
+                }
+            ],
+            "settlement_authority": [
+                5
+            ],
+            "status": [
+                5
+            ],
+            "token": [
+                704
+            ],
+            "underlying_mint_acct": [
+                5
+            ],
+            "underlying_token_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_aggregate": {
+            "aggregate": [
+                96
+            ],
+            "nodes": [
+                92
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_aggregate_bool_exp": {
+            "count": [
+                95
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_aggregate_bool_exp_count": {
+            "arguments": [
+                111
+            ],
+            "distinct": [
+                0
+            ],
+            "filter": [
+                99
+            ],
+            "predicate": [
+                4
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_aggregate_fields": {
+            "count": [
+                3,
+                {
+                    "columns": [
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "distinct": [
+                        0
+                    ]
+                }
+            ],
+            "max": [
+                102
+            ],
+            "min": [
+                104
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_aggregate_order_by": {
+            "count": [
+                335
+            ],
+            "max": [
+                103
+            ],
+            "min": [
+                105
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_arr_rel_insert_input": {
+            "data": [
+                101
+            ],
+            "on_conflict": [
+                108
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_bool_exp": {
+            "_and": [
+                99
+            ],
+            "_not": [
+                99
+            ],
+            "_or": [
+                99
+            ],
+            "cond_finalize_token_mint_acct": [
+                6
+            ],
+            "cond_revert_token_mint_acct": [
+                6
+            ],
+            "cond_vault_acct": [
+                6
+            ],
+            "dao": [
+                155
+            ],
+            "nonce": [
+                6
+            ],
+            "proposals": [
+                534
+            ],
+            "proposalsByQuoteVault": [
+                534
+            ],
+            "proposalsByQuoteVault_aggregate": [
+                517
+            ],
+            "proposals_aggregate": [
+                517
+            ],
+            "settlement_authority": [
+                6
+            ],
+            "status": [
+                6
+            ],
+            "token": [
+                708
+            ],
+            "underlying_mint_acct": [
+                6
+            ],
+            "underlying_token_acct": [
+                6
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_constraint": {},
+        "conditional_vaults_insert_input": {
+            "cond_finalize_token_mint_acct": [
+                5
+            ],
+            "cond_revert_token_mint_acct": [
+                5
+            ],
+            "cond_vault_acct": [
+                5
+            ],
+            "dao": [
+                164
+            ],
+            "nonce": [
+                5
+            ],
+            "proposals": [
+                531
+            ],
+            "proposalsByQuoteVault": [
+                531
+            ],
+            "settlement_authority": [
+                5
+            ],
+            "status": [
+                5
+            ],
+            "token": [
+                715
+            ],
+            "underlying_mint_acct": [
+                5
+            ],
+            "underlying_token_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_max_fields": {
+            "cond_finalize_token_mint_acct": [
+                5
+            ],
+            "cond_revert_token_mint_acct": [
+                5
+            ],
+            "cond_vault_acct": [
+                5
+            ],
+            "nonce": [
+                5
+            ],
+            "settlement_authority": [
+                5
+            ],
+            "status": [
+                5
+            ],
+            "underlying_mint_acct": [
+                5
+            ],
+            "underlying_token_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_max_order_by": {
+            "cond_finalize_token_mint_acct": [
+                335
+            ],
+            "cond_revert_token_mint_acct": [
+                335
+            ],
+            "cond_vault_acct": [
+                335
+            ],
+            "nonce": [
+                335
+            ],
+            "settlement_authority": [
+                335
+            ],
+            "status": [
+                335
+            ],
+            "underlying_mint_acct": [
+                335
+            ],
+            "underlying_token_acct": [
+                335
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_min_fields": {
+            "cond_finalize_token_mint_acct": [
+                5
+            ],
+            "cond_revert_token_mint_acct": [
+                5
+            ],
+            "cond_vault_acct": [
+                5
+            ],
+            "nonce": [
+                5
+            ],
+            "settlement_authority": [
+                5
+            ],
+            "status": [
+                5
+            ],
+            "underlying_mint_acct": [
+                5
+            ],
+            "underlying_token_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_min_order_by": {
+            "cond_finalize_token_mint_acct": [
+                335
+            ],
+            "cond_revert_token_mint_acct": [
+                335
+            ],
+            "cond_vault_acct": [
+                335
+            ],
+            "nonce": [
+                335
+            ],
+            "settlement_authority": [
+                335
+            ],
+            "status": [
+                335
+            ],
+            "underlying_mint_acct": [
+                335
+            ],
+            "underlying_token_acct": [
+                335
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_mutation_response": {
+            "affected_rows": [
+                3
+            ],
+            "returning": [
+                92
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_obj_rel_insert_input": {
+            "data": [
+                101
+            ],
+            "on_conflict": [
+                108
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_on_conflict": {
+            "constraint": [
+                100
+            ],
+            "update_columns": [
+                115
+            ],
+            "where": [
+                99
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_order_by": {
+            "cond_finalize_token_mint_acct": [
+                335
+            ],
+            "cond_revert_token_mint_acct": [
+                335
+            ],
+            "cond_vault_acct": [
+                335
+            ],
+            "dao": [
+                166
+            ],
+            "nonce": [
+                335
+            ],
+            "proposalsByQuoteVault_aggregate": [
+                530
+            ],
+            "proposals_aggregate": [
+                530
+            ],
+            "settlement_authority": [
+                335
+            ],
+            "status": [
+                335
+            ],
+            "token": [
+                717
+            ],
+            "underlying_mint_acct": [
+                335
+            ],
+            "underlying_token_acct": [
+                335
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_pk_columns_input": {
+            "cond_vault_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_select_column": {},
+        "conditional_vaults_set_input": {
+            "cond_finalize_token_mint_acct": [
+                5
+            ],
+            "cond_revert_token_mint_acct": [
+                5
+            ],
+            "cond_vault_acct": [
+                5
+            ],
+            "nonce": [
+                5
+            ],
+            "settlement_authority": [
+                5
+            ],
+            "status": [
+                5
+            ],
+            "underlying_mint_acct": [
+                5
+            ],
+            "underlying_token_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_stream_cursor_input": {
+            "initial_value": [
+                114
+            ],
+            "ordering": [
+                117
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_stream_cursor_value_input": {
+            "cond_finalize_token_mint_acct": [
+                5
+            ],
+            "cond_revert_token_mint_acct": [
+                5
+            ],
+            "cond_vault_acct": [
+                5
+            ],
+            "nonce": [
+                5
+            ],
+            "settlement_authority": [
+                5
+            ],
+            "status": [
+                5
+            ],
+            "underlying_mint_acct": [
+                5
+            ],
+            "underlying_token_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "conditional_vaults_update_column": {},
+        "conditional_vaults_updates": {
+            "_set": [
+                112
+            ],
+            "where": [
+                99
             ],
             "__typename": [
                 5
@@ -2099,10 +2689,10 @@ export default {
                 7
             ],
             "daos": [
-                121,
+                146,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -2112,19 +2702,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daos_aggregate": [
-                122,
+                147,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -2134,11 +2724,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
@@ -2146,6 +2736,9 @@ export default {
                 5
             ],
             "github": [
+                5
+            ],
+            "image_url": [
                 5
             ],
             "name": [
@@ -2166,10 +2759,10 @@ export default {
         },
         "dao_details_aggregate": {
             "aggregate": [
-                95
+                120
             ],
             "nodes": [
-                93
+                118
             ],
             "__typename": [
                 5
@@ -2177,13 +2770,13 @@ export default {
         },
         "dao_details_aggregate_fields": {
             "avg": [
-                96
+                121
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        108,
+                        133,
                         "[dao_details_select_column!]"
                     ],
                     "distinct": [
@@ -2192,31 +2785,31 @@ export default {
                 }
             ],
             "max": [
-                101
+                126
             ],
             "min": [
-                102
+                127
             ],
             "stddev": [
-                110
+                135
             ],
             "stddev_pop": [
-                111
+                136
             ],
             "stddev_samp": [
-                112
+                137
             ],
             "sum": [
-                115
+                140
             ],
             "var_pop": [
-                118
+                143
             ],
             "var_samp": [
-                119
+                144
             ],
             "variance": [
-                120
+                145
             ],
             "__typename": [
                 5
@@ -2232,27 +2825,30 @@ export default {
         },
         "dao_details_bool_exp": {
             "_and": [
-                97
+                122
             ],
             "_not": [
-                97
+                122
             ],
             "_or": [
-                97
+                122
             ],
             "dao_id": [
                 8
             ],
             "daos": [
-                130
+                155
             ],
             "daos_aggregate": [
-                123
+                148
             ],
             "description": [
                 6
             ],
             "github": [
+                6
+            ],
+            "image_url": [
                 6
             ],
             "name": [
@@ -2285,12 +2881,15 @@ export default {
                 7
             ],
             "daos": [
-                127
+                152
             ],
             "description": [
                 5
             ],
             "github": [
+                5
+            ],
+            "image_url": [
                 5
             ],
             "name": [
@@ -2319,6 +2918,9 @@ export default {
             "github": [
                 5
             ],
+            "image_url": [
+                5
+            ],
             "name": [
                 5
             ],
@@ -2345,6 +2947,9 @@ export default {
             "github": [
                 5
             ],
+            "image_url": [
+                5
+            ],
             "name": [
                 5
             ],
@@ -2366,7 +2971,7 @@ export default {
                 3
             ],
             "returning": [
-                93
+                118
             ],
             "__typename": [
                 5
@@ -2374,10 +2979,10 @@ export default {
         },
         "dao_details_obj_rel_insert_input": {
             "data": [
-                100
+                125
             ],
             "on_conflict": [
-                105
+                130
             ],
             "__typename": [
                 5
@@ -2385,13 +2990,13 @@ export default {
         },
         "dao_details_on_conflict": {
             "constraint": [
-                98
+                123
             ],
             "update_columns": [
-                116
+                141
             ],
             "where": [
-                97
+                122
             ],
             "__typename": [
                 5
@@ -2399,28 +3004,31 @@ export default {
         },
         "dao_details_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "daos_aggregate": [
-                126
+                151
             ],
             "description": [
-                310
+                335
             ],
             "github": [
-                310
+                335
+            ],
+            "image_url": [
+                335
             ],
             "name": [
-                310
+                335
             ],
             "slug": [
-                310
+                335
             ],
             "url": [
-                310
+                335
             ],
             "x_account": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -2443,6 +3051,9 @@ export default {
                 5
             ],
             "github": [
+                5
+            ],
+            "image_url": [
                 5
             ],
             "name": [
@@ -2487,10 +3098,10 @@ export default {
         },
         "dao_details_stream_cursor_input": {
             "initial_value": [
-                114
+                139
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -2504,6 +3115,9 @@ export default {
                 5
             ],
             "github": [
+                5
+            ],
+            "image_url": [
                 5
             ],
             "name": [
@@ -2533,13 +3147,13 @@ export default {
         "dao_details_update_column": {},
         "dao_details_updates": {
             "_inc": [
-                99
+                124
             ],
             "_set": [
-                109
+                134
             ],
             "where": [
-                97
+                122
             ],
             "__typename": [
                 5
@@ -2573,29 +3187,73 @@ export default {
             "base_acct": [
                 5
             ],
+            "conditional_vaults": [
+                92,
+                {
+                    "distinct_on": [
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        109,
+                        "[conditional_vaults_order_by!]"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
+            "conditional_vaults_aggregate": [
+                93,
+                {
+                    "distinct_on": [
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        109,
+                        "[conditional_vaults_order_by!]"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
             "created_at": [
-                663
+                660
             ],
             "dao_acct": [
                 5
             ],
             "dao_detail": [
-                93
+                118
             ],
             "dao_id": [
                 7
             ],
             "program": [
-                416
+                441
             ],
             "program_acct": [
                 5
             ],
             "proposals": [
-                518,
+                515,
                 {
                     "distinct_on": [
-                        550,
+                        547,
                         "[proposals_select_column!]"
                     ],
                     "limit": [
@@ -2605,19 +3263,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        548,
+                        545,
                         "[proposals_order_by!]"
                     ],
                     "where": [
-                        537
+                        534
                     ]
                 }
             ],
             "proposals_aggregate": [
-                519,
+                516,
                 {
                     "distinct_on": [
-                        550,
+                        547,
                         "[proposals_select_column!]"
                     ],
                     "limit": [
@@ -2627,28 +3285,31 @@ export default {
                         3
                     ],
                     "order_by": [
-                        548,
+                        545,
                         "[proposals_order_by!]"
                     ],
                     "where": [
-                        537
+                        534
                     ]
                 }
             ],
             "quote_acct": [
                 5
             ],
+            "token": [
+                704
+            ],
             "tokenByBaseAcct": [
-                707
+                704
             ],
             "tokenByQuoteAcct": [
-                707
+                704
             ],
             "treasury_acct": [
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -2656,10 +3317,10 @@ export default {
         },
         "daos_aggregate": {
             "aggregate": [
-                125
+                150
             ],
             "nodes": [
-                121
+                146
             ],
             "__typename": [
                 5
@@ -2667,7 +3328,7 @@ export default {
         },
         "daos_aggregate_bool_exp": {
             "count": [
-                124
+                149
             ],
             "__typename": [
                 5
@@ -2675,13 +3336,13 @@ export default {
         },
         "daos_aggregate_bool_exp_count": {
             "arguments": [
-                143
+                168
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                130
+                155
             ],
             "predicate": [
                 4
@@ -2692,13 +3353,13 @@ export default {
         },
         "daos_aggregate_fields": {
             "avg": [
-                128
+                153
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "distinct": [
@@ -2707,31 +3368,31 @@ export default {
                 }
             ],
             "max": [
-                134
-            ],
-            "min": [
-                136
-            ],
-            "stddev": [
-                145
-            ],
-            "stddev_pop": [
-                147
-            ],
-            "stddev_samp": [
-                149
-            ],
-            "sum": [
-                153
-            ],
-            "var_pop": [
-                157
-            ],
-            "var_samp": [
                 159
             ],
-            "variance": [
+            "min": [
                 161
+            ],
+            "stddev": [
+                170
+            ],
+            "stddev_pop": [
+                172
+            ],
+            "stddev_samp": [
+                174
+            ],
+            "sum": [
+                178
+            ],
+            "var_pop": [
+                182
+            ],
+            "var_samp": [
+                184
+            ],
+            "variance": [
+                186
             ],
             "__typename": [
                 5
@@ -2739,37 +3400,37 @@ export default {
         },
         "daos_aggregate_order_by": {
             "avg": [
-                129
-            ],
-            "count": [
-                310
-            ],
-            "max": [
-                135
-            ],
-            "min": [
-                137
-            ],
-            "stddev": [
-                146
-            ],
-            "stddev_pop": [
-                148
-            ],
-            "stddev_samp": [
-                150
-            ],
-            "sum": [
                 154
             ],
-            "var_pop": [
-                158
+            "count": [
+                335
             ],
-            "var_samp": [
+            "max": [
                 160
             ],
-            "variance": [
+            "min": [
                 162
+            ],
+            "stddev": [
+                171
+            ],
+            "stddev_pop": [
+                173
+            ],
+            "stddev_samp": [
+                175
+            ],
+            "sum": [
+                179
+            ],
+            "var_pop": [
+                183
+            ],
+            "var_samp": [
+                185
+            ],
+            "variance": [
+                187
             ],
             "__typename": [
                 5
@@ -2777,10 +3438,10 @@ export default {
         },
         "daos_arr_rel_insert_input": {
             "data": [
-                133
+                158
             ],
             "on_conflict": [
-                140
+                165
             ],
             "__typename": [
                 5
@@ -2796,7 +3457,7 @@ export default {
         },
         "daos_avg_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -2804,55 +3465,64 @@ export default {
         },
         "daos_bool_exp": {
             "_and": [
-                130
+                155
             ],
             "_not": [
-                130
+                155
             ],
             "_or": [
-                130
+                155
             ],
             "base_acct": [
                 6
             ],
+            "conditional_vaults": [
+                99
+            ],
+            "conditional_vaults_aggregate": [
+                94
+            ],
             "created_at": [
-                664
+                661
             ],
             "dao_acct": [
                 6
             ],
             "dao_detail": [
-                97
+                122
             ],
             "dao_id": [
                 8
             ],
             "program": [
-                420
+                445
             ],
             "program_acct": [
                 6
             ],
             "proposals": [
-                537
+                534
             ],
             "proposals_aggregate": [
-                520
+                517
             ],
             "quote_acct": [
                 6
             ],
+            "token": [
+                708
+            ],
             "tokenByBaseAcct": [
-                711
+                708
             ],
             "tokenByQuoteAcct": [
-                711
+                708
             ],
             "treasury_acct": [
                 6
             ],
             "updated_at": [
-                664
+                661
             ],
             "__typename": [
                 5
@@ -2871,41 +3541,47 @@ export default {
             "base_acct": [
                 5
             ],
+            "conditional_vaults": [
+                98
+            ],
             "created_at": [
-                663
+                660
             ],
             "dao_acct": [
                 5
             ],
             "dao_detail": [
-                104
+                129
             ],
             "dao_id": [
                 7
             ],
             "program": [
-                427
+                452
             ],
             "program_acct": [
                 5
             ],
             "proposals": [
-                534
+                531
             ],
             "quote_acct": [
                 5
             ],
+            "token": [
+                715
+            ],
             "tokenByBaseAcct": [
-                718
+                715
             ],
             "tokenByQuoteAcct": [
-                718
+                715
             ],
             "treasury_acct": [
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -2916,7 +3592,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "dao_acct": [
                 5
@@ -2934,7 +3610,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -2942,28 +3618,28 @@ export default {
         },
         "daos_max_order_by": {
             "base_acct": [
-                310
+                335
             ],
             "created_at": [
-                310
+                335
             ],
             "dao_acct": [
-                310
+                335
             ],
             "dao_id": [
-                310
+                335
             ],
             "program_acct": [
-                310
+                335
             ],
             "quote_acct": [
-                310
+                335
             ],
             "treasury_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -2974,7 +3650,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "dao_acct": [
                 5
@@ -2992,7 +3668,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -3000,28 +3676,28 @@ export default {
         },
         "daos_min_order_by": {
             "base_acct": [
-                310
+                335
             ],
             "created_at": [
-                310
+                335
             ],
             "dao_acct": [
-                310
+                335
             ],
             "dao_id": [
-                310
+                335
             ],
             "program_acct": [
-                310
+                335
             ],
             "quote_acct": [
-                310
+                335
             ],
             "treasury_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3032,7 +3708,7 @@ export default {
                 3
             ],
             "returning": [
-                121
+                146
             ],
             "__typename": [
                 5
@@ -3040,10 +3716,10 @@ export default {
         },
         "daos_obj_rel_insert_input": {
             "data": [
-                133
+                158
             ],
             "on_conflict": [
-                140
+                165
             ],
             "__typename": [
                 5
@@ -3051,13 +3727,13 @@ export default {
         },
         "daos_on_conflict": {
             "constraint": [
-                131
+                156
             ],
             "update_columns": [
-                155
+                180
             ],
             "where": [
-                130
+                155
             ],
             "__typename": [
                 5
@@ -3065,43 +3741,49 @@ export default {
         },
         "daos_order_by": {
             "base_acct": [
-                310
+                335
+            ],
+            "conditional_vaults_aggregate": [
+                97
             ],
             "created_at": [
-                310
+                335
             ],
             "dao_acct": [
-                310
+                335
             ],
             "dao_detail": [
-                106
+                131
             ],
             "dao_id": [
-                310
+                335
             ],
             "program": [
-                429
+                454
             ],
             "program_acct": [
-                310
+                335
             ],
             "proposals_aggregate": [
-                533
+                530
             ],
             "quote_acct": [
-                310
+                335
+            ],
+            "token": [
+                717
             ],
             "tokenByBaseAcct": [
-                720
+                717
             ],
             "tokenByQuoteAcct": [
-                720
+                717
             ],
             "treasury_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3121,7 +3803,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "dao_acct": [
                 5
@@ -3139,7 +3821,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -3155,7 +3837,7 @@ export default {
         },
         "daos_stddev_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3171,7 +3853,7 @@ export default {
         },
         "daos_stddev_pop_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3187,7 +3869,7 @@ export default {
         },
         "daos_stddev_samp_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3195,10 +3877,10 @@ export default {
         },
         "daos_stream_cursor_input": {
             "initial_value": [
-                152
+                177
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -3209,7 +3891,7 @@ export default {
                 5
             ],
             "created_at": [
-                663
+                660
             ],
             "dao_acct": [
                 5
@@ -3227,7 +3909,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -3243,7 +3925,7 @@ export default {
         },
         "daos_sum_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3252,13 +3934,13 @@ export default {
         "daos_update_column": {},
         "daos_updates": {
             "_inc": [
-                132
+                157
             ],
             "_set": [
-                144
+                169
             ],
             "where": [
-                130
+                155
             ],
             "__typename": [
                 5
@@ -3274,7 +3956,7 @@ export default {
         },
         "daos_var_pop_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3290,7 +3972,7 @@ export default {
         },
         "daos_var_samp_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3306,7 +3988,7 @@ export default {
         },
         "daos_variance_order_by": {
             "dao_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3315,31 +3997,31 @@ export default {
         "float8": {},
         "float8_comparison_exp": {
             "_eq": [
-                163
+                188
             ],
             "_gt": [
-                163
+                188
             ],
             "_gte": [
-                163
+                188
             ],
             "_in": [
-                163
+                188
             ],
             "_is_null": [
                 0
             ],
             "_lt": [
-                163
+                188
             ],
             "_lte": [
-                163
+                188
             ],
             "_neq": [
-                163
+                188
             ],
             "_nin": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -3350,7 +4032,7 @@ export default {
                 5
             ],
             "indexer": [
-                189
+                214
             ],
             "latest_tx_sig_processed": [
                 5
@@ -3359,10 +4041,10 @@ export default {
                 5
             ],
             "transaction": [
-                818
+                815
             ],
             "transaction_watcher": [
-                776
+                773
             ],
             "__typename": [
                 5
@@ -3370,10 +4052,10 @@ export default {
         },
         "indexer_account_dependencies_aggregate": {
             "aggregate": [
-                169
+                194
             ],
             "nodes": [
-                165
+                190
             ],
             "__typename": [
                 5
@@ -3381,7 +4063,7 @@ export default {
         },
         "indexer_account_dependencies_aggregate_bool_exp": {
             "count": [
-                168
+                193
             ],
             "__typename": [
                 5
@@ -3389,13 +4071,13 @@ export default {
         },
         "indexer_account_dependencies_aggregate_bool_exp_count": {
             "arguments": [
-                183
+                208
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                172
+                197
             ],
             "predicate": [
                 4
@@ -3409,7 +4091,7 @@ export default {
                 3,
                 {
                     "columns": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "distinct": [
@@ -3418,10 +4100,10 @@ export default {
                 }
             ],
             "max": [
-                175
+                200
             ],
             "min": [
-                177
+                202
             ],
             "__typename": [
                 5
@@ -3429,13 +4111,13 @@ export default {
         },
         "indexer_account_dependencies_aggregate_order_by": {
             "count": [
-                310
+                335
             ],
             "max": [
-                176
+                201
             ],
             "min": [
-                178
+                203
             ],
             "__typename": [
                 5
@@ -3443,10 +4125,10 @@ export default {
         },
         "indexer_account_dependencies_arr_rel_insert_input": {
             "data": [
-                174
+                199
             ],
             "on_conflict": [
-                180
+                205
             ],
             "__typename": [
                 5
@@ -3454,19 +4136,19 @@ export default {
         },
         "indexer_account_dependencies_bool_exp": {
             "_and": [
-                172
+                197
             ],
             "_not": [
-                172
+                197
             ],
             "_or": [
-                172
+                197
             ],
             "acct": [
                 6
             ],
             "indexer": [
-                193
+                218
             ],
             "latest_tx_sig_processed": [
                 6
@@ -3475,10 +4157,10 @@ export default {
                 6
             ],
             "transaction": [
-                822
+                819
             ],
             "transaction_watcher": [
-                785
+                782
             ],
             "__typename": [
                 5
@@ -3490,7 +4172,7 @@ export default {
                 5
             ],
             "indexer": [
-                200
+                225
             ],
             "latest_tx_sig_processed": [
                 5
@@ -3499,10 +4181,10 @@ export default {
                 5
             ],
             "transaction": [
-                829
+                826
             ],
             "transaction_watcher": [
-                794
+                791
             ],
             "__typename": [
                 5
@@ -3524,13 +4206,13 @@ export default {
         },
         "indexer_account_dependencies_max_order_by": {
             "acct": [
-                310
+                335
             ],
             "latest_tx_sig_processed": [
-                310
+                335
             ],
             "name": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3552,13 +4234,13 @@ export default {
         },
         "indexer_account_dependencies_min_order_by": {
             "acct": [
-                310
+                335
             ],
             "latest_tx_sig_processed": [
-                310
+                335
             ],
             "name": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3569,7 +4251,7 @@ export default {
                 3
             ],
             "returning": [
-                165
+                190
             ],
             "__typename": [
                 5
@@ -3577,13 +4259,13 @@ export default {
         },
         "indexer_account_dependencies_on_conflict": {
             "constraint": [
-                173
+                198
             ],
             "update_columns": [
-                187
+                212
             ],
             "where": [
-                172
+                197
             ],
             "__typename": [
                 5
@@ -3591,22 +4273,22 @@ export default {
         },
         "indexer_account_dependencies_order_by": {
             "acct": [
-                310
+                335
             ],
             "indexer": [
-                202
+                227
             ],
             "latest_tx_sig_processed": [
-                310
+                335
             ],
             "name": [
-                310
+                335
             ],
             "transaction": [
-                831
+                828
             ],
             "transaction_watcher": [
-                796
+                793
             ],
             "__typename": [
                 5
@@ -3640,10 +4322,10 @@ export default {
         },
         "indexer_account_dependencies_stream_cursor_input": {
             "initial_value": [
-                186
+                211
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -3666,10 +4348,10 @@ export default {
         "indexer_account_dependencies_update_column": {},
         "indexer_account_dependencies_updates": {
             "_set": [
-                184
+                209
             ],
             "where": [
-                172
+                197
             ],
             "__typename": [
                 5
@@ -3680,10 +4362,10 @@ export default {
                 5
             ],
             "indexer_account_dependencies": [
-                165,
+                190,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -3693,19 +4375,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexer_account_dependencies_aggregate": [
-                166,
+                191,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -3715,11 +4397,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
@@ -3735,10 +4417,10 @@ export default {
         },
         "indexers_aggregate": {
             "aggregate": [
-                191
+                216
             ],
             "nodes": [
-                189
+                214
             ],
             "__typename": [
                 5
@@ -3746,13 +4428,13 @@ export default {
         },
         "indexers_aggregate_fields": {
             "avg": [
-                192
+                217
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        204,
+                        229,
                         "[indexers_select_column!]"
                     ],
                     "distinct": [
@@ -3761,31 +4443,31 @@ export default {
                 }
             ],
             "max": [
-                197
+                222
             ],
             "min": [
-                198
+                223
             ],
             "stddev": [
-                206
+                231
             ],
             "stddev_pop": [
-                207
+                232
             ],
             "stddev_samp": [
-                208
+                233
             ],
             "sum": [
-                211
+                236
             ],
             "var_pop": [
-                214
+                239
             ],
             "var_samp": [
-                215
+                240
             ],
             "variance": [
-                216
+                241
             ],
             "__typename": [
                 5
@@ -3801,22 +4483,22 @@ export default {
         },
         "indexers_bool_exp": {
             "_and": [
-                193
+                218
             ],
             "_not": [
-                193
+                218
             ],
             "_or": [
-                193
+                218
             ],
             "implementation": [
                 6
             ],
             "indexer_account_dependencies": [
-                172
+                197
             ],
             "indexer_account_dependencies_aggregate": [
-                167
+                192
             ],
             "latest_slot_processed": [
                 8
@@ -3842,7 +4524,7 @@ export default {
                 5
             ],
             "indexer_account_dependencies": [
-                171
+                196
             ],
             "latest_slot_processed": [
                 7
@@ -3887,7 +4569,7 @@ export default {
                 3
             ],
             "returning": [
-                189
+                214
             ],
             "__typename": [
                 5
@@ -3895,10 +4577,10 @@ export default {
         },
         "indexers_obj_rel_insert_input": {
             "data": [
-                196
+                221
             ],
             "on_conflict": [
-                201
+                226
             ],
             "__typename": [
                 5
@@ -3906,13 +4588,13 @@ export default {
         },
         "indexers_on_conflict": {
             "constraint": [
-                194
+                219
             ],
             "update_columns": [
-                212
+                237
             ],
             "where": [
-                193
+                218
             ],
             "__typename": [
                 5
@@ -3920,16 +4602,16 @@ export default {
         },
         "indexers_order_by": {
             "implementation": [
-                310
+                335
             ],
             "indexer_account_dependencies_aggregate": [
-                170
+                195
             ],
             "latest_slot_processed": [
-                310
+                335
             ],
             "name": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -3984,10 +4666,10 @@ export default {
         },
         "indexers_stream_cursor_input": {
             "initial_value": [
-                210
+                235
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -4018,13 +4700,13 @@ export default {
         "indexers_update_column": {},
         "indexers_updates": {
             "_inc": [
-                195
+                220
             ],
             "_set": [
-                205
+                230
             ],
             "where": [
-                193
+                218
             ],
             "__typename": [
                 5
@@ -4065,22 +4747,22 @@ export default {
         },
         "jsonb_comparison_exp": {
             "_cast": [
-                218
+                243
             ],
             "_contained_in": [
-                217
+                242
             ],
             "_contains": [
-                217
+                242
             ],
             "_eq": [
-                217
+                242
             ],
             "_gt": [
-                217
+                242
             ],
             "_gte": [
-                217
+                242
             ],
             "_has_key": [
                 5
@@ -4092,22 +4774,22 @@ export default {
                 5
             ],
             "_in": [
-                217
+                242
             ],
             "_is_null": [
                 0
             ],
             "_lt": [
-                217
+                242
             ],
             "_lte": [
-                217
+                242
             ],
             "_neq": [
-                217
+                242
             ],
             "_nin": [
-                217
+                242
             ],
             "__typename": [
                 5
@@ -4121,13 +4803,13 @@ export default {
                 0
             ],
             "market": [
-                266
+                291
             ],
             "market_acct": [
                 5
             ],
             "order": [
-                311
+                336
             ],
             "order_tx_sig": [
                 5
@@ -4136,10 +4818,10 @@ export default {
                 7
             ],
             "takes": [
-                621,
+                618,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -4149,19 +4831,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "takes_aggregate": [
-                622,
+                619,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -4171,11 +4853,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
@@ -4183,7 +4865,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -4191,10 +4873,10 @@ export default {
         },
         "makes_aggregate": {
             "aggregate": [
-                226
+                251
             ],
             "nodes": [
-                220
+                245
             ],
             "__typename": [
                 5
@@ -4202,13 +4884,13 @@ export default {
         },
         "makes_aggregate_bool_exp": {
             "bool_and": [
-                223
+                248
             ],
             "bool_or": [
-                224
+                249
             ],
             "count": [
-                225
+                250
             ],
             "__typename": [
                 5
@@ -4216,13 +4898,13 @@ export default {
         },
         "makes_aggregate_bool_exp_bool_and": {
             "arguments": [
-                245
+                270
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                231
+                256
             ],
             "predicate": [
                 1
@@ -4233,13 +4915,13 @@ export default {
         },
         "makes_aggregate_bool_exp_bool_or": {
             "arguments": [
-                246
+                271
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                231
+                256
             ],
             "predicate": [
                 1
@@ -4250,13 +4932,13 @@ export default {
         },
         "makes_aggregate_bool_exp_count": {
             "arguments": [
-                244
+                269
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                231
+                256
             ],
             "predicate": [
                 4
@@ -4267,13 +4949,13 @@ export default {
         },
         "makes_aggregate_fields": {
             "avg": [
-                229
+                254
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        244,
+                        269,
                         "[makes_select_column!]"
                     ],
                     "distinct": [
@@ -4282,31 +4964,31 @@ export default {
                 }
             ],
             "max": [
-                235
-            ],
-            "min": [
-                237
-            ],
-            "stddev": [
-                248
-            ],
-            "stddev_pop": [
-                250
-            ],
-            "stddev_samp": [
-                252
-            ],
-            "sum": [
-                256
-            ],
-            "var_pop": [
                 260
             ],
-            "var_samp": [
+            "min": [
                 262
             ],
+            "stddev": [
+                273
+            ],
+            "stddev_pop": [
+                275
+            ],
+            "stddev_samp": [
+                277
+            ],
+            "sum": [
+                281
+            ],
+            "var_pop": [
+                285
+            ],
+            "var_samp": [
+                287
+            ],
             "variance": [
-                264
+                289
             ],
             "__typename": [
                 5
@@ -4314,37 +4996,37 @@ export default {
         },
         "makes_aggregate_order_by": {
             "avg": [
-                230
+                255
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                236
-            ],
-            "min": [
-                238
-            ],
-            "stddev": [
-                249
-            ],
-            "stddev_pop": [
-                251
-            ],
-            "stddev_samp": [
-                253
-            ],
-            "sum": [
-                257
-            ],
-            "var_pop": [
                 261
             ],
-            "var_samp": [
+            "min": [
                 263
             ],
+            "stddev": [
+                274
+            ],
+            "stddev_pop": [
+                276
+            ],
+            "stddev_samp": [
+                278
+            ],
+            "sum": [
+                282
+            ],
+            "var_pop": [
+                286
+            ],
+            "var_samp": [
+                288
+            ],
             "variance": [
-                265
+                290
             ],
             "__typename": [
                 5
@@ -4352,10 +5034,10 @@ export default {
         },
         "makes_arr_rel_insert_input": {
             "data": [
-                234
+                259
             ],
             "on_conflict": [
-                241
+                266
             ],
             "__typename": [
                 5
@@ -4377,13 +5059,13 @@ export default {
         },
         "makes_avg_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4391,13 +5073,13 @@ export default {
         },
         "makes_bool_exp": {
             "_and": [
-                231
+                256
             ],
             "_not": [
-                231
+                256
             ],
             "_or": [
-                231
+                256
             ],
             "filled_base_amount": [
                 8
@@ -4406,13 +5088,13 @@ export default {
                 1
             ],
             "market": [
-                275
+                300
             ],
             "market_acct": [
                 6
             ],
             "order": [
-                322
+                347
             ],
             "order_tx_sig": [
                 6
@@ -4421,16 +5103,16 @@ export default {
                 8
             ],
             "takes": [
-                630
+                627
             ],
             "takes_aggregate": [
-                623
+                620
             ],
             "unfilled_base_amount": [
                 8
             ],
             "updated_at": [
-                664
+                661
             ],
             "__typename": [
                 5
@@ -4459,13 +5141,13 @@ export default {
                 0
             ],
             "market": [
-                284
+                309
             ],
             "market_acct": [
                 5
             ],
             "order": [
-                331
+                356
             ],
             "order_tx_sig": [
                 5
@@ -4474,13 +5156,13 @@ export default {
                 7
             ],
             "takes": [
-                627
+                624
             ],
             "unfilled_base_amount": [
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -4503,7 +5185,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -4511,22 +5193,22 @@ export default {
         },
         "makes_max_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4549,7 +5231,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -4557,22 +5239,22 @@ export default {
         },
         "makes_min_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4583,7 +5265,7 @@ export default {
                 3
             ],
             "returning": [
-                220
+                245
             ],
             "__typename": [
                 5
@@ -4591,10 +5273,10 @@ export default {
         },
         "makes_obj_rel_insert_input": {
             "data": [
-                234
+                259
             ],
             "on_conflict": [
-                241
+                266
             ],
             "__typename": [
                 5
@@ -4602,13 +5284,13 @@ export default {
         },
         "makes_on_conflict": {
             "constraint": [
-                232
+                257
             ],
             "update_columns": [
-                258
+                283
             ],
             "where": [
-                231
+                256
             ],
             "__typename": [
                 5
@@ -4616,34 +5298,34 @@ export default {
         },
         "makes_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "is_active": [
-                310
+                335
             ],
             "market": [
-                286
+                311
             ],
             "market_acct": [
-                310
+                335
             ],
             "order": [
-                333
+                358
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "takes_aggregate": [
-                626
+                623
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4680,7 +5362,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -4702,13 +5384,13 @@ export default {
         },
         "makes_stddev_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4730,13 +5412,13 @@ export default {
         },
         "makes_stddev_pop_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4758,13 +5440,13 @@ export default {
         },
         "makes_stddev_samp_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4772,10 +5454,10 @@ export default {
         },
         "makes_stream_cursor_input": {
             "initial_value": [
-                255
+                280
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -4801,7 +5483,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -4823,13 +5505,13 @@ export default {
         },
         "makes_sum_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4838,13 +5520,13 @@ export default {
         "makes_update_column": {},
         "makes_updates": {
             "_inc": [
-                233
+                258
             ],
             "_set": [
-                247
+                272
             ],
             "where": [
-                231
+                256
             ],
             "__typename": [
                 5
@@ -4866,13 +5548,13 @@ export default {
         },
         "makes_var_pop_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4894,13 +5576,13 @@ export default {
         },
         "makes_var_samp_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4922,13 +5604,13 @@ export default {
         },
         "makes_variance_order_by": {
             "filled_base_amount": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -4945,13 +5627,13 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_mint_acct": [
                 5
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "bids_token_acct": [
                 5
@@ -5007,10 +5689,10 @@ export default {
                 7
             ],
             "makes": [
-                220,
+                245,
                 {
                     "distinct_on": [
-                        244,
+                        269,
                         "[makes_select_column!]"
                     ],
                     "limit": [
@@ -5020,19 +5702,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        242,
+                        267,
                         "[makes_order_by!]"
                     ],
                     "where": [
-                        231
+                        256
                     ]
                 }
             ],
             "makes_aggregate": [
-                221,
+                246,
                 {
                     "distinct_on": [
-                        244,
+                        269,
                         "[makes_select_column!]"
                     ],
                     "limit": [
@@ -5042,11 +5724,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        242,
+                        267,
                         "[makes_order_by!]"
                     ],
                     "where": [
-                        231
+                        256
                     ]
                 }
             ],
@@ -5057,10 +5739,10 @@ export default {
                 5
             ],
             "orders": [
-                311,
+                336,
                 {
                     "distinct_on": [
-                        335,
+                        360,
                         "[orders_select_column!]"
                     ],
                     "limit": [
@@ -5070,19 +5752,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        333,
+                        358,
                         "[orders_order_by!]"
                     ],
                     "where": [
-                        322
+                        347
                     ]
                 }
             ],
             "orders_aggregate": [
-                312,
+                337,
                 {
                     "distinct_on": [
-                        335,
+                        360,
                         "[orders_select_column!]"
                     ],
                     "limit": [
@@ -5092,16 +5774,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        333,
+                        358,
                         "[orders_order_by!]"
                     ],
                     "where": [
-                        322
+                        347
                     ]
                 }
             ],
             "proposal": [
-                518
+                515
             ],
             "proposal_acct": [
                 5
@@ -5110,22 +5792,22 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_mint_acct": [
                 5
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
             ],
             "takes": [
-                621,
+                618,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -5135,19 +5817,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "takes_aggregate": [
-                622,
+                619,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -5157,31 +5839,31 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "token": [
-                707
+                704
             ],
             "tokenAcctByBidsTokenAcct": [
-                665
+                662
             ],
             "tokenByQuoteMintAcct": [
-                707
+                704
             ],
             "token_acct": [
-                665
+                662
             ],
             "twaps": [
-                846,
+                843,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -5191,19 +5873,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "twaps_aggregate": [
-                847,
+                844,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -5213,11 +5895,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
@@ -5227,10 +5909,10 @@ export default {
         },
         "markets_aggregate": {
             "aggregate": [
-                270
+                295
             ],
             "nodes": [
-                266
+                291
             ],
             "__typename": [
                 5
@@ -5238,7 +5920,7 @@ export default {
         },
         "markets_aggregate_bool_exp": {
             "count": [
-                269
+                294
             ],
             "__typename": [
                 5
@@ -5246,13 +5928,13 @@ export default {
         },
         "markets_aggregate_bool_exp_count": {
             "arguments": [
-                288
+                313
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                275
+                300
             ],
             "predicate": [
                 4
@@ -5263,13 +5945,13 @@ export default {
         },
         "markets_aggregate_fields": {
             "avg": [
-                273
+                298
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "distinct": [
@@ -5278,31 +5960,31 @@ export default {
                 }
             ],
             "max": [
-                279
-            ],
-            "min": [
-                281
-            ],
-            "stddev": [
-                290
-            ],
-            "stddev_pop": [
-                292
-            ],
-            "stddev_samp": [
-                294
-            ],
-            "sum": [
-                298
-            ],
-            "var_pop": [
-                302
-            ],
-            "var_samp": [
                 304
             ],
-            "variance": [
+            "min": [
                 306
+            ],
+            "stddev": [
+                315
+            ],
+            "stddev_pop": [
+                317
+            ],
+            "stddev_samp": [
+                319
+            ],
+            "sum": [
+                323
+            ],
+            "var_pop": [
+                327
+            ],
+            "var_samp": [
+                329
+            ],
+            "variance": [
+                331
             ],
             "__typename": [
                 5
@@ -5310,37 +5992,37 @@ export default {
         },
         "markets_aggregate_order_by": {
             "avg": [
-                274
-            ],
-            "count": [
-                310
-            ],
-            "max": [
-                280
-            ],
-            "min": [
-                282
-            ],
-            "stddev": [
-                291
-            ],
-            "stddev_pop": [
-                293
-            ],
-            "stddev_samp": [
-                295
-            ],
-            "sum": [
                 299
             ],
-            "var_pop": [
-                303
+            "count": [
+                335
             ],
-            "var_samp": [
+            "max": [
                 305
             ],
-            "variance": [
+            "min": [
                 307
+            ],
+            "stddev": [
+                316
+            ],
+            "stddev_pop": [
+                318
+            ],
+            "stddev_samp": [
+                320
+            ],
+            "sum": [
+                324
+            ],
+            "var_pop": [
+                328
+            ],
+            "var_samp": [
+                330
+            ],
+            "variance": [
+                332
             ],
             "__typename": [
                 5
@@ -5348,10 +6030,10 @@ export default {
         },
         "markets_arr_rel_insert_input": {
             "data": [
-                278
+                303
             ],
             "on_conflict": [
-                285
+                310
             ],
             "__typename": [
                 5
@@ -5391,31 +6073,31 @@ export default {
         },
         "markets_avg_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -5423,13 +6105,13 @@ export default {
         },
         "markets_bool_exp": {
             "_and": [
-                275
+                300
             ],
             "_not": [
-                275
+                300
             ],
             "_or": [
-                275
+                300
             ],
             "active_slot": [
                 8
@@ -5441,13 +6123,13 @@ export default {
                 8
             ],
             "base_maker_fee": [
-                620
+                617
             ],
             "base_mint_acct": [
                 6
             ],
             "base_taker_fee": [
-                620
+                617
             ],
             "bids_token_acct": [
                 6
@@ -5465,10 +6147,10 @@ export default {
                 8
             ],
             "makes": [
-                231
+                256
             ],
             "makes_aggregate": [
-                222
+                247
             ],
             "market_acct": [
                 6
@@ -5477,13 +6159,13 @@ export default {
                 6
             ],
             "orders": [
-                322
+                347
             ],
             "orders_aggregate": [
-                313
+                338
             ],
             "proposal": [
-                537
+                534
             ],
             "proposal_acct": [
                 6
@@ -5492,40 +6174,40 @@ export default {
                 8
             ],
             "quote_maker_fee": [
-                620
+                617
             ],
             "quote_mint_acct": [
                 6
             ],
             "quote_taker_fee": [
-                620
+                617
             ],
             "quote_tick_size": [
                 8
             ],
             "takes": [
-                630
+                627
             ],
             "takes_aggregate": [
-                623
+                620
             ],
             "token": [
-                711
+                708
             ],
             "tokenAcctByBidsTokenAcct": [
-                674
+                671
             ],
             "tokenByQuoteMintAcct": [
-                711
+                708
             ],
             "token_acct": [
-                674
+                671
             ],
             "twaps": [
-                855
+                852
             ],
             "twaps_aggregate": [
-                848
+                845
             ],
             "__typename": [
                 5
@@ -5540,10 +6222,10 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "inactive_slot": [
                 7
@@ -5552,10 +6234,10 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
@@ -5575,13 +6257,13 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_mint_acct": [
                 5
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "bids_token_acct": [
                 5
@@ -5596,7 +6278,7 @@ export default {
                 7
             ],
             "makes": [
-                228
+                253
             ],
             "market_acct": [
                 5
@@ -5605,10 +6287,10 @@ export default {
                 5
             ],
             "orders": [
-                319
+                344
             ],
             "proposal": [
-                546
+                543
             ],
             "proposal_acct": [
                 5
@@ -5617,34 +6299,34 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_mint_acct": [
                 5
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
             ],
             "takes": [
-                627
+                624
             ],
             "token": [
-                718
+                715
             ],
             "tokenAcctByBidsTokenAcct": [
-                683
+                680
             ],
             "tokenByQuoteMintAcct": [
-                718
+                715
             ],
             "token_acct": [
-                683
+                680
             ],
             "twaps": [
-                852
+                849
             ],
             "__typename": [
                 5
@@ -5661,13 +6343,13 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_mint_acct": [
                 5
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "bids_token_acct": [
                 5
@@ -5691,13 +6373,13 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_mint_acct": [
                 5
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
@@ -5708,55 +6390,55 @@ export default {
         },
         "markets_max_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "asks_token_acct": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_mint_acct": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "bids_token_acct": [
-                310
+                335
             ],
             "create_tx_sig": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "market_type": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_mint_acct": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -5773,13 +6455,13 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_mint_acct": [
                 5
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "bids_token_acct": [
                 5
@@ -5803,13 +6485,13 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_mint_acct": [
                 5
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
@@ -5820,55 +6502,55 @@ export default {
         },
         "markets_min_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "asks_token_acct": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_mint_acct": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "bids_token_acct": [
-                310
+                335
             ],
             "create_tx_sig": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "market_type": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_mint_acct": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -5879,7 +6561,7 @@ export default {
                 3
             ],
             "returning": [
-                266
+                291
             ],
             "__typename": [
                 5
@@ -5887,10 +6569,10 @@ export default {
         },
         "markets_obj_rel_insert_input": {
             "data": [
-                278
+                303
             ],
             "on_conflict": [
-                285
+                310
             ],
             "__typename": [
                 5
@@ -5898,13 +6580,13 @@ export default {
         },
         "markets_on_conflict": {
             "constraint": [
-                276
+                301
             ],
             "update_columns": [
-                300
+                325
             ],
             "where": [
-                275
+                300
             ],
             "__typename": [
                 5
@@ -5912,85 +6594,85 @@ export default {
         },
         "markets_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "asks_token_acct": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_mint_acct": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "bids_token_acct": [
-                310
+                335
             ],
             "candles_aggregate": [
                 14
             ],
             "create_tx_sig": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "makes_aggregate": [
-                227
+                252
             ],
             "market_acct": [
-                310
+                335
             ],
             "market_type": [
-                310
+                335
             ],
             "orders_aggregate": [
-                318
+                343
             ],
             "proposal": [
-                548
+                545
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_mint_acct": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "takes_aggregate": [
-                626
+                623
             ],
             "token": [
-                720
+                717
             ],
             "tokenAcctByBidsTokenAcct": [
-                685
+                682
             ],
             "tokenByQuoteMintAcct": [
-                720
+                717
             ],
             "token_acct": [
-                685
+                682
             ],
             "twaps_aggregate": [
-                851
+                848
             ],
             "__typename": [
                 5
@@ -6016,13 +6698,13 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_mint_acct": [
                 5
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "bids_token_acct": [
                 5
@@ -6046,13 +6728,13 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_mint_acct": [
                 5
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
@@ -6095,31 +6777,31 @@ export default {
         },
         "markets_stddev_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6159,31 +6841,31 @@ export default {
         },
         "markets_stddev_pop_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6223,31 +6905,31 @@ export default {
         },
         "markets_stddev_samp_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6255,10 +6937,10 @@ export default {
         },
         "markets_stream_cursor_input": {
             "initial_value": [
-                297
+                322
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -6275,13 +6957,13 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_mint_acct": [
                 5
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "bids_token_acct": [
                 5
@@ -6305,13 +6987,13 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_mint_acct": [
                 5
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
@@ -6328,10 +7010,10 @@ export default {
                 7
             ],
             "base_maker_fee": [
-                619
+                616
             ],
             "base_taker_fee": [
-                619
+                616
             ],
             "inactive_slot": [
                 7
@@ -6340,10 +7022,10 @@ export default {
                 7
             ],
             "quote_maker_fee": [
-                619
+                616
             ],
             "quote_taker_fee": [
-                619
+                616
             ],
             "quote_tick_size": [
                 7
@@ -6354,31 +7036,31 @@ export default {
         },
         "markets_sum_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6387,13 +7069,13 @@ export default {
         "markets_update_column": {},
         "markets_updates": {
             "_inc": [
-                277
+                302
             ],
             "_set": [
-                289
+                314
             ],
             "where": [
-                275
+                300
             ],
             "__typename": [
                 5
@@ -6433,31 +7115,31 @@ export default {
         },
         "markets_var_pop_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6497,31 +7179,31 @@ export default {
         },
         "markets_var_samp_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6561,31 +7243,31 @@ export default {
         },
         "markets_variance_order_by": {
             "active_slot": [
-                310
+                335
             ],
             "base_lot_size": [
-                310
+                335
             ],
             "base_maker_fee": [
-                310
+                335
             ],
             "base_taker_fee": [
-                310
+                335
             ],
             "inactive_slot": [
-                310
+                335
             ],
             "quote_lot_size": [
-                310
+                335
             ],
             "quote_maker_fee": [
-                310
+                335
             ],
             "quote_taker_fee": [
-                310
+                335
             ],
             "quote_tick_size": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6594,31 +7276,31 @@ export default {
         "numeric": {},
         "numeric_comparison_exp": {
             "_eq": [
-                308
+                333
             ],
             "_gt": [
-                308
+                333
             ],
             "_gte": [
-                308
+                333
             ],
             "_in": [
-                308
+                333
             ],
             "_is_null": [
                 0
             ],
             "_lt": [
-                308
+                333
             ],
             "_lte": [
-                308
+                333
             ],
             "_neq": [
-                308
+                333
             ],
             "_nin": [
-                308
+                333
             ],
             "__typename": [
                 5
@@ -6633,7 +7315,7 @@ export default {
                 7
             ],
             "cancel_time": [
-                663
+                660
             ],
             "cancel_tx_sig": [
                 5
@@ -6645,10 +7327,10 @@ export default {
                 0
             ],
             "make": [
-                220
+                245
             ],
             "market": [
-                266
+                291
             ],
             "market_acct": [
                 5
@@ -6657,7 +7339,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -6669,13 +7351,13 @@ export default {
                 5
             ],
             "take": [
-                621
+                618
             ],
             "unfilled_base_amount": [
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -6683,10 +7365,10 @@ export default {
         },
         "orders_aggregate": {
             "aggregate": [
-                317
+                342
             ],
             "nodes": [
-                311
+                336
             ],
             "__typename": [
                 5
@@ -6694,13 +7376,13 @@ export default {
         },
         "orders_aggregate_bool_exp": {
             "bool_and": [
-                314
+                339
             ],
             "bool_or": [
-                315
+                340
             ],
             "count": [
-                316
+                341
             ],
             "__typename": [
                 5
@@ -6708,13 +7390,13 @@ export default {
         },
         "orders_aggregate_bool_exp_bool_and": {
             "arguments": [
-                336
+                361
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                322
+                347
             ],
             "predicate": [
                 1
@@ -6725,13 +7407,13 @@ export default {
         },
         "orders_aggregate_bool_exp_bool_or": {
             "arguments": [
-                337
+                362
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                322
+                347
             ],
             "predicate": [
                 1
@@ -6742,13 +7424,13 @@ export default {
         },
         "orders_aggregate_bool_exp_count": {
             "arguments": [
-                335
+                360
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                322
+                347
             ],
             "predicate": [
                 4
@@ -6759,13 +7441,13 @@ export default {
         },
         "orders_aggregate_fields": {
             "avg": [
-                320
+                345
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        335,
+                        360,
                         "[orders_select_column!]"
                     ],
                     "distinct": [
@@ -6774,31 +7456,31 @@ export default {
                 }
             ],
             "max": [
-                326
-            ],
-            "min": [
-                328
-            ],
-            "stddev": [
-                339
-            ],
-            "stddev_pop": [
-                341
-            ],
-            "stddev_samp": [
-                343
-            ],
-            "sum": [
-                347
-            ],
-            "var_pop": [
                 351
             ],
-            "var_samp": [
+            "min": [
                 353
             ],
+            "stddev": [
+                364
+            ],
+            "stddev_pop": [
+                366
+            ],
+            "stddev_samp": [
+                368
+            ],
+            "sum": [
+                372
+            ],
+            "var_pop": [
+                376
+            ],
+            "var_samp": [
+                378
+            ],
             "variance": [
-                355
+                380
             ],
             "__typename": [
                 5
@@ -6806,37 +7488,37 @@ export default {
         },
         "orders_aggregate_order_by": {
             "avg": [
-                321
+                346
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                327
-            ],
-            "min": [
-                329
-            ],
-            "stddev": [
-                340
-            ],
-            "stddev_pop": [
-                342
-            ],
-            "stddev_samp": [
-                344
-            ],
-            "sum": [
-                348
-            ],
-            "var_pop": [
                 352
             ],
-            "var_samp": [
+            "min": [
                 354
             ],
+            "stddev": [
+                365
+            ],
+            "stddev_pop": [
+                367
+            ],
+            "stddev_samp": [
+                369
+            ],
+            "sum": [
+                373
+            ],
+            "var_pop": [
+                377
+            ],
+            "var_samp": [
+                379
+            ],
             "variance": [
-                356
+                381
             ],
             "__typename": [
                 5
@@ -6844,10 +7526,10 @@ export default {
         },
         "orders_arr_rel_insert_input": {
             "data": [
-                325
+                350
             ],
             "on_conflict": [
-                332
+                357
             ],
             "__typename": [
                 5
@@ -6875,19 +7557,19 @@ export default {
         },
         "orders_avg_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -6895,13 +7577,13 @@ export default {
         },
         "orders_bool_exp": {
             "_and": [
-                322
+                347
             ],
             "_not": [
-                322
+                347
             ],
             "_or": [
-                322
+                347
             ],
             "actor_acct": [
                 6
@@ -6910,7 +7592,7 @@ export default {
                 8
             ],
             "cancel_time": [
-                664
+                661
             ],
             "cancel_tx_sig": [
                 6
@@ -6922,10 +7604,10 @@ export default {
                 1
             ],
             "make": [
-                231
+                256
             ],
             "market": [
-                275
+                300
             ],
             "market_acct": [
                 6
@@ -6934,7 +7616,7 @@ export default {
                 8
             ],
             "order_time": [
-                664
+                661
             ],
             "order_tx_sig": [
                 6
@@ -6946,13 +7628,13 @@ export default {
                 6
             ],
             "take": [
-                630
+                627
             ],
             "unfilled_base_amount": [
                 8
             ],
             "updated_at": [
-                664
+                661
             ],
             "__typename": [
                 5
@@ -6987,7 +7669,7 @@ export default {
                 7
             ],
             "cancel_time": [
-                663
+                660
             ],
             "cancel_tx_sig": [
                 5
@@ -6999,10 +7681,10 @@ export default {
                 0
             ],
             "make": [
-                240
+                265
             ],
             "market": [
-                284
+                309
             ],
             "market_acct": [
                 5
@@ -7011,7 +7693,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -7023,13 +7705,13 @@ export default {
                 5
             ],
             "take": [
-                639
+                636
             ],
             "unfilled_base_amount": [
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -7043,7 +7725,7 @@ export default {
                 7
             ],
             "cancel_time": [
-                663
+                660
             ],
             "cancel_tx_sig": [
                 5
@@ -7058,7 +7740,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -7073,7 +7755,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -7081,43 +7763,43 @@ export default {
         },
         "orders_max_order_by": {
             "actor_acct": [
-                310
+                335
             ],
             "cancel_block": [
-                310
+                335
             ],
             "cancel_time": [
-                310
+                335
             ],
             "cancel_tx_sig": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "order_time": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "side": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7131,7 +7813,7 @@ export default {
                 7
             ],
             "cancel_time": [
-                663
+                660
             ],
             "cancel_tx_sig": [
                 5
@@ -7146,7 +7828,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -7161,7 +7843,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -7169,43 +7851,43 @@ export default {
         },
         "orders_min_order_by": {
             "actor_acct": [
-                310
+                335
             ],
             "cancel_block": [
-                310
+                335
             ],
             "cancel_time": [
-                310
+                335
             ],
             "cancel_tx_sig": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "order_time": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "side": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7216,7 +7898,7 @@ export default {
                 3
             ],
             "returning": [
-                311
+                336
             ],
             "__typename": [
                 5
@@ -7224,10 +7906,10 @@ export default {
         },
         "orders_obj_rel_insert_input": {
             "data": [
-                325
+                350
             ],
             "on_conflict": [
-                332
+                357
             ],
             "__typename": [
                 5
@@ -7235,13 +7917,13 @@ export default {
         },
         "orders_on_conflict": {
             "constraint": [
-                323
+                348
             ],
             "update_columns": [
-                349
+                374
             ],
             "where": [
-                322
+                347
             ],
             "__typename": [
                 5
@@ -7249,55 +7931,55 @@ export default {
         },
         "orders_order_by": {
             "actor_acct": [
-                310
+                335
             ],
             "cancel_block": [
-                310
+                335
             ],
             "cancel_time": [
-                310
+                335
             ],
             "cancel_tx_sig": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "is_active": [
-                310
+                335
             ],
             "make": [
-                242
+                267
             ],
             "market": [
-                286
+                311
             ],
             "market_acct": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "order_time": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "side": [
-                310
+                335
             ],
             "take": [
-                641
+                638
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7322,7 +8004,7 @@ export default {
                 7
             ],
             "cancel_time": [
-                663
+                660
             ],
             "cancel_tx_sig": [
                 5
@@ -7340,7 +8022,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -7355,7 +8037,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -7383,19 +8065,19 @@ export default {
         },
         "orders_stddev_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7423,19 +8105,19 @@ export default {
         },
         "orders_stddev_pop_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7463,19 +8145,19 @@ export default {
         },
         "orders_stddev_samp_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7483,10 +8165,10 @@ export default {
         },
         "orders_stream_cursor_input": {
             "initial_value": [
-                346
+                371
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -7500,7 +8182,7 @@ export default {
                 7
             ],
             "cancel_time": [
-                663
+                660
             ],
             "cancel_tx_sig": [
                 5
@@ -7518,7 +8200,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -7533,7 +8215,7 @@ export default {
                 7
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -7561,19 +8243,19 @@ export default {
         },
         "orders_sum_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7582,13 +8264,13 @@ export default {
         "orders_update_column": {},
         "orders_updates": {
             "_inc": [
-                324
+                349
             ],
             "_set": [
-                338
+                363
             ],
             "where": [
-                322
+                347
             ],
             "__typename": [
                 5
@@ -7616,19 +8298,19 @@ export default {
         },
         "orders_var_pop_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7656,19 +8338,19 @@ export default {
         },
         "orders_var_samp_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7696,19 +8378,19 @@ export default {
         },
         "orders_variance_order_by": {
             "cancel_block": [
-                310
+                335
             ],
             "filled_base_amount": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "unfilled_base_amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -7728,19 +8410,19 @@ export default {
                 5
             ],
             "program": [
-                416
+                441
             ],
             "programByConditionalVaultAcct": [
-                416
+                441
             ],
             "programByMigratorAcct": [
-                416
+                441
             ],
             "programByPricingModelAcct": [
-                416
+                441
             ],
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -7748,10 +8430,10 @@ export default {
         },
         "program_system_aggregate": {
             "aggregate": [
-                371
+                396
             ],
             "nodes": [
-                357
+                382
             ],
             "__typename": [
                 5
@@ -7759,31 +8441,31 @@ export default {
         },
         "program_system_aggregate_bool_exp": {
             "avg": [
-                360
+                385
             ],
             "corr": [
-                361
+                386
             ],
             "count": [
-                363
+                388
             ],
             "covar_samp": [
-                364
+                389
             ],
             "max": [
-                366
+                391
             ],
             "min": [
-                367
+                392
             ],
             "stddev_samp": [
-                368
+                393
             ],
             "sum": [
-                369
+                394
             ],
             "var_samp": [
-                370
+                395
             ],
             "__typename": [
                 5
@@ -7791,16 +8473,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_avg": {
             "arguments": [
-                389
+                414
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7808,16 +8490,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_corr": {
             "arguments": [
-                362
+                387
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7825,10 +8507,10 @@ export default {
         },
         "program_system_aggregate_bool_exp_corr_arguments": {
             "X": [
-                390
+                415
             ],
             "Y": [
-                390
+                415
             ],
             "__typename": [
                 5
@@ -7836,13 +8518,13 @@ export default {
         },
         "program_system_aggregate_bool_exp_count": {
             "arguments": [
-                388
+                413
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
                 4
@@ -7853,16 +8535,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_covar_samp": {
             "arguments": [
-                365
+                390
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7870,10 +8552,10 @@ export default {
         },
         "program_system_aggregate_bool_exp_covar_samp_arguments": {
             "X": [
-                391
+                416
             ],
             "Y": [
-                391
+                416
             ],
             "__typename": [
                 5
@@ -7881,16 +8563,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_max": {
             "arguments": [
-                392
+                417
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7898,16 +8580,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_min": {
             "arguments": [
-                393
+                418
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7915,16 +8597,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_stddev_samp": {
             "arguments": [
-                394
+                419
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7932,16 +8614,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_sum": {
             "arguments": [
-                395
+                420
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7949,16 +8631,16 @@ export default {
         },
         "program_system_aggregate_bool_exp_var_samp": {
             "arguments": [
-                396
+                421
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                376
+                401
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -7966,13 +8648,13 @@ export default {
         },
         "program_system_aggregate_fields": {
             "avg": [
-                374
+                399
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "distinct": [
@@ -7981,31 +8663,31 @@ export default {
                 }
             ],
             "max": [
-                380
+                405
             ],
             "min": [
-                382
+                407
             ],
             "stddev": [
-                398
+                423
             ],
             "stddev_pop": [
-                400
+                425
             ],
             "stddev_samp": [
-                402
+                427
             ],
             "sum": [
-                406
+                431
             ],
             "var_pop": [
-                410
+                435
             ],
             "var_samp": [
-                412
+                437
             ],
             "variance": [
-                414
+                439
             ],
             "__typename": [
                 5
@@ -8013,37 +8695,37 @@ export default {
         },
         "program_system_aggregate_order_by": {
             "avg": [
-                375
+                400
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                381
+                406
             ],
             "min": [
-                383
+                408
             ],
             "stddev": [
-                399
+                424
             ],
             "stddev_pop": [
-                401
+                426
             ],
             "stddev_samp": [
-                403
+                428
             ],
             "sum": [
-                407
+                432
             ],
             "var_pop": [
-                411
+                436
             ],
             "var_samp": [
-                413
+                438
             ],
             "variance": [
-                415
+                440
             ],
             "__typename": [
                 5
@@ -8051,10 +8733,10 @@ export default {
         },
         "program_system_arr_rel_insert_input": {
             "data": [
-                379
+                404
             ],
             "on_conflict": [
-                385
+                410
             ],
             "__typename": [
                 5
@@ -8070,7 +8752,7 @@ export default {
         },
         "program_system_avg_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8078,13 +8760,13 @@ export default {
         },
         "program_system_bool_exp": {
             "_and": [
-                376
+                401
             ],
             "_not": [
-                376
+                401
             ],
             "_or": [
-                376
+                401
             ],
             "autocrat_acct": [
                 6
@@ -8099,19 +8781,19 @@ export default {
                 6
             ],
             "program": [
-                420
+                445
             ],
             "programByConditionalVaultAcct": [
-                420
+                445
             ],
             "programByMigratorAcct": [
-                420
+                445
             ],
             "programByPricingModelAcct": [
-                420
+                445
             ],
             "system_version": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -8120,7 +8802,7 @@ export default {
         "program_system_constraint": {},
         "program_system_inc_input": {
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8140,19 +8822,19 @@ export default {
                 5
             ],
             "program": [
-                427
+                452
             ],
             "programByConditionalVaultAcct": [
-                427
+                452
             ],
             "programByMigratorAcct": [
-                427
+                452
             ],
             "programByPricingModelAcct": [
-                427
+                452
             ],
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8172,7 +8854,7 @@ export default {
                 5
             ],
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8180,19 +8862,19 @@ export default {
         },
         "program_system_max_order_by": {
             "autocrat_acct": [
-                310
+                335
             ],
             "conditional_vault_acct": [
-                310
+                335
             ],
             "migrator_acct": [
-                310
+                335
             ],
             "pricing_model_acct": [
-                310
+                335
             ],
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8212,7 +8894,7 @@ export default {
                 5
             ],
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8220,19 +8902,19 @@ export default {
         },
         "program_system_min_order_by": {
             "autocrat_acct": [
-                310
+                335
             ],
             "conditional_vault_acct": [
-                310
+                335
             ],
             "migrator_acct": [
-                310
+                335
             ],
             "pricing_model_acct": [
-                310
+                335
             ],
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8243,7 +8925,7 @@ export default {
                 3
             ],
             "returning": [
-                357
+                382
             ],
             "__typename": [
                 5
@@ -8251,13 +8933,13 @@ export default {
         },
         "program_system_on_conflict": {
             "constraint": [
-                377
+                402
             ],
             "update_columns": [
-                408
+                433
             ],
             "where": [
-                376
+                401
             ],
             "__typename": [
                 5
@@ -8265,31 +8947,31 @@ export default {
         },
         "program_system_order_by": {
             "autocrat_acct": [
-                310
+                335
             ],
             "conditional_vault_acct": [
-                310
+                335
             ],
             "migrator_acct": [
-                310
+                335
             ],
             "pricing_model_acct": [
-                310
+                335
             ],
             "program": [
-                429
+                454
             ],
             "programByConditionalVaultAcct": [
-                429
+                454
             ],
             "programByMigratorAcct": [
-                429
+                454
             ],
             "programByPricingModelAcct": [
-                429
+                454
             ],
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8297,7 +8979,7 @@ export default {
         },
         "program_system_pk_columns_input": {
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8326,7 +9008,7 @@ export default {
                 5
             ],
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8342,7 +9024,7 @@ export default {
         },
         "program_system_stddev_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8358,7 +9040,7 @@ export default {
         },
         "program_system_stddev_pop_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8374,7 +9056,7 @@ export default {
         },
         "program_system_stddev_samp_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8382,10 +9064,10 @@ export default {
         },
         "program_system_stream_cursor_input": {
             "initial_value": [
-                405
+                430
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -8405,7 +9087,7 @@ export default {
                 5
             ],
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8413,7 +9095,7 @@ export default {
         },
         "program_system_sum_fields": {
             "system_version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8421,7 +9103,7 @@ export default {
         },
         "program_system_sum_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8430,13 +9112,13 @@ export default {
         "program_system_update_column": {},
         "program_system_updates": {
             "_inc": [
-                378
+                403
             ],
             "_set": [
-                397
+                422
             ],
             "where": [
-                376
+                401
             ],
             "__typename": [
                 5
@@ -8452,7 +9134,7 @@ export default {
         },
         "program_system_var_pop_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8468,7 +9150,7 @@ export default {
         },
         "program_system_var_samp_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8484,7 +9166,7 @@ export default {
         },
         "program_system_variance_order_by": {
             "system_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -8492,13 +9174,13 @@ export default {
         },
         "programs": {
             "created_at": [
-                663
+                660
             ],
             "daos": [
-                121,
+                146,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -8508,19 +9190,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daos_aggregate": [
-                122,
+                147,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -8530,22 +9212,22 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "deployed_at": [
-                663
+                660
             ],
             "programSystemsByConditionalVaultAcct": [
-                357,
+                382,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8555,19 +9237,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "programSystemsByConditionalVaultAcct_aggregate": [
-                358,
+                383,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8577,19 +9259,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "programSystemsByMigratorAcct": [
-                357,
+                382,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8599,19 +9281,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "programSystemsByMigratorAcct_aggregate": [
-                358,
+                383,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8621,19 +9303,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "programSystemsByPricingModelAcct": [
-                357,
+                382,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8643,19 +9325,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "programSystemsByPricingModelAcct_aggregate": [
-                358,
+                383,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8665,11 +9347,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
@@ -8680,10 +9362,10 @@ export default {
                 5
             ],
             "program_systems": [
-                357,
+                382,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8693,19 +9375,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "program_systems_aggregate": [
-                358,
+                383,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -8715,16 +9397,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8732,10 +9414,10 @@ export default {
         },
         "programs_aggregate": {
             "aggregate": [
-                418
+                443
             ],
             "nodes": [
-                416
+                441
             ],
             "__typename": [
                 5
@@ -8743,13 +9425,13 @@ export default {
         },
         "programs_aggregate_fields": {
             "avg": [
-                419
+                444
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        431,
+                        456,
                         "[programs_select_column!]"
                     ],
                     "distinct": [
@@ -8758,31 +9440,31 @@ export default {
                 }
             ],
             "max": [
-                424
+                449
             ],
             "min": [
-                425
+                450
             ],
             "stddev": [
-                433
+                458
             ],
             "stddev_pop": [
-                434
+                459
             ],
             "stddev_samp": [
-                435
+                460
             ],
             "sum": [
-                438
+                463
             ],
             "var_pop": [
-                441
+                466
             ],
             "var_samp": [
-                442
+                467
             ],
             "variance": [
-                443
+                468
             ],
             "__typename": [
                 5
@@ -8798,43 +9480,43 @@ export default {
         },
         "programs_bool_exp": {
             "_and": [
-                420
+                445
             ],
             "_not": [
-                420
+                445
             ],
             "_or": [
-                420
+                445
             ],
             "created_at": [
-                664
+                661
             ],
             "daos": [
-                130
+                155
             ],
             "daos_aggregate": [
-                123
+                148
             ],
             "deployed_at": [
-                664
+                661
             ],
             "programSystemsByConditionalVaultAcct": [
-                376
+                401
             ],
             "programSystemsByConditionalVaultAcct_aggregate": [
-                359
+                384
             ],
             "programSystemsByMigratorAcct": [
-                376
+                401
             ],
             "programSystemsByMigratorAcct_aggregate": [
-                359
+                384
             ],
             "programSystemsByPricingModelAcct": [
-                376
+                401
             ],
             "programSystemsByPricingModelAcct_aggregate": [
-                359
+                384
             ],
             "program_acct": [
                 6
@@ -8843,13 +9525,13 @@ export default {
                 6
             ],
             "program_systems": [
-                376
+                401
             ],
             "program_systems_aggregate": [
-                359
+                384
             ],
             "version": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -8858,7 +9540,7 @@ export default {
         "programs_constraint": {},
         "programs_inc_input": {
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8866,22 +9548,22 @@ export default {
         },
         "programs_insert_input": {
             "created_at": [
-                663
+                660
             ],
             "daos": [
-                127
+                152
             ],
             "deployed_at": [
-                663
+                660
             ],
             "programSystemsByConditionalVaultAcct": [
-                373
+                398
             ],
             "programSystemsByMigratorAcct": [
-                373
+                398
             ],
             "programSystemsByPricingModelAcct": [
-                373
+                398
             ],
             "program_acct": [
                 5
@@ -8890,10 +9572,10 @@ export default {
                 5
             ],
             "program_systems": [
-                373
+                398
             ],
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8901,10 +9583,10 @@ export default {
         },
         "programs_max_fields": {
             "created_at": [
-                663
+                660
             ],
             "deployed_at": [
-                663
+                660
             ],
             "program_acct": [
                 5
@@ -8913,7 +9595,7 @@ export default {
                 5
             ],
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8921,10 +9603,10 @@ export default {
         },
         "programs_min_fields": {
             "created_at": [
-                663
+                660
             ],
             "deployed_at": [
-                663
+                660
             ],
             "program_acct": [
                 5
@@ -8933,7 +9615,7 @@ export default {
                 5
             ],
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -8944,7 +9626,7 @@ export default {
                 3
             ],
             "returning": [
-                416
+                441
             ],
             "__typename": [
                 5
@@ -8952,10 +9634,10 @@ export default {
         },
         "programs_obj_rel_insert_input": {
             "data": [
-                423
+                448
             ],
             "on_conflict": [
-                428
+                453
             ],
             "__typename": [
                 5
@@ -8963,13 +9645,13 @@ export default {
         },
         "programs_on_conflict": {
             "constraint": [
-                421
+                446
             ],
             "update_columns": [
-                439
+                464
             ],
             "where": [
-                420
+                445
             ],
             "__typename": [
                 5
@@ -8977,34 +9659,34 @@ export default {
         },
         "programs_order_by": {
             "created_at": [
-                310
+                335
             ],
             "daos_aggregate": [
-                126
+                151
             ],
             "deployed_at": [
-                310
+                335
             ],
             "programSystemsByConditionalVaultAcct_aggregate": [
-                372
+                397
             ],
             "programSystemsByMigratorAcct_aggregate": [
-                372
+                397
             ],
             "programSystemsByPricingModelAcct_aggregate": [
-                372
+                397
             ],
             "program_acct": [
-                310
+                335
             ],
             "program_name": [
-                310
+                335
             ],
             "program_systems_aggregate": [
-                372
+                397
             ],
             "version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9021,10 +9703,10 @@ export default {
         "programs_select_column": {},
         "programs_set_input": {
             "created_at": [
-                663
+                660
             ],
             "deployed_at": [
-                663
+                660
             ],
             "program_acct": [
                 5
@@ -9033,7 +9715,7 @@ export default {
                 5
             ],
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -9065,10 +9747,10 @@ export default {
         },
         "programs_stream_cursor_input": {
             "initial_value": [
-                437
+                462
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -9076,10 +9758,10 @@ export default {
         },
         "programs_stream_cursor_value_input": {
             "created_at": [
-                663
+                660
             ],
             "deployed_at": [
-                663
+                660
             ],
             "program_acct": [
                 5
@@ -9088,7 +9770,7 @@ export default {
                 5
             ],
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -9096,7 +9778,7 @@ export default {
         },
         "programs_sum_fields": {
             "version": [
-                163
+                188
             ],
             "__typename": [
                 5
@@ -9105,13 +9787,13 @@ export default {
         "programs_update_column": {},
         "programs_updates": {
             "_inc": [
-                422
+                447
             ],
             "_set": [
-                432
+                457
             ],
             "where": [
-                420
+                445
             ],
             "__typename": [
                 5
@@ -9143,7 +9825,7 @@ export default {
         },
         "proposal_details": {
             "categories": [
-                217,
+                242,
                 {
                     "path": [
                         5
@@ -9157,7 +9839,7 @@ export default {
                 5
             ],
             "proposal": [
-                518
+                515
             ],
             "proposal_acct": [
                 5
@@ -9177,10 +9859,10 @@ export default {
         },
         "proposal_details_aggregate": {
             "aggregate": [
-                448
+                473
             ],
             "nodes": [
-                444
+                469
             ],
             "__typename": [
                 5
@@ -9188,7 +9870,7 @@ export default {
         },
         "proposal_details_aggregate_bool_exp": {
             "count": [
-                447
+                472
             ],
             "__typename": [
                 5
@@ -9196,13 +9878,13 @@ export default {
         },
         "proposal_details_aggregate_bool_exp_count": {
             "arguments": [
-                470
+                495
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                454
+                479
             ],
             "predicate": [
                 4
@@ -9213,13 +9895,13 @@ export default {
         },
         "proposal_details_aggregate_fields": {
             "avg": [
-                452
+                477
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        470,
+                        495,
                         "[proposal_details_select_column!]"
                     ],
                     "distinct": [
@@ -9228,31 +9910,31 @@ export default {
                 }
             ],
             "max": [
-                461
-            ],
-            "min": [
-                463
-            ],
-            "stddev": [
-                472
-            ],
-            "stddev_pop": [
-                474
-            ],
-            "stddev_samp": [
-                476
-            ],
-            "sum": [
-                480
-            ],
-            "var_pop": [
-                484
-            ],
-            "var_samp": [
                 486
             ],
-            "variance": [
+            "min": [
                 488
+            ],
+            "stddev": [
+                497
+            ],
+            "stddev_pop": [
+                499
+            ],
+            "stddev_samp": [
+                501
+            ],
+            "sum": [
+                505
+            ],
+            "var_pop": [
+                509
+            ],
+            "var_samp": [
+                511
+            ],
+            "variance": [
+                513
             ],
             "__typename": [
                 5
@@ -9260,37 +9942,37 @@ export default {
         },
         "proposal_details_aggregate_order_by": {
             "avg": [
-                453
+                478
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                462
-            ],
-            "min": [
-                464
-            ],
-            "stddev": [
-                473
-            ],
-            "stddev_pop": [
-                475
-            ],
-            "stddev_samp": [
-                477
-            ],
-            "sum": [
-                481
-            ],
-            "var_pop": [
-                485
-            ],
-            "var_samp": [
                 487
             ],
-            "variance": [
+            "min": [
                 489
+            ],
+            "stddev": [
+                498
+            ],
+            "stddev_pop": [
+                500
+            ],
+            "stddev_samp": [
+                502
+            ],
+            "sum": [
+                506
+            ],
+            "var_pop": [
+                510
+            ],
+            "var_samp": [
+                512
+            ],
+            "variance": [
+                514
             ],
             "__typename": [
                 5
@@ -9298,7 +9980,7 @@ export default {
         },
         "proposal_details_append_input": {
             "categories": [
-                217
+                242
             ],
             "__typename": [
                 5
@@ -9306,10 +9988,10 @@ export default {
         },
         "proposal_details_arr_rel_insert_input": {
             "data": [
-                460
+                485
             ],
             "on_conflict": [
-                466
+                491
             ],
             "__typename": [
                 5
@@ -9325,7 +10007,7 @@ export default {
         },
         "proposal_details_avg_order_by": {
             "proposal_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9333,16 +10015,16 @@ export default {
         },
         "proposal_details_bool_exp": {
             "_and": [
-                454
+                479
             ],
             "_not": [
-                454
+                479
             ],
             "_or": [
-                454
+                479
             ],
             "categories": [
-                219
+                244
             ],
             "content": [
                 6
@@ -9351,7 +10033,7 @@ export default {
                 6
             ],
             "proposal": [
-                537
+                534
             ],
             "proposal_acct": [
                 6
@@ -9404,7 +10086,7 @@ export default {
         },
         "proposal_details_insert_input": {
             "categories": [
-                217
+                242
             ],
             "content": [
                 5
@@ -9413,7 +10095,7 @@ export default {
                 5
             ],
             "proposal": [
-                546
+                543
             ],
             "proposal_acct": [
                 5
@@ -9456,22 +10138,22 @@ export default {
         },
         "proposal_details_max_order_by": {
             "content": [
-                310
+                335
             ],
             "description": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "proposal_id": [
-                310
+                335
             ],
             "slug": [
-                310
+                335
             ],
             "title": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9502,22 +10184,22 @@ export default {
         },
         "proposal_details_min_order_by": {
             "content": [
-                310
+                335
             ],
             "description": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "proposal_id": [
-                310
+                335
             ],
             "slug": [
-                310
+                335
             ],
             "title": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9528,7 +10210,7 @@ export default {
                 3
             ],
             "returning": [
-                444
+                469
             ],
             "__typename": [
                 5
@@ -9536,13 +10218,13 @@ export default {
         },
         "proposal_details_on_conflict": {
             "constraint": [
-                455
+                480
             ],
             "update_columns": [
-                482
+                507
             ],
             "where": [
-                454
+                479
             ],
             "__typename": [
                 5
@@ -9550,28 +10232,28 @@ export default {
         },
         "proposal_details_order_by": {
             "categories": [
-                310
+                335
             ],
             "content": [
-                310
+                335
             ],
             "description": [
-                310
+                335
             ],
             "proposal": [
-                548
+                545
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "proposal_id": [
-                310
+                335
             ],
             "slug": [
-                310
+                335
             ],
             "title": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9587,7 +10269,7 @@ export default {
         },
         "proposal_details_prepend_input": {
             "categories": [
-                217
+                242
             ],
             "__typename": [
                 5
@@ -9596,7 +10278,7 @@ export default {
         "proposal_details_select_column": {},
         "proposal_details_set_input": {
             "categories": [
-                217
+                242
             ],
             "content": [
                 5
@@ -9630,7 +10312,7 @@ export default {
         },
         "proposal_details_stddev_order_by": {
             "proposal_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9646,7 +10328,7 @@ export default {
         },
         "proposal_details_stddev_pop_order_by": {
             "proposal_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9662,7 +10344,7 @@ export default {
         },
         "proposal_details_stddev_samp_order_by": {
             "proposal_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9670,10 +10352,10 @@ export default {
         },
         "proposal_details_stream_cursor_input": {
             "initial_value": [
-                479
+                504
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -9681,7 +10363,7 @@ export default {
         },
         "proposal_details_stream_cursor_value_input": {
             "categories": [
-                217
+                242
             ],
             "content": [
                 5
@@ -9715,7 +10397,7 @@ export default {
         },
         "proposal_details_sum_order_by": {
             "proposal_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9724,28 +10406,28 @@ export default {
         "proposal_details_update_column": {},
         "proposal_details_updates": {
             "_append": [
-                450
+                475
             ],
             "_delete_at_path": [
-                456
+                481
             ],
             "_delete_elem": [
-                457
+                482
             ],
             "_delete_key": [
-                458
+                483
             ],
             "_inc": [
-                459
+                484
             ],
             "_prepend": [
-                469
+                494
             ],
             "_set": [
-                471
+                496
             ],
             "where": [
-                454
+                479
             ],
             "__typename": [
                 5
@@ -9761,7 +10443,7 @@ export default {
         },
         "proposal_details_var_pop_order_by": {
             "proposal_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9777,7 +10459,7 @@ export default {
         },
         "proposal_details_var_samp_order_by": {
             "proposal_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -9793,667 +10475,7 @@ export default {
         },
         "proposal_details_variance_order_by": {
             "proposal_id": [
-                310
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter": {
-            "autocrat_program_acct": [
-                5
-            ],
-            "autocrat_version": [
-                163
-            ],
-            "categories": [
-                217,
-                {
-                    "path": [
-                        5
-                    ]
-                }
-            ],
-            "content": [
-                5
-            ],
-            "dao_account": [
-                5
-            ],
-            "dao_name": [
-                5
-            ],
-            "external_url": [
-                5
-            ],
-            "number": [
-                7
-            ],
-            "proposal_acct": [
-                5
-            ],
-            "proposer_acct": [
-                5
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "slug": [
-                5
-            ],
-            "status": [
-                5
-            ],
-            "title": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_aggregate": {
-            "aggregate": [
-                492
-            ],
-            "nodes": [
-                490
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_aggregate_fields": {
-            "avg": [
-                494
-            ],
-            "count": [
-                3,
-                {
-                    "columns": [
-                        506,
-                        "[proposal_filter_select_column!]"
-                    ],
-                    "distinct": [
-                        0
-                    ]
-                }
-            ],
-            "max": [
-                501
-            ],
-            "min": [
-                502
-            ],
-            "stddev": [
-                508
-            ],
-            "stddev_pop": [
-                509
-            ],
-            "stddev_samp": [
-                510
-            ],
-            "sum": [
-                513
-            ],
-            "var_pop": [
-                515
-            ],
-            "var_samp": [
-                516
-            ],
-            "variance": [
-                517
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_append_input": {
-            "categories": [
-                217
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_avg_fields": {
-            "autocrat_version": [
-                2
-            ],
-            "number": [
-                2
-            ],
-            "slot_enqueued": [
-                2
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_bool_exp": {
-            "_and": [
-                495
-            ],
-            "_not": [
-                495
-            ],
-            "_or": [
-                495
-            ],
-            "autocrat_program_acct": [
-                6
-            ],
-            "autocrat_version": [
-                164
-            ],
-            "categories": [
-                219
-            ],
-            "content": [
-                6
-            ],
-            "dao_account": [
-                6
-            ],
-            "dao_name": [
-                6
-            ],
-            "external_url": [
-                6
-            ],
-            "number": [
-                8
-            ],
-            "proposal_acct": [
-                6
-            ],
-            "proposer_acct": [
-                6
-            ],
-            "slot_enqueued": [
-                8
-            ],
-            "slug": [
-                6
-            ],
-            "status": [
-                6
-            ],
-            "title": [
-                6
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_delete_at_path_input": {
-            "categories": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_delete_elem_input": {
-            "categories": [
-                3
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_delete_key_input": {
-            "categories": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_inc_input": {
-            "autocrat_version": [
-                163
-            ],
-            "number": [
-                7
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_insert_input": {
-            "autocrat_program_acct": [
-                5
-            ],
-            "autocrat_version": [
-                163
-            ],
-            "categories": [
-                217
-            ],
-            "content": [
-                5
-            ],
-            "dao_account": [
-                5
-            ],
-            "dao_name": [
-                5
-            ],
-            "external_url": [
-                5
-            ],
-            "number": [
-                7
-            ],
-            "proposal_acct": [
-                5
-            ],
-            "proposer_acct": [
-                5
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "slug": [
-                5
-            ],
-            "status": [
-                5
-            ],
-            "title": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_max_fields": {
-            "autocrat_program_acct": [
-                5
-            ],
-            "autocrat_version": [
-                163
-            ],
-            "content": [
-                5
-            ],
-            "dao_account": [
-                5
-            ],
-            "dao_name": [
-                5
-            ],
-            "external_url": [
-                5
-            ],
-            "number": [
-                7
-            ],
-            "proposal_acct": [
-                5
-            ],
-            "proposer_acct": [
-                5
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "slug": [
-                5
-            ],
-            "status": [
-                5
-            ],
-            "title": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_min_fields": {
-            "autocrat_program_acct": [
-                5
-            ],
-            "autocrat_version": [
-                163
-            ],
-            "content": [
-                5
-            ],
-            "dao_account": [
-                5
-            ],
-            "dao_name": [
-                5
-            ],
-            "external_url": [
-                5
-            ],
-            "number": [
-                7
-            ],
-            "proposal_acct": [
-                5
-            ],
-            "proposer_acct": [
-                5
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "slug": [
-                5
-            ],
-            "status": [
-                5
-            ],
-            "title": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_mutation_response": {
-            "affected_rows": [
-                3
-            ],
-            "returning": [
-                490
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_order_by": {
-            "autocrat_program_acct": [
-                310
-            ],
-            "autocrat_version": [
-                310
-            ],
-            "categories": [
-                310
-            ],
-            "content": [
-                310
-            ],
-            "dao_account": [
-                310
-            ],
-            "dao_name": [
-                310
-            ],
-            "external_url": [
-                310
-            ],
-            "number": [
-                310
-            ],
-            "proposal_acct": [
-                310
-            ],
-            "proposer_acct": [
-                310
-            ],
-            "slot_enqueued": [
-                310
-            ],
-            "slug": [
-                310
-            ],
-            "status": [
-                310
-            ],
-            "title": [
-                310
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_prepend_input": {
-            "categories": [
-                217
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_select_column": {},
-        "proposal_filter_set_input": {
-            "autocrat_program_acct": [
-                5
-            ],
-            "autocrat_version": [
-                163
-            ],
-            "categories": [
-                217
-            ],
-            "content": [
-                5
-            ],
-            "dao_account": [
-                5
-            ],
-            "dao_name": [
-                5
-            ],
-            "external_url": [
-                5
-            ],
-            "number": [
-                7
-            ],
-            "proposal_acct": [
-                5
-            ],
-            "proposer_acct": [
-                5
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "slug": [
-                5
-            ],
-            "status": [
-                5
-            ],
-            "title": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_stddev_fields": {
-            "autocrat_version": [
-                2
-            ],
-            "number": [
-                2
-            ],
-            "slot_enqueued": [
-                2
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_stddev_pop_fields": {
-            "autocrat_version": [
-                2
-            ],
-            "number": [
-                2
-            ],
-            "slot_enqueued": [
-                2
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_stddev_samp_fields": {
-            "autocrat_version": [
-                2
-            ],
-            "number": [
-                2
-            ],
-            "slot_enqueued": [
-                2
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_stream_cursor_input": {
-            "initial_value": [
-                512
-            ],
-            "ordering": [
-                92
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_stream_cursor_value_input": {
-            "autocrat_program_acct": [
-                5
-            ],
-            "autocrat_version": [
-                163
-            ],
-            "categories": [
-                217
-            ],
-            "content": [
-                5
-            ],
-            "dao_account": [
-                5
-            ],
-            "dao_name": [
-                5
-            ],
-            "external_url": [
-                5
-            ],
-            "number": [
-                7
-            ],
-            "proposal_acct": [
-                5
-            ],
-            "proposer_acct": [
-                5
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "slug": [
-                5
-            ],
-            "status": [
-                5
-            ],
-            "title": [
-                5
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_sum_fields": {
-            "autocrat_version": [
-                163
-            ],
-            "number": [
-                7
-            ],
-            "slot_enqueued": [
-                7
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_updates": {
-            "_append": [
-                493
-            ],
-            "_delete_at_path": [
-                496
-            ],
-            "_delete_elem": [
-                497
-            ],
-            "_delete_key": [
-                498
-            ],
-            "_inc": [
-                499
-            ],
-            "_prepend": [
-                505
-            ],
-            "_set": [
-                507
-            ],
-            "where": [
-                495
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_var_pop_fields": {
-            "autocrat_version": [
-                2
-            ],
-            "number": [
-                2
-            ],
-            "slot_enqueued": [
-                2
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_var_samp_fields": {
-            "autocrat_version": [
-                2
-            ],
-            "number": [
-                2
-            ],
-            "slot_enqueued": [
-                2
-            ],
-            "__typename": [
-                5
-            ]
-        },
-        "proposal_filter_variance_fields": {
-            "autocrat_version": [
-                2
-            ],
-            "number": [
-                2
-            ],
-            "slot_enqueued": [
-                2
+                335
             ],
             "__typename": [
                 5
@@ -10461,7 +10483,7 @@ export default {
         },
         "proposals": {
             "autocrat_version": [
-                163
+                188
             ],
             "base_vault": [
                 5
@@ -10510,8 +10532,14 @@ export default {
                     ]
                 }
             ],
+            "conditionalVaultByQuoteVault": [
+                92
+            ],
+            "conditional_vault": [
+                92
+            ],
             "dao": [
-                121
+                146
             ],
             "dao_acct": [
                 5
@@ -10526,10 +10554,10 @@ export default {
                 7
             ],
             "markets": [
-                266,
+                291,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -10539,19 +10567,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "markets_aggregate": [
-                267,
+                292,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -10561,11 +10589,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
@@ -10582,10 +10610,10 @@ export default {
                 5
             ],
             "proposal_details": [
-                444,
+                469,
                 {
                     "distinct_on": [
-                        470,
+                        495,
                         "[proposal_details_select_column!]"
                     ],
                     "limit": [
@@ -10595,19 +10623,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        467,
+                        492,
                         "[proposal_details_order_by!]"
                     ],
                     "where": [
-                        454
+                        479
                     ]
                 }
             ],
             "proposal_details_aggregate": [
-                445,
+                470,
                 {
                     "distinct_on": [
-                        470,
+                        495,
                         "[proposal_details_select_column!]"
                     ],
                     "limit": [
@@ -10617,11 +10645,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        467,
+                        492,
                         "[proposal_details_order_by!]"
                     ],
                     "where": [
-                        454
+                        479
                     ]
                 }
             ],
@@ -10635,10 +10663,10 @@ export default {
                 5
             ],
             "reactions": [
-                578,
+                575,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -10648,19 +10676,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
             "reactions_aggregate": [
-                579,
+                576,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -10670,11 +10698,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
@@ -10682,10 +10710,10 @@ export default {
                 5
             ],
             "twaps": [
-                846,
+                843,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -10695,19 +10723,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "twaps_aggregate": [
-                847,
+                844,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -10717,16 +10745,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -10734,10 +10762,10 @@ export default {
         },
         "proposals_aggregate": {
             "aggregate": [
-                532
+                529
             ],
             "nodes": [
-                518
+                515
             ],
             "__typename": [
                 5
@@ -10745,31 +10773,31 @@ export default {
         },
         "proposals_aggregate_bool_exp": {
             "avg": [
-                521
+                518
             ],
             "corr": [
-                522
+                519
             ],
             "count": [
-                524
+                521
             ],
             "covar_samp": [
-                525
+                522
             ],
             "max": [
-                527
+                524
             ],
             "min": [
-                528
+                525
             ],
             "stddev_samp": [
-                529
+                526
             ],
             "sum": [
-                530
+                527
             ],
             "var_samp": [
-                531
+                528
             ],
             "__typename": [
                 5
@@ -10777,16 +10805,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_avg": {
             "arguments": [
-                551
+                548
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10794,16 +10822,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_corr": {
             "arguments": [
-                523
+                520
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10811,10 +10839,10 @@ export default {
         },
         "proposals_aggregate_bool_exp_corr_arguments": {
             "X": [
-                552
+                549
             ],
             "Y": [
-                552
+                549
             ],
             "__typename": [
                 5
@@ -10822,13 +10850,13 @@ export default {
         },
         "proposals_aggregate_bool_exp_count": {
             "arguments": [
-                550
+                547
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
                 4
@@ -10839,16 +10867,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_covar_samp": {
             "arguments": [
-                526
+                523
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10856,10 +10884,10 @@ export default {
         },
         "proposals_aggregate_bool_exp_covar_samp_arguments": {
             "X": [
-                553
+                550
             ],
             "Y": [
-                553
+                550
             ],
             "__typename": [
                 5
@@ -10867,16 +10895,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_max": {
             "arguments": [
-                554
+                551
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10884,16 +10912,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_min": {
             "arguments": [
-                555
+                552
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10901,16 +10929,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_stddev_samp": {
             "arguments": [
-                556
+                553
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10918,16 +10946,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_sum": {
             "arguments": [
-                557
+                554
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10935,16 +10963,16 @@ export default {
         },
         "proposals_aggregate_bool_exp_var_samp": {
             "arguments": [
-                558
+                555
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                537
+                534
             ],
             "predicate": [
-                164
+                189
             ],
             "__typename": [
                 5
@@ -10952,13 +10980,13 @@ export default {
         },
         "proposals_aggregate_fields": {
             "avg": [
-                535
+                532
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        550,
+                        547,
                         "[proposals_select_column!]"
                     ],
                     "distinct": [
@@ -10967,31 +10995,31 @@ export default {
                 }
             ],
             "max": [
-                541
+                538
             ],
             "min": [
-                543
+                540
             ],
             "stddev": [
-                560
+                557
             ],
             "stddev_pop": [
-                562
+                559
             ],
             "stddev_samp": [
-                564
+                561
             ],
             "sum": [
-                568
+                565
             ],
             "var_pop": [
-                572
+                569
             ],
             "var_samp": [
-                574
+                571
             ],
             "variance": [
-                576
+                573
             ],
             "__typename": [
                 5
@@ -10999,37 +11027,37 @@ export default {
         },
         "proposals_aggregate_order_by": {
             "avg": [
-                536
+                533
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                542
+                539
             ],
             "min": [
-                544
+                541
             ],
             "stddev": [
-                561
+                558
             ],
             "stddev_pop": [
-                563
+                560
             ],
             "stddev_samp": [
-                565
+                562
             ],
             "sum": [
-                569
+                566
             ],
             "var_pop": [
-                573
+                570
             ],
             "var_samp": [
-                575
+                572
             ],
             "variance": [
-                577
+                574
             ],
             "__typename": [
                 5
@@ -11037,10 +11065,10 @@ export default {
         },
         "proposals_arr_rel_insert_input": {
             "data": [
-                540
+                537
             ],
             "on_conflict": [
-                547
+                544
             ],
             "__typename": [
                 5
@@ -11062,13 +11090,13 @@ export default {
         },
         "proposals_avg_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11076,16 +11104,16 @@ export default {
         },
         "proposals_bool_exp": {
             "_and": [
-                537
+                534
             ],
             "_not": [
-                537
+                534
             ],
             "_or": [
-                537
+                534
             ],
             "autocrat_version": [
-                164
+                189
             ],
             "base_vault": [
                 6
@@ -11096,8 +11124,14 @@ export default {
             "comments_aggregate": [
                 52
             ],
+            "conditionalVaultByQuoteVault": [
+                99
+            ],
+            "conditional_vault": [
+                99
+            ],
             "dao": [
-                130
+                155
             ],
             "dao_acct": [
                 6
@@ -11112,10 +11146,10 @@ export default {
                 8
             ],
             "markets": [
-                275
+                300
             ],
             "markets_aggregate": [
-                268
+                293
             ],
             "pass_market_acct": [
                 6
@@ -11130,10 +11164,10 @@ export default {
                 6
             ],
             "proposal_details": [
-                454
+                479
             ],
             "proposal_details_aggregate": [
-                446
+                471
             ],
             "proposal_num": [
                 8
@@ -11145,22 +11179,22 @@ export default {
                 6
             ],
             "reactions": [
-                587
+                584
             ],
             "reactions_aggregate": [
-                580
+                577
             ],
             "status": [
                 6
             ],
             "twaps": [
-                855
+                852
             ],
             "twaps_aggregate": [
-                848
+                845
             ],
             "updated_at": [
-                664
+                661
             ],
             "__typename": [
                 5
@@ -11169,7 +11203,7 @@ export default {
         "proposals_constraint": {},
         "proposals_inc_input": {
             "autocrat_version": [
-                163
+                188
             ],
             "initial_slot": [
                 7
@@ -11183,7 +11217,7 @@ export default {
         },
         "proposals_insert_input": {
             "autocrat_version": [
-                163
+                188
             ],
             "base_vault": [
                 5
@@ -11191,8 +11225,14 @@ export default {
             "comments": [
                 56
             ],
+            "conditionalVaultByQuoteVault": [
+                107
+            ],
+            "conditional_vault": [
+                107
+            ],
             "dao": [
-                139
+                164
             ],
             "dao_acct": [
                 5
@@ -11207,7 +11247,7 @@ export default {
                 7
             ],
             "markets": [
-                272
+                297
             ],
             "pass_market_acct": [
                 5
@@ -11222,7 +11262,7 @@ export default {
                 5
             ],
             "proposal_details": [
-                451
+                476
             ],
             "proposal_num": [
                 7
@@ -11234,16 +11274,16 @@ export default {
                 5
             ],
             "reactions": [
-                584
+                581
             ],
             "status": [
                 5
             ],
             "twaps": [
-                852
+                849
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -11251,7 +11291,7 @@ export default {
         },
         "proposals_max_fields": {
             "autocrat_version": [
-                163
+                188
             ],
             "base_vault": [
                 5
@@ -11293,7 +11333,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -11301,49 +11341,49 @@ export default {
         },
         "proposals_max_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "base_vault": [
-                310
+                335
             ],
             "dao_acct": [
-                310
+                335
             ],
             "description_url": [
-                310
+                335
             ],
             "fail_market_acct": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "pass_market_acct": [
-                310
+                335
             ],
             "pricing_model_fail_acct": [
-                310
+                335
             ],
             "pricing_model_pass_acct": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "proposer_acct": [
-                310
+                335
             ],
             "quote_vault": [
-                310
+                335
             ],
             "status": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11351,7 +11391,7 @@ export default {
         },
         "proposals_min_fields": {
             "autocrat_version": [
-                163
+                188
             ],
             "base_vault": [
                 5
@@ -11393,7 +11433,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -11401,49 +11441,49 @@ export default {
         },
         "proposals_min_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "base_vault": [
-                310
+                335
             ],
             "dao_acct": [
-                310
+                335
             ],
             "description_url": [
-                310
+                335
             ],
             "fail_market_acct": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "pass_market_acct": [
-                310
+                335
             ],
             "pricing_model_fail_acct": [
-                310
+                335
             ],
             "pricing_model_pass_acct": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "proposer_acct": [
-                310
+                335
             ],
             "quote_vault": [
-                310
+                335
             ],
             "status": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11454,7 +11494,7 @@ export default {
                 3
             ],
             "returning": [
-                518
+                515
             ],
             "__typename": [
                 5
@@ -11462,10 +11502,10 @@ export default {
         },
         "proposals_obj_rel_insert_input": {
             "data": [
-                540
+                537
             ],
             "on_conflict": [
-                547
+                544
             ],
             "__typename": [
                 5
@@ -11473,13 +11513,13 @@ export default {
         },
         "proposals_on_conflict": {
             "constraint": [
-                538
+                535
             ],
             "update_columns": [
-                570
+                567
             ],
             "where": [
-                537
+                534
             ],
             "__typename": [
                 5
@@ -11487,67 +11527,73 @@ export default {
         },
         "proposals_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "base_vault": [
-                310
+                335
             ],
             "comments_aggregate": [
                 55
             ],
+            "conditionalVaultByQuoteVault": [
+                109
+            ],
+            "conditional_vault": [
+                109
+            ],
             "dao": [
-                141
+                166
             ],
             "dao_acct": [
-                310
+                335
             ],
             "description_url": [
-                310
+                335
             ],
             "fail_market_acct": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "markets_aggregate": [
-                271
+                296
             ],
             "pass_market_acct": [
-                310
+                335
             ],
             "pricing_model_fail_acct": [
-                310
+                335
             ],
             "pricing_model_pass_acct": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "proposal_details_aggregate": [
-                449
+                474
             ],
             "proposal_num": [
-                310
+                335
             ],
             "proposer_acct": [
-                310
+                335
             ],
             "quote_vault": [
-                310
+                335
             ],
             "reactions_aggregate": [
-                583
+                580
             ],
             "status": [
-                310
+                335
             ],
             "twaps_aggregate": [
-                851
+                848
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11572,7 +11618,7 @@ export default {
         "proposals_select_column_proposals_aggregate_bool_exp_var_samp_arguments_columns": {},
         "proposals_set_input": {
             "autocrat_version": [
-                163
+                188
             ],
             "base_vault": [
                 5
@@ -11614,7 +11660,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -11636,13 +11682,13 @@ export default {
         },
         "proposals_stddev_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11664,13 +11710,13 @@ export default {
         },
         "proposals_stddev_pop_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11692,13 +11738,13 @@ export default {
         },
         "proposals_stddev_samp_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11706,10 +11752,10 @@ export default {
         },
         "proposals_stream_cursor_input": {
             "initial_value": [
-                567
+                564
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -11717,7 +11763,7 @@ export default {
         },
         "proposals_stream_cursor_value_input": {
             "autocrat_version": [
-                163
+                188
             ],
             "base_vault": [
                 5
@@ -11759,7 +11805,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -11767,7 +11813,7 @@ export default {
         },
         "proposals_sum_fields": {
             "autocrat_version": [
-                163
+                188
             ],
             "initial_slot": [
                 7
@@ -11781,13 +11827,13 @@ export default {
         },
         "proposals_sum_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11796,13 +11842,13 @@ export default {
         "proposals_update_column": {},
         "proposals_updates": {
             "_inc": [
-                539
+                536
             ],
             "_set": [
-                559
+                556
             ],
             "where": [
-                537
+                534
             ],
             "__typename": [
                 5
@@ -11824,13 +11870,13 @@ export default {
         },
         "proposals_var_pop_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11852,13 +11898,13 @@ export default {
         },
         "proposals_var_samp_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11880,13 +11926,13 @@ export default {
         },
         "proposals_variance_order_by": {
             "autocrat_version": [
-                310
+                335
             ],
             "initial_slot": [
-                310
+                335
             ],
             "proposal_num": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -11900,7 +11946,7 @@ export default {
                 7
             ],
             "proposal": [
-                518
+                515
             ],
             "proposal_acct": [
                 5
@@ -11912,7 +11958,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -11920,10 +11966,10 @@ export default {
         },
         "reactions_aggregate": {
             "aggregate": [
-                582
+                579
             ],
             "nodes": [
-                578
+                575
             ],
             "__typename": [
                 5
@@ -11931,7 +11977,7 @@ export default {
         },
         "reactions_aggregate_bool_exp": {
             "count": [
-                581
+                578
             ],
             "__typename": [
                 5
@@ -11939,13 +11985,13 @@ export default {
         },
         "reactions_aggregate_bool_exp_count": {
             "arguments": [
-                599
+                596
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                587
+                584
             ],
             "predicate": [
                 4
@@ -11956,13 +12002,13 @@ export default {
         },
         "reactions_aggregate_fields": {
             "avg": [
-                585
+                582
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "distinct": [
@@ -11971,31 +12017,31 @@ export default {
                 }
             ],
             "max": [
-                591
+                588
             ],
             "min": [
-                593
+                590
             ],
             "stddev": [
-                601
+                598
             ],
             "stddev_pop": [
-                603
+                600
             ],
             "stddev_samp": [
-                605
+                602
             ],
             "sum": [
-                609
+                606
             ],
             "var_pop": [
-                613
+                610
             ],
             "var_samp": [
-                615
+                612
             ],
             "variance": [
-                617
+                614
             ],
             "__typename": [
                 5
@@ -12003,37 +12049,37 @@ export default {
         },
         "reactions_aggregate_order_by": {
             "avg": [
-                586
+                583
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                592
+                589
             ],
             "min": [
-                594
+                591
             ],
             "stddev": [
-                602
+                599
             ],
             "stddev_pop": [
-                604
+                601
             ],
             "stddev_samp": [
-                606
+                603
             ],
             "sum": [
-                610
+                607
             ],
             "var_pop": [
-                614
+                611
             ],
             "var_samp": [
-                616
+                613
             ],
             "variance": [
-                618
+                615
             ],
             "__typename": [
                 5
@@ -12041,10 +12087,10 @@ export default {
         },
         "reactions_arr_rel_insert_input": {
             "data": [
-                590
+                587
             ],
             "on_conflict": [
-                596
+                593
             ],
             "__typename": [
                 5
@@ -12060,7 +12106,7 @@ export default {
         },
         "reactions_avg_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12068,13 +12114,13 @@ export default {
         },
         "reactions_bool_exp": {
             "_and": [
-                587
+                584
             ],
             "_not": [
-                587
+                584
             ],
             "_or": [
-                587
+                584
             ],
             "comment": [
                 59
@@ -12083,7 +12129,7 @@ export default {
                 8
             ],
             "proposal": [
-                537
+                534
             ],
             "proposal_acct": [
                 6
@@ -12095,7 +12141,7 @@ export default {
                 6
             ],
             "updated_at": [
-                664
+                661
             ],
             "__typename": [
                 5
@@ -12118,7 +12164,7 @@ export default {
                 7
             ],
             "proposal": [
-                546
+                543
             ],
             "proposal_acct": [
                 5
@@ -12130,7 +12176,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -12150,7 +12196,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -12158,19 +12204,19 @@ export default {
         },
         "reactions_max_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "reaction": [
-                310
+                335
             ],
             "reactor_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12190,7 +12236,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -12198,19 +12244,19 @@ export default {
         },
         "reactions_min_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "reaction": [
-                310
+                335
             ],
             "reactor_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12221,7 +12267,7 @@ export default {
                 3
             ],
             "returning": [
-                578
+                575
             ],
             "__typename": [
                 5
@@ -12229,13 +12275,13 @@ export default {
         },
         "reactions_on_conflict": {
             "constraint": [
-                588
+                585
             ],
             "update_columns": [
-                611
+                608
             ],
             "where": [
-                587
+                584
             ],
             "__typename": [
                 5
@@ -12246,22 +12292,22 @@ export default {
                 70
             ],
             "comment_id": [
-                310
+                335
             ],
             "proposal": [
-                548
+                545
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "reaction": [
-                310
+                335
             ],
             "reactor_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12296,7 +12342,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -12312,7 +12358,7 @@ export default {
         },
         "reactions_stddev_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12328,7 +12374,7 @@ export default {
         },
         "reactions_stddev_pop_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12344,7 +12390,7 @@ export default {
         },
         "reactions_stddev_samp_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12352,10 +12398,10 @@ export default {
         },
         "reactions_stream_cursor_input": {
             "initial_value": [
-                608
+                605
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -12375,7 +12421,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -12391,7 +12437,7 @@ export default {
         },
         "reactions_sum_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12400,13 +12446,13 @@ export default {
         "reactions_update_column": {},
         "reactions_updates": {
             "_inc": [
-                589
+                586
             ],
             "_set": [
-                600
+                597
             ],
             "where": [
-                587
+                584
             ],
             "__typename": [
                 5
@@ -12422,7 +12468,7 @@ export default {
         },
         "reactions_var_pop_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12438,7 +12484,7 @@ export default {
         },
         "reactions_var_samp_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12454,7 +12500,7 @@ export default {
         },
         "reactions_variance_order_by": {
             "comment_id": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12463,31 +12509,31 @@ export default {
         "smallint": {},
         "smallint_comparison_exp": {
             "_eq": [
-                619
+                616
             ],
             "_gt": [
-                619
+                616
             ],
             "_gte": [
-                619
+                616
             ],
             "_in": [
-                619
+                616
             ],
             "_is_null": [
                 0
             ],
             "_lt": [
-                619
+                616
             ],
             "_lte": [
-                619
+                616
             ],
             "_neq": [
-                619
+                616
             ],
             "_nin": [
-                619
+                616
             ],
             "__typename": [
                 5
@@ -12498,7 +12544,7 @@ export default {
                 7
             ],
             "make": [
-                220
+                245
             ],
             "maker_base_fee": [
                 7
@@ -12510,19 +12556,19 @@ export default {
                 7
             ],
             "market": [
-                266
+                291
             ],
             "market_acct": [
                 5
             ],
             "order": [
-                311
+                336
             ],
             "order_block": [
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -12539,10 +12585,10 @@ export default {
         },
         "takes_aggregate": {
             "aggregate": [
-                625
+                622
             ],
             "nodes": [
-                621
+                618
             ],
             "__typename": [
                 5
@@ -12550,7 +12596,7 @@ export default {
         },
         "takes_aggregate_bool_exp": {
             "count": [
-                624
+                621
             ],
             "__typename": [
                 5
@@ -12558,13 +12604,13 @@ export default {
         },
         "takes_aggregate_bool_exp_count": {
             "arguments": [
-                643
+                640
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                630
+                627
             ],
             "predicate": [
                 4
@@ -12575,13 +12621,13 @@ export default {
         },
         "takes_aggregate_fields": {
             "avg": [
-                628
+                625
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "distinct": [
@@ -12590,31 +12636,31 @@ export default {
                 }
             ],
             "max": [
-                634
+                631
             ],
             "min": [
-                636
+                633
             ],
             "stddev": [
-                645
+                642
             ],
             "stddev_pop": [
-                647
+                644
             ],
             "stddev_samp": [
-                649
+                646
             ],
             "sum": [
-                653
+                650
             ],
             "var_pop": [
-                657
+                654
             ],
             "var_samp": [
-                659
+                656
             ],
             "variance": [
-                661
+                658
             ],
             "__typename": [
                 5
@@ -12622,37 +12668,37 @@ export default {
         },
         "takes_aggregate_order_by": {
             "avg": [
-                629
+                626
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                635
+                632
             ],
             "min": [
-                637
+                634
             ],
             "stddev": [
-                646
+                643
             ],
             "stddev_pop": [
-                648
+                645
             ],
             "stddev_samp": [
-                650
+                647
             ],
             "sum": [
-                654
+                651
             ],
             "var_pop": [
-                658
+                655
             ],
             "var_samp": [
-                660
+                657
             ],
             "variance": [
-                662
+                659
             ],
             "__typename": [
                 5
@@ -12660,10 +12706,10 @@ export default {
         },
         "takes_arr_rel_insert_input": {
             "data": [
-                633
+                630
             ],
             "on_conflict": [
-                640
+                637
             ],
             "__typename": [
                 5
@@ -12694,22 +12740,22 @@ export default {
         },
         "takes_avg_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12717,19 +12763,19 @@ export default {
         },
         "takes_bool_exp": {
             "_and": [
-                630
+                627
             ],
             "_not": [
-                630
+                627
             ],
             "_or": [
-                630
+                627
             ],
             "base_amount": [
                 8
             ],
             "make": [
-                231
+                256
             ],
             "maker_base_fee": [
                 8
@@ -12741,19 +12787,19 @@ export default {
                 8
             ],
             "market": [
-                275
+                300
             ],
             "market_acct": [
                 6
             ],
             "order": [
-                322
+                347
             ],
             "order_block": [
                 8
             ],
             "order_time": [
-                664
+                661
             ],
             "order_tx_sig": [
                 6
@@ -12797,7 +12843,7 @@ export default {
                 7
             ],
             "make": [
-                240
+                265
             ],
             "maker_base_fee": [
                 7
@@ -12809,19 +12855,19 @@ export default {
                 7
             ],
             "market": [
-                284
+                309
             ],
             "market_acct": [
                 5
             ],
             "order": [
-                331
+                356
             ],
             "order_block": [
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -12856,7 +12902,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -12873,34 +12919,34 @@ export default {
         },
         "takes_max_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_order_tx_sig": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "order_time": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12926,7 +12972,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -12943,34 +12989,34 @@ export default {
         },
         "takes_min_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_order_tx_sig": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "market_acct": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "order_time": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -12981,7 +13027,7 @@ export default {
                 3
             ],
             "returning": [
-                621
+                618
             ],
             "__typename": [
                 5
@@ -12989,10 +13035,10 @@ export default {
         },
         "takes_obj_rel_insert_input": {
             "data": [
-                633
+                630
             ],
             "on_conflict": [
-                640
+                637
             ],
             "__typename": [
                 5
@@ -13000,13 +13046,13 @@ export default {
         },
         "takes_on_conflict": {
             "constraint": [
-                631
+                628
             ],
             "update_columns": [
-                655
+                652
             ],
             "where": [
-                630
+                627
             ],
             "__typename": [
                 5
@@ -13014,43 +13060,43 @@ export default {
         },
         "takes_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "make": [
-                242
+                267
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_order_tx_sig": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "market": [
-                286
+                311
             ],
             "market_acct": [
-                310
+                335
             ],
             "order": [
-                333
+                358
             ],
             "order_block": [
-                310
+                335
             ],
             "order_time": [
-                310
+                335
             ],
             "order_tx_sig": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13085,7 +13131,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -13125,22 +13171,22 @@ export default {
         },
         "takes_stddev_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13171,22 +13217,22 @@ export default {
         },
         "takes_stddev_pop_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13217,22 +13263,22 @@ export default {
         },
         "takes_stddev_samp_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13240,10 +13286,10 @@ export default {
         },
         "takes_stream_cursor_input": {
             "initial_value": [
-                652
+                649
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -13269,7 +13315,7 @@ export default {
                 7
             ],
             "order_time": [
-                663
+                660
             ],
             "order_tx_sig": [
                 5
@@ -13309,22 +13355,22 @@ export default {
         },
         "takes_sum_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13333,13 +13379,13 @@ export default {
         "takes_update_column": {},
         "takes_updates": {
             "_inc": [
-                632
+                629
             ],
             "_set": [
-                644
+                641
             ],
             "where": [
-                630
+                627
             ],
             "__typename": [
                 5
@@ -13370,22 +13416,22 @@ export default {
         },
         "takes_var_pop_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13416,22 +13462,22 @@ export default {
         },
         "takes_var_samp_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13462,22 +13508,22 @@ export default {
         },
         "takes_variance_order_by": {
             "base_amount": [
-                310
+                335
             ],
             "maker_base_fee": [
-                310
+                335
             ],
             "maker_quote_fee": [
-                310
+                335
             ],
             "order_block": [
-                310
+                335
             ],
             "quote_price": [
-                310
+                335
             ],
             "taker_base_fee": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13486,31 +13532,31 @@ export default {
         "timestamp": {},
         "timestamp_comparison_exp": {
             "_eq": [
-                663
+                660
             ],
             "_gt": [
-                663
+                660
             ],
             "_gte": [
-                663
+                660
             ],
             "_in": [
-                663
+                660
             ],
             "_is_null": [
                 0
             ],
             "_lt": [
-                663
+                660
             ],
             "_lte": [
-                663
+                660
             ],
             "_neq": [
-                663
+                660
             ],
             "_nin": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -13521,10 +13567,10 @@ export default {
                 7
             ],
             "markets": [
-                266,
+                291,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -13534,19 +13580,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "marketsByBidsTokenAcct": [
-                266,
+                291,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -13556,19 +13602,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "marketsByBidsTokenAcct_aggregate": [
-                267,
+                292,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -13578,19 +13624,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "markets_aggregate": [
-                267,
+                292,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -13600,11 +13646,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
@@ -13615,13 +13661,13 @@ export default {
                 5
             ],
             "token": [
-                707
+                704
             ],
             "token_acct": [
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -13629,10 +13675,10 @@ export default {
         },
         "token_accts_aggregate": {
             "aggregate": [
-                669
+                666
             ],
             "nodes": [
-                665
+                662
             ],
             "__typename": [
                 5
@@ -13640,7 +13686,7 @@ export default {
         },
         "token_accts_aggregate_bool_exp": {
             "count": [
-                668
+                665
             ],
             "__typename": [
                 5
@@ -13648,13 +13694,13 @@ export default {
         },
         "token_accts_aggregate_bool_exp_count": {
             "arguments": [
-                687
+                684
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                674
+                671
             ],
             "predicate": [
                 4
@@ -13665,13 +13711,13 @@ export default {
         },
         "token_accts_aggregate_fields": {
             "avg": [
-                672
+                669
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        687,
+                        684,
                         "[token_accts_select_column!]"
                     ],
                     "distinct": [
@@ -13680,31 +13726,31 @@ export default {
                 }
             ],
             "max": [
-                678
+                675
             ],
             "min": [
-                680
+                677
             ],
             "stddev": [
-                689
+                686
             ],
             "stddev_pop": [
-                691
+                688
             ],
             "stddev_samp": [
-                693
+                690
             ],
             "sum": [
-                697
+                694
             ],
             "var_pop": [
-                701
+                698
             ],
             "var_samp": [
-                703
+                700
             ],
             "variance": [
-                705
+                702
             ],
             "__typename": [
                 5
@@ -13712,37 +13758,37 @@ export default {
         },
         "token_accts_aggregate_order_by": {
             "avg": [
-                673
+                670
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                679
+                676
             ],
             "min": [
-                681
+                678
             ],
             "stddev": [
-                690
+                687
             ],
             "stddev_pop": [
-                692
+                689
             ],
             "stddev_samp": [
-                694
+                691
             ],
             "sum": [
-                698
+                695
             ],
             "var_pop": [
-                702
+                699
             ],
             "var_samp": [
-                704
+                701
             ],
             "variance": [
-                706
+                703
             ],
             "__typename": [
                 5
@@ -13750,10 +13796,10 @@ export default {
         },
         "token_accts_arr_rel_insert_input": {
             "data": [
-                677
+                674
             ],
             "on_conflict": [
-                684
+                681
             ],
             "__typename": [
                 5
@@ -13769,7 +13815,7 @@ export default {
         },
         "token_accts_avg_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13777,28 +13823,28 @@ export default {
         },
         "token_accts_bool_exp": {
             "_and": [
-                674
+                671
             ],
             "_not": [
-                674
+                671
             ],
             "_or": [
-                674
+                671
             ],
             "amount": [
                 8
             ],
             "markets": [
-                275
+                300
             ],
             "marketsByBidsTokenAcct": [
-                275
+                300
             ],
             "marketsByBidsTokenAcct_aggregate": [
-                268
+                293
             ],
             "markets_aggregate": [
-                268
+                293
             ],
             "mint_acct": [
                 6
@@ -13807,13 +13853,13 @@ export default {
                 6
             ],
             "token": [
-                711
+                708
             ],
             "token_acct": [
                 6
             ],
             "updated_at": [
-                664
+                661
             ],
             "__typename": [
                 5
@@ -13833,10 +13879,10 @@ export default {
                 7
             ],
             "markets": [
-                272
+                297
             ],
             "marketsByBidsTokenAcct": [
-                272
+                297
             ],
             "mint_acct": [
                 5
@@ -13845,13 +13891,13 @@ export default {
                 5
             ],
             "token": [
-                718
+                715
             ],
             "token_acct": [
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -13871,7 +13917,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -13879,19 +13925,19 @@ export default {
         },
         "token_accts_max_order_by": {
             "amount": [
-                310
+                335
             ],
             "mint_acct": [
-                310
+                335
             ],
             "owner_acct": [
-                310
+                335
             ],
             "token_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13911,7 +13957,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -13919,19 +13965,19 @@ export default {
         },
         "token_accts_min_order_by": {
             "amount": [
-                310
+                335
             ],
             "mint_acct": [
-                310
+                335
             ],
             "owner_acct": [
-                310
+                335
             ],
             "token_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -13942,7 +13988,7 @@ export default {
                 3
             ],
             "returning": [
-                665
+                662
             ],
             "__typename": [
                 5
@@ -13950,10 +13996,10 @@ export default {
         },
         "token_accts_obj_rel_insert_input": {
             "data": [
-                677
+                674
             ],
             "on_conflict": [
-                684
+                681
             ],
             "__typename": [
                 5
@@ -13961,13 +14007,13 @@ export default {
         },
         "token_accts_on_conflict": {
             "constraint": [
-                675
+                672
             ],
             "update_columns": [
-                699
+                696
             ],
             "where": [
-                674
+                671
             ],
             "__typename": [
                 5
@@ -13975,28 +14021,28 @@ export default {
         },
         "token_accts_order_by": {
             "amount": [
-                310
+                335
             ],
             "marketsByBidsTokenAcct_aggregate": [
-                271
+                296
             ],
             "markets_aggregate": [
-                271
+                296
             ],
             "mint_acct": [
-                310
+                335
             ],
             "owner_acct": [
-                310
+                335
             ],
             "token": [
-                720
+                717
             ],
             "token_acct": [
-                310
+                335
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14025,7 +14071,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14041,7 +14087,7 @@ export default {
         },
         "token_accts_stddev_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14057,7 +14103,7 @@ export default {
         },
         "token_accts_stddev_pop_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14073,7 +14119,7 @@ export default {
         },
         "token_accts_stddev_samp_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14081,10 +14127,10 @@ export default {
         },
         "token_accts_stream_cursor_input": {
             "initial_value": [
-                696
+                693
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -14104,7 +14150,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14120,7 +14166,7 @@ export default {
         },
         "token_accts_sum_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14129,13 +14175,13 @@ export default {
         "token_accts_update_column": {},
         "token_accts_updates": {
             "_inc": [
-                676
+                673
             ],
             "_set": [
-                688
+                685
             ],
             "where": [
-                674
+                671
             ],
             "__typename": [
                 5
@@ -14151,7 +14197,7 @@ export default {
         },
         "token_accts_var_pop_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14167,7 +14213,7 @@ export default {
         },
         "token_accts_var_samp_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14183,19 +14229,19 @@ export default {
         },
         "token_accts_variance_order_by": {
             "amount": [
-                310
+                335
             ],
             "__typename": [
                 5
             ]
         },
         "tokens": {
-            "daosByBaseAcct": [
-                121,
+            "conditional_vaults": [
+                92,
                 {
                     "distinct_on": [
-                        143,
-                        "[daos_select_column!]"
+                        111,
+                        "[conditional_vaults_select_column!]"
                     ],
                     "limit": [
                         3
@@ -14204,19 +14250,41 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
-                        "[daos_order_by!]"
+                        109,
+                        "[conditional_vaults_order_by!]"
                     ],
                     "where": [
-                        130
+                        99
                     ]
                 }
             ],
-            "daosByBaseAcct_aggregate": [
-                122,
+            "conditional_vaults_aggregate": [
+                93,
                 {
                     "distinct_on": [
-                        143,
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        109,
+                        "[conditional_vaults_order_by!]"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
+            "daos": [
+                146,
+                {
+                    "distinct_on": [
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -14226,19 +14294,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daosByQuoteAcct": [
-                121,
+                146,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -14248,19 +14316,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daosByQuoteAcct_aggregate": [
-                122,
+                147,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -14270,22 +14338,47 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
+                    ]
+                }
+            ],
+            "daos_aggregate": [
+                147,
+                {
+                    "distinct_on": [
+                        168,
+                        "[daos_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        166,
+                        "[daos_order_by!]"
+                    ],
+                    "where": [
+                        155
                     ]
                 }
             ],
             "decimals": [
-                619
+                616
+            ],
+            "image_url": [
+                5
             ],
             "markets": [
-                266,
+                291,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -14295,19 +14388,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "marketsByQuoteMintAcct": [
-                266,
+                291,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -14317,19 +14410,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "marketsByQuoteMintAcct_aggregate": [
-                267,
+                292,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -14339,19 +14432,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "markets_aggregate": [
-                267,
+                292,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -14361,11 +14454,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
@@ -14382,10 +14475,10 @@ export default {
                 5
             ],
             "token_accts": [
-                665,
+                662,
                 {
                     "distinct_on": [
-                        687,
+                        684,
                         "[token_accts_select_column!]"
                     ],
                     "limit": [
@@ -14395,19 +14488,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        685,
+                        682,
                         "[token_accts_order_by!]"
                     ],
                     "where": [
-                        674
+                        671
                     ]
                 }
             ],
             "token_accts_aggregate": [
-                666,
+                663,
                 {
                     "distinct_on": [
-                        687,
+                        684,
                         "[token_accts_select_column!]"
                     ],
                     "limit": [
@@ -14417,16 +14510,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        685,
+                        682,
                         "[token_accts_order_by!]"
                     ],
                     "where": [
-                        674
+                        671
                     ]
                 }
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14434,10 +14527,10 @@ export default {
         },
         "tokens_aggregate": {
             "aggregate": [
-                709
+                706
             ],
             "nodes": [
-                707
+                704
             ],
             "__typename": [
                 5
@@ -14445,13 +14538,13 @@ export default {
         },
         "tokens_aggregate_fields": {
             "avg": [
-                710
+                707
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        722,
+                        719,
                         "[tokens_select_column!]"
                     ],
                     "distinct": [
@@ -14460,31 +14553,31 @@ export default {
                 }
             ],
             "max": [
-                715
+                712
             ],
             "min": [
-                716
+                713
             ],
             "stddev": [
-                724
+                721
             ],
             "stddev_pop": [
-                725
+                722
             ],
             "stddev_samp": [
-                726
+                723
             ],
             "sum": [
-                729
+                726
             ],
             "var_pop": [
-                732
+                729
             ],
             "var_samp": [
-                733
+                730
             ],
             "variance": [
-                734
+                731
             ],
             "__typename": [
                 5
@@ -14503,40 +14596,49 @@ export default {
         },
         "tokens_bool_exp": {
             "_and": [
-                711
+                708
             ],
             "_not": [
-                711
+                708
             ],
             "_or": [
-                711
+                708
             ],
-            "daosByBaseAcct": [
-                130
+            "conditional_vaults": [
+                99
             ],
-            "daosByBaseAcct_aggregate": [
-                123
+            "conditional_vaults_aggregate": [
+                94
+            ],
+            "daos": [
+                155
             ],
             "daosByQuoteAcct": [
-                130
+                155
             ],
             "daosByQuoteAcct_aggregate": [
-                123
+                148
+            ],
+            "daos_aggregate": [
+                148
             ],
             "decimals": [
-                620
+                617
+            ],
+            "image_url": [
+                6
             ],
             "markets": [
-                275
+                300
             ],
             "marketsByQuoteMintAcct": [
-                275
+                300
             ],
             "marketsByQuoteMintAcct_aggregate": [
-                268
+                293
             ],
             "markets_aggregate": [
-                268
+                293
             ],
             "mint_acct": [
                 6
@@ -14551,13 +14653,13 @@ export default {
                 6
             ],
             "token_accts": [
-                674
+                671
             ],
             "token_accts_aggregate": [
-                667
+                664
             ],
             "updated_at": [
-                664
+                661
             ],
             "__typename": [
                 5
@@ -14566,7 +14668,7 @@ export default {
         "tokens_constraint": {},
         "tokens_inc_input": {
             "decimals": [
-                619
+                616
             ],
             "supply": [
                 7
@@ -14576,20 +14678,26 @@ export default {
             ]
         },
         "tokens_insert_input": {
-            "daosByBaseAcct": [
-                127
+            "conditional_vaults": [
+                98
+            ],
+            "daos": [
+                152
             ],
             "daosByQuoteAcct": [
-                127
+                152
             ],
             "decimals": [
-                619
+                616
+            ],
+            "image_url": [
+                5
             ],
             "markets": [
-                272
+                297
             ],
             "marketsByQuoteMintAcct": [
-                272
+                297
             ],
             "mint_acct": [
                 5
@@ -14604,10 +14712,10 @@ export default {
                 5
             ],
             "token_accts": [
-                671
+                668
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14615,7 +14723,10 @@ export default {
         },
         "tokens_max_fields": {
             "decimals": [
-                619
+                616
+            ],
+            "image_url": [
+                5
             ],
             "mint_acct": [
                 5
@@ -14630,7 +14741,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14638,7 +14749,10 @@ export default {
         },
         "tokens_min_fields": {
             "decimals": [
-                619
+                616
+            ],
+            "image_url": [
+                5
             ],
             "mint_acct": [
                 5
@@ -14653,7 +14767,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14664,7 +14778,7 @@ export default {
                 3
             ],
             "returning": [
-                707
+                704
             ],
             "__typename": [
                 5
@@ -14672,10 +14786,10 @@ export default {
         },
         "tokens_obj_rel_insert_input": {
             "data": [
-                714
+                711
             ],
             "on_conflict": [
-                719
+                716
             ],
             "__typename": [
                 5
@@ -14683,51 +14797,57 @@ export default {
         },
         "tokens_on_conflict": {
             "constraint": [
-                712
+                709
             ],
             "update_columns": [
-                730
+                727
             ],
             "where": [
-                711
+                708
             ],
             "__typename": [
                 5
             ]
         },
         "tokens_order_by": {
-            "daosByBaseAcct_aggregate": [
-                126
+            "conditional_vaults_aggregate": [
+                97
             ],
             "daosByQuoteAcct_aggregate": [
-                126
+                151
+            ],
+            "daos_aggregate": [
+                151
             ],
             "decimals": [
-                310
+                335
+            ],
+            "image_url": [
+                335
             ],
             "marketsByQuoteMintAcct_aggregate": [
-                271
+                296
             ],
             "markets_aggregate": [
-                271
+                296
             ],
             "mint_acct": [
-                310
+                335
             ],
             "name": [
-                310
+                335
             ],
             "supply": [
-                310
+                335
             ],
             "symbol": [
-                310
+                335
             ],
             "token_accts_aggregate": [
-                670
+                667
             ],
             "updated_at": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -14744,7 +14864,10 @@ export default {
         "tokens_select_column": {},
         "tokens_set_input": {
             "decimals": [
-                619
+                616
+            ],
+            "image_url": [
+                5
             ],
             "mint_acct": [
                 5
@@ -14759,7 +14882,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14800,10 +14923,10 @@ export default {
         },
         "tokens_stream_cursor_input": {
             "initial_value": [
-                728
+                725
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -14811,7 +14934,10 @@ export default {
         },
         "tokens_stream_cursor_value_input": {
             "decimals": [
-                619
+                616
+            ],
+            "image_url": [
+                5
             ],
             "mint_acct": [
                 5
@@ -14826,7 +14952,7 @@ export default {
                 5
             ],
             "updated_at": [
-                663
+                660
             ],
             "__typename": [
                 5
@@ -14834,7 +14960,7 @@ export default {
         },
         "tokens_sum_fields": {
             "decimals": [
-                619
+                616
             ],
             "supply": [
                 7
@@ -14846,13 +14972,13 @@ export default {
         "tokens_update_column": {},
         "tokens_updates": {
             "_inc": [
-                713
+                710
             ],
             "_set": [
-                723
+                720
             ],
             "where": [
-                711
+                708
             ],
             "__typename": [
                 5
@@ -14896,10 +15022,10 @@ export default {
                 7
             ],
             "transaction": [
-                818
+                815
             ],
             "transaction_watcher": [
-                776
+                773
             ],
             "tx_sig": [
                 5
@@ -14913,10 +15039,10 @@ export default {
         },
         "transaction_watcher_transactions_aggregate": {
             "aggregate": [
-                739
+                736
             ],
             "nodes": [
-                735
+                732
             ],
             "__typename": [
                 5
@@ -14924,7 +15050,7 @@ export default {
         },
         "transaction_watcher_transactions_aggregate_bool_exp": {
             "count": [
-                738
+                735
             ],
             "__typename": [
                 5
@@ -14932,13 +15058,13 @@ export default {
         },
         "transaction_watcher_transactions_aggregate_bool_exp_count": {
             "arguments": [
-                756
+                753
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                744
+                741
             ],
             "predicate": [
                 4
@@ -14949,13 +15075,13 @@ export default {
         },
         "transaction_watcher_transactions_aggregate_fields": {
             "avg": [
-                742
+                739
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "distinct": [
@@ -14964,31 +15090,31 @@ export default {
                 }
             ],
             "max": [
-                748
+                745
             ],
             "min": [
-                750
+                747
             ],
             "stddev": [
-                758
+                755
             ],
             "stddev_pop": [
-                760
+                757
             ],
             "stddev_samp": [
-                762
+                759
             ],
             "sum": [
-                766
+                763
             ],
             "var_pop": [
-                770
+                767
             ],
             "var_samp": [
-                772
+                769
             ],
             "variance": [
-                774
+                771
             ],
             "__typename": [
                 5
@@ -14996,37 +15122,37 @@ export default {
         },
         "transaction_watcher_transactions_aggregate_order_by": {
             "avg": [
-                743
+                740
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                749
+                746
             ],
             "min": [
-                751
+                748
             ],
             "stddev": [
-                759
+                756
             ],
             "stddev_pop": [
-                761
+                758
             ],
             "stddev_samp": [
-                763
+                760
             ],
             "sum": [
-                767
+                764
             ],
             "var_pop": [
-                771
+                768
             ],
             "var_samp": [
-                773
+                770
             ],
             "variance": [
-                775
+                772
             ],
             "__typename": [
                 5
@@ -15034,10 +15160,10 @@ export default {
         },
         "transaction_watcher_transactions_arr_rel_insert_input": {
             "data": [
-                747
+                744
             ],
             "on_conflict": [
-                753
+                750
             ],
             "__typename": [
                 5
@@ -15053,7 +15179,7 @@ export default {
         },
         "transaction_watcher_transactions_avg_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15061,22 +15187,22 @@ export default {
         },
         "transaction_watcher_transactions_bool_exp": {
             "_and": [
-                744
+                741
             ],
             "_not": [
-                744
+                741
             ],
             "_or": [
-                744
+                741
             ],
             "slot": [
                 8
             ],
             "transaction": [
-                822
+                819
             ],
             "transaction_watcher": [
-                785
+                782
             ],
             "tx_sig": [
                 6
@@ -15102,10 +15228,10 @@ export default {
                 7
             ],
             "transaction": [
-                829
+                826
             ],
             "transaction_watcher": [
-                794
+                791
             ],
             "tx_sig": [
                 5
@@ -15133,13 +15259,13 @@ export default {
         },
         "transaction_watcher_transactions_max_order_by": {
             "slot": [
-                310
+                335
             ],
             "tx_sig": [
-                310
+                335
             ],
             "watcher_acct": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15161,13 +15287,13 @@ export default {
         },
         "transaction_watcher_transactions_min_order_by": {
             "slot": [
-                310
+                335
             ],
             "tx_sig": [
-                310
+                335
             ],
             "watcher_acct": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15178,7 +15304,7 @@ export default {
                 3
             ],
             "returning": [
-                735
+                732
             ],
             "__typename": [
                 5
@@ -15186,13 +15312,13 @@ export default {
         },
         "transaction_watcher_transactions_on_conflict": {
             "constraint": [
-                745
+                742
             ],
             "update_columns": [
-                768
+                765
             ],
             "where": [
-                744
+                741
             ],
             "__typename": [
                 5
@@ -15200,19 +15326,19 @@ export default {
         },
         "transaction_watcher_transactions_order_by": {
             "slot": [
-                310
+                335
             ],
             "transaction": [
-                831
+                828
             ],
             "transaction_watcher": [
-                796
+                793
             ],
             "tx_sig": [
-                310
+                335
             ],
             "watcher_acct": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15254,7 +15380,7 @@ export default {
         },
         "transaction_watcher_transactions_stddev_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15270,7 +15396,7 @@ export default {
         },
         "transaction_watcher_transactions_stddev_pop_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15286,7 +15412,7 @@ export default {
         },
         "transaction_watcher_transactions_stddev_samp_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15294,10 +15420,10 @@ export default {
         },
         "transaction_watcher_transactions_stream_cursor_input": {
             "initial_value": [
-                765
+                762
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -15327,7 +15453,7 @@ export default {
         },
         "transaction_watcher_transactions_sum_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15336,13 +15462,13 @@ export default {
         "transaction_watcher_transactions_update_column": {},
         "transaction_watcher_transactions_updates": {
             "_inc": [
-                746
+                743
             ],
             "_set": [
-                757
+                754
             ],
             "where": [
-                744
+                741
             ],
             "__typename": [
                 5
@@ -15358,7 +15484,7 @@ export default {
         },
         "transaction_watcher_transactions_var_pop_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15374,7 +15500,7 @@ export default {
         },
         "transaction_watcher_transactions_var_samp_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15390,7 +15516,7 @@ export default {
         },
         "transaction_watcher_transactions_variance_order_by": {
             "slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15410,10 +15536,10 @@ export default {
                 5
             ],
             "indexer_account_dependencies": [
-                165,
+                190,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -15423,19 +15549,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexer_account_dependencies_aggregate": [
-                166,
+                191,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -15445,11 +15571,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
@@ -15457,19 +15583,19 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "transaction": [
-                818
+                815
             ],
             "transactionByLatestTxSig": [
-                818
+                815
             ],
             "transaction_watcher_transactions": [
-                735,
+                732,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -15479,19 +15605,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watcher_transactions_aggregate": [
-                736,
+                733,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -15501,11 +15627,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
@@ -15515,10 +15641,10 @@ export default {
         },
         "transaction_watchers_aggregate": {
             "aggregate": [
-                780
+                777
             ],
             "nodes": [
-                776
+                773
             ],
             "__typename": [
                 5
@@ -15526,7 +15652,7 @@ export default {
         },
         "transaction_watchers_aggregate_bool_exp": {
             "count": [
-                779
+                776
             ],
             "__typename": [
                 5
@@ -15534,13 +15660,13 @@ export default {
         },
         "transaction_watchers_aggregate_bool_exp_count": {
             "arguments": [
-                798
+                795
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                785
+                782
             ],
             "predicate": [
                 4
@@ -15551,13 +15677,13 @@ export default {
         },
         "transaction_watchers_aggregate_fields": {
             "avg": [
-                783
+                780
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "distinct": [
@@ -15566,31 +15692,31 @@ export default {
                 }
             ],
             "max": [
-                789
+                786
             ],
             "min": [
-                791
+                788
             ],
             "stddev": [
-                800
+                797
             ],
             "stddev_pop": [
-                802
+                799
             ],
             "stddev_samp": [
-                804
+                801
             ],
             "sum": [
-                808
+                805
             ],
             "var_pop": [
-                812
+                809
             ],
             "var_samp": [
-                814
+                811
             ],
             "variance": [
-                816
+                813
             ],
             "__typename": [
                 5
@@ -15598,37 +15724,37 @@ export default {
         },
         "transaction_watchers_aggregate_order_by": {
             "avg": [
-                784
+                781
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                790
+                787
             ],
             "min": [
-                792
+                789
             ],
             "stddev": [
-                801
+                798
             ],
             "stddev_pop": [
-                803
+                800
             ],
             "stddev_samp": [
-                805
+                802
             ],
             "sum": [
-                809
+                806
             ],
             "var_pop": [
-                813
+                810
             ],
             "var_samp": [
-                815
+                812
             ],
             "variance": [
-                817
+                814
             ],
             "__typename": [
                 5
@@ -15636,10 +15762,10 @@ export default {
         },
         "transaction_watchers_arr_rel_insert_input": {
             "data": [
-                788
+                785
             ],
             "on_conflict": [
-                795
+                792
             ],
             "__typename": [
                 5
@@ -15658,10 +15784,10 @@ export default {
         },
         "transaction_watchers_avg_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15669,13 +15795,13 @@ export default {
         },
         "transaction_watchers_bool_exp": {
             "_and": [
-                785
+                782
             ],
             "_not": [
-                785
+                782
             ],
             "_or": [
-                785
+                782
             ],
             "acct": [
                 6
@@ -15690,28 +15816,28 @@ export default {
                 6
             ],
             "indexer_account_dependencies": [
-                172
+                197
             ],
             "indexer_account_dependencies_aggregate": [
-                167
+                192
             ],
             "latest_tx_sig": [
                 6
             ],
             "serializer_logic_version": [
-                620
+                617
             ],
             "transaction": [
-                822
+                819
             ],
             "transactionByLatestTxSig": [
-                822
+                819
             ],
             "transaction_watcher_transactions": [
-                744
+                741
             ],
             "transaction_watcher_transactions_aggregate": [
-                737
+                734
             ],
             "__typename": [
                 5
@@ -15723,7 +15849,7 @@ export default {
                 7
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "__typename": [
                 5
@@ -15743,22 +15869,22 @@ export default {
                 5
             ],
             "indexer_account_dependencies": [
-                171
+                196
             ],
             "latest_tx_sig": [
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "transaction": [
-                829
+                826
             ],
             "transactionByLatestTxSig": [
-                829
+                826
             ],
             "transaction_watcher_transactions": [
-                741
+                738
             ],
             "__typename": [
                 5
@@ -15781,7 +15907,7 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "__typename": [
                 5
@@ -15789,22 +15915,22 @@ export default {
         },
         "transaction_watchers_max_order_by": {
             "acct": [
-                310
+                335
             ],
             "checked_up_to_slot": [
-                310
+                335
             ],
             "description": [
-                310
+                335
             ],
             "first_tx_sig": [
-                310
+                335
             ],
             "latest_tx_sig": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15827,7 +15953,7 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "__typename": [
                 5
@@ -15835,22 +15961,22 @@ export default {
         },
         "transaction_watchers_min_order_by": {
             "acct": [
-                310
+                335
             ],
             "checked_up_to_slot": [
-                310
+                335
             ],
             "description": [
-                310
+                335
             ],
             "first_tx_sig": [
-                310
+                335
             ],
             "latest_tx_sig": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15861,7 +15987,7 @@ export default {
                 3
             ],
             "returning": [
-                776
+                773
             ],
             "__typename": [
                 5
@@ -15869,10 +15995,10 @@ export default {
         },
         "transaction_watchers_obj_rel_insert_input": {
             "data": [
-                788
+                785
             ],
             "on_conflict": [
-                795
+                792
             ],
             "__typename": [
                 5
@@ -15880,13 +16006,13 @@ export default {
         },
         "transaction_watchers_on_conflict": {
             "constraint": [
-                786
+                783
             ],
             "update_columns": [
-                810
+                807
             ],
             "where": [
-                785
+                782
             ],
             "__typename": [
                 5
@@ -15894,34 +16020,34 @@ export default {
         },
         "transaction_watchers_order_by": {
             "acct": [
-                310
+                335
             ],
             "checked_up_to_slot": [
-                310
+                335
             ],
             "description": [
-                310
+                335
             ],
             "first_tx_sig": [
-                310
+                335
             ],
             "indexer_account_dependencies_aggregate": [
-                170
+                195
             ],
             "latest_tx_sig": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "transaction": [
-                831
+                828
             ],
             "transactionByLatestTxSig": [
-                831
+                828
             ],
             "transaction_watcher_transactions_aggregate": [
-                740
+                737
             ],
             "__typename": [
                 5
@@ -15953,7 +16079,7 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "__typename": [
                 5
@@ -15972,10 +16098,10 @@ export default {
         },
         "transaction_watchers_stddev_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -15994,10 +16120,10 @@ export default {
         },
         "transaction_watchers_stddev_pop_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16016,10 +16142,10 @@ export default {
         },
         "transaction_watchers_stddev_samp_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16027,10 +16153,10 @@ export default {
         },
         "transaction_watchers_stream_cursor_input": {
             "initial_value": [
-                807
+                804
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -16053,7 +16179,7 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "__typename": [
                 5
@@ -16064,7 +16190,7 @@ export default {
                 7
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "__typename": [
                 5
@@ -16072,10 +16198,10 @@ export default {
         },
         "transaction_watchers_sum_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16084,13 +16210,13 @@ export default {
         "transaction_watchers_update_column": {},
         "transaction_watchers_updates": {
             "_inc": [
-                787
+                784
             ],
             "_set": [
-                799
+                796
             ],
             "where": [
-                785
+                782
             ],
             "__typename": [
                 5
@@ -16109,10 +16235,10 @@ export default {
         },
         "transaction_watchers_var_pop_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16131,10 +16257,10 @@ export default {
         },
         "transaction_watchers_var_samp_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16153,10 +16279,10 @@ export default {
         },
         "transaction_watchers_variance_order_by": {
             "checked_up_to_slot": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16164,16 +16290,16 @@ export default {
         },
         "transactions": {
             "block_time": [
-                663
+                660
             ],
             "failed": [
                 0
             ],
             "indexer_account_dependencies": [
-                165,
+                190,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -16183,19 +16309,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexer_account_dependencies_aggregate": [
-                166,
+                191,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -16205,11 +16331,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
@@ -16217,16 +16343,16 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
             ],
             "transactionWatchersByLatestTxSig": [
-                776,
+                773,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -16236,19 +16362,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transactionWatchersByLatestTxSig_aggregate": [
-                777,
+                774,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -16258,19 +16384,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transaction_watcher_transactions": [
-                735,
+                732,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -16280,19 +16406,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watcher_transactions_aggregate": [
-                736,
+                733,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -16302,19 +16428,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watchers": [
-                776,
+                773,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -16324,19 +16450,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transaction_watchers_aggregate": [
-                777,
+                774,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -16346,11 +16472,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
@@ -16363,10 +16489,10 @@ export default {
         },
         "transactions_aggregate": {
             "aggregate": [
-                820
+                817
             ],
             "nodes": [
-                818
+                815
             ],
             "__typename": [
                 5
@@ -16374,13 +16500,13 @@ export default {
         },
         "transactions_aggregate_fields": {
             "avg": [
-                821
+                818
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        833,
+                        830,
                         "[transactions_select_column!]"
                     ],
                     "distinct": [
@@ -16389,31 +16515,31 @@ export default {
                 }
             ],
             "max": [
-                826
+                823
             ],
             "min": [
-                827
+                824
             ],
             "stddev": [
-                835
+                832
             ],
             "stddev_pop": [
-                836
+                833
             ],
             "stddev_samp": [
-                837
+                834
             ],
             "sum": [
-                840
+                837
             ],
             "var_pop": [
-                843
+                840
             ],
             "var_samp": [
-                844
+                841
             ],
             "variance": [
-                845
+                842
             ],
             "__typename": [
                 5
@@ -16432,52 +16558,52 @@ export default {
         },
         "transactions_bool_exp": {
             "_and": [
-                822
+                819
             ],
             "_not": [
-                822
+                819
             ],
             "_or": [
-                822
+                819
             ],
             "block_time": [
-                664
+                661
             ],
             "failed": [
                 1
             ],
             "indexer_account_dependencies": [
-                172
+                197
             ],
             "indexer_account_dependencies_aggregate": [
-                167
+                192
             ],
             "payload": [
                 6
             ],
             "serializer_logic_version": [
-                620
+                617
             ],
             "slot": [
                 8
             ],
             "transactionWatchersByLatestTxSig": [
-                785
+                782
             ],
             "transactionWatchersByLatestTxSig_aggregate": [
-                778
+                775
             ],
             "transaction_watcher_transactions": [
-                744
+                741
             ],
             "transaction_watcher_transactions_aggregate": [
-                737
+                734
             ],
             "transaction_watchers": [
-                785
+                782
             ],
             "transaction_watchers_aggregate": [
-                778
+                775
             ],
             "tx_sig": [
                 6
@@ -16489,7 +16615,7 @@ export default {
         "transactions_constraint": {},
         "transactions_inc_input": {
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
@@ -16500,31 +16626,31 @@ export default {
         },
         "transactions_insert_input": {
             "block_time": [
-                663
+                660
             ],
             "failed": [
                 0
             ],
             "indexer_account_dependencies": [
-                171
+                196
             ],
             "payload": [
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
             ],
             "transactionWatchersByLatestTxSig": [
-                782
+                779
             ],
             "transaction_watcher_transactions": [
-                741
+                738
             ],
             "transaction_watchers": [
-                782
+                779
             ],
             "tx_sig": [
                 5
@@ -16535,13 +16661,13 @@ export default {
         },
         "transactions_max_fields": {
             "block_time": [
-                663
+                660
             ],
             "payload": [
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
@@ -16555,13 +16681,13 @@ export default {
         },
         "transactions_min_fields": {
             "block_time": [
-                663
+                660
             ],
             "payload": [
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
@@ -16578,7 +16704,7 @@ export default {
                 3
             ],
             "returning": [
-                818
+                815
             ],
             "__typename": [
                 5
@@ -16586,10 +16712,10 @@ export default {
         },
         "transactions_obj_rel_insert_input": {
             "data": [
-                825
+                822
             ],
             "on_conflict": [
-                830
+                827
             ],
             "__typename": [
                 5
@@ -16597,13 +16723,13 @@ export default {
         },
         "transactions_on_conflict": {
             "constraint": [
-                823
+                820
             ],
             "update_columns": [
-                841
+                838
             ],
             "where": [
-                822
+                819
             ],
             "__typename": [
                 5
@@ -16611,34 +16737,34 @@ export default {
         },
         "transactions_order_by": {
             "block_time": [
-                310
+                335
             ],
             "failed": [
-                310
+                335
             ],
             "indexer_account_dependencies_aggregate": [
-                170
+                195
             ],
             "payload": [
-                310
+                335
             ],
             "serializer_logic_version": [
-                310
+                335
             ],
             "slot": [
-                310
+                335
             ],
             "transactionWatchersByLatestTxSig_aggregate": [
-                781
+                778
             ],
             "transaction_watcher_transactions_aggregate": [
-                740
+                737
             ],
             "transaction_watchers_aggregate": [
-                781
+                778
             ],
             "tx_sig": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16655,7 +16781,7 @@ export default {
         "transactions_select_column": {},
         "transactions_set_input": {
             "block_time": [
-                663
+                660
             ],
             "failed": [
                 0
@@ -16664,7 +16790,7 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
@@ -16711,10 +16837,10 @@ export default {
         },
         "transactions_stream_cursor_input": {
             "initial_value": [
-                839
+                836
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -16722,7 +16848,7 @@ export default {
         },
         "transactions_stream_cursor_value_input": {
             "block_time": [
-                663
+                660
             ],
             "failed": [
                 0
@@ -16731,7 +16857,7 @@ export default {
                 5
             ],
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
@@ -16745,7 +16871,7 @@ export default {
         },
         "transactions_sum_fields": {
             "serializer_logic_version": [
-                619
+                616
             ],
             "slot": [
                 7
@@ -16757,13 +16883,13 @@ export default {
         "transactions_update_column": {},
         "transactions_updates": {
             "_inc": [
-                824
+                821
             ],
             "_set": [
-                834
+                831
             ],
             "where": [
-                822
+                819
             ],
             "__typename": [
                 5
@@ -16804,16 +16930,16 @@ export default {
         },
         "twaps": {
             "market": [
-                266
+                291
             ],
             "market_acct": [
                 5
             ],
             "observation_agg": [
-                308
+                333
             ],
             "proposal": [
-                518
+                515
             ],
             "proposal_acct": [
                 5
@@ -16830,10 +16956,10 @@ export default {
         },
         "twaps_aggregate": {
             "aggregate": [
-                850
+                847
             ],
             "nodes": [
-                846
+                843
             ],
             "__typename": [
                 5
@@ -16841,7 +16967,7 @@ export default {
         },
         "twaps_aggregate_bool_exp": {
             "count": [
-                849
+                846
             ],
             "__typename": [
                 5
@@ -16849,13 +16975,13 @@ export default {
         },
         "twaps_aggregate_bool_exp_count": {
             "arguments": [
-                867
+                864
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                855
+                852
             ],
             "predicate": [
                 4
@@ -16866,13 +16992,13 @@ export default {
         },
         "twaps_aggregate_fields": {
             "avg": [
-                853
+                850
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "distinct": [
@@ -16881,31 +17007,31 @@ export default {
                 }
             ],
             "max": [
-                859
+                856
             ],
             "min": [
-                861
+                858
             ],
             "stddev": [
-                869
+                866
             ],
             "stddev_pop": [
-                871
+                868
             ],
             "stddev_samp": [
-                873
+                870
             ],
             "sum": [
-                877
+                874
             ],
             "var_pop": [
-                881
+                878
             ],
             "var_samp": [
-                883
+                880
             ],
             "variance": [
-                885
+                882
             ],
             "__typename": [
                 5
@@ -16913,37 +17039,37 @@ export default {
         },
         "twaps_aggregate_order_by": {
             "avg": [
-                854
+                851
             ],
             "count": [
-                310
+                335
             ],
             "max": [
-                860
+                857
             ],
             "min": [
-                862
+                859
             ],
             "stddev": [
-                870
+                867
             ],
             "stddev_pop": [
-                872
+                869
             ],
             "stddev_samp": [
-                874
+                871
             ],
             "sum": [
-                878
+                875
             ],
             "var_pop": [
-                882
+                879
             ],
             "var_samp": [
-                884
+                881
             ],
             "variance": [
-                886
+                883
             ],
             "__typename": [
                 5
@@ -16951,10 +17077,10 @@ export default {
         },
         "twaps_arr_rel_insert_input": {
             "data": [
-                858
+                855
             ],
             "on_conflict": [
-                864
+                861
             ],
             "__typename": [
                 5
@@ -16976,13 +17102,13 @@ export default {
         },
         "twaps_avg_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -16990,25 +17116,25 @@ export default {
         },
         "twaps_bool_exp": {
             "_and": [
-                855
+                852
             ],
             "_not": [
-                855
+                852
             ],
             "_or": [
-                855
+                852
             ],
             "market": [
-                275
+                300
             ],
             "market_acct": [
                 6
             ],
             "observation_agg": [
-                309
+                334
             ],
             "proposal": [
-                537
+                534
             ],
             "proposal_acct": [
                 6
@@ -17026,7 +17152,7 @@ export default {
         "twaps_constraint": {},
         "twaps_inc_input": {
             "observation_agg": [
-                308
+                333
             ],
             "token_amount": [
                 7
@@ -17040,16 +17166,16 @@ export default {
         },
         "twaps_insert_input": {
             "market": [
-                284
+                309
             ],
             "market_acct": [
                 5
             ],
             "observation_agg": [
-                308
+                333
             ],
             "proposal": [
-                546
+                543
             ],
             "proposal_acct": [
                 5
@@ -17069,7 +17195,7 @@ export default {
                 5
             ],
             "observation_agg": [
-                308
+                333
             ],
             "proposal_acct": [
                 5
@@ -17086,19 +17212,19 @@ export default {
         },
         "twaps_max_order_by": {
             "market_acct": [
-                310
+                335
             ],
             "observation_agg": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17109,7 +17235,7 @@ export default {
                 5
             ],
             "observation_agg": [
-                308
+                333
             ],
             "proposal_acct": [
                 5
@@ -17126,19 +17252,19 @@ export default {
         },
         "twaps_min_order_by": {
             "market_acct": [
-                310
+                335
             ],
             "observation_agg": [
-                310
+                335
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17149,7 +17275,7 @@ export default {
                 3
             ],
             "returning": [
-                846
+                843
             ],
             "__typename": [
                 5
@@ -17157,13 +17283,13 @@ export default {
         },
         "twaps_on_conflict": {
             "constraint": [
-                856
+                853
             ],
             "update_columns": [
-                879
+                876
             ],
             "where": [
-                855
+                852
             ],
             "__typename": [
                 5
@@ -17171,25 +17297,25 @@ export default {
         },
         "twaps_order_by": {
             "market": [
-                286
+                311
             ],
             "market_acct": [
-                310
+                335
             ],
             "observation_agg": [
-                310
+                335
             ],
             "proposal": [
-                548
+                545
             ],
             "proposal_acct": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17212,7 +17338,7 @@ export default {
                 5
             ],
             "observation_agg": [
-                308
+                333
             ],
             "proposal_acct": [
                 5
@@ -17243,13 +17369,13 @@ export default {
         },
         "twaps_stddev_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17271,13 +17397,13 @@ export default {
         },
         "twaps_stddev_pop_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17299,13 +17425,13 @@ export default {
         },
         "twaps_stddev_samp_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17313,10 +17439,10 @@ export default {
         },
         "twaps_stream_cursor_input": {
             "initial_value": [
-                876
+                873
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -17327,7 +17453,7 @@ export default {
                 5
             ],
             "observation_agg": [
-                308
+                333
             ],
             "proposal_acct": [
                 5
@@ -17344,7 +17470,7 @@ export default {
         },
         "twaps_sum_fields": {
             "observation_agg": [
-                308
+                333
             ],
             "token_amount": [
                 7
@@ -17358,13 +17484,13 @@ export default {
         },
         "twaps_sum_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17373,13 +17499,13 @@ export default {
         "twaps_update_column": {},
         "twaps_updates": {
             "_inc": [
-                857
+                854
             ],
             "_set": [
-                868
+                865
             ],
             "where": [
-                855
+                852
             ],
             "__typename": [
                 5
@@ -17401,13 +17527,13 @@ export default {
         },
         "twaps_var_pop_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17429,13 +17555,13 @@ export default {
         },
         "twaps_var_samp_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17457,13 +17583,13 @@ export default {
         },
         "twaps_variance_order_by": {
             "observation_agg": [
-                310
+                335
             ],
             "token_amount": [
-                310
+                335
             ],
             "updated_slot": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17471,7 +17597,7 @@ export default {
         },
         "users": {
             "created_at": [
-                663
+                660
             ],
             "user_acct": [
                 5
@@ -17482,10 +17608,10 @@ export default {
         },
         "users_aggregate": {
             "aggregate": [
-                889
+                886
             ],
             "nodes": [
-                887
+                884
             ],
             "__typename": [
                 5
@@ -17496,7 +17622,7 @@ export default {
                 3,
                 {
                     "columns": [
-                        898,
+                        895,
                         "[users_select_column!]"
                     ],
                     "distinct": [
@@ -17505,10 +17631,10 @@ export default {
                 }
             ],
             "max": [
-                893
+                890
             ],
             "min": [
-                894
+                891
             ],
             "__typename": [
                 5
@@ -17516,16 +17642,16 @@ export default {
         },
         "users_bool_exp": {
             "_and": [
-                890
+                887
             ],
             "_not": [
-                890
+                887
             ],
             "_or": [
-                890
+                887
             ],
             "created_at": [
-                664
+                661
             ],
             "user_acct": [
                 6
@@ -17537,7 +17663,7 @@ export default {
         "users_constraint": {},
         "users_insert_input": {
             "created_at": [
-                663
+                660
             ],
             "user_acct": [
                 5
@@ -17548,7 +17674,7 @@ export default {
         },
         "users_max_fields": {
             "created_at": [
-                663
+                660
             ],
             "user_acct": [
                 5
@@ -17559,7 +17685,7 @@ export default {
         },
         "users_min_fields": {
             "created_at": [
-                663
+                660
             ],
             "user_acct": [
                 5
@@ -17573,7 +17699,7 @@ export default {
                 3
             ],
             "returning": [
-                887
+                884
             ],
             "__typename": [
                 5
@@ -17581,13 +17707,13 @@ export default {
         },
         "users_on_conflict": {
             "constraint": [
-                891
+                888
             ],
             "update_columns": [
-                902
+                899
             ],
             "where": [
-                890
+                887
             ],
             "__typename": [
                 5
@@ -17595,10 +17721,10 @@ export default {
         },
         "users_order_by": {
             "created_at": [
-                310
+                335
             ],
             "user_acct": [
-                310
+                335
             ],
             "__typename": [
                 5
@@ -17607,7 +17733,7 @@ export default {
         "users_select_column": {},
         "users_set_input": {
             "created_at": [
-                663
+                660
             ],
             "user_acct": [
                 5
@@ -17618,10 +17744,10 @@ export default {
         },
         "users_stream_cursor_input": {
             "initial_value": [
-                901
+                898
             ],
             "ordering": [
-                92
+                117
             ],
             "__typename": [
                 5
@@ -17629,7 +17755,7 @@ export default {
         },
         "users_stream_cursor_value_input": {
             "created_at": [
-                663
+                660
             ],
             "user_acct": [
                 5
@@ -17641,10 +17767,10 @@ export default {
         "users_update_column": {},
         "users_updates": {
             "_set": [
-                899
+                896
             ],
             "where": [
-                890
+                887
             ],
             "__typename": [
                 5
@@ -17707,7 +17833,7 @@ export default {
                         "String!"
                     ],
                     "timestamp": [
-                        663,
+                        660,
                         "timestamp!"
                     ]
                 }
@@ -17765,11 +17891,64 @@ export default {
                     ]
                 }
             ],
-            "dao_details": [
+            "conditional_vaults": [
+                92,
+                {
+                    "distinct_on": [
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        109,
+                        "[conditional_vaults_order_by!]"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
+            "conditional_vaults_aggregate": [
                 93,
                 {
                     "distinct_on": [
-                        108,
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        109,
+                        "[conditional_vaults_order_by!]"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
+            "conditional_vaults_by_pk": [
+                92,
+                {
+                    "cond_vault_acct": [
+                        5,
+                        "String!"
+                    ]
+                }
+            ],
+            "dao_details": [
+                118,
+                {
+                    "distinct_on": [
+                        133,
                         "[dao_details_select_column!]"
                     ],
                     "limit": [
@@ -17779,19 +17958,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        106,
+                        131,
                         "[dao_details_order_by!]"
                     ],
                     "where": [
-                        97
+                        122
                     ]
                 }
             ],
             "dao_details_aggregate": [
-                94,
+                119,
                 {
                     "distinct_on": [
-                        108,
+                        133,
                         "[dao_details_select_column!]"
                     ],
                     "limit": [
@@ -17801,16 +17980,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        106,
+                        131,
                         "[dao_details_order_by!]"
                     ],
                     "where": [
-                        97
+                        122
                     ]
                 }
             ],
             "dao_details_by_pk": [
-                93,
+                118,
                 {
                     "dao_id": [
                         7,
@@ -17819,10 +17998,10 @@ export default {
                 }
             ],
             "daos": [
-                121,
+                146,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -17832,19 +18011,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daos_aggregate": [
-                122,
+                147,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -17854,16 +18033,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daos_by_pk": [
-                121,
+                146,
                 {
                     "dao_acct": [
                         5,
@@ -17872,10 +18051,10 @@ export default {
                 }
             ],
             "indexer_account_dependencies": [
-                165,
+                190,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -17885,19 +18064,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexer_account_dependencies_aggregate": [
-                166,
+                191,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -17907,16 +18086,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexer_account_dependencies_by_pk": [
-                165,
+                190,
                 {
                     "acct": [
                         5,
@@ -17929,10 +18108,10 @@ export default {
                 }
             ],
             "indexers": [
-                189,
+                214,
                 {
                     "distinct_on": [
-                        204,
+                        229,
                         "[indexers_select_column!]"
                     ],
                     "limit": [
@@ -17942,19 +18121,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        202,
+                        227,
                         "[indexers_order_by!]"
                     ],
                     "where": [
-                        193
+                        218
                     ]
                 }
             ],
             "indexers_aggregate": [
-                190,
+                215,
                 {
                     "distinct_on": [
-                        204,
+                        229,
                         "[indexers_select_column!]"
                     ],
                     "limit": [
@@ -17964,16 +18143,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        202,
+                        227,
                         "[indexers_order_by!]"
                     ],
                     "where": [
-                        193
+                        218
                     ]
                 }
             ],
             "indexers_by_pk": [
-                189,
+                214,
                 {
                     "name": [
                         5,
@@ -17982,10 +18161,10 @@ export default {
                 }
             ],
             "makes": [
-                220,
+                245,
                 {
                     "distinct_on": [
-                        244,
+                        269,
                         "[makes_select_column!]"
                     ],
                     "limit": [
@@ -17995,19 +18174,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        242,
+                        267,
                         "[makes_order_by!]"
                     ],
                     "where": [
-                        231
+                        256
                     ]
                 }
             ],
             "makes_aggregate": [
-                221,
+                246,
                 {
                     "distinct_on": [
-                        244,
+                        269,
                         "[makes_select_column!]"
                     ],
                     "limit": [
@@ -18017,16 +18196,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        242,
+                        267,
                         "[makes_order_by!]"
                     ],
                     "where": [
-                        231
+                        256
                     ]
                 }
             ],
             "makes_by_pk": [
-                220,
+                245,
                 {
                     "order_tx_sig": [
                         5,
@@ -18035,10 +18214,10 @@ export default {
                 }
             ],
             "markets": [
-                266,
+                291,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -18048,19 +18227,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "markets_aggregate": [
-                267,
+                292,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -18070,16 +18249,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "markets_by_pk": [
-                266,
+                291,
                 {
                     "market_acct": [
                         5,
@@ -18088,10 +18267,10 @@ export default {
                 }
             ],
             "orders": [
-                311,
+                336,
                 {
                     "distinct_on": [
-                        335,
+                        360,
                         "[orders_select_column!]"
                     ],
                     "limit": [
@@ -18101,19 +18280,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        333,
+                        358,
                         "[orders_order_by!]"
                     ],
                     "where": [
-                        322
+                        347
                     ]
                 }
             ],
             "orders_aggregate": [
-                312,
+                337,
                 {
                     "distinct_on": [
-                        335,
+                        360,
                         "[orders_select_column!]"
                     ],
                     "limit": [
@@ -18123,16 +18302,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        333,
+                        358,
                         "[orders_order_by!]"
                     ],
                     "where": [
-                        322
+                        347
                     ]
                 }
             ],
             "orders_by_pk": [
-                311,
+                336,
                 {
                     "order_tx_sig": [
                         5,
@@ -18141,10 +18320,10 @@ export default {
                 }
             ],
             "program_system": [
-                357,
+                382,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -18154,19 +18333,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "program_system_aggregate": [
-                358,
+                383,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -18176,28 +18355,28 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "program_system_by_pk": [
-                357,
+                382,
                 {
                     "system_version": [
-                        163,
+                        188,
                         "float8!"
                     ]
                 }
             ],
             "programs": [
-                416,
+                441,
                 {
                     "distinct_on": [
-                        431,
+                        456,
                         "[programs_select_column!]"
                     ],
                     "limit": [
@@ -18207,19 +18386,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        429,
+                        454,
                         "[programs_order_by!]"
                     ],
                     "where": [
-                        420
+                        445
                     ]
                 }
             ],
             "programs_aggregate": [
-                417,
+                442,
                 {
                     "distinct_on": [
-                        431,
+                        456,
                         "[programs_select_column!]"
                     ],
                     "limit": [
@@ -18229,16 +18408,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        429,
+                        454,
                         "[programs_order_by!]"
                     ],
                     "where": [
-                        420
+                        445
                     ]
                 }
             ],
             "programs_by_pk": [
-                416,
+                441,
                 {
                     "program_acct": [
                         5,
@@ -18247,10 +18426,10 @@ export default {
                 }
             ],
             "proposal_details": [
-                444,
+                469,
                 {
                     "distinct_on": [
-                        470,
+                        495,
                         "[proposal_details_select_column!]"
                     ],
                     "limit": [
@@ -18260,19 +18439,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        467,
+                        492,
                         "[proposal_details_order_by!]"
                     ],
                     "where": [
-                        454
+                        479
                     ]
                 }
             ],
             "proposal_details_aggregate": [
-                445,
+                470,
                 {
                     "distinct_on": [
-                        470,
+                        495,
                         "[proposal_details_select_column!]"
                     ],
                     "limit": [
@@ -18282,16 +18461,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        467,
+                        492,
                         "[proposal_details_order_by!]"
                     ],
                     "where": [
-                        454
+                        479
                     ]
                 }
             ],
             "proposal_details_by_pk": [
-                444,
+                469,
                 {
                     "proposal_id": [
                         7,
@@ -18299,55 +18478,11 @@ export default {
                     ]
                 }
             ],
-            "proposal_filter": [
-                490,
-                {
-                    "distinct_on": [
-                        506,
-                        "[proposal_filter_select_column!]"
-                    ],
-                    "limit": [
-                        3
-                    ],
-                    "offset": [
-                        3
-                    ],
-                    "order_by": [
-                        504,
-                        "[proposal_filter_order_by!]"
-                    ],
-                    "where": [
-                        495
-                    ]
-                }
-            ],
-            "proposal_filter_aggregate": [
-                491,
-                {
-                    "distinct_on": [
-                        506,
-                        "[proposal_filter_select_column!]"
-                    ],
-                    "limit": [
-                        3
-                    ],
-                    "offset": [
-                        3
-                    ],
-                    "order_by": [
-                        504,
-                        "[proposal_filter_order_by!]"
-                    ],
-                    "where": [
-                        495
-                    ]
-                }
-            ],
             "proposals": [
-                518,
+                515,
                 {
                     "distinct_on": [
-                        550,
+                        547,
                         "[proposals_select_column!]"
                     ],
                     "limit": [
@@ -18357,19 +18492,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        548,
+                        545,
                         "[proposals_order_by!]"
                     ],
                     "where": [
-                        537
+                        534
                     ]
                 }
             ],
             "proposals_aggregate": [
-                519,
+                516,
                 {
                     "distinct_on": [
-                        550,
+                        547,
                         "[proposals_select_column!]"
                     ],
                     "limit": [
@@ -18379,16 +18514,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        548,
+                        545,
                         "[proposals_order_by!]"
                     ],
                     "where": [
-                        537
+                        534
                     ]
                 }
             ],
             "proposals_by_pk": [
-                518,
+                515,
                 {
                     "proposal_acct": [
                         5,
@@ -18397,10 +18532,10 @@ export default {
                 }
             ],
             "reactions": [
-                578,
+                575,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -18410,19 +18545,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
             "reactions_aggregate": [
-                579,
+                576,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -18432,16 +18567,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
             "reactions_by_pk": [
-                578,
+                575,
                 {
                     "proposal_acct": [
                         5,
@@ -18458,10 +18593,10 @@ export default {
                 }
             ],
             "takes": [
-                621,
+                618,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -18471,19 +18606,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "takes_aggregate": [
-                622,
+                619,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -18493,16 +18628,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "takes_by_pk": [
-                621,
+                618,
                 {
                     "order_tx_sig": [
                         5,
@@ -18511,10 +18646,10 @@ export default {
                 }
             ],
             "token_accts": [
-                665,
+                662,
                 {
                     "distinct_on": [
-                        687,
+                        684,
                         "[token_accts_select_column!]"
                     ],
                     "limit": [
@@ -18524,19 +18659,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        685,
+                        682,
                         "[token_accts_order_by!]"
                     ],
                     "where": [
-                        674
+                        671
                     ]
                 }
             ],
             "token_accts_aggregate": [
-                666,
+                663,
                 {
                     "distinct_on": [
-                        687,
+                        684,
                         "[token_accts_select_column!]"
                     ],
                     "limit": [
@@ -18546,16 +18681,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        685,
+                        682,
                         "[token_accts_order_by!]"
                     ],
                     "where": [
-                        674
+                        671
                     ]
                 }
             ],
             "token_accts_by_pk": [
-                665,
+                662,
                 {
                     "token_acct": [
                         5,
@@ -18564,10 +18699,10 @@ export default {
                 }
             ],
             "tokens": [
-                707,
+                704,
                 {
                     "distinct_on": [
-                        722,
+                        719,
                         "[tokens_select_column!]"
                     ],
                     "limit": [
@@ -18577,19 +18712,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        720,
+                        717,
                         "[tokens_order_by!]"
                     ],
                     "where": [
-                        711
+                        708
                     ]
                 }
             ],
             "tokens_aggregate": [
-                708,
+                705,
                 {
                     "distinct_on": [
-                        722,
+                        719,
                         "[tokens_select_column!]"
                     ],
                     "limit": [
@@ -18599,16 +18734,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        720,
+                        717,
                         "[tokens_order_by!]"
                     ],
                     "where": [
-                        711
+                        708
                     ]
                 }
             ],
             "tokens_by_pk": [
-                707,
+                704,
                 {
                     "mint_acct": [
                         5,
@@ -18617,10 +18752,10 @@ export default {
                 }
             ],
             "transaction_watcher_transactions": [
-                735,
+                732,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -18630,19 +18765,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watcher_transactions_aggregate": [
-                736,
+                733,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -18652,16 +18787,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watcher_transactions_by_pk": [
-                735,
+                732,
                 {
                     "tx_sig": [
                         5,
@@ -18674,10 +18809,10 @@ export default {
                 }
             ],
             "transaction_watchers": [
-                776,
+                773,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -18687,19 +18822,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transaction_watchers_aggregate": [
-                777,
+                774,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -18709,16 +18844,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transaction_watchers_by_pk": [
-                776,
+                773,
                 {
                     "acct": [
                         5,
@@ -18727,10 +18862,10 @@ export default {
                 }
             ],
             "transactions": [
-                818,
+                815,
                 {
                     "distinct_on": [
-                        833,
+                        830,
                         "[transactions_select_column!]"
                     ],
                     "limit": [
@@ -18740,19 +18875,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        831,
+                        828,
                         "[transactions_order_by!]"
                     ],
                     "where": [
-                        822
+                        819
                     ]
                 }
             ],
             "transactions_aggregate": [
-                819,
+                816,
                 {
                     "distinct_on": [
-                        833,
+                        830,
                         "[transactions_select_column!]"
                     ],
                     "limit": [
@@ -18762,16 +18897,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        831,
+                        828,
                         "[transactions_order_by!]"
                     ],
                     "where": [
-                        822
+                        819
                     ]
                 }
             ],
             "transactions_by_pk": [
-                818,
+                815,
                 {
                     "tx_sig": [
                         5,
@@ -18780,10 +18915,10 @@ export default {
                 }
             ],
             "twaps": [
-                846,
+                843,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -18793,19 +18928,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "twaps_aggregate": [
-                847,
+                844,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -18815,16 +18950,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "twaps_by_pk": [
-                846,
+                843,
                 {
                     "market_acct": [
                         5,
@@ -18837,10 +18972,10 @@ export default {
                 }
             ],
             "users": [
-                887,
+                884,
                 {
                     "distinct_on": [
-                        898,
+                        895,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -18850,19 +18985,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        897,
+                        894,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        890
+                        887
                     ]
                 }
             ],
             "users_aggregate": [
-                888,
+                885,
                 {
                     "distinct_on": [
-                        898,
+                        895,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -18872,11 +19007,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        897,
+                        894,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        890
+                        887
                     ]
                 }
             ],
@@ -18906,7 +19041,7 @@ export default {
                         "String!"
                     ],
                     "timestamp": [
-                        663,
+                        660,
                         "timestamp!"
                     ]
                 }
@@ -18929,17 +19064,35 @@ export default {
                     ]
                 }
             ],
-            "delete_dao_details": [
-                103,
+            "delete_conditional_vaults": [
+                106,
                 {
                     "where": [
-                        97,
+                        99,
+                        "conditional_vaults_bool_exp!"
+                    ]
+                }
+            ],
+            "delete_conditional_vaults_by_pk": [
+                92,
+                {
+                    "cond_vault_acct": [
+                        5,
+                        "String!"
+                    ]
+                }
+            ],
+            "delete_dao_details": [
+                128,
+                {
+                    "where": [
+                        122,
                         "dao_details_bool_exp!"
                     ]
                 }
             ],
             "delete_dao_details_by_pk": [
-                93,
+                118,
                 {
                     "dao_id": [
                         7,
@@ -18948,16 +19101,16 @@ export default {
                 }
             ],
             "delete_daos": [
-                138,
+                163,
                 {
                     "where": [
-                        130,
+                        155,
                         "daos_bool_exp!"
                     ]
                 }
             ],
             "delete_daos_by_pk": [
-                121,
+                146,
                 {
                     "dao_acct": [
                         5,
@@ -18966,16 +19119,16 @@ export default {
                 }
             ],
             "delete_indexer_account_dependencies": [
-                179,
+                204,
                 {
                     "where": [
-                        172,
+                        197,
                         "indexer_account_dependencies_bool_exp!"
                     ]
                 }
             ],
             "delete_indexer_account_dependencies_by_pk": [
-                165,
+                190,
                 {
                     "acct": [
                         5,
@@ -18988,16 +19141,16 @@ export default {
                 }
             ],
             "delete_indexers": [
-                199,
+                224,
                 {
                     "where": [
-                        193,
+                        218,
                         "indexers_bool_exp!"
                     ]
                 }
             ],
             "delete_indexers_by_pk": [
-                189,
+                214,
                 {
                     "name": [
                         5,
@@ -19006,16 +19159,16 @@ export default {
                 }
             ],
             "delete_makes": [
-                239,
+                264,
                 {
                     "where": [
-                        231,
+                        256,
                         "makes_bool_exp!"
                     ]
                 }
             ],
             "delete_makes_by_pk": [
-                220,
+                245,
                 {
                     "order_tx_sig": [
                         5,
@@ -19024,16 +19177,16 @@ export default {
                 }
             ],
             "delete_markets": [
-                283,
+                308,
                 {
                     "where": [
-                        275,
+                        300,
                         "markets_bool_exp!"
                     ]
                 }
             ],
             "delete_markets_by_pk": [
-                266,
+                291,
                 {
                     "market_acct": [
                         5,
@@ -19042,16 +19195,16 @@ export default {
                 }
             ],
             "delete_orders": [
-                330,
+                355,
                 {
                     "where": [
-                        322,
+                        347,
                         "orders_bool_exp!"
                     ]
                 }
             ],
             "delete_orders_by_pk": [
-                311,
+                336,
                 {
                     "order_tx_sig": [
                         5,
@@ -19060,34 +19213,34 @@ export default {
                 }
             ],
             "delete_program_system": [
-                384,
+                409,
                 {
                     "where": [
-                        376,
+                        401,
                         "program_system_bool_exp!"
                     ]
                 }
             ],
             "delete_program_system_by_pk": [
-                357,
+                382,
                 {
                     "system_version": [
-                        163,
+                        188,
                         "float8!"
                     ]
                 }
             ],
             "delete_programs": [
-                426,
+                451,
                 {
                     "where": [
-                        420,
+                        445,
                         "programs_bool_exp!"
                     ]
                 }
             ],
             "delete_programs_by_pk": [
-                416,
+                441,
                 {
                     "program_acct": [
                         5,
@@ -19096,16 +19249,16 @@ export default {
                 }
             ],
             "delete_proposal_details": [
-                465,
+                490,
                 {
                     "where": [
-                        454,
+                        479,
                         "proposal_details_bool_exp!"
                     ]
                 }
             ],
             "delete_proposal_details_by_pk": [
-                444,
+                469,
                 {
                     "proposal_id": [
                         7,
@@ -19113,26 +19266,17 @@ export default {
                     ]
                 }
             ],
-            "delete_proposal_filter": [
-                503,
-                {
-                    "where": [
-                        495,
-                        "proposal_filter_bool_exp!"
-                    ]
-                }
-            ],
             "delete_proposals": [
-                545,
+                542,
                 {
                     "where": [
-                        537,
+                        534,
                         "proposals_bool_exp!"
                     ]
                 }
             ],
             "delete_proposals_by_pk": [
-                518,
+                515,
                 {
                     "proposal_acct": [
                         5,
@@ -19141,16 +19285,16 @@ export default {
                 }
             ],
             "delete_reactions": [
-                595,
+                592,
                 {
                     "where": [
-                        587,
+                        584,
                         "reactions_bool_exp!"
                     ]
                 }
             ],
             "delete_reactions_by_pk": [
-                578,
+                575,
                 {
                     "proposal_acct": [
                         5,
@@ -19167,16 +19311,16 @@ export default {
                 }
             ],
             "delete_takes": [
-                638,
+                635,
                 {
                     "where": [
-                        630,
+                        627,
                         "takes_bool_exp!"
                     ]
                 }
             ],
             "delete_takes_by_pk": [
-                621,
+                618,
                 {
                     "order_tx_sig": [
                         5,
@@ -19185,16 +19329,16 @@ export default {
                 }
             ],
             "delete_token_accts": [
-                682,
+                679,
                 {
                     "where": [
-                        674,
+                        671,
                         "token_accts_bool_exp!"
                     ]
                 }
             ],
             "delete_token_accts_by_pk": [
-                665,
+                662,
                 {
                     "token_acct": [
                         5,
@@ -19203,16 +19347,16 @@ export default {
                 }
             ],
             "delete_tokens": [
-                717,
+                714,
                 {
                     "where": [
-                        711,
+                        708,
                         "tokens_bool_exp!"
                     ]
                 }
             ],
             "delete_tokens_by_pk": [
-                707,
+                704,
                 {
                     "mint_acct": [
                         5,
@@ -19221,16 +19365,16 @@ export default {
                 }
             ],
             "delete_transaction_watcher_transactions": [
-                752,
+                749,
                 {
                     "where": [
-                        744,
+                        741,
                         "transaction_watcher_transactions_bool_exp!"
                     ]
                 }
             ],
             "delete_transaction_watcher_transactions_by_pk": [
-                735,
+                732,
                 {
                     "tx_sig": [
                         5,
@@ -19243,16 +19387,16 @@ export default {
                 }
             ],
             "delete_transaction_watchers": [
-                793,
+                790,
                 {
                     "where": [
-                        785,
+                        782,
                         "transaction_watchers_bool_exp!"
                     ]
                 }
             ],
             "delete_transaction_watchers_by_pk": [
-                776,
+                773,
                 {
                     "acct": [
                         5,
@@ -19261,16 +19405,16 @@ export default {
                 }
             ],
             "delete_transactions": [
-                828,
+                825,
                 {
                     "where": [
-                        822,
+                        819,
                         "transactions_bool_exp!"
                     ]
                 }
             ],
             "delete_transactions_by_pk": [
-                818,
+                815,
                 {
                     "tx_sig": [
                         5,
@@ -19279,16 +19423,16 @@ export default {
                 }
             ],
             "delete_twaps": [
-                863,
+                860,
                 {
                     "where": [
-                        855,
+                        852,
                         "twaps_bool_exp!"
                     ]
                 }
             ],
             "delete_twaps_by_pk": [
-                846,
+                843,
                 {
                     "market_acct": [
                         5,
@@ -19301,10 +19445,10 @@ export default {
                 }
             ],
             "delete_users": [
-                895,
+                892,
                 {
                     "where": [
-                        890,
+                        887,
                         "users_bool_exp!"
                     ]
                 }
@@ -19357,501 +19501,507 @@ export default {
                     ]
                 }
             ],
-            "insert_dao_details": [
-                103,
+            "insert_conditional_vaults": [
+                106,
                 {
                     "objects": [
-                        100,
+                        101,
+                        "[conditional_vaults_insert_input!]!"
+                    ],
+                    "on_conflict": [
+                        108
+                    ]
+                }
+            ],
+            "insert_conditional_vaults_one": [
+                92,
+                {
+                    "object": [
+                        101,
+                        "conditional_vaults_insert_input!"
+                    ],
+                    "on_conflict": [
+                        108
+                    ]
+                }
+            ],
+            "insert_dao_details": [
+                128,
+                {
+                    "objects": [
+                        125,
                         "[dao_details_insert_input!]!"
                     ],
                     "on_conflict": [
-                        105
+                        130
                     ]
                 }
             ],
             "insert_dao_details_one": [
-                93,
+                118,
                 {
                     "object": [
-                        100,
+                        125,
                         "dao_details_insert_input!"
                     ],
                     "on_conflict": [
-                        105
+                        130
                     ]
                 }
             ],
             "insert_daos": [
-                138,
+                163,
                 {
                     "objects": [
-                        133,
+                        158,
                         "[daos_insert_input!]!"
                     ],
                     "on_conflict": [
-                        140
+                        165
                     ]
                 }
             ],
             "insert_daos_one": [
-                121,
+                146,
                 {
                     "object": [
-                        133,
+                        158,
                         "daos_insert_input!"
                     ],
                     "on_conflict": [
-                        140
+                        165
                     ]
                 }
             ],
             "insert_indexer_account_dependencies": [
-                179,
+                204,
                 {
                     "objects": [
-                        174,
+                        199,
                         "[indexer_account_dependencies_insert_input!]!"
                     ],
                     "on_conflict": [
-                        180
+                        205
                     ]
                 }
             ],
             "insert_indexer_account_dependencies_one": [
-                165,
+                190,
                 {
                     "object": [
-                        174,
+                        199,
                         "indexer_account_dependencies_insert_input!"
                     ],
                     "on_conflict": [
-                        180
+                        205
                     ]
                 }
             ],
             "insert_indexers": [
-                199,
+                224,
                 {
                     "objects": [
-                        196,
+                        221,
                         "[indexers_insert_input!]!"
                     ],
                     "on_conflict": [
-                        201
+                        226
                     ]
                 }
             ],
             "insert_indexers_one": [
-                189,
+                214,
                 {
                     "object": [
-                        196,
+                        221,
                         "indexers_insert_input!"
                     ],
                     "on_conflict": [
-                        201
+                        226
                     ]
                 }
             ],
             "insert_makes": [
-                239,
+                264,
                 {
                     "objects": [
-                        234,
+                        259,
                         "[makes_insert_input!]!"
                     ],
                     "on_conflict": [
-                        241
+                        266
                     ]
                 }
             ],
             "insert_makes_one": [
-                220,
+                245,
                 {
                     "object": [
-                        234,
+                        259,
                         "makes_insert_input!"
                     ],
                     "on_conflict": [
-                        241
+                        266
                     ]
                 }
             ],
             "insert_markets": [
-                283,
+                308,
                 {
                     "objects": [
-                        278,
+                        303,
                         "[markets_insert_input!]!"
                     ],
                     "on_conflict": [
-                        285
+                        310
                     ]
                 }
             ],
             "insert_markets_one": [
-                266,
+                291,
                 {
                     "object": [
-                        278,
+                        303,
                         "markets_insert_input!"
                     ],
                     "on_conflict": [
-                        285
+                        310
                     ]
                 }
             ],
             "insert_orders": [
-                330,
+                355,
                 {
                     "objects": [
-                        325,
+                        350,
                         "[orders_insert_input!]!"
                     ],
                     "on_conflict": [
-                        332
+                        357
                     ]
                 }
             ],
             "insert_orders_one": [
-                311,
+                336,
                 {
                     "object": [
-                        325,
+                        350,
                         "orders_insert_input!"
                     ],
                     "on_conflict": [
-                        332
+                        357
                     ]
                 }
             ],
             "insert_program_system": [
-                384,
+                409,
                 {
                     "objects": [
-                        379,
+                        404,
                         "[program_system_insert_input!]!"
                     ],
                     "on_conflict": [
-                        385
+                        410
                     ]
                 }
             ],
             "insert_program_system_one": [
-                357,
+                382,
                 {
                     "object": [
-                        379,
+                        404,
                         "program_system_insert_input!"
                     ],
                     "on_conflict": [
-                        385
+                        410
                     ]
                 }
             ],
             "insert_programs": [
-                426,
+                451,
                 {
                     "objects": [
-                        423,
+                        448,
                         "[programs_insert_input!]!"
                     ],
                     "on_conflict": [
-                        428
+                        453
                     ]
                 }
             ],
             "insert_programs_one": [
-                416,
+                441,
                 {
                     "object": [
-                        423,
+                        448,
                         "programs_insert_input!"
                     ],
                     "on_conflict": [
-                        428
+                        453
                     ]
                 }
             ],
             "insert_proposal_details": [
-                465,
+                490,
                 {
                     "objects": [
-                        460,
+                        485,
                         "[proposal_details_insert_input!]!"
                     ],
                     "on_conflict": [
-                        466
+                        491
                     ]
                 }
             ],
             "insert_proposal_details_one": [
-                444,
+                469,
                 {
                     "object": [
-                        460,
+                        485,
                         "proposal_details_insert_input!"
                     ],
                     "on_conflict": [
-                        466
-                    ]
-                }
-            ],
-            "insert_proposal_filter": [
-                503,
-                {
-                    "objects": [
-                        500,
-                        "[proposal_filter_insert_input!]!"
-                    ]
-                }
-            ],
-            "insert_proposal_filter_one": [
-                490,
-                {
-                    "object": [
-                        500,
-                        "proposal_filter_insert_input!"
+                        491
                     ]
                 }
             ],
             "insert_proposals": [
-                545,
+                542,
                 {
                     "objects": [
-                        540,
+                        537,
                         "[proposals_insert_input!]!"
                     ],
                     "on_conflict": [
-                        547
+                        544
                     ]
                 }
             ],
             "insert_proposals_one": [
-                518,
+                515,
                 {
                     "object": [
-                        540,
+                        537,
                         "proposals_insert_input!"
                     ],
                     "on_conflict": [
-                        547
+                        544
                     ]
                 }
             ],
             "insert_reactions": [
-                595,
+                592,
                 {
                     "objects": [
-                        590,
+                        587,
                         "[reactions_insert_input!]!"
                     ],
                     "on_conflict": [
-                        596
+                        593
                     ]
                 }
             ],
             "insert_reactions_one": [
-                578,
+                575,
                 {
                     "object": [
-                        590,
+                        587,
                         "reactions_insert_input!"
                     ],
                     "on_conflict": [
-                        596
+                        593
                     ]
                 }
             ],
             "insert_takes": [
-                638,
+                635,
                 {
                     "objects": [
-                        633,
+                        630,
                         "[takes_insert_input!]!"
                     ],
                     "on_conflict": [
-                        640
+                        637
                     ]
                 }
             ],
             "insert_takes_one": [
-                621,
+                618,
                 {
                     "object": [
-                        633,
+                        630,
                         "takes_insert_input!"
                     ],
                     "on_conflict": [
-                        640
+                        637
                     ]
                 }
             ],
             "insert_token_accts": [
-                682,
+                679,
                 {
                     "objects": [
-                        677,
+                        674,
                         "[token_accts_insert_input!]!"
                     ],
                     "on_conflict": [
-                        684
+                        681
                     ]
                 }
             ],
             "insert_token_accts_one": [
-                665,
+                662,
                 {
                     "object": [
-                        677,
+                        674,
                         "token_accts_insert_input!"
                     ],
                     "on_conflict": [
-                        684
+                        681
                     ]
                 }
             ],
             "insert_tokens": [
-                717,
+                714,
                 {
                     "objects": [
-                        714,
+                        711,
                         "[tokens_insert_input!]!"
                     ],
                     "on_conflict": [
-                        719
+                        716
                     ]
                 }
             ],
             "insert_tokens_one": [
-                707,
+                704,
                 {
                     "object": [
-                        714,
+                        711,
                         "tokens_insert_input!"
                     ],
                     "on_conflict": [
-                        719
+                        716
                     ]
                 }
             ],
             "insert_transaction_watcher_transactions": [
-                752,
+                749,
                 {
                     "objects": [
-                        747,
+                        744,
                         "[transaction_watcher_transactions_insert_input!]!"
                     ],
                     "on_conflict": [
-                        753
+                        750
                     ]
                 }
             ],
             "insert_transaction_watcher_transactions_one": [
-                735,
+                732,
                 {
                     "object": [
-                        747,
+                        744,
                         "transaction_watcher_transactions_insert_input!"
                     ],
                     "on_conflict": [
-                        753
+                        750
                     ]
                 }
             ],
             "insert_transaction_watchers": [
-                793,
+                790,
                 {
                     "objects": [
-                        788,
+                        785,
                         "[transaction_watchers_insert_input!]!"
                     ],
                     "on_conflict": [
-                        795
+                        792
                     ]
                 }
             ],
             "insert_transaction_watchers_one": [
-                776,
+                773,
                 {
                     "object": [
-                        788,
+                        785,
                         "transaction_watchers_insert_input!"
                     ],
                     "on_conflict": [
-                        795
+                        792
                     ]
                 }
             ],
             "insert_transactions": [
-                828,
+                825,
                 {
                     "objects": [
-                        825,
+                        822,
                         "[transactions_insert_input!]!"
                     ],
                     "on_conflict": [
-                        830
+                        827
                     ]
                 }
             ],
             "insert_transactions_one": [
-                818,
+                815,
                 {
                     "object": [
-                        825,
+                        822,
                         "transactions_insert_input!"
                     ],
                     "on_conflict": [
-                        830
+                        827
                     ]
                 }
             ],
             "insert_twaps": [
-                863,
+                860,
                 {
                     "objects": [
-                        858,
+                        855,
                         "[twaps_insert_input!]!"
                     ],
                     "on_conflict": [
-                        864
+                        861
                     ]
                 }
             ],
             "insert_twaps_one": [
-                846,
+                843,
                 {
                     "object": [
-                        858,
+                        855,
                         "twaps_insert_input!"
                     ],
                     "on_conflict": [
-                        864
+                        861
                     ]
                 }
             ],
             "insert_users": [
-                895,
+                892,
                 {
                     "objects": [
-                        892,
+                        889,
                         "[users_insert_input!]!"
                     ],
                     "on_conflict": [
-                        896
+                        893
                     ]
                 }
             ],
             "insert_users_one": [
-                887,
+                884,
                 {
                     "object": [
-                        892,
+                        889,
                         "users_insert_input!"
                     ],
                     "on_conflict": [
-                        896
+                        893
                     ]
                 }
             ],
@@ -19933,827 +20083,821 @@ export default {
                     ]
                 }
             ],
-            "update_dao_details": [
-                103,
+            "update_conditional_vaults": [
+                106,
                 {
-                    "_inc": [
-                        99
-                    ],
                     "_set": [
-                        109
+                        112
                     ],
                     "where": [
-                        97,
+                        99,
+                        "conditional_vaults_bool_exp!"
+                    ]
+                }
+            ],
+            "update_conditional_vaults_by_pk": [
+                92,
+                {
+                    "_set": [
+                        112
+                    ],
+                    "pk_columns": [
+                        110,
+                        "conditional_vaults_pk_columns_input!"
+                    ]
+                }
+            ],
+            "update_conditional_vaults_many": [
+                106,
+                {
+                    "updates": [
+                        116,
+                        "[conditional_vaults_updates!]!"
+                    ]
+                }
+            ],
+            "update_dao_details": [
+                128,
+                {
+                    "_inc": [
+                        124
+                    ],
+                    "_set": [
+                        134
+                    ],
+                    "where": [
+                        122,
                         "dao_details_bool_exp!"
                     ]
                 }
             ],
             "update_dao_details_by_pk": [
-                93,
+                118,
                 {
                     "_inc": [
-                        99
+                        124
                     ],
                     "_set": [
-                        109
+                        134
                     ],
                     "pk_columns": [
-                        107,
+                        132,
                         "dao_details_pk_columns_input!"
                     ]
                 }
             ],
             "update_dao_details_many": [
-                103,
+                128,
                 {
                     "updates": [
-                        117,
+                        142,
                         "[dao_details_updates!]!"
                     ]
                 }
             ],
             "update_daos": [
-                138,
+                163,
                 {
                     "_inc": [
-                        132
+                        157
                     ],
                     "_set": [
-                        144
+                        169
                     ],
                     "where": [
-                        130,
+                        155,
                         "daos_bool_exp!"
                     ]
                 }
             ],
             "update_daos_by_pk": [
-                121,
+                146,
                 {
                     "_inc": [
-                        132
+                        157
                     ],
                     "_set": [
-                        144
+                        169
                     ],
                     "pk_columns": [
-                        142,
+                        167,
                         "daos_pk_columns_input!"
                     ]
                 }
             ],
             "update_daos_many": [
-                138,
+                163,
                 {
                     "updates": [
-                        156,
+                        181,
                         "[daos_updates!]!"
                     ]
                 }
             ],
             "update_indexer_account_dependencies": [
-                179,
+                204,
                 {
                     "_set": [
-                        184
+                        209
                     ],
                     "where": [
-                        172,
+                        197,
                         "indexer_account_dependencies_bool_exp!"
                     ]
                 }
             ],
             "update_indexer_account_dependencies_by_pk": [
-                165,
+                190,
                 {
                     "_set": [
-                        184
+                        209
                     ],
                     "pk_columns": [
-                        182,
+                        207,
                         "indexer_account_dependencies_pk_columns_input!"
                     ]
                 }
             ],
             "update_indexer_account_dependencies_many": [
-                179,
+                204,
                 {
                     "updates": [
-                        188,
+                        213,
                         "[indexer_account_dependencies_updates!]!"
                     ]
                 }
             ],
             "update_indexers": [
-                199,
+                224,
                 {
                     "_inc": [
-                        195
+                        220
                     ],
                     "_set": [
-                        205
+                        230
                     ],
                     "where": [
-                        193,
+                        218,
                         "indexers_bool_exp!"
                     ]
                 }
             ],
             "update_indexers_by_pk": [
-                189,
+                214,
                 {
                     "_inc": [
-                        195
+                        220
                     ],
                     "_set": [
-                        205
+                        230
                     ],
                     "pk_columns": [
-                        203,
+                        228,
                         "indexers_pk_columns_input!"
                     ]
                 }
             ],
             "update_indexers_many": [
-                199,
+                224,
                 {
                     "updates": [
-                        213,
+                        238,
                         "[indexers_updates!]!"
                     ]
                 }
             ],
             "update_makes": [
-                239,
+                264,
                 {
                     "_inc": [
-                        233
+                        258
                     ],
                     "_set": [
-                        247
+                        272
                     ],
                     "where": [
-                        231,
+                        256,
                         "makes_bool_exp!"
                     ]
                 }
             ],
             "update_makes_by_pk": [
-                220,
+                245,
                 {
                     "_inc": [
-                        233
+                        258
                     ],
                     "_set": [
-                        247
+                        272
                     ],
                     "pk_columns": [
-                        243,
+                        268,
                         "makes_pk_columns_input!"
                     ]
                 }
             ],
             "update_makes_many": [
-                239,
+                264,
                 {
                     "updates": [
-                        259,
+                        284,
                         "[makes_updates!]!"
                     ]
                 }
             ],
             "update_markets": [
-                283,
+                308,
                 {
                     "_inc": [
-                        277
+                        302
                     ],
                     "_set": [
-                        289
+                        314
                     ],
                     "where": [
-                        275,
+                        300,
                         "markets_bool_exp!"
                     ]
                 }
             ],
             "update_markets_by_pk": [
-                266,
+                291,
                 {
                     "_inc": [
-                        277
+                        302
                     ],
                     "_set": [
-                        289
+                        314
                     ],
                     "pk_columns": [
-                        287,
+                        312,
                         "markets_pk_columns_input!"
                     ]
                 }
             ],
             "update_markets_many": [
-                283,
+                308,
                 {
                     "updates": [
-                        301,
+                        326,
                         "[markets_updates!]!"
                     ]
                 }
             ],
             "update_orders": [
-                330,
+                355,
                 {
                     "_inc": [
-                        324
+                        349
                     ],
                     "_set": [
-                        338
+                        363
                     ],
                     "where": [
-                        322,
+                        347,
                         "orders_bool_exp!"
                     ]
                 }
             ],
             "update_orders_by_pk": [
-                311,
+                336,
                 {
                     "_inc": [
-                        324
+                        349
                     ],
                     "_set": [
-                        338
+                        363
                     ],
                     "pk_columns": [
-                        334,
+                        359,
                         "orders_pk_columns_input!"
                     ]
                 }
             ],
             "update_orders_many": [
-                330,
+                355,
                 {
                     "updates": [
-                        350,
+                        375,
                         "[orders_updates!]!"
                     ]
                 }
             ],
             "update_program_system": [
-                384,
+                409,
                 {
                     "_inc": [
-                        378
+                        403
                     ],
                     "_set": [
-                        397
+                        422
                     ],
                     "where": [
-                        376,
+                        401,
                         "program_system_bool_exp!"
                     ]
                 }
             ],
             "update_program_system_by_pk": [
-                357,
+                382,
                 {
                     "_inc": [
-                        378
+                        403
                     ],
                     "_set": [
-                        397
+                        422
                     ],
                     "pk_columns": [
-                        387,
+                        412,
                         "program_system_pk_columns_input!"
                     ]
                 }
             ],
             "update_program_system_many": [
-                384,
+                409,
                 {
                     "updates": [
-                        409,
+                        434,
                         "[program_system_updates!]!"
                     ]
                 }
             ],
             "update_programs": [
-                426,
+                451,
                 {
                     "_inc": [
-                        422
+                        447
                     ],
                     "_set": [
-                        432
+                        457
                     ],
                     "where": [
-                        420,
+                        445,
                         "programs_bool_exp!"
                     ]
                 }
             ],
             "update_programs_by_pk": [
-                416,
+                441,
                 {
                     "_inc": [
-                        422
+                        447
                     ],
                     "_set": [
-                        432
+                        457
                     ],
                     "pk_columns": [
-                        430,
+                        455,
                         "programs_pk_columns_input!"
                     ]
                 }
             ],
             "update_programs_many": [
-                426,
+                451,
                 {
                     "updates": [
-                        440,
+                        465,
                         "[programs_updates!]!"
                     ]
                 }
             ],
             "update_proposal_details": [
-                465,
+                490,
                 {
                     "_append": [
-                        450
+                        475
                     ],
                     "_delete_at_path": [
-                        456
+                        481
                     ],
                     "_delete_elem": [
-                        457
+                        482
                     ],
                     "_delete_key": [
-                        458
+                        483
                     ],
                     "_inc": [
-                        459
+                        484
                     ],
                     "_prepend": [
-                        469
+                        494
                     ],
                     "_set": [
-                        471
+                        496
                     ],
                     "where": [
-                        454,
+                        479,
                         "proposal_details_bool_exp!"
                     ]
                 }
             ],
             "update_proposal_details_by_pk": [
-                444,
+                469,
                 {
                     "_append": [
-                        450
+                        475
                     ],
                     "_delete_at_path": [
-                        456
+                        481
                     ],
                     "_delete_elem": [
-                        457
+                        482
                     ],
                     "_delete_key": [
-                        458
+                        483
                     ],
                     "_inc": [
-                        459
+                        484
                     ],
                     "_prepend": [
-                        469
+                        494
                     ],
                     "_set": [
-                        471
+                        496
                     ],
                     "pk_columns": [
-                        468,
+                        493,
                         "proposal_details_pk_columns_input!"
                     ]
                 }
             ],
             "update_proposal_details_many": [
-                465,
+                490,
                 {
                     "updates": [
-                        483,
+                        508,
                         "[proposal_details_updates!]!"
                     ]
                 }
             ],
-            "update_proposal_filter": [
-                503,
-                {
-                    "_append": [
-                        493
-                    ],
-                    "_delete_at_path": [
-                        496
-                    ],
-                    "_delete_elem": [
-                        497
-                    ],
-                    "_delete_key": [
-                        498
-                    ],
-                    "_inc": [
-                        499
-                    ],
-                    "_prepend": [
-                        505
-                    ],
-                    "_set": [
-                        507
-                    ],
-                    "where": [
-                        495,
-                        "proposal_filter_bool_exp!"
-                    ]
-                }
-            ],
-            "update_proposal_filter_many": [
-                503,
-                {
-                    "updates": [
-                        514,
-                        "[proposal_filter_updates!]!"
-                    ]
-                }
-            ],
             "update_proposals": [
-                545,
+                542,
                 {
                     "_inc": [
-                        539
+                        536
                     ],
                     "_set": [
-                        559
+                        556
                     ],
                     "where": [
-                        537,
+                        534,
                         "proposals_bool_exp!"
                     ]
                 }
             ],
             "update_proposals_by_pk": [
-                518,
+                515,
                 {
                     "_inc": [
-                        539
+                        536
                     ],
                     "_set": [
-                        559
+                        556
                     ],
                     "pk_columns": [
-                        549,
+                        546,
                         "proposals_pk_columns_input!"
                     ]
                 }
             ],
             "update_proposals_many": [
-                545,
+                542,
                 {
                     "updates": [
-                        571,
+                        568,
                         "[proposals_updates!]!"
                     ]
                 }
             ],
             "update_reactions": [
-                595,
+                592,
                 {
                     "_inc": [
-                        589
+                        586
                     ],
                     "_set": [
-                        600
+                        597
                     ],
                     "where": [
-                        587,
+                        584,
                         "reactions_bool_exp!"
                     ]
                 }
             ],
             "update_reactions_by_pk": [
-                578,
+                575,
                 {
                     "_inc": [
-                        589
+                        586
                     ],
                     "_set": [
-                        600
+                        597
                     ],
                     "pk_columns": [
-                        598,
+                        595,
                         "reactions_pk_columns_input!"
                     ]
                 }
             ],
             "update_reactions_many": [
-                595,
+                592,
                 {
                     "updates": [
-                        612,
+                        609,
                         "[reactions_updates!]!"
                     ]
                 }
             ],
             "update_takes": [
-                638,
+                635,
                 {
                     "_inc": [
-                        632
+                        629
                     ],
                     "_set": [
-                        644
+                        641
                     ],
                     "where": [
-                        630,
+                        627,
                         "takes_bool_exp!"
                     ]
                 }
             ],
             "update_takes_by_pk": [
-                621,
+                618,
                 {
                     "_inc": [
-                        632
+                        629
                     ],
                     "_set": [
-                        644
+                        641
                     ],
                     "pk_columns": [
-                        642,
+                        639,
                         "takes_pk_columns_input!"
                     ]
                 }
             ],
             "update_takes_many": [
-                638,
+                635,
                 {
                     "updates": [
-                        656,
+                        653,
                         "[takes_updates!]!"
                     ]
                 }
             ],
             "update_token_accts": [
-                682,
+                679,
                 {
                     "_inc": [
-                        676
+                        673
                     ],
                     "_set": [
-                        688
+                        685
                     ],
                     "where": [
-                        674,
+                        671,
                         "token_accts_bool_exp!"
                     ]
                 }
             ],
             "update_token_accts_by_pk": [
-                665,
+                662,
                 {
                     "_inc": [
-                        676
+                        673
                     ],
                     "_set": [
-                        688
+                        685
                     ],
                     "pk_columns": [
-                        686,
+                        683,
                         "token_accts_pk_columns_input!"
                     ]
                 }
             ],
             "update_token_accts_many": [
-                682,
+                679,
                 {
                     "updates": [
-                        700,
+                        697,
                         "[token_accts_updates!]!"
                     ]
                 }
             ],
             "update_tokens": [
-                717,
+                714,
                 {
                     "_inc": [
-                        713
+                        710
                     ],
                     "_set": [
-                        723
+                        720
                     ],
                     "where": [
-                        711,
+                        708,
                         "tokens_bool_exp!"
                     ]
                 }
             ],
             "update_tokens_by_pk": [
-                707,
+                704,
                 {
                     "_inc": [
-                        713
+                        710
                     ],
                     "_set": [
-                        723
+                        720
                     ],
                     "pk_columns": [
-                        721,
+                        718,
                         "tokens_pk_columns_input!"
                     ]
                 }
             ],
             "update_tokens_many": [
-                717,
+                714,
                 {
                     "updates": [
-                        731,
+                        728,
                         "[tokens_updates!]!"
                     ]
                 }
             ],
             "update_transaction_watcher_transactions": [
-                752,
+                749,
                 {
                     "_inc": [
-                        746
+                        743
                     ],
                     "_set": [
-                        757
+                        754
                     ],
                     "where": [
-                        744,
+                        741,
                         "transaction_watcher_transactions_bool_exp!"
                     ]
                 }
             ],
             "update_transaction_watcher_transactions_by_pk": [
-                735,
+                732,
                 {
                     "_inc": [
-                        746
+                        743
                     ],
                     "_set": [
-                        757
+                        754
                     ],
                     "pk_columns": [
-                        755,
+                        752,
                         "transaction_watcher_transactions_pk_columns_input!"
                     ]
                 }
             ],
             "update_transaction_watcher_transactions_many": [
-                752,
+                749,
                 {
                     "updates": [
-                        769,
+                        766,
                         "[transaction_watcher_transactions_updates!]!"
                     ]
                 }
             ],
             "update_transaction_watchers": [
-                793,
+                790,
                 {
                     "_inc": [
-                        787
+                        784
                     ],
                     "_set": [
-                        799
+                        796
                     ],
                     "where": [
-                        785,
+                        782,
                         "transaction_watchers_bool_exp!"
                     ]
                 }
             ],
             "update_transaction_watchers_by_pk": [
-                776,
+                773,
                 {
                     "_inc": [
-                        787
+                        784
                     ],
                     "_set": [
-                        799
+                        796
                     ],
                     "pk_columns": [
-                        797,
+                        794,
                         "transaction_watchers_pk_columns_input!"
                     ]
                 }
             ],
             "update_transaction_watchers_many": [
-                793,
+                790,
                 {
                     "updates": [
-                        811,
+                        808,
                         "[transaction_watchers_updates!]!"
                     ]
                 }
             ],
             "update_transactions": [
-                828,
+                825,
                 {
                     "_inc": [
-                        824
+                        821
                     ],
                     "_set": [
-                        834
+                        831
                     ],
                     "where": [
-                        822,
+                        819,
                         "transactions_bool_exp!"
                     ]
                 }
             ],
             "update_transactions_by_pk": [
-                818,
+                815,
                 {
                     "_inc": [
-                        824
+                        821
                     ],
                     "_set": [
-                        834
+                        831
                     ],
                     "pk_columns": [
-                        832,
+                        829,
                         "transactions_pk_columns_input!"
                     ]
                 }
             ],
             "update_transactions_many": [
-                828,
+                825,
                 {
                     "updates": [
-                        842,
+                        839,
                         "[transactions_updates!]!"
                     ]
                 }
             ],
             "update_twaps": [
-                863,
+                860,
                 {
                     "_inc": [
-                        857
+                        854
                     ],
                     "_set": [
-                        868
+                        865
                     ],
                     "where": [
-                        855,
+                        852,
                         "twaps_bool_exp!"
                     ]
                 }
             ],
             "update_twaps_by_pk": [
-                846,
+                843,
                 {
                     "_inc": [
-                        857
+                        854
                     ],
                     "_set": [
-                        868
+                        865
                     ],
                     "pk_columns": [
-                        866,
+                        863,
                         "twaps_pk_columns_input!"
                     ]
                 }
             ],
             "update_twaps_many": [
-                863,
+                860,
                 {
                     "updates": [
-                        880,
+                        877,
                         "[twaps_updates!]!"
                     ]
                 }
             ],
             "update_users": [
-                895,
+                892,
                 {
                     "_set": [
-                        899
+                        896
                     ],
                     "where": [
-                        890,
+                        887,
                         "users_bool_exp!"
                     ]
                 }
             ],
             "update_users_many": [
-                895,
+                892,
                 {
                     "updates": [
-                        903,
+                        900,
                         "[users_updates!]!"
                     ]
                 }
@@ -20819,7 +20963,7 @@ export default {
                         "String!"
                     ],
                     "timestamp": [
-                        663,
+                        660,
                         "timestamp!"
                     ]
                 }
@@ -20909,11 +21053,80 @@ export default {
                     ]
                 }
             ],
-            "dao_details": [
+            "conditional_vaults": [
+                92,
+                {
+                    "distinct_on": [
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        109,
+                        "[conditional_vaults_order_by!]"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
+            "conditional_vaults_aggregate": [
                 93,
                 {
                     "distinct_on": [
-                        108,
+                        111,
+                        "[conditional_vaults_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        109,
+                        "[conditional_vaults_order_by!]"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
+            "conditional_vaults_by_pk": [
+                92,
+                {
+                    "cond_vault_acct": [
+                        5,
+                        "String!"
+                    ]
+                }
+            ],
+            "conditional_vaults_stream": [
+                92,
+                {
+                    "batch_size": [
+                        3,
+                        "Int!"
+                    ],
+                    "cursor": [
+                        113,
+                        "[conditional_vaults_stream_cursor_input]!"
+                    ],
+                    "where": [
+                        99
+                    ]
+                }
+            ],
+            "dao_details": [
+                118,
+                {
+                    "distinct_on": [
+                        133,
                         "[dao_details_select_column!]"
                     ],
                     "limit": [
@@ -20923,19 +21136,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        106,
+                        131,
                         "[dao_details_order_by!]"
                     ],
                     "where": [
-                        97
+                        122
                     ]
                 }
             ],
             "dao_details_aggregate": [
-                94,
+                119,
                 {
                     "distinct_on": [
-                        108,
+                        133,
                         "[dao_details_select_column!]"
                     ],
                     "limit": [
@@ -20945,16 +21158,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        106,
+                        131,
                         "[dao_details_order_by!]"
                     ],
                     "where": [
-                        97
+                        122
                     ]
                 }
             ],
             "dao_details_by_pk": [
-                93,
+                118,
                 {
                     "dao_id": [
                         7,
@@ -20963,26 +21176,26 @@ export default {
                 }
             ],
             "dao_details_stream": [
-                93,
+                118,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        113,
+                        138,
                         "[dao_details_stream_cursor_input]!"
                     ],
                     "where": [
-                        97
+                        122
                     ]
                 }
             ],
             "daos": [
-                121,
+                146,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -20992,19 +21205,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daos_aggregate": [
-                122,
+                147,
                 {
                     "distinct_on": [
-                        143,
+                        168,
                         "[daos_select_column!]"
                     ],
                     "limit": [
@@ -21014,16 +21227,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        141,
+                        166,
                         "[daos_order_by!]"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "daos_by_pk": [
-                121,
+                146,
                 {
                     "dao_acct": [
                         5,
@@ -21032,26 +21245,26 @@ export default {
                 }
             ],
             "daos_stream": [
-                121,
+                146,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        151,
+                        176,
                         "[daos_stream_cursor_input]!"
                     ],
                     "where": [
-                        130
+                        155
                     ]
                 }
             ],
             "indexer_account_dependencies": [
-                165,
+                190,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -21061,19 +21274,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexer_account_dependencies_aggregate": [
-                166,
+                191,
                 {
                     "distinct_on": [
-                        183,
+                        208,
                         "[indexer_account_dependencies_select_column!]"
                     ],
                     "limit": [
@@ -21083,16 +21296,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        181,
+                        206,
                         "[indexer_account_dependencies_order_by!]"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexer_account_dependencies_by_pk": [
-                165,
+                190,
                 {
                     "acct": [
                         5,
@@ -21105,26 +21318,26 @@ export default {
                 }
             ],
             "indexer_account_dependencies_stream": [
-                165,
+                190,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        185,
+                        210,
                         "[indexer_account_dependencies_stream_cursor_input]!"
                     ],
                     "where": [
-                        172
+                        197
                     ]
                 }
             ],
             "indexers": [
-                189,
+                214,
                 {
                     "distinct_on": [
-                        204,
+                        229,
                         "[indexers_select_column!]"
                     ],
                     "limit": [
@@ -21134,19 +21347,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        202,
+                        227,
                         "[indexers_order_by!]"
                     ],
                     "where": [
-                        193
+                        218
                     ]
                 }
             ],
             "indexers_aggregate": [
-                190,
+                215,
                 {
                     "distinct_on": [
-                        204,
+                        229,
                         "[indexers_select_column!]"
                     ],
                     "limit": [
@@ -21156,16 +21369,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        202,
+                        227,
                         "[indexers_order_by!]"
                     ],
                     "where": [
-                        193
+                        218
                     ]
                 }
             ],
             "indexers_by_pk": [
-                189,
+                214,
                 {
                     "name": [
                         5,
@@ -21174,26 +21387,26 @@ export default {
                 }
             ],
             "indexers_stream": [
-                189,
+                214,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        209,
+                        234,
                         "[indexers_stream_cursor_input]!"
                     ],
                     "where": [
-                        193
+                        218
                     ]
                 }
             ],
             "makes": [
-                220,
+                245,
                 {
                     "distinct_on": [
-                        244,
+                        269,
                         "[makes_select_column!]"
                     ],
                     "limit": [
@@ -21203,19 +21416,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        242,
+                        267,
                         "[makes_order_by!]"
                     ],
                     "where": [
-                        231
+                        256
                     ]
                 }
             ],
             "makes_aggregate": [
-                221,
+                246,
                 {
                     "distinct_on": [
-                        244,
+                        269,
                         "[makes_select_column!]"
                     ],
                     "limit": [
@@ -21225,16 +21438,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        242,
+                        267,
                         "[makes_order_by!]"
                     ],
                     "where": [
-                        231
+                        256
                     ]
                 }
             ],
             "makes_by_pk": [
-                220,
+                245,
                 {
                     "order_tx_sig": [
                         5,
@@ -21243,26 +21456,26 @@ export default {
                 }
             ],
             "makes_stream": [
-                220,
+                245,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        254,
+                        279,
                         "[makes_stream_cursor_input]!"
                     ],
                     "where": [
-                        231
+                        256
                     ]
                 }
             ],
             "markets": [
-                266,
+                291,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -21272,19 +21485,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "markets_aggregate": [
-                267,
+                292,
                 {
                     "distinct_on": [
-                        288,
+                        313,
                         "[markets_select_column!]"
                     ],
                     "limit": [
@@ -21294,16 +21507,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        286,
+                        311,
                         "[markets_order_by!]"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "markets_by_pk": [
-                266,
+                291,
                 {
                     "market_acct": [
                         5,
@@ -21312,26 +21525,26 @@ export default {
                 }
             ],
             "markets_stream": [
-                266,
+                291,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        296,
+                        321,
                         "[markets_stream_cursor_input]!"
                     ],
                     "where": [
-                        275
+                        300
                     ]
                 }
             ],
             "orders": [
-                311,
+                336,
                 {
                     "distinct_on": [
-                        335,
+                        360,
                         "[orders_select_column!]"
                     ],
                     "limit": [
@@ -21341,19 +21554,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        333,
+                        358,
                         "[orders_order_by!]"
                     ],
                     "where": [
-                        322
+                        347
                     ]
                 }
             ],
             "orders_aggregate": [
-                312,
+                337,
                 {
                     "distinct_on": [
-                        335,
+                        360,
                         "[orders_select_column!]"
                     ],
                     "limit": [
@@ -21363,16 +21576,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        333,
+                        358,
                         "[orders_order_by!]"
                     ],
                     "where": [
-                        322
+                        347
                     ]
                 }
             ],
             "orders_by_pk": [
-                311,
+                336,
                 {
                     "order_tx_sig": [
                         5,
@@ -21381,26 +21594,26 @@ export default {
                 }
             ],
             "orders_stream": [
-                311,
+                336,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        345,
+                        370,
                         "[orders_stream_cursor_input]!"
                     ],
                     "where": [
-                        322
+                        347
                     ]
                 }
             ],
             "program_system": [
-                357,
+                382,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -21410,19 +21623,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "program_system_aggregate": [
-                358,
+                383,
                 {
                     "distinct_on": [
-                        388,
+                        413,
                         "[program_system_select_column!]"
                     ],
                     "limit": [
@@ -21432,44 +21645,44 @@ export default {
                         3
                     ],
                     "order_by": [
-                        386,
+                        411,
                         "[program_system_order_by!]"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "program_system_by_pk": [
-                357,
+                382,
                 {
                     "system_version": [
-                        163,
+                        188,
                         "float8!"
                     ]
                 }
             ],
             "program_system_stream": [
-                357,
+                382,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        404,
+                        429,
                         "[program_system_stream_cursor_input]!"
                     ],
                     "where": [
-                        376
+                        401
                     ]
                 }
             ],
             "programs": [
-                416,
+                441,
                 {
                     "distinct_on": [
-                        431,
+                        456,
                         "[programs_select_column!]"
                     ],
                     "limit": [
@@ -21479,19 +21692,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        429,
+                        454,
                         "[programs_order_by!]"
                     ],
                     "where": [
-                        420
+                        445
                     ]
                 }
             ],
             "programs_aggregate": [
-                417,
+                442,
                 {
                     "distinct_on": [
-                        431,
+                        456,
                         "[programs_select_column!]"
                     ],
                     "limit": [
@@ -21501,16 +21714,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        429,
+                        454,
                         "[programs_order_by!]"
                     ],
                     "where": [
-                        420
+                        445
                     ]
                 }
             ],
             "programs_by_pk": [
-                416,
+                441,
                 {
                     "program_acct": [
                         5,
@@ -21519,26 +21732,26 @@ export default {
                 }
             ],
             "programs_stream": [
-                416,
+                441,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        436,
+                        461,
                         "[programs_stream_cursor_input]!"
                     ],
                     "where": [
-                        420
+                        445
                     ]
                 }
             ],
             "proposal_details": [
-                444,
+                469,
                 {
                     "distinct_on": [
-                        470,
+                        495,
                         "[proposal_details_select_column!]"
                     ],
                     "limit": [
@@ -21548,19 +21761,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        467,
+                        492,
                         "[proposal_details_order_by!]"
                     ],
                     "where": [
-                        454
+                        479
                     ]
                 }
             ],
             "proposal_details_aggregate": [
-                445,
+                470,
                 {
                     "distinct_on": [
-                        470,
+                        495,
                         "[proposal_details_select_column!]"
                     ],
                     "limit": [
@@ -21570,16 +21783,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        467,
+                        492,
                         "[proposal_details_order_by!]"
                     ],
                     "where": [
-                        454
+                        479
                     ]
                 }
             ],
             "proposal_details_by_pk": [
-                444,
+                469,
                 {
                     "proposal_id": [
                         7,
@@ -21588,86 +21801,26 @@ export default {
                 }
             ],
             "proposal_details_stream": [
-                444,
+                469,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        478,
+                        503,
                         "[proposal_details_stream_cursor_input]!"
                     ],
                     "where": [
-                        454
-                    ]
-                }
-            ],
-            "proposal_filter": [
-                490,
-                {
-                    "distinct_on": [
-                        506,
-                        "[proposal_filter_select_column!]"
-                    ],
-                    "limit": [
-                        3
-                    ],
-                    "offset": [
-                        3
-                    ],
-                    "order_by": [
-                        504,
-                        "[proposal_filter_order_by!]"
-                    ],
-                    "where": [
-                        495
-                    ]
-                }
-            ],
-            "proposal_filter_aggregate": [
-                491,
-                {
-                    "distinct_on": [
-                        506,
-                        "[proposal_filter_select_column!]"
-                    ],
-                    "limit": [
-                        3
-                    ],
-                    "offset": [
-                        3
-                    ],
-                    "order_by": [
-                        504,
-                        "[proposal_filter_order_by!]"
-                    ],
-                    "where": [
-                        495
-                    ]
-                }
-            ],
-            "proposal_filter_stream": [
-                490,
-                {
-                    "batch_size": [
-                        3,
-                        "Int!"
-                    ],
-                    "cursor": [
-                        511,
-                        "[proposal_filter_stream_cursor_input]!"
-                    ],
-                    "where": [
-                        495
+                        479
                     ]
                 }
             ],
             "proposals": [
-                518,
+                515,
                 {
                     "distinct_on": [
-                        550,
+                        547,
                         "[proposals_select_column!]"
                     ],
                     "limit": [
@@ -21677,19 +21830,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        548,
+                        545,
                         "[proposals_order_by!]"
                     ],
                     "where": [
-                        537
+                        534
                     ]
                 }
             ],
             "proposals_aggregate": [
-                519,
+                516,
                 {
                     "distinct_on": [
-                        550,
+                        547,
                         "[proposals_select_column!]"
                     ],
                     "limit": [
@@ -21699,16 +21852,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        548,
+                        545,
                         "[proposals_order_by!]"
                     ],
                     "where": [
-                        537
+                        534
                     ]
                 }
             ],
             "proposals_by_pk": [
-                518,
+                515,
                 {
                     "proposal_acct": [
                         5,
@@ -21717,26 +21870,26 @@ export default {
                 }
             ],
             "proposals_stream": [
-                518,
+                515,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        566,
+                        563,
                         "[proposals_stream_cursor_input]!"
                     ],
                     "where": [
-                        537
+                        534
                     ]
                 }
             ],
             "reactions": [
-                578,
+                575,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -21746,19 +21899,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
             "reactions_aggregate": [
-                579,
+                576,
                 {
                     "distinct_on": [
-                        599,
+                        596,
                         "[reactions_select_column!]"
                     ],
                     "limit": [
@@ -21768,16 +21921,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        597,
+                        594,
                         "[reactions_order_by!]"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
             "reactions_by_pk": [
-                578,
+                575,
                 {
                     "proposal_acct": [
                         5,
@@ -21794,26 +21947,26 @@ export default {
                 }
             ],
             "reactions_stream": [
-                578,
+                575,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        607,
+                        604,
                         "[reactions_stream_cursor_input]!"
                     ],
                     "where": [
-                        587
+                        584
                     ]
                 }
             ],
             "takes": [
-                621,
+                618,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -21823,19 +21976,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "takes_aggregate": [
-                622,
+                619,
                 {
                     "distinct_on": [
-                        643,
+                        640,
                         "[takes_select_column!]"
                     ],
                     "limit": [
@@ -21845,16 +21998,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        641,
+                        638,
                         "[takes_order_by!]"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "takes_by_pk": [
-                621,
+                618,
                 {
                     "order_tx_sig": [
                         5,
@@ -21863,26 +22016,26 @@ export default {
                 }
             ],
             "takes_stream": [
-                621,
+                618,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        651,
+                        648,
                         "[takes_stream_cursor_input]!"
                     ],
                     "where": [
-                        630
+                        627
                     ]
                 }
             ],
             "token_accts": [
-                665,
+                662,
                 {
                     "distinct_on": [
-                        687,
+                        684,
                         "[token_accts_select_column!]"
                     ],
                     "limit": [
@@ -21892,19 +22045,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        685,
+                        682,
                         "[token_accts_order_by!]"
                     ],
                     "where": [
-                        674
+                        671
                     ]
                 }
             ],
             "token_accts_aggregate": [
-                666,
+                663,
                 {
                     "distinct_on": [
-                        687,
+                        684,
                         "[token_accts_select_column!]"
                     ],
                     "limit": [
@@ -21914,16 +22067,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        685,
+                        682,
                         "[token_accts_order_by!]"
                     ],
                     "where": [
-                        674
+                        671
                     ]
                 }
             ],
             "token_accts_by_pk": [
-                665,
+                662,
                 {
                     "token_acct": [
                         5,
@@ -21932,26 +22085,26 @@ export default {
                 }
             ],
             "token_accts_stream": [
-                665,
+                662,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        695,
+                        692,
                         "[token_accts_stream_cursor_input]!"
                     ],
                     "where": [
-                        674
+                        671
                     ]
                 }
             ],
             "tokens": [
-                707,
+                704,
                 {
                     "distinct_on": [
-                        722,
+                        719,
                         "[tokens_select_column!]"
                     ],
                     "limit": [
@@ -21961,19 +22114,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        720,
+                        717,
                         "[tokens_order_by!]"
                     ],
                     "where": [
-                        711
+                        708
                     ]
                 }
             ],
             "tokens_aggregate": [
-                708,
+                705,
                 {
                     "distinct_on": [
-                        722,
+                        719,
                         "[tokens_select_column!]"
                     ],
                     "limit": [
@@ -21983,16 +22136,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        720,
+                        717,
                         "[tokens_order_by!]"
                     ],
                     "where": [
-                        711
+                        708
                     ]
                 }
             ],
             "tokens_by_pk": [
-                707,
+                704,
                 {
                     "mint_acct": [
                         5,
@@ -22001,26 +22154,26 @@ export default {
                 }
             ],
             "tokens_stream": [
-                707,
+                704,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        727,
+                        724,
                         "[tokens_stream_cursor_input]!"
                     ],
                     "where": [
-                        711
+                        708
                     ]
                 }
             ],
             "transaction_watcher_transactions": [
-                735,
+                732,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -22030,19 +22183,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watcher_transactions_aggregate": [
-                736,
+                733,
                 {
                     "distinct_on": [
-                        756,
+                        753,
                         "[transaction_watcher_transactions_select_column!]"
                     ],
                     "limit": [
@@ -22052,16 +22205,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        754,
+                        751,
                         "[transaction_watcher_transactions_order_by!]"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watcher_transactions_by_pk": [
-                735,
+                732,
                 {
                     "tx_sig": [
                         5,
@@ -22074,26 +22227,26 @@ export default {
                 }
             ],
             "transaction_watcher_transactions_stream": [
-                735,
+                732,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        764,
+                        761,
                         "[transaction_watcher_transactions_stream_cursor_input]!"
                     ],
                     "where": [
-                        744
+                        741
                     ]
                 }
             ],
             "transaction_watchers": [
-                776,
+                773,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -22103,19 +22256,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transaction_watchers_aggregate": [
-                777,
+                774,
                 {
                     "distinct_on": [
-                        798,
+                        795,
                         "[transaction_watchers_select_column!]"
                     ],
                     "limit": [
@@ -22125,16 +22278,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        796,
+                        793,
                         "[transaction_watchers_order_by!]"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transaction_watchers_by_pk": [
-                776,
+                773,
                 {
                     "acct": [
                         5,
@@ -22143,26 +22296,26 @@ export default {
                 }
             ],
             "transaction_watchers_stream": [
-                776,
+                773,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        806,
+                        803,
                         "[transaction_watchers_stream_cursor_input]!"
                     ],
                     "where": [
-                        785
+                        782
                     ]
                 }
             ],
             "transactions": [
-                818,
+                815,
                 {
                     "distinct_on": [
-                        833,
+                        830,
                         "[transactions_select_column!]"
                     ],
                     "limit": [
@@ -22172,19 +22325,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        831,
+                        828,
                         "[transactions_order_by!]"
                     ],
                     "where": [
-                        822
+                        819
                     ]
                 }
             ],
             "transactions_aggregate": [
-                819,
+                816,
                 {
                     "distinct_on": [
-                        833,
+                        830,
                         "[transactions_select_column!]"
                     ],
                     "limit": [
@@ -22194,16 +22347,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        831,
+                        828,
                         "[transactions_order_by!]"
                     ],
                     "where": [
-                        822
+                        819
                     ]
                 }
             ],
             "transactions_by_pk": [
-                818,
+                815,
                 {
                     "tx_sig": [
                         5,
@@ -22212,26 +22365,26 @@ export default {
                 }
             ],
             "transactions_stream": [
-                818,
+                815,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        838,
+                        835,
                         "[transactions_stream_cursor_input]!"
                     ],
                     "where": [
-                        822
+                        819
                     ]
                 }
             ],
             "twaps": [
-                846,
+                843,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -22241,19 +22394,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "twaps_aggregate": [
-                847,
+                844,
                 {
                     "distinct_on": [
-                        867,
+                        864,
                         "[twaps_select_column!]"
                     ],
                     "limit": [
@@ -22263,16 +22416,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        865,
+                        862,
                         "[twaps_order_by!]"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "twaps_by_pk": [
-                846,
+                843,
                 {
                     "market_acct": [
                         5,
@@ -22285,26 +22438,26 @@ export default {
                 }
             ],
             "twaps_stream": [
-                846,
+                843,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        875,
+                        872,
                         "[twaps_stream_cursor_input]!"
                     ],
                     "where": [
-                        855
+                        852
                     ]
                 }
             ],
             "users": [
-                887,
+                884,
                 {
                     "distinct_on": [
-                        898,
+                        895,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -22314,19 +22467,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        897,
+                        894,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        890
+                        887
                     ]
                 }
             ],
             "users_aggregate": [
-                888,
+                885,
                 {
                     "distinct_on": [
-                        898,
+                        895,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -22336,27 +22489,27 @@ export default {
                         3
                     ],
                     "order_by": [
-                        897,
+                        894,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        890
+                        887
                     ]
                 }
             ],
             "users_stream": [
-                887,
+                884,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        900,
+                        897,
                         "[users_stream_cursor_input]!"
                     ],
                     "where": [
-                        890
+                        887
                     ]
                 }
             ],

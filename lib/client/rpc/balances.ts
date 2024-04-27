@@ -101,14 +101,14 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
     proposals: Proposal[]
   ): Promise<TokenWithBalanceWithProposal[]> {
     const tokenBalances = await Promise.all(
-      proposals.map(async (Proposal) => {
-        if (ownerWallet && Proposal.publicKey && quoteToken.publicKey) {
+      proposals.map(async (proposal) => {
+        if (ownerWallet && proposal.publicKey && quoteToken.publicKey) {
           //TODO create proper type or even class with functionality for this(for readability)
           const tokensWithPDA = [
             {
               pda: getAssociatedTokenAddressSync(
                 new PublicKey(
-                  Proposal.baseVaultAccount.conditionalOnFinalizeTokenMint
+                  proposal.baseVaultAccount.conditionalOnFinalizeTokenMint
                 ),
                 ownerWallet,
                 true
@@ -116,15 +116,15 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               token: {
                 ...baseToken,
                 publicKey:
-                  Proposal.baseVaultAccount.conditionalOnFinalizeTokenMint.toString(),
+                  proposal.baseVaultAccount.conditionalOnFinalizeTokenMint.toString(),
                 symbol: "p" + baseToken.symbol,
               } as TokenProps,
-              proposal: Proposal.publicKey,
+              proposal: proposal.publicKey,
             },
             {
               pda: getAssociatedTokenAddressSync(
                 new PublicKey(
-                  Proposal.baseVaultAccount.conditionalOnRevertTokenMint
+                  proposal.baseVaultAccount.conditionalOnRevertTokenMint
                 ),
                 ownerWallet,
                 true
@@ -132,15 +132,15 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               token: {
                 ...baseToken,
                 publicKey:
-                  Proposal.baseVaultAccount.conditionalOnRevertTokenMint.toString(),
+                  proposal.baseVaultAccount.conditionalOnRevertTokenMint.toString(),
                 symbol: "f" + baseToken.symbol,
               } as TokenProps,
-              proposal: Proposal.publicKey,
+              proposal: proposal.publicKey,
             },
             {
               pda: getAssociatedTokenAddressSync(
                 new PublicKey(
-                  Proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint
+                  proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint
                 ),
                 ownerWallet,
                 true
@@ -148,15 +148,15 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               token: {
                 ...quoteToken,
                 publicKey:
-                  Proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint.toString(),
+                  proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint.toString(),
                 symbol: "p" + quoteToken.symbol,
               } as TokenProps,
-              proposal: Proposal.publicKey,
+              proposal: proposal.publicKey,
             },
             {
               pda: getAssociatedTokenAddressSync(
                 new PublicKey(
-                  Proposal.quoteVaultAccount.conditionalOnRevertTokenMint
+                  proposal.quoteVaultAccount.conditionalOnRevertTokenMint
                 ),
                 ownerWallet,
                 true
@@ -164,10 +164,10 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               token: {
                 ...quoteToken,
                 publicKey:
-                  Proposal.quoteVaultAccount.conditionalOnRevertTokenMint.toString(),
+                  proposal.quoteVaultAccount.conditionalOnRevertTokenMint.toString(),
                 symbol: "f" + quoteToken.symbol,
               } as TokenProps,
-              proposal: Proposal.publicKey,
+              proposal: proposal.publicKey,
             },
           ];
 

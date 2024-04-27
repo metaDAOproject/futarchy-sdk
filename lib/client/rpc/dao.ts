@@ -67,17 +67,28 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   async fetchDao(
     daoAddress: string,
     protocol: FutarchyProtocol
-  ): Promise<Dao | undefined> {
+  ): Promise<DaoAggregate | null> {
     const daoAccount = await this.fetchDaoAccount(
       daoAddress,
       protocol.autocrat
     );
     if (daoAccount && protocol) {
       const dao = await this.fetchDaoWithTokensFromState(daoAccount, protocol);
-      if (dao) {
-        return { ...dao, publicKey: new PublicKey(daoAddress) };
+      if (dao && dao.baseToken?.name) {
+        const daoAccountWithKey = {
+          ...dao,
+          publicKey: new PublicKey(daoAddress),
+        };
+        return {
+          daos: [daoAccountWithKey],
+          name: dao.baseToken.name,
+          logo: dao.baseToken.url ?? "",
+          slug: createSlug(dao.baseToken?.name ?? ""),
+        };
       }
+      return null;
     }
+    return null;
   }
 
   private async fetchDaoAccount(

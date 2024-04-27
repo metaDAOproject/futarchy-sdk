@@ -28,10 +28,15 @@ export type ProposalAccount = MergeWithOptionalFields<
 
 export type ProposalAccountWithKey = AccountWithKey<ProposalAccount>;
 
-export type ProposalState = "pending" | "executed" | "failed";
+export type ProposalAccountWithKeyNoState = AccountWithKey<
+  Omit<ProposalAccount, "state">
+>;
+
+// TODO: how to autogenerate type union from rust enum IDL?
+export type ProposalState = "pending" | "passed" | "failed";
 
 // TODO we need to add way more here... this is the problem. This needs to sort of match what the UI needs for the most part
-export type Proposal = ProposalAccountWithKey & {
+export type Proposal = ProposalAccountWithKeyNoState & {
   title: string;
   description: string;
   dao: Pick<Dao, "daoAccount" | "publicKey">;

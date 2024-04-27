@@ -11,7 +11,7 @@ export function getStrStateFromProposal(
   relatedProposalAccount: ProposalAccount
 ): ProposalState {
   if (relatedProposalAccount.state.passed) {
-    return "executed";
+    return "passed";
   } else if (relatedProposalAccount.state.failed) {
     return "failed";
   }

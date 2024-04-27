@@ -3,7 +3,7 @@ import { FutarchyIndexerDaoClient } from "./dao";
 import { FutarchyIndexerProposalsClient } from "./proposals";
 import { FutarchyIndexerBalancesClient } from "./balances";
 import { FutarchyIndexerMarketsClient } from "./markets";
-import { createClient } from "./graphql";
+import { createClient } from "./__generated__";
 import { getFutarchyProtocols } from "@/utils";
 import { FutarchyProtocol } from "@/types";
 
@@ -25,6 +25,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
     if (indexerURL === "" || indexerApiKey === "")
       throw "missing url or api key for indexer client";
 
+    // TODO how can we batch these queries??
     const options = {
       url: indexerURL,
       headers: {
@@ -45,7 +46,11 @@ export class FutarchyIndexerClient implements FutarchyClient {
       graphqlClient,
       this.protocolMap
     );
-    this.proposals = new FutarchyIndexerProposalsClient(rpcClient.proposals);
+    this.proposals = new FutarchyIndexerProposalsClient(
+      rpcClient.proposals,
+      graphqlClient,
+      this.protocolMap
+    );
     this.balances = new FutarchyIndexerBalancesClient(rpcClient.balances);
     this.markets = new FutarchyIndexerMarketsClient(rpcClient.markets);
   }

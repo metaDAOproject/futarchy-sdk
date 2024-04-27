@@ -1,8 +1,7 @@
-import { Dao, DaoAggregate, FutarchyProtocol } from "@/types";
+import { Dao, DaoAggregate, DaoDetails__GQL, FutarchyProtocol } from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { FutarchyRPCDaoClient } from "../rpc";
-import { Client as IndexerGraphQLClient } from "./graphql";
-import { getFutarchyProtocols } from "@/utils";
+import { Client as IndexerGraphQLClient } from "./__generated__";
 import { PublicKey } from "@solana/web3.js";
 
 export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
@@ -29,7 +28,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           github: true,
           x_account: true,
           description: true,
-          logo: true,
+          image_url: true,
           daos: {
             program_acct: true,
             dao_acct: true,
@@ -38,12 +37,14 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               symbol: true,
               mint_acct: true,
               name: true,
+              image_url: true,
             },
             tokenByQuoteAcct: {
               decimals: true,
               symbol: true,
               mint_acct: true,
               name: true,
+              image_url: true,
             },
             treasury_acct: true,
             proposals_aggregate: {
@@ -55,56 +56,111 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
         },
       });
 
-      const daoAggregates = dao_details.map<DaoAggregate>((daoDetails) => {
-        return {
-          name: daoDetails.name ?? "",
-          slug: daoDetails.slug ?? "",
-          logo: daoDetails.logo as string | null,
-          daos: daoDetails.daos
-            .map((d) => {
-              if (this.protocolMap.get(d.program_acct)) {
-                return {
-                  baseToken: {
-                    symbol: d.tokenByBaseAcct.symbol,
-                    decimals: d.tokenByBaseAcct.decimals,
-                    name: d.tokenByBaseAcct.name ?? null,
-                    publicKey: d.tokenByBaseAcct.mint_acct,
-                    url: "",
-                  },
-                  quoteToken: {
-                    symbol: d.tokenByQuoteAcct?.symbol,
-                    decimals: d.tokenByQuoteAcct?.decimals,
-                    name: d.tokenByQuoteAcct?.name,
-                    publicKey: d.tokenByQuoteAcct?.mint_acct,
-                    url: "",
-                  },
-                  daoAccount: {
-                    usdcMint: new PublicKey(
-                      d.tokenByQuoteAcct?.mint_acct ?? ""
-                    ),
-                    treasury: new PublicKey(d.treasury_acct ?? ""),
-                    tokenMint: d.tokenByBaseAcct.mint_acct
-                      ? new PublicKey(d.tokenByBaseAcct.mint_acct)
-                      : undefined,
-                    proposalCount: d.proposals_aggregate.aggregate?.count,
-                  },
-                  publicKey: new PublicKey(d.dao_acct),
-                  protocol: this.protocolMap.get(d.program_acct),
-                };
-              }
-            })
-            .filter((d) => !!d) as Dao[],
-        };
-      });
+      const daoAggregates = dao_details.map<DaoAggregate>((daoDetails) =>
+        this.getDaoAggregateFromDaoDetailsQuery(daoDetails)
+      );
 
       return daoAggregates;
     } catch (e) {
       console.error(e);
-      return [];
+      return this.rpcDaoClient.fetchAllDaos();
     }
   }
 
-  async fetchDao(daoAddress: string): Promise<Dao | undefined> {
-    return undefined;
+  async fetchDao(daoSlug: string): Promise<DaoAggregate | null> {
+    try {
+      const { dao_details } = await this.graphqlClient.query({
+        dao_details: {
+          __args: {
+            where: {
+              slug: { _eq: daoSlug },
+            },
+            limit: 1,
+          },
+          name: true,
+          slug: true,
+          url: true,
+          github: true,
+          x_account: true,
+          description: true,
+          image_url: true,
+          daos: {
+            program_acct: true,
+            dao_acct: true,
+            tokenByBaseAcct: {
+              decimals: true,
+              symbol: true,
+              mint_acct: true,
+              name: true,
+              image_url: true,
+            },
+            tokenByQuoteAcct: {
+              decimals: true,
+              symbol: true,
+              mint_acct: true,
+              name: true,
+              image_url: true,
+            },
+            treasury_acct: true,
+            proposals_aggregate: {
+              aggregate: {
+                count: true,
+              },
+            },
+          },
+        },
+      });
+      if (dao_details[0]) {
+        return this.getDaoAggregateFromDaoDetailsQuery(dao_details[0]);
+      }
+      return null;
+    } catch (e) {
+      console.error(e);
+      // TODO: do we want to have as fallback here? We would need to pass in the protocol to this
+      // return this.rpcDaoClient.fetchDao(daoSlug, this.protocolMap.get(d.program_acct))
+      return null;
+    }
+  }
+
+  private getDaoAggregateFromDaoDetailsQuery(
+    daoDetails: DaoDetails__GQL
+  ): DaoAggregate {
+    return {
+      name: daoDetails.name ?? "",
+      slug: daoDetails.slug ?? "",
+      logo: daoDetails.image_url,
+      daos: daoDetails.daos
+        .map((d) => {
+          if (this.protocolMap.get(d.program_acct)) {
+            return {
+              baseToken: {
+                symbol: d.tokenByBaseAcct?.symbol,
+                decimals: d.tokenByBaseAcct?.decimals,
+                name: d.tokenByBaseAcct?.name ?? null,
+                publicKey: d.tokenByBaseAcct?.mint_acct,
+                url: d.tokenByBaseAcct?.image_url,
+              },
+              quoteToken: {
+                symbol: d.tokenByQuoteAcct?.symbol,
+                decimals: d.tokenByQuoteAcct?.decimals,
+                name: d.tokenByQuoteAcct?.name,
+                publicKey: d.tokenByQuoteAcct?.mint_acct,
+                url: d.tokenByQuoteAcct?.image_url,
+              },
+              daoAccount: {
+                usdcMint: new PublicKey(d.tokenByQuoteAcct?.mint_acct ?? ""),
+                treasury: new PublicKey(d.treasury_acct ?? ""),
+                tokenMint: d.tokenByBaseAcct?.mint_acct
+                  ? new PublicKey(d.tokenByBaseAcct?.mint_acct ?? 5)
+                  : undefined,
+                proposalCount: d.proposals_aggregate.aggregate?.count,
+              },
+              publicKey: new PublicKey(d.dao_acct),
+              protocol: this.protocolMap.get(d.program_acct),
+            };
+          }
+        })
+        .filter((d) => !!d) as Dao[],
+    };
   }
 }

@@ -11,6 +11,7 @@ import {
 import numeral from "numeral";
 import {
   AutocratProgram,
+  Dao,
   DaoAccount,
   DaoAggregate,
   FutarchyProtocol,
@@ -50,13 +51,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
             description: "",
             ...prop,
           }));
-          const allVaults =
-            await dao.protocol.vault.account.conditionalVault.all();
           const vaultsByAddress: Record<string, VaultAccount> =
-            allVaults.reduce((prev, curr) => {
-              prev[curr.publicKey.toString()] = curr.account;
-              return prev;
-            }, {} as Record<string, VaultAccount>);
+            await this.getVaultsByAddressFromDao(dao);
           const proposalsWithVaults: Proposal[] = allProposals.map((p) => {
             const baseVaultAccount =
               vaultsByAddress[p.account.baseVault.toString()];
@@ -82,6 +78,20 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         })
       )
     ).flat();
+  }
+
+  public async getVaultsByAddressFromDao(
+    dao: Dao
+  ): Promise<Record<string, VaultAccount>> {
+    const allVaults = await dao.protocol.vault.account.conditionalVault.all();
+    const vaultsByAddress: Record<string, VaultAccount> = allVaults.reduce(
+      (prev, curr) => {
+        prev[curr.publicKey.toString()] = curr.account;
+        return prev;
+      },
+      {} as Record<string, VaultAccount>
+    );
+    return vaultsByAddress;
   }
 
   public async deposit(

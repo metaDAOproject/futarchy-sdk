@@ -67,7 +67,10 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
     }
   }
 
-  async fetchDao(daoSlug: string): Promise<DaoAggregate | null> {
+  async fetchDao(
+    daoSlug: string,
+    protocol: FutarchyProtocol
+  ): Promise<DaoAggregate | null> {
     try {
       const { dao_details } = await this.graphqlClient.query({
         dao_details: {
@@ -116,8 +119,6 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
       return null;
     } catch (e) {
       console.error(e);
-      // TODO: do we want to have as fallback here? We would need to pass in the protocol to this
-      // return this.rpcDaoClient.fetchDao(daoSlug, this.protocolMap.get(d.program_acct))
       return null;
     }
   }

@@ -59,6 +59,7 @@ export async function enrichTokenMetadata(
       decimals: mint?.decimals ?? 6,
       isFallback: true,
       name: tokenAddress.toString().slice(0, 5).toUpperCase(),
+      url: null,
     };
   } catch (e) {
     console.error(
@@ -70,6 +71,8 @@ export async function enrichTokenMetadata(
       publicKey: tokenAddress.toString(),
       decimals: 6,
       isFallback: true,
+      url: null,
+      name: null,
     };
   }
 }
@@ -101,11 +104,19 @@ async function getTokenFromJupStrictList(
     const tokenList: Token[] = await response.json();
 
     // Find the token with the given address
-    matchingToken = tokenList.find(
+    const matchingJupToken = tokenList.find(
       (token) => token.address === address.toString()
     );
 
-    return matchingToken ?? null;
+    return (
+      {
+        decimals: matchingJupToken?.decimals ?? 6,
+        name: matchingJupToken?.name ?? null,
+        publicKey: matchingJupToken?.address ?? null,
+        symbol: matchingJupToken?.symbol ?? "",
+        url: matchingJupToken?.logoURI ?? null,
+      } ?? null
+    );
   } catch (error) {
     console.error("Error fetching token list:", error);
     return null;
@@ -141,9 +152,9 @@ async function getMetaplexMetadataForToken(
         ? {
             symbol: jsonMetadata.symbol ?? "",
             publicKey: tokenAddress.toString(),
-            url: jsonMetadata.image,
-            decimals: jsonMetadata.seller_fee_basis_points,
-            name: jsonMetadata.name,
+            url: jsonMetadata.image ?? null,
+            decimals: jsonMetadata.seller_fee_basis_points ?? 6,
+            name: jsonMetadata.name ?? null,
           }
         : null;
     }
@@ -212,9 +223,9 @@ async function getMetadataFromToken2022(
       return {
         symbol: token2022Metadata.symbol,
         publicKey: tokenAddress.toString(),
-        url: token2022UriJson.image,
+        url: token2022UriJson.image ?? null,
         decimals: mint.decimals,
-        name: token2022UriJson.name,
+        name: token2022UriJson.name ?? null,
       };
     }
   } catch (e) {

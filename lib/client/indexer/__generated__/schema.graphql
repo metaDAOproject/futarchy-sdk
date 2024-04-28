@@ -1190,6 +1190,402 @@ input comments_variance_order_by {
   responding_comment_id: order_by
 }
 
+"""
+columns and relationships of "conditional_vaults"
+"""
+type conditional_vaults {
+  cond_finalize_token_mint_acct: String!
+  cond_revert_token_mint_acct: String!
+  cond_vault_acct: String!
+
+  """An object relationship"""
+  dao: daos!
+  nonce: String
+
+  """An array relationship"""
+  proposals(
+    """distinct select on columns"""
+    distinct_on: [proposals_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposals_order_by!]
+
+    """filter the rows returned"""
+    where: proposals_bool_exp
+  ): [proposals!]!
+
+  """An array relationship"""
+  proposalsByQuoteVault(
+    """distinct select on columns"""
+    distinct_on: [proposals_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposals_order_by!]
+
+    """filter the rows returned"""
+    where: proposals_bool_exp
+  ): [proposals!]!
+
+  """An aggregate relationship"""
+  proposalsByQuoteVault_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposals_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposals_order_by!]
+
+    """filter the rows returned"""
+    where: proposals_bool_exp
+  ): proposals_aggregate!
+
+  """An aggregate relationship"""
+  proposals_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposals_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposals_order_by!]
+
+    """filter the rows returned"""
+    where: proposals_bool_exp
+  ): proposals_aggregate!
+  settlement_authority: String!
+  status: String
+
+  """An object relationship"""
+  token: tokens!
+  underlying_mint_acct: String!
+  underlying_token_acct: String!
+}
+
+"""
+aggregated selection of "conditional_vaults"
+"""
+type conditional_vaults_aggregate {
+  aggregate: conditional_vaults_aggregate_fields
+  nodes: [conditional_vaults!]!
+}
+
+input conditional_vaults_aggregate_bool_exp {
+  count: conditional_vaults_aggregate_bool_exp_count
+}
+
+input conditional_vaults_aggregate_bool_exp_count {
+  arguments: [conditional_vaults_select_column!]
+  distinct: Boolean
+  filter: conditional_vaults_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "conditional_vaults"
+"""
+type conditional_vaults_aggregate_fields {
+  count(columns: [conditional_vaults_select_column!], distinct: Boolean): Int!
+  max: conditional_vaults_max_fields
+  min: conditional_vaults_min_fields
+}
+
+"""
+order by aggregate values of table "conditional_vaults"
+"""
+input conditional_vaults_aggregate_order_by {
+  count: order_by
+  max: conditional_vaults_max_order_by
+  min: conditional_vaults_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "conditional_vaults"
+"""
+input conditional_vaults_arr_rel_insert_input {
+  data: [conditional_vaults_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: conditional_vaults_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "conditional_vaults". All fields are combined with a logical 'AND'.
+"""
+input conditional_vaults_bool_exp {
+  _and: [conditional_vaults_bool_exp!]
+  _not: conditional_vaults_bool_exp
+  _or: [conditional_vaults_bool_exp!]
+  cond_finalize_token_mint_acct: String_comparison_exp
+  cond_revert_token_mint_acct: String_comparison_exp
+  cond_vault_acct: String_comparison_exp
+  dao: daos_bool_exp
+  nonce: String_comparison_exp
+  proposals: proposals_bool_exp
+  proposalsByQuoteVault: proposals_bool_exp
+  proposalsByQuoteVault_aggregate: proposals_aggregate_bool_exp
+  proposals_aggregate: proposals_aggregate_bool_exp
+  settlement_authority: String_comparison_exp
+  status: String_comparison_exp
+  token: tokens_bool_exp
+  underlying_mint_acct: String_comparison_exp
+  underlying_token_acct: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "conditional_vaults"
+"""
+enum conditional_vaults_constraint {
+  """
+  unique or primary key constraint on columns "cond_vault_acct"
+  """
+  conditional_vaults_pkey
+}
+
+"""
+input type for inserting data into table "conditional_vaults"
+"""
+input conditional_vaults_insert_input {
+  cond_finalize_token_mint_acct: String
+  cond_revert_token_mint_acct: String
+  cond_vault_acct: String
+  dao: daos_obj_rel_insert_input
+  nonce: String
+  proposals: proposals_arr_rel_insert_input
+  proposalsByQuoteVault: proposals_arr_rel_insert_input
+  settlement_authority: String
+  status: String
+  token: tokens_obj_rel_insert_input
+  underlying_mint_acct: String
+  underlying_token_acct: String
+}
+
+"""aggregate max on columns"""
+type conditional_vaults_max_fields {
+  cond_finalize_token_mint_acct: String
+  cond_revert_token_mint_acct: String
+  cond_vault_acct: String
+  nonce: String
+  settlement_authority: String
+  status: String
+  underlying_mint_acct: String
+  underlying_token_acct: String
+}
+
+"""
+order by max() on columns of table "conditional_vaults"
+"""
+input conditional_vaults_max_order_by {
+  cond_finalize_token_mint_acct: order_by
+  cond_revert_token_mint_acct: order_by
+  cond_vault_acct: order_by
+  nonce: order_by
+  settlement_authority: order_by
+  status: order_by
+  underlying_mint_acct: order_by
+  underlying_token_acct: order_by
+}
+
+"""aggregate min on columns"""
+type conditional_vaults_min_fields {
+  cond_finalize_token_mint_acct: String
+  cond_revert_token_mint_acct: String
+  cond_vault_acct: String
+  nonce: String
+  settlement_authority: String
+  status: String
+  underlying_mint_acct: String
+  underlying_token_acct: String
+}
+
+"""
+order by min() on columns of table "conditional_vaults"
+"""
+input conditional_vaults_min_order_by {
+  cond_finalize_token_mint_acct: order_by
+  cond_revert_token_mint_acct: order_by
+  cond_vault_acct: order_by
+  nonce: order_by
+  settlement_authority: order_by
+  status: order_by
+  underlying_mint_acct: order_by
+  underlying_token_acct: order_by
+}
+
+"""
+response of any mutation on the table "conditional_vaults"
+"""
+type conditional_vaults_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [conditional_vaults!]!
+}
+
+"""
+input type for inserting object relation for remote table "conditional_vaults"
+"""
+input conditional_vaults_obj_rel_insert_input {
+  data: conditional_vaults_insert_input!
+
+  """upsert condition"""
+  on_conflict: conditional_vaults_on_conflict
+}
+
+"""
+on_conflict condition type for table "conditional_vaults"
+"""
+input conditional_vaults_on_conflict {
+  constraint: conditional_vaults_constraint!
+  update_columns: [conditional_vaults_update_column!]! = []
+  where: conditional_vaults_bool_exp
+}
+
+"""Ordering options when selecting data from "conditional_vaults"."""
+input conditional_vaults_order_by {
+  cond_finalize_token_mint_acct: order_by
+  cond_revert_token_mint_acct: order_by
+  cond_vault_acct: order_by
+  dao: daos_order_by
+  nonce: order_by
+  proposalsByQuoteVault_aggregate: proposals_aggregate_order_by
+  proposals_aggregate: proposals_aggregate_order_by
+  settlement_authority: order_by
+  status: order_by
+  token: tokens_order_by
+  underlying_mint_acct: order_by
+  underlying_token_acct: order_by
+}
+
+"""primary key columns input for table: conditional_vaults"""
+input conditional_vaults_pk_columns_input {
+  cond_vault_acct: String!
+}
+
+"""
+select columns of table "conditional_vaults"
+"""
+enum conditional_vaults_select_column {
+  """column name"""
+  cond_finalize_token_mint_acct
+
+  """column name"""
+  cond_revert_token_mint_acct
+
+  """column name"""
+  cond_vault_acct
+
+  """column name"""
+  nonce
+
+  """column name"""
+  settlement_authority
+
+  """column name"""
+  status
+
+  """column name"""
+  underlying_mint_acct
+
+  """column name"""
+  underlying_token_acct
+}
+
+"""
+input type for updating data in table "conditional_vaults"
+"""
+input conditional_vaults_set_input {
+  cond_finalize_token_mint_acct: String
+  cond_revert_token_mint_acct: String
+  cond_vault_acct: String
+  nonce: String
+  settlement_authority: String
+  status: String
+  underlying_mint_acct: String
+  underlying_token_acct: String
+}
+
+"""
+Streaming cursor of the table "conditional_vaults"
+"""
+input conditional_vaults_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: conditional_vaults_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input conditional_vaults_stream_cursor_value_input {
+  cond_finalize_token_mint_acct: String
+  cond_revert_token_mint_acct: String
+  cond_vault_acct: String
+  nonce: String
+  settlement_authority: String
+  status: String
+  underlying_mint_acct: String
+  underlying_token_acct: String
+}
+
+"""
+update columns of table "conditional_vaults"
+"""
+enum conditional_vaults_update_column {
+  """column name"""
+  cond_finalize_token_mint_acct
+
+  """column name"""
+  cond_revert_token_mint_acct
+
+  """column name"""
+  cond_vault_acct
+
+  """column name"""
+  nonce
+
+  """column name"""
+  settlement_authority
+
+  """column name"""
+  status
+
+  """column name"""
+  underlying_mint_acct
+
+  """column name"""
+  underlying_token_acct
+}
+
+input conditional_vaults_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: conditional_vaults_set_input
+
+  """filter the rows which have to be updated"""
+  where: conditional_vaults_bool_exp!
+}
+
 """ordering argument of a cursor"""
 enum cursor_ordering {
   """ascending ordering of the cursor"""
@@ -1242,6 +1638,7 @@ type dao_details {
   ): daos_aggregate!
   description: String
   github: String
+  image_url: String
   name: String
   slug: String
   url: String
@@ -1290,6 +1687,7 @@ input dao_details_bool_exp {
   daos_aggregate: daos_aggregate_bool_exp
   description: String_comparison_exp
   github: String_comparison_exp
+  image_url: String_comparison_exp
   name: String_comparison_exp
   slug: String_comparison_exp
   url: String_comparison_exp
@@ -1351,6 +1749,7 @@ input dao_details_insert_input {
   daos: daos_arr_rel_insert_input
   description: String
   github: String
+  image_url: String
   name: String
   slug: String
   url: String
@@ -1362,6 +1761,7 @@ type dao_details_max_fields {
   dao_id: bigint
   description: String
   github: String
+  image_url: String
   name: String
   slug: String
   url: String
@@ -1373,6 +1773,7 @@ type dao_details_min_fields {
   dao_id: bigint
   description: String
   github: String
+  image_url: String
   name: String
   slug: String
   url: String
@@ -1415,6 +1816,7 @@ input dao_details_order_by {
   daos_aggregate: daos_aggregate_order_by
   description: order_by
   github: order_by
+  image_url: order_by
   name: order_by
   slug: order_by
   url: order_by
@@ -1440,6 +1842,9 @@ enum dao_details_select_column {
   github
 
   """column name"""
+  image_url
+
+  """column name"""
   name
 
   """column name"""
@@ -1459,6 +1864,7 @@ input dao_details_set_input {
   dao_id: bigint
   description: String
   github: String
+  image_url: String
   name: String
   slug: String
   url: String
@@ -1496,6 +1902,7 @@ input dao_details_stream_cursor_value_input {
   dao_id: bigint
   description: String
   github: String
+  image_url: String
   name: String
   slug: String
   url: String
@@ -1519,6 +1926,9 @@ enum dao_details_update_column {
 
   """column name"""
   github
+
+  """column name"""
+  image_url
 
   """column name"""
   name
@@ -1564,6 +1974,42 @@ columns and relationships of "daos"
 """
 type daos {
   base_acct: String!
+
+  """An array relationship"""
+  conditional_vaults(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): [conditional_vaults!]!
+
+  """An aggregate relationship"""
+  conditional_vaults_aggregate(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): conditional_vaults_aggregate!
   created_at: timestamp!
   dao_acct: String!
 
@@ -1613,7 +2059,10 @@ type daos {
   quote_acct: String
 
   """An object relationship"""
-  tokenByBaseAcct: tokens!
+  token: tokens!
+
+  """An object relationship"""
+  tokenByBaseAcct: tokens
 
   """An object relationship"""
   tokenByQuoteAcct: tokens
@@ -1704,6 +2153,8 @@ input daos_bool_exp {
   _not: daos_bool_exp
   _or: [daos_bool_exp!]
   base_acct: String_comparison_exp
+  conditional_vaults: conditional_vaults_bool_exp
+  conditional_vaults_aggregate: conditional_vaults_aggregate_bool_exp
   created_at: timestamp_comparison_exp
   dao_acct: String_comparison_exp
   dao_detail: dao_details_bool_exp
@@ -1713,6 +2164,7 @@ input daos_bool_exp {
   proposals: proposals_bool_exp
   proposals_aggregate: proposals_aggregate_bool_exp
   quote_acct: String_comparison_exp
+  token: tokens_bool_exp
   tokenByBaseAcct: tokens_bool_exp
   tokenByQuoteAcct: tokens_bool_exp
   treasury_acct: String_comparison_exp
@@ -1732,6 +2184,11 @@ enum daos_constraint {
   unique or primary key constraint on columns "dao_acct"
   """
   daos_pkey
+
+  """
+  unique or primary key constraint on columns "treasury_acct"
+  """
+  daos_treasury_acct_unique
 }
 
 """
@@ -1746,6 +2203,7 @@ input type for inserting data into table "daos"
 """
 input daos_insert_input {
   base_acct: String
+  conditional_vaults: conditional_vaults_arr_rel_insert_input
   created_at: timestamp
   dao_acct: String
   dao_detail: dao_details_obj_rel_insert_input
@@ -1754,6 +2212,7 @@ input daos_insert_input {
   program_acct: String
   proposals: proposals_arr_rel_insert_input
   quote_acct: String
+  token: tokens_obj_rel_insert_input
   tokenByBaseAcct: tokens_obj_rel_insert_input
   tokenByQuoteAcct: tokens_obj_rel_insert_input
   treasury_acct: String
@@ -1845,6 +2304,7 @@ input daos_on_conflict {
 """Ordering options when selecting data from "daos"."""
 input daos_order_by {
   base_acct: order_by
+  conditional_vaults_aggregate: conditional_vaults_aggregate_order_by
   created_at: order_by
   dao_acct: order_by
   dao_detail: dao_details_order_by
@@ -1853,6 +2313,7 @@ input daos_order_by {
   program_acct: order_by
   proposals_aggregate: proposals_aggregate_order_by
   quote_acct: order_by
+  token: tokens_order_by
   tokenByBaseAcct: tokens_order_by
   tokenByQuoteAcct: tokens_order_by
   treasury_acct: order_by
@@ -4106,6 +4567,19 @@ type mutation_root {
   delete_comments_by_pk(comment_id: bigint!): comments
 
   """
+  delete data from the table: "conditional_vaults"
+  """
+  delete_conditional_vaults(
+    """filter the rows which have to be deleted"""
+    where: conditional_vaults_bool_exp!
+  ): conditional_vaults_mutation_response
+
+  """
+  delete single row from the table: "conditional_vaults"
+  """
+  delete_conditional_vaults_by_pk(cond_vault_acct: String!): conditional_vaults
+
+  """
   delete data from the table: "dao_details"
   """
   delete_dao_details(
@@ -4234,14 +4708,6 @@ type mutation_root {
   delete single row from the table: "proposal_details"
   """
   delete_proposal_details_by_pk(proposal_id: bigint!): proposal_details
-
-  """
-  delete data from the table: "proposal_filter"
-  """
-  delete_proposal_filter(
-    """filter the rows which have to be deleted"""
-    where: proposal_filter_bool_exp!
-  ): proposal_filter_mutation_response
 
   """
   delete data from the table: "proposals"
@@ -4411,6 +4877,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: comments_on_conflict
   ): comments
+
+  """
+  insert data into the table: "conditional_vaults"
+  """
+  insert_conditional_vaults(
+    """the rows to be inserted"""
+    objects: [conditional_vaults_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: conditional_vaults_on_conflict
+  ): conditional_vaults_mutation_response
+
+  """
+  insert a single row into the table: "conditional_vaults"
+  """
+  insert_conditional_vaults_one(
+    """the row to be inserted"""
+    object: conditional_vaults_insert_input!
+
+    """upsert condition"""
+    on_conflict: conditional_vaults_on_conflict
+  ): conditional_vaults
 
   """
   insert data into the table: "dao_details"
@@ -4631,22 +5119,6 @@ type mutation_root {
     """upsert condition"""
     on_conflict: proposal_details_on_conflict
   ): proposal_details
-
-  """
-  insert data into the table: "proposal_filter"
-  """
-  insert_proposal_filter(
-    """the rows to be inserted"""
-    objects: [proposal_filter_insert_input!]!
-  ): proposal_filter_mutation_response
-
-  """
-  insert a single row into the table: "proposal_filter"
-  """
-  insert_proposal_filter_one(
-    """the row to be inserted"""
-    object: proposal_filter_insert_input!
-  ): proposal_filter
 
   """
   insert data into the table: "proposals"
@@ -4935,6 +5407,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [comments_updates!]!
   ): [comments_mutation_response]
+
+  """
+  update data of the table: "conditional_vaults"
+  """
+  update_conditional_vaults(
+    """sets the columns of the filtered rows to the given values"""
+    _set: conditional_vaults_set_input
+
+    """filter the rows which have to be updated"""
+    where: conditional_vaults_bool_exp!
+  ): conditional_vaults_mutation_response
+
+  """
+  update single row of the table: "conditional_vaults"
+  """
+  update_conditional_vaults_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: conditional_vaults_set_input
+    pk_columns: conditional_vaults_pk_columns_input!
+  ): conditional_vaults
+
+  """
+  update multiples rows of table: "conditional_vaults"
+  """
+  update_conditional_vaults_many(
+    """updates to execute, in order"""
+    updates: [conditional_vaults_updates!]!
+  ): [conditional_vaults_mutation_response]
 
   """
   update data of the table: "dao_details"
@@ -5311,49 +5811,6 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [proposal_details_updates!]!
   ): [proposal_details_mutation_response]
-
-  """
-  update data of the table: "proposal_filter"
-  """
-  update_proposal_filter(
-    """append existing jsonb value of filtered columns with new jsonb value"""
-    _append: proposal_filter_append_input
-
-    """
-    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-    """
-    _delete_at_path: proposal_filter_delete_at_path_input
-
-    """
-    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
-    """
-    _delete_elem: proposal_filter_delete_elem_input
-
-    """
-    delete key/value pair or string element. key/value pairs are matched based on their key value
-    """
-    _delete_key: proposal_filter_delete_key_input
-
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: proposal_filter_inc_input
-
-    """prepend existing jsonb value of filtered columns with new jsonb value"""
-    _prepend: proposal_filter_prepend_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: proposal_filter_set_input
-
-    """filter the rows which have to be updated"""
-    where: proposal_filter_bool_exp!
-  ): proposal_filter_mutation_response
-
-  """
-  update multiples rows of table: "proposal_filter"
-  """
-  update_proposal_filter_many(
-    """updates to execute, in order"""
-    updates: [proposal_filter_updates!]!
-  ): [proposal_filter_mutation_response]
 
   """
   update data of the table: "proposals"
@@ -7815,384 +8272,6 @@ input proposal_details_variance_order_by {
 }
 
 """
-columns and relationships of "proposal_filter"
-"""
-type proposal_filter {
-  autocrat_program_acct: String
-  autocrat_version: float8
-  categories(
-    """JSON select path"""
-    path: String
-  ): jsonb
-  content: String
-  dao_account: String
-  dao_name: String
-  external_url: String
-  number: bigint
-  proposal_acct: String
-  proposer_acct: String
-  slot_enqueued: bigint
-  slug: String
-  status: String
-  title: String
-}
-
-"""
-aggregated selection of "proposal_filter"
-"""
-type proposal_filter_aggregate {
-  aggregate: proposal_filter_aggregate_fields
-  nodes: [proposal_filter!]!
-}
-
-"""
-aggregate fields of "proposal_filter"
-"""
-type proposal_filter_aggregate_fields {
-  avg: proposal_filter_avg_fields
-  count(columns: [proposal_filter_select_column!], distinct: Boolean): Int!
-  max: proposal_filter_max_fields
-  min: proposal_filter_min_fields
-  stddev: proposal_filter_stddev_fields
-  stddev_pop: proposal_filter_stddev_pop_fields
-  stddev_samp: proposal_filter_stddev_samp_fields
-  sum: proposal_filter_sum_fields
-  var_pop: proposal_filter_var_pop_fields
-  var_samp: proposal_filter_var_samp_fields
-  variance: proposal_filter_variance_fields
-}
-
-"""append existing jsonb value of filtered columns with new jsonb value"""
-input proposal_filter_append_input {
-  categories: jsonb
-}
-
-"""aggregate avg on columns"""
-type proposal_filter_avg_fields {
-  autocrat_version: Float
-  number: Float
-  slot_enqueued: Float
-}
-
-"""
-Boolean expression to filter rows from the table "proposal_filter". All fields are combined with a logical 'AND'.
-"""
-input proposal_filter_bool_exp {
-  _and: [proposal_filter_bool_exp!]
-  _not: proposal_filter_bool_exp
-  _or: [proposal_filter_bool_exp!]
-  autocrat_program_acct: String_comparison_exp
-  autocrat_version: float8_comparison_exp
-  categories: jsonb_comparison_exp
-  content: String_comparison_exp
-  dao_account: String_comparison_exp
-  dao_name: String_comparison_exp
-  external_url: String_comparison_exp
-  number: bigint_comparison_exp
-  proposal_acct: String_comparison_exp
-  proposer_acct: String_comparison_exp
-  slot_enqueued: bigint_comparison_exp
-  slug: String_comparison_exp
-  status: String_comparison_exp
-  title: String_comparison_exp
-}
-
-"""
-delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-"""
-input proposal_filter_delete_at_path_input {
-  categories: [String!]
-}
-
-"""
-delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
-"""
-input proposal_filter_delete_elem_input {
-  categories: Int
-}
-
-"""
-delete key/value pair or string element. key/value pairs are matched based on their key value
-"""
-input proposal_filter_delete_key_input {
-  categories: String
-}
-
-"""
-input type for incrementing numeric columns in table "proposal_filter"
-"""
-input proposal_filter_inc_input {
-  autocrat_version: float8
-  number: bigint
-  slot_enqueued: bigint
-}
-
-"""
-input type for inserting data into table "proposal_filter"
-"""
-input proposal_filter_insert_input {
-  autocrat_program_acct: String
-  autocrat_version: float8
-  categories: jsonb
-  content: String
-  dao_account: String
-  dao_name: String
-  external_url: String
-  number: bigint
-  proposal_acct: String
-  proposer_acct: String
-  slot_enqueued: bigint
-  slug: String
-  status: String
-  title: String
-}
-
-"""aggregate max on columns"""
-type proposal_filter_max_fields {
-  autocrat_program_acct: String
-  autocrat_version: float8
-  content: String
-  dao_account: String
-  dao_name: String
-  external_url: String
-  number: bigint
-  proposal_acct: String
-  proposer_acct: String
-  slot_enqueued: bigint
-  slug: String
-  status: String
-  title: String
-}
-
-"""aggregate min on columns"""
-type proposal_filter_min_fields {
-  autocrat_program_acct: String
-  autocrat_version: float8
-  content: String
-  dao_account: String
-  dao_name: String
-  external_url: String
-  number: bigint
-  proposal_acct: String
-  proposer_acct: String
-  slot_enqueued: bigint
-  slug: String
-  status: String
-  title: String
-}
-
-"""
-response of any mutation on the table "proposal_filter"
-"""
-type proposal_filter_mutation_response {
-  """number of rows affected by the mutation"""
-  affected_rows: Int!
-
-  """data from the rows affected by the mutation"""
-  returning: [proposal_filter!]!
-}
-
-"""Ordering options when selecting data from "proposal_filter"."""
-input proposal_filter_order_by {
-  autocrat_program_acct: order_by
-  autocrat_version: order_by
-  categories: order_by
-  content: order_by
-  dao_account: order_by
-  dao_name: order_by
-  external_url: order_by
-  number: order_by
-  proposal_acct: order_by
-  proposer_acct: order_by
-  slot_enqueued: order_by
-  slug: order_by
-  status: order_by
-  title: order_by
-}
-
-"""prepend existing jsonb value of filtered columns with new jsonb value"""
-input proposal_filter_prepend_input {
-  categories: jsonb
-}
-
-"""
-select columns of table "proposal_filter"
-"""
-enum proposal_filter_select_column {
-  """column name"""
-  autocrat_program_acct
-
-  """column name"""
-  autocrat_version
-
-  """column name"""
-  categories
-
-  """column name"""
-  content
-
-  """column name"""
-  dao_account
-
-  """column name"""
-  dao_name
-
-  """column name"""
-  external_url
-
-  """column name"""
-  number
-
-  """column name"""
-  proposal_acct
-
-  """column name"""
-  proposer_acct
-
-  """column name"""
-  slot_enqueued
-
-  """column name"""
-  slug
-
-  """column name"""
-  status
-
-  """column name"""
-  title
-}
-
-"""
-input type for updating data in table "proposal_filter"
-"""
-input proposal_filter_set_input {
-  autocrat_program_acct: String
-  autocrat_version: float8
-  categories: jsonb
-  content: String
-  dao_account: String
-  dao_name: String
-  external_url: String
-  number: bigint
-  proposal_acct: String
-  proposer_acct: String
-  slot_enqueued: bigint
-  slug: String
-  status: String
-  title: String
-}
-
-"""aggregate stddev on columns"""
-type proposal_filter_stddev_fields {
-  autocrat_version: Float
-  number: Float
-  slot_enqueued: Float
-}
-
-"""aggregate stddev_pop on columns"""
-type proposal_filter_stddev_pop_fields {
-  autocrat_version: Float
-  number: Float
-  slot_enqueued: Float
-}
-
-"""aggregate stddev_samp on columns"""
-type proposal_filter_stddev_samp_fields {
-  autocrat_version: Float
-  number: Float
-  slot_enqueued: Float
-}
-
-"""
-Streaming cursor of the table "proposal_filter"
-"""
-input proposal_filter_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: proposal_filter_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input proposal_filter_stream_cursor_value_input {
-  autocrat_program_acct: String
-  autocrat_version: float8
-  categories: jsonb
-  content: String
-  dao_account: String
-  dao_name: String
-  external_url: String
-  number: bigint
-  proposal_acct: String
-  proposer_acct: String
-  slot_enqueued: bigint
-  slug: String
-  status: String
-  title: String
-}
-
-"""aggregate sum on columns"""
-type proposal_filter_sum_fields {
-  autocrat_version: float8
-  number: bigint
-  slot_enqueued: bigint
-}
-
-input proposal_filter_updates {
-  """append existing jsonb value of filtered columns with new jsonb value"""
-  _append: proposal_filter_append_input
-
-  """
-  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-  """
-  _delete_at_path: proposal_filter_delete_at_path_input
-
-  """
-  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
-  """
-  _delete_elem: proposal_filter_delete_elem_input
-
-  """
-  delete key/value pair or string element. key/value pairs are matched based on their key value
-  """
-  _delete_key: proposal_filter_delete_key_input
-
-  """increments the numeric columns with given value of the filtered values"""
-  _inc: proposal_filter_inc_input
-
-  """prepend existing jsonb value of filtered columns with new jsonb value"""
-  _prepend: proposal_filter_prepend_input
-
-  """sets the columns of the filtered rows to the given values"""
-  _set: proposal_filter_set_input
-
-  """filter the rows which have to be updated"""
-  where: proposal_filter_bool_exp!
-}
-
-"""aggregate var_pop on columns"""
-type proposal_filter_var_pop_fields {
-  autocrat_version: Float
-  number: Float
-  slot_enqueued: Float
-}
-
-"""aggregate var_samp on columns"""
-type proposal_filter_var_samp_fields {
-  autocrat_version: Float
-  number: Float
-  slot_enqueued: Float
-}
-
-"""aggregate variance on columns"""
-type proposal_filter_variance_fields {
-  autocrat_version: Float
-  number: Float
-  slot_enqueued: Float
-}
-
-"""
 columns and relationships of "proposals"
 """
 type proposals {
@@ -8234,6 +8313,12 @@ type proposals {
     """filter the rows returned"""
     where: comments_bool_exp
   ): comments_aggregate!
+
+  """An object relationship"""
+  conditionalVaultByQuoteVault: conditional_vaults
+
+  """An object relationship"""
+  conditional_vault: conditional_vaults
 
   """An object relationship"""
   dao: daos!
@@ -8560,6 +8645,8 @@ input proposals_bool_exp {
   base_vault: String_comparison_exp
   comments: comments_bool_exp
   comments_aggregate: comments_aggregate_bool_exp
+  conditionalVaultByQuoteVault: conditional_vaults_bool_exp
+  conditional_vault: conditional_vaults_bool_exp
   dao: daos_bool_exp
   dao_acct: String_comparison_exp
   description_url: String_comparison_exp
@@ -8610,6 +8697,8 @@ input proposals_insert_input {
   autocrat_version: float8
   base_vault: String
   comments: comments_arr_rel_insert_input
+  conditionalVaultByQuoteVault: conditional_vaults_obj_rel_insert_input
+  conditional_vault: conditional_vaults_obj_rel_insert_input
   dao: daos_obj_rel_insert_input
   dao_acct: String
   description_url: String
@@ -8745,6 +8834,8 @@ input proposals_order_by {
   autocrat_version: order_by
   base_vault: order_by
   comments_aggregate: comments_aggregate_order_by
+  conditionalVaultByQuoteVault: conditional_vaults_order_by
+  conditional_vault: conditional_vaults_order_by
   dao: daos_order_by
   dao_acct: order_by
   description_url: order_by
@@ -9187,6 +9278,47 @@ type query_root {
   """fetch data from the table: "comments" using primary key columns"""
   comments_by_pk(comment_id: bigint!): comments
 
+  """An array relationship"""
+  conditional_vaults(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): [conditional_vaults!]!
+
+  """An aggregate relationship"""
+  conditional_vaults_aggregate(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): conditional_vaults_aggregate!
+
+  """
+  fetch data from the table: "conditional_vaults" using primary key columns
+  """
+  conditional_vaults_by_pk(cond_vault_acct: String!): conditional_vaults
+
   """
   fetch data from the table: "dao_details"
   """
@@ -9596,46 +9728,6 @@ type query_root {
   fetch data from the table: "proposal_details" using primary key columns
   """
   proposal_details_by_pk(proposal_id: bigint!): proposal_details
-
-  """
-  fetch data from the table: "proposal_filter"
-  """
-  proposal_filter(
-    """distinct select on columns"""
-    distinct_on: [proposal_filter_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_filter_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_filter_bool_exp
-  ): [proposal_filter!]!
-
-  """
-  fetch aggregated fields from the table: "proposal_filter"
-  """
-  proposal_filter_aggregate(
-    """distinct select on columns"""
-    distinct_on: [proposal_filter_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_filter_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_filter_bool_exp
-  ): proposal_filter_aggregate!
 
   """An array relationship"""
   proposals(
@@ -10546,6 +10638,61 @@ type subscription_root {
     where: comments_bool_exp
   ): [comments!]!
 
+  """An array relationship"""
+  conditional_vaults(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): [conditional_vaults!]!
+
+  """An aggregate relationship"""
+  conditional_vaults_aggregate(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): conditional_vaults_aggregate!
+
+  """
+  fetch data from the table: "conditional_vaults" using primary key columns
+  """
+  conditional_vaults_by_pk(cond_vault_acct: String!): conditional_vaults
+
+  """
+  fetch data from the table in a streaming manner: "conditional_vaults"
+  """
+  conditional_vaults_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [conditional_vaults_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): [conditional_vaults!]!
+
   """
   fetch data from the table: "dao_details"
   """
@@ -11095,60 +11242,6 @@ type subscription_root {
     """filter the rows returned"""
     where: proposal_details_bool_exp
   ): [proposal_details!]!
-
-  """
-  fetch data from the table: "proposal_filter"
-  """
-  proposal_filter(
-    """distinct select on columns"""
-    distinct_on: [proposal_filter_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_filter_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_filter_bool_exp
-  ): [proposal_filter!]!
-
-  """
-  fetch aggregated fields from the table: "proposal_filter"
-  """
-  proposal_filter_aggregate(
-    """distinct select on columns"""
-    distinct_on: [proposal_filter_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_filter_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_filter_bool_exp
-  ): proposal_filter_aggregate!
-
-  """
-  fetch data from the table in a streaming manner: "proposal_filter"
-  """
-  proposal_filter_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [proposal_filter_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: proposal_filter_bool_exp
-  ): [proposal_filter!]!
 
   """An array relationship"""
   proposals(
@@ -12741,7 +12834,43 @@ columns and relationships of "tokens"
 """
 type tokens {
   """An array relationship"""
-  daosByBaseAcct(
+  conditional_vaults(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): [conditional_vaults!]!
+
+  """An aggregate relationship"""
+  conditional_vaults_aggregate(
+    """distinct select on columns"""
+    distinct_on: [conditional_vaults_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conditional_vaults_order_by!]
+
+    """filter the rows returned"""
+    where: conditional_vaults_bool_exp
+  ): conditional_vaults_aggregate!
+
+  """An array relationship"""
+  daos(
     """distinct select on columns"""
     distinct_on: [daos_select_column!]
 
@@ -12757,24 +12886,6 @@ type tokens {
     """filter the rows returned"""
     where: daos_bool_exp
   ): [daos!]!
-
-  """An aggregate relationship"""
-  daosByBaseAcct_aggregate(
-    """distinct select on columns"""
-    distinct_on: [daos_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [daos_order_by!]
-
-    """filter the rows returned"""
-    where: daos_bool_exp
-  ): daos_aggregate!
 
   """An array relationship"""
   daosByQuoteAcct(
@@ -12811,7 +12922,26 @@ type tokens {
     """filter the rows returned"""
     where: daos_bool_exp
   ): daos_aggregate!
+
+  """An aggregate relationship"""
+  daos_aggregate(
+    """distinct select on columns"""
+    distinct_on: [daos_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [daos_order_by!]
+
+    """filter the rows returned"""
+    where: daos_bool_exp
+  ): daos_aggregate!
   decimals: smallint!
+  image_url: String
 
   """An array relationship"""
   markets(
@@ -12965,11 +13095,14 @@ input tokens_bool_exp {
   _and: [tokens_bool_exp!]
   _not: tokens_bool_exp
   _or: [tokens_bool_exp!]
-  daosByBaseAcct: daos_bool_exp
-  daosByBaseAcct_aggregate: daos_aggregate_bool_exp
+  conditional_vaults: conditional_vaults_bool_exp
+  conditional_vaults_aggregate: conditional_vaults_aggregate_bool_exp
+  daos: daos_bool_exp
   daosByQuoteAcct: daos_bool_exp
   daosByQuoteAcct_aggregate: daos_aggregate_bool_exp
+  daos_aggregate: daos_aggregate_bool_exp
   decimals: smallint_comparison_exp
+  image_url: String_comparison_exp
   markets: markets_bool_exp
   marketsByQuoteMintAcct: markets_bool_exp
   marketsByQuoteMintAcct_aggregate: markets_aggregate_bool_exp
@@ -13005,9 +13138,11 @@ input tokens_inc_input {
 input type for inserting data into table "tokens"
 """
 input tokens_insert_input {
-  daosByBaseAcct: daos_arr_rel_insert_input
+  conditional_vaults: conditional_vaults_arr_rel_insert_input
+  daos: daos_arr_rel_insert_input
   daosByQuoteAcct: daos_arr_rel_insert_input
   decimals: smallint
+  image_url: String
   markets: markets_arr_rel_insert_input
   marketsByQuoteMintAcct: markets_arr_rel_insert_input
   mint_acct: String
@@ -13021,6 +13156,7 @@ input tokens_insert_input {
 """aggregate max on columns"""
 type tokens_max_fields {
   decimals: smallint
+  image_url: String
   mint_acct: String
   name: String
   supply: bigint
@@ -13031,6 +13167,7 @@ type tokens_max_fields {
 """aggregate min on columns"""
 type tokens_min_fields {
   decimals: smallint
+  image_url: String
   mint_acct: String
   name: String
   supply: bigint
@@ -13070,9 +13207,11 @@ input tokens_on_conflict {
 
 """Ordering options when selecting data from "tokens"."""
 input tokens_order_by {
-  daosByBaseAcct_aggregate: daos_aggregate_order_by
+  conditional_vaults_aggregate: conditional_vaults_aggregate_order_by
   daosByQuoteAcct_aggregate: daos_aggregate_order_by
+  daos_aggregate: daos_aggregate_order_by
   decimals: order_by
+  image_url: order_by
   marketsByQuoteMintAcct_aggregate: markets_aggregate_order_by
   markets_aggregate: markets_aggregate_order_by
   mint_acct: order_by
@@ -13096,6 +13235,9 @@ enum tokens_select_column {
   decimals
 
   """column name"""
+  image_url
+
+  """column name"""
   mint_acct
 
   """column name"""
@@ -13116,6 +13258,7 @@ input type for updating data in table "tokens"
 """
 input tokens_set_input {
   decimals: smallint
+  image_url: String
   mint_acct: String
   name: String
   supply: bigint
@@ -13155,6 +13298,7 @@ input tokens_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input tokens_stream_cursor_value_input {
   decimals: smallint
+  image_url: String
   mint_acct: String
   name: String
   supply: bigint
@@ -13174,6 +13318,9 @@ update columns of table "tokens"
 enum tokens_update_column {
   """column name"""
   decimals
+
+  """column name"""
+  image_url
 
   """column name"""
   mint_acct

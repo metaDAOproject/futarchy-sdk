@@ -385,6 +385,99 @@ export interface comments_variance_fields {
 }
 
 
+/** columns and relationships of "conditional_vaults" */
+export interface conditional_vaults {
+    cond_finalize_token_mint_acct: Scalars['String']
+    cond_revert_token_mint_acct: Scalars['String']
+    cond_vault_acct: Scalars['String']
+    /** An object relationship */
+    dao: daos
+    nonce: (Scalars['String'] | null)
+    /** An array relationship */
+    proposals: proposals[]
+    /** An array relationship */
+    proposalsByQuoteVault: proposals[]
+    /** An aggregate relationship */
+    proposalsByQuoteVault_aggregate: proposals_aggregate
+    /** An aggregate relationship */
+    proposals_aggregate: proposals_aggregate
+    settlement_authority: Scalars['String']
+    status: (Scalars['String'] | null)
+    /** An object relationship */
+    token: tokens
+    underlying_mint_acct: Scalars['String']
+    underlying_token_acct: Scalars['String']
+    __typename: 'conditional_vaults'
+}
+
+
+/** aggregated selection of "conditional_vaults" */
+export interface conditional_vaults_aggregate {
+    aggregate: (conditional_vaults_aggregate_fields | null)
+    nodes: conditional_vaults[]
+    __typename: 'conditional_vaults_aggregate'
+}
+
+
+/** aggregate fields of "conditional_vaults" */
+export interface conditional_vaults_aggregate_fields {
+    count: Scalars['Int']
+    max: (conditional_vaults_max_fields | null)
+    min: (conditional_vaults_min_fields | null)
+    __typename: 'conditional_vaults_aggregate_fields'
+}
+
+
+/** unique or primary key constraints on table "conditional_vaults" */
+export type conditional_vaults_constraint = 'conditional_vaults_pkey'
+
+
+/** aggregate max on columns */
+export interface conditional_vaults_max_fields {
+    cond_finalize_token_mint_acct: (Scalars['String'] | null)
+    cond_revert_token_mint_acct: (Scalars['String'] | null)
+    cond_vault_acct: (Scalars['String'] | null)
+    nonce: (Scalars['String'] | null)
+    settlement_authority: (Scalars['String'] | null)
+    status: (Scalars['String'] | null)
+    underlying_mint_acct: (Scalars['String'] | null)
+    underlying_token_acct: (Scalars['String'] | null)
+    __typename: 'conditional_vaults_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface conditional_vaults_min_fields {
+    cond_finalize_token_mint_acct: (Scalars['String'] | null)
+    cond_revert_token_mint_acct: (Scalars['String'] | null)
+    cond_vault_acct: (Scalars['String'] | null)
+    nonce: (Scalars['String'] | null)
+    settlement_authority: (Scalars['String'] | null)
+    status: (Scalars['String'] | null)
+    underlying_mint_acct: (Scalars['String'] | null)
+    underlying_token_acct: (Scalars['String'] | null)
+    __typename: 'conditional_vaults_min_fields'
+}
+
+
+/** response of any mutation on the table "conditional_vaults" */
+export interface conditional_vaults_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: conditional_vaults[]
+    __typename: 'conditional_vaults_mutation_response'
+}
+
+
+/** select columns of table "conditional_vaults" */
+export type conditional_vaults_select_column = 'cond_finalize_token_mint_acct' | 'cond_revert_token_mint_acct' | 'cond_vault_acct' | 'nonce' | 'settlement_authority' | 'status' | 'underlying_mint_acct' | 'underlying_token_acct'
+
+
+/** update columns of table "conditional_vaults" */
+export type conditional_vaults_update_column = 'cond_finalize_token_mint_acct' | 'cond_revert_token_mint_acct' | 'cond_vault_acct' | 'nonce' | 'settlement_authority' | 'status' | 'underlying_mint_acct' | 'underlying_token_acct'
+
+
 /** ordering argument of a cursor */
 export type cursor_ordering = 'ASC' | 'DESC'
 
@@ -398,6 +491,7 @@ export interface dao_details {
     daos_aggregate: daos_aggregate
     description: (Scalars['String'] | null)
     github: (Scalars['String'] | null)
+    image_url: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
     slug: (Scalars['String'] | null)
     url: (Scalars['String'] | null)
@@ -447,6 +541,7 @@ export interface dao_details_max_fields {
     dao_id: (Scalars['bigint'] | null)
     description: (Scalars['String'] | null)
     github: (Scalars['String'] | null)
+    image_url: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
     slug: (Scalars['String'] | null)
     url: (Scalars['String'] | null)
@@ -460,6 +555,7 @@ export interface dao_details_min_fields {
     dao_id: (Scalars['bigint'] | null)
     description: (Scalars['String'] | null)
     github: (Scalars['String'] | null)
+    image_url: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
     slug: (Scalars['String'] | null)
     url: (Scalars['String'] | null)
@@ -479,7 +575,7 @@ export interface dao_details_mutation_response {
 
 
 /** select columns of table "dao_details" */
-export type dao_details_select_column = 'dao_id' | 'description' | 'github' | 'name' | 'slug' | 'url' | 'x_account'
+export type dao_details_select_column = 'dao_id' | 'description' | 'github' | 'image_url' | 'name' | 'slug' | 'url' | 'x_account'
 
 
 /** aggregate stddev on columns */
@@ -511,7 +607,7 @@ export interface dao_details_sum_fields {
 
 
 /** update columns of table "dao_details" */
-export type dao_details_update_column = 'dao_id' | 'description' | 'github' | 'name' | 'slug' | 'url' | 'x_account'
+export type dao_details_update_column = 'dao_id' | 'description' | 'github' | 'image_url' | 'name' | 'slug' | 'url' | 'x_account'
 
 
 /** aggregate var_pop on columns */
@@ -538,6 +634,10 @@ export interface dao_details_variance_fields {
 /** columns and relationships of "daos" */
 export interface daos {
     base_acct: Scalars['String']
+    /** An array relationship */
+    conditional_vaults: conditional_vaults[]
+    /** An aggregate relationship */
+    conditional_vaults_aggregate: conditional_vaults_aggregate
     created_at: Scalars['timestamp']
     dao_acct: Scalars['String']
     /** An object relationship */
@@ -552,7 +652,9 @@ export interface daos {
     proposals_aggregate: proposals_aggregate
     quote_acct: (Scalars['String'] | null)
     /** An object relationship */
-    tokenByBaseAcct: tokens
+    token: tokens
+    /** An object relationship */
+    tokenByBaseAcct: (tokens | null)
     /** An object relationship */
     tokenByQuoteAcct: (tokens | null)
     treasury_acct: (Scalars['String'] | null)
@@ -594,7 +696,7 @@ export interface daos_avg_fields {
 
 
 /** unique or primary key constraints on table "daos" */
-export type daos_constraint = 'dao_acct_program' | 'daos_pkey'
+export type daos_constraint = 'dao_acct_program' | 'daos_pkey' | 'daos_treasury_acct_unique'
 
 
 /** aggregate max on columns */
@@ -1346,6 +1448,10 @@ export interface mutation_root {
     delete_comments: (comments_mutation_response | null)
     /** delete single row from the table: "comments" */
     delete_comments_by_pk: (comments | null)
+    /** delete data from the table: "conditional_vaults" */
+    delete_conditional_vaults: (conditional_vaults_mutation_response | null)
+    /** delete single row from the table: "conditional_vaults" */
+    delete_conditional_vaults_by_pk: (conditional_vaults | null)
     /** delete data from the table: "dao_details" */
     delete_dao_details: (dao_details_mutation_response | null)
     /** delete single row from the table: "dao_details" */
@@ -1386,8 +1492,6 @@ export interface mutation_root {
     delete_proposal_details: (proposal_details_mutation_response | null)
     /** delete single row from the table: "proposal_details" */
     delete_proposal_details_by_pk: (proposal_details | null)
-    /** delete data from the table: "proposal_filter" */
-    delete_proposal_filter: (proposal_filter_mutation_response | null)
     /** delete data from the table: "proposals" */
     delete_proposals: (proposals_mutation_response | null)
     /** delete single row from the table: "proposals" */
@@ -1434,6 +1538,10 @@ export interface mutation_root {
     insert_comments: (comments_mutation_response | null)
     /** insert a single row into the table: "comments" */
     insert_comments_one: (comments | null)
+    /** insert data into the table: "conditional_vaults" */
+    insert_conditional_vaults: (conditional_vaults_mutation_response | null)
+    /** insert a single row into the table: "conditional_vaults" */
+    insert_conditional_vaults_one: (conditional_vaults | null)
     /** insert data into the table: "dao_details" */
     insert_dao_details: (dao_details_mutation_response | null)
     /** insert a single row into the table: "dao_details" */
@@ -1474,10 +1582,6 @@ export interface mutation_root {
     insert_proposal_details: (proposal_details_mutation_response | null)
     /** insert a single row into the table: "proposal_details" */
     insert_proposal_details_one: (proposal_details | null)
-    /** insert data into the table: "proposal_filter" */
-    insert_proposal_filter: (proposal_filter_mutation_response | null)
-    /** insert a single row into the table: "proposal_filter" */
-    insert_proposal_filter_one: (proposal_filter | null)
     /** insert data into the table: "proposals" */
     insert_proposals: (proposals_mutation_response | null)
     /** insert a single row into the table: "proposals" */
@@ -1530,6 +1634,12 @@ export interface mutation_root {
     update_comments_by_pk: (comments | null)
     /** update multiples rows of table: "comments" */
     update_comments_many: ((comments_mutation_response | null)[] | null)
+    /** update data of the table: "conditional_vaults" */
+    update_conditional_vaults: (conditional_vaults_mutation_response | null)
+    /** update single row of the table: "conditional_vaults" */
+    update_conditional_vaults_by_pk: (conditional_vaults | null)
+    /** update multiples rows of table: "conditional_vaults" */
+    update_conditional_vaults_many: ((conditional_vaults_mutation_response | null)[] | null)
     /** update data of the table: "dao_details" */
     update_dao_details: (dao_details_mutation_response | null)
     /** update single row of the table: "dao_details" */
@@ -1590,10 +1700,6 @@ export interface mutation_root {
     update_proposal_details_by_pk: (proposal_details | null)
     /** update multiples rows of table: "proposal_details" */
     update_proposal_details_many: ((proposal_details_mutation_response | null)[] | null)
-    /** update data of the table: "proposal_filter" */
-    update_proposal_filter: (proposal_filter_mutation_response | null)
-    /** update multiples rows of table: "proposal_filter" */
-    update_proposal_filter_many: ((proposal_filter_mutation_response | null)[] | null)
     /** update data of the table: "proposals" */
     update_proposals: (proposals_mutation_response | null)
     /** update single row of the table: "proposals" */
@@ -2341,175 +2447,6 @@ export interface proposal_details_variance_fields {
 }
 
 
-/** columns and relationships of "proposal_filter" */
-export interface proposal_filter {
-    autocrat_program_acct: (Scalars['String'] | null)
-    autocrat_version: (Scalars['float8'] | null)
-    categories: (Scalars['jsonb'] | null)
-    content: (Scalars['String'] | null)
-    dao_account: (Scalars['String'] | null)
-    dao_name: (Scalars['String'] | null)
-    external_url: (Scalars['String'] | null)
-    number: (Scalars['bigint'] | null)
-    proposal_acct: (Scalars['String'] | null)
-    proposer_acct: (Scalars['String'] | null)
-    slot_enqueued: (Scalars['bigint'] | null)
-    slug: (Scalars['String'] | null)
-    status: (Scalars['String'] | null)
-    title: (Scalars['String'] | null)
-    __typename: 'proposal_filter'
-}
-
-
-/** aggregated selection of "proposal_filter" */
-export interface proposal_filter_aggregate {
-    aggregate: (proposal_filter_aggregate_fields | null)
-    nodes: proposal_filter[]
-    __typename: 'proposal_filter_aggregate'
-}
-
-
-/** aggregate fields of "proposal_filter" */
-export interface proposal_filter_aggregate_fields {
-    avg: (proposal_filter_avg_fields | null)
-    count: Scalars['Int']
-    max: (proposal_filter_max_fields | null)
-    min: (proposal_filter_min_fields | null)
-    stddev: (proposal_filter_stddev_fields | null)
-    stddev_pop: (proposal_filter_stddev_pop_fields | null)
-    stddev_samp: (proposal_filter_stddev_samp_fields | null)
-    sum: (proposal_filter_sum_fields | null)
-    var_pop: (proposal_filter_var_pop_fields | null)
-    var_samp: (proposal_filter_var_samp_fields | null)
-    variance: (proposal_filter_variance_fields | null)
-    __typename: 'proposal_filter_aggregate_fields'
-}
-
-
-/** aggregate avg on columns */
-export interface proposal_filter_avg_fields {
-    autocrat_version: (Scalars['Float'] | null)
-    number: (Scalars['Float'] | null)
-    slot_enqueued: (Scalars['Float'] | null)
-    __typename: 'proposal_filter_avg_fields'
-}
-
-
-/** aggregate max on columns */
-export interface proposal_filter_max_fields {
-    autocrat_program_acct: (Scalars['String'] | null)
-    autocrat_version: (Scalars['float8'] | null)
-    content: (Scalars['String'] | null)
-    dao_account: (Scalars['String'] | null)
-    dao_name: (Scalars['String'] | null)
-    external_url: (Scalars['String'] | null)
-    number: (Scalars['bigint'] | null)
-    proposal_acct: (Scalars['String'] | null)
-    proposer_acct: (Scalars['String'] | null)
-    slot_enqueued: (Scalars['bigint'] | null)
-    slug: (Scalars['String'] | null)
-    status: (Scalars['String'] | null)
-    title: (Scalars['String'] | null)
-    __typename: 'proposal_filter_max_fields'
-}
-
-
-/** aggregate min on columns */
-export interface proposal_filter_min_fields {
-    autocrat_program_acct: (Scalars['String'] | null)
-    autocrat_version: (Scalars['float8'] | null)
-    content: (Scalars['String'] | null)
-    dao_account: (Scalars['String'] | null)
-    dao_name: (Scalars['String'] | null)
-    external_url: (Scalars['String'] | null)
-    number: (Scalars['bigint'] | null)
-    proposal_acct: (Scalars['String'] | null)
-    proposer_acct: (Scalars['String'] | null)
-    slot_enqueued: (Scalars['bigint'] | null)
-    slug: (Scalars['String'] | null)
-    status: (Scalars['String'] | null)
-    title: (Scalars['String'] | null)
-    __typename: 'proposal_filter_min_fields'
-}
-
-
-/** response of any mutation on the table "proposal_filter" */
-export interface proposal_filter_mutation_response {
-    /** number of rows affected by the mutation */
-    affected_rows: Scalars['Int']
-    /** data from the rows affected by the mutation */
-    returning: proposal_filter[]
-    __typename: 'proposal_filter_mutation_response'
-}
-
-
-/** select columns of table "proposal_filter" */
-export type proposal_filter_select_column = 'autocrat_program_acct' | 'autocrat_version' | 'categories' | 'content' | 'dao_account' | 'dao_name' | 'external_url' | 'number' | 'proposal_acct' | 'proposer_acct' | 'slot_enqueued' | 'slug' | 'status' | 'title'
-
-
-/** aggregate stddev on columns */
-export interface proposal_filter_stddev_fields {
-    autocrat_version: (Scalars['Float'] | null)
-    number: (Scalars['Float'] | null)
-    slot_enqueued: (Scalars['Float'] | null)
-    __typename: 'proposal_filter_stddev_fields'
-}
-
-
-/** aggregate stddev_pop on columns */
-export interface proposal_filter_stddev_pop_fields {
-    autocrat_version: (Scalars['Float'] | null)
-    number: (Scalars['Float'] | null)
-    slot_enqueued: (Scalars['Float'] | null)
-    __typename: 'proposal_filter_stddev_pop_fields'
-}
-
-
-/** aggregate stddev_samp on columns */
-export interface proposal_filter_stddev_samp_fields {
-    autocrat_version: (Scalars['Float'] | null)
-    number: (Scalars['Float'] | null)
-    slot_enqueued: (Scalars['Float'] | null)
-    __typename: 'proposal_filter_stddev_samp_fields'
-}
-
-
-/** aggregate sum on columns */
-export interface proposal_filter_sum_fields {
-    autocrat_version: (Scalars['float8'] | null)
-    number: (Scalars['bigint'] | null)
-    slot_enqueued: (Scalars['bigint'] | null)
-    __typename: 'proposal_filter_sum_fields'
-}
-
-
-/** aggregate var_pop on columns */
-export interface proposal_filter_var_pop_fields {
-    autocrat_version: (Scalars['Float'] | null)
-    number: (Scalars['Float'] | null)
-    slot_enqueued: (Scalars['Float'] | null)
-    __typename: 'proposal_filter_var_pop_fields'
-}
-
-
-/** aggregate var_samp on columns */
-export interface proposal_filter_var_samp_fields {
-    autocrat_version: (Scalars['Float'] | null)
-    number: (Scalars['Float'] | null)
-    slot_enqueued: (Scalars['Float'] | null)
-    __typename: 'proposal_filter_var_samp_fields'
-}
-
-
-/** aggregate variance on columns */
-export interface proposal_filter_variance_fields {
-    autocrat_version: (Scalars['Float'] | null)
-    number: (Scalars['Float'] | null)
-    slot_enqueued: (Scalars['Float'] | null)
-    __typename: 'proposal_filter_variance_fields'
-}
-
-
 /** columns and relationships of "proposals" */
 export interface proposals {
     autocrat_version: Scalars['float8']
@@ -2518,6 +2455,10 @@ export interface proposals {
     comments: comments[]
     /** An aggregate relationship */
     comments_aggregate: comments_aggregate
+    /** An object relationship */
+    conditionalVaultByQuoteVault: (conditional_vaults | null)
+    /** An object relationship */
+    conditional_vault: (conditional_vaults | null)
     /** An object relationship */
     dao: daos
     dao_acct: Scalars['String']
@@ -2758,6 +2699,12 @@ export interface query_root {
     comments_aggregate: comments_aggregate
     /** fetch data from the table: "comments" using primary key columns */
     comments_by_pk: (comments | null)
+    /** An array relationship */
+    conditional_vaults: conditional_vaults[]
+    /** An aggregate relationship */
+    conditional_vaults_aggregate: conditional_vaults_aggregate
+    /** fetch data from the table: "conditional_vaults" using primary key columns */
+    conditional_vaults_by_pk: (conditional_vaults | null)
     /** fetch data from the table: "dao_details" */
     dao_details: dao_details[]
     /** fetch aggregated fields from the table: "dao_details" */
@@ -2818,10 +2765,6 @@ export interface query_root {
     proposal_details_aggregate: proposal_details_aggregate
     /** fetch data from the table: "proposal_details" using primary key columns */
     proposal_details_by_pk: (proposal_details | null)
-    /** fetch data from the table: "proposal_filter" */
-    proposal_filter: proposal_filter[]
-    /** fetch aggregated fields from the table: "proposal_filter" */
-    proposal_filter_aggregate: proposal_filter_aggregate
     /** An array relationship */
     proposals: proposals[]
     /** An aggregate relationship */
@@ -3040,6 +2983,14 @@ export interface subscription_root {
     comments_by_pk: (comments | null)
     /** fetch data from the table in a streaming manner: "comments" */
     comments_stream: comments[]
+    /** An array relationship */
+    conditional_vaults: conditional_vaults[]
+    /** An aggregate relationship */
+    conditional_vaults_aggregate: conditional_vaults_aggregate
+    /** fetch data from the table: "conditional_vaults" using primary key columns */
+    conditional_vaults_by_pk: (conditional_vaults | null)
+    /** fetch data from the table in a streaming manner: "conditional_vaults" */
+    conditional_vaults_stream: conditional_vaults[]
     /** fetch data from the table: "dao_details" */
     dao_details: dao_details[]
     /** fetch aggregated fields from the table: "dao_details" */
@@ -3120,12 +3071,6 @@ export interface subscription_root {
     proposal_details_by_pk: (proposal_details | null)
     /** fetch data from the table in a streaming manner: "proposal_details" */
     proposal_details_stream: proposal_details[]
-    /** fetch data from the table: "proposal_filter" */
-    proposal_filter: proposal_filter[]
-    /** fetch aggregated fields from the table: "proposal_filter" */
-    proposal_filter_aggregate: proposal_filter_aggregate
-    /** fetch data from the table in a streaming manner: "proposal_filter" */
-    proposal_filter_stream: proposal_filter[]
     /** An array relationship */
     proposals: proposals[]
     /** An aggregate relationship */
@@ -3554,14 +3499,19 @@ export interface token_accts_variance_fields {
 /** columns and relationships of "tokens" */
 export interface tokens {
     /** An array relationship */
-    daosByBaseAcct: daos[]
+    conditional_vaults: conditional_vaults[]
     /** An aggregate relationship */
-    daosByBaseAcct_aggregate: daos_aggregate
+    conditional_vaults_aggregate: conditional_vaults_aggregate
+    /** An array relationship */
+    daos: daos[]
     /** An array relationship */
     daosByQuoteAcct: daos[]
     /** An aggregate relationship */
     daosByQuoteAcct_aggregate: daos_aggregate
+    /** An aggregate relationship */
+    daos_aggregate: daos_aggregate
     decimals: Scalars['smallint']
+    image_url: (Scalars['String'] | null)
     /** An array relationship */
     markets: markets[]
     /** An array relationship */
@@ -3623,6 +3573,7 @@ export type tokens_constraint = 'tokens_pkey'
 /** aggregate max on columns */
 export interface tokens_max_fields {
     decimals: (Scalars['smallint'] | null)
+    image_url: (Scalars['String'] | null)
     mint_acct: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
     supply: (Scalars['bigint'] | null)
@@ -3635,6 +3586,7 @@ export interface tokens_max_fields {
 /** aggregate min on columns */
 export interface tokens_min_fields {
     decimals: (Scalars['smallint'] | null)
+    image_url: (Scalars['String'] | null)
     mint_acct: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
     supply: (Scalars['bigint'] | null)
@@ -3655,7 +3607,7 @@ export interface tokens_mutation_response {
 
 
 /** select columns of table "tokens" */
-export type tokens_select_column = 'decimals' | 'mint_acct' | 'name' | 'supply' | 'symbol' | 'updated_at'
+export type tokens_select_column = 'decimals' | 'image_url' | 'mint_acct' | 'name' | 'supply' | 'symbol' | 'updated_at'
 
 
 /** aggregate stddev on columns */
@@ -3691,7 +3643,7 @@ export interface tokens_sum_fields {
 
 
 /** update columns of table "tokens" */
-export type tokens_update_column = 'decimals' | 'mint_acct' | 'name' | 'supply' | 'symbol' | 'updated_at'
+export type tokens_update_column = 'decimals' | 'image_url' | 'mint_acct' | 'name' | 'supply' | 'symbol' | 'updated_at'
 
 
 /** aggregate var_pop on columns */
@@ -5053,6 +5005,203 @@ export interface comments_variance_fieldsGenqlSelection{
 export interface comments_variance_order_by {comment_id?: (order_by | null),responding_comment_id?: (order_by | null)}
 
 
+/** columns and relationships of "conditional_vaults" */
+export interface conditional_vaultsGenqlSelection{
+    cond_finalize_token_mint_acct?: boolean | number
+    cond_revert_token_mint_acct?: boolean | number
+    cond_vault_acct?: boolean | number
+    /** An object relationship */
+    dao?: daosGenqlSelection
+    nonce?: boolean | number
+    /** An array relationship */
+    proposals?: (proposalsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposals_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposals_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposals_bool_exp | null)} })
+    /** An array relationship */
+    proposalsByQuoteVault?: (proposalsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposals_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposals_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposals_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposalsByQuoteVault_aggregate?: (proposals_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposals_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposals_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposals_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposals_aggregate?: (proposals_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposals_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposals_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposals_bool_exp | null)} })
+    settlement_authority?: boolean | number
+    status?: boolean | number
+    /** An object relationship */
+    token?: tokensGenqlSelection
+    underlying_mint_acct?: boolean | number
+    underlying_token_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "conditional_vaults" */
+export interface conditional_vaults_aggregateGenqlSelection{
+    aggregate?: conditional_vaults_aggregate_fieldsGenqlSelection
+    nodes?: conditional_vaultsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface conditional_vaults_aggregate_bool_exp {count?: (conditional_vaults_aggregate_bool_exp_count | null)}
+
+export interface conditional_vaults_aggregate_bool_exp_count {arguments?: (conditional_vaults_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (conditional_vaults_bool_exp | null),predicate: Int_comparison_exp}
+
+
+/** aggregate fields of "conditional_vaults" */
+export interface conditional_vaults_aggregate_fieldsGenqlSelection{
+    count?: { __args: {columns?: (conditional_vaults_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: conditional_vaults_max_fieldsGenqlSelection
+    min?: conditional_vaults_min_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by aggregate values of table "conditional_vaults" */
+export interface conditional_vaults_aggregate_order_by {count?: (order_by | null),max?: (conditional_vaults_max_order_by | null),min?: (conditional_vaults_min_order_by | null)}
+
+
+/** input type for inserting array relation for remote table "conditional_vaults" */
+export interface conditional_vaults_arr_rel_insert_input {data: conditional_vaults_insert_input[],
+/** upsert condition */
+on_conflict?: (conditional_vaults_on_conflict | null)}
+
+
+/** Boolean expression to filter rows from the table "conditional_vaults". All fields are combined with a logical 'AND'. */
+export interface conditional_vaults_bool_exp {_and?: (conditional_vaults_bool_exp[] | null),_not?: (conditional_vaults_bool_exp | null),_or?: (conditional_vaults_bool_exp[] | null),cond_finalize_token_mint_acct?: (String_comparison_exp | null),cond_revert_token_mint_acct?: (String_comparison_exp | null),cond_vault_acct?: (String_comparison_exp | null),dao?: (daos_bool_exp | null),nonce?: (String_comparison_exp | null),proposals?: (proposals_bool_exp | null),proposalsByQuoteVault?: (proposals_bool_exp | null),proposalsByQuoteVault_aggregate?: (proposals_aggregate_bool_exp | null),proposals_aggregate?: (proposals_aggregate_bool_exp | null),settlement_authority?: (String_comparison_exp | null),status?: (String_comparison_exp | null),token?: (tokens_bool_exp | null),underlying_mint_acct?: (String_comparison_exp | null),underlying_token_acct?: (String_comparison_exp | null)}
+
+
+/** input type for inserting data into table "conditional_vaults" */
+export interface conditional_vaults_insert_input {cond_finalize_token_mint_acct?: (Scalars['String'] | null),cond_revert_token_mint_acct?: (Scalars['String'] | null),cond_vault_acct?: (Scalars['String'] | null),dao?: (daos_obj_rel_insert_input | null),nonce?: (Scalars['String'] | null),proposals?: (proposals_arr_rel_insert_input | null),proposalsByQuoteVault?: (proposals_arr_rel_insert_input | null),settlement_authority?: (Scalars['String'] | null),status?: (Scalars['String'] | null),token?: (tokens_obj_rel_insert_input | null),underlying_mint_acct?: (Scalars['String'] | null),underlying_token_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate max on columns */
+export interface conditional_vaults_max_fieldsGenqlSelection{
+    cond_finalize_token_mint_acct?: boolean | number
+    cond_revert_token_mint_acct?: boolean | number
+    cond_vault_acct?: boolean | number
+    nonce?: boolean | number
+    settlement_authority?: boolean | number
+    status?: boolean | number
+    underlying_mint_acct?: boolean | number
+    underlying_token_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by max() on columns of table "conditional_vaults" */
+export interface conditional_vaults_max_order_by {cond_finalize_token_mint_acct?: (order_by | null),cond_revert_token_mint_acct?: (order_by | null),cond_vault_acct?: (order_by | null),nonce?: (order_by | null),settlement_authority?: (order_by | null),status?: (order_by | null),underlying_mint_acct?: (order_by | null),underlying_token_acct?: (order_by | null)}
+
+
+/** aggregate min on columns */
+export interface conditional_vaults_min_fieldsGenqlSelection{
+    cond_finalize_token_mint_acct?: boolean | number
+    cond_revert_token_mint_acct?: boolean | number
+    cond_vault_acct?: boolean | number
+    nonce?: boolean | number
+    settlement_authority?: boolean | number
+    status?: boolean | number
+    underlying_mint_acct?: boolean | number
+    underlying_token_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by min() on columns of table "conditional_vaults" */
+export interface conditional_vaults_min_order_by {cond_finalize_token_mint_acct?: (order_by | null),cond_revert_token_mint_acct?: (order_by | null),cond_vault_acct?: (order_by | null),nonce?: (order_by | null),settlement_authority?: (order_by | null),status?: (order_by | null),underlying_mint_acct?: (order_by | null),underlying_token_acct?: (order_by | null)}
+
+
+/** response of any mutation on the table "conditional_vaults" */
+export interface conditional_vaults_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: conditional_vaultsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** input type for inserting object relation for remote table "conditional_vaults" */
+export interface conditional_vaults_obj_rel_insert_input {data: conditional_vaults_insert_input,
+/** upsert condition */
+on_conflict?: (conditional_vaults_on_conflict | null)}
+
+
+/** on_conflict condition type for table "conditional_vaults" */
+export interface conditional_vaults_on_conflict {constraint: conditional_vaults_constraint,update_columns?: conditional_vaults_update_column[],where?: (conditional_vaults_bool_exp | null)}
+
+
+/** Ordering options when selecting data from "conditional_vaults". */
+export interface conditional_vaults_order_by {cond_finalize_token_mint_acct?: (order_by | null),cond_revert_token_mint_acct?: (order_by | null),cond_vault_acct?: (order_by | null),dao?: (daos_order_by | null),nonce?: (order_by | null),proposalsByQuoteVault_aggregate?: (proposals_aggregate_order_by | null),proposals_aggregate?: (proposals_aggregate_order_by | null),settlement_authority?: (order_by | null),status?: (order_by | null),token?: (tokens_order_by | null),underlying_mint_acct?: (order_by | null),underlying_token_acct?: (order_by | null)}
+
+
+/** primary key columns input for table: conditional_vaults */
+export interface conditional_vaults_pk_columns_input {cond_vault_acct: Scalars['String']}
+
+
+/** input type for updating data in table "conditional_vaults" */
+export interface conditional_vaults_set_input {cond_finalize_token_mint_acct?: (Scalars['String'] | null),cond_revert_token_mint_acct?: (Scalars['String'] | null),cond_vault_acct?: (Scalars['String'] | null),nonce?: (Scalars['String'] | null),settlement_authority?: (Scalars['String'] | null),status?: (Scalars['String'] | null),underlying_mint_acct?: (Scalars['String'] | null),underlying_token_acct?: (Scalars['String'] | null)}
+
+
+/** Streaming cursor of the table "conditional_vaults" */
+export interface conditional_vaults_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: conditional_vaults_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface conditional_vaults_stream_cursor_value_input {cond_finalize_token_mint_acct?: (Scalars['String'] | null),cond_revert_token_mint_acct?: (Scalars['String'] | null),cond_vault_acct?: (Scalars['String'] | null),nonce?: (Scalars['String'] | null),settlement_authority?: (Scalars['String'] | null),status?: (Scalars['String'] | null),underlying_mint_acct?: (Scalars['String'] | null),underlying_token_acct?: (Scalars['String'] | null)}
+
+export interface conditional_vaults_updates {
+/** sets the columns of the filtered rows to the given values */
+_set?: (conditional_vaults_set_input | null),
+/** filter the rows which have to be updated */
+where: conditional_vaults_bool_exp}
+
+
 /** columns and relationships of "dao_details" */
 export interface dao_detailsGenqlSelection{
     dao_id?: boolean | number
@@ -5082,6 +5231,7 @@ export interface dao_detailsGenqlSelection{
     where?: (daos_bool_exp | null)} })
     description?: boolean | number
     github?: boolean | number
+    image_url?: boolean | number
     name?: boolean | number
     slug?: boolean | number
     url?: boolean | number
@@ -5127,7 +5277,7 @@ export interface dao_details_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "dao_details". All fields are combined with a logical 'AND'. */
-export interface dao_details_bool_exp {_and?: (dao_details_bool_exp[] | null),_not?: (dao_details_bool_exp | null),_or?: (dao_details_bool_exp[] | null),dao_id?: (bigint_comparison_exp | null),daos?: (daos_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),description?: (String_comparison_exp | null),github?: (String_comparison_exp | null),name?: (String_comparison_exp | null),slug?: (String_comparison_exp | null),url?: (String_comparison_exp | null),x_account?: (String_comparison_exp | null)}
+export interface dao_details_bool_exp {_and?: (dao_details_bool_exp[] | null),_not?: (dao_details_bool_exp | null),_or?: (dao_details_bool_exp[] | null),dao_id?: (bigint_comparison_exp | null),daos?: (daos_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),description?: (String_comparison_exp | null),github?: (String_comparison_exp | null),image_url?: (String_comparison_exp | null),name?: (String_comparison_exp | null),slug?: (String_comparison_exp | null),url?: (String_comparison_exp | null),x_account?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "dao_details" */
@@ -5135,7 +5285,7 @@ export interface dao_details_inc_input {dao_id?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "dao_details" */
-export interface dao_details_insert_input {dao_id?: (Scalars['bigint'] | null),daos?: (daos_arr_rel_insert_input | null),description?: (Scalars['String'] | null),github?: (Scalars['String'] | null),name?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_insert_input {dao_id?: (Scalars['bigint'] | null),daos?: (daos_arr_rel_insert_input | null),description?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -5143,6 +5293,7 @@ export interface dao_details_max_fieldsGenqlSelection{
     dao_id?: boolean | number
     description?: boolean | number
     github?: boolean | number
+    image_url?: boolean | number
     name?: boolean | number
     slug?: boolean | number
     url?: boolean | number
@@ -5157,6 +5308,7 @@ export interface dao_details_min_fieldsGenqlSelection{
     dao_id?: boolean | number
     description?: boolean | number
     github?: boolean | number
+    image_url?: boolean | number
     name?: boolean | number
     slug?: boolean | number
     url?: boolean | number
@@ -5188,7 +5340,7 @@ export interface dao_details_on_conflict {constraint: dao_details_constraint,upd
 
 
 /** Ordering options when selecting data from "dao_details". */
-export interface dao_details_order_by {dao_id?: (order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),description?: (order_by | null),github?: (order_by | null),name?: (order_by | null),slug?: (order_by | null),url?: (order_by | null),x_account?: (order_by | null)}
+export interface dao_details_order_by {dao_id?: (order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),description?: (order_by | null),github?: (order_by | null),image_url?: (order_by | null),name?: (order_by | null),slug?: (order_by | null),url?: (order_by | null),x_account?: (order_by | null)}
 
 
 /** primary key columns input for table: dao_details */
@@ -5196,7 +5348,7 @@ export interface dao_details_pk_columns_input {dao_id: Scalars['bigint']}
 
 
 /** input type for updating data in table "dao_details" */
-export interface dao_details_set_input {dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),github?: (Scalars['String'] | null),name?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_set_input {dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -5232,7 +5384,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface dao_details_stream_cursor_value_input {dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),github?: (Scalars['String'] | null),name?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_stream_cursor_value_input {dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate sum on columns */
@@ -5278,6 +5430,30 @@ export interface dao_details_variance_fieldsGenqlSelection{
 /** columns and relationships of "daos" */
 export interface daosGenqlSelection{
     base_acct?: boolean | number
+    /** An array relationship */
+    conditional_vaults?: (conditional_vaultsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (conditional_vaults_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (conditional_vaults_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
+    /** An aggregate relationship */
+    conditional_vaults_aggregate?: (conditional_vaults_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (conditional_vaults_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (conditional_vaults_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
     created_at?: boolean | number
     dao_acct?: boolean | number
     /** An object relationship */
@@ -5311,6 +5487,8 @@ export interface daosGenqlSelection{
     /** filter the rows returned */
     where?: (proposals_bool_exp | null)} })
     quote_acct?: boolean | number
+    /** An object relationship */
+    token?: tokensGenqlSelection
     /** An object relationship */
     tokenByBaseAcct?: tokensGenqlSelection
     /** An object relationship */
@@ -5376,7 +5554,7 @@ export interface daos_avg_order_by {dao_id?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "daos". All fields are combined with a logical 'AND'. */
-export interface daos_bool_exp {_and?: (daos_bool_exp[] | null),_not?: (daos_bool_exp | null),_or?: (daos_bool_exp[] | null),base_acct?: (String_comparison_exp | null),created_at?: (timestamp_comparison_exp | null),dao_acct?: (String_comparison_exp | null),dao_detail?: (dao_details_bool_exp | null),dao_id?: (bigint_comparison_exp | null),program?: (programs_bool_exp | null),program_acct?: (String_comparison_exp | null),proposals?: (proposals_bool_exp | null),proposals_aggregate?: (proposals_aggregate_bool_exp | null),quote_acct?: (String_comparison_exp | null),tokenByBaseAcct?: (tokens_bool_exp | null),tokenByQuoteAcct?: (tokens_bool_exp | null),treasury_acct?: (String_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface daos_bool_exp {_and?: (daos_bool_exp[] | null),_not?: (daos_bool_exp | null),_or?: (daos_bool_exp[] | null),base_acct?: (String_comparison_exp | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),created_at?: (timestamp_comparison_exp | null),dao_acct?: (String_comparison_exp | null),dao_detail?: (dao_details_bool_exp | null),dao_id?: (bigint_comparison_exp | null),program?: (programs_bool_exp | null),program_acct?: (String_comparison_exp | null),proposals?: (proposals_bool_exp | null),proposals_aggregate?: (proposals_aggregate_bool_exp | null),quote_acct?: (String_comparison_exp | null),token?: (tokens_bool_exp | null),tokenByBaseAcct?: (tokens_bool_exp | null),tokenByQuoteAcct?: (tokens_bool_exp | null),treasury_acct?: (String_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "daos" */
@@ -5384,7 +5562,7 @@ export interface daos_inc_input {dao_id?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "daos" */
-export interface daos_insert_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_detail?: (dao_details_obj_rel_insert_input | null),dao_id?: (Scalars['bigint'] | null),program?: (programs_obj_rel_insert_input | null),program_acct?: (Scalars['String'] | null),proposals?: (proposals_arr_rel_insert_input | null),quote_acct?: (Scalars['String'] | null),tokenByBaseAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteAcct?: (tokens_obj_rel_insert_input | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface daos_insert_input {base_acct?: (Scalars['String'] | null),conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_detail?: (dao_details_obj_rel_insert_input | null),dao_id?: (Scalars['bigint'] | null),program?: (programs_obj_rel_insert_input | null),program_acct?: (Scalars['String'] | null),proposals?: (proposals_arr_rel_insert_input | null),quote_acct?: (Scalars['String'] | null),token?: (tokens_obj_rel_insert_input | null),tokenByBaseAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteAcct?: (tokens_obj_rel_insert_input | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
@@ -5447,7 +5625,7 @@ export interface daos_on_conflict {constraint: daos_constraint,update_columns?: 
 
 
 /** Ordering options when selecting data from "daos". */
-export interface daos_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_detail?: (dao_details_order_by | null),dao_id?: (order_by | null),program?: (programs_order_by | null),program_acct?: (order_by | null),proposals_aggregate?: (proposals_aggregate_order_by | null),quote_acct?: (order_by | null),tokenByBaseAcct?: (tokens_order_by | null),tokenByQuoteAcct?: (tokens_order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
+export interface daos_order_by {base_acct?: (order_by | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_detail?: (dao_details_order_by | null),dao_id?: (order_by | null),program?: (programs_order_by | null),program_acct?: (order_by | null),proposals_aggregate?: (proposals_aggregate_order_by | null),quote_acct?: (order_by | null),token?: (tokens_order_by | null),tokenByBaseAcct?: (tokens_order_by | null),tokenByQuoteAcct?: (tokens_order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: daos */
@@ -6710,6 +6888,12 @@ export interface mutation_rootGenqlSelection{
     where: comments_bool_exp} })
     /** delete single row from the table: "comments" */
     delete_comments_by_pk?: (commentsGenqlSelection & { __args: {comment_id: Scalars['bigint']} })
+    /** delete data from the table: "conditional_vaults" */
+    delete_conditional_vaults?: (conditional_vaults_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: conditional_vaults_bool_exp} })
+    /** delete single row from the table: "conditional_vaults" */
+    delete_conditional_vaults_by_pk?: (conditional_vaultsGenqlSelection & { __args: {cond_vault_acct: Scalars['String']} })
     /** delete data from the table: "dao_details" */
     delete_dao_details?: (dao_details_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -6770,10 +6954,6 @@ export interface mutation_rootGenqlSelection{
     where: proposal_details_bool_exp} })
     /** delete single row from the table: "proposal_details" */
     delete_proposal_details_by_pk?: (proposal_detailsGenqlSelection & { __args: {proposal_id: Scalars['bigint']} })
-    /** delete data from the table: "proposal_filter" */
-    delete_proposal_filter?: (proposal_filter_mutation_responseGenqlSelection & { __args: {
-    /** filter the rows which have to be deleted */
-    where: proposal_filter_bool_exp} })
     /** delete data from the table: "proposals" */
     delete_proposals?: (proposals_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -6856,6 +7036,18 @@ export interface mutation_rootGenqlSelection{
     object: comments_insert_input, 
     /** upsert condition */
     on_conflict?: (comments_on_conflict | null)} })
+    /** insert data into the table: "conditional_vaults" */
+    insert_conditional_vaults?: (conditional_vaults_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: conditional_vaults_insert_input[], 
+    /** upsert condition */
+    on_conflict?: (conditional_vaults_on_conflict | null)} })
+    /** insert a single row into the table: "conditional_vaults" */
+    insert_conditional_vaults_one?: (conditional_vaultsGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: conditional_vaults_insert_input, 
+    /** upsert condition */
+    on_conflict?: (conditional_vaults_on_conflict | null)} })
     /** insert data into the table: "dao_details" */
     insert_dao_details?: (dao_details_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -6976,14 +7168,6 @@ export interface mutation_rootGenqlSelection{
     object: proposal_details_insert_input, 
     /** upsert condition */
     on_conflict?: (proposal_details_on_conflict | null)} })
-    /** insert data into the table: "proposal_filter" */
-    insert_proposal_filter?: (proposal_filter_mutation_responseGenqlSelection & { __args: {
-    /** the rows to be inserted */
-    objects: proposal_filter_insert_input[]} })
-    /** insert a single row into the table: "proposal_filter" */
-    insert_proposal_filter_one?: (proposal_filterGenqlSelection & { __args: {
-    /** the row to be inserted */
-    object: proposal_filter_insert_input} })
     /** insert data into the table: "proposals" */
     insert_proposals?: (proposals_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -7140,6 +7324,20 @@ export interface mutation_rootGenqlSelection{
     update_comments_many?: (comments_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: comments_updates[]} })
+    /** update data of the table: "conditional_vaults" */
+    update_conditional_vaults?: (conditional_vaults_mutation_responseGenqlSelection & { __args: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (conditional_vaults_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: conditional_vaults_bool_exp} })
+    /** update single row of the table: "conditional_vaults" */
+    update_conditional_vaults_by_pk?: (conditional_vaultsGenqlSelection & { __args: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (conditional_vaults_set_input | null), pk_columns: conditional_vaults_pk_columns_input} })
+    /** update multiples rows of table: "conditional_vaults" */
+    update_conditional_vaults_many?: (conditional_vaults_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: conditional_vaults_updates[]} })
     /** update data of the table: "dao_details" */
     update_dao_details?: (dao_details_mutation_responseGenqlSelection & { __args: {
     /** increments the numeric columns with given value of the filtered values */
@@ -7336,28 +7534,6 @@ export interface mutation_rootGenqlSelection{
     update_proposal_details_many?: (proposal_details_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: proposal_details_updates[]} })
-    /** update data of the table: "proposal_filter" */
-    update_proposal_filter?: (proposal_filter_mutation_responseGenqlSelection & { __args: {
-    /** append existing jsonb value of filtered columns with new jsonb value */
-    _append?: (proposal_filter_append_input | null), 
-    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-    _delete_at_path?: (proposal_filter_delete_at_path_input | null), 
-    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-    _delete_elem?: (proposal_filter_delete_elem_input | null), 
-    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
-    _delete_key?: (proposal_filter_delete_key_input | null), 
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: (proposal_filter_inc_input | null), 
-    /** prepend existing jsonb value of filtered columns with new jsonb value */
-    _prepend?: (proposal_filter_prepend_input | null), 
-    /** sets the columns of the filtered rows to the given values */
-    _set?: (proposal_filter_set_input | null), 
-    /** filter the rows which have to be updated */
-    where: proposal_filter_bool_exp} })
-    /** update multiples rows of table: "proposal_filter" */
-    update_proposal_filter_many?: (proposal_filter_mutation_responseGenqlSelection & { __args: {
-    /** updates to execute, in order */
-    updates: proposal_filter_updates[]} })
     /** update data of the table: "proposals" */
     update_proposals?: (proposals_mutation_responseGenqlSelection & { __args: {
     /** increments the numeric columns with given value of the filtered values */
@@ -8710,257 +8886,6 @@ export interface proposal_details_variance_fieldsGenqlSelection{
 export interface proposal_details_variance_order_by {proposal_id?: (order_by | null)}
 
 
-/** columns and relationships of "proposal_filter" */
-export interface proposal_filterGenqlSelection{
-    autocrat_program_acct?: boolean | number
-    autocrat_version?: boolean | number
-    categories?: { __args: {
-    /** JSON select path */
-    path?: (Scalars['String'] | null)} } | boolean | number
-    content?: boolean | number
-    dao_account?: boolean | number
-    dao_name?: boolean | number
-    external_url?: boolean | number
-    number?: boolean | number
-    proposal_acct?: boolean | number
-    proposer_acct?: boolean | number
-    slot_enqueued?: boolean | number
-    slug?: boolean | number
-    status?: boolean | number
-    title?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** aggregated selection of "proposal_filter" */
-export interface proposal_filter_aggregateGenqlSelection{
-    aggregate?: proposal_filter_aggregate_fieldsGenqlSelection
-    nodes?: proposal_filterGenqlSelection
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** aggregate fields of "proposal_filter" */
-export interface proposal_filter_aggregate_fieldsGenqlSelection{
-    avg?: proposal_filter_avg_fieldsGenqlSelection
-    count?: { __args: {columns?: (proposal_filter_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
-    max?: proposal_filter_max_fieldsGenqlSelection
-    min?: proposal_filter_min_fieldsGenqlSelection
-    stddev?: proposal_filter_stddev_fieldsGenqlSelection
-    stddev_pop?: proposal_filter_stddev_pop_fieldsGenqlSelection
-    stddev_samp?: proposal_filter_stddev_samp_fieldsGenqlSelection
-    sum?: proposal_filter_sum_fieldsGenqlSelection
-    var_pop?: proposal_filter_var_pop_fieldsGenqlSelection
-    var_samp?: proposal_filter_var_samp_fieldsGenqlSelection
-    variance?: proposal_filter_variance_fieldsGenqlSelection
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** append existing jsonb value of filtered columns with new jsonb value */
-export interface proposal_filter_append_input {categories?: (Scalars['jsonb'] | null)}
-
-
-/** aggregate avg on columns */
-export interface proposal_filter_avg_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** Boolean expression to filter rows from the table "proposal_filter". All fields are combined with a logical 'AND'. */
-export interface proposal_filter_bool_exp {_and?: (proposal_filter_bool_exp[] | null),_not?: (proposal_filter_bool_exp | null),_or?: (proposal_filter_bool_exp[] | null),autocrat_program_acct?: (String_comparison_exp | null),autocrat_version?: (float8_comparison_exp | null),categories?: (jsonb_comparison_exp | null),content?: (String_comparison_exp | null),dao_account?: (String_comparison_exp | null),dao_name?: (String_comparison_exp | null),external_url?: (String_comparison_exp | null),number?: (bigint_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),slot_enqueued?: (bigint_comparison_exp | null),slug?: (String_comparison_exp | null),status?: (String_comparison_exp | null),title?: (String_comparison_exp | null)}
-
-
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-export interface proposal_filter_delete_at_path_input {categories?: (Scalars['String'][] | null)}
-
-
-/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-export interface proposal_filter_delete_elem_input {categories?: (Scalars['Int'] | null)}
-
-
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-export interface proposal_filter_delete_key_input {categories?: (Scalars['String'] | null)}
-
-
-/** input type for incrementing numeric columns in table "proposal_filter" */
-export interface proposal_filter_inc_input {autocrat_version?: (Scalars['float8'] | null),number?: (Scalars['bigint'] | null),slot_enqueued?: (Scalars['bigint'] | null)}
-
-
-/** input type for inserting data into table "proposal_filter" */
-export interface proposal_filter_insert_input {autocrat_program_acct?: (Scalars['String'] | null),autocrat_version?: (Scalars['float8'] | null),categories?: (Scalars['jsonb'] | null),content?: (Scalars['String'] | null),dao_account?: (Scalars['String'] | null),dao_name?: (Scalars['String'] | null),external_url?: (Scalars['String'] | null),number?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null),proposer_acct?: (Scalars['String'] | null),slot_enqueued?: (Scalars['bigint'] | null),slug?: (Scalars['String'] | null),status?: (Scalars['String'] | null),title?: (Scalars['String'] | null)}
-
-
-/** aggregate max on columns */
-export interface proposal_filter_max_fieldsGenqlSelection{
-    autocrat_program_acct?: boolean | number
-    autocrat_version?: boolean | number
-    content?: boolean | number
-    dao_account?: boolean | number
-    dao_name?: boolean | number
-    external_url?: boolean | number
-    number?: boolean | number
-    proposal_acct?: boolean | number
-    proposer_acct?: boolean | number
-    slot_enqueued?: boolean | number
-    slug?: boolean | number
-    status?: boolean | number
-    title?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** aggregate min on columns */
-export interface proposal_filter_min_fieldsGenqlSelection{
-    autocrat_program_acct?: boolean | number
-    autocrat_version?: boolean | number
-    content?: boolean | number
-    dao_account?: boolean | number
-    dao_name?: boolean | number
-    external_url?: boolean | number
-    number?: boolean | number
-    proposal_acct?: boolean | number
-    proposer_acct?: boolean | number
-    slot_enqueued?: boolean | number
-    slug?: boolean | number
-    status?: boolean | number
-    title?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** response of any mutation on the table "proposal_filter" */
-export interface proposal_filter_mutation_responseGenqlSelection{
-    /** number of rows affected by the mutation */
-    affected_rows?: boolean | number
-    /** data from the rows affected by the mutation */
-    returning?: proposal_filterGenqlSelection
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** Ordering options when selecting data from "proposal_filter". */
-export interface proposal_filter_order_by {autocrat_program_acct?: (order_by | null),autocrat_version?: (order_by | null),categories?: (order_by | null),content?: (order_by | null),dao_account?: (order_by | null),dao_name?: (order_by | null),external_url?: (order_by | null),number?: (order_by | null),proposal_acct?: (order_by | null),proposer_acct?: (order_by | null),slot_enqueued?: (order_by | null),slug?: (order_by | null),status?: (order_by | null),title?: (order_by | null)}
-
-
-/** prepend existing jsonb value of filtered columns with new jsonb value */
-export interface proposal_filter_prepend_input {categories?: (Scalars['jsonb'] | null)}
-
-
-/** input type for updating data in table "proposal_filter" */
-export interface proposal_filter_set_input {autocrat_program_acct?: (Scalars['String'] | null),autocrat_version?: (Scalars['float8'] | null),categories?: (Scalars['jsonb'] | null),content?: (Scalars['String'] | null),dao_account?: (Scalars['String'] | null),dao_name?: (Scalars['String'] | null),external_url?: (Scalars['String'] | null),number?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null),proposer_acct?: (Scalars['String'] | null),slot_enqueued?: (Scalars['bigint'] | null),slug?: (Scalars['String'] | null),status?: (Scalars['String'] | null),title?: (Scalars['String'] | null)}
-
-
-/** aggregate stddev on columns */
-export interface proposal_filter_stddev_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** aggregate stddev_pop on columns */
-export interface proposal_filter_stddev_pop_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** aggregate stddev_samp on columns */
-export interface proposal_filter_stddev_samp_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** Streaming cursor of the table "proposal_filter" */
-export interface proposal_filter_stream_cursor_input {
-/** Stream column input with initial value */
-initial_value: proposal_filter_stream_cursor_value_input,
-/** cursor ordering */
-ordering?: (cursor_ordering | null)}
-
-
-/** Initial value of the column from where the streaming should start */
-export interface proposal_filter_stream_cursor_value_input {autocrat_program_acct?: (Scalars['String'] | null),autocrat_version?: (Scalars['float8'] | null),categories?: (Scalars['jsonb'] | null),content?: (Scalars['String'] | null),dao_account?: (Scalars['String'] | null),dao_name?: (Scalars['String'] | null),external_url?: (Scalars['String'] | null),number?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null),proposer_acct?: (Scalars['String'] | null),slot_enqueued?: (Scalars['bigint'] | null),slug?: (Scalars['String'] | null),status?: (Scalars['String'] | null),title?: (Scalars['String'] | null)}
-
-
-/** aggregate sum on columns */
-export interface proposal_filter_sum_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-export interface proposal_filter_updates {
-/** append existing jsonb value of filtered columns with new jsonb value */
-_append?: (proposal_filter_append_input | null),
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-_delete_at_path?: (proposal_filter_delete_at_path_input | null),
-/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-_delete_elem?: (proposal_filter_delete_elem_input | null),
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-_delete_key?: (proposal_filter_delete_key_input | null),
-/** increments the numeric columns with given value of the filtered values */
-_inc?: (proposal_filter_inc_input | null),
-/** prepend existing jsonb value of filtered columns with new jsonb value */
-_prepend?: (proposal_filter_prepend_input | null),
-/** sets the columns of the filtered rows to the given values */
-_set?: (proposal_filter_set_input | null),
-/** filter the rows which have to be updated */
-where: proposal_filter_bool_exp}
-
-
-/** aggregate var_pop on columns */
-export interface proposal_filter_var_pop_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** aggregate var_samp on columns */
-export interface proposal_filter_var_samp_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
-/** aggregate variance on columns */
-export interface proposal_filter_variance_fieldsGenqlSelection{
-    autocrat_version?: boolean | number
-    number?: boolean | number
-    slot_enqueued?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
-}
-
-
 /** columns and relationships of "proposals" */
 export interface proposalsGenqlSelection{
     autocrat_version?: boolean | number
@@ -8989,6 +8914,10 @@ export interface proposalsGenqlSelection{
     order_by?: (comments_order_by[] | null), 
     /** filter the rows returned */
     where?: (comments_bool_exp | null)} })
+    /** An object relationship */
+    conditionalVaultByQuoteVault?: conditional_vaultsGenqlSelection
+    /** An object relationship */
+    conditional_vault?: conditional_vaultsGenqlSelection
     /** An object relationship */
     dao?: daosGenqlSelection
     dao_acct?: boolean | number
@@ -9181,7 +9110,7 @@ export interface proposals_avg_order_by {autocrat_version?: (order_by | null),in
 
 
 /** Boolean expression to filter rows from the table "proposals". All fields are combined with a logical 'AND'. */
-export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),conditionalVaultByQuoteVault?: (conditional_vaults_bool_exp | null),conditional_vault?: (conditional_vaults_bool_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "proposals" */
@@ -9189,7 +9118,7 @@ export interface proposals_inc_input {autocrat_version?: (Scalars['float8'] | nu
 
 
 /** input type for inserting data into table "proposals" */
-export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),conditionalVaultByQuoteVault?: (conditional_vaults_obj_rel_insert_input | null),conditional_vault?: (conditional_vaults_obj_rel_insert_input | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
@@ -9266,7 +9195,7 @@ export interface proposals_on_conflict {constraint: proposals_constraint,update_
 
 
 /** Ordering options when selecting data from "proposals". */
-export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null)}
+export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),conditionalVaultByQuoteVault?: (conditional_vaults_order_by | null),conditional_vault?: (conditional_vaults_order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: proposals */
@@ -9447,6 +9376,32 @@ export interface query_rootGenqlSelection{
     where?: (comments_bool_exp | null)} })
     /** fetch data from the table: "comments" using primary key columns */
     comments_by_pk?: (commentsGenqlSelection & { __args: {comment_id: Scalars['bigint']} })
+    /** An array relationship */
+    conditional_vaults?: (conditional_vaultsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (conditional_vaults_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (conditional_vaults_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
+    /** An aggregate relationship */
+    conditional_vaults_aggregate?: (conditional_vaults_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (conditional_vaults_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (conditional_vaults_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
+    /** fetch data from the table: "conditional_vaults" using primary key columns */
+    conditional_vaults_by_pk?: (conditional_vaultsGenqlSelection & { __args: {cond_vault_acct: Scalars['String']} })
     /** fetch data from the table: "dao_details" */
     dao_details?: (dao_detailsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -9707,30 +9662,6 @@ export interface query_rootGenqlSelection{
     where?: (proposal_details_bool_exp | null)} })
     /** fetch data from the table: "proposal_details" using primary key columns */
     proposal_details_by_pk?: (proposal_detailsGenqlSelection & { __args: {proposal_id: Scalars['bigint']} })
-    /** fetch data from the table: "proposal_filter" */
-    proposal_filter?: (proposal_filterGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (proposal_filter_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (proposal_filter_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (proposal_filter_bool_exp | null)} })
-    /** fetch aggregated fields from the table: "proposal_filter" */
-    proposal_filter_aggregate?: (proposal_filter_aggregateGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (proposal_filter_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (proposal_filter_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (proposal_filter_bool_exp | null)} })
     /** An array relationship */
     proposals?: (proposalsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -10310,6 +10241,40 @@ export interface subscription_rootGenqlSelection{
     cursor: (comments_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (comments_bool_exp | null)} })
+    /** An array relationship */
+    conditional_vaults?: (conditional_vaultsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (conditional_vaults_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (conditional_vaults_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
+    /** An aggregate relationship */
+    conditional_vaults_aggregate?: (conditional_vaults_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (conditional_vaults_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (conditional_vaults_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
+    /** fetch data from the table: "conditional_vaults" using primary key columns */
+    conditional_vaults_by_pk?: (conditional_vaultsGenqlSelection & { __args: {cond_vault_acct: Scalars['String']} })
+    /** fetch data from the table in a streaming manner: "conditional_vaults" */
+    conditional_vaults_stream?: (conditional_vaultsGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (conditional_vaults_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
     /** fetch data from the table: "dao_details" */
     dao_details?: (dao_detailsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -10650,38 +10615,6 @@ export interface subscription_rootGenqlSelection{
     cursor: (proposal_details_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (proposal_details_bool_exp | null)} })
-    /** fetch data from the table: "proposal_filter" */
-    proposal_filter?: (proposal_filterGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (proposal_filter_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (proposal_filter_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (proposal_filter_bool_exp | null)} })
-    /** fetch aggregated fields from the table: "proposal_filter" */
-    proposal_filter_aggregate?: (proposal_filter_aggregateGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (proposal_filter_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (proposal_filter_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (proposal_filter_bool_exp | null)} })
-    /** fetch data from the table in a streaming manner: "proposal_filter" */
-    proposal_filter_stream?: (proposal_filterGenqlSelection & { __args: {
-    /** maximum number of rows returned in a single batch */
-    batch_size: Scalars['Int'], 
-    /** cursor to stream the results returned by the query */
-    cursor: (proposal_filter_stream_cursor_input | null)[], 
-    /** filter the rows returned */
-    where?: (proposal_filter_bool_exp | null)} })
     /** An array relationship */
     proposals?: (proposalsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -11635,19 +11568,31 @@ export interface token_accts_variance_order_by {amount?: (order_by | null)}
 /** columns and relationships of "tokens" */
 export interface tokensGenqlSelection{
     /** An array relationship */
-    daosByBaseAcct?: (daosGenqlSelection & { __args?: {
+    conditional_vaults?: (conditional_vaultsGenqlSelection & { __args?: {
     /** distinct select on columns */
-    distinct_on?: (daos_select_column[] | null), 
+    distinct_on?: (conditional_vaults_select_column[] | null), 
     /** limit the number of rows returned */
     limit?: (Scalars['Int'] | null), 
     /** skip the first n rows. Use only with order_by */
     offset?: (Scalars['Int'] | null), 
     /** sort the rows by one or more columns */
-    order_by?: (daos_order_by[] | null), 
+    order_by?: (conditional_vaults_order_by[] | null), 
     /** filter the rows returned */
-    where?: (daos_bool_exp | null)} })
+    where?: (conditional_vaults_bool_exp | null)} })
     /** An aggregate relationship */
-    daosByBaseAcct_aggregate?: (daos_aggregateGenqlSelection & { __args?: {
+    conditional_vaults_aggregate?: (conditional_vaults_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (conditional_vaults_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (conditional_vaults_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (conditional_vaults_bool_exp | null)} })
+    /** An array relationship */
+    daos?: (daosGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (daos_select_column[] | null), 
     /** limit the number of rows returned */
@@ -11682,7 +11627,20 @@ export interface tokensGenqlSelection{
     order_by?: (daos_order_by[] | null), 
     /** filter the rows returned */
     where?: (daos_bool_exp | null)} })
+    /** An aggregate relationship */
+    daos_aggregate?: (daos_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (daos_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (daos_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (daos_bool_exp | null)} })
     decimals?: boolean | number
+    image_url?: boolean | number
     /** An array relationship */
     markets?: (marketsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -11802,7 +11760,7 @@ export interface tokens_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "tokens". All fields are combined with a logical 'AND'. */
-export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),daosByBaseAcct?: (daos_bool_exp | null),daosByBaseAcct_aggregate?: (daos_aggregate_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),daos?: (daos_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),image_url?: (String_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "tokens" */
@@ -11810,12 +11768,13 @@ export interface tokens_inc_input {decimals?: (Scalars['smallint'] | null),suppl
 
 
 /** input type for inserting data into table "tokens" */
-export interface tokens_insert_input {daosByBaseAcct?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface tokens_insert_input {conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),daos?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
 export interface tokens_max_fieldsGenqlSelection{
     decimals?: boolean | number
+    image_url?: boolean | number
     mint_acct?: boolean | number
     name?: boolean | number
     supply?: boolean | number
@@ -11829,6 +11788,7 @@ export interface tokens_max_fieldsGenqlSelection{
 /** aggregate min on columns */
 export interface tokens_min_fieldsGenqlSelection{
     decimals?: boolean | number
+    image_url?: boolean | number
     mint_acct?: boolean | number
     name?: boolean | number
     supply?: boolean | number
@@ -11861,7 +11821,7 @@ export interface tokens_on_conflict {constraint: tokens_constraint,update_column
 
 
 /** Ordering options when selecting data from "tokens". */
-export interface tokens_order_by {daosByBaseAcct_aggregate?: (daos_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null)}
+export interface tokens_order_by {conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),image_url?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: tokens */
@@ -11869,7 +11829,7 @@ export interface tokens_pk_columns_input {mint_acct: Scalars['String']}
 
 
 /** input type for updating data in table "tokens" */
-export interface tokens_set_input {decimals?: (Scalars['smallint'] | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface tokens_set_input {decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -11908,7 +11868,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface tokens_stream_cursor_value_input {decimals?: (Scalars['smallint'] | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface tokens_stream_cursor_value_input {decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate sum on columns */
@@ -13382,6 +13342,54 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const conditional_vaults_possibleTypes: string[] = ['conditional_vaults']
+    export const isconditional_vaults = (obj?: { __typename?: any } | null): obj is conditional_vaults => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isconditional_vaults"')
+      return conditional_vaults_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const conditional_vaults_aggregate_possibleTypes: string[] = ['conditional_vaults_aggregate']
+    export const isconditional_vaults_aggregate = (obj?: { __typename?: any } | null): obj is conditional_vaults_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isconditional_vaults_aggregate"')
+      return conditional_vaults_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const conditional_vaults_aggregate_fields_possibleTypes: string[] = ['conditional_vaults_aggregate_fields']
+    export const isconditional_vaults_aggregate_fields = (obj?: { __typename?: any } | null): obj is conditional_vaults_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isconditional_vaults_aggregate_fields"')
+      return conditional_vaults_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const conditional_vaults_max_fields_possibleTypes: string[] = ['conditional_vaults_max_fields']
+    export const isconditional_vaults_max_fields = (obj?: { __typename?: any } | null): obj is conditional_vaults_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isconditional_vaults_max_fields"')
+      return conditional_vaults_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const conditional_vaults_min_fields_possibleTypes: string[] = ['conditional_vaults_min_fields']
+    export const isconditional_vaults_min_fields = (obj?: { __typename?: any } | null): obj is conditional_vaults_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isconditional_vaults_min_fields"')
+      return conditional_vaults_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const conditional_vaults_mutation_response_possibleTypes: string[] = ['conditional_vaults_mutation_response']
+    export const isconditional_vaults_mutation_response = (obj?: { __typename?: any } | null): obj is conditional_vaults_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isconditional_vaults_mutation_response"')
+      return conditional_vaults_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const dao_details_possibleTypes: string[] = ['dao_details']
     export const isdao_details = (obj?: { __typename?: any } | null): obj is dao_details => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isdao_details"')
@@ -14442,118 +14450,6 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     export const isproposal_details_variance_fields = (obj?: { __typename?: any } | null): obj is proposal_details_variance_fields => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_details_variance_fields"')
       return proposal_details_variance_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_possibleTypes: string[] = ['proposal_filter']
-    export const isproposal_filter = (obj?: { __typename?: any } | null): obj is proposal_filter => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter"')
-      return proposal_filter_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_aggregate_possibleTypes: string[] = ['proposal_filter_aggregate']
-    export const isproposal_filter_aggregate = (obj?: { __typename?: any } | null): obj is proposal_filter_aggregate => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_aggregate"')
-      return proposal_filter_aggregate_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_aggregate_fields_possibleTypes: string[] = ['proposal_filter_aggregate_fields']
-    export const isproposal_filter_aggregate_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_aggregate_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_aggregate_fields"')
-      return proposal_filter_aggregate_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_avg_fields_possibleTypes: string[] = ['proposal_filter_avg_fields']
-    export const isproposal_filter_avg_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_avg_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_avg_fields"')
-      return proposal_filter_avg_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_max_fields_possibleTypes: string[] = ['proposal_filter_max_fields']
-    export const isproposal_filter_max_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_max_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_max_fields"')
-      return proposal_filter_max_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_min_fields_possibleTypes: string[] = ['proposal_filter_min_fields']
-    export const isproposal_filter_min_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_min_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_min_fields"')
-      return proposal_filter_min_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_mutation_response_possibleTypes: string[] = ['proposal_filter_mutation_response']
-    export const isproposal_filter_mutation_response = (obj?: { __typename?: any } | null): obj is proposal_filter_mutation_response => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_mutation_response"')
-      return proposal_filter_mutation_response_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_stddev_fields_possibleTypes: string[] = ['proposal_filter_stddev_fields']
-    export const isproposal_filter_stddev_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_stddev_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_stddev_fields"')
-      return proposal_filter_stddev_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_stddev_pop_fields_possibleTypes: string[] = ['proposal_filter_stddev_pop_fields']
-    export const isproposal_filter_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_stddev_pop_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_stddev_pop_fields"')
-      return proposal_filter_stddev_pop_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_stddev_samp_fields_possibleTypes: string[] = ['proposal_filter_stddev_samp_fields']
-    export const isproposal_filter_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_stddev_samp_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_stddev_samp_fields"')
-      return proposal_filter_stddev_samp_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_sum_fields_possibleTypes: string[] = ['proposal_filter_sum_fields']
-    export const isproposal_filter_sum_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_sum_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_sum_fields"')
-      return proposal_filter_sum_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_var_pop_fields_possibleTypes: string[] = ['proposal_filter_var_pop_fields']
-    export const isproposal_filter_var_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_var_pop_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_var_pop_fields"')
-      return proposal_filter_var_pop_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_var_samp_fields_possibleTypes: string[] = ['proposal_filter_var_samp_fields']
-    export const isproposal_filter_var_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_var_samp_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_var_samp_fields"')
-      return proposal_filter_var_samp_fields_possibleTypes.includes(obj.__typename)
-    }
-    
-
-
-    const proposal_filter_variance_fields_possibleTypes: string[] = ['proposal_filter_variance_fields']
-    export const isproposal_filter_variance_fields = (obj?: { __typename?: any } | null): obj is proposal_filter_variance_fields => {
-      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_filter_variance_fields"')
-      return proposal_filter_variance_fields_possibleTypes.includes(obj.__typename)
     }
     
 
@@ -15681,6 +15577,32 @@ export const enumCommentsUpdateColumn = {
    responding_comment_id: 'responding_comment_id' as const
 }
 
+export const enumConditionalVaultsConstraint = {
+   conditional_vaults_pkey: 'conditional_vaults_pkey' as const
+}
+
+export const enumConditionalVaultsSelectColumn = {
+   cond_finalize_token_mint_acct: 'cond_finalize_token_mint_acct' as const,
+   cond_revert_token_mint_acct: 'cond_revert_token_mint_acct' as const,
+   cond_vault_acct: 'cond_vault_acct' as const,
+   nonce: 'nonce' as const,
+   settlement_authority: 'settlement_authority' as const,
+   status: 'status' as const,
+   underlying_mint_acct: 'underlying_mint_acct' as const,
+   underlying_token_acct: 'underlying_token_acct' as const
+}
+
+export const enumConditionalVaultsUpdateColumn = {
+   cond_finalize_token_mint_acct: 'cond_finalize_token_mint_acct' as const,
+   cond_revert_token_mint_acct: 'cond_revert_token_mint_acct' as const,
+   cond_vault_acct: 'cond_vault_acct' as const,
+   nonce: 'nonce' as const,
+   settlement_authority: 'settlement_authority' as const,
+   status: 'status' as const,
+   underlying_mint_acct: 'underlying_mint_acct' as const,
+   underlying_token_acct: 'underlying_token_acct' as const
+}
+
 export const enumCursorOrdering = {
    ASC: 'ASC' as const,
    DESC: 'DESC' as const
@@ -15700,6 +15622,7 @@ export const enumDaoDetailsSelectColumn = {
    dao_id: 'dao_id' as const,
    description: 'description' as const,
    github: 'github' as const,
+   image_url: 'image_url' as const,
    name: 'name' as const,
    slug: 'slug' as const,
    url: 'url' as const,
@@ -15710,6 +15633,7 @@ export const enumDaoDetailsUpdateColumn = {
    dao_id: 'dao_id' as const,
    description: 'description' as const,
    github: 'github' as const,
+   image_url: 'image_url' as const,
    name: 'name' as const,
    slug: 'slug' as const,
    url: 'url' as const,
@@ -15718,7 +15642,8 @@ export const enumDaoDetailsUpdateColumn = {
 
 export const enumDaosConstraint = {
    dao_acct_program: 'dao_acct_program' as const,
-   daos_pkey: 'daos_pkey' as const
+   daos_pkey: 'daos_pkey' as const,
+   daos_treasury_acct_unique: 'daos_treasury_acct_unique' as const
 }
 
 export const enumDaosSelectColumn = {
@@ -16004,23 +15929,6 @@ export const enumProposalDetailsUpdateColumn = {
    title: 'title' as const
 }
 
-export const enumProposalFilterSelectColumn = {
-   autocrat_program_acct: 'autocrat_program_acct' as const,
-   autocrat_version: 'autocrat_version' as const,
-   categories: 'categories' as const,
-   content: 'content' as const,
-   dao_account: 'dao_account' as const,
-   dao_name: 'dao_name' as const,
-   external_url: 'external_url' as const,
-   number: 'number' as const,
-   proposal_acct: 'proposal_acct' as const,
-   proposer_acct: 'proposer_acct' as const,
-   slot_enqueued: 'slot_enqueued' as const,
-   slug: 'slug' as const,
-   status: 'status' as const,
-   title: 'title' as const
-}
-
 export const enumProposalsConstraint = {
    proposals_pkey: 'proposals_pkey' as const
 }
@@ -16169,6 +16077,7 @@ export const enumTokensConstraint = {
 
 export const enumTokensSelectColumn = {
    decimals: 'decimals' as const,
+   image_url: 'image_url' as const,
    mint_acct: 'mint_acct' as const,
    name: 'name' as const,
    supply: 'supply' as const,
@@ -16178,6 +16087,7 @@ export const enumTokensSelectColumn = {
 
 export const enumTokensUpdateColumn = {
    decimals: 'decimals' as const,
+   image_url: 'image_url' as const,
    mint_acct: 'mint_acct' as const,
    name: 'name' as const,
    supply: 'supply' as const,

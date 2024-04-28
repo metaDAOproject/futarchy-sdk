@@ -7,21 +7,34 @@ import {
   TokenWithBalanceWithProposal,
 } from "@/types";
 import { FutarchyBalancesClient } from "@/client";
-import { ProposalWithVaults } from "@/types/proposals";
+import { Proposal } from "@/types/proposals";
+import { FutarchyRPCBalancesClient } from "../rpc";
 
 export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
+  private rpcBalancesClient: FutarchyRPCBalancesClient;
+  constructor(rpcBalancesClient: FutarchyRPCBalancesClient) {
+    this.rpcBalancesClient = rpcBalancesClient;
+  }
   async fetchMainTokenWalletBalances(
     dao: DaoAggregate,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]> {
-    return [];
+    return this.rpcBalancesClient.fetchMainTokenWalletBalances(
+      dao,
+      ownerWallet
+    );
   }
   async fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
     baseToken: TokenProps,
     quoteToken: TokenProps,
-    proposalsWithVaults: ProposalWithVaults[]
+    proposalsWithVaults: Proposal[]
   ): Promise<TokenWithBalanceWithProposal[]> {
-    return [];
+    return this.rpcBalancesClient.fetchAllConditionalTokenWalletBalances(
+      ownerWallet,
+      baseToken,
+      quoteToken,
+      proposalsWithVaults
+    );
   }
 }

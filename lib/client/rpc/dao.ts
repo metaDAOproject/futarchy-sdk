@@ -56,9 +56,9 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     const doaAggregates: DaoAggregate[] = [];
     for (const key in daosByName) {
       const daoAgg: DaoAggregate = {
-        daoName: key,
+        name: key,
         daos: daosByName[key],
-        daoSlug: createSlug(key),
+        slug: createSlug(key),
       };
       doaAggregates.push(daoAgg);
     }
@@ -67,17 +67,28 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   async fetchDao(
     daoAddress: string,
     protocol: FutarchyProtocol
-  ): Promise<Dao | undefined> {
+  ): Promise<DaoAggregate | null> {
     const daoAccount = await this.fetchDaoAccount(
       daoAddress,
       protocol.autocrat
     );
     if (daoAccount && protocol) {
       const dao = await this.fetchDaoWithTokensFromState(daoAccount, protocol);
-      if (dao) {
-        return { ...dao, publicKey: new PublicKey(daoAddress) };
+      if (dao && dao.baseToken?.name) {
+        const daoAccountWithKey = {
+          ...dao,
+          publicKey: new PublicKey(daoAddress),
+        };
+        return {
+          daos: [daoAccountWithKey],
+          name: dao.baseToken.name,
+          logo: dao.baseToken.url ?? "",
+          slug: createSlug(dao.baseToken?.name ?? ""),
+        };
       }
+      return null;
     }
+    return null;
   }
 
   private async fetchDaoAccount(
@@ -99,8 +110,14 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     if (baseMint) {
       const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);
       const quoteToken = await enrichTokenMetadata(quoteMint, this.rpcProvider);
+      const dao = {
+        ...daoAccount,
+        tokenMint: daoAccount.tokenMint
+          ? daoAccount.tokenMint
+          : new PublicKey(daoAccount.metaMint ?? ""),
+      };
       return {
-        daoAccount,
+        daoAccount: dao,
         baseToken,
         quoteToken,
         protocol,

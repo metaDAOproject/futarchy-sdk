@@ -8,13 +8,13 @@ import {
   VaultAccount,
   Market,
   Order,
-  ProposalWithVaults,
+  Proposal,
   Orderbook,
   PlaceOrderType,
   FutarchyProtocol,
   MarketFetchRequest,
   TokenProps,
-  Proposal,
+  VaultAccountWithProtocol,
 } from "@/types";
 
 export interface FutarchyClient {
@@ -29,15 +29,15 @@ export interface FutarchyDaoClient {
   fetchDao(
     daoAddress: string,
     protocol: FutarchyProtocol
-  ): Promise<Dao | undefined>;
+  ): Promise<DaoAggregate | null>;
 }
 
 export interface FutarchyProposalsClient {
-  fetchProposals(daoAggregate: DaoAggregate): Promise<ProposalWithVaults[]>;
+  fetchProposals(daoAggregate: DaoAggregate): Promise<Proposal[]>;
   deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccount
+    vaultAccount: VaultAccountWithProtocol
   ): Promise<string[] | undefined>;
   withdraw(proposal: Proposal): Promise<string[] | undefined>;
 }
@@ -51,7 +51,7 @@ export interface FutarchyBalancesClient {
     ownerWallet: PublicKey,
     quoteToken: TokenProps,
     baseToken: TokenProps,
-    proposals: ProposalWithVaults[]
+    proposals: Proposal[]
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 

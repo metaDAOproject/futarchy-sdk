@@ -51,14 +51,57 @@ export type DaoAccount = MergeWithOptionalFields<
 export type Dao = {
   protocol: FutarchyProtocol;
   publicKey: PublicKey;
-  daoAccount: DaoAccount;
-  baseToken: TokenProps;
-  quoteToken: TokenProps;
+  daoAccount: Pick<
+    DaoAccount,
+    "treasury" | "tokenMint" | "usdcMint" | "proposalCount"
+  >;
+  baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
+    name: string | null;
+    publicKey: string | null;
+    url: string | null;
+  };
+  quoteToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
+    name: string | null;
+    publicKey: string | null;
+    url: string | null;
+  };
 };
 
 // we might want to consider changing this to be DaoDetails as the main component and
 export type DaoAggregate = {
-  daoName: string;
-  daoSlug: string;
+  name: string;
+  slug: string;
   daos: Dao[];
+  logo?: string | null;
+};
+
+/** INDEXER GRAPHQL TYPES */
+export type DaoDetails__GQL = {
+  name: string | null;
+  slug: string | null;
+  image_url: string | null;
+  daos: Array<{
+    program_acct: string;
+    dao_acct: string;
+    treasury_acct: string | null;
+    tokenByBaseAcct: {
+      symbol: string;
+      decimals: number;
+      name: string | null;
+      mint_acct: string;
+      image_url: string | null;
+    } | null;
+    tokenByQuoteAcct: {
+      symbol: string;
+      decimals: number | null;
+      name: string | null;
+      mint_acct: string | null;
+      image_url: string | null;
+    } | null;
+    proposals_aggregate: {
+      aggregate: {
+        count: number | null;
+      } | null;
+    };
+  }>;
 };

@@ -35,7 +35,7 @@ export interface Client {
 
 export const createClient = function (options?: ClientOptions): Client {
   return createClientOriginal({
-    url: 'https://graph-api.themetadao.org/v1/graphql',
+    url: 'https://hasura-staging-d83b.up.railway.app/v1/graphql',
 
     ...options,
     queryRoot: typeMap.Query!,

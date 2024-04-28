@@ -6,9 +6,17 @@ import { ConditionalVault } from "@/idl/conditional_vault";
 export type VaultAccount = IdlAccounts<ConditionalVault>["conditionalVault"];
 export type VaultAccountWithKey = AccountWithKey<VaultAccount>;
 
-export type VaultAccountWithProtocol = VaultAccount & {
-  protocol: FutarchyProtocol;
-};
+export type VaultAccountWithProtocol = Pick<
+  VaultAccount & {
+    protocol: FutarchyProtocol;
+  },
+  | "protocol"
+  | "conditionalOnFinalizeTokenMint"
+  | "conditionalOnRevertTokenMint"
+  | "settlementAuthority"
+  | "underlyingTokenAccount"
+  | "underlyingTokenMint"
+>;
 
 export interface InitializedVault {
   tx?: Transaction;

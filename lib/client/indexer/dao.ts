@@ -149,10 +149,11 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                 url: d.tokenByQuoteAcct?.image_url,
               },
               daoAccount: {
-                usdcMint: new PublicKey(d.tokenByQuoteAcct?.mint_acct ?? ""),
-                treasury: new PublicKey(d.treasury_acct ?? ""),
+                // TODO these nullable conditions result in public keys that don't make sense potentially
+                usdcMint: new PublicKey(d.tokenByQuoteAcct?.mint_acct ?? 5),
+                treasury: new PublicKey(d.treasury_acct ?? 5),
                 tokenMint: d.tokenByBaseAcct?.mint_acct
-                  ? new PublicKey(d.tokenByBaseAcct?.mint_acct ?? 5)
+                  ? new PublicKey(d.tokenByBaseAcct?.mint_acct)
                   : undefined,
                 proposalCount: d.proposals_aggregate.aggregate?.count,
               },

@@ -87,15 +87,12 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         async (dd) =>
           await Promise.all(
             dd.daos.map(async (d) => {
-              const relatedDao = dao.daos.find(
-                (d2) => d2.publicKey.toString() === d.dao_acct
-              );
               const relatedProtocol = this.protocolMap.get(
                 d.program.program_acct
               );
               // TODO: do a lot of null checking on public key strings that are nullable
               // so we don't potentially pass empty string to PublicKey
-              if (relatedDao && relatedProtocol) {
+              if (relatedProtocol) {
                 return d.proposals.map<Proposal>((p) => {
                   const failMarket = p.markets.find(
                     (m) => m.market_acct === p.fail_market_acct
@@ -138,10 +135,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                       settlementAuthority: new PublicKey(4),
                       // TODO use conditional vault when it's available, deposit/withdrawal won't work until then
                       underlyingTokenAccount: new PublicKey(
-                        relatedDao.baseToken.publicKey ?? 5
+                        d.tokenByBaseAcct?.mint_acct ?? 5
                       ),
                       underlyingTokenMint: new PublicKey(
-                        relatedDao.baseToken.publicKey ?? 5
+                        d.tokenByBaseAcct?.mint_acct ?? 5
                       ),
                     },
                     quoteVaultAccount: {
@@ -154,11 +151,12 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                       protocol: relatedProtocol,
                       // TODO adding this to get the types to work, but this is not long term
                       settlementAuthority: new PublicKey(4),
+                      // TODO these should not be nullable in the DB
                       underlyingTokenAccount: new PublicKey(
-                        relatedDao.quoteToken.publicKey ?? 5
+                        d.tokenByQuoteAcct?.mint_acct ?? 5
                       ),
                       underlyingTokenMint: new PublicKey(
-                        relatedDao.quoteToken.publicKey ?? 5
+                        d.tokenByQuoteAcct?.mint_acct ?? 5
                       ),
                     },
                     content: p.proposal_details[0].content ?? "",
@@ -169,13 +167,15 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                       publicKey: new PublicKey(d.dao_acct),
                       daoAccount: {
                         proposalCount: d.proposals.length,
+                        // TODO these null conditionals will create public keys that don't make sense
                         treasury: new PublicKey(d.treasury_acct ?? 5),
+                        // TODO these fields from the DB should not be nullable imo
                         usdcMint: new PublicKey(
                           d.tokenByQuoteAcct?.mint_acct ?? 5
                         ),
-                        tokenMint: new PublicKey(
-                          d.tokenByBaseAcct?.mint_acct ?? 5
-                        ),
+                        tokenMint: d.tokenByBaseAcct
+                          ? new PublicKey(d.tokenByBaseAcct.mint_acct)
+                          : undefined,
                       },
                     },
                     // TODO figure this out by slot enqueued maybe

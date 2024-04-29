@@ -9,4 +9,5 @@ export const autocratVersionToConditionalVaultMap: Record<
   "V0.1": new PublicKey("vaU1tVLj8RFk7mNj1BxqgAsMKKaL8UvEUHvU3tdbZPe"),
   "V0.2": new PublicKey("vAuLTQjV5AZx5f3UgE75wcnkxnQowWxThn1hGjfCVwP"),
   "V0.3": new PublicKey("vAuLTQjV5AZx5f3UgE75wcnkxnQowWxThn1hGjfCVwP"),
+  "V1": new PublicKey("F3RzPAtBQvUAAdDHD8AsPKFhDB1H38SULNKTW39dYrw8")
 };

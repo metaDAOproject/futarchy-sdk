@@ -59,6 +59,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
               prev[curr.publicKey.toString()] = curr.account;
               return prev;
             }, {} as Record<string, VaultAccount>);
+
           const proposalsWithVaults: ProposalWithVaults[] = allProposals.map(
             (p) => {
               const baseVaultAccount =

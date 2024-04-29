@@ -13,12 +13,13 @@
   ],
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.1-beta.2",
+    "@metadaoproject/futarchy-ts": "^1.0.1",
     "@metaplex-foundation/js": "^0.20.1",
     "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
     "@metaplex-foundation/umi": "^0.9.1",
     "@openbook-dex/openbook-v2": "^0.2.6",
     "@solana/spl-token": "^0.3.11",
-    "@solana/web3.js": "^1.90.0",
+    "@solana/web3.js": "^1.91.7",
     "@types/numeral": "^2.0.4",
     "numeral": "^2.0.6"
   },

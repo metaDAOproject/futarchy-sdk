@@ -21,7 +21,10 @@ export interface FutarchyClient {
   daos: FutarchyDaoClient;
   proposals: FutarchyProposalsClient;
   balances: FutarchyBalancesClient;
-  markets: FutarchyMarketsClient;
+  markets: {
+    openbook : FutarchyMarketsClient;
+    amm: FutarchyAmmClient;
+  }
 }
 
 export interface FutarchyDaoClient {
@@ -72,4 +75,9 @@ export interface FutarchyMarketsClient<
     placeOrderType: PlaceOrderType
   ): Promise<string[]>;
   cancelOrder(market: M, order: O): Promise<string[]>;
+}
+
+//to do : populate
+export interface FutarchyAmmClient {
+
 }

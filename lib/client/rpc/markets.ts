@@ -1,47 +1,12 @@
-import { BN, Program, Provider } from "@coral-xyz/anchor";
+import { Program, Provider } from "@coral-xyz/anchor";
+import { OpenbookV2, OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import {
-  Market as OBMarket,
-  Order as OBOrder,
-  OpenbookV2,
-  SideUtils,
-  OpenBookV2Client,
-  OpenOrders,
-  SelfTradeBehaviorUtils,
-  PlaceOrderTypeUtils,
-  OPENBOOK_PROGRAM_ID,
-} from "@openbook-dex/openbook-v2";
-import numeral from "numeral";
-import {
-  Transaction,
-  PublicKey,
-  TransactionInstruction,
-} from "@solana/web3.js";
-import {
-  TOKEN_PROGRAM_ID,
-  getAssociatedTokenAddressSync,
-} from "@solana/spl-token";
-import {
-  Market,
+  AmmMarketFetchRequest,
   MarketFetchRequest,
-  OpenbookMarket,
   OpenbookMarketFetchRequest,
-  OpenbookOrder,
-  OrderBookSideType,
-  Orderbook,
-  PlaceOrderType,
-  ProposalAccountWithKey,
-  TwapPlaceOrderArgs,
 } from "@/types";
-import {
-  FutarchyAmmMarketsClient,
-  FutarchyMarketsClient,
-  FutarchyOrderbookMarketsClient,
-} from "@/client";
+import { FutarchyMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
-import { enrichTokenMetadata } from "@/tokens";
-import { getTwapMarketKey } from "@/openbookTwap";
-import { BASE_FORMAT, MAX_MARKET_PRICE, NUMERAL_FORMAT } from "@/constants";
-import { shortKey } from "@/utils";
 import { AmmClient } from "@metadaoproject/futarchy-ts";
 import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
 import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
@@ -50,7 +15,7 @@ import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
 export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   // we have generic interface for orderbooks. when adding phoenix, this could be rethunk
   public openbook: FutarchyOpenbookMarketsRPCClient;
-  public amm: FutarchyAmmMarketsClient;
+  public amm: FutarchyAmmMarketsRPCClient;
 
   constructor(
     rpcProvider: Provider,
@@ -77,6 +42,9 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   async fetchMarket(request: MarketFetchRequest) {
     if (request instanceof OpenbookMarketFetchRequest) {
       return this.openbook.fetchMarket(request);
+    }
+    if (request instanceof AmmMarketFetchRequest) {
+      return this.amm.fetchMarket(request);
     }
     return;
     // TODO logic to fetch any market

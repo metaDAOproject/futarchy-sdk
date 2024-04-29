@@ -119,30 +119,35 @@ export class FutarchyOpenbookMarketsRPCClient
       market.publicKey,
       market.marketInstance.account
     );
-    const bids: OpenbookOrder[] = [];
-    const bidsBookSide = await obMarket.loadBids();
-    for (const bid of bidsBookSide.items()) {
-      const bidOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
-        bid,
-        "bid",
-        market
-      );
-      bids.push(bidOrder);
+    try {
+      const bids: OpenbookOrder[] = [];
+      const bidsBookSide = await obMarket.loadBids();
+      for (const bid of bidsBookSide.items()) {
+        const bidOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
+          bid,
+          "bid",
+          market
+        );
+        bids.push(bidOrder);
+      }
+      const asks: OpenbookOrder[] = [];
+      const asksBookSide = await obMarket.loadAsks();
+      for (const ask of asksBookSide.items()) {
+        const askOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
+          ask,
+          "ask",
+          market
+        );
+        asks.push(askOrder);
+      }
+      return {
+        asks,
+        bids,
+      };
+    } catch (e) {
+      console.error("error fetching orderbook", e);
+      return;
     }
-    const asks: OpenbookOrder[] = [];
-    const asksBookSide = await obMarket.loadAsks();
-    for (const ask of asksBookSide.items()) {
-      const askOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
-        ask,
-        "ask",
-        market
-      );
-      asks.push(askOrder);
-    }
-    return {
-      asks,
-      bids,
-    };
   }
 
   private getOrderbookOrderFromBookSideOrder(

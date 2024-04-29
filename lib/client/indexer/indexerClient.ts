@@ -52,7 +52,10 @@ export class FutarchyIndexerClient implements FutarchyClient {
       this.protocolMap
     );
     this.balances = new FutarchyIndexerBalancesClient(rpcClient.balances);
-    this.markets = new FutarchyIndexerMarketsClient(rpcClient.markets);
+    this.markets = new FutarchyIndexerMarketsClient(
+      rpcClient.markets.openbook,
+      rpcClient.markets.amm
+    );
   }
 
   static make(

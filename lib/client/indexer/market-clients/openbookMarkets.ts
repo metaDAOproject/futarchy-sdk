@@ -48,10 +48,10 @@ export class FutarchyIndexerOpenbookMarketsClient
   }
 
   async placeOrder(
-    market: Market,
-    order: Omit<Order, "status" | "filled">,
+    market: OpenbookMarket,
+    order: Omit<OpenbookOrder, "status" | "filled">,
     placeOrderType: PlaceOrderType
   ): Promise<string[]> {
-    return [];
+    return this.rpcMarketsClient.placeOrder(market, order, placeOrderType);
   }
 }

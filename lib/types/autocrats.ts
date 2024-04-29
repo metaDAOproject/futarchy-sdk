@@ -61,6 +61,6 @@ export type Dao = {
 // we might want to consider changing this to be DaoDetails as the main component and
 export type DaoAggregate = {
   daoName: string;
-  daoSlug: string;
+  slug: string;
   daos: Dao[];
 };

@@ -59,7 +59,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
       const daoAgg: DaoAggregate = {
         daoName: key,
         daos: daosByName[key],
-        daoSlug: createSlug(key),
+        slug: createSlug(key),
       };
       doaAggregates.push(daoAgg);
     }

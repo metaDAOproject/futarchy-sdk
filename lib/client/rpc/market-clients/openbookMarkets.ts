@@ -8,7 +8,6 @@ import {
   OpenOrders,
   SelfTradeBehaviorUtils,
   PlaceOrderTypeUtils,
-  OPENBOOK_PROGRAM_ID,
 } from "@openbook-dex/openbook-v2";
 import numeral from "numeral";
 import {
@@ -30,15 +29,16 @@ import {
   ProposalAccountWithKey,
   TwapPlaceOrderArgs,
 } from "@/types";
-import { FutarchyMarketsClient } from "@/client";
+import { FutarchyOrderbookMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
 import { enrichTokenMetadata } from "@/tokens";
 import { getTwapMarketKey } from "@/openbookTwap";
 import { BASE_FORMAT, MAX_MARKET_PRICE, NUMERAL_FORMAT } from "@/constants";
 import { shortKey } from "@/utils";
+import { utf8 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 
 export class FutarchyOpenbookMarketsRPCClient
-  implements FutarchyMarketsClient<OpenbookMarket, OpenbookOrder>
+  implements FutarchyOrderbookMarketsClient<OpenbookMarket, OpenbookOrder>
 {
   private openbook: Program<OpenbookV2>;
   private openbookClient: OpenBookV2Client;
@@ -75,7 +75,9 @@ export class FutarchyOpenbookMarketsRPCClient
       this.rpcProvider
     );
 
-    const marketName = "blah";
+    const marketName = utf8
+      .decode(new Uint8Array(obMarket.account.name))
+      .split("\x00")[0];
 
     const baseTokenWithSymbol = !baseToken.isFallback
       ? baseToken

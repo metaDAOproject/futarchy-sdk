@@ -8,47 +8,32 @@ import {
   Orderbook,
   PlaceOrderType,
 } from "@/types";
-import { FutarchyMarketsClient } from "@/client";
+import { FutarchyAmmMarketsClient, FutarchyMarketsClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
-import { FutarchyOpenbookMarketsRPCClient } from "../rpc";
+import { FutarchyIndexerOpenbookMarketsClient } from "./market-clients/openbookMarkets";
+import { FutarchyOpenbookMarketsRPCClient } from "../rpc/market-clients/openbookMarkets";
+import { FutarchyIndexerAmmMarketsClient } from "./market-clients/ammMarkets";
+import { FutarchyMarketsRPCClient } from "../rpc/markets";
+import { FutarchyAmmMarketsRPCClient } from "../rpc";
 
-// TODO decoupling openbook stuff
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
-  private rpcMarketsClient: FutarchyOpenbookMarketsRPCClient;
-  constructor(rpcMarketsClient: FutarchyOpenbookMarketsRPCClient) {
-    this.rpcMarketsClient = rpcMarketsClient;
-  }
-  async cancelOrder(market: OpenbookMarket, order: Order): Promise<string[]> {
-    return [];
-  }
+  public openbook: FutarchyIndexerOpenbookMarketsClient;
+  public amm: FutarchyAmmMarketsClient;
 
-  async fetchMarket(
-    request: OpenbookMarketFetchRequest
-  ): Promise<OpenbookMarket | undefined> {
-    return this.rpcMarketsClient.fetchMarket(request);
-  }
-
-  async fetchOrderBook(
-    market: OpenbookMarket
-  ): Promise<Orderbook<Order> | undefined> {
-    return this.fetchOrderBook(market);
-  }
-
-  async fetchUserOrdersFromOrderbooks(
-    owner: PublicKey,
-    orderbooks: Orderbook<Order>[]
-  ): Promise<OpenbookOrder[]> {
-    return this.rpcMarketsClient.fetchUserOrdersFromOrderbooks(
-      owner,
-      orderbooks
+  constructor(
+    rpcOpenbookMarketsClient: FutarchyOpenbookMarketsRPCClient,
+    rpcAmmMarketsClient: FutarchyAmmMarketsRPCClient
+  ) {
+    this.openbook = new FutarchyIndexerOpenbookMarketsClient(
+      rpcOpenbookMarketsClient
     );
+    this.amm = new FutarchyIndexerAmmMarketsClient(rpcAmmMarketsClient);
   }
 
-  async placeOrder(
-    market: Market,
-    order: Omit<Order, "status" | "filled">,
-    placeOrderType: PlaceOrderType
-  ): Promise<string[]> {
-    return [];
+  async fetchMarket(request: MarketFetchRequest) {
+    if (request instanceof OpenbookMarketFetchRequest) {
+      return this.openbook.fetchMarket(request);
+    }
+    return;
   }
 }

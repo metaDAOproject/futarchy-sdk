@@ -21,10 +21,7 @@ export interface FutarchyClient {
   daos: FutarchyDaoClient;
   proposals: FutarchyProposalsClient;
   balances: FutarchyBalancesClient;
-  markets: {
-    openbook : FutarchyMarketsClient;
-    amm: FutarchyAmmClient;
-  }
+  markets: FutarchyMarketsClient;
 }
 
 export interface FutarchyDaoClient {
@@ -58,8 +55,13 @@ export interface FutarchyBalancesClient {
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 
-// heyyy refactor thus
-export interface FutarchyMarketsClient<
+export interface FutarchyMarketsClient {
+  openbook: FutarchyOrderbookMarketsClient;
+  amm: FutarchyAmmMarketsClient;
+  fetchMarket(request: MarketFetchRequest): Promise<Market | undefined>;
+}
+
+export interface FutarchyOrderbookMarketsClient<
   M extends Market = Market,
   O extends Order = Order
 > {
@@ -78,6 +80,6 @@ export interface FutarchyMarketsClient<
 }
 
 //to do : populate
-export interface FutarchyAmmClient {
-
+export interface FutarchyAmmMarketsClient {
+  fetchMarket(request: MarketFetchRequest): Promise<Market | undefined>;
 }

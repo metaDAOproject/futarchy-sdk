@@ -12,19 +12,17 @@ import { FutarchyRPCBalancesClient } from "./balances";
 import { TransactionSender } from "@/transactions";
 import { getFutarchyProtocols } from "@/utils";
 import { FutarchyProtocol } from "@/types";
-import { FutarchyOpenbookMarketsRPCClient } from "./markets/openbookMarkets";
-import { FutarchyAmmMarketsRPCClient } from "./markets/ammMarkets";
+import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
+import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
 import { AMM_PROGRAM_ID, AmmClient } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType, IDL as AMM_IDL } from "@/idl/amm";
+import { FutarchyMarketsRPCClient } from "./markets";
 
 export class FutarchyRPCClient implements FutarchyClient {
   public daos: FutarchyRPCDaoClient;
   public proposals: FutarchyRPCProposalsClient;
   public balances: FutarchyRPCBalancesClient;
-  public markets: {
-    openbook: FutarchyOpenbookMarketsRPCClient;
-    amm: FutarchyAmmMarketsRPCClient;
-  };
+  public markets: FutarchyMarketsRPCClient;
   public futarchyProtocols: FutarchyProtocol[];
 
   private constructor(
@@ -46,20 +44,28 @@ export class FutarchyRPCClient implements FutarchyClient {
       futarchyProtocols
     );
 
-    this.markets = {
-      openbook: new FutarchyOpenbookMarketsRPCClient(
-        rpcProvider,
-        new Program<OpenbookV2>(OPENBOOK_IDL, OPENBOOK_PROGRAM_ID, rpcProvider),
-        new OpenBookV2Client(rpcProvider, OPENBOOK_PROGRAM_ID),
-        transactionSender
-      ),
-      amm: new FutarchyAmmMarketsRPCClient(
-        rpcProvider,
-        new Program<AmmIDLType>(AMM_IDL, AMM_PROGRAM_ID, rpcProvider),
-        new AmmClient(rpcProvider, AMM_PROGRAM_ID, []),
-        transactionSender
-      ),
-    };
+    // this.markets = {
+    //   openbook: new FutarchyOpenbookMarketsRPCClient(
+    //     rpcProvider,
+    //     new Program<OpenbookV2>(OPENBOOK_IDL, OPENBOOK_PROGRAM_ID, rpcProvider),
+    //     new OpenBookV2Client(rpcProvider, OPENBOOK_PROGRAM_ID),
+    //     transactionSender
+    //   ),
+    //   amm: new FutarchyAmmMarketsRPCClient(
+    //     rpcProvider,
+    //     new Program<AmmIDLType>(AMM_IDL, AMM_PROGRAM_ID, rpcProvider),
+    //     new AmmClient(rpcProvider, AMM_PROGRAM_ID, []),
+    //     transactionSender
+    //   ),
+    // };
+    this.markets = new FutarchyMarketsRPCClient(
+      rpcProvider,
+      new Program<OpenbookV2>(OPENBOOK_IDL, OPENBOOK_PROGRAM_ID, rpcProvider),
+      new OpenBookV2Client(rpcProvider, OPENBOOK_PROGRAM_ID),
+      new Program<AmmIDLType>(AMM_IDL, AMM_PROGRAM_ID, rpcProvider),
+      new AmmClient(rpcProvider, AMM_PROGRAM_ID, []),
+      transactionSender
+    );
   }
   static make(
     rpcProvider: AnchorProvider,

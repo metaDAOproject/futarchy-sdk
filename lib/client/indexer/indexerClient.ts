@@ -14,10 +14,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
   public daos: FutarchyIndexerDaoClient;
   public proposals: FutarchyIndexerProposalsClient;
   public balances: FutarchyIndexerBalancesClient;
-  public markets: {
-    openbook: FutarchyIndexerMarketsClient;
-    amm: FutarchyIndexerMarketsClient;
-  };
+  public markets: FutarchyIndexerMarketsClient;
   private protocolMap: Map<string, FutarchyProtocol>;
 
   constructor(

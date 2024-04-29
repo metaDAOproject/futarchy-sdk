@@ -559,7 +559,7 @@ export const getPartiallyFilledAmountFromBookSideOrder = (order: OBOrder) =>
 export const isPass = (
   order: OpenbookOrder,
   proposal: ProposalAccountWithKey
-) => proposal?.account.openbookPassMarket.equals(order.market)!!;
+) => proposal?.account.openbookPassMarket?.equals(order.market)!!;
 
 export const isPartiallyFilled = (order: OpenbookOrder): boolean =>
   order.filled > 0 && order.filled < order.size;

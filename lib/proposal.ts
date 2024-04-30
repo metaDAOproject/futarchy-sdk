@@ -6,6 +6,7 @@ import {
   ProposalState,
   VaultAccount,
 } from "@/types";
+import { getMarketTypeFromProtocolVersion } from "./markets";
 
 export function getStrStateFromProposal(
   relatedProposalAccount: ProposalAccount
@@ -34,6 +35,9 @@ export function getProposalFromAccount(
     title: `Proposal - ${account.number}`,
     description: "",
     dao,
+    marketType: getMarketTypeFromProtocolVersion(
+      dao.protocol.deploymentVersion
+    ),
     publicKey,
     finalizationDate: new Date(),
     content: "",

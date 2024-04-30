@@ -3,8 +3,8 @@
   "version": "1.1.0",
   "main": "dist",
   "scripts": {
-    "build": "tsc && tscpaths -p tsconfig.json -s ./lib -o ./dist",
-    "build:tsc": "tsc"
+    "build": "rm -r dist && tsc && tscpaths -p tsconfig.json -s ./lib -o ./dist",
+    "build:tests": "tsc && tscpaths -p tsconfig.json -s ./tests -o ./dist"
   },
   "keywords": [
     "solana",

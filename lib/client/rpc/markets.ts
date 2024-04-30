@@ -1,8 +1,10 @@
 import { Program, Provider } from "@coral-xyz/anchor";
 import { OpenbookV2, OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import {
+  AmmMarket,
   AmmMarketFetchRequest,
   MarketFetchRequest,
+  OpenbookMarket,
   OpenbookMarketFetchRequest,
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
@@ -39,13 +41,18 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
     );
   }
 
-  async fetchMarket(request: MarketFetchRequest) {
+  async fetchMarket(
+    request: MarketFetchRequest
+  ): Promise<OpenbookMarket | AmmMarket | undefined> {
     if (request instanceof OpenbookMarketFetchRequest) {
+      console.log("is it OpenbookMarketFetchRequest?");
       return this.openbook.fetchMarket(request);
     }
     if (request instanceof AmmMarketFetchRequest) {
+      console.log("is it AmmMarketFetchRequest?");
       return this.amm.fetchMarket(request);
     }
+    console.log("it's nothing");
     return;
     // TODO logic to fetch any market
     // const obMarket = await OBMarket.load(

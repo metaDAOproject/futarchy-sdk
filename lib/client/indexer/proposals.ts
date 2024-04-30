@@ -5,6 +5,7 @@ import {
   VaultAccountWithProtocol,
   FutarchyProtocol,
   ProposalState,
+  MarketType,
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -66,6 +67,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               market_acct: true,
               base_mint_acct: true,
               quote_mint_acct: true,
+              market_type: true,
               twaps: {
                 token_amount: true,
               },
@@ -161,6 +163,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     },
                     content: p.proposal_details[0].content ?? "",
                     description: p.proposal_details[0].description ?? "",
+                    // both markets should have the same type... but maybe this could be cleaned up
+                    marketType: p.markets[0].market_type as MarketType,
                     // TODO figure this out by slot enqueued maybe
                     creationDate: p.initial_slot,
                     dao: {

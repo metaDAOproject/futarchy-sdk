@@ -1,11 +1,8 @@
 import { PublicKey } from "@solana/web3.js";
 import {
-  DaoAccount,
-  Dao,
   DaoAggregate,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
-  VaultAccount,
   Market,
   Order,
   Proposal,
@@ -15,6 +12,8 @@ import {
   MarketFetchRequest,
   TokenProps,
   VaultAccountWithProtocol,
+  OpenbookMarket,
+  AmmMarket,
 } from "@/types";
 
 export interface FutarchyClient {
@@ -58,7 +57,9 @@ export interface FutarchyBalancesClient {
 export interface FutarchyMarketsClient {
   openbook: FutarchyOrderbookMarketsClient;
   amm: FutarchyAmmMarketsClient;
-  fetchMarket(request: MarketFetchRequest): Promise<Market | undefined>;
+  fetchMarket(
+    request: MarketFetchRequest
+  ): Promise<OpenbookMarket | AmmMarket | undefined>;
 }
 
 export interface FutarchyOrderbookMarketsClient<

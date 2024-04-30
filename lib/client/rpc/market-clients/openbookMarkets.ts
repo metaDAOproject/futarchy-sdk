@@ -104,7 +104,7 @@ export class FutarchyOpenbookMarketsRPCClient
       minPriceIncrement: obMarket.quoteLotFactor,
       publicKey: request.marketKey,
       takerFee: obMarket.account.takerFee.toNumber(),
-      type: "openbook",
+      type: "openbookv2",
       // can avoid refetching market for the orderbook if we pass this in
       marketInstance: obMarket,
       twapProgram: request.twapProgram,

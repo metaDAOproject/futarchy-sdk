@@ -63,6 +63,7 @@ export class OpenbookMarketFetchRequest implements MarketFetchRequest {
 }
 
 export type OpenbookMarket = OrderbookMarket & {
+  type: "openbookv2";
   marketAuthority: PublicKey;
   marketInstance: OBMarket;
   twapProgram: Program<OpenbookTwapV0_2 | OpenbookTwapV0_1>;

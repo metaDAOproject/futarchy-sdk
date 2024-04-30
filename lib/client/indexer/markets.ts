@@ -1,4 +1,10 @@
-import { MarketFetchRequest, OpenbookMarketFetchRequest } from "@/types";
+import {
+  AmmMarket,
+  AmmMarketFetchRequest,
+  MarketFetchRequest,
+  OpenbookMarket,
+  OpenbookMarketFetchRequest,
+} from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { FutarchyIndexerOpenbookMarketsClient } from "./market-clients/openbookMarkets";
 import { FutarchyOpenbookMarketsRPCClient } from "../rpc/market-clients/openbookMarkets";
@@ -19,9 +25,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     this.amm = new FutarchyIndexerAmmMarketsClient(rpcAmmMarketsClient);
   }
 
-  async fetchMarket(request: MarketFetchRequest) {
+  async fetchMarket(
+    request: MarketFetchRequest
+  ): Promise<OpenbookMarket | AmmMarket | undefined> {
     if (request instanceof OpenbookMarketFetchRequest) {
       return this.openbook.fetchMarket(request);
+    }
+    if (request instanceof AmmMarketFetchRequest) {
+      return this.amm.fetchMarket(request);
     }
     return;
   }

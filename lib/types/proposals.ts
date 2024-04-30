@@ -9,6 +9,7 @@ import {
   FutarchyProtocol,
   VaultAccountWithProtocol,
   Dao,
+  MarketType,
 } from "@/types";
 
 export type ProposalInstruction = MergeWithOptionalFields<
@@ -45,6 +46,7 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   description: string;
   dao: Pick<Dao, "daoAccount" | "publicKey">;
   protocol: FutarchyProtocol;
+  marketType: MarketType;
   baseVaultAccount: VaultAccountWithProtocol;
   quoteVaultAccount: VaultAccountWithProtocol;
   proposer: GovernanceParticipant;

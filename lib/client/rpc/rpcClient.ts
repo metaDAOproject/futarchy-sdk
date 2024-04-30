@@ -12,8 +12,6 @@ import { FutarchyRPCBalancesClient } from "./balances";
 import { TransactionSender } from "@/transactions";
 import { getFutarchyProtocols } from "@/utils";
 import { FutarchyProtocol } from "@/types";
-import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
-import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
 import { AMM_PROGRAM_ID, AmmClient } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType, IDL as AMM_IDL } from "@/idl/amm";
 import { FutarchyMarketsRPCClient } from "./markets";

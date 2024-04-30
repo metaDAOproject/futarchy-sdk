@@ -1,5 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { MarketFetchRequest } from "./markets";
+import { Market, MarketFetchRequest } from "./markets";
 
 export class AmmMarketFetchRequest implements MarketFetchRequest {
   public marketKey: PublicKey;
@@ -8,3 +8,7 @@ export class AmmMarketFetchRequest implements MarketFetchRequest {
     this.marketKey = marketKey;
   }
 }
+
+export type AmmMarket = Market & {
+  type: "amm";
+};

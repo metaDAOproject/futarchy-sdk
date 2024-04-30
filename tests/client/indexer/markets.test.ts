@@ -1,7 +1,11 @@
 import { FutarchyIndexerClient, FutarchyRPCClient } from "@/client";
 import { autocratVersionToTwapMap } from "@/constants";
 import { TransactionSender } from "@/transactions";
-import { OpenbookMarketFetchRequest } from "@/types";
+import {
+  AmmMarketFetchRequest,
+  OpenbookMarketFetchRequest,
+  OpenbookMarket,
+} from "@/types";
 import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { describe, test, expect, beforeAll } from "bun:test";
@@ -42,18 +46,21 @@ describe("FutarchyIndexerClient Integration Test", () => {
     );
   });
 
+  //integration tests
   test("fetchMarket should return market data for openbook makret", async () => {
     const { programId, idl } = autocratVersionToTwapMap["V0.2"];
     const openbookTwap = new Program(idl, programId, provider);
-    const request: OpenbookMarketFetchRequest = {
-      marketKey: new PublicKey("9kZ8zYrrRFEP1WzQTf5kXexAnmDqcJbVV46RgbK9ubxm"),
-      twapProgram: openbookTwap,
-    };
+    const request: OpenbookMarketFetchRequest = new OpenbookMarketFetchRequest(
+      new PublicKey("9kZ8zYrrRFEP1WzQTf5kXexAnmDqcJbVV46RgbK9ubxm"),
+      openbookTwap
+    );
     const marketData = await indexerClient.markets.fetchMarket(request);
     console.log(marketData); // Log to verify data or perform assertions
     expect(marketData).toBeDefined(); // Simple check, adjust according to expected data structure
-    if (marketData) {
-      const orderbook = await indexerClient.markets.fetchOrderBook(marketData);
+    if (marketData && marketData.type === "openbookv2") {
+      const orderbook = await indexerClient.markets.openbook.fetchOrderBook(
+        marketData
+      );
       console.log(orderbook); // Log to verify data or perform assertions
       expect(orderbook).toBeDefined();
     } else {

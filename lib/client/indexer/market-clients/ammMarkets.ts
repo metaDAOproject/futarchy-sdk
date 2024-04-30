@@ -1,6 +1,6 @@
 import { FutarchyAmmMarketsClient } from "@/client";
 import { FutarchyAmmMarketsRPCClient } from "../../rpc";
-import { AmmMarketFetchRequest, Market } from "@/types";
+import { AmmMarket, AmmMarketFetchRequest, Market } from "@/types";
 
 export class FutarchyIndexerAmmMarketsClient
   implements FutarchyAmmMarketsClient
@@ -12,7 +12,7 @@ export class FutarchyIndexerAmmMarketsClient
 
   async fetchMarket(
     request: AmmMarketFetchRequest
-  ): Promise<Market | undefined> {
+  ): Promise<AmmMarket | undefined> {
     return this.rpcMarketsClient.fetchMarket(request);
   }
 }

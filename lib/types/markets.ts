@@ -50,7 +50,7 @@ export type Orderbook<O extends Order = Order> = {
 /**
  * Markets
  */
-export type MarketType = "openbook" | "amm";
+export type MarketType = "openbookv2" | "amm";
 export type ConditionalMarketType = "pass" | "fail";
 
 export interface MarketFetchRequest {
@@ -58,7 +58,6 @@ export interface MarketFetchRequest {
 }
 
 export type Market = {
-  type: MarketType;
   publicKey: PublicKey;
   baseMint: PublicKey;
   baseToken: TokenProps;

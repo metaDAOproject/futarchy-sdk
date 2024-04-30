@@ -2,7 +2,7 @@ import { FutarchyAmmMarketsClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
 import { TransactionSender } from "@/transactions";
 import { Market, TokenWithBalance } from "@/types";
-import { AmmMarketFetchRequest } from "@/types/amm";
+import { AmmMarket, AmmMarketFetchRequest } from "@/types/amm";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
@@ -37,7 +37,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   async fetchMarket(
     // we may need to extend this to add the twapMarket address on here
     request: AmmMarketFetchRequest
-  ): Promise<Market | undefined> {
+  ): Promise<AmmMarket | undefined> {
     const ammAcount = await this.ammClient.getAmm(request.marketKey);
     const baseToken = await enrichTokenMetadata(
       ammAcount.baseMint,

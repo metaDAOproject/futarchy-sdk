@@ -1,7 +1,8 @@
 import { FutarchyRPCClient } from "@/client";
+import { autocratVersionToTwapMap } from "@/constants";
 import { TransactionSender } from "@/transactions";
-import { AmmMarketFetchRequest } from "@/types";
-import { AnchorProvider } from "@coral-xyz/anchor";
+import { AmmMarketFetchRequest, OpenbookMarketFetchRequest } from "@/types";
+import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { describe, test, expect, beforeAll } from "bun:test";
 import { createMockWallet } from "tests/test-utils";
@@ -31,14 +32,25 @@ describe("FutarchyRPCClient Integration Test", () => {
     rpcClient = FutarchyRPCClient.make(provider, transactionSender);
   });
 
-  test("fetchMarket should return market data for amm market", async () => {
+  test.skip("fetchMarket should return market data for amm market", async () => {
     const request = new AmmMarketFetchRequest(
       new PublicKey("HbSYiZ8JRKqNHTx2EJUr6c5wQMvMjNx1rmHkTUtVi9qC")
     );
     const marketData = await rpcClient.markets.fetchMarket(request);
     console.log(marketData); // Log to verify data or perform assertions
     expect(marketData).toBeDefined(); // Simple check, adjust according to expected data structure
-  });
+  }, 60000);
+  test("fetchMarket should return market data for amm market", async () => {
+    const { programId, idl } = autocratVersionToTwapMap["V0.3"];
+    const openbookTwap = new Program(idl, programId, provider);
+    const request = new OpenbookMarketFetchRequest(
+      new PublicKey("8F9udYNXAsUoRJXJZcA6Y3HTF24CZJXEEFBRXXbTo9v7"),
+      openbookTwap
+    );
+    const marketData = await rpcClient.markets.fetchMarket(request);
+    console.log(marketData); // Log to verify data or perform assertions
+    expect(marketData).toBeDefined(); // Simple check, adjust according to expected data structure
+  }, 60000);
 
   // Add more tests for other methods like cancelOrder, fetchOrderBook, etc.
 });

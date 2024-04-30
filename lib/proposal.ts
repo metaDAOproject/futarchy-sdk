@@ -7,6 +7,7 @@ import {
   VaultAccount,
 } from "@/types";
 import { getMarketTypeFromProtocolVersion } from "./markets";
+import { PublicKey } from "@metaplex-foundation/js";
 
 export function getStrStateFromProposal(
   relatedProposalAccount: ProposalAccount
@@ -27,6 +28,13 @@ export function getProposalFromAccount(
   quoteVaultAccount: VaultAccount
 ): Proposal {
   const { account, publicKey } = proposalAccountWithKey;
+  const marketType = getMarketTypeFromProtocolVersion(
+    dao.protocol.deploymentVersion
+  );
+  const passMarket =
+    marketType === "amm" ? account.passAmm : account.openbookTwapPassMarket;
+  const failMarket =
+    marketType === "amm" ? account.failAmm : account.openbookTwapFailMarket;
   return {
     account,
     proposer: {
@@ -35,9 +43,9 @@ export function getProposalFromAccount(
     title: `Proposal - ${account.number}`,
     description: "",
     dao,
-    marketType: getMarketTypeFromProtocolVersion(
-      dao.protocol.deploymentVersion
-    ),
+    marketType,
+    failMarket: new PublicKey(failMarket ?? 5),
+    passMarket: new PublicKey(passMarket ?? 5),
     publicKey,
     finalizationDate: new Date(),
     content: "",

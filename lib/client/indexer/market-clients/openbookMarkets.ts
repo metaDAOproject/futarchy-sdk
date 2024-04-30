@@ -34,7 +34,7 @@ export class FutarchyIndexerOpenbookMarketsClient
   async fetchOrderBook(
     market: OpenbookMarket
   ): Promise<Orderbook<Order> | undefined> {
-    return this.fetchOrderBook(market);
+    return this.rpcMarketsClient.fetchOrderBook(market);
   }
 
   async fetchUserOrdersFromOrderbooks(

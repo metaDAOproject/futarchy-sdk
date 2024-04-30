@@ -54,6 +54,18 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             reactions: {
               reaction: true,
             },
+            conditional_vault: {
+              underlying_mint_acct: true,
+              underlying_token_acct: true,
+              cond_finalize_token_mint_acct: true,
+              cond_revert_token_mint_acct: true,
+            },
+            conditionalVaultByQuoteVault: {
+              underlying_mint_acct: true,
+              underlying_token_acct: true,
+              cond_finalize_token_mint_acct: true,
+              cond_revert_token_mint_acct: true,
+            },
             status: true,
             initial_slot: true,
             description_url: true,
@@ -95,13 +107,17 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               // TODO: do a lot of null checking on public key strings that are nullable
               // so we don't potentially pass empty string to PublicKey
               if (relatedProtocol) {
-                return d.proposals.map<Proposal>((p) => {
+                return d.proposals.map<Proposal | undefined>((p) => {
                   const failMarket = p.markets.find(
                     (m) => m.market_acct === p.fail_market_acct
                   );
                   const passMarket = p.markets.find(
                     (m) => m.market_acct === p.pass_market_acct
                   );
+                  const baseVault = p.conditional_vault;
+                  const quoteVault = p.conditionalVaultByQuoteVault;
+                  const proposalDetails = p.proposal_details[0];
+                  if (!proposalDetails || !passMarket || !failMarket) return;
                   return {
                     account: {
                       baseVault: new PublicKey(p.base_vault ?? 5),
@@ -127,42 +143,44 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     },
                     baseVaultAccount: {
                       conditionalOnFinalizeTokenMint: new PublicKey(
-                        passMarket?.base_mint_acct ?? 5
+                        baseVault?.cond_finalize_token_mint_acct ?? 5
                       ),
                       conditionalOnRevertTokenMint: new PublicKey(
-                        failMarket?.base_mint_acct ?? 5
+                        baseVault?.cond_revert_token_mint_acct ?? 5
                       ),
                       protocol: relatedProtocol,
                       // TODO adding this to get the types to work, but this is not long term
                       settlementAuthority: new PublicKey(4),
                       // TODO use conditional vault when it's available, deposit/withdrawal won't work until then
                       underlyingTokenAccount: new PublicKey(
-                        d.tokenByBaseAcct?.mint_acct ?? 5
+                        baseVault?.underlying_token_acct ?? 5
                       ),
                       underlyingTokenMint: new PublicKey(
-                        d.tokenByBaseAcct?.mint_acct ?? 5
+                        baseVault?.underlying_mint_acct ?? 5
                       ),
                     },
                     quoteVaultAccount: {
                       conditionalOnFinalizeTokenMint: new PublicKey(
-                        passMarket?.quote_mint_acct ?? 5
+                        quoteVault?.cond_finalize_token_mint_acct ?? 5
                       ),
                       conditionalOnRevertTokenMint: new PublicKey(
-                        passMarket?.quote_mint_acct ?? 5
+                        quoteVault?.cond_revert_token_mint_acct ?? 5
                       ),
                       protocol: relatedProtocol,
                       // TODO adding this to get the types to work, but this is not long term
                       settlementAuthority: new PublicKey(4),
                       // TODO these should not be nullable in the DB
                       underlyingTokenAccount: new PublicKey(
-                        d.tokenByQuoteAcct?.mint_acct ?? 5
+                        quoteVault?.underlying_token_acct ?? 5
                       ),
                       underlyingTokenMint: new PublicKey(
-                        d.tokenByQuoteAcct?.mint_acct ?? 5
+                        quoteVault?.underlying_mint_acct ?? 5
                       ),
                     },
-                    content: p.proposal_details[0].content ?? "",
-                    description: p.proposal_details[0].description ?? "",
+                    passMarket: new PublicKey(passMarket.market_acct),
+                    failMarket: new PublicKey(failMarket.market_acct),
+                    content: proposalDetails.content ?? "",
+                    description: proposalDetails.description ?? "",
                     // both markets should have the same type... but maybe this could be cleaned up
                     marketType: p.markets[0].market_type as MarketType,
                     // TODO figure this out by slot enqueued maybe
@@ -205,7 +223,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     protocol: relatedProtocol,
                     // TODO we need our beatufiul tags
                     tags: [],
-                    title: p.proposal_details[0].title ?? "",
+                    title: proposalDetails.title ?? "",
                     // TODO we need to pump up the volume
                     volume: 0,
                   };

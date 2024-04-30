@@ -45,61 +45,11 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
     request: MarketFetchRequest
   ): Promise<OpenbookMarket | AmmMarket | undefined> {
     if (request instanceof OpenbookMarketFetchRequest) {
-      console.log("is it OpenbookMarketFetchRequest?");
       return this.openbook.fetchMarket(request);
     }
     if (request instanceof AmmMarketFetchRequest) {
-      console.log("is it AmmMarketFetchRequest?");
       return this.amm.fetchMarket(request);
     }
-    console.log("it's nothing");
     return;
-    // TODO logic to fetch any market
-    // const obMarket = await OBMarket.load(
-    //   this.openbookClient,
-    //   request.marketKey
-    // );
-
-    // const baseToken = await enrichTokenMetadata(
-    //   obMarket.account.baseMint,
-    //   this.rpcProvider
-    // );
-    // const quoteToken = await enrichTokenMetadata(
-    //   obMarket.account.quoteMint,
-    //   this.rpcProvider
-    // );
-
-    // const marketName = "blah";
-
-    // const baseTokenWithSymbol = !baseToken.isFallback
-    //   ? baseToken
-    //   : {
-    //       ...baseToken,
-    //       symbol: marketName.split("/")[0],
-    //     };
-    // const quoteTokenWithSymbol = !quoteToken.isFallback
-    //   ? quoteToken
-    //   : {
-    //       ...quoteToken,
-    //       symbol: marketName.split("/")[0],
-    //     };
-
-    // return {
-    //   baseMint: obMarket.account.baseMint,
-    //   baseToken: baseTokenWithSymbol,
-    //   quoteMint: obMarket.account.quoteMint,
-    //   quoteToken: quoteTokenWithSymbol,
-    //   createdAt: obMarket.account.registrationTime.toNumber(),
-    //   makerFee: obMarket.account.makerFee.toNumber(),
-    //   marketAuthority: obMarket.account.marketAuthority,
-    //   minOrderAmount: obMarket.minOrderSize,
-    //   minPriceIncrement: obMarket.quoteLotFactor,
-    //   publicKey: request.marketKey,
-    //   takerFee: obMarket.account.takerFee.toNumber(),
-    //   type: "openbook",
-    //   // can avoid refetching market for the orderbook if we pass this in
-    //   marketInstance: obMarket,
-    //   twapProgram: request.twapProgram,
-    // };
   }
 }

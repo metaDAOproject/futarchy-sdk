@@ -61,54 +61,58 @@ export class FutarchyOpenbookMarketsRPCClient
     // we may need to extend this to add the twapMarket address on here
     request: OpenbookMarketFetchRequest
   ): Promise<OpenbookMarket | undefined> {
-    const obMarket = await OBMarket.load(
-      this.openbookClient,
-      request.marketKey
-    );
+    try {
+      const obMarket = await OBMarket.load(
+        this.openbookClient,
+        request.marketKey
+      );
 
-    const baseToken = await enrichTokenMetadata(
-      obMarket.account.baseMint,
-      this.rpcProvider
-    );
-    const quoteToken = await enrichTokenMetadata(
-      obMarket.account.quoteMint,
-      this.rpcProvider
-    );
+      const baseToken = await enrichTokenMetadata(
+        obMarket.account.baseMint,
+        this.rpcProvider
+      );
+      const quoteToken = await enrichTokenMetadata(
+        obMarket.account.quoteMint,
+        this.rpcProvider
+      );
 
-    const marketName = utf8
-      .decode(new Uint8Array(obMarket.account.name))
-      .split("\x00")[0];
+      const marketName = utf8
+        .decode(new Uint8Array(obMarket.account.name))
+        .split("\x00")[0];
 
-    const baseTokenWithSymbol = !baseToken.isFallback
-      ? baseToken
-      : {
-          ...baseToken,
-          symbol: marketName.split("/")[0],
-        };
-    const quoteTokenWithSymbol = !quoteToken.isFallback
-      ? quoteToken
-      : {
-          ...quoteToken,
-          symbol: marketName.split("/")[0],
-        };
+      const baseTokenWithSymbol = !baseToken.isFallback
+        ? baseToken
+        : {
+            ...baseToken,
+            symbol: marketName.split("/")[0],
+          };
+      const quoteTokenWithSymbol = !quoteToken.isFallback
+        ? quoteToken
+        : {
+            ...quoteToken,
+            symbol: marketName.split("/")[0],
+          };
 
-    return {
-      baseMint: obMarket.account.baseMint,
-      baseToken: baseTokenWithSymbol,
-      quoteMint: obMarket.account.quoteMint,
-      quoteToken: quoteTokenWithSymbol,
-      createdAt: obMarket.account.registrationTime.toNumber(),
-      makerFee: obMarket.account.makerFee.toNumber(),
-      marketAuthority: obMarket.account.marketAuthority,
-      minOrderAmount: obMarket.minOrderSize,
-      minPriceIncrement: obMarket.quoteLotFactor,
-      publicKey: request.marketKey,
-      takerFee: obMarket.account.takerFee.toNumber(),
-      type: "openbookv2",
-      // can avoid refetching market for the orderbook if we pass this in
-      marketInstance: obMarket,
-      twapProgram: request.twapProgram,
-    };
+      return {
+        baseMint: obMarket.account.baseMint,
+        baseToken: baseTokenWithSymbol,
+        quoteMint: obMarket.account.quoteMint,
+        quoteToken: quoteTokenWithSymbol,
+        createdAt: obMarket.account.registrationTime.toNumber(),
+        makerFee: obMarket.account.makerFee.toNumber(),
+        marketAuthority: obMarket.account.marketAuthority,
+        minOrderAmount: obMarket.minOrderSize,
+        minPriceIncrement: obMarket.quoteLotFactor,
+        publicKey: request.marketKey,
+        takerFee: obMarket.account.takerFee.toNumber(),
+        type: "openbookv2",
+        // can avoid refetching market for the orderbook if we pass this in
+        marketInstance: obMarket,
+        twapProgram: request.twapProgram,
+      };
+    } catch (e) {
+      console.error("error fetching openbook market", e);
+    }
   }
 
   async fetchOrderBook(

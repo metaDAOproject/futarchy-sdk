@@ -38,40 +38,44 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     // we may need to extend this to add the twapMarket address on here
     request: AmmMarketFetchRequest
   ): Promise<AmmMarket | undefined> {
-    const ammAcount = await this.ammClient.getAmm(request.marketKey);
-    const baseToken = await enrichTokenMetadata(
-      ammAcount.baseMint,
-      this.rpcProvider
-    );
-    const quoteToken = await enrichTokenMetadata(
-      ammAcount.quoteMint,
-      this.rpcProvider
-    );
+    try {
+      const ammAcount = await this.ammClient.getAmm(request.marketKey);
+      const baseToken = await enrichTokenMetadata(
+        ammAcount.baseMint,
+        this.rpcProvider
+      );
+      const quoteToken = await enrichTokenMetadata(
+        ammAcount.quoteMint,
+        this.rpcProvider
+      );
 
-    const marketName = "blah";
+      const marketName = "blah";
 
-    const baseTokenWithSymbol = !baseToken.isFallback
-      ? baseToken
-      : {
-          ...baseToken,
-          symbol: marketName.split("/")[0],
-        };
-    const quoteTokenWithSymbol = !quoteToken.isFallback
-      ? quoteToken
-      : {
-          ...quoteToken,
-          symbol: marketName.split("/")[0],
-        };
+      const baseTokenWithSymbol = !baseToken.isFallback
+        ? baseToken
+        : {
+            ...baseToken,
+            symbol: marketName.split("/")[0],
+          };
+      const quoteTokenWithSymbol = !quoteToken.isFallback
+        ? quoteToken
+        : {
+            ...quoteToken,
+            symbol: marketName.split("/")[0],
+          };
 
-    return {
-      baseMint: ammAcount.baseMint,
-      baseToken: baseTokenWithSymbol,
-      quoteMint: ammAcount.quoteMint,
-      quoteToken: quoteTokenWithSymbol,
-      createdAt: ammAcount.createdAtSlot.toNumber(),
-      publicKey: request.marketKey,
-      type: "amm",
-    };
+      return {
+        baseMint: ammAcount.baseMint,
+        baseToken: baseTokenWithSymbol,
+        quoteMint: ammAcount.quoteMint,
+        quoteToken: quoteTokenWithSymbol,
+        createdAt: ammAcount.createdAtSlot.toNumber(),
+        publicKey: request.marketKey,
+        type: "amm",
+      };
+    } catch (e) {
+      console.error("error fetching amm market", e);
+    }
   }
 
   async addLiquidity(
@@ -155,7 +159,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       minQuoteAmount
     );
     const tx = await ix.transaction();
-    return this.transactionSender?.send([tx], this.rpcProvider.connection);
+    return (
+      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
+    );
   }
 
   async swap(
@@ -163,7 +169,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     swapType: SwapType,
     inputAmount: number,
     outputAmountMin: number
-  ) {
+  ): Promise<string[]> {
     const ammAcount = await this.ammClient.getAmm(ammAddr);
     // would need ix in futarchy.ts SDK, nice to have pricemath exported as well
 
@@ -213,7 +219,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       })
       .transaction();
 
-    this.transactionSender?.send([tx], this.rpcProvider.connection);
+    return (
+      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
+    );
   }
 
   async getSwapPreview(

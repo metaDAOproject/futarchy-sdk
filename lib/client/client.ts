@@ -15,6 +15,7 @@ import {
   OpenbookMarket,
   AmmMarket,
 } from "@/types";
+import { SwapType } from "@metadaoproject/futarchy-ts";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -83,4 +84,19 @@ export interface FutarchyOrderbookMarketsClient<
 //to do : populate
 export interface FutarchyAmmMarketsClient {
   fetchMarket(request: MarketFetchRequest): Promise<Market | undefined>;
+  swap(
+    ammAddr: PublicKey,
+    swapType: SwapType,
+    inputAmount: number,
+    outputAmountMin: number
+  ): Promise<string[]>;
+  removeLiquidity(
+    ammAddr: PublicKey,
+    lpTokensToBurn: number
+  ): Promise<string[]>;
+  addLiquidity(
+    ammAddr: PublicKey,
+    quoteAmount?: number,
+    baseAmount?: number
+  ): Promise<string[]>;
 }

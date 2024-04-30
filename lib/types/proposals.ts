@@ -11,6 +11,7 @@ import {
   Dao,
   MarketType,
 } from "@/types";
+import { PublicKey } from "@metaplex-foundation/js";
 
 export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0_2>["ProposalInstruction"],
@@ -49,6 +50,8 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   marketType: MarketType;
   baseVaultAccount: VaultAccountWithProtocol;
   quoteVaultAccount: VaultAccountWithProtocol;
+  passMarket: PublicKey;
+  failMarket: PublicKey;
   proposer: GovernanceParticipant;
   content: string;
   state: ProposalState;

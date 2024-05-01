@@ -6,19 +6,20 @@ import {
   AmmMarket,
   AmmMarketFetchRequest,
   LiquidityAddError,
+  SwapPreview,
 } from "@/types/amm";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
+  AmmAccount,
   AmmClient,
-  SwapPreview,
   SwapType,
   getATA,
   getAmmAddr,
 } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
-import { unpackMint, getAssociatedTokenAddressSync } from "@solana/spl-token";
-import { PublicKey } from "@solana/web3.js";
+import { getAssociatedTokenAddressSync } from "@solana/spl-token";
+import { PublicKey, Transaction } from "@solana/web3.js";
 
 export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   private rpcProvider: Provider;
@@ -189,51 +190,49 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: number,
     outputAmountMin: number
   ): Promise<string[]> {
-    const quoteMintInfo = await this.rpcProvider.connection.getAccountInfo(
-      ammMarket.quoteMint
-    );
-    const quoteDecimals = unpackMint(
-      ammMarket.quoteMint,
-      quoteMintInfo
-    ).decimals;
-
-    const baseMintInfo = await this.rpcProvider.connection.getAccountInfo(
-      ammMarket.quoteMint
-    );
-    const baseDecimals = unpackMint(ammMarket.baseMint, baseMintInfo).decimals;
-
+    if (!this.transactionSender) return [];
     let inputAmountScaled: BN;
     let outputAmountMinScaled: BN;
     if (swapType.buy) {
-      inputAmountScaled = new BN(inputAmount * 10 ** quoteDecimals);
-      outputAmountMinScaled = new BN(outputAmountMin * 10 ** baseDecimals);
+      inputAmountScaled = new BN(
+        inputAmount * 10 ** ammMarket.quoteToken.decimals
+      );
+      outputAmountMinScaled = new BN(
+        outputAmountMin * 10 ** ammMarket.baseToken.decimals
+      );
     } else {
-      inputAmountScaled = new BN(inputAmount * 10 ** baseDecimals);
-      outputAmountMinScaled = new BN(outputAmountMin * 10 ** quoteDecimals);
+      inputAmountScaled = new BN(
+        inputAmount * 10 ** ammMarket.baseToken.decimals
+      );
+      outputAmountMinScaled = new BN(
+        outputAmountMin * 10 ** ammMarket.quoteToken.decimals
+      );
     }
-    const tx = await this.amm.methods
+    const ix = await this.amm.methods
       .swap({
         swapType,
         inputAmount: inputAmountScaled,
         outputAmountMin: outputAmountMinScaled,
       })
       .accounts({
-        user: this.rpcProvider.publicKey,
+        user: this.transactionSender.owner,
         amm: ammMarket.publicKey,
         baseMint: ammMarket.baseMint,
         quoteMint: ammMarket.quoteMint,
         userAtaBase: getATA(
           ammMarket.baseMint,
-          this.rpcProvider.publicKey!!
+          this.transactionSender.owner
         )[0],
         userAtaQuote: getATA(
           ammMarket.quoteMint,
-          this.rpcProvider.publicKey!!
+          this.transactionSender.owner
         )[0],
         vaultAtaBase: getATA(ammMarket.baseMint, ammMarket.publicKey)[0],
         vaultAtaQuote: getATA(ammMarket.quoteMint, ammMarket.publicKey)[0],
       })
-      .transaction();
+      .instruction();
+
+    const tx = new Transaction().add(ix);
 
     return (
       this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
@@ -251,12 +250,81 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     const inputAmountLots = isBuyBase
       ? inputAmount * 10 ** ammMarket.baseToken.decimals
       : inputAmount * 10 ** ammMarket.quoteToken.decimals;
-    const resp = this.ammClient.getSwapPreview(
+    const resp = this.calculateSwapPreview(
       ammAccount,
       new BN(inputAmountLots),
       isBuyBase
     );
     return resp;
+  }
+
+  calculateSwapPreview(
+    amm: AmmAccount,
+    inputAmount: BN,
+    isBuyBase: boolean
+  ): SwapPreview {
+    const quoteAmount = amm.quoteAmount;
+    const baseAmount = amm.baseAmount;
+    const startPrice =
+      quoteAmount.toNumber() /
+      Math.pow(10, amm.quoteMintDecimals) /
+      (baseAmount.toNumber() / Math.pow(10, amm.baseMintDecimals));
+    const k = quoteAmount.mul(baseAmount);
+    const inputMinusFee = inputAmount
+      .mul(new BN(10000).sub(new BN(100)))
+      .div(new BN(10000));
+
+    if (isBuyBase) {
+      const tempQuoteAmount = quoteAmount.add(inputMinusFee);
+      const tempBaseAmount = k.div(tempQuoteAmount);
+      const finalPrice =
+        tempQuoteAmount.toNumber() /
+        Math.pow(10, amm.quoteMintDecimals) /
+        (tempBaseAmount.toNumber() / Math.pow(10, amm.baseMintDecimals));
+      const outputAmountBase = baseAmount.sub(tempBaseAmount);
+      const inputUnits =
+        inputAmount.toNumber() / Math.pow(10, amm.quoteMintDecimals);
+      const outputUnits =
+        outputAmountBase.toNumber() / Math.pow(10, amm.baseMintDecimals);
+      const priceImpact = Math.abs(finalPrice - startPrice) / startPrice;
+
+      return {
+        isBuyBase,
+        inputAmount,
+        outputAmount: outputAmountBase,
+        inputUnits,
+        outputUnits,
+        startPrice,
+        finalPrice,
+        avgSwapPrice: inputUnits / outputUnits,
+        priceImpact,
+      };
+    } else {
+      const tempBaseAmount = baseAmount.add(inputMinusFee);
+      const tempQuoteAmount = k.div(tempBaseAmount);
+      const finalPrice =
+        tempQuoteAmount.toNumber() /
+        Math.pow(10, amm.quoteMintDecimals) /
+        (tempBaseAmount.toNumber() / Math.pow(10, amm.baseMintDecimals));
+      const outputAmountQuote = quoteAmount.sub(tempQuoteAmount);
+      const inputUnits =
+        inputAmount.toNumber() / Math.pow(10, amm.baseMintDecimals);
+      const outputUnits =
+        outputAmountQuote.toNumber() / Math.pow(10, amm.quoteMintDecimals);
+      const priceImpact = Math.abs(finalPrice - startPrice) / startPrice;
+
+      return {
+        isBuyBase,
+        inputAmount,
+        outputAmount: outputAmountQuote,
+        inputUnits,
+        outputUnits,
+        startPrice,
+        finalPrice,
+        avgSwapPrice: outputUnits / inputUnits,
+        priceImpact,
+      };
+    }
   }
 
   async getPoolLiquidity(ammAddr: PublicKey) {

@@ -5,12 +5,13 @@ import {
   AmmMarketFetchRequest,
   LiquidityAddError,
   Market,
+  SwapPreview,
   TokenMetadataSource,
   TokenProps,
   TokenWithBalance,
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
-import { SwapPreview, SwapType } from "@metadaoproject/futarchy-ts";
+import { SwapType } from "@metadaoproject/futarchy-ts";
 
 export class FutarchyIndexerAmmMarketsClient
   implements FutarchyAmmMarketsClient

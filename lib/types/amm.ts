@@ -1,5 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import { Market, MarketFetchRequest } from "./markets";
+import { BN } from "@coral-xyz/anchor";
 
 export class AmmMarketFetchRequest implements MarketFetchRequest {
   public marketKey: PublicKey;
@@ -17,3 +18,15 @@ export type AmmMarket = Market & {
 };
 
 export type LiquidityAddError = "AddLiquidityMaxBaseExceeded";
+
+export type SwapPreview = {
+  isBuyBase: boolean;
+  inputAmount: BN;
+  outputAmount: BN;
+  inputUnits: number;
+  outputUnits: number;
+  startPrice: number;
+  finalPrice: number;
+  avgSwapPrice: number;
+  priceImpact: number;
+};

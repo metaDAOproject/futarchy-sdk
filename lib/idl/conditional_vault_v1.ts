@@ -1,5 +1,5 @@
 export type ConditionalVault = {
-  version: "0.1.0";
+  version: "1.0.0";
   name: "conditional_vault";
   instructions: [
     {
@@ -18,16 +18,16 @@ export type ConditionalVault = {
         {
           name: "conditionalOnFinalizeTokenMint";
           isMut: true;
-          isSigner: true;
+          isSigner: false;
         },
         {
           name: "conditionalOnRevertTokenMint";
           isMut: true;
-          isSigner: true;
+          isSigner: false;
         },
         {
           name: "vaultUnderlyingTokenAccount";
-          isMut: true;
+          isMut: false;
           isSigner: false;
         },
         {
@@ -53,12 +53,10 @@ export type ConditionalVault = {
       ];
       args: [
         {
-          name: "settlementAuthority";
-          type: "publicKey";
-        },
-        {
-          name: "nonce";
-          type: "u64";
+          name: "args";
+          type: {
+            defined: "InitializeConditionalVaultArgs";
+          };
         }
       ];
     },
@@ -123,16 +121,10 @@ export type ConditionalVault = {
       ];
       args: [
         {
-          name: "proposalNumber";
-          type: "u64";
-        },
-        {
-          name: "onFinalizeUri";
-          type: "string";
-        },
-        {
-          name: "onRevertUri";
-          type: "string";
+          name: "args";
+          type: {
+            defined: "AddMetadataToConditionalTokensArgs";
+          };
         }
       ];
     },
@@ -244,17 +236,17 @@ export type ConditionalVault = {
           isSigner: true;
         },
         {
-          name: "userUnderlyingTokenAccount";
-          isMut: true;
-          isSigner: false;
-        },
-        {
           name: "userConditionalOnFinalizeTokenAccount";
           isMut: true;
           isSigner: false;
         },
         {
           name: "userConditionalOnRevertTokenAccount";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "userUnderlyingTokenAccount";
           isMut: true;
           isSigner: false;
         },
@@ -350,12 +342,12 @@ export type ConditionalVault = {
             type: "publicKey";
           },
           {
-            name: "nonce";
+            name: "proposal";
             docs: [
-              "A nonce to allow a single account to be the settlement authority of multiple",
-              "vaults with the same underlying token mints."
+              "We need to be able to create multiple vault for a single underlying token",
+              "account, so we use proposal as a PDA seed."
             ];
-            type: "u64";
+            type: "publicKey";
           },
           {
             name: "underlyingTokenAccount";
@@ -373,12 +365,52 @@ export type ConditionalVault = {
           {
             name: "pdaBump";
             type: "u8";
+          },
+          {
+            name: "decimals";
+            type: "u8";
           }
         ];
       };
     }
   ];
   types: [
+    {
+      name: "AddMetadataToConditionalTokensArgs";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "proposalNumber";
+            type: "u64";
+          },
+          {
+            name: "onFinalizeUri";
+            type: "string";
+          },
+          {
+            name: "onRevertUri";
+            type: "string";
+          }
+        ];
+      };
+    },
+    {
+      name: "InitializeConditionalVaultArgs";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "settlementAuthority";
+            type: "publicKey";
+          },
+          {
+            name: "proposal";
+            type: "publicKey";
+          }
+        ];
+      };
+    },
     {
       name: "VaultStatus";
       type: {
@@ -427,7 +459,7 @@ export type ConditionalVault = {
 };
 
 export const IDL: ConditionalVault = {
-  version: "0.1.0",
+  version: "1.0.0",
   name: "conditional_vault",
   instructions: [
     {
@@ -446,16 +478,16 @@ export const IDL: ConditionalVault = {
         {
           name: "conditionalOnFinalizeTokenMint",
           isMut: true,
-          isSigner: true,
+          isSigner: false,
         },
         {
           name: "conditionalOnRevertTokenMint",
           isMut: true,
-          isSigner: true,
+          isSigner: false,
         },
         {
           name: "vaultUnderlyingTokenAccount",
-          isMut: true,
+          isMut: false,
           isSigner: false,
         },
         {
@@ -481,12 +513,10 @@ export const IDL: ConditionalVault = {
       ],
       args: [
         {
-          name: "settlementAuthority",
-          type: "publicKey",
-        },
-        {
-          name: "nonce",
-          type: "u64",
+          name: "args",
+          type: {
+            defined: "InitializeConditionalVaultArgs",
+          },
         },
       ],
     },
@@ -551,16 +581,10 @@ export const IDL: ConditionalVault = {
       ],
       args: [
         {
-          name: "proposalNumber",
-          type: "u64",
-        },
-        {
-          name: "onFinalizeUri",
-          type: "string",
-        },
-        {
-          name: "onRevertUri",
-          type: "string",
+          name: "args",
+          type: {
+            defined: "AddMetadataToConditionalTokensArgs",
+          },
         },
       ],
     },
@@ -672,17 +696,17 @@ export const IDL: ConditionalVault = {
           isSigner: true,
         },
         {
-          name: "userUnderlyingTokenAccount",
-          isMut: true,
-          isSigner: false,
-        },
-        {
           name: "userConditionalOnFinalizeTokenAccount",
           isMut: true,
           isSigner: false,
         },
         {
           name: "userConditionalOnRevertTokenAccount",
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: "userUnderlyingTokenAccount",
           isMut: true,
           isSigner: false,
         },
@@ -778,12 +802,12 @@ export const IDL: ConditionalVault = {
             type: "publicKey",
           },
           {
-            name: "nonce",
+            name: "proposal",
             docs: [
-              "A nonce to allow a single account to be the settlement authority of multiple",
-              "vaults with the same underlying token mints.",
+              "We need to be able to create multiple vault for a single underlying token",
+              "account, so we use proposal as a PDA seed.",
             ],
-            type: "u64",
+            type: "publicKey",
           },
           {
             name: "underlyingTokenAccount",
@@ -802,11 +826,51 @@ export const IDL: ConditionalVault = {
             name: "pdaBump",
             type: "u8",
           },
+          {
+            name: "decimals",
+            type: "u8",
+          },
         ],
       },
     },
   ],
   types: [
+    {
+      name: "AddMetadataToConditionalTokensArgs",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "proposalNumber",
+            type: "u64",
+          },
+          {
+            name: "onFinalizeUri",
+            type: "string",
+          },
+          {
+            name: "onRevertUri",
+            type: "string",
+          },
+        ],
+      },
+    },
+    {
+      name: "InitializeConditionalVaultArgs",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "settlementAuthority",
+            type: "publicKey",
+          },
+          {
+            name: "proposal",
+            type: "publicKey",
+          },
+        ],
+      },
+    },
     {
       name: "VaultStatus",
       type: {

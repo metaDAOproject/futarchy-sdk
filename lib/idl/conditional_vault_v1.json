@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "1.0.0",
   "name": "conditional_vault",
   "instructions": [
     {
@@ -18,16 +18,16 @@
         {
           "name": "conditionalOnFinalizeTokenMint",
           "isMut": true,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "conditionalOnRevertTokenMint",
           "isMut": true,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "vaultUnderlyingTokenAccount",
-          "isMut": true,
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -53,12 +53,10 @@
       ],
       "args": [
         {
-          "name": "settlementAuthority",
-          "type": "publicKey"
-        },
-        {
-          "name": "nonce",
-          "type": "u64"
+          "name": "args",
+          "type": {
+            "defined": "InitializeConditionalVaultArgs"
+          }
         }
       ]
     },
@@ -123,16 +121,10 @@
       ],
       "args": [
         {
-          "name": "proposalNumber",
-          "type": "u64"
-        },
-        {
-          "name": "onFinalizeUri",
-          "type": "string"
-        },
-        {
-          "name": "onRevertUri",
-          "type": "string"
+          "name": "args",
+          "type": {
+            "defined": "AddMetadataToConditionalTokensArgs"
+          }
         }
       ]
     },
@@ -244,17 +236,17 @@
           "isSigner": true
         },
         {
-          "name": "userUnderlyingTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "userConditionalOnFinalizeTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
           "name": "userConditionalOnRevertTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userUnderlyingTokenAccount",
           "isMut": true,
           "isSigner": false
         },
@@ -352,12 +344,12 @@
             "type": "publicKey"
           },
           {
-            "name": "nonce",
+            "name": "proposal",
             "docs": [
-              "A nonce to allow a single account to be the settlement authority of multiple",
-              "vaults with the same underlying token mints."
+              "We need to be able to create multiple vault for a single underlying token",
+              "account, so we use proposal as a PDA seed."
             ],
-            "type": "u64"
+            "type": "publicKey"
           },
           {
             "name": "underlyingTokenAccount",
@@ -375,12 +367,52 @@
           {
             "name": "pdaBump",
             "type": "u8"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
           }
         ]
       }
     }
   ],
   "types": [
+    {
+      "name": "AddMetadataToConditionalTokensArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposalNumber",
+            "type": "u64"
+          },
+          {
+            "name": "onFinalizeUri",
+            "type": "string"
+          },
+          {
+            "name": "onRevertUri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeConditionalVaultArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "settlementAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
     {
       "name": "VaultStatus",
       "type": {

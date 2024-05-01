@@ -4,7 +4,7 @@ import { FutarchyIndexerProposalsClient } from "./proposals";
 import { FutarchyIndexerBalancesClient } from "./balances";
 import { FutarchyIndexerMarketsClient } from "./markets";
 import { createClient } from "./__generated__";
-import { getFutarchyProtocols } from "@/utils";
+import { createClient as createWsClient } from "graphql-ws";
 import { FutarchyProtocol } from "@/types";
 
 /**
@@ -20,6 +20,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
   constructor(
     rpcClient: FutarchyRPCClient,
     indexerURL: string,
+    indexerWSURL: string,
     indexerApiKey: string
   ) {
     if (indexerURL === "" || indexerApiKey === "")
@@ -35,6 +36,13 @@ export class FutarchyIndexerClient implements FutarchyClient {
       },
     };
     const graphqlClient = createClient(options);
+
+    const wsOptions = {
+      url: indexerWSURL,
+      headers: { "x-hasura-admin-secret": indexerApiKey },
+    };
+
+    const wsClient = createWsClient(wsOptions);
 
     this.protocolMap = rpcClient.futarchyProtocols.reduce((prev, curr) => {
       prev.set(curr.autocrat.programId.toString(), curr);
@@ -52,14 +60,24 @@ export class FutarchyIndexerClient implements FutarchyClient {
       this.protocolMap
     );
     this.balances = new FutarchyIndexerBalancesClient(rpcClient.balances);
-    this.markets = new FutarchyIndexerMarketsClient(rpcClient.markets);
+    this.markets = new FutarchyIndexerMarketsClient(
+      rpcClient.markets.openbook,
+      rpcClient.markets.amm,
+      wsClient
+    );
   }
 
   static make(
     rpcClient: FutarchyRPCClient,
     indexerURL: string,
+    indexerWSURL: string,
     indexerApiKey: string
   ) {
-    return new FutarchyIndexerClient(rpcClient, indexerURL, indexerApiKey);
+    return new FutarchyIndexerClient(
+      rpcClient,
+      indexerURL,
+      indexerWSURL,
+      indexerApiKey
+    );
   }
 }

@@ -13,3 +13,9 @@ export type TokenWithBalance = { token: TokenProps; balance: number };
 export type TokenWithBalanceWithProposal = TokenWithBalance & {
   proposal: PublicKey;
 };
+
+export type TokenMetadataSource =
+  | "jup-list"
+  | "metaplex"
+  | "token2022"
+  | "fallback";

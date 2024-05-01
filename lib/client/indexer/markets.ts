@@ -1,54 +1,85 @@
 import {
-  Market,
+  AmmMarket,
+  AmmMarketFetchRequest,
   MarketFetchRequest,
   OpenbookMarket,
   OpenbookMarketFetchRequest,
-  OpenbookOrder,
-  Order,
-  Orderbook,
-  PlaceOrderType,
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
+import { FutarchyIndexerOpenbookMarketsClient } from "./market-clients/openbookMarkets";
+import { FutarchyOpenbookMarketsRPCClient } from "../rpc/market-clients/openbookMarkets";
+import { FutarchyIndexerAmmMarketsClient } from "./market-clients/ammMarkets";
+import { FutarchyAmmMarketsRPCClient } from "../rpc";
 import { PublicKey } from "@solana/web3.js";
-import { FutarchyOpenbookMarketsRPCClient } from "../rpc";
+import { Observable } from "rxjs";
+import { SpotObservation, TwapObservation } from "@/types/prices";
+import { generateSubscriptionOp } from "./__generated__";
+import { Client as GQLWebSocketClient } from "graphql-ws";
 
-// TODO decoupling openbook stuff
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
-  private rpcMarketsClient: FutarchyOpenbookMarketsRPCClient;
-  constructor(rpcMarketsClient: FutarchyOpenbookMarketsRPCClient) {
-    this.rpcMarketsClient = rpcMarketsClient;
-  }
-  async cancelOrder(market: OpenbookMarket, order: Order): Promise<string[]> {
-    return [];
+  public openbook: FutarchyIndexerOpenbookMarketsClient;
+  public amm: FutarchyIndexerAmmMarketsClient;
+  private graphqlWSClient: GQLWebSocketClient;
+
+  constructor(
+    rpcOpenbookMarketsClient: FutarchyOpenbookMarketsRPCClient,
+    rpcAmmMarketsClient: FutarchyAmmMarketsRPCClient,
+    graphqlWSClient: GQLWebSocketClient
+  ) {
+    this.openbook = new FutarchyIndexerOpenbookMarketsClient(
+      rpcOpenbookMarketsClient
+    );
+    this.amm = new FutarchyIndexerAmmMarketsClient(rpcAmmMarketsClient);
+    this.graphqlWSClient = graphqlWSClient;
   }
 
   async fetchMarket(
-    request: OpenbookMarketFetchRequest
-  ): Promise<OpenbookMarket | undefined> {
-    return this.rpcMarketsClient.fetchMarket(request);
+    request: MarketFetchRequest
+  ): Promise<OpenbookMarket | AmmMarket | undefined> {
+    if (request instanceof OpenbookMarketFetchRequest) {
+      return this.openbook.fetchMarket(request);
+    }
+    if (request instanceof AmmMarketFetchRequest) {
+      return this.amm.fetchMarket(request);
+    }
+    return;
   }
 
-  async fetchOrderBook(
-    market: OpenbookMarket
-  ): Promise<Orderbook<Order> | undefined> {
-    return this.fetchOrderBook(market);
-  }
+  watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
+    const { query, variables } = generateSubscriptionOp({
+      twaps: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() },
+          },
+        },
+        token_amount: true,
+        updated_slot: true,
+      },
+    });
 
-  async fetchUserOrdersFromOrderbooks(
-    owner: PublicKey,
-    orderbooks: Orderbook<Order>[]
-  ): Promise<OpenbookOrder[]> {
-    return this.rpcMarketsClient.fetchUserOrdersFromOrderbooks(
-      owner,
-      orderbooks
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe(
+        { query, variables },
+        {
+          next: (data) => {
+            console.log(data);
+            subscriber.next([]);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete(),
+        }
+      );
+
+      return () => subscriptionCleanup();
+    });
+  }
+  watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
+    console.warn(
+      "spot price subscription is unavailable for the futarchy-sdk RPC client"
     );
-  }
-
-  async placeOrder(
-    market: Market,
-    order: Omit<Order, "status" | "filled">,
-    placeOrderType: PlaceOrderType
-  ): Promise<string[]> {
-    return [];
+    return new Observable((subscriber) => {
+      subscriber.next([]);
+    });
   }
 }

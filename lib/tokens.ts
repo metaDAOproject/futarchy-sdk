@@ -12,7 +12,7 @@ import {
   getMint,
   getTokenMetadata,
 } from "@solana/spl-token";
-import { TokenProps } from "@/types";
+import { TokenMetadataSource, TokenProps } from "@/types";
 
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
@@ -22,7 +22,12 @@ import { TokenProps } from "@/types";
 export async function enrichTokenMetadata(
   tokenAddress: PublicKey,
   rpcProvider: Provider
-): Promise<TokenProps & { isFallback?: boolean }> {
+): Promise<
+  TokenProps & {
+    isFallback?: boolean;
+    source: TokenMetadataSource;
+  }
+> {
   // get the mint
   try {
     const mint = await getMint(rpcProvider.connection, tokenAddress);
@@ -30,7 +35,7 @@ export async function enrichTokenMetadata(
     // second check jup list
     const tokenPropsOnJup = await getTokenFromJupStrictList(tokenAddress);
     if (tokenPropsOnJup) {
-      return tokenPropsOnJup;
+      return { ...tokenPropsOnJup, source: "jup-list" };
     }
 
     // next, try metaplex
@@ -39,7 +44,7 @@ export async function enrichTokenMetadata(
       rpcProvider
     );
     if (tokenPropsFromMetaplex) {
-      return tokenPropsFromMetaplex;
+      return { ...tokenPropsFromMetaplex, source: "metaplex" };
     }
 
     // next, try token token 2022
@@ -49,7 +54,7 @@ export async function enrichTokenMetadata(
       mint
     );
     if (tokenProps) {
-      return tokenProps;
+      return { ...tokenProps, source: "token2022" };
     }
 
     // finally just return truncated address for symbol and decimals from SPL
@@ -60,6 +65,7 @@ export async function enrichTokenMetadata(
       isFallback: true,
       name: tokenAddress.toString().slice(0, 5).toUpperCase(),
       url: null,
+      source: "fallback",
     };
   } catch (e) {
     console.error(
@@ -72,7 +78,8 @@ export async function enrichTokenMetadata(
       decimals: 6,
       isFallback: true,
       url: null,
-      name: null,
+      name: tokenAddress.toString().slice(0, 5).toUpperCase(),
+      source: "fallback",
     };
   }
 }
@@ -108,15 +115,15 @@ async function getTokenFromJupStrictList(
       (token) => token.address === address.toString()
     );
 
-    return (
-      {
-        decimals: matchingJupToken?.decimals ?? 6,
-        name: matchingJupToken?.name ?? null,
-        publicKey: matchingJupToken?.address ?? null,
-        symbol: matchingJupToken?.symbol ?? "",
-        url: matchingJupToken?.logoURI ?? null,
-      } ?? null
-    );
+    return matchingJupToken
+      ? {
+          decimals: matchingJupToken?.decimals ?? 6,
+          name: matchingJupToken?.name ?? null,
+          publicKey: matchingJupToken?.address ?? null,
+          symbol: matchingJupToken?.symbol ?? "",
+          url: matchingJupToken?.logoURI ?? null,
+        }
+      : null;
   } catch (error) {
     console.error("Error fetching token list:", error);
     return null;

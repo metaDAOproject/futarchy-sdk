@@ -1,11 +1,8 @@
 import { PublicKey } from "@solana/web3.js";
 import {
-  DaoAccount,
-  Dao,
   DaoAggregate,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
-  VaultAccount,
   Market,
   Order,
   Proposal,
@@ -15,7 +12,12 @@ import {
   MarketFetchRequest,
   TokenProps,
   VaultAccountWithProtocol,
+  OpenbookMarket,
+  AmmMarket,
 } from "@/types";
+import { SwapType } from "@metadaoproject/futarchy-ts";
+import { Observable } from "rxjs";
+import { SpotObservation, TwapObservation } from "@/types/prices";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -55,8 +57,17 @@ export interface FutarchyBalancesClient {
   ): Promise<TokenWithBalanceWithProposal[]>;
 }
 
-// heyyy refactor thus
-export interface FutarchyMarketsClient<
+export interface FutarchyMarketsClient {
+  openbook: FutarchyOrderbookMarketsClient;
+  amm: FutarchyAmmMarketsClient;
+  fetchMarket(
+    request: MarketFetchRequest
+  ): Promise<OpenbookMarket | AmmMarket | undefined>;
+  watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
+  watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
+}
+
+export interface FutarchyOrderbookMarketsClient<
   M extends Market = Market,
   O extends Order = Order
 > {
@@ -72,4 +83,23 @@ export interface FutarchyMarketsClient<
     placeOrderType: PlaceOrderType
   ): Promise<string[]>;
   cancelOrder(market: M, order: O): Promise<string[]>;
+}
+
+export interface FutarchyAmmMarketsClient {
+  fetchMarket(request: MarketFetchRequest): Promise<Market | undefined>;
+  swap(
+    ammAddr: PublicKey,
+    swapType: SwapType,
+    inputAmount: number,
+    outputAmountMin: number
+  ): Promise<string[]>;
+  removeLiquidity(
+    ammAddr: PublicKey,
+    lpTokensToBurn: number
+  ): Promise<string[]>;
+  addLiquidity(
+    ammAddr: PublicKey,
+    quoteAmount?: number,
+    baseAmount?: number
+  ): Promise<string[]>;
 }

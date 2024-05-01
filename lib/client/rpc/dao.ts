@@ -18,6 +18,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     this.rpcProvider = rpcProvider;
     this.futarchyProtocols = futarchyProtocols;
   }
+
   async fetchAllDaos(): Promise<DaoAggregate[]> {
     const allDaoAccounts = (
       await Promise.all(
@@ -64,6 +65,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     }
     return doaAggregates;
   }
+
   async fetchDao(
     daoAddress: string,
     protocol: FutarchyProtocol
@@ -103,9 +105,9 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     daoAccount: DaoAccount,
     protocol: FutarchyProtocol
   ): Promise<Omit<Dao, "publicKey"> | undefined> {
-    const baseMint = ["V0.2", "V0.3"].includes(protocol.deploymentVersion)
-      ? daoAccount.tokenMint
-      : daoAccount.metaMint;
+    const baseMint = ["V0", "V0.1", "V0.2"].includes(protocol.deploymentVersion)
+      ? daoAccount.metaMint :
+      daoAccount.tokenMint;
     const quoteMint = daoAccount.usdcMint;
     if (baseMint) {
       const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);
@@ -124,4 +126,5 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
       };
     }
   }
+
 }

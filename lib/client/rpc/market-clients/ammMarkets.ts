@@ -91,7 +91,10 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     const quoteInfo = await this.rpcProvider.connection.getAccountInfo(
       ammAcount.quoteMint
     );
-    const quoteDecimals = unpackMint(ammAcount.quoteMint, quoteInfo).decimals;
+    const { decimals: quoteDecimals } = unpackMint(
+      ammAcount.quoteMint,
+      quoteInfo
+    );
     const quoteAmountCasted = new BN(quoteAmount).mul(
       new BN(10).pow(new BN(quoteDecimals))
     );
@@ -99,7 +102,10 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     const baseInfo = await this.rpcProvider.connection.getAccountInfo(
       ammAcount.baseMint
     );
-    const baseDecimals = unpackMint(ammAcount.quoteMint, baseInfo);
+    const { decimals: baseDecimals } = unpackMint(
+      ammAcount.quoteMint,
+      baseInfo
+    );
     const baseAmountCasted = new BN(baseAmount).mul(
       new BN(10).pow(new BN(baseDecimals))
     );

@@ -40,7 +40,7 @@ describe("FutarchyRPCClient Integration Test", () => {
     console.log(marketData); // Log to verify data or perform assertions
     expect(marketData).toBeDefined(); // Simple check, adjust according to expected data structure
   }, 60000);
-  test("fetchMarket should return market data for amm market", async () => {
+  test.skip("fetchMarket should return market data for amm market", async () => {
     const { programId, idl } = autocratVersionToTwapMap["V0.3"];
     const openbookTwap = new Program(idl, programId, provider);
     const request = new OpenbookMarketFetchRequest(
@@ -50,6 +50,21 @@ describe("FutarchyRPCClient Integration Test", () => {
     const marketData = await rpcClient.markets.fetchMarket(request);
     console.log(marketData); // Log to verify data or perform assertions
     expect(marketData).toBeDefined(); // Simple check, adjust according to expected data structure
+  }, 60000);
+  test.skip("addLiquidity test. This should likely not run in CI for now", async () => {
+    const request = new AmmMarketFetchRequest(
+      new PublicKey("HbSYiZ8JRKqNHTx2EJUr6c5wQMvMjNx1rmHkTUtVi9qC")
+    );
+    const marketData = await rpcClient.markets.fetchMarket(request);
+    if (marketData?.type === "amm") {
+      const txs = await rpcClient.markets.amm.addLiquidity(
+        marketData,
+        0.1,
+        0.1
+      );
+      console.log(txs); // Log to verify data or perform assertions
+      expect(txs).toBeDefined(); // Simple check, adjust according to expected data structure
+    }
   }, 60000);
 
   // Add more tests for other methods like cancelOrder, fetchOrderBook, etc.

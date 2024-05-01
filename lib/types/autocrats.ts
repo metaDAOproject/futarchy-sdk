@@ -5,11 +5,13 @@ import { AutocratV0 as AutocratV0_1 } from "@/idl/autocrat_v0.1";
 import { AutocratV0 as AutocratV0_2 } from "@/idl/autocrat_v0.2";
 import { AutocratV0 as AutocratV0_3 } from "@/idl/autocrat_v0.3";
 import { MergeWithOptionalFields, TokenProps } from "@/types";
-import { ConditionalVault } from "@/idl/conditional_vault";
-import { OpenbookTwap } from "@/idl/openbook_twap";
 import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
 import { OpenbookTwapV0_1 } from "@/idl/openbook_twap_v0.1";
-import { Autocrat as AutocratV1} from "@metadaoproject/futarchy-ts/dist/types/autocrat";
+import { ConditionalVault as ConditionalVaultV1 } from "@/idl/conditional_vault_v1";
+import { ConditionalVault as ConditionalVaultV0_2 } from "@/idl/conditional_vault_v0.2";
+import { ConditionalVault as ConditionalVaultV0_1 } from "@/idl/conditional_vault_v0.1";
+import { ConditionalVault as ConditionalVaultV0 } from "@/idl/conditional_vault_v0.1";
+import { Autocrat as AutocratV1 } from "@metadaoproject/futarchy-ts/dist/types/autocrat";
 
 /**
  * Programs
@@ -28,11 +30,17 @@ export type AutocratProgram =
   | AutocratV0_3
   | AutocratV1;
 
+export type ConditionalVaultProgram =
+  | ConditionalVaultV1
+  | ConditionalVaultV0_2
+  | ConditionalVaultV0_1
+  | ConditionalVaultV0;
+
 export type FutarchyProtocol = {
   key: string;
   deploymentVersion: ProgramVersionLabel;
   autocrat: Program<AutocratProgram>;
-  vault: Program<ConditionalVault>;
+  vault: Program<ConditionalVaultProgram>;
   pricingModel: Program<OpenbookTwapV0_2 | OpenbookTwapV0_1>;
 };
 

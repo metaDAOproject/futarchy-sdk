@@ -13,6 +13,9 @@ import { AmmClient } from "@metadaoproject/futarchy-ts";
 import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
 import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
+import { SpotObservation, TwapObservation } from "@/types/prices";
+import { PublicKey } from "@solana/web3.js";
+import { Observable } from "rxjs";
 
 export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   // we have generic interface for orderbooks. when adding phoenix, this could be rethunk
@@ -51,5 +54,22 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
       return this.amm.fetchMarket(request);
     }
     return;
+  }
+
+  watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
+    console.warn(
+      "twap price subscription is unavailable for the futarchy-sdk RPC client"
+    );
+    return new Observable((subscriber) => {
+      subscriber.next([]);
+    });
+  }
+  watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
+    console.warn(
+      "spot price subscription is unavailable for the futarchy-sdk RPC client"
+    );
+    return new Observable((subscriber) => {
+      subscriber.next([]);
+    });
   }
 }

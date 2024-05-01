@@ -16,6 +16,8 @@ import {
   AmmMarket,
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy-ts";
+import { Observable } from "rxjs";
+import { SpotObservation, TwapObservation } from "@/types/prices";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -61,6 +63,8 @@ export interface FutarchyMarketsClient {
   fetchMarket(
     request: MarketFetchRequest
   ): Promise<OpenbookMarket | AmmMarket | undefined>;
+  watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
+  watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
 }
 
 export interface FutarchyOrderbookMarketsClient<
@@ -81,7 +85,6 @@ export interface FutarchyOrderbookMarketsClient<
   cancelOrder(market: M, order: O): Promise<string[]>;
 }
 
-//to do : populate
 export interface FutarchyAmmMarketsClient {
   fetchMarket(request: MarketFetchRequest): Promise<Market | undefined>;
   swap(

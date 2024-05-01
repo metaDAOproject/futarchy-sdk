@@ -38,9 +38,15 @@ dependencies:
   '@types/numeral':
     specifier: ^2.0.4
     version: 2.0.4
+  graphql-ws:
+    specifier: ^5.16.0
+    version: 5.16.0(graphql@16.8.1)
   numeral:
     specifier: ^2.0.6
     version: 2.0.6
+  rxjs:
+    specifier: ^7.8.1
+    version: 7.8.1
 
 devDependencies:
   tsconfig-paths:
@@ -2504,6 +2510,20 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /graphql-ws@5.16.0(graphql@16.8.1):
+    resolution: {integrity: sha512-Ju2RCU2dQMgSKtArPbEtsK5gNLnsQyTNIo/T7cZNp96niC1x0KdJNZV0TIoilceBPQwfb5itrGl8pkFeOUMl4A==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      graphql: '>=0.11 <=16'
+    dependencies:
+      graphql: 16.8.1
+    dev: false
+
+  /graphql@16.8.1:
+    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+    dev: false
 
   /has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}

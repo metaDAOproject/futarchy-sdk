@@ -1,9 +1,13 @@
 import { IdlAccounts } from "@coral-xyz/anchor";
 import { Transaction, Signer, PublicKey } from "@solana/web3.js";
-import { AccountWithKey, FutarchyProtocol } from "@/types";
-import { ConditionalVault } from "@/idl/conditional_vault";
+import {
+  AccountWithKey,
+  ConditionalVaultProgram,
+  FutarchyProtocol,
+} from "@/types";
 
-export type VaultAccount = IdlAccounts<ConditionalVault>["conditionalVault"];
+export type VaultAccount =
+  IdlAccounts<ConditionalVaultProgram>["conditionalVault"];
 export type VaultAccountWithKey = AccountWithKey<VaultAccount>;
 
 export type VaultAccountWithProtocol = Pick<

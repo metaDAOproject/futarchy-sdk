@@ -1,6 +1,6 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "1.1.0",
+  "version": "1.1.0-alpha.1",
   "main": "dist",
   "scripts": {
     "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",
@@ -24,7 +24,9 @@
     "@solana/web3.js": "^1.91.7",
     "@types/bun": "^1.1.0",
     "@types/numeral": "^2.0.4",
-    "numeral": "^2.0.6"
+    "graphql-ws": "^5.16.0",
+    "numeral": "^2.0.6",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "tsconfig-paths": "^4.2.0",

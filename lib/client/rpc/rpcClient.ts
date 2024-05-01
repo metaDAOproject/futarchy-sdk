@@ -42,20 +42,6 @@ export class FutarchyRPCClient implements FutarchyClient {
       futarchyProtocols
     );
 
-    // this.markets = {
-    //   openbook: new FutarchyOpenbookMarketsRPCClient(
-    //     rpcProvider,
-    //     new Program<OpenbookV2>(OPENBOOK_IDL, OPENBOOK_PROGRAM_ID, rpcProvider),
-    //     new OpenBookV2Client(rpcProvider, OPENBOOK_PROGRAM_ID),
-    //     transactionSender
-    //   ),
-    //   amm: new FutarchyAmmMarketsRPCClient(
-    //     rpcProvider,
-    //     new Program<AmmIDLType>(AMM_IDL, AMM_PROGRAM_ID, rpcProvider),
-    //     new AmmClient(rpcProvider, AMM_PROGRAM_ID, []),
-    //     transactionSender
-    //   ),
-    // };
     this.markets = new FutarchyMarketsRPCClient(
       rpcProvider,
       new Program<OpenbookV2>(OPENBOOK_IDL, OPENBOOK_PROGRAM_ID, rpcProvider),

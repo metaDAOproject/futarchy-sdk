@@ -231,9 +231,7 @@
           },
           {
             "name": "underlyingTokenAccount",
-            "docs": [
-              "The vault's storage account for deposited funds."
-            ],
+            "docs": ["The vault's storage account for deposited funds."],
             "type": "publicKey"
           },
           {
@@ -297,8 +295,5 @@
       "name": "VaultAlreadySettled",
       "msg": "Once a vault has been settled, its status as either finalized or reverted cannot be changed"
     }
-  ],
-  "metadata": {
-    "address": "vaU1tVLj8RFk7mNj1BxqgAsMKKaL8UvEUHvU3tdbZPe"
-  }
+  ]
 }

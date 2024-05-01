@@ -37,4 +37,8 @@ export const autocratVersionToTwapMap: Record<
     programId: OPENBOOK_TWAP_PROGRAM_IDV0_2,
     idl: OPENBOOK_TWAP_IDLV0_2,
   },
+  "V1": {
+    programId: OPENBOOK_TWAP_PROGRAM_IDV0_2,
+    idl: OPENBOOK_TWAP_IDLV0_2
+  }
 };

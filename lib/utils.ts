@@ -5,11 +5,11 @@ import {
   autocratVersionToConditionalVaultMap,
   autocratVersionToTwapMap,
 } from "@/constants";
-import { AutocratProgram, FutarchyProtocol } from "@/types";
 import {
-  ConditionalVault,
-  IDL as ConditionalVaultIDL,
-} from "@/idl/conditional_vault";
+  AutocratProgram,
+  ConditionalVaultProgram,
+  FutarchyProtocol,
+} from "@/types";
 
 export const shortKey = (key?: PublicKey | string) => {
   if (!key) return "???";
@@ -37,13 +37,17 @@ export const getFutarchyProtocols = (rpcProvider: AnchorProvider) =>
       curr.programId,
       rpcProvider
     );
-    const vaultProgram = new Program<ConditionalVault>(
-      ConditionalVaultIDL,
-      autocratVersionToConditionalVaultMap[curr.label],
+
+    const { programId: vaultProgramId, idl: vaultIdl } =
+      autocratVersionToConditionalVaultMap[curr.label];
+    const vaultProgram = new Program<ConditionalVaultProgram>(
+      vaultIdl,
+      vaultProgramId,
       rpcProvider
     );
-    const { programId, idl } = autocratVersionToTwapMap[curr.label];
-    const openbookTwap = new Program(idl, programId, rpcProvider);
+    const { programId: twapProgramId, idl: twapIdl } =
+      autocratVersionToTwapMap[curr.label];
+    const openbookTwap = new Program(twapIdl, twapProgramId, rpcProvider);
     const protocol: FutarchyProtocol = {
       key: autocrat.programId.toString(),
       autocrat: autocrat,

@@ -6,6 +6,7 @@ export * from "./markets";
 export * from "./autocrats";
 export * from "./tokens";
 export * from "./openbook";
+export * from "./amm";
 
 export type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];

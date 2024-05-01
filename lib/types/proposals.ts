@@ -2,13 +2,16 @@ import { IdlAccounts, IdlTypes } from "@coral-xyz/anchor";
 import { AutocratV0 } from "@/idl/autocrat_v0";
 import { AutocratV0 as AutocratV0_1 } from "@/idl/autocrat_v0.1";
 import { AutocratV0 as AutocratV0_2 } from "@/idl/autocrat_v0.2";
+import { AutocratV1 } from "@/idl/autocrat_v1";
 import {
   AccountWithKey,
   MergeWithOptionalFields,
   FutarchyProtocol,
   VaultAccountWithProtocol,
   Dao,
+  MarketType,
 } from "@/types";
+import { PublicKey } from "@metaplex-foundation/js";
 
 export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0_2>["ProposalInstruction"],
@@ -22,7 +25,10 @@ export type ProposalAccount = MergeWithOptionalFields<
   IdlAccounts<AutocratV0_2>["proposal"],
   MergeWithOptionalFields<
     IdlAccounts<AutocratV0_1>["proposal"],
-    IdlAccounts<AutocratV0>["proposal"]
+    MergeWithOptionalFields<
+      IdlAccounts<AutocratV0>["proposal"],
+      IdlAccounts<AutocratV1>["Proposal"]
+    >
   >
 >;
 
@@ -41,8 +47,11 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   description: string;
   dao: Pick<Dao, "daoAccount" | "publicKey">;
   protocol: FutarchyProtocol;
+  marketType: MarketType;
   baseVaultAccount: VaultAccountWithProtocol;
   quoteVaultAccount: VaultAccountWithProtocol;
+  passMarket: PublicKey;
+  failMarket: PublicKey;
   proposer: GovernanceParticipant;
   content: string;
   state: ProposalState;

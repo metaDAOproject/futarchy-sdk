@@ -1,9 +1,10 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "1.1.0",
+  "version": "1.1.0-alpha.1",
   "main": "dist",
   "scripts": {
-    "build": "tsc && tscpaths -p tsconfig.json -s ./lib -o ./dist"
+    "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",
+    "build:tests": "tsc && tscpaths -p tsconfig.json -s ./tests -o ./dist"
   },
   "keywords": [
     "solana",
@@ -13,14 +14,19 @@
   ],
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.1-beta.2",
+    "@metadaoproject/futarchy-ts": "^1.0.1",
     "@metaplex-foundation/js": "^0.20.1",
     "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
     "@metaplex-foundation/umi": "^0.9.1",
     "@openbook-dex/openbook-v2": "^0.2.6",
     "@solana/spl-token": "^0.3.11",
-    "@solana/web3.js": "^1.90.0",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/web3.js": "^1.91.7",
+    "@types/bun": "^1.1.0",
     "@types/numeral": "^2.0.4",
-    "numeral": "^2.0.6"
+    "graphql-ws": "^5.16.0",
+    "numeral": "^2.0.6",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "tsconfig-paths": "^4.2.0",

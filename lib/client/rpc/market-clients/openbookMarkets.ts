@@ -8,7 +8,6 @@ import {
   OpenOrders,
   SelfTradeBehaviorUtils,
   PlaceOrderTypeUtils,
-  OPENBOOK_PROGRAM_ID,
 } from "@openbook-dex/openbook-v2";
 import numeral from "numeral";
 import {
@@ -30,15 +29,16 @@ import {
   ProposalAccountWithKey,
   TwapPlaceOrderArgs,
 } from "@/types";
-import { FutarchyMarketsClient } from "@/client";
+import { FutarchyOrderbookMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
 import { enrichTokenMetadata } from "@/tokens";
 import { getTwapMarketKey } from "@/openbookTwap";
 import { BASE_FORMAT, MAX_MARKET_PRICE, NUMERAL_FORMAT } from "@/constants";
 import { shortKey } from "@/utils";
+import { utf8 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 
 export class FutarchyOpenbookMarketsRPCClient
-  implements FutarchyMarketsClient<OpenbookMarket, OpenbookOrder>
+  implements FutarchyOrderbookMarketsClient<OpenbookMarket, OpenbookOrder>
 {
   private openbook: Program<OpenbookV2>;
   private openbookClient: OpenBookV2Client;
@@ -61,52 +61,58 @@ export class FutarchyOpenbookMarketsRPCClient
     // we may need to extend this to add the twapMarket address on here
     request: OpenbookMarketFetchRequest
   ): Promise<OpenbookMarket | undefined> {
-    const obMarket = await OBMarket.load(
-      this.openbookClient,
-      request.marketKey
-    );
+    try {
+      const obMarket = await OBMarket.load(
+        this.openbookClient,
+        request.marketKey
+      );
 
-    const baseToken = await enrichTokenMetadata(
-      obMarket.account.baseMint,
-      this.rpcProvider
-    );
-    const quoteToken = await enrichTokenMetadata(
-      obMarket.account.quoteMint,
-      this.rpcProvider
-    );
+      const baseToken = await enrichTokenMetadata(
+        obMarket.account.baseMint,
+        this.rpcProvider
+      );
+      const quoteToken = await enrichTokenMetadata(
+        obMarket.account.quoteMint,
+        this.rpcProvider
+      );
 
-    const marketName = "blah";
+      const marketName = utf8
+        .decode(new Uint8Array(obMarket.account.name))
+        .split("\x00")[0];
 
-    const baseTokenWithSymbol = !baseToken.isFallback
-      ? baseToken
-      : {
-          ...baseToken,
-          symbol: marketName.split("/")[0],
-        };
-    const quoteTokenWithSymbol = !quoteToken.isFallback
-      ? quoteToken
-      : {
-          ...quoteToken,
-          symbol: marketName.split("/")[0],
-        };
+      const baseTokenWithSymbol = !baseToken.isFallback
+        ? baseToken
+        : {
+            ...baseToken,
+            symbol: marketName.split("/")[0],
+          };
+      const quoteTokenWithSymbol = !quoteToken.isFallback
+        ? quoteToken
+        : {
+            ...quoteToken,
+            symbol: marketName.split("/")[0],
+          };
 
-    return {
-      baseMint: obMarket.account.baseMint,
-      baseToken: baseTokenWithSymbol,
-      quoteMint: obMarket.account.quoteMint,
-      quoteToken: quoteTokenWithSymbol,
-      createdAt: obMarket.account.registrationTime.toNumber(),
-      makerFee: obMarket.account.makerFee.toNumber(),
-      marketAuthority: obMarket.account.marketAuthority,
-      minOrderAmount: obMarket.minOrderSize,
-      minPriceIncrement: obMarket.quoteLotFactor,
-      publicKey: request.marketKey,
-      takerFee: obMarket.account.takerFee.toNumber(),
-      type: "openbook",
-      // can avoid refetching market for the orderbook if we pass this in
-      marketInstance: obMarket,
-      twapProgram: request.twapProgram,
-    };
+      return {
+        baseMint: obMarket.account.baseMint,
+        baseToken: baseTokenWithSymbol,
+        quoteMint: obMarket.account.quoteMint,
+        quoteToken: quoteTokenWithSymbol,
+        createdAt: obMarket.account.registrationTime.toNumber(),
+        makerFee: obMarket.account.makerFee.toNumber(),
+        marketAuthority: obMarket.account.marketAuthority,
+        minOrderAmount: obMarket.minOrderSize,
+        minPriceIncrement: obMarket.quoteLotFactor,
+        publicKey: request.marketKey,
+        takerFee: obMarket.account.takerFee.toNumber(),
+        type: "openbookv2",
+        // can avoid refetching market for the orderbook if we pass this in
+        marketInstance: obMarket,
+        twapProgram: request.twapProgram,
+      };
+    } catch (e) {
+      console.error("error fetching openbook market", e);
+    }
   }
 
   async fetchOrderBook(
@@ -117,30 +123,35 @@ export class FutarchyOpenbookMarketsRPCClient
       market.publicKey,
       market.marketInstance.account
     );
-    const bids: OpenbookOrder[] = [];
-    const bidsBookSide = await obMarket.loadBids();
-    for (const bid of bidsBookSide.items()) {
-      const bidOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
-        bid,
-        "bid",
-        market
-      );
-      bids.push(bidOrder);
+    try {
+      const bids: OpenbookOrder[] = [];
+      const bidsBookSide = await obMarket.loadBids();
+      for (const bid of bidsBookSide.items()) {
+        const bidOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
+          bid,
+          "bid",
+          market
+        );
+        bids.push(bidOrder);
+      }
+      const asks: OpenbookOrder[] = [];
+      const asksBookSide = await obMarket.loadAsks();
+      for (const ask of asksBookSide.items()) {
+        const askOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
+          ask,
+          "ask",
+          market
+        );
+        asks.push(askOrder);
+      }
+      return {
+        asks,
+        bids,
+      };
+    } catch (e) {
+      console.error("error fetching orderbook", e);
+      return;
     }
-    const asks: OpenbookOrder[] = [];
-    const asksBookSide = await obMarket.loadAsks();
-    for (const ask of asksBookSide.items()) {
-      const askOrder: OpenbookOrder = this.getOrderbookOrderFromBookSideOrder(
-        ask,
-        "ask",
-        market
-      );
-      asks.push(askOrder);
-    }
-    return {
-      asks,
-      bids,
-    };
   }
 
   private getOrderbookOrderFromBookSideOrder(
@@ -559,7 +570,7 @@ export const getPartiallyFilledAmountFromBookSideOrder = (order: OBOrder) =>
 export const isPass = (
   order: OpenbookOrder,
   proposal: ProposalAccountWithKey
-) => proposal?.account.openbookPassMarket.equals(order.market)!!;
+) => proposal?.account.openbookPassMarket?.equals(order.market)!!;
 
 export const isPartiallyFilled = (order: OpenbookOrder): boolean =>
   order.filled > 0 && order.filled < order.size;

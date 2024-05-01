@@ -50,23 +50,25 @@ export type Orderbook<O extends Order = Order> = {
 /**
  * Markets
  */
-export type MarketType = "openbook" | "amm";
+export type MarketType = "openbookv2" | "amm";
 export type ConditionalMarketType = "pass" | "fail";
 
-export type MarketFetchRequest = {
+export interface MarketFetchRequest {
   marketKey: PublicKey;
-};
+}
 
 export type Market = {
-  type: MarketType;
   publicKey: PublicKey;
-  minOrderAmount: number;
-  minPriceIncrement: number;
   baseMint: PublicKey;
   baseToken: TokenProps;
   quoteMint: PublicKey;
   quoteToken: TokenProps;
   createdAt: number;
+};
+
+export type OrderbookMarket = Market & {
+  minOrderAmount: number;
+  minPriceIncrement: number;
   makerFee: number;
   takerFee: number;
 };

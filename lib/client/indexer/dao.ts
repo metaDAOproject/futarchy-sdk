@@ -67,10 +67,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
     }
   }
 
-  async fetchDao(
-    daoSlug: string,
-    protocol: FutarchyProtocol
-  ): Promise<DaoAggregate | null> {
+  async fetchDao(daoSlug: string): Promise<DaoAggregate | null> {
     try {
       const { dao_details } = await this.graphqlClient.query({
         dao_details: {

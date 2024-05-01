@@ -11,4 +11,9 @@ export class AmmMarketFetchRequest implements MarketFetchRequest {
 
 export type AmmMarket = Market & {
   type: "amm";
+  baseAmount: number;
+  quoteAmount: number;
+  lpMintSupply: number;
 };
+
+export type LiquidityAddError = "AddLiquidityMaxBaseExceeded";

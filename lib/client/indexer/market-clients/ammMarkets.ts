@@ -3,6 +3,7 @@ import { FutarchyAmmMarketsRPCClient } from "../../rpc";
 import {
   AmmMarket,
   AmmMarketFetchRequest,
+  LiquidityAddError,
   Market,
   TokenMetadataSource,
   TokenProps,
@@ -24,42 +25,59 @@ export class FutarchyIndexerAmmMarketsClient
   ): Promise<AmmMarket | undefined> {
     return this.rpcMarketsClient.fetchMarket(request);
   }
+
+  validateAddLiquidity(
+    ammMarket: AmmMarket,
+    quoteAmount: number,
+    baseAmount: number
+  ): LiquidityAddError | null {
+    return this.rpcMarketsClient.validateAddLiquidity(
+      ammMarket,
+      quoteAmount,
+      baseAmount
+    );
+  }
+
   async addLiquidity(
-    ammAddr: PublicKey,
-    quoteAmount?: number | undefined,
-    baseAmount?: number | undefined
-  ): Promise<string[]> {
-    return this.rpcMarketsClient.addLiquidity(ammAddr, quoteAmount, baseAmount);
+    ammMarket: AmmMarket,
+    quoteAmount: number,
+    baseAmount: number
+  ): Promise<string[] | LiquidityAddError> {
+    return this.rpcMarketsClient.addLiquidity(
+      ammMarket,
+      quoteAmount,
+      baseAmount
+    );
   }
 
   async simulateAddLiquidity(
-    ammAddr: PublicKey,
+    ammMarket: AmmMarket,
     baseAmount: number,
     quoteAmount: number
   ): Promise<any> {
     // Replace `any` with the actual return type if defined
     return this.rpcMarketsClient.simulateAddLiquidity(
-      ammAddr,
+      ammMarket,
       baseAmount,
       quoteAmount
     );
   }
 
   async removeLiquidity(
-    ammAddr: PublicKey,
+    ammMarket: AmmMarket,
     lpTokensToBurn: number
   ): Promise<string[]> {
-    return this.rpcMarketsClient.removeLiquidity(ammAddr, lpTokensToBurn);
+    return this.rpcMarketsClient.removeLiquidity(ammMarket, lpTokensToBurn);
   }
 
   async swap(
-    ammAddr: PublicKey,
+    ammMarket: AmmMarket,
     swapType: SwapType,
     inputAmount: number,
     outputAmountMin: number
   ): Promise<string[]> {
     return this.rpcMarketsClient.swap(
-      ammAddr,
+      ammMarket,
       swapType,
       inputAmount,
       outputAmountMin
@@ -67,12 +85,12 @@ export class FutarchyIndexerAmmMarketsClient
   }
 
   async getSwapPreview(
-    ammAddr: PublicKey,
+    ammMarket: AmmMarket,
     inputAmount: number,
     isBuyBase: boolean
   ): Promise<SwapPreview> {
     return this.rpcMarketsClient.getSwapPreview(
-      ammAddr,
+      ammMarket,
       inputAmount,
       isBuyBase
     );

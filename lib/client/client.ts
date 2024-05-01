@@ -14,6 +14,7 @@ import {
   VaultAccountWithProtocol,
   OpenbookMarket,
   AmmMarket,
+  LiquidityAddError,
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
@@ -88,18 +89,23 @@ export interface FutarchyOrderbookMarketsClient<
 export interface FutarchyAmmMarketsClient {
   fetchMarket(request: MarketFetchRequest): Promise<Market | undefined>;
   swap(
-    ammAddr: PublicKey,
+    ammAddr: AmmMarket,
     swapType: SwapType,
     inputAmount: number,
     outputAmountMin: number
   ): Promise<string[]>;
   removeLiquidity(
-    ammAddr: PublicKey,
+    ammAddr: AmmMarket,
     lpTokensToBurn: number
   ): Promise<string[]>;
+  validateAddLiquidity(
+    ammMarket: AmmMarket,
+    quoteAmount: number,
+    baseAmount: number
+  ): LiquidityAddError | null;
   addLiquidity(
-    ammAddr: PublicKey,
-    quoteAmount?: number,
-    baseAmount?: number
-  ): Promise<string[]>;
+    ammAddr: AmmMarket,
+    quoteAmount: number,
+    baseAmount: number
+  ): Promise<string[] | LiquidityAddError>;
 }

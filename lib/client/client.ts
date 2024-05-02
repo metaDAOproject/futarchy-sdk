@@ -101,11 +101,11 @@ export interface FutarchyAmmMarketsClient {
   validateAddLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    baseAmount: number
+    maxBaseAmount: number
   ): LiquidityAddError | null;
   addLiquidity(
     ammAddr: AmmMarket,
     quoteAmount: number,
-    baseAmount: number
+    maxBaseAmount: number
   ): Promise<string[] | LiquidityAddError>;
 }

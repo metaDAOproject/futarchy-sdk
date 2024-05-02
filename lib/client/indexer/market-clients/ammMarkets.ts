@@ -30,24 +30,24 @@ export class FutarchyIndexerAmmMarketsClient
   validateAddLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    baseAmount: number
+    maxBaseAmount: number
   ): LiquidityAddError | null {
     return this.rpcMarketsClient.validateAddLiquidity(
       ammMarket,
       quoteAmount,
-      baseAmount
+      maxBaseAmount
     );
   }
 
   async addLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    baseAmount: number
+    maxBaseAmount: number
   ): Promise<string[] | LiquidityAddError> {
     return this.rpcMarketsClient.addLiquidity(
       ammMarket,
       quoteAmount,
-      baseAmount
+      maxBaseAmount
     );
   }
 

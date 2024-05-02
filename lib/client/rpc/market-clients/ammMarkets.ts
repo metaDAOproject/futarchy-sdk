@@ -126,11 +126,12 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     );
 
     // we just pass this in as min LP tokens and this replicates the calculation in the program
-    const lpTokensToMint = quoteAmountArg
+    // TODO multiple this times slippage
+    const minLpTokensToMint = quoteAmountArg
       .mul(new BN(ammMarket.lpMintSupply))
       .div(ammMarket.quoteAmount);
 
-    const baseAmountArg = new BN(
+    const maxBaseAmountArg = new BN(
       maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
@@ -140,8 +141,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       ammMarket.baseMint,
       ammMarket.quoteMint,
       quoteAmountArg,
-      baseAmountArg,
-      lpTokensToMint,
+      maxBaseAmountArg,
+      minLpTokensToMint,
       this.rpcProvider.publicKey
     );
     const tx = await ix.transaction();

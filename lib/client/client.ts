@@ -93,12 +93,13 @@ export interface FutarchyAmmMarketsClient {
     ammAddr: AmmMarket,
     swapType: SwapType,
     inputAmount: number,
-    outputAmountMin: number
+    outputAmountMin: number,
+    slippage: number
   ): Promise<string[]>;
   removeLiquidity(
     ammMarket: AmmMarket,
-    lpTokensToBurn: BN,
-    slippage: BN
+    lpTokensToBurn: number,
+    slippage: number
   ): Promise<string[]>;
   validateAddLiquidity(
     ammMarket: AmmMarket,

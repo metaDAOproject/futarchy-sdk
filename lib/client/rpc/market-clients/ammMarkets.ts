@@ -89,10 +89,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
-    const quoteAmountWithSlippage = calculateMaxWithSlippage(
-      quoteAmountArg,
-      slippage
-    );
+
     const baseAmountWithSlippage = calculateMaxWithSlippage(
       baseAmountArg,
       slippage
@@ -101,13 +98,13 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     const baseReserve = ammMarket.baseAmount;
     const quoteReserve = ammMarket.quoteAmount;
 
-    const ammBaseAmount = new BN(quoteAmountWithSlippage)
+    const ammBaseAmount = quoteAmountArg
       .mul(baseReserve)
       .div(quoteReserve)
       .add(new BN(1));
     if (baseAmountWithSlippage < ammBaseAmount.toNumber()) {
       console.warn(
-        `liquidity max base exceeded. baseAmountArg: ${baseAmountWithSlippage}. quoteAmountArg: ${quoteAmountWithSlippage}, ammBaseAmount: ${ammBaseAmount.toNumber()}`
+        `liquidity max base exceeded. baseAmountArg: ${baseAmountWithSlippage}. quoteAmountArg: ${quoteAmountArg.toNumber()}, ammBaseAmount: ${ammBaseAmount.toNumber()}`
       );
       return "AddLiquidityMaxBaseExceeded";
     }
@@ -193,23 +190,31 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
 
   async removeLiquidity(
     ammMarket: AmmMarket,
-    lpTokensToBurn: BN,
-    slippage: BN
+    lpTokensToBurn: number,
+    slippage: number
   ) {
-    const lpRatio = lpTokensToBurn.div(new BN(ammMarket.lpMintSupply));
-    const minQuoteAmount = lpRatio
-      .mul(new BN(ammMarket.quoteAmount))
-      .mul(new BN(1 - slippage.toNumber()));
-    const minBaseAmount = lpRatio
-      .mul(new BN(ammMarket.baseAmount))
-      .mul(new BN(1 - slippage.toNumber()));
+    // fetch or have lp token account
+    const lpTokensLots = new BN(
+      lpTokensToBurn * new BN(10).pow(new BN(9)).toNumber()
+    );
+    const lpRatio = lpTokensLots.toNumber() / ammMarket.lpMintSupply;
+    const minQuoteAmount = lpRatio * ammMarket.quoteAmount.toNumber();
+    const minQuoteWithSlippage = calculateMinWithSlippage(
+      minQuoteAmount,
+      slippage
+    );
+    const minBaseAmount = lpRatio * ammMarket.baseAmount.toNumber();
+    const minBaseWithSlippage = calculateMinWithSlippage(
+      minBaseAmount,
+      slippage
+    );
     const ix = this.ammClient.removeLiquidityIx(
       ammMarket.publicKey,
       ammMarket.baseMint,
       ammMarket.quoteMint,
-      lpTokensToBurn,
-      minBaseAmount,
-      minQuoteAmount
+      lpTokensLots,
+      new BN(minBaseWithSlippage),
+      new BN(minQuoteWithSlippage)
     );
     const tx = await ix.transaction();
     return (
@@ -221,7 +226,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     ammMarket: AmmMarket,
     swapType: SwapType,
     inputAmount: number,
-    outputAmountMin: number
+    outputAmountMin: number,
+    slippage: number
   ): Promise<string[]> {
     if (!this.transactionSender) return [];
     let inputAmountScaled: BN;
@@ -241,11 +247,16 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         outputAmountMin * 10 ** ammMarket.quoteToken.decimals
       );
     }
+
+    const outputAmountWithSlippage = calculateMinWithSlippage(
+      outputAmountMinScaled.toNumber(),
+      slippage
+    );
     const ix = await this.amm.methods
       .swap({
         swapType,
         inputAmount: inputAmountScaled,
-        outputAmountMin: outputAmountMinScaled,
+        outputAmountMin: new BN(outputAmountWithSlippage),
       })
       .accounts({
         user: this.transactionSender.owner,
@@ -403,8 +414,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         await this.rpcProvider.connection.getTokenAccountBalance(pda)
       ).value;
 
+      const balanceFormatted =
+        parseFloat(balance.amount) / lpToken.decimals ** 10;
+
       return {
-        balance: parseFloat(balance.amount),
+        balance: balanceFormatted,
         token: lpToken,
       };
     } catch (e) {

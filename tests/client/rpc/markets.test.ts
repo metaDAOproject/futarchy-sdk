@@ -51,7 +51,7 @@ describe("FutarchyRPCClient Integration Test", () => {
     console.log(marketData); // Log to verify data or perform assertions
     expect(marketData).toBeDefined(); // Simple check, adjust according to expected data structure
   }, 60000);
-  test("addLiquidity test. This should likely not run in CI for now", async () => {
+  test.skip("addLiquidity test. This should likely not run in CI for now", async () => {
     const request = new AmmMarketFetchRequest(
       new PublicKey("HbSYiZ8JRKqNHTx2EJUr6c5wQMvMjNx1rmHkTUtVi9qC")
     );
@@ -67,13 +67,17 @@ describe("FutarchyRPCClient Integration Test", () => {
       expect(txs).toBeDefined(); // Simple check, adjust according to expected data structure
     }
   }, 60000);
-  test.skip("remove liquidity test. This should likely not run in CI for now", async () => {
+  test("remove liquidity test. This should likely not run in CI for now", async () => {
     const request = new AmmMarketFetchRequest(
       new PublicKey("HbSYiZ8JRKqNHTx2EJUr6c5wQMvMjNx1rmHkTUtVi9qC")
     );
     const marketData = await rpcClient.markets.fetchMarket(request);
     if (marketData?.type === "amm") {
-      const txs = await rpcClient.markets.amm.removeLiquidity(marketData, 10);
+      const txs = await rpcClient.markets.amm.removeLiquidity(
+        marketData,
+        0.000013055,
+        0.3
+      );
       console.log(txs); // Log to verify data or perform assertions
       expect(txs).toBeDefined(); // Simple check, adjust according to expected data structure
     }

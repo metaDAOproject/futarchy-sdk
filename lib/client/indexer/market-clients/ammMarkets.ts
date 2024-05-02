@@ -30,9 +30,9 @@ export class FutarchyIndexerAmmMarketsClient
 
   validateAddLiquidity(
     ammMarket: AmmMarket,
-    quoteAmount: BN,
-    maxBaseAmount: BN,
-    slippage: BN
+    quoteAmount: number,
+    maxBaseAmount: number,
+    slippage: number
   ): LiquidityAddError | null {
     return this.rpcMarketsClient.validateAddLiquidity(
       ammMarket,
@@ -44,9 +44,9 @@ export class FutarchyIndexerAmmMarketsClient
 
   async addLiquidity(
     ammMarket: AmmMarket,
-    quoteAmount: BN,
-    maxBaseAmount: BN,
-    slippage: BN
+    quoteAmount: number,
+    maxBaseAmount: number,
+    slippage: number
   ): Promise<string[] | LiquidityAddError> {
     return this.rpcMarketsClient.addLiquidity(
       ammMarket,
@@ -71,8 +71,8 @@ export class FutarchyIndexerAmmMarketsClient
 
   async removeLiquidity(
     ammMarket: AmmMarket,
-    lpTokensToBurn: BN,
-    slippage: BN
+    lpTokensToBurn: number,
+    slippage: number
   ): Promise<string[]> {
     return this.rpcMarketsClient.removeLiquidity(
       ammMarket,
@@ -85,13 +85,15 @@ export class FutarchyIndexerAmmMarketsClient
     ammMarket: AmmMarket,
     swapType: SwapType,
     inputAmount: number,
-    outputAmountMin: number
+    outputAmountMin: number,
+    slippage: number
   ): Promise<string[]> {
     return this.rpcMarketsClient.swap(
       ammMarket,
       swapType,
       inputAmount,
-      outputAmountMin
+      outputAmountMin,
+      slippage
     );
   }
 

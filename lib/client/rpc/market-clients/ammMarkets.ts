@@ -77,14 +77,14 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   validateAddLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    maxBasAmount: number
+    maxBaseAmount: number
   ): LiquidityAddError | null {
     const quoteAmountArg = new BN(
       quoteAmount *
         new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
     );
     const baseAmountArg = new BN(
-      maxBasAmount *
+      maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
     // base passed in should be ammBaseAmount honestly...
@@ -107,14 +107,14 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   async addLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    maxBasAmount: number
+    maxBaseAmount: number
   ): Promise<string[] | LiquidityAddError> {
     if (!this.transactionSender) return [];
 
     const validationError = this.validateAddLiquidity(
       ammMarket,
       quoteAmount,
-      maxBasAmount
+      maxBaseAmount
     );
     if (validationError) {
       return validationError;
@@ -131,7 +131,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       .div(ammMarket.quoteAmount);
 
     const baseAmountArg = new BN(
-      maxBasAmount *
+      maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
 
@@ -167,9 +167,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     return simulation;
   }
 
-  async removeLiquidity(ammMarket: AmmMarket, lpTokensToBurn: number) {
-    const minBaseAmount = 23;
-    const minQuoteAmount = 20;
+  async removeLiquidity(ammMarket: AmmMarket, lpTokensToBurn: BN) {
+    const minBaseAmount = new BN(0);
+    const minQuoteAmount = new BN(0);
     const ix = this.ammClient.removeLiquidityIx(
       ammMarket.publicKey,
       ammMarket.baseMint,

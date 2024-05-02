@@ -59,12 +59,22 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
 
     return new Observable((subscriber) => {
-      const subscriptionCleanup = this.graphqlWSClient.subscribe(
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        twaps: {
+          token_amount: number;
+          updated_slot: number;
+        }[];
+      }>(
         { query, variables },
         {
           next: (data) => {
-            console.log(data);
-            subscriber.next([]);
+            const twapObservations = data.data?.twaps?.map<TwapObservation>(
+              (d) => ({
+                price: d.token_amount,
+                slot: d.updated_slot,
+              })
+            );
+            subscriber.next(twapObservations ?? []);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete(),
@@ -75,11 +85,42 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
-    console.warn(
-      "spot price subscription is unavailable for the futarchy-sdk RPC client"
-    );
+    const { query, variables } = generateSubscriptionOp({
+      takes: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() },
+          },
+        },
+        order_time: true,
+        quote_price: true,
+      },
+    });
+
     return new Observable((subscriber) => {
-      subscriber.next([]);
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        takes: {
+          order_time: number;
+          quote_price: number;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const spotObservations = data.data?.takes?.map<SpotObservation>(
+              (d) => ({
+                price: d.quote_price,
+                slot: d.order_time,
+              })
+            );
+            subscriber.next(spotObservations ?? []);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete(),
+        }
+      );
+
+      return () => subscriptionCleanup();
     });
   }
 }

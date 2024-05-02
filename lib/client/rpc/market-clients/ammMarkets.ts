@@ -137,17 +137,12 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
-
-    const quoteAmountWithSlippage = calculateMaxWithSlippage(
-      quoteAmountArg,
-      slippage
-    );
     const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
       maxBaseAmountArg,
       slippage
     );
 
-    const minLpTokensToMint = new BN(quoteAmountWithSlippage)
+    const minLpTokensToMint = quoteAmountArg
       .mul(new BN(ammMarket.lpMintSupply))
       .div(ammMarket.quoteAmount);
 
@@ -160,7 +155,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       ammMarket.publicKey,
       ammMarket.baseMint,
       ammMarket.quoteMint,
-      new BN(quoteAmountWithSlippage),
+      quoteAmountArg,
       new BN(maxBaseAmountWithSlippage),
       new BN(minLpTokensWithSlippage),
       this.rpcProvider.publicKey

@@ -12,6 +12,7 @@ import {
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
 import { SwapType } from "@metadaoproject/futarchy-ts";
+import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerAmmMarketsClient
   implements FutarchyAmmMarketsClient
@@ -29,25 +30,29 @@ export class FutarchyIndexerAmmMarketsClient
 
   validateAddLiquidity(
     ammMarket: AmmMarket,
-    quoteAmount: number,
-    maxBaseAmount: number
+    quoteAmount: BN,
+    maxBaseAmount: BN,
+    slippage: BN
   ): LiquidityAddError | null {
     return this.rpcMarketsClient.validateAddLiquidity(
       ammMarket,
       quoteAmount,
-      maxBaseAmount
+      maxBaseAmount,
+      slippage
     );
   }
 
   async addLiquidity(
     ammMarket: AmmMarket,
-    quoteAmount: number,
-    maxBaseAmount: number
+    quoteAmount: BN,
+    maxBaseAmount: BN,
+    slippage: BN
   ): Promise<string[] | LiquidityAddError> {
     return this.rpcMarketsClient.addLiquidity(
       ammMarket,
       quoteAmount,
-      maxBaseAmount
+      maxBaseAmount,
+      slippage
     );
   }
 
@@ -66,9 +71,14 @@ export class FutarchyIndexerAmmMarketsClient
 
   async removeLiquidity(
     ammMarket: AmmMarket,
-    lpTokensToBurn: number
+    lpTokensToBurn: BN,
+    slippage: BN
   ): Promise<string[]> {
-    return this.rpcMarketsClient.removeLiquidity(ammMarket, lpTokensToBurn);
+    return this.rpcMarketsClient.removeLiquidity(
+      ammMarket,
+      lpTokensToBurn,
+      slippage
+    );
   }
 
   async swap(

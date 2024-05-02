@@ -1,5 +1,6 @@
 import { FutarchyAmmMarketsClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
+import { calculateMaxWithSlippage, calculateMinWithSlippage } from "@/trading";
 import { TransactionSender } from "@/transactions";
 import { TokenWithBalance } from "@/types";
 import {
@@ -77,7 +78,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   validateAddLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    maxBaseAmount: number
+    maxBaseAmount: number,
+    slippage: number
   ): LiquidityAddError | null {
     const quoteAmountArg = new BN(
       quoteAmount *
@@ -87,17 +89,25 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
+    const quoteAmountWithSlippage = calculateMaxWithSlippage(
+      quoteAmountArg,
+      slippage
+    );
+    const baseAmountWithSlippage = calculateMaxWithSlippage(
+      baseAmountArg,
+      slippage
+    );
     // base passed in should be ammBaseAmount honestly...
-    const baseReserve = new BN(ammMarket.baseAmount);
-    const quoteReserve = new BN(ammMarket.quoteAmount);
+    const baseReserve = ammMarket.baseAmount;
+    const quoteReserve = ammMarket.quoteAmount;
 
-    const ammBaseAmount = quoteAmountArg
+    const ammBaseAmount = new BN(quoteAmountWithSlippage)
       .mul(baseReserve)
       .div(quoteReserve)
       .add(new BN(1));
-    if (baseAmountArg.toNumber() < ammBaseAmount.toNumber()) {
-      console.error(
-        `liquidity max base exceeded. baseAmountArg: ${baseAmountArg.toNumber()}. quoteAmountArg: ${quoteAmountArg.toNumber()}, ammBaseAmount: ${ammBaseAmount.toNumber()}`
+    if (baseAmountWithSlippage < ammBaseAmount.toNumber()) {
+      console.warn(
+        `liquidity max base exceeded. baseAmountArg: ${baseAmountWithSlippage}. quoteAmountArg: ${quoteAmountWithSlippage}, ammBaseAmount: ${ammBaseAmount.toNumber()}`
       );
       return "AddLiquidityMaxBaseExceeded";
     }
@@ -107,14 +117,16 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   async addLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    maxBaseAmount: number
+    maxBaseAmount: number,
+    slippage: number
   ): Promise<string[] | LiquidityAddError> {
     if (!this.transactionSender) return [];
 
     const validationError = this.validateAddLiquidity(
       ammMarket,
       quoteAmount,
-      maxBaseAmount
+      maxBaseAmount,
+      slippage
     );
     if (validationError) {
       return validationError;
@@ -124,25 +136,36 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       quoteAmount *
         new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
     );
-
-    // we just pass this in as min LP tokens and this replicates the calculation in the program
-    // TODO multiple this times slippage
-    const minLpTokensToMint = quoteAmountArg
-      .mul(new BN(ammMarket.lpMintSupply))
-      .div(ammMarket.quoteAmount);
-
     const maxBaseAmountArg = new BN(
       maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
+    );
+
+    const quoteAmountWithSlippage = calculateMaxWithSlippage(
+      quoteAmountArg,
+      slippage
+    );
+    const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
+      maxBaseAmountArg,
+      slippage
+    );
+
+    const minLpTokensToMint = new BN(quoteAmountWithSlippage)
+      .mul(new BN(ammMarket.lpMintSupply))
+      .div(ammMarket.quoteAmount);
+
+    const minLpTokensWithSlippage = calculateMinWithSlippage(
+      minLpTokensToMint.toNumber(),
+      slippage
     );
 
     const ix = this.ammClient.addLiquidityIx(
       ammMarket.publicKey,
       ammMarket.baseMint,
       ammMarket.quoteMint,
-      quoteAmountArg,
-      maxBaseAmountArg,
-      minLpTokensToMint,
+      new BN(quoteAmountWithSlippage),
+      new BN(maxBaseAmountWithSlippage),
+      new BN(minLpTokensWithSlippage),
       this.rpcProvider.publicKey
     );
     const tx = await ix.transaction();
@@ -168,9 +191,18 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     return simulation;
   }
 
-  async removeLiquidity(ammMarket: AmmMarket, lpTokensToBurn: BN) {
-    const minBaseAmount = new BN(0);
-    const minQuoteAmount = new BN(0);
+  async removeLiquidity(
+    ammMarket: AmmMarket,
+    lpTokensToBurn: BN,
+    slippage: BN
+  ) {
+    const lpRatio = lpTokensToBurn.div(new BN(ammMarket.lpMintSupply));
+    const minQuoteAmount = lpRatio
+      .mul(new BN(ammMarket.quoteAmount))
+      .mul(new BN(1 - slippage.toNumber()));
+    const minBaseAmount = lpRatio
+      .mul(new BN(ammMarket.baseAmount))
+      .mul(new BN(1 - slippage.toNumber()));
     const ix = this.ammClient.removeLiquidityIx(
       ammMarket.publicKey,
       ammMarket.baseMint,

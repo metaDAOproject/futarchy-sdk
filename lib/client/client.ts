@@ -19,6 +19,7 @@ import {
 import { SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
+import { BN } from "@coral-xyz/anchor";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -95,17 +96,20 @@ export interface FutarchyAmmMarketsClient {
     outputAmountMin: number
   ): Promise<string[]>;
   removeLiquidity(
-    ammAddr: AmmMarket,
-    lpTokensToBurn: number
+    ammMarket: AmmMarket,
+    lpTokensToBurn: BN,
+    slippage: BN
   ): Promise<string[]>;
   validateAddLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
-    maxBaseAmount: number
+    maxBaseAmount: number,
+    slippage: number
   ): LiquidityAddError | null;
   addLiquidity(
     ammAddr: AmmMarket,
     quoteAmount: number,
-    maxBaseAmount: number
+    maxBaseAmount: number,
+    slippage: number
   ): Promise<string[] | LiquidityAddError>;
 }

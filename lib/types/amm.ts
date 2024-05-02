@@ -12,8 +12,8 @@ export class AmmMarketFetchRequest implements MarketFetchRequest {
 
 export type AmmMarket = Market & {
   type: "amm";
-  baseAmount: number;
-  quoteAmount: number;
+  baseAmount: BN;
+  quoteAmount: BN;
   lpMintSupply: number;
 };
 

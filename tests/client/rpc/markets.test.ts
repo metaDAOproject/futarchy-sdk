@@ -2,7 +2,7 @@ import { FutarchyRPCClient } from "@/client";
 import { autocratVersionToTwapMap } from "@/constants";
 import { TransactionSender } from "@/transactions";
 import { AmmMarketFetchRequest, OpenbookMarketFetchRequest } from "@/types";
-import { AnchorProvider, Program } from "@coral-xyz/anchor";
+import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { describe, test, expect, beforeAll } from "bun:test";
 import { createMockWallet } from "tests/test-utils";
@@ -51,7 +51,7 @@ describe("FutarchyRPCClient Integration Test", () => {
     console.log(marketData); // Log to verify data or perform assertions
     expect(marketData).toBeDefined(); // Simple check, adjust according to expected data structure
   }, 60000);
-  test.skip("addLiquidity test. This should likely not run in CI for now", async () => {
+  test("addLiquidity test. This should likely not run in CI for now", async () => {
     const request = new AmmMarketFetchRequest(
       new PublicKey("HbSYiZ8JRKqNHTx2EJUr6c5wQMvMjNx1rmHkTUtVi9qC")
     );
@@ -59,9 +59,21 @@ describe("FutarchyRPCClient Integration Test", () => {
     if (marketData?.type === "amm") {
       const txs = await rpcClient.markets.amm.addLiquidity(
         marketData,
-        0.1,
-        0.1
+        0.01,
+        20,
+        0.3
       );
+      console.log(txs); // Log to verify data or perform assertions
+      expect(txs).toBeDefined(); // Simple check, adjust according to expected data structure
+    }
+  }, 60000);
+  test.skip("remove liquidity test. This should likely not run in CI for now", async () => {
+    const request = new AmmMarketFetchRequest(
+      new PublicKey("HbSYiZ8JRKqNHTx2EJUr6c5wQMvMjNx1rmHkTUtVi9qC")
+    );
+    const marketData = await rpcClient.markets.fetchMarket(request);
+    if (marketData?.type === "amm") {
+      const txs = await rpcClient.markets.amm.removeLiquidity(marketData, 10);
       console.log(txs); // Log to verify data or perform assertions
       expect(txs).toBeDefined(); // Simple check, adjust according to expected data structure
     }

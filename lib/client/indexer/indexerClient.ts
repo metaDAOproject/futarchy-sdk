@@ -20,26 +20,16 @@ export class FutarchyIndexerClient implements FutarchyClient {
   constructor(
     rpcClient: FutarchyRPCClient,
     indexerURL: string,
-    indexerWSURL: string,
-    indexerApiKey: string
+    indexerWSURL: string
   ) {
-    if (indexerURL === "" || indexerApiKey === "")
-      throw "missing url or api key for indexer client";
-
     // TODO how can we batch these queries??
     const options = {
       url: indexerURL,
-      headers: {
-        // TODO this admin secret in the request... should not be deployed to staging probably
-        "x-hasura-admin-secret": indexerApiKey,
-        // TODO should we add user wallet address here for adding querying user-specific data?
-      },
     };
     const graphqlClient = createClient(options);
 
     const wsOptions = {
       url: indexerWSURL,
-      headers: { "x-hasura-admin-secret": indexerApiKey },
     };
 
     const wsClient = createWsClient(wsOptions);
@@ -70,14 +60,8 @@ export class FutarchyIndexerClient implements FutarchyClient {
   static make(
     rpcClient: FutarchyRPCClient,
     indexerURL: string,
-    indexerWSURL: string,
-    indexerApiKey: string
+    indexerWSURL: string
   ) {
-    return new FutarchyIndexerClient(
-      rpcClient,
-      indexerURL,
-      indexerWSURL,
-      indexerApiKey
-    );
+    return new FutarchyIndexerClient(rpcClient, indexerURL, indexerWSURL);
   }
 }

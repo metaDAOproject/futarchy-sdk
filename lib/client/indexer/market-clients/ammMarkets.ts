@@ -3,13 +3,16 @@ import { FutarchyAmmMarketsRPCClient } from "../../rpc";
 import {
   AmmMarket,
   AmmMarketFetchRequest,
+  LiquidityAddError,
   Market,
+  SwapPreview,
   TokenMetadataSource,
   TokenProps,
   TokenWithBalance,
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
-import { SwapPreview, SwapType } from "@metadaoproject/futarchy-ts";
+import { SwapType } from "@metadaoproject/futarchy-ts";
+import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerAmmMarketsClient
   implements FutarchyAmmMarketsClient
@@ -24,55 +27,83 @@ export class FutarchyIndexerAmmMarketsClient
   ): Promise<AmmMarket | undefined> {
     return this.rpcMarketsClient.fetchMarket(request);
   }
+
+  validateAddLiquidity(
+    ammMarket: AmmMarket,
+    quoteAmount: number,
+    maxBaseAmount: number,
+    slippage: number
+  ): LiquidityAddError | null {
+    return this.rpcMarketsClient.validateAddLiquidity(
+      ammMarket,
+      quoteAmount,
+      maxBaseAmount,
+      slippage
+    );
+  }
+
   async addLiquidity(
-    ammAddr: PublicKey,
-    quoteAmount?: number | undefined,
-    baseAmount?: number | undefined
-  ): Promise<string[]> {
-    return this.rpcMarketsClient.addLiquidity(ammAddr, quoteAmount, baseAmount);
+    ammMarket: AmmMarket,
+    quoteAmount: number,
+    maxBaseAmount: number,
+    slippage: number
+  ): Promise<string[] | LiquidityAddError> {
+    return this.rpcMarketsClient.addLiquidity(
+      ammMarket,
+      quoteAmount,
+      maxBaseAmount,
+      slippage
+    );
   }
 
   async simulateAddLiquidity(
-    ammAddr: PublicKey,
+    ammMarket: AmmMarket,
     baseAmount: number,
     quoteAmount: number
   ): Promise<any> {
     // Replace `any` with the actual return type if defined
     return this.rpcMarketsClient.simulateAddLiquidity(
-      ammAddr,
+      ammMarket,
       baseAmount,
       quoteAmount
     );
   }
 
   async removeLiquidity(
-    ammAddr: PublicKey,
-    lpTokensToBurn: number
+    ammMarket: AmmMarket,
+    lpTokensToBurn: number,
+    slippage: number
   ): Promise<string[]> {
-    return this.rpcMarketsClient.removeLiquidity(ammAddr, lpTokensToBurn);
+    return this.rpcMarketsClient.removeLiquidity(
+      ammMarket,
+      lpTokensToBurn,
+      slippage
+    );
   }
 
   async swap(
-    ammAddr: PublicKey,
+    ammMarket: AmmMarket,
     swapType: SwapType,
     inputAmount: number,
-    outputAmountMin: number
+    outputAmountMin: number,
+    slippage: number
   ): Promise<string[]> {
     return this.rpcMarketsClient.swap(
-      ammAddr,
+      ammMarket,
       swapType,
       inputAmount,
-      outputAmountMin
+      outputAmountMin,
+      slippage
     );
   }
 
   async getSwapPreview(
-    ammAddr: PublicKey,
+    ammMarket: AmmMarket,
     inputAmount: number,
     isBuyBase: boolean
   ): Promise<SwapPreview> {
     return this.rpcMarketsClient.getSwapPreview(
-      ammAddr,
+      ammMarket,
       inputAmount,
       isBuyBase
     );

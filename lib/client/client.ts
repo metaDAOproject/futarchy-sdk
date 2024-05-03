@@ -59,6 +59,12 @@ export interface FutarchyBalancesClient {
     dao: DaoAggregate,
     ownerWallet: PublicKey
   ): Observable<TokenWithBalance>[];
+  getConditionalTokensFromProposals(
+    proposals: Proposal[],
+    owner: PublicKey,
+    quoteToken: TokenProps,
+    baseToken: TokenProps
+  ): Array<TokenWithPDA & { proposal: PublicKey }>;
   fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
     quoteToken: TokenProps,

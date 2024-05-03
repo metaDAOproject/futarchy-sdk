@@ -46,6 +46,19 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
       ownerWallet
     );
   }
+  getConditionalTokensFromProposals(
+    proposals: Proposal[],
+    owner: PublicKey,
+    quoteToken: TokenProps,
+    baseToken: TokenProps
+  ): (TokenWithPDA & { proposal: PublicKey })[] {
+    return this.rpcBalancesClient.getConditionalTokensFromProposals(
+      proposals,
+      owner,
+      quoteToken,
+      baseToken
+    );
+  }
   async fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
     baseToken: TokenProps,

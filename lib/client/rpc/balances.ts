@@ -278,4 +278,86 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
       .filter((tb): tb is TokenWithBalanceWithProposal[] => !!tb)
       .flat();
   }
+
+  getConditionalTokensFromProposals(
+    proposals: Proposal[],
+    owner: PublicKey,
+    quoteToken: TokenProps,
+    baseToken: TokenProps
+  ): Array<TokenWithPDA & { proposal: PublicKey }> {
+    return proposals
+      .map((proposal) => {
+        if (owner && proposal.publicKey && quoteToken.publicKey) {
+          //TODO create proper type or even class with functionality for this(for readability)
+          return [
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(
+                  proposal.baseVaultAccount.conditionalOnFinalizeTokenMint
+                ),
+                owner,
+                true
+              ),
+              token: {
+                ...baseToken,
+                publicKey:
+                  proposal.baseVaultAccount.conditionalOnFinalizeTokenMint.toString(),
+                symbol: "p" + baseToken.symbol,
+              } as TokenProps,
+              proposal: proposal.publicKey,
+            },
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(
+                  proposal.baseVaultAccount.conditionalOnRevertTokenMint
+                ),
+                owner,
+                true
+              ),
+              token: {
+                ...baseToken,
+                publicKey:
+                  proposal.baseVaultAccount.conditionalOnRevertTokenMint.toString(),
+                symbol: "f" + baseToken.symbol,
+              } as TokenProps,
+              proposal: proposal.publicKey,
+            },
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(
+                  proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint
+                ),
+                owner,
+                true
+              ),
+              token: {
+                ...quoteToken,
+                publicKey:
+                  proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint.toString(),
+                symbol: "p" + quoteToken.symbol,
+              } as TokenProps,
+              proposal: proposal.publicKey,
+            },
+            {
+              pda: getAssociatedTokenAddressSync(
+                new PublicKey(
+                  proposal.quoteVaultAccount.conditionalOnRevertTokenMint
+                ),
+                owner,
+                true
+              ),
+              token: {
+                ...quoteToken,
+                publicKey:
+                  proposal.quoteVaultAccount.conditionalOnRevertTokenMint.toString(),
+                symbol: "f" + quoteToken.symbol,
+              } as TokenProps,
+              proposal: proposal.publicKey,
+            },
+          ];
+        }
+      })
+      .flat()
+      .filter((t): t is TokenWithPDA & { proposal: PublicKey } => !!t);
+  }
 }

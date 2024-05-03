@@ -28,8 +28,14 @@ export class FutarchyIndexerClient implements FutarchyClient {
     };
     const graphqlClient = createClient(options);
 
+    // add the secrets
     const wsOptions: ClientOptions<any> = {
       url: indexerWSURL,
+      connectionParams: {
+        headers: {
+          "X-Hasura-Role": "anonymous",
+        },
+      },
     };
 
     const wsClient = createWsClient(wsOptions);

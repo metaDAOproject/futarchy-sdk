@@ -14,6 +14,11 @@ export type TokenWithBalanceWithProposal = TokenWithBalance & {
   proposal: PublicKey;
 };
 
+export type TokenWithPDA = {
+  token: TokenProps;
+  pda: PublicKey;
+};
+
 export type TokenMetadataSource =
   | "jup-list"
   | "metaplex"

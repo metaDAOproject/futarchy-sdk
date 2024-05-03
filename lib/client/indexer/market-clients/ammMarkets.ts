@@ -10,6 +10,7 @@ import {
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
 import { SwapSimulation, SwapType } from "@metadaoproject/futarchy-ts";
+import { SendTransactionResponse } from "@/types/transactions";
 
 export class FutarchyIndexerAmmMarketsClient
   implements FutarchyAmmMarketsClient {
@@ -27,7 +28,7 @@ export class FutarchyIndexerAmmMarketsClient
     ammAddr: PublicKey,
     quoteAmount?: number | undefined,
     baseAmount?: number | undefined
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     return this.rpcMarketsClient.addLiquidity(ammAddr, quoteAmount, baseAmount);
   }
 
@@ -47,7 +48,7 @@ export class FutarchyIndexerAmmMarketsClient
   async removeLiquidity(
     ammAddr: PublicKey,
     lpTokensToBurn: number
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     return this.rpcMarketsClient.removeLiquidity(ammAddr, lpTokensToBurn);
   }
 
@@ -56,7 +57,7 @@ export class FutarchyIndexerAmmMarketsClient
     swapType: SwapType,
     inputAmount: number,
     outputAmountMin: number
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     return this.rpcMarketsClient.swap(
       ammAddr,
       swapType,

@@ -10,6 +10,7 @@ import {
 import { FutarchyOrderbookMarketsClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
 import { FutarchyOpenbookMarketsRPCClient } from "../../rpc";
+import { SendTransactionResponse } from "@/types/transactions";
 
 export class FutarchyIndexerOpenbookMarketsClient
   implements FutarchyOrderbookMarketsClient
@@ -21,7 +22,7 @@ export class FutarchyIndexerOpenbookMarketsClient
   async cancelOrder(
     market: OpenbookMarket,
     order: OpenbookOrder
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     return this.rpcMarketsClient.cancelOrder(market, order);
   }
 
@@ -51,7 +52,7 @@ export class FutarchyIndexerOpenbookMarketsClient
     market: OpenbookMarket,
     order: Omit<OpenbookOrder, "status" | "filled">,
     placeOrderType: PlaceOrderType
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     return this.rpcMarketsClient.placeOrder(market, order, placeOrderType);
   }
 }

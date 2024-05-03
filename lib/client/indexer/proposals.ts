@@ -10,6 +10,7 @@ import {
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
 import { Client as IndexerGraphQLClient } from "./__generated__";
+import { SendTransactionResponse } from "@/types/transactions";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -242,7 +243,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccountWithProtocol
-  ): Promise<string[] | undefined> {
+  ): SendTransactionResponse {
     return this.rpcProposalsClient.deposit(
       amount,
       vaultAccountAddress,
@@ -250,11 +251,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     );
   }
 
-  async withdraw(proposal: Proposal): Promise<string[] | undefined> {
+  async withdraw(proposal: Proposal): SendTransactionResponse {
     return this.rpcProposalsClient.withdraw(proposal);
   }
 
-  async createProposal(daoAggregate:DaoAggregate, user:PublicKey):Promise<string[] | undefined>{
+  async createProposal(daoAggregate: DaoAggregate, user: PublicKey): SendTransactionResponse {
     return this.rpcProposalsClient.createProposal(daoAggregate, user)
   }
 }

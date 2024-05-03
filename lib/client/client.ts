@@ -18,6 +18,7 @@ import {
 import { SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
+import { SendTransactionResponse } from "@/types/transactions";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -40,9 +41,9 @@ export interface FutarchyProposalsClient {
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccountWithProtocol
-  ): Promise<string[] | undefined>;
-  withdraw(proposal: Proposal): Promise<string[] | undefined>;
-  createProposal(daoAggregate: DaoAggregate, user: PublicKey): Promise<string[] | undefined>;
+  ): SendTransactionResponse;
+  withdraw(proposal: Proposal): SendTransactionResponse;
+  createProposal(daoAggregate: DaoAggregate, user: PublicKey): SendTransactionResponse;
 }
 
 export interface FutarchyBalancesClient {
@@ -82,8 +83,8 @@ export interface FutarchyOrderbookMarketsClient<
     market: M,
     order: Omit<O, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType
-  ): Promise<string[]>;
-  cancelOrder(market: M, order: O): Promise<string[]>;
+  ): SendTransactionResponse;
+  cancelOrder(market: M, order: O): SendTransactionResponse;
 }
 
 export interface FutarchyAmmMarketsClient {
@@ -93,14 +94,14 @@ export interface FutarchyAmmMarketsClient {
     swapType: SwapType,
     inputAmount: number,
     outputAmountMin: number
-  ): Promise<string[]>;
+  ): SendTransactionResponse;
   removeLiquidity(
     ammAddr: PublicKey,
     lpTokensToBurn: number
-  ): Promise<string[]>;
+  ): SendTransactionResponse;
   addLiquidity(
     ammAddr: PublicKey,
     quoteAmount?: number,
     baseAmount?: number
-  ): Promise<string[]>;
+  ): SendTransactionResponse;
 }

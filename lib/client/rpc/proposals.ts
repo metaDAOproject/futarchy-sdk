@@ -1,12 +1,10 @@
 import {
   Keypair,
-  LAMPORTS_PER_SOL,
   PublicKey,
-  SystemProgram,
   Transaction,
   TransactionInstruction,
 } from "@solana/web3.js";
-import { AnchorProvider, BN, Program, Provider } from "@coral-xyz/anchor";
+import { AnchorProvider, BN } from "@coral-xyz/anchor";
 import {
   createAssociatedTokenAccountIdempotentInstruction,
   getAccount,
@@ -15,9 +13,7 @@ import {
 } from "@solana/spl-token";
 import numeral from "numeral";
 import {
-  AutocratProgram,
   Dao,
-  DaoAccount,
   DaoAggregate,
   FutarchyProtocol,
 } from "@/types";
@@ -30,9 +26,7 @@ import {
 import { TransactionSender } from "@/transactions";
 import { enrichTokenMetadata } from "@/tokens";
 import { getProposalFromAccount } from "@/proposal";
-import { AMM_PROGRAM_ID, AUTOCRAT_PROGRAM_ID, AutocratClient, CONDITIONAL_VAULT_PROGRAM_ID, ConditionalVault, ConditionalVaultClient, getATA, getAmmAddr, getDaoTreasuryAddr, getVaultAddr, getVaultFinalizeMintAddr, getVaultRevertMintAddr } from "@metadaoproject/futarchy-ts";
-import { MethodsBuilder } from "@coral-xyz/anchor/dist/cjs/program/namespace/methods";
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import { AMM_PROGRAM_ID, AUTOCRAT_PROGRAM_ID, AutocratClient, CONDITIONAL_VAULT_PROGRAM_ID, getAmmAddr, getVaultAddr, getVaultFinalizeMintAddr, getVaultRevertMintAddr } from "@metadaoproject/futarchy-ts";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: AnchorProvider;
@@ -107,7 +101,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccountWithProtocol
-  ): Promise<string[] | undefined> {
+  ) {
     if (!this.rpcProvider.publicKey || !this.transactionSender) {
       return;
     }
@@ -189,7 +183,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       return this.transactionSender?.send(
         [new Transaction().add(...ixs)],
         this.rpcProvider.connection
-      );
+      )
     }
   }
 
@@ -284,75 +278,21 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     );
 
     // Fetch the account info
-    const accountInfo = await getAccount(this.rpcProvider.connection, userTokenAccountAddress);
-
+    const accountInfo = await getAccount(this.rpcProvider.connection, userTokenAccountAddress).catch(e => console.log(e))
     // The amount is a BigInt, convert it to a string if necessary
-    return accountInfo.amount.toString();
+    return accountInfo?.amount.toString();
   }
 
-  async mintIx(amount: number,
-    vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccountWithProtocol) {
-    const ixs = [
-      createAssociatedTokenAccountIdempotentInstruction(
-        this.rpcProvider.publicKey,
-        getAssociatedTokenAddressSync(
-          vaultAccount.conditionalOnFinalizeTokenMint,
-          this.rpcProvider.publicKey,
-          true
-        ),
-        this.rpcProvider.publicKey,
-        vaultAccount.conditionalOnFinalizeTokenMint
-      ),
-      createAssociatedTokenAccountIdempotentInstruction(
-        this.rpcProvider.publicKey,
-        getAssociatedTokenAddressSync(
-          vaultAccount.conditionalOnRevertTokenMint,
-          this.rpcProvider.publicKey,
-          true
-        ),
-        this.rpcProvider.publicKey,
-        vaultAccount.conditionalOnRevertTokenMint
-      ),
-      await vaultAccount.protocol.vault.methods
-        .mintConditionalTokens(amount)
-        .accounts({
-          vault: vaultAccountAddress,
-          userConditionalOnFinalizeTokenAccount: getAssociatedTokenAddressSync(
-            vaultAccount.conditionalOnFinalizeTokenMint,
-            this.rpcProvider.publicKey,
-            true
-          ),
-          userConditionalOnRevertTokenAccount: getAssociatedTokenAddressSync(
-            vaultAccount.conditionalOnRevertTokenMint,
-            this.rpcProvider.publicKey,
-            true
-          ),
-          userUnderlyingTokenAccount: getAssociatedTokenAddressSync(
-            vaultAccount.underlyingTokenMint,
-            this.rpcProvider.publicKey,
-            true
-          ),
-          vaultUnderlyingTokenAccount: vaultAccount.underlyingTokenAccount,
-          conditionalOnFinalizeTokenMint:
-            vaultAccount.conditionalOnFinalizeTokenMint,
-          conditionalOnRevertTokenMint:
-            vaultAccount.conditionalOnRevertTokenMint,
-        })
-        .instruction(),
-    ];
-    return ixs
-  }
 
   async createProposal(daoAggregate: DaoAggregate, user: PublicKey) {
     const proposalKP = Keypair.generate();
-    const proposal = proposalKP.publicKey;
+    // const secretKey = Uint8Array.from(keypair);
+    // const proposalKP = Keypair.fromSecretKey(secretKey)
+    const proposal = proposalKP.publicKey
 
-    console.log(proposal)
     const currentDao = daoAggregate.daos.filter((dao) => dao.protocol.autocrat.programId.toString() == this.autocratClient.autocrat.programId.toString())[1]
     if (!currentDao) return
 
-    console.log(currentDao.publicKey.toString())
     const autocrat = this.autocratClient.autocrat
     const vaultClient = this.autocratClient.vaultClient
     const ammClient = this.autocratClient.ammClient
@@ -363,7 +303,23 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     if (!tokenMint) return
     const vaultProgramId = vaultClient.vaultProgram.programId
 
-    console.log(usdcMint.toString(), tokenMint.toString())
+    const daoAccount = await autocrat.account.dao.fetch(currentDao.publicKey)
+
+    const baseTokensToLP: BN = daoAccount.minBaseFutarchicLiquidity
+    // const baseTokensToLP: BN = new BN(20)
+    const quoteTokensToLP: BN = daoAccount.minQuoteFutarchicLiquidity
+    // const quoteTokensToLP: BN = new BN(10)
+
+    console.log(baseTokensToLP.toNumber(), quoteTokensToLP.toNumber())
+    const baseBalance = await this.getUserTokenBalance(tokenMint)
+    const quoteBalance = await this.getUserTokenBalance(usdcMint)
+    console.log(baseBalance, quoteBalance)
+    const memoIx = this.createMemoInstruction()
+
+    const initializeVaultsTx = await this.autocratClient.vaultClient.initializeVaultIx(treasury, tokenMint, proposal).postInstructions([
+      ...(await this.autocratClient.vaultClient.initializeVaultIx(treasury, usdcMint, proposal).transaction()).instructions
+    ]).transaction()
+
     const [baseVault] = getVaultAddr(vaultProgramId, treasury, tokenMint, proposal);
     const [quoteVault] = getVaultAddr(vaultProgramId, treasury, usdcMint, proposal);
 
@@ -375,42 +331,23 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const [failQuote] = getVaultRevertMintAddr(vaultProgramId, quoteVault);
     const [failAmm] = getAmmAddr(ammClient.program.programId, failBase, failQuote, proposal);
 
-    const daoAccount = await autocrat.account.dao.fetch(currentDao.publicKey)
+    const mintCondTokensTx = await this.autocratClient.vaultClient.mintConditionalTokensIx(baseVault, tokenMint, baseTokensToLP).postInstructions([
+      ...(await this.autocratClient.vaultClient.mintConditionalTokensIx(quoteVault, usdcMint, baseTokensToLP).transaction()).instructions
+    ])
+    .transaction()
+    // const mintBaseTokensIx = await this.mintIx(baseVault, tokenMint, baseTokensToLP)
+    // const mintQuoteTokensIx = await this.mintIx(quoteVault, usdcMint, quoteTokensToLP)
 
-    const baseTokensToLP: BN = daoAccount.minBaseFutarchicLiquidity
-    const quoteTokensToLP: BN = daoAccount.minQuoteFutarchicLiquidity
-
-
-    console.log(baseTokensToLP.toNumber(), quoteTokensToLP.toNumber())
-    const baseBalance = await this.getUserTokenBalance(tokenMint)
-    const quoteBalance = await this.getUserTokenBalance(usdcMint)
-    console.log(baseBalance, quoteBalance)
-    const memoIx = this.createMemoInstruction()
-
-    const initializeBaseVaultIx = await this.autocratClient.vaultClient.initializeVaultIx(treasury, tokenMint, proposal).transaction()
-    const initializeQuoteIx = await this.autocratClient.vaultClient.initializeVaultIx(treasury, usdcMint, proposal).transaction()
-
-    console.log(tokenMint.toString())
-
-
-
-
-    const mintBaseTokensTx = await vaultClient.mintConditionalTokensIx(baseVault, tokenMint, baseTokensToLP, user).transaction()
-    const mintQuoteTokensTx = await vaultClient.mintConditionalTokensIx(quoteVault, usdcMint, quoteTokensToLP, user).transaction()
+    // const mintCondTokensTx = new Transaction().add(...mintBaseTokensIx, ...mintQuoteTokensIx)
 
     const createAmmdAddLiquidityTx = await ammClient
       .createAmmIx(passBase, passQuote, daoAccount.twapInitialObservation, daoAccount.twapMaxObservationChangePerUpdate, proposal)
       .postInstructions([
-        await ammClient.createAmmIx(failBase, failQuote, daoAccount.twapInitialObservation, daoAccount.twapMaxObservationChangePerUpdate, proposal).instruction(),
-        await this.autocratClient.ammClient.addLiquidityIx(passAmm, passBase, passQuote, quoteTokensToLP, baseTokensToLP, new BN(0)).instruction(),
-        await this.autocratClient.ammClient.addLiquidityIx(failAmm, failBase, failQuote, quoteTokensToLP, baseTokensToLP, new BN(0)).instruction(),
+        ...(await ammClient.createAmmIx(failBase, failQuote, daoAccount.twapInitialObservation, daoAccount.twapMaxObservationChangePerUpdate, proposal).transaction()).instructions,
+        ...(await this.autocratClient.ammClient.addLiquidityIx(passAmm, passBase, passQuote, quoteTokensToLP, baseTokensToLP, new BN(0)).transaction()).instructions,
+        ...(await this.autocratClient.ammClient.addLiquidityIx(failAmm, failBase, failQuote, quoteTokensToLP, baseTokensToLP, new BN(0)).transaction()).instructions,
       ]).transaction()
 
-    console.log("initializeBaseVaultIx", initializeBaseVaultIx.instructions)
-    console.log("initializeQuoteIx ", initializeQuoteIx.instructions)
-    console.log("mintBaseTokensTx", mintBaseTokensTx.instructions)
-    console.log("mintQuoteTokensTx", mintQuoteTokensTx.instructions)
-    console.log("createAMMaddLiquidityTx", createAmmdAddLiquidityTx.instructions)
     const initializeProposalTx = await this.autocratClient
       .initializeProposalIx(proposalKP, "www.google.com", memoIx, currentDao.publicKey, tokenMint, usdcMint, baseTokensToLP, quoteTokensToLP)
       .preInstructions([await autocrat.account.proposal.createInstruction(proposalKP, 2500)])
@@ -420,15 +357,19 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     initializeProposalTx.feePayer = proposalKP.publicKey
     initializeProposalTx.recentBlockhash = (await this.rpcProvider.connection.getLatestBlockhash()).blockhash
     initializeProposalTx.sign(proposalKP)
-    return this.transactionSender?.send([
-      initializeBaseVaultIx,
-      initializeQuoteIx,
-      mintBaseTokensTx,
-      mintQuoteTokensTx,
-      createAmmdAddLiquidityTx,
-    ],
+    const txResp = await this.transactionSender?.send(
+      [
+        initializeVaultsTx,
+        mintCondTokensTx,
+        createAmmdAddLiquidityTx,
+      ],
       this.rpcProvider.connection,
       [initializeProposalTx],
+      { commitment: "finalized", sequential: true }
     )
+    if (!txResp?.errors?.length){
+      console.log("no error")
+    }
+    return txResp
   }
 }

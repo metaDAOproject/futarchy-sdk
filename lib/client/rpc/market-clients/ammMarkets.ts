@@ -3,6 +3,7 @@ import { enrichTokenMetadata } from "@/tokens";
 import { TransactionSender } from "@/transactions";
 import { Market, TokenWithBalance } from "@/types";
 import { AmmMarket, AmmMarketFetchRequest } from "@/types/amm";
+import { SendTransactionResponse } from "@/types/transactions";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
@@ -82,8 +83,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     ammAddr: PublicKey,
     quoteAmount?: number,
     baseAmount?: number
-  ) {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return;
 
     const ammAcount = await this.ammClient.getAmm(ammAddr);
     const minLpTokens = new BN(0);
@@ -145,7 +146,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     return simulation;
   }
 
-  async removeLiquidity(ammAddr: PublicKey, lpTokensToBurn: number) {
+  async removeLiquidity(ammAddr: PublicKey, lpTokensToBurn: number) : SendTransactionResponse{
     const ammAcount = await this.ammClient.getAmm(ammAddr);
 
     const minBaseAmount = 23;
@@ -159,9 +160,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       minQuoteAmount
     );
     const tx = await ix.transaction();
-    return (
-      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
-    );
+    return this.transactionSender?.send([tx], this.rpcProvider.connection)
   }
 
   async swap(
@@ -169,7 +168,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     swapType: SwapType,
     inputAmount: number,
     outputAmountMin: number
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     const ammAcount = await this.ammClient.getAmm(ammAddr);
     // would need ix in futarchy.ts SDK, nice to have pricemath exported as well
 
@@ -219,9 +218,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       })
       .transaction();
 
-    return (
-      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
-    );
+    return this.transactionSender?.send([tx], this.rpcProvider.connection)
   }
 
   async getSwapPreview(

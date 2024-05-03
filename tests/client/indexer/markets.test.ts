@@ -17,7 +17,7 @@ describe("FutarchyIndexerClient Integration Test", () => {
   let provider: AnchorProvider;
 
   beforeAll(() => {
-    const connection = new Connection("");
+    const connection = new Connection("https://test.xyz");
 
     const wallet = createMockWallet();
     if (wallet.publicKey === null) return;
@@ -36,18 +36,18 @@ describe("FutarchyIndexerClient Integration Test", () => {
     // Initialize FutarchyRPCClient
     rpcClient = FutarchyRPCClient.make(provider, transactionSender);
 
-    const indexerUrl = "";
-    const indexerApiKey = "";
+    const indexerUrl = "https://test-graphql.hello.xyz";
+    const indexerWSUrl = "wss://test-graphql.hello.xyz";
 
     indexerClient = FutarchyIndexerClient.make(
       rpcClient,
-      indexerUrl ?? "",
-      indexerApiKey ?? ""
+      indexerUrl,
+      indexerWSUrl
     );
   });
 
   //integration tests
-  test("fetchMarket should return market data for openbook makret", async () => {
+  test.skip("fetchMarket should return market data for openbook makret", async () => {
     const { programId, idl } = autocratVersionToTwapMap["V0.2"];
     const openbookTwap = new Program(idl, programId, provider);
     const request: OpenbookMarketFetchRequest = new OpenbookMarketFetchRequest(

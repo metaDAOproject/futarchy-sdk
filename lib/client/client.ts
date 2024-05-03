@@ -120,7 +120,9 @@ export interface FutarchyAmmMarketsClient {
     ammMarket: AmmMarket,
     quoteAmount: number,
     maxBaseAmount: number,
-    slippage: number
+    slippage: number,
+    userBaseBalance?: number,
+    userQuoteBalance?: number
   ): LiquidityAddError | null;
   addLiquidity(
     ammAddr: AmmMarket,

@@ -7,7 +7,7 @@ import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
   AmmClient,
-  SwapPreview,
+  SwapSimulation,
   SwapType,
   getATA,
   getAmmAddr,
@@ -228,11 +228,12 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     ammAddr: PublicKey,
     inputAmount: number,
     isBuyBase: boolean
-  ): Promise<SwapPreview> {
+  ): Promise<SwapSimulation> {
     const ammAcount = await this.ammClient.getAmm(ammAddr);
-    const resp = this.ammClient.getSwapPreview(
+    const resp = this.ammClient.simulateSwap(
       ammAcount,
-      inputAmount,
+      "Buy" as any,
+      10,
       isBuyBase
     );
     return resp;

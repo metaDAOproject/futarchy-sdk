@@ -253,4 +253,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   async withdraw(proposal: Proposal): Promise<string[] | undefined> {
     return this.rpcProposalsClient.withdraw(proposal);
   }
+
+  async createProposal(daoAggregate:DaoAggregate, user:PublicKey):Promise<string[] | undefined>{
+    return this.rpcProposalsClient.createProposal(daoAggregate, user)
+  }
 }

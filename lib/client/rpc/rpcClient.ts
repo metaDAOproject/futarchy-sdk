@@ -12,7 +12,7 @@ import { FutarchyRPCBalancesClient } from "./balances";
 import { TransactionSender } from "@/transactions";
 import { getFutarchyProtocols } from "@/utils";
 import { FutarchyProtocol } from "@/types";
-import { AMM_PROGRAM_ID, AmmClient } from "@metadaoproject/futarchy-ts";
+import { AMM_PROGRAM_ID, AUTOCRAT_PROGRAM_ID, AmmClient, AutocratClient, CONDITIONAL_VAULT_PROGRAM_ID } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType, IDL as AMM_IDL } from "@/idl/amm";
 import { FutarchyMarketsRPCClient } from "./markets";
 

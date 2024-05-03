@@ -17,7 +17,19 @@ export type AmmMarket = Market & {
   lpMintSupply: number;
 };
 
-export type LiquidityAddError = "AddLiquidityMaxBaseExceeded";
+export type LiquidityAddError =
+  | "AddLiquidityMaxBaseExceeded"
+  | "InsufficientQuoteBalance"
+  | "InsufficientBaseBalance";
+
+/**
+ * expectedLpTokens is not divided by the lot size of the LP token. Quote and Base are divided by the lot size of their respective tokens.
+ */
+export type AddLiquiditySimulationResponse = {
+  baseAmount: number;
+  quoteAmount: number;
+  expectedLpTokens: number;
+};
 
 export type SwapPreview = {
   isBuyBase: boolean;

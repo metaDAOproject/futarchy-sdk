@@ -1,10 +1,10 @@
 import { FutarchyAmmMarketsClient } from "@/client";
 import { FutarchyAmmMarketsRPCClient } from "../../rpc";
 import {
+  AddLiquiditySimulationResponse,
   AmmMarket,
   AmmMarketFetchRequest,
   LiquidityAddError,
-  Market,
   SwapPreview,
   TokenMetadataSource,
   TokenProps,
@@ -12,7 +12,6 @@ import {
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
 import { SwapType } from "@metadaoproject/futarchy-ts";
-import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerAmmMarketsClient
   implements FutarchyAmmMarketsClient
@@ -32,13 +31,17 @@ export class FutarchyIndexerAmmMarketsClient
     ammMarket: AmmMarket,
     quoteAmount: number,
     maxBaseAmount: number,
-    slippage: number
+    slippage: number,
+    userBaseBalance?: number,
+    userQuoteBalance?: number
   ): LiquidityAddError | null {
     return this.rpcMarketsClient.validateAddLiquidity(
       ammMarket,
       quoteAmount,
       maxBaseAmount,
-      slippage
+      slippage,
+      userBaseBalance,
+      userQuoteBalance
     );
   }
 
@@ -56,16 +59,15 @@ export class FutarchyIndexerAmmMarketsClient
     );
   }
 
-  async simulateAddLiquidity(
+  simulateAddLiquidity(
     ammMarket: AmmMarket,
-    baseAmount: number,
-    quoteAmount: number
-  ): Promise<any> {
-    // Replace `any` with the actual return type if defined
+    quoteAmount?: number,
+    baseAmount?: number
+  ): AddLiquiditySimulationResponse {
     return this.rpcMarketsClient.simulateAddLiquidity(
       ammMarket,
-      baseAmount,
-      quoteAmount
+      quoteAmount,
+      baseAmount
     );
   }
 

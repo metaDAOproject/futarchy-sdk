@@ -1,14 +1,10 @@
 name: Publish to npm
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - "v*"
+  pull_request:
 
 jobs:
-  build-and-publish:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,13 +18,14 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Build
-        run: pnpm run build # Update or remove this line depending on your build process
+        run: pnpm run build
 
-      - name: Publish to npm
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_KEY }}
+      - name: Test
+        run: bun test

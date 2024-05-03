@@ -4,7 +4,7 @@ import { FutarchyIndexerProposalsClient } from "./proposals";
 import { FutarchyIndexerBalancesClient } from "./balances";
 import { FutarchyIndexerMarketsClient } from "./markets";
 import { createClient } from "./__generated__";
-import { createClient as createWsClient } from "graphql-ws";
+import { ClientOptions, createClient as createWsClient } from "graphql-ws";
 import { FutarchyProtocol } from "@/types";
 
 /**
@@ -28,8 +28,14 @@ export class FutarchyIndexerClient implements FutarchyClient {
     };
     const graphqlClient = createClient(options);
 
-    const wsOptions = {
+    // add the secrets
+    const wsOptions: ClientOptions<any> = {
       url: indexerWSURL,
+      connectionParams: {
+        headers: {
+          "X-Hasura-Role": "anonymous",
+        },
+      },
     };
 
     const wsClient = createWsClient(wsOptions);

@@ -5,15 +5,27 @@ import {
   TokenProps,
   TokenWithBalance,
   TokenWithBalanceWithProposal,
+  TokenWithPDA,
 } from "@/types";
 import { FutarchyBalancesClient } from "@/client";
 import { Proposal } from "@/types/proposals";
 import { FutarchyRPCBalancesClient } from "../rpc";
+import { Observable } from "rxjs";
 
 export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   private rpcBalancesClient: FutarchyRPCBalancesClient;
   constructor(rpcBalancesClient: FutarchyRPCBalancesClient) {
     this.rpcBalancesClient = rpcBalancesClient;
+  }
+
+  getDaoAggregateMainTokensByMint(
+    daoAggregate: DaoAggregate,
+    owner: PublicKey
+  ): Map<string, TokenWithPDA> {
+    return this.rpcBalancesClient.getDaoAggregateMainTokensByMint(
+      daoAggregate,
+      owner
+    );
   }
   async fetchMainTokenWalletBalances(
     dao: DaoAggregate,
@@ -22,6 +34,29 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     return this.rpcBalancesClient.fetchMainTokenWalletBalances(
       dao,
       ownerWallet
+    );
+  }
+
+  watchMainTokenWalletBalances(
+    dao: DaoAggregate,
+    ownerWallet: PublicKey
+  ): Observable<TokenWithBalance>[] {
+    return this.rpcBalancesClient.watchMainTokenWalletBalances(
+      dao,
+      ownerWallet
+    );
+  }
+  getConditionalTokensFromProposals(
+    proposals: Proposal[],
+    owner: PublicKey,
+    quoteToken: TokenProps,
+    baseToken: TokenProps
+  ): (TokenWithPDA & { proposal: PublicKey })[] {
+    return this.rpcBalancesClient.getConditionalTokensFromProposals(
+      proposals,
+      owner,
+      quoteToken,
+      baseToken
     );
   }
   async fetchAllConditionalTokenWalletBalances(
@@ -36,5 +71,8 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
       quoteToken,
       proposalsWithVaults
     );
+  }
+  watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance> {
+    return this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
   }
 }

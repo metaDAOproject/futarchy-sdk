@@ -15,11 +15,11 @@ import {
   OpenbookMarket,
   AmmMarket,
   LiquidityAddError,
+  TokenWithPDA,
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
-import { BN } from "@coral-xyz/anchor";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -47,16 +47,25 @@ export interface FutarchyProposalsClient {
 }
 
 export interface FutarchyBalancesClient {
+  getDaoAggregateMainTokensByMint(
+    daoAggregate: DaoAggregate,
+    owner: PublicKey
+  ): Map<string, TokenWithPDA>;
   fetchMainTokenWalletBalances(
     dao: DaoAggregate,
     ownerWallet: PublicKey
   ): Promise<TokenWithBalance[]>;
+  watchMainTokenWalletBalances(
+    dao: DaoAggregate,
+    ownerWallet: PublicKey
+  ): Observable<TokenWithBalance>[];
   fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
     quoteToken: TokenProps,
     baseToken: TokenProps,
     proposals: Proposal[]
   ): Promise<TokenWithBalanceWithProposal[]>;
+  watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance>;
 }
 
 export interface FutarchyMarketsClient {

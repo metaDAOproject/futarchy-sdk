@@ -4,6 +4,7 @@ import { calculateMaxWithSlippage, calculateMinWithSlippage } from "@/trading";
 import { TransactionSender } from "@/transactions";
 import { TokenWithBalance } from "@/types";
 import {
+  AddLiquiditySimulationResponse,
   AmmMarket,
   AmmMarketFetchRequest,
   LiquidityAddError,
@@ -79,22 +80,23 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     ammMarket: AmmMarket,
     quoteAmount: number,
     maxBaseAmount: number,
-    slippage: number
+    slippage: number,
+    userBaseBalance?: number,
+    userQuoteBalance?: number
   ): LiquidityAddError | null {
     const quoteAmountArg = new BN(
       quoteAmount *
         new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
     );
-    const baseAmountArg = new BN(
+    const maxBaseAmountArg = new BN(
       maxBaseAmount *
         new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
 
-    const baseAmountWithSlippage = calculateMaxWithSlippage(
-      baseAmountArg,
+    const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
+      maxBaseAmountArg,
       slippage
     );
-    // base passed in should be ammBaseAmount honestly...
     const baseReserve = ammMarket.baseAmount;
     const quoteReserve = ammMarket.quoteAmount;
 
@@ -102,12 +104,42 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       .mul(baseReserve)
       .div(quoteReserve)
       .add(new BN(1));
-    if (baseAmountWithSlippage < ammBaseAmount.toNumber()) {
+
+    if (maxBaseAmountWithSlippage < ammBaseAmount.toNumber()) {
       console.warn(
-        `liquidity max base exceeded. baseAmountArg: ${baseAmountWithSlippage}. quoteAmountArg: ${quoteAmountArg.toNumber()}, ammBaseAmount: ${ammBaseAmount.toNumber()}`
+        `liquidity max base exceeded. baseAmountArg: ${maxBaseAmountWithSlippage}, quoteAmountArg: ${quoteAmountArg.toNumber()}, ammBaseAmount: ${ammBaseAmount.toNumber()}`
       );
       return "AddLiquidityMaxBaseExceeded";
     }
+
+    if (userQuoteBalance !== undefined) {
+      const userQuoteBalanceScaled = new BN(
+        userQuoteBalance *
+          new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
+      );
+      const requiredQuoteBalance = quoteAmountArg.toNumber();
+      if (userQuoteBalanceScaled.toNumber() < requiredQuoteBalance) {
+        console.warn(
+          `Insufficient quote balance: Required ${requiredQuoteBalance}, Available: ${userQuoteBalance}`
+        );
+        return "InsufficientQuoteBalance";
+      }
+    }
+
+    if (userBaseBalance !== undefined) {
+      const userBaseBalanceScaled = new BN(
+        userBaseBalance *
+          new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
+      );
+      const requiredBaseBalance = ammBaseAmount.toNumber();
+      if (userBaseBalanceScaled.toNumber() < requiredBaseBalance) {
+        console.warn(
+          `Insufficient base balance: Required ${requiredBaseBalance}, Available: ${userBaseBalanceScaled.toNumber()}`
+        );
+        return "InsufficientBaseBalance";
+      }
+    }
+
     return null;
   }
 
@@ -164,23 +196,46 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
 
-  async simulateAddLiquidity(
+  simulateAddLiquidity(
     ammMarket: AmmMarket,
-    baseAmount: number,
-    quoteAmount: number
-  ) {
+    quoteAmount?: number,
+    baseAmount?: number
+  ): AddLiquiditySimulationResponse {
     const baseReserves = ammMarket.baseAmount;
     const quoteReserves = ammMarket.quoteAmount;
+
+    const quoteAmountArg = quoteAmount
+      ? new BN(
+          quoteAmount *
+            new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
+        )
+      : undefined;
+    const baseAmountArg = baseAmount
+      ? new BN(
+          baseAmount *
+            new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
+        )
+      : undefined;
 
     const simulation = this.ammClient.simulateAddLiquidity(
       baseReserves,
       quoteReserves,
       ammMarket.lpMintSupply,
-      baseAmount,
-      quoteAmount
+      baseAmountArg,
+      quoteAmountArg
     );
 
-    return simulation;
+    const simulationBase =
+      simulation.baseAmount.toNumber() / 10 ** ammMarket.baseToken.decimals;
+    const simulationQuote =
+      simulation.quoteAmount.toNumber() / 10 ** ammMarket.quoteToken.decimals;
+
+    return {
+      baseAmount: simulationBase,
+      quoteAmount: simulationQuote,
+      // warning this value is not divided by the lot size of the LP tokens
+      expectedLpTokens: simulation.expectedLpTokens.toNumber(),
+    };
   }
 
   async removeLiquidity(

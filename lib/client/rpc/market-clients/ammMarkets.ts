@@ -16,7 +16,6 @@ import {
   AmmAccount,
   AmmClient,
   SwapType,
-  getATA,
   getAmmAddr,
 } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
@@ -302,31 +301,16 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       outputAmountMinScaled.toNumber(),
       slippage
     );
-    const ix = await this.amm.methods
-      .swap({
+    const tx = await this.ammClient
+      .swapIx(
+        ammMarket.publicKey,
+        ammMarket.baseMint,
+        ammMarket.quoteMint,
         swapType,
-        inputAmount: inputAmountScaled,
-        outputAmountMin: new BN(outputAmountWithSlippage),
-      })
-      .accounts({
-        user: this.transactionSender.owner,
-        amm: ammMarket.publicKey,
-        baseMint: ammMarket.baseMint,
-        quoteMint: ammMarket.quoteMint,
-        userAtaBase: getATA(
-          ammMarket.baseMint,
-          this.transactionSender.owner
-        )[0],
-        userAtaQuote: getATA(
-          ammMarket.quoteMint,
-          this.transactionSender.owner
-        )[0],
-        vaultAtaBase: getATA(ammMarket.baseMint, ammMarket.publicKey)[0],
-        vaultAtaQuote: getATA(ammMarket.quoteMint, ammMarket.publicKey)[0],
-      })
-      .instruction();
-
-    const tx = new Transaction().add(ix);
+        inputAmountScaled,
+        new BN(outputAmountWithSlippage)
+      )
+      .transaction();
 
     return (
       this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []

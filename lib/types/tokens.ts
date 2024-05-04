@@ -10,8 +10,9 @@ export type TokenProps = {
 
 export type TokenWithBalance = { token: TokenProps; balance: number };
 
-export type TokenWithBalanceWithProposal = TokenWithBalance & {
+export type TokenWithBalancePDAAndProposal = TokenWithBalance & {
   proposal: PublicKey;
+  pda: PublicKey;
 };
 
 export type TokenWithPDA = {

@@ -4,7 +4,7 @@ import {
   DaoAggregate,
   TokenProps,
   TokenWithBalance,
-  TokenWithBalanceWithProposal,
+  TokenWithBalancePDAAndProposal,
   TokenWithPDA,
 } from "@/types";
 import { FutarchyBalancesClient } from "@/client";
@@ -64,7 +64,7 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     baseToken: TokenProps,
     quoteToken: TokenProps,
     proposalsWithVaults: Proposal[]
-  ): Promise<TokenWithBalanceWithProposal[]> {
+  ): Promise<TokenWithBalancePDAAndProposal[]> {
     return this.rpcBalancesClient.fetchAllConditionalTokenWalletBalances(
       ownerWallet,
       baseToken,

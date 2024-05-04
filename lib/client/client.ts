@@ -2,7 +2,7 @@ import { PublicKey } from "@solana/web3.js";
 import {
   DaoAggregate,
   TokenWithBalance,
-  TokenWithBalanceWithProposal,
+  TokenWithBalancePDAAndProposal,
   Market,
   Order,
   Proposal,
@@ -70,7 +70,7 @@ export interface FutarchyBalancesClient {
     quoteToken: TokenProps,
     baseToken: TokenProps,
     proposals: Proposal[]
-  ): Promise<TokenWithBalanceWithProposal[]>;
+  ): Promise<TokenWithBalancePDAAndProposal[]>;
   watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance>;
 }
 

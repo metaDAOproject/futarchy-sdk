@@ -8,7 +8,7 @@ import {
   FutarchyProtocol,
   TokenProps,
   TokenWithBalance,
-  TokenWithBalanceWithProposal,
+  TokenWithBalancePDAAndProposal,
   TokenWithPDA,
 } from "@/types";
 import { FutarchyBalancesClient } from "@/client";
@@ -168,7 +168,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
     baseToken: TokenProps,
     quoteToken: TokenProps,
     proposals: Proposal[]
-  ): Promise<TokenWithBalanceWithProposal[]> {
+  ): Promise<TokenWithBalancePDAAndProposal[]> {
     const tokenBalances = await Promise.all(
       proposals.map(async (proposal) => {
         if (ownerWallet && proposal.publicKey && quoteToken.publicKey) {
@@ -251,6 +251,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
                   balance: tokenBalance.value.uiAmount ?? 0,
                   token: t.token,
                   proposal: t.proposal,
+                  pda: t.pda,
                 };
               } catch (e) {
                 if (!JSON.stringify(e).includes("could not find account")) {
@@ -263,19 +264,20 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
                   balance: 0,
                   token: t.token,
                   proposal: t.proposal,
+                  pda: t.pda,
                 };
               }
             })
           );
 
           return tokensBalances.filter(
-            (b): b is TokenWithBalanceWithProposal => !!b
+            (b): b is TokenWithBalancePDAAndProposal => !!b
           );
         }
       })
     );
     return tokenBalances
-      .filter((tb): tb is TokenWithBalanceWithProposal[] => !!tb)
+      .filter((tb): tb is TokenWithBalancePDAAndProposal[] => !!tb)
       .flat();
   }
 

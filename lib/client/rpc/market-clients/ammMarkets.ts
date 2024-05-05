@@ -15,6 +15,7 @@ import {
   AMM_PROGRAM_ID,
   AmmAccount,
   AmmClient,
+  PriceMath,
   SwapType,
   getAmmAddr,
 } from "@metadaoproject/futarchy-ts";
@@ -279,23 +280,18 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     slippage: number
   ): Promise<string[]> {
     if (!this.transactionSender) return [];
-    let inputAmountScaled: BN;
-    let outputAmountMinScaled: BN;
-    if (swapType.buy) {
-      inputAmountScaled = new BN(
-        inputAmount * 10 ** ammMarket.quoteToken.decimals
-      );
-      outputAmountMinScaled = new BN(
-        outputAmountMin * 10 ** ammMarket.baseToken.decimals
-      );
-    } else {
-      inputAmountScaled = new BN(
-        inputAmount * 10 ** ammMarket.baseToken.decimals
-      );
-      outputAmountMinScaled = new BN(
-        outputAmountMin * 10 ** ammMarket.quoteToken.decimals
-      );
-    }
+    let [inputToken, outputToken] = swapType.buy
+      ? [ammMarket.quoteToken, ammMarket.baseToken]
+      : [ammMarket.baseToken, ammMarket.quoteToken];
+
+    let inputAmountScaled: BN = PriceMath.getChainAmount(
+      inputAmount,
+      inputToken.decimals
+    );
+    let outputAmountMinScaled: BN = PriceMath.getChainAmount(
+      inputAmount,
+      outputToken.decimals
+    );
 
     const outputAmountWithSlippage = calculateMinWithSlippage(
       outputAmountMinScaled.toNumber(),

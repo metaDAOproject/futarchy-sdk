@@ -18,6 +18,7 @@ import {
   PriceMath,
   SwapType,
   getAmmAddr,
+  getAmmLpMintAddr,
 } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
@@ -419,9 +420,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   }
 
   async getLpToken(ammAddr: PublicKey) {
-    const ammAccount = await this.ammClient.getAmm(ammAddr);
+    const [lpMint] = getAmmLpMintAddr(this.ammClient.getProgramId(), ammAddr);
     const lpToken = await enrichTokenMetadata(
-      ammAccount.lpMint,
+      lpMint,
       this.rpcProvider
     );
     return lpToken;

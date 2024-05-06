@@ -18,10 +18,17 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     this.rpcBalancesClient = rpcBalancesClient;
   }
 
+  /**
+   * The owner can be null even though we are trying to return PDAs. This is because we use this function to populate parts of the UI that
+   * we want to still work when a wallet is disconnected.
+   * @param daoAggregate DaoAggregate
+   * @param owner PublicKey | null
+   * @returns
+   */
   getDaoAggregateMainTokensByMint(
     daoAggregate: DaoAggregate,
-    owner: PublicKey
-  ): Map<string, TokenWithPDA> {
+    owner: PublicKey | null
+  ): Map<string, Pick<TokenWithPDA, "token"> & { pda: PublicKey | null }> {
     return this.rpcBalancesClient.getDaoAggregateMainTokensByMint(
       daoAggregate,
       owner

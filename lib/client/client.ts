@@ -49,8 +49,8 @@ export interface FutarchyProposalsClient {
 export interface FutarchyBalancesClient {
   getDaoAggregateMainTokensByMint(
     daoAggregate: DaoAggregate,
-    owner: PublicKey
-  ): Map<string, TokenWithPDA>;
+    owner: PublicKey | null
+  ): Map<string, Pick<TokenWithPDA, "token"> & { pda: PublicKey | null }>;
   fetchMainTokenWalletBalances(
     dao: DaoAggregate,
     ownerWallet: PublicKey

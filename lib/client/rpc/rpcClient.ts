@@ -37,10 +37,7 @@ export class FutarchyRPCClient implements FutarchyClient {
       futarchyProtocols,
       transactionSender
     );
-    this.balances = new FutarchyRPCBalancesClient(
-      rpcProvider,
-      futarchyProtocols
-    );
+    this.balances = new FutarchyRPCBalancesClient(rpcProvider);
 
     this.markets = new FutarchyMarketsRPCClient(
       rpcProvider,

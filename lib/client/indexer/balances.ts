@@ -20,8 +20,8 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
 
   getDaoAggregateMainTokensByMint(
     daoAggregate: DaoAggregate,
-    owner: PublicKey
-  ): Map<string, TokenWithPDA> {
+    owner: PublicKey | null
+  ): Map<string, Pick<TokenWithPDA, "token"> & { pda: PublicKey | null }> {
     return this.rpcBalancesClient.getDaoAggregateMainTokensByMint(
       daoAggregate,
       owner

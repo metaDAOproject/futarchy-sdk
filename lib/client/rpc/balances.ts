@@ -19,11 +19,9 @@ import { Observable } from "rxjs";
 
 export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
   private rpcProvider: Provider;
-  private futarchyProtocols: FutarchyProtocol[];
 
-  constructor(rpcProvider: Provider, futarchyProtocols: FutarchyProtocol[]) {
+  constructor(rpcProvider: Provider) {
     this.rpcProvider = rpcProvider;
-    this.futarchyProtocols = futarchyProtocols;
   }
 
   //TODO create a more general function for fetching balances on an array of token mints
@@ -40,29 +38,31 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
 
       return (
         await Promise.all(
-          Array.from(tokensByMint.values()).map<
-            Promise<TokenWithBalance | undefined>
-          >(async (t) => {
-            try {
-              const tokenBalance =
-                await this.rpcProvider.connection.getTokenAccountBalance(t.pda);
-              return {
-                balance: tokenBalance.value.uiAmount ?? 0,
-                token: t.token,
-              };
-            } catch (e) {
-              if (!JSON.stringify(e).includes("not found")) {
-                console.info(
-                  "error fetching wallet balance for token:",
-                  t.token.symbol
-                );
+          Array.from(tokensByMint.values())
+            .filter((t): t is TokenWithPDA => !!t.pda)
+            .map<Promise<TokenWithBalance | undefined>>(async (t) => {
+              try {
+                const tokenBalance =
+                  await this.rpcProvider.connection.getTokenAccountBalance(
+                    t.pda
+                  );
+                return {
+                  balance: tokenBalance.value.uiAmount ?? 0,
+                  token: t.token,
+                };
+              } catch (e) {
+                if (!JSON.stringify(e).includes("not found")) {
+                  console.info(
+                    "error fetching wallet balance for token:",
+                    t.token.symbol
+                  );
+                }
+                return {
+                  balance: 0,
+                  token: t.token,
+                };
               }
-              return {
-                balance: 0,
-                token: t.token,
-              };
-            }
-          })
+            })
         )
       ).filter((b): b is TokenWithBalance => !!b);
     }
@@ -79,44 +79,48 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
         daoAggregate,
         ownerWallet
       );
-      return Array.from(tokensByMint.values()).map<
-        Observable<TokenWithBalance>
-      >((t) => {
-        return this.watchTokenBalance(t);
-      });
+      return Array.from(tokensByMint.values())
+        .filter((t): t is TokenWithPDA => !!t.pda)
+        .map<Observable<TokenWithBalance>>((t) => {
+          return this.watchTokenBalance(t);
+        });
     }
     return [];
   }
 
   public getDaoAggregateMainTokensByMint(
     daoAggregate: DaoAggregate,
-    owner: PublicKey
-  ): Map<string, TokenWithPDA> {
+    owner: PublicKey | null
+  ): Map<string, Pick<TokenWithPDA, "token"> & { pda: PublicKey | null }> {
     return daoAggregate.daos.reduce((mapping, dao) => {
       if (!dao.baseToken.publicKey || !dao.quoteToken.publicKey) return mapping;
       if (!mapping.get(dao.baseToken.publicKey)) {
         mapping.set(dao.baseToken.publicKey, {
-          pda: getAssociatedTokenAddressSync(
-            new PublicKey(dao.baseToken.publicKey),
-            owner,
-            true
-          ),
+          pda: owner
+            ? getAssociatedTokenAddressSync(
+                new PublicKey(dao.baseToken.publicKey),
+                owner,
+                true
+              )
+            : null,
           token: dao.baseToken,
         });
       }
       if (!mapping.get(dao.quoteToken.publicKey)) {
         mapping.set(dao.quoteToken.publicKey, {
-          pda: getAssociatedTokenAddressSync(
-            new PublicKey(dao.quoteToken.publicKey),
-            owner,
-            true
-          ),
+          pda: owner
+            ? getAssociatedTokenAddressSync(
+                new PublicKey(dao.quoteToken.publicKey),
+                owner,
+                true
+              )
+            : null,
           token: dao.quoteToken,
         });
       }
 
       return mapping;
-    }, new Map() as Map<string, TokenWithPDA>);
+    }, new Map() as Map<string, Pick<TokenWithPDA, "token"> & { pda: PublicKey | null }>);
   }
 
   public watchTokenBalance(
@@ -283,10 +287,12 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
 
   getConditionalTokensFromProposals(
     proposals: Proposal[],
-    owner: PublicKey,
+    owner: PublicKey | null,
     quoteToken: TokenProps,
     baseToken: TokenProps
   ): Array<TokenWithPDA & { proposal: PublicKey }> {
+    if (!owner) return [];
+
     return proposals
       .map((proposal) => {
         if (owner && proposal.publicKey && quoteToken.publicKey) {

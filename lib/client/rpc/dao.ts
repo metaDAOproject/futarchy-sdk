@@ -1,15 +1,17 @@
-import { Program, Provider } from "@coral-xyz/anchor";
+import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AutocratProgram,
   FutarchyProtocol,
   DaoAccount,
   Dao,
   DaoAggregate,
+  ProgramVersionLabel,
 } from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
 import { PublicKey } from "@solana/web3.js";
 import { createSlug } from "@/utils";
+import { AutocratV1, IDL as AUTOCRAT_V1_IDL } from "@/idl/autocrat_v1";
 
 export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   private futarchyProtocols: FutarchyProtocol[];
@@ -124,6 +126,40 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
         quoteToken,
         protocol,
       };
+    }
+  }
+
+  async getMinLpToProvide(daoAggregate: DaoAggregate): Promise<{ base: BN, quote: BN } | undefined> {
+    const autocrat = new Program<AutocratV1>(AUTOCRAT_V1_IDL, "5scUH1qY87Awh5D8bQkbP2uv9BaXJXiMgrqRBw1K2vVv", this.rpcProvider)
+    const currentDao = daoAggregate.daos.filter((dao) => dao.protocol.deploymentVersion === "V1").slice(-1)[0]
+    if (!currentDao) return
+
+    console.log(currentDao.protocol.autocrat.programId)
+    const all = await autocrat.account.dao.all()
+    console.log(all)
+    const daoAccount = await autocrat.account.dao?.fetch(currentDao.publicKey)
+
+    return { base: daoAccount.minBaseFutarchicLiquidity, quote: daoAccount.minQuoteFutarchicLiquidity }
+  }
+
+  async getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: { mint: string, amount: number }[] }> {
+    const treasury = daoAccount.treasury
+    const balance = await this.rpcProvider.connection.getBalance(treasury).catch(e => 0)
+    const tokenAccounts = await this.rpcProvider.connection.getParsedTokenAccountsByOwner(treasury, {
+      programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
+    });
+
+    const tokens = tokenAccounts.value.map(accountInfo => {
+      const tokenAmount = accountInfo.account.data.parsed.info.tokenAmount;
+      return {
+        mint: accountInfo.account.data.parsed.info.mint,
+        amount: parseInt(tokenAmount.amount, 10),
+      };
+    });
+
+    return {
+      total: balance,
+      tokens: tokens
     }
   }
 

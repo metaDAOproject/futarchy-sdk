@@ -15,6 +15,9 @@ export type AmmMarket = Market & {
   baseAmount: BN;
   quoteAmount: BN;
   lpMintSupply: number;
+  createdAtSlot: BN;
+  twapLastUpdatedSlot: BN;
+  twapAggregator: BN;
 };
 
 export type LiquidityAddError =

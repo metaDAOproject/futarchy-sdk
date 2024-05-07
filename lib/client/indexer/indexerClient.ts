@@ -59,6 +59,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
     this.markets = new FutarchyIndexerMarketsClient(
       rpcClient.markets.openbook,
       rpcClient.markets.amm,
+      rpcClient.markets,
       wsClient
     );
   }

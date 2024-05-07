@@ -68,9 +68,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         baseToken,
         quoteMint: ammAccount.quoteMint,
         quoteToken,
-        createdAt: ammAccount.createdAtSlot.toNumber(),
+        createdAtSlot: ammAccount.createdAtSlot,
         publicKey: request.marketKey,
         type: "amm",
+        twapLastUpdatedSlot: ammAccount.oracle.lastUpdatedSlot,
+        twapAggregator: ammAccount.oracle.aggregator,
       };
     } catch (e) {
       console.error("error fetching amm market", e);

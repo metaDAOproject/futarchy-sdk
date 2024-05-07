@@ -98,7 +98,6 @@ export class FutarchyOpenbookMarketsRPCClient
         baseToken: baseTokenWithSymbol,
         quoteMint: obMarket.account.quoteMint,
         quoteToken: quoteTokenWithSymbol,
-        createdAt: obMarket.account.registrationTime.toNumber(),
         makerFee: obMarket.account.makerFee.toNumber(),
         marketAuthority: obMarket.account.marketAuthority,
         minOrderAmount: obMarket.minOrderSize,

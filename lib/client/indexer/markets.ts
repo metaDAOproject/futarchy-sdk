@@ -15,21 +15,25 @@ import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { generateSubscriptionOp } from "./__generated__";
 import { Client as GQLWebSocketClient } from "graphql-ws";
+import { FutarchyMarketsRPCClient } from "../rpc/markets";
 
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public openbook: FutarchyIndexerOpenbookMarketsClient;
   public amm: FutarchyIndexerAmmMarketsClient;
+  public marketClient: FutarchyMarketsRPCClient;
   private graphqlWSClient: GQLWebSocketClient;
 
   constructor(
     rpcOpenbookMarketsClient: FutarchyOpenbookMarketsRPCClient,
     rpcAmmMarketsClient: FutarchyAmmMarketsRPCClient,
+    marketsClient: FutarchyMarketsRPCClient,
     graphqlWSClient: GQLWebSocketClient
   ) {
     this.openbook = new FutarchyIndexerOpenbookMarketsClient(
       rpcOpenbookMarketsClient
     );
     this.amm = new FutarchyIndexerAmmMarketsClient(rpcAmmMarketsClient);
+    this.marketClient = marketsClient;
     this.graphqlWSClient = graphqlWSClient;
   }
 
@@ -46,6 +50,8 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
+    return this.marketClient.watchTwapPrices(marketKey);
+
     const { query, variables } = generateSubscriptionOp({
       twaps: {
         __args: {
@@ -85,6 +91,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
+    // console.log("WATCHING SPOT PRICES");
+    return this.marketClient.watchSpotPrices(marketKey);
+
     const { query, variables } = generateSubscriptionOp({
       takes: {
         __args: {
@@ -115,11 +124,13 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             );
             subscriber.next(spotObservations ?? []);
           },
-          error: (error) => subscriber.error(error),
+          error: (error) => {
+            console.log("Djksdkaldsjklasj")
+            subscriber.error(error)
+          },
           complete: () => subscriber.complete(),
         }
       );
-
       return () => subscriptionCleanup();
     });
   }

@@ -1,4 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
+import { BN } from "@coral-xyz/anchor";
 import { TokenProps } from "@/types";
 
 export type OrderBookSideType = "ask" | "bid";
@@ -63,7 +64,6 @@ export type Market = {
   baseToken: TokenProps;
   quoteMint: PublicKey;
   quoteToken: TokenProps;
-  createdAt: number;
 };
 
 export type OrderbookMarket = Market & {

@@ -9,7 +9,7 @@ import {
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
-import { AmmClient } from "@metadaoproject/futarchy-ts";
+import { AmmClient, PriceMath } from "@metadaoproject/futarchy-ts";
 import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
 import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
@@ -57,19 +57,45 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   }
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
-    console.warn(
-      "twap price subscription is unavailable for the futarchy-sdk RPC client"
-    );
     return new Observable((subscriber) => {
-      subscriber.next([]);
+      this.amm
+        .fetchMarket(new AmmMarketFetchRequest(marketKey))
+        .then((market) => {
+          subscriber.next([
+            {
+              price: PriceMath.getHumanPrice(
+                market?.twapAggregator.div(
+                  market.twapLastUpdatedSlot.sub(market.createdAtSlot)
+                ),
+                market?.baseToken.decimals!!,
+                market?.quoteToken.decimals!!
+              ),
+              slot: 0,
+            },
+          ]);
+        });
     });
   }
+
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
-    console.warn(
-      "spot price subscription is unavailable for the futarchy-sdk RPC client"
-    );
     return new Observable((subscriber) => {
-      subscriber.next([]);
+      this.amm
+        .fetchMarket(new AmmMarketFetchRequest(marketKey))
+        .then((market) => {
+          subscriber.next([
+            {
+              price: PriceMath.getHumanPrice(
+                PriceMath.getAmmPriceFromReserves(
+                  market?.baseAmount,
+                  market?.quoteAmount
+                ),
+                market?.baseToken.decimals!!,
+                market?.quoteToken.decimals!!
+              ),
+              slot: 0,
+            },
+          ]);
+        });
     });
   }
 }

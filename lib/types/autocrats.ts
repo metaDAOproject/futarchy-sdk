@@ -50,7 +50,7 @@ export type FutarchyProtocol = {
 export type DaoAccount = MergeWithOptionalFields<
   IdlAccounts<AutocratV0_3>["dao"],
   MergeWithOptionalFields<
-    IdlAccounts<AutocratV0_2>["dao"],
+    IdlAccounts<AutocratV0_2>["DAO"],
     MergeWithOptionalFields<
       IdlAccounts<AutocratV0_1>["dao"],
       IdlAccounts<AutocratV0>["dao"]

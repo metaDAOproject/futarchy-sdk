@@ -38,7 +38,7 @@ export interface FutarchyDaoClient {
     protocol: FutarchyProtocol
   ): Promise<DaoAggregate | null>;
   getMinLpToProvide(daoAggregate: DaoAggregate): Promise<{ base: BN, quote: BN } | undefined>;
-  getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: { mint: string, amount: number }[]}>
+  getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[]}>
 }
 
 export interface FutarchyProposalsClient {

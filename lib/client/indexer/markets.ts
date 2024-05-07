@@ -91,7 +91,6 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
-    // console.log("WATCHING SPOT PRICES");
     return this.marketClient.watchSpotPrices(marketKey);
 
     const { query, variables } = generateSubscriptionOp({
@@ -124,10 +123,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             );
             subscriber.next(spotObservations ?? []);
           },
-          error: (error) => {
-            console.log("Djksdkaldsjklasj")
-            subscriber.error(error)
-          },
+          error: (error) => subscriber.error(error),
           complete: () => subscriber.complete(),
         }
       );

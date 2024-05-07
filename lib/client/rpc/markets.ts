@@ -57,6 +57,9 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   }
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
+    // TODO: this only works for AMM today, should be extended for
+    // order books
+
     return new Observable((subscriber) => {
       this.amm
         .fetchMarket(new AmmMarketFetchRequest(marketKey))
@@ -78,6 +81,9 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   }
 
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
+    // TODO: this only works for AMM today, should be extended for
+    // order books
+
     return new Observable((subscriber) => {
       this.amm
         .fetchMarket(new AmmMarketFetchRequest(marketKey))

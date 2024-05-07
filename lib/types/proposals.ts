@@ -22,7 +22,7 @@ export type ProposalInstruction = MergeWithOptionalFields<
 >;
 
 export type ProposalAccount = MergeWithOptionalFields<
-  IdlAccounts<AutocratV0_2>["proposal"],
+  IdlAccounts<AutocratV0_2>["Proposal"],
   MergeWithOptionalFields<
     IdlAccounts<AutocratV0_1>["proposal"],
     MergeWithOptionalFields<

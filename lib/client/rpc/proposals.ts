@@ -3,6 +3,7 @@ import {
   Connection,
   Keypair,
   PublicKey,
+  SYSVAR_RENT_PUBKEY,
   SystemProgram,
   Transaction,
   TransactionInstruction,
@@ -47,10 +48,17 @@ import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import { OpenbookTwapV0_2 as OpenbookTwap, IDL as OPENBOOK_TWAP_IDL } from "@/idl/openbook_twap_v0.2";
 import { ConditionalVault, IDL as CONDITIONAL_VAULT_IDL } from "@/idl/conditional_vault_v0.2";
 import { deserializeMetadata, findMetadataPda } from "@metaplex-foundation/mpl-token-metadata";
-import { Metadata } from "@metaplex-foundation/js";
+import { Metadata, keypairIdentity } from "@metaplex-foundation/js";
 import { AutocratV0 as AutocratV0_2, IDL as AutocratV0_2_IDL } from "@/idl/autocrat_v0.2";
-// import { associatedTokenProgram, tokenProgram } from "@metaplex-foundation/js";
+import { MPL_TOKEN_METADATA_PROGRAM_ID as UMI_MPL_TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
+import { fromWeb3JsPublicKey, toWeb3JsPublicKey } from "@metaplex-foundation/umi-web3js-adapters";
+import { createUmi, signerIdentity } from "@metaplex-foundation/umi";
 
+const MPL_TOKEN_METADATA_PROGRAM_ID = toWeb3JsPublicKey(
+  UMI_MPL_TOKEN_METADATA_PROGRAM_ID
+);
+
+// import { associatedTokenProgram, tokenProgram } from "@metaplex-foundation/js";
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: AnchorProvider;
   private futarchyProtocols: FutarchyProtocol[];
@@ -354,8 +362,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       );
       return;
     }
-
-    const destinationAcc = await this.getOrCreateAssociatedTokenAccount(tokenMint,destinationAccount,true);
+    //create indopedent
+    const destinationAcc = await this.getOrCreateAssociatedTokenAccount(tokenMint, destinationAccount, true);
     const transferIx = createTransferInstruction(
       originAcc.address,
       destinationAcc.address,
@@ -446,7 +454,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   // }
 
   async createVersionedTransaction(instructions: TransactionInstruction[]) {
-    instructions.map((ix) => ix.keys.map((key) => console.log(key)))
+    // instructions.map((ix) => ix.keys.map((key) => console.log(key)))
 
     if (!this.rpcProvider.publicKey) throw new Error('Wallet is not connected or public key is not available.');
 
@@ -466,207 +474,95 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return new VersionedTransaction(messageV0);
   }
 
-  // async fetchOnchainMetadataForMint (
-  //   address: PublicKey
-  // ): Promise<
-  //   | {
-  //       key: PublicKey;
-  //       metadata: Metadata;
-  //     }
-  //   | undefined
-  // > {
-  //   const pda = findMetadataPda(umi, {
-  //     mint: fromWeb3JsPublicKey(address),
-  //   });
+  async initializeVaultTx(
+    settlementAuthority: PublicKey,
+    underlyingTokenMint: PublicKey,
+    nonce: BN,
+    vaultProgram: Program<ConditionalVault>,
+    conditionalOnFinalizeKP: Keypair,
+    conditionalOnRevertKP: Keypair
+  ): Promise<any> {
 
-  //   const acct = await umi.rpc.getAccount(pda[0]);
-  //   if (!acct.exists) return undefined;
+    const [vault] = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("conditional_vault", "utf8"),
+        settlementAuthority.toBuffer(),
+        underlyingTokenMint.toBuffer(),
+        nonce.toArrayLike(Buffer, "le", 8),
+      ],
+      vaultProgram.programId
+    );
 
-  //   return {
-  //     key: toWeb3JsPublicKey(pda[0]),
-  //     metadata: deserializeMetadata(acct),
-  //   };
-  // };
+    const vaultUnderlyingTokenAccount = await getAssociatedTokenAddress(
+      underlyingTokenMint,
+      vault,
+      true
+    );
 
-  // async generateAddMetadataToConditionalTokensIx(
-  //   mint: PublicKey,
-  //   onFinalizeMint: PublicKey,
-  //   onRevertMint: PublicKey,
-  //   vault: PublicKey,
-  //   nonce: BN
-  // ): Promise<TransactionInstruction | undefined> {
-  //   const tokenMetadata = await fetchOnchainMetadataForMint(mint);
-  //   if (!tokenMetadata) {
-  //     console.warn(
-  //       `no metadata found for token = ${mint.toBase58()}, conditional tokens will not have metadata`
-  //     );
-  //     return undefined;
-  //   }
+    const ix = (await vaultProgram.methods
+      .initializeConditionalVault(settlementAuthority, nonce)
+      .accounts({
+        vault,
+        underlyingTokenMint,
+        vaultUnderlyingTokenAccount,
+        conditionalOnFinalizeTokenMint: conditionalOnFinalizeKP.publicKey,
+        conditionalOnRevertTokenMint: conditionalOnRevertKP.publicKey,
+        payer: this.rpcProvider.publicKey,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([conditionalOnFinalizeKP, conditionalOnRevertKP])
+      .transaction()).instructions
 
-  //   const { metadata, key: metadataKey } = tokenMetadata;
-  //   const conditionalOnFinalizeTokenMetadataKey = await findMetaplexMetadataPda(
-  //     onFinalizeMint
-  //   );
-  //   const conditionalOnRevertTokenMetadataKey = await findMetaplexMetadataPda(
-  //     onRevertMint
-  //   );
+    const tx = await this.createVersionedTransaction(ix)
+    tx.sign([conditionalOnFinalizeKP, conditionalOnRevertKP])
 
-  //   // pull off the least significant 32 bits representing the proposal count
-  //   const proposalCount = nonce.and(new BN(1).shln(32).sub(new BN(1)));
-
-  //   // create new json, take that and pipe into the instruction
-  //   const uploadResult = await uploadOffchainMetadata(
-  //     proposalCount,
-  //     metadata.symbol
-  //   );
-
-  //   if (!uploadResult) return undefined;
-  //   const { passTokenMetadataUri, failTokenMetadataUri } = uploadResult;
-  //   if (!passTokenMetadataUri || !failTokenMetadataUri) {
-  //     // an error here is likely transient, so we want to fail the script so that the caller can try again. otherwise, we will end up with a token with no linkable off-chain metadata.
-  //     throw new Error(
-  //       `required metadata is undefined, pass = ${passTokenMetadataUri}, fail = ${failTokenMetadataUri}. Please try again.`
-  //     );
-  //   }
-
-  //   console.log(
-  //     `[proposal = ${proposalCount.toNumber()}] pass token metadata uri: ${passTokenMetadataUri}, fail token metadata uri: ${failTokenMetadataUri}`
-  //   );
-
-  //   return vaultProgram.methods
-  //     .addMetadataToConditionalTokens(
-  //       proposalCount,
-  //       passTokenMetadataUri,
-  //       failTokenMetadataUri
-  //     )
-  //     .accounts({
-  //       payer: ,
-  //       vault,
-  //       underlyingTokenMint: mint,
-  //       underlyingTokenMetadata: metadataKey,
-  //       conditionalOnFinalizeTokenMint: onFinalizeMint,
-  //       conditionalOnRevertTokenMint: onRevertMint,
-  //       conditionalOnFinalizeTokenMetadata: conditionalOnFinalizeTokenMetadataKey,
-  //       conditionalOnRevertTokenMetadata: conditionalOnRevertTokenMetadataKey,
-  //       tokenMetadataProgram: MPL_TOKEN_METADATA_PROGRAM_ID,
-  //       systemProgram: SystemProgram.programId,
-  //       rent: SYSVAR_RENT_PUBKEY,
-  //     })
-  //     .instruction();
-  // }
-
+    return [vault, tx];
+  }
 
   public async createProposalV02(daoAggregate: DaoAggregate): SendTransactionResponse {
     const currentDao = daoAggregate.daos.filter((dao) => dao.protocol.deploymentVersion === "V0.2")[0]
     if (!currentDao) return { signatures: [], errors: [{ name: "", message: "No dao found for this version" }] }
-    // const keypair = [77, 195, 26, 149, 156, 91, 191, 182, 119, 195, 207, 138, 205, 222, 136, 17, 246, 173, 73, 232, 193, 220, 10, 124, 156, 67, 131, 95, 92, 29, 46, 223, 68, 94, 58, 115, 41, 108, 251, 183, 87, 141, 52, 246, 148, 61, 60, 78, 90, 156, 209, 254, 189, 221, 85, 150, 192, 16, 34, 70, 242, 166, 113, 239]
-    // const secretKey = Uint8Array.from(keypair);
-    // const proposalKP = Keypair.fromSecretKey(secretKey)
+    
     const proposalKP = Keypair.generate();
-    const proposal = proposalKP.publicKey
 
-    const autocrat = new Program<AutocratV0_2>(AutocratV0_2_IDL, "metaRK9dUBnrAdZN6uUDKvxBVKW5pyCbPVmLtUZwtBp", this.rpcProvider)
-    const allDaos = await autocrat.account.dao.all()
+    const basePassMint = Keypair.generate();
+    const baseFailMint = Keypair.generate();
+    const quotePassMint = Keypair.generate();
+    const quoteFailMint = Keypair.generate();
 
+    const passMarketKP = Keypair.generate();
+    const failMarketKP = Keypair.generate();
+
+    const autocrat = new Program<AutocratV0_2>(AutocratV0_2_IDL, currentDao.protocol.autocrat.programId, this.rpcProvider)
+    
+    //@ts-ignore
     const daoAccount = await autocrat.account.dao.fetch(currentDao.publicKey)
+    if (!daoAccount) return
+
     // const baseNonce:BN = new BN(daoAccount.proposalCount);
-    const baseNonce: BN = new BN(1000000);
+    const baseNonce: BN = new BN(1027);
     const daoTreasury = daoAccount.treasury
     const vaultProgramId = new PublicKey("vAuLTQjV5AZx5f3UgE75wcnkxnQowWxThn1hGjfCVwP")
     const vaultProgram = new Program<ConditionalVault>(CONDITIONAL_VAULT_IDL, vaultProgramId, this.rpcProvider)
+    const treasury = daoAccount.treasury
 
-    const treasury = currentDao.daoAccount.treasury
-
-    const tokenMint = currentDao.daoAccount.tokenMint!!
-    const usdcMint = currentDao.daoAccount.usdcMint;
-
-    // const [baseVault] = getVaultAddr(vaultProgramId, treasury, tokenMint, proposal);
-    // const [quoteVault] = getVaultAddr(vaultProgramId, treasury, usdcMint, proposal);
-
-    const [baseVault] = PublicKey.findProgramAddressSync(
-      [
-        Buffer.from("conditional_vault", "utf8"),
-        treasury.toBuffer(),
-        tokenMint.toBuffer(),
-        baseNonce.toArrayLike(Buffer, "le", 8),
-      ],
-      vaultProgramId
-    );
-
-    const [quoteVault] = PublicKey.findProgramAddressSync(
-      [
-        Buffer.from("conditional_vault", "utf8"),
-        treasury.toBuffer(),
-        usdcMint.toBuffer(),
-        baseNonce.toArrayLike(Buffer, 'le', 8),
-      ],
-      vaultProgramId
-    );
-
-    const baseTokenAccount = getAssociatedTokenAddressSync(tokenMint, baseVault, true);
-    const quoteTokenAccount = getAssociatedTokenAddressSync(usdcMint, quoteVault, true);
-
-    const [passBase] = getVaultFinalizeMintAddr(vaultProgramId, baseVault);
-    const [passQuote] = getVaultFinalizeMintAddr(vaultProgramId, quoteVault);
-
-    const [failBase] = getVaultRevertMintAddr(vaultProgramId, baseVault);
-    const [failQuote] = getVaultRevertMintAddr(vaultProgramId, quoteVault);
+    const tokenMint = daoAccount.metaMint!!;
+    const usdcMint = daoAccount.usdcMint;
 
     const openbook = new OpenBookV2Client(this.rpcProvider);
     const openbookTwap = new Program<OpenbookTwap>(OPENBOOK_TWAP_IDL, OPENBOOK_TWAP_PROGRAM_IDV0_2, this.rpcProvider);
 
-    let quotePassKP = Keypair.generate();
-    let quoteFailKP = Keypair.generate();
-
-    let basePassKP = Keypair.generate();
-    let baseFailKP = Keypair.generate();
-
-    const initializeBaseVaultIx = await vaultProgram.methods
-      .initializeConditionalVault(treasury, baseNonce)
-      .accounts({
-        vault: baseVault,
-        underlyingTokenMint: tokenMint,
-        conditionalOnFinalizeTokenMint: basePassKP.publicKey,
-        conditionalOnRevertTokenMint: baseFailKP.publicKey,
-        vaultUnderlyingTokenAccount: baseTokenAccount,
-        payer: this.rpcProvider.publicKey,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-        systemProgram: SystemProgram.programId
-      })
-      .signers([basePassKP, baseFailKP])
-      .instruction()
-
-    const initializeQuoteVaultIx = await vaultProgram.methods
-      .initializeConditionalVault(treasury, baseNonce)
-      .accounts({
-        vault: quoteVault,
-        underlyingTokenMint: usdcMint,
-        conditionalOnFinalizeTokenMint: quotePassKP.publicKey,
-        conditionalOnRevertTokenMint: quoteFailKP.publicKey,
-        vaultUnderlyingTokenAccount: quoteTokenAccount,
-        payer: this.rpcProvider.publicKey,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-        systemProgram: SystemProgram.programId
-      })
-      .signers([quotePassKP, quoteFailKP])
-      .instruction()
-
-    const initializeBaseVaultTx = await this.createVersionedTransaction([initializeBaseVaultIx])
-    initializeBaseVaultTx.sign([basePassKP, baseFailKP])
-
-    const initializeQuoteVaultTx = await this.createVersionedTransaction([initializeQuoteVaultIx])
-    initializeQuoteVaultTx.sign([quotePassKP, quoteFailKP])
+    const [baseVault, initializeBaseVaultTx] = await this.initializeVaultTx(treasury, tokenMint, baseNonce, vaultProgram, basePassMint, baseFailMint)
+    const [quoteVault, initializeQuoteVaultTx] = await this.initializeVaultTx(treasury, usdcMint, baseNonce.or(new BN(1).shln(63)), vaultProgram, quotePassMint, quoteFailMint)
 
     const currentTimeInSeconds = Math.floor(Date.now() / 1000);
     const elevenDaysInSeconds = 11 * 24 * 60 * 60;
     const expiryTime = new BN(currentTimeInSeconds + elevenDaysInSeconds);
     const quoteLotSize = new BN(100);
-    const baseLotSize = new BN(1e8);
+    const baseLotSize = currentDao.protocol.autocrat.programId.toString() == "fut5MzSUFcmxaEHMvo9qQThrAL4nAv5FQ52McqhniSt" ? new BN(1e12): new BN(1e8);
     const maxObservationChangePerUpdateLots: BN = new BN(5000);
-
-    let passMarketKP = Keypair.generate();
 
     const twapSeed = Buffer.from("twap_market", "utf8")
 
@@ -674,23 +570,22 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       [twapSeed, passMarketKP.publicKey.toBuffer()],
       OPENBOOK_TWAP_PROGRAM_IDV0_2
     )
-    let failMarketKP = Keypair.generate();
-
     const [twapFailMarket] = PublicKey.findProgramAddressSync(
       [twapSeed, failMarketKP.publicKey.toBuffer()],
       OPENBOOK_TWAP_PROGRAM_IDV0_2
     )
 
-    const expectedValue: BN = new BN(10000)
-
+    // const expectedValue = new BN(10000)
+    const expectedValue = daoAccount.twapExpectedValue
     const makerFee = new BN(0)
     const takerFee = new BN(0)
     let [passMarketIx, passMarketSigners] =
       await openbook.createMarketIx(
         this.rpcProvider.publicKey,
-        `${baseNonce}pMETA/pUSDC`,
-        passQuote,
-        passBase,
+        // MAX 10 CHAR
+        `${baseNonce.toString()}pMETA/pUSDC`,
+        quotePassMint.publicKey,
+        basePassMint.publicKey,
         quoteLotSize,
         baseLotSize,
         makerFee,
@@ -709,25 +604,26 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const createPassMarketTx = await this.createVersionedTransaction(passMarketIx)
     createPassMarketTx.sign(passMarketSigners)
 
-    let [failMarketIx, failMarketSigners] = await openbook.createMarketIx(
-      this.rpcProvider.publicKey,
-      `${baseNonce}fMETA/fUSDC`,
-      failQuote,
-      failBase,
-      quoteLotSize,
-      baseLotSize,
-      makerFee,
-      takerFee,
-      expiryTime,
-      null,
-      null,
-      twapFailMarket,
-      null,
-      twapFailMarket,
-      { confFilter: 0.1, maxStalenessSlots: 100 },
-      failMarketKP,
-      daoTreasury
-    )
+    let [failMarketIx, failMarketSigners] =
+      await openbook.createMarketIx(
+        this.rpcProvider.publicKey,
+        `${baseNonce.toString()}fMETA/fUSDC`,
+        quoteFailMint.publicKey,
+        baseFailMint.publicKey,
+        quoteLotSize,
+        baseLotSize,
+        makerFee,
+        takerFee,
+        expiryTime,
+        null,
+        null,
+        twapFailMarket,
+        null,
+        twapFailMarket,
+        { confFilter: 0.1, maxStalenessSlots: 100 },
+        failMarketKP,
+        daoTreasury
+      );
 
     const createFailMarketTx = await this.createVersionedTransaction(failMarketIx)
     createFailMarketTx.sign(failMarketSigners)
@@ -741,21 +637,19 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       .accounts({ market: failMarketKP.publicKey, twapMarket: twapFailMarket, systemProgram: SYSTEM_PROGRAM, payer: this.rpcProvider.publicKey })
       .transaction()).instructions
 
-
     const createTwaps = new Transaction().add(...createTwapPassIxs, ...createTwapFailIxs)
 
     const instruction = this.buildMemoInstruction()
 
-    console.log(proposalKP, expectedValue, maxObservationChangePerUpdateLots, passMarketKP.publicKey, twapPassMarket, twapFailMarket, failMarketKP.publicKey)
-    console.log(proposal, currentDao.publicKey, daoTreasury, quoteVault, baseVault)
-
-    const preIx = await autocrat.account.proposal.createInstruction(proposalKP)
-    preIx.keys[0].pubkey = proposalKP.publicKey
     const initializeProposalIxs = (await autocrat.methods
       .initializeProposal("wwww.google.com", instruction)
+      .preInstructions([
+        // @ts-ignore
+        await autocrat.account.proposal.createInstruction(proposalKP, 1000)
+      ])
       .signers([proposalKP])
       .accounts({
-        proposal,
+        proposal: proposalKP.publicKey,
         dao: currentDao.publicKey,
         daoTreasury,
         quoteVault,
@@ -768,32 +662,26 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       })
       .transaction()).instructions
 
-
-    // initializeProposal needs to be a versioned tx to be able to partial sign with wallet signAllTransactions
-    // signing after a partial sign overwrites it
-    // versionedTransaction have no partialSign fn because it's sign fn is a partialSign
-    const initializeProposalTx = await this.createVersionedTransaction([preIx, ...initializeProposalIxs])
+    const initializeProposalTx = await this.createVersionedTransaction([...initializeProposalIxs])
     initializeProposalTx.sign([proposalKP])
 
     const txResp = await this.transactionSender?.send(
       [
         initializeBaseVaultTx,
         initializeQuoteVaultTx,
-        // createMarketsTx,
         createPassMarketTx,
         createFailMarketTx,
         createTwaps,
         initializeProposalTx
       ],
       this.rpcProvider.connection,
-      { commitment: "finalized", sequential: true }
+      { commitment: "confirmed", sequential: true }
     )
     return txResp
   }
 
 
   async createProposal(daoAggregate: DaoAggregate) {
-    // const keypair = [25, 111, 35, 204, 221, 176, 254, 247, 101, 231, 192, 64, 105, 173, 22, 31, 119, 111, 15, 135, 239, 17, 175, 152, 223, 187, 143, 147, 5, 95, 251, 245, 110, 203, 74, 146, 31, 43, 170, 247, 111, 37, 73, 202, 158, 51, 54, 172, 134, 84, 227, 59, 135, 93, 150, 75, 108, 235, 168, 76, 161, 11, 175, 230]
     const proposalKP = Keypair.generate();
 
     //TO DO error handling around prop secret key and tx failures before initialization
@@ -857,7 +745,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     // versionedTransaction have no partialSign fn because it's sign fn is a partialSign
     const initializeProposalTx = await this.createVersionedTransaction(initializeProposalIx)
     initializeProposalTx.sign([proposalKP])
-      
+
     const txResp = await this.transactionSender?.send(
       [
         initializeVaultsAndMintTx,

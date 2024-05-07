@@ -6,6 +6,8 @@ import {
   Dao,
   DaoAggregate,
   ProgramVersionLabel,
+  TokenProps,
+  TokenWithBalance,
 } from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
@@ -134,31 +136,29 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     const currentDao = daoAggregate.daos.filter((dao) => dao.protocol.deploymentVersion === "V1").slice(-1)[0]
     if (!currentDao) return
 
-    console.log(currentDao.protocol.autocrat.programId)
-    const all = await autocrat.account.dao.all()
-    console.log(all)
     const daoAccount = await autocrat.account.dao?.fetch(currentDao.publicKey)
 
-    return { base: daoAccount.minBaseFutarchicLiquidity, quote: daoAccount.minQuoteFutarchicLiquidity }
+    return { base: daoAccount.minBaseFutarchicLiquidity , quote: daoAccount.minQuoteFutarchicLiquidity }
   }
 
-  async getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: { mint: string, amount: number }[] }> {
+  async getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[] }> {
     const treasury = daoAccount.treasury
-    const balance = await this.rpcProvider.connection.getBalance(treasury).catch(e => 0)
+    const balance = await this.rpcProvider.connection.getBalance(treasury).catch(e => null)
     const tokenAccounts = await this.rpcProvider.connection.getParsedTokenAccountsByOwner(treasury, {
       programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
     });
 
-    const tokens = tokenAccounts.value.map(accountInfo => {
+    const tokens = await Promise.all(tokenAccounts.value.map(async (accountInfo) => {
       const tokenAmount = accountInfo.account.data.parsed.info.tokenAmount;
+      const token = await enrichTokenMetadata(accountInfo.account.data.parsed.info.mint, this.rpcProvider)
       return {
-        mint: accountInfo.account.data.parsed.info.mint,
-        amount: parseInt(tokenAmount.amount, 10),
+        token: token,
+        balance: tokenAmount.uiAmount,
       };
-    });
+    }))
 
     return {
-      total: balance,
+      total: balance ?? 0,
       tokens: tokens
     }
   }

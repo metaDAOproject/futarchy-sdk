@@ -42,7 +42,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     this.transactionSender = transactionSender;
   }
 
-  async decodeMarket(marketEncoded: AccountInfo<Buffer>) {
+  async decodeMarket(marketEncoded: AccountInfo<Buffer>): Promise<AmmAccount> {
     const marketAccount = await this.amm.coder.accounts.decode(
       "amm",
       marketEncoded.data

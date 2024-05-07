@@ -20,7 +20,7 @@ import { FutarchyMarketsRPCClient } from "../rpc/markets";
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public openbook: FutarchyIndexerOpenbookMarketsClient;
   public amm: FutarchyIndexerAmmMarketsClient;
-  public marketClient: FutarchyMarketsRPCClient;
+  public rpcClient: FutarchyMarketsRPCClient;
   private graphqlWSClient: GQLWebSocketClient;
 
   constructor(
@@ -33,7 +33,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       rpcOpenbookMarketsClient
     );
     this.amm = new FutarchyIndexerAmmMarketsClient(rpcAmmMarketsClient);
-    this.marketClient = marketsClient;
+    this.rpcClient = marketsClient;
     this.graphqlWSClient = graphqlWSClient;
   }
 
@@ -50,7 +50,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
-    return this.marketClient.watchTwapPrices(marketKey);
+    return this.rpcClient.watchTwapPrices(marketKey);
 
     const { query, variables } = generateSubscriptionOp({
       twaps: {
@@ -91,7 +91,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
-    return this.marketClient.watchSpotPrices(marketKey);
+    return this.rpcClient.watchSpotPrices(marketKey);
 
     const { query, variables } = generateSubscriptionOp({
       takes: {

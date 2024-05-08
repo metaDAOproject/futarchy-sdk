@@ -23,6 +23,7 @@ import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { SendTransactionResponse } from "@/types/transactions";
 import { BN } from "@coral-xyz/anchor";
+import { CreateProposalInstruction, MarketParams, ProposalDetails } from "@/types/createProp";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -38,7 +39,7 @@ export interface FutarchyDaoClient {
     protocol: FutarchyProtocol
   ): Promise<DaoAggregate | null>;
   getMinLpToProvide(daoAggregate: DaoAggregate): Promise<{ base: BN, quote: BN } | undefined>;
-  getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[]}>
+  getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[] }>
 }
 
 export interface FutarchyProposalsClient {
@@ -49,8 +50,13 @@ export interface FutarchyProposalsClient {
     vaultAccount: VaultAccountWithProtocol
   ): SendTransactionResponse;
   withdraw(proposal: Proposal): SendTransactionResponse;
-  createProposal(daoAggregate: DaoAggregate): SendTransactionResponse;
-  createProposalV02(daoAggregate: DaoAggregate): SendTransactionResponse;
+  createProposal(
+    daoAggregate: DaoAggregate,
+    version: "V0.2" | "V1",
+    instructionParams: CreateProposalInstruction,
+    marketParams: MarketParams,
+    proposalDetails: ProposalDetails
+  ): SendTransactionResponse;
 }
 
 export interface FutarchyBalancesClient {

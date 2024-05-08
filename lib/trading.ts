@@ -1,3 +1,5 @@
+import { Orderbook } from "./types";
+
 /**
  * Calculates the maximum value considering the slippage percentage.
  *
@@ -22,4 +24,23 @@ export function calculateMaxWithSlippage(maxValue: number, slippage: number) {
 export function calculateMinWithSlippage(minValue: number, slippage: number) {
   const slippagePercent = slippage / 100;
   return minValue * (1 - slippagePercent);
+}
+
+/**
+ * Function to calculate the mid price from the order book
+ * @param orderBook
+ * @returns numb | null
+ */
+export function getMidPrice(orderBook: Orderbook): number | null {
+  // Check if there are any asks and bids
+  if (orderBook.asks.length === 0 || orderBook.bids.length === 0) {
+    return null; // Return null if there are no asks or bids to calculate mid-price
+  }
+
+  // Assumes asks and bids are sorted by price, asks ascending and bids descending
+  const bestAsk = orderBook.asks[0].price;
+  const bestBid = orderBook.bids[0].price;
+
+  // Calculate and return the mid price
+  return (bestAsk + bestBid) / 2;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "1.1.0-alpha.14",
+  "version": "1.1.0-alpha.15",
   "main": "dist",
   "scripts": {
     "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",

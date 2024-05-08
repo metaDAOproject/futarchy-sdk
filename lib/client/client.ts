@@ -44,6 +44,7 @@ export interface FutarchyProposalsClient {
     vaultAccount: VaultAccountWithProtocol
   ): Promise<string[] | undefined>;
   withdraw(proposal: Proposal): Promise<string[] | undefined>;
+  createProposal(daoAggregate: DaoAggregate, user: PublicKey): Promise<string[] | undefined>;
 }
 
 export interface FutarchyBalancesClient {

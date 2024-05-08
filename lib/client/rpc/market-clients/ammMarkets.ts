@@ -15,10 +15,10 @@ import {
   AMM_PROGRAM_ID,
   AmmAccount,
   AmmClient,
-  PriceMath,
   SwapType,
   getAmmAddr,
   getAmmLpMintAddr,
+  PriceMath
 } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
@@ -330,15 +330,10 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: number,
     isBuyBase: boolean
   ): Promise<SwapPreview> {
-    // TODO we shouldn't need to refetch this if we can build the account type correctly
-    const ammAccount = await this.ammClient.getAmm(ammMarket.publicKey);
-
-    const inputAmountLots = isBuyBase
-      ? inputAmount * 10 ** ammMarket.baseToken.decimals
-      : inputAmount * 10 ** ammMarket.quoteToken.decimals;
-    const resp = this.calculateSwapPreview(
-      ammAccount,
-      new BN(inputAmountLots),
+    const ammAcount = await this.ammClient.getAmm(ammAddr);
+    const resp = this.ammClient.getSwapPreview(
+      ammAcount,
+      inputAmount,
       isBuyBase
     );
     return resp;

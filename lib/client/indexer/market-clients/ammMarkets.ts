@@ -11,11 +11,10 @@ import {
   TokenWithBalance,
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
-import { SwapType } from "@metadaoproject/futarchy-ts";
+import { SwapSimulation, SwapType } from "@metadaoproject/futarchy-ts";
 
 export class FutarchyIndexerAmmMarketsClient
-  implements FutarchyAmmMarketsClient
-{
+  implements FutarchyAmmMarketsClient {
   private rpcMarketsClient: FutarchyAmmMarketsRPCClient;
   constructor(rpcMarketsClient: FutarchyAmmMarketsRPCClient) {
     this.rpcMarketsClient = rpcMarketsClient;
@@ -103,7 +102,7 @@ export class FutarchyIndexerAmmMarketsClient
     ammMarket: AmmMarket,
     inputAmount: number,
     isBuyBase: boolean
-  ): Promise<SwapPreview> {
+  ): Promise<SwapSimulation> {
     return this.rpcMarketsClient.getSwapPreview(
       ammMarket,
       inputAmount,

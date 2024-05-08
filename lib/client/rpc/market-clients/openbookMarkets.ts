@@ -14,6 +14,7 @@ import {
   Transaction,
   PublicKey,
   TransactionInstruction,
+  AccountInfo,
 } from "@solana/web3.js";
 import {
   TOKEN_PROGRAM_ID,
@@ -55,6 +56,17 @@ export class FutarchyOpenbookMarketsRPCClient
     this.openbookClient = openbookClient;
     this.rpcProvider = rpcProvider;
     this.transactionSender = transactionSender;
+  }
+
+  async decodeMarket(
+    marketEncoded: AccountInfo<Buffer>
+  ): Promise<OpenbookMarket | undefined> {
+    const marketAccount = await this.openbook.coder.accounts.decode(
+      "Market",
+      marketEncoded.data
+    );
+
+    return marketAccount;
   }
 
   async fetchMarket(

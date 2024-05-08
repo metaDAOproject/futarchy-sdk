@@ -22,7 +22,7 @@ import {
 } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
-import { PublicKey, Transaction } from "@solana/web3.js";
+import { AccountInfo, PublicKey } from "@solana/web3.js";
 
 export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   private rpcProvider: Provider;
@@ -40,6 +40,15 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     this.amm = amm;
     this.ammClient = ammClient;
     this.transactionSender = transactionSender;
+  }
+
+  async decodeMarket(marketEncoded: AccountInfo<Buffer>): Promise<AmmAccount> {
+    const marketAccount = await this.amm.coder.accounts.decode(
+      "Amm",
+      marketEncoded.data
+    );
+
+    return marketAccount;
   }
 
   async fetchMarket(
@@ -423,10 +432,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
 
   async getLpToken(ammAddr: PublicKey) {
     const [lpMint] = getAmmLpMintAddr(this.ammClient.getProgramId(), ammAddr);
-    const lpToken = await enrichTokenMetadata(
-      lpMint,
-      this.rpcProvider
-    );
+    const lpToken = await enrichTokenMetadata(lpMint, this.rpcProvider);
     return lpToken;
   }
 

@@ -255,7 +255,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
   async getUserTokenBalance(tokenMintAddress: PublicKey) {
     // Get the associated token account for the user's wallet and the token mint
-    const userTokenAccountAddress = await getAssociatedTokenAddress(
+    const userTokenAccountAddress = getAssociatedTokenAddressSync(
       new PublicKey(tokenMintAddress),
       this.rpcProvider.publicKey
     );

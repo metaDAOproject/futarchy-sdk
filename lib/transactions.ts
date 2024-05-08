@@ -4,9 +4,13 @@ import {
   Connection,
   PublicKey,
   Transaction,
+  TransactionInstruction,
+  TransactionMessage,
+  TransactionStatus,
   VersionedTransaction,
 } from "@solana/web3.js";
 import { SendTransactionResponse, TransactionError } from "./types/transactions";
+import { AnchorProvider } from "@coral-xyz/anchor";
 
 type SingleOrArray<T> = T | T[];
 
@@ -84,59 +88,48 @@ export class TransactionSender {
 
     const errors: TransactionError[] = []
     const signatures: string[] = [];
-    const signedTxs = await this.signAllTransactions(timedTxs.flat()).catch(e => { errors.push({ name: e.name, message: e.message }); return })
-    if (!signedTxs) return { signatures: signatures, errors: errors }
+    try {
+      const signedTxs = await this.signAllTransactions(timedTxs.flat()).catch(e => { errors.push({ name: e.name, message: e.message }); return })
+      if (!signedTxs) return { signatures: signatures, errors: errors }
 
-    console.log(signedTxs)
-    // Reconstruct signed sequence
-    let i = 0;
-    const signedSequence: T[][] = sequence.map((set) =>
-      Array.from({ length: set.length }).map(() => signedTxs[i++])
-    );
-
-    if (!opts?.sequential) {
-      signedSequence.map((set) =>
-        Promise.all(
-          set.map(async (tx) => {
-            console.log(tx)
-            return connection
-              .sendRawTransaction(tx.serialize(), { skipPreflight: true })
-              .then((txSignature) =>
-                connection
-                  .confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
-                  .then(() => signatures.push(txSignature))
-              )
-          }
-          )
-        )
+      // Reconstruct signed sequence
+      let i = 0;
+      const signedSequence: T[][] = sequence.map((set) =>
+        Array.from({ length: set.length }).map(() => signedTxs[i++])
       );
-    }
-    else {
-      for (const set of signedSequence) {
-        for (const tx of set) {
-          try {
+
+      if (!opts?.sequential) {
+        signedSequence.map((set) =>
+          Promise.all(
+            set.map(async (tx) => {
+              console.log(tx)
+              return connection
+                .sendRawTransaction(tx.serialize(), { skipPreflight: true })
+                .then((txSignature) =>
+                  connection
+                    .confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
+                    .then(() => signatures.push(txSignature))
+                )
+            }
+            )
+          )
+        );
+      }
+      else {
+        for (const set of signedSequence) {
+          for (const tx of set) {
             const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
             if (txSignature) {
-              try {
-                const confirmation = await connection.confirmTransaction(txSignature, opts.commitment ?? "confirmed");
-                console.log(confirmation)
-                signatures.push(txSignature); // Push only on successful confirmation
-              } catch (confirmationError) {
-                //TO DO Better error handling
-                console.error(`Transaction failed to confirm: ${confirmationError}`);
-                errors.push(confirmationError as any)
-              }
-            }
-
-          } catch (err) {
-            if (err instanceof Error) {
-              errors.push(err)
+              const confirmation = await connection.confirmTransaction(txSignature, opts.commitment ?? "confirmed");
+              signatures.push(txSignature); // Push only on successful confirmation
             }
           }
         }
       }
     }
-
+    catch (e) {
+      errors.push(e as any)
+    }
     return {
       signatures: signatures,
       errors: errors
@@ -146,4 +139,21 @@ export class TransactionSender {
   public setPriorityFee(priorityFee: number) {
     this.priorityFee = priorityFee;
   }
+}
+
+export async function createVersionedTransaction(instructions: TransactionInstruction[], rpcProvider: AnchorProvider) {
+  if (!rpcProvider.publicKey) throw new Error('Wallet is not connected or public key is not available.');
+
+  const recentBlockhashResponse = await rpcProvider.connection.getLatestBlockhash();
+  if (!recentBlockhashResponse.blockhash) {
+    throw new Error('Failed to get the latest blockhash.');
+  }
+
+  const messageV0 = new TransactionMessage({
+    payerKey: rpcProvider.publicKey,
+    recentBlockhash: recentBlockhashResponse.blockhash,
+    instructions,
+  }).compileToV0Message()
+
+  return new VersionedTransaction(messageV0);
 }

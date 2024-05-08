@@ -12,6 +12,7 @@ import {
   MarketType,
 } from "@/types";
 import { PublicKey } from "@metaplex-foundation/js";
+import { TransactionInstruction } from "@solana/web3.js";
 
 export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0_2>["ProposalInstruction"],
@@ -20,6 +21,8 @@ export type ProposalInstruction = MergeWithOptionalFields<
     IdlTypes<AutocratV0>["ProposalInstruction"]
   >
 >;
+
+export type ProposalInstructionWithPreinstructions = { preInstructions: (TransactionInstruction[] | undefined), instruction: ProposalInstruction }
 
 export type ProposalAccount = MergeWithOptionalFields<
   IdlAccounts<AutocratV0_2>["Proposal"],
@@ -31,6 +34,8 @@ export type ProposalAccount = MergeWithOptionalFields<
     >
   >
 >;
+
+
 
 export type ProposalAccountWithKey = AccountWithKey<ProposalAccount>;
 
@@ -78,3 +83,12 @@ export type MarketPrices = {
   spot: number;
   twap?: number;
 };
+
+export type ProposalAccounts = {
+  proposer_acct: PublicKey,
+  base_cond_vault_acct: PublicKey | null,
+  quote_cond_vault_acct: PublicKey | null,
+  pass_market_acct: PublicKey | null,
+  fail_market_acct: PublicKey | null,
+  proposal_acct: PublicKey | null,
+}

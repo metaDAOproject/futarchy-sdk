@@ -218,7 +218,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               state: p.status as ProposalState,
               reactions: p.reactions.map((r) => r.reaction),
               protocol: relatedProtocol,
-              slug: proposalDetails.slug,
+              slug: proposalDetails.slug || p.proposal_acct,
               // TODO we need our beatufiul tags
               tags: proposalDetails.categories || [],
               title: proposalDetails.title ?? "",

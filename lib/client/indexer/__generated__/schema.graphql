@@ -1599,6 +1599,11 @@ enum cursor_ordering {
 columns and relationships of "dao_details"
 """
 type dao_details {
+  admin_accts(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  creator_acct: String
   dao_id: bigint!
 
   """An array relationship"""
@@ -1637,10 +1642,14 @@ type dao_details {
     where: daos_bool_exp
   ): daos_aggregate!
   description: String
+  fail_token_image_url: String
   github: String
   image_url: String
+  lp_token_image_url: String
   name: String
+  pass_token_image_url: String
   slug: String
+  token_image_url: String
   url: String
   x_account: String
 }
@@ -1670,6 +1679,11 @@ type dao_details_aggregate_fields {
   variance: dao_details_variance_fields
 }
 
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input dao_details_append_input {
+  admin_accts: jsonb
+}
+
 """aggregate avg on columns"""
 type dao_details_avg_fields {
   dao_id: Float
@@ -1682,14 +1696,20 @@ input dao_details_bool_exp {
   _and: [dao_details_bool_exp!]
   _not: dao_details_bool_exp
   _or: [dao_details_bool_exp!]
+  admin_accts: jsonb_comparison_exp
+  creator_acct: String_comparison_exp
   dao_id: bigint_comparison_exp
   daos: daos_bool_exp
   daos_aggregate: daos_aggregate_bool_exp
   description: String_comparison_exp
+  fail_token_image_url: String_comparison_exp
   github: String_comparison_exp
   image_url: String_comparison_exp
+  lp_token_image_url: String_comparison_exp
   name: String_comparison_exp
+  pass_token_image_url: String_comparison_exp
   slug: String_comparison_exp
+  token_image_url: String_comparison_exp
   url: String_comparison_exp
   x_account: String_comparison_exp
 }
@@ -1735,6 +1755,27 @@ enum dao_details_constraint {
 }
 
 """
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input dao_details_delete_at_path_input {
+  admin_accts: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input dao_details_delete_elem_input {
+  admin_accts: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input dao_details_delete_key_input {
+  admin_accts: String
+}
+
+"""
 input type for incrementing numeric columns in table "dao_details"
 """
 input dao_details_inc_input {
@@ -1745,37 +1786,53 @@ input dao_details_inc_input {
 input type for inserting data into table "dao_details"
 """
 input dao_details_insert_input {
+  admin_accts: jsonb
+  creator_acct: String
   dao_id: bigint
   daos: daos_arr_rel_insert_input
   description: String
+  fail_token_image_url: String
   github: String
   image_url: String
+  lp_token_image_url: String
   name: String
+  pass_token_image_url: String
   slug: String
+  token_image_url: String
   url: String
   x_account: String
 }
 
 """aggregate max on columns"""
 type dao_details_max_fields {
+  creator_acct: String
   dao_id: bigint
   description: String
+  fail_token_image_url: String
   github: String
   image_url: String
+  lp_token_image_url: String
   name: String
+  pass_token_image_url: String
   slug: String
+  token_image_url: String
   url: String
   x_account: String
 }
 
 """aggregate min on columns"""
 type dao_details_min_fields {
+  creator_acct: String
   dao_id: bigint
   description: String
+  fail_token_image_url: String
   github: String
   image_url: String
+  lp_token_image_url: String
   name: String
+  pass_token_image_url: String
   slug: String
+  token_image_url: String
   url: String
   x_account: String
 }
@@ -1812,13 +1869,19 @@ input dao_details_on_conflict {
 
 """Ordering options when selecting data from "dao_details"."""
 input dao_details_order_by {
+  admin_accts: order_by
+  creator_acct: order_by
   dao_id: order_by
   daos_aggregate: daos_aggregate_order_by
   description: order_by
+  fail_token_image_url: order_by
   github: order_by
   image_url: order_by
+  lp_token_image_url: order_by
   name: order_by
+  pass_token_image_url: order_by
   slug: order_by
+  token_image_url: order_by
   url: order_by
   x_account: order_by
 }
@@ -1828,15 +1891,29 @@ input dao_details_pk_columns_input {
   dao_id: bigint!
 }
 
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input dao_details_prepend_input {
+  admin_accts: jsonb
+}
+
 """
 select columns of table "dao_details"
 """
 enum dao_details_select_column {
   """column name"""
+  admin_accts
+
+  """column name"""
+  creator_acct
+
+  """column name"""
   dao_id
 
   """column name"""
   description
+
+  """column name"""
+  fail_token_image_url
 
   """column name"""
   github
@@ -1845,10 +1922,19 @@ enum dao_details_select_column {
   image_url
 
   """column name"""
+  lp_token_image_url
+
+  """column name"""
   name
 
   """column name"""
+  pass_token_image_url
+
+  """column name"""
   slug
+
+  """column name"""
+  token_image_url
 
   """column name"""
   url
@@ -1861,12 +1947,18 @@ enum dao_details_select_column {
 input type for updating data in table "dao_details"
 """
 input dao_details_set_input {
+  admin_accts: jsonb
+  creator_acct: String
   dao_id: bigint
   description: String
+  fail_token_image_url: String
   github: String
   image_url: String
+  lp_token_image_url: String
   name: String
+  pass_token_image_url: String
   slug: String
+  token_image_url: String
   url: String
   x_account: String
 }
@@ -1899,12 +1991,18 @@ input dao_details_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input dao_details_stream_cursor_value_input {
+  admin_accts: jsonb
+  creator_acct: String
   dao_id: bigint
   description: String
+  fail_token_image_url: String
   github: String
   image_url: String
+  lp_token_image_url: String
   name: String
+  pass_token_image_url: String
   slug: String
+  token_image_url: String
   url: String
   x_account: String
 }
@@ -1919,10 +2017,19 @@ update columns of table "dao_details"
 """
 enum dao_details_update_column {
   """column name"""
+  admin_accts
+
+  """column name"""
+  creator_acct
+
+  """column name"""
   dao_id
 
   """column name"""
   description
+
+  """column name"""
+  fail_token_image_url
 
   """column name"""
   github
@@ -1931,10 +2038,19 @@ enum dao_details_update_column {
   image_url
 
   """column name"""
+  lp_token_image_url
+
+  """column name"""
   name
 
   """column name"""
+  pass_token_image_url
+
+  """column name"""
   slug
+
+  """column name"""
+  token_image_url
 
   """column name"""
   url
@@ -1944,8 +2060,29 @@ enum dao_details_update_column {
 }
 
 input dao_details_updates {
+  """append existing jsonb value of filtered columns with new jsonb value"""
+  _append: dao_details_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: dao_details_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: dao_details_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: dao_details_delete_key_input
+
   """increments the numeric columns with given value of the filtered values"""
   _inc: dao_details_inc_input
+
+  """prepend existing jsonb value of filtered columns with new jsonb value"""
+  _prepend: dao_details_prepend_input
 
   """sets the columns of the filtered rows to the given values"""
   _set: dao_details_set_input
@@ -2545,9 +2682,6 @@ type indexer_account_dependencies {
 
   """An object relationship"""
   transaction: transactions
-
-  """An object relationship"""
-  transaction_watcher: transaction_watchers!
 }
 
 """
@@ -2609,7 +2743,6 @@ input indexer_account_dependencies_bool_exp {
   latest_tx_sig_processed: String_comparison_exp
   name: String_comparison_exp
   transaction: transactions_bool_exp
-  transaction_watcher: transaction_watchers_bool_exp
 }
 
 """
@@ -2631,7 +2764,6 @@ input indexer_account_dependencies_insert_input {
   latest_tx_sig_processed: String
   name: String
   transaction: transactions_obj_rel_insert_input
-  transaction_watcher: transaction_watchers_obj_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -2695,7 +2827,6 @@ input indexer_account_dependencies_order_by {
   latest_tx_sig_processed: order_by
   name: order_by
   transaction: transactions_order_by
-  transaction_watcher: transaction_watchers_order_by
 }
 
 """primary key columns input for table: indexer_account_dependencies"""
@@ -2808,6 +2939,7 @@ type indexers {
     """filter the rows returned"""
     where: indexer_account_dependencies_bool_exp
   ): indexer_account_dependencies_aggregate!
+  indexer_type: String!
   latest_slot_processed: bigint!
   name: String!
 }
@@ -2852,6 +2984,7 @@ input indexers_bool_exp {
   implementation: String_comparison_exp
   indexer_account_dependencies: indexer_account_dependencies_bool_exp
   indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_bool_exp
+  indexer_type: String_comparison_exp
   latest_slot_processed: bigint_comparison_exp
   name: String_comparison_exp
 }
@@ -2879,6 +3012,7 @@ input type for inserting data into table "indexers"
 input indexers_insert_input {
   implementation: String
   indexer_account_dependencies: indexer_account_dependencies_arr_rel_insert_input
+  indexer_type: String
   latest_slot_processed: bigint
   name: String
 }
@@ -2886,6 +3020,7 @@ input indexers_insert_input {
 """aggregate max on columns"""
 type indexers_max_fields {
   implementation: String
+  indexer_type: String
   latest_slot_processed: bigint
   name: String
 }
@@ -2893,6 +3028,7 @@ type indexers_max_fields {
 """aggregate min on columns"""
 type indexers_min_fields {
   implementation: String
+  indexer_type: String
   latest_slot_processed: bigint
   name: String
 }
@@ -2931,6 +3067,7 @@ input indexers_on_conflict {
 input indexers_order_by {
   implementation: order_by
   indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_order_by
+  indexer_type: order_by
   latest_slot_processed: order_by
   name: order_by
 }
@@ -2948,6 +3085,9 @@ enum indexers_select_column {
   implementation
 
   """column name"""
+  indexer_type
+
+  """column name"""
   latest_slot_processed
 
   """column name"""
@@ -2959,6 +3099,7 @@ input type for updating data in table "indexers"
 """
 input indexers_set_input {
   implementation: String
+  indexer_type: String
   latest_slot_processed: bigint
   name: String
 }
@@ -2992,6 +3133,7 @@ input indexers_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input indexers_stream_cursor_value_input {
   implementation: String
+  indexer_type: String
   latest_slot_processed: bigint
   name: String
 }
@@ -3007,6 +3149,9 @@ update columns of table "indexers"
 enum indexers_update_column {
   """column name"""
   implementation
+
+  """column name"""
+  indexer_type
 
   """column name"""
   latest_slot_processed
@@ -3726,6 +3871,42 @@ type markets {
     where: orders_bool_exp
   ): orders_aggregate!
 
+  """An array relationship"""
+  prices(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): [prices!]!
+
+  """An aggregate relationship"""
+  prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): prices_aggregate!
+
   """An object relationship"""
   proposal: proposals
   proposal_acct: String
@@ -3935,6 +4116,8 @@ input markets_bool_exp {
   market_type: String_comparison_exp
   orders: orders_bool_exp
   orders_aggregate: orders_aggregate_bool_exp
+  prices: prices_bool_exp
+  prices_aggregate: prices_aggregate_bool_exp
   proposal: proposals_bool_exp
   proposal_acct: String_comparison_exp
   quote_lot_size: bigint_comparison_exp
@@ -3995,6 +4178,7 @@ input markets_insert_input {
   market_acct: String
   market_type: String
   orders: orders_arr_rel_insert_input
+  prices: prices_arr_rel_insert_input
   proposal: proposals_obj_rel_insert_input
   proposal_acct: String
   quote_lot_size: bigint
@@ -4144,6 +4328,7 @@ input markets_order_by {
   market_acct: order_by
   market_type: order_by
   orders_aggregate: orders_aggregate_order_by
+  prices_aggregate: prices_aggregate_order_by
   proposal: proposals_order_by
   proposal_acct: order_by
   quote_lot_size: order_by
@@ -4671,6 +4856,19 @@ type mutation_root {
   delete_orders_by_pk(order_tx_sig: String!): orders
 
   """
+  delete data from the table: "prices"
+  """
+  delete_prices(
+    """filter the rows which have to be deleted"""
+    where: prices_bool_exp!
+  ): prices_mutation_response
+
+  """
+  delete single row from the table: "prices"
+  """
+  delete_prices_by_pk(market_acct: String!, updated_slot: bigint!): prices
+
+  """
   delete data from the table: "program_system"
   """
   delete_program_system(
@@ -5053,6 +5251,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: orders_on_conflict
   ): orders
+
+  """
+  insert data into the table: "prices"
+  """
+  insert_prices(
+    """the rows to be inserted"""
+    objects: [prices_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: prices_on_conflict
+  ): prices_mutation_response
+
+  """
+  insert a single row into the table: "prices"
+  """
+  insert_prices_one(
+    """the row to be inserted"""
+    object: prices_insert_input!
+
+    """upsert condition"""
+    on_conflict: prices_on_conflict
+  ): prices
 
   """
   insert data into the table: "program_system"
@@ -5440,8 +5660,29 @@ type mutation_root {
   update data of the table: "dao_details"
   """
   update_dao_details(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: dao_details_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: dao_details_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: dao_details_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: dao_details_delete_key_input
+
     """increments the numeric columns with given value of the filtered values"""
     _inc: dao_details_inc_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: dao_details_prepend_input
 
     """sets the columns of the filtered rows to the given values"""
     _set: dao_details_set_input
@@ -5454,8 +5695,29 @@ type mutation_root {
   update single row of the table: "dao_details"
   """
   update_dao_details_by_pk(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: dao_details_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: dao_details_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: dao_details_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: dao_details_delete_key_input
+
     """increments the numeric columns with given value of the filtered values"""
     _inc: dao_details_inc_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: dao_details_prepend_input
 
     """sets the columns of the filtered rows to the given values"""
     _set: dao_details_set_input
@@ -5667,6 +5929,40 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [orders_updates!]!
   ): [orders_mutation_response]
+
+  """
+  update data of the table: "prices"
+  """
+  update_prices(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: prices_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: prices_set_input
+
+    """filter the rows which have to be updated"""
+    where: prices_bool_exp!
+  ): prices_mutation_response
+
+  """
+  update single row of the table: "prices"
+  """
+  update_prices_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: prices_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: prices_set_input
+    pk_columns: prices_pk_columns_input!
+  ): prices
+
+  """
+  update multiples rows of table: "prices"
+  """
+  update_prices_many(
+    """updates to execute, in order"""
+    updates: [prices_updates!]!
+  ): [prices_mutation_response]
 
   """
   update data of the table: "program_system"
@@ -6813,6 +7109,464 @@ input orders_variance_order_by {
 }
 
 """
+columns and relationships of "prices"
+"""
+type prices {
+  base_amount: bigint
+  created_at: timestamp!
+
+  """An object relationship"""
+  market: markets!
+  market_acct: String!
+  price: numeric!
+  prices_type: String!
+  quote_amount: bigint
+  updated_slot: bigint!
+}
+
+"""
+aggregated selection of "prices"
+"""
+type prices_aggregate {
+  aggregate: prices_aggregate_fields
+  nodes: [prices!]!
+}
+
+input prices_aggregate_bool_exp {
+  count: prices_aggregate_bool_exp_count
+}
+
+input prices_aggregate_bool_exp_count {
+  arguments: [prices_select_column!]
+  distinct: Boolean
+  filter: prices_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "prices"
+"""
+type prices_aggregate_fields {
+  avg: prices_avg_fields
+  count(columns: [prices_select_column!], distinct: Boolean): Int!
+  max: prices_max_fields
+  min: prices_min_fields
+  stddev: prices_stddev_fields
+  stddev_pop: prices_stddev_pop_fields
+  stddev_samp: prices_stddev_samp_fields
+  sum: prices_sum_fields
+  var_pop: prices_var_pop_fields
+  var_samp: prices_var_samp_fields
+  variance: prices_variance_fields
+}
+
+"""
+order by aggregate values of table "prices"
+"""
+input prices_aggregate_order_by {
+  avg: prices_avg_order_by
+  count: order_by
+  max: prices_max_order_by
+  min: prices_min_order_by
+  stddev: prices_stddev_order_by
+  stddev_pop: prices_stddev_pop_order_by
+  stddev_samp: prices_stddev_samp_order_by
+  sum: prices_sum_order_by
+  var_pop: prices_var_pop_order_by
+  var_samp: prices_var_samp_order_by
+  variance: prices_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "prices"
+"""
+input prices_arr_rel_insert_input {
+  data: [prices_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: prices_on_conflict
+}
+
+"""aggregate avg on columns"""
+type prices_avg_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+  updated_slot: Float
+}
+
+"""
+order by avg() on columns of table "prices"
+"""
+input prices_avg_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "prices". All fields are combined with a logical 'AND'.
+"""
+input prices_bool_exp {
+  _and: [prices_bool_exp!]
+  _not: prices_bool_exp
+  _or: [prices_bool_exp!]
+  base_amount: bigint_comparison_exp
+  created_at: timestamp_comparison_exp
+  market: markets_bool_exp
+  market_acct: String_comparison_exp
+  price: numeric_comparison_exp
+  prices_type: String_comparison_exp
+  quote_amount: bigint_comparison_exp
+  updated_slot: bigint_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "prices"
+"""
+enum prices_constraint {
+  """
+  unique or primary key constraint on columns "updated_slot", "market_acct"
+  """
+  prices_updated_slot_market_acct_pk
+}
+
+"""
+input type for incrementing numeric columns in table "prices"
+"""
+input prices_inc_input {
+  base_amount: bigint
+  price: numeric
+  quote_amount: bigint
+  updated_slot: bigint
+}
+
+"""
+input type for inserting data into table "prices"
+"""
+input prices_insert_input {
+  base_amount: bigint
+  created_at: timestamp
+  market: markets_obj_rel_insert_input
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+  updated_slot: bigint
+}
+
+"""aggregate max on columns"""
+type prices_max_fields {
+  base_amount: bigint
+  created_at: timestamp
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+  updated_slot: bigint
+}
+
+"""
+order by max() on columns of table "prices"
+"""
+input prices_max_order_by {
+  base_amount: order_by
+  created_at: order_by
+  market_acct: order_by
+  price: order_by
+  prices_type: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""aggregate min on columns"""
+type prices_min_fields {
+  base_amount: bigint
+  created_at: timestamp
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+  updated_slot: bigint
+}
+
+"""
+order by min() on columns of table "prices"
+"""
+input prices_min_order_by {
+  base_amount: order_by
+  created_at: order_by
+  market_acct: order_by
+  price: order_by
+  prices_type: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""
+response of any mutation on the table "prices"
+"""
+type prices_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [prices!]!
+}
+
+"""
+on_conflict condition type for table "prices"
+"""
+input prices_on_conflict {
+  constraint: prices_constraint!
+  update_columns: [prices_update_column!]! = []
+  where: prices_bool_exp
+}
+
+"""Ordering options when selecting data from "prices"."""
+input prices_order_by {
+  base_amount: order_by
+  created_at: order_by
+  market: markets_order_by
+  market_acct: order_by
+  price: order_by
+  prices_type: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""primary key columns input for table: prices"""
+input prices_pk_columns_input {
+  market_acct: String!
+  updated_slot: bigint!
+}
+
+"""
+select columns of table "prices"
+"""
+enum prices_select_column {
+  """column name"""
+  base_amount
+
+  """column name"""
+  created_at
+
+  """column name"""
+  market_acct
+
+  """column name"""
+  price
+
+  """column name"""
+  prices_type
+
+  """column name"""
+  quote_amount
+
+  """column name"""
+  updated_slot
+}
+
+"""
+input type for updating data in table "prices"
+"""
+input prices_set_input {
+  base_amount: bigint
+  created_at: timestamp
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+  updated_slot: bigint
+}
+
+"""aggregate stddev on columns"""
+type prices_stddev_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+  updated_slot: Float
+}
+
+"""
+order by stddev() on columns of table "prices"
+"""
+input prices_stddev_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type prices_stddev_pop_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+  updated_slot: Float
+}
+
+"""
+order by stddev_pop() on columns of table "prices"
+"""
+input prices_stddev_pop_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type prices_stddev_samp_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+  updated_slot: Float
+}
+
+"""
+order by stddev_samp() on columns of table "prices"
+"""
+input prices_stddev_samp_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""
+Streaming cursor of the table "prices"
+"""
+input prices_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: prices_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input prices_stream_cursor_value_input {
+  base_amount: bigint
+  created_at: timestamp
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+  updated_slot: bigint
+}
+
+"""aggregate sum on columns"""
+type prices_sum_fields {
+  base_amount: bigint
+  price: numeric
+  quote_amount: bigint
+  updated_slot: bigint
+}
+
+"""
+order by sum() on columns of table "prices"
+"""
+input prices_sum_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""
+update columns of table "prices"
+"""
+enum prices_update_column {
+  """column name"""
+  base_amount
+
+  """column name"""
+  created_at
+
+  """column name"""
+  market_acct
+
+  """column name"""
+  price
+
+  """column name"""
+  prices_type
+
+  """column name"""
+  quote_amount
+
+  """column name"""
+  updated_slot
+}
+
+input prices_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: prices_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: prices_set_input
+
+  """filter the rows which have to be updated"""
+  where: prices_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type prices_var_pop_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+  updated_slot: Float
+}
+
+"""
+order by var_pop() on columns of table "prices"
+"""
+input prices_var_pop_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""aggregate var_samp on columns"""
+type prices_var_samp_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+  updated_slot: Float
+}
+
+"""
+order by var_samp() on columns of table "prices"
+"""
+input prices_var_samp_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""aggregate variance on columns"""
+type prices_variance_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+  updated_slot: Float
+}
+
+"""
+order by variance() on columns of table "prices"
+"""
+input prices_variance_order_by {
+  base_amount: order_by
+  price: order_by
+  quote_amount: order_by
+  updated_slot: order_by
+}
+
+"""
 columns and relationships of "program_system"
 """
 type program_system {
@@ -7813,17 +8567,22 @@ type programs_variance_fields {
 columns and relationships of "proposal_details"
 """
 type proposal_details {
+  base_cond_vault_acct: String
   categories(
     """JSON select path"""
     path: String
   ): jsonb
   content: String
   description: String
+  fail_market_acct: String
+  pass_market_acct: String
 
   """An object relationship"""
   proposal: proposals
   proposal_acct: String
   proposal_id: bigint!
+  proposer_acct: String
+  quote_cond_vault_acct: String
   slug: String
   title: String
 }
@@ -7915,12 +8674,17 @@ input proposal_details_bool_exp {
   _and: [proposal_details_bool_exp!]
   _not: proposal_details_bool_exp
   _or: [proposal_details_bool_exp!]
+  base_cond_vault_acct: String_comparison_exp
   categories: jsonb_comparison_exp
   content: String_comparison_exp
   description: String_comparison_exp
+  fail_market_acct: String_comparison_exp
+  pass_market_acct: String_comparison_exp
   proposal: proposals_bool_exp
   proposal_acct: String_comparison_exp
   proposal_id: bigint_comparison_exp
+  proposer_acct: String_comparison_exp
+  quote_cond_vault_acct: String_comparison_exp
   slug: String_comparison_exp
   title: String_comparison_exp
 }
@@ -7972,22 +8736,32 @@ input proposal_details_inc_input {
 input type for inserting data into table "proposal_details"
 """
 input proposal_details_insert_input {
+  base_cond_vault_acct: String
   categories: jsonb
   content: String
   description: String
+  fail_market_acct: String
+  pass_market_acct: String
   proposal: proposals_obj_rel_insert_input
   proposal_acct: String
   proposal_id: bigint
+  proposer_acct: String
+  quote_cond_vault_acct: String
   slug: String
   title: String
 }
 
 """aggregate max on columns"""
 type proposal_details_max_fields {
+  base_cond_vault_acct: String
   content: String
   description: String
+  fail_market_acct: String
+  pass_market_acct: String
   proposal_acct: String
   proposal_id: bigint
+  proposer_acct: String
+  quote_cond_vault_acct: String
   slug: String
   title: String
 }
@@ -7996,20 +8770,30 @@ type proposal_details_max_fields {
 order by max() on columns of table "proposal_details"
 """
 input proposal_details_max_order_by {
+  base_cond_vault_acct: order_by
   content: order_by
   description: order_by
+  fail_market_acct: order_by
+  pass_market_acct: order_by
   proposal_acct: order_by
   proposal_id: order_by
+  proposer_acct: order_by
+  quote_cond_vault_acct: order_by
   slug: order_by
   title: order_by
 }
 
 """aggregate min on columns"""
 type proposal_details_min_fields {
+  base_cond_vault_acct: String
   content: String
   description: String
+  fail_market_acct: String
+  pass_market_acct: String
   proposal_acct: String
   proposal_id: bigint
+  proposer_acct: String
+  quote_cond_vault_acct: String
   slug: String
   title: String
 }
@@ -8018,10 +8802,15 @@ type proposal_details_min_fields {
 order by min() on columns of table "proposal_details"
 """
 input proposal_details_min_order_by {
+  base_cond_vault_acct: order_by
   content: order_by
   description: order_by
+  fail_market_acct: order_by
+  pass_market_acct: order_by
   proposal_acct: order_by
   proposal_id: order_by
+  proposer_acct: order_by
+  quote_cond_vault_acct: order_by
   slug: order_by
   title: order_by
 }
@@ -8048,12 +8837,17 @@ input proposal_details_on_conflict {
 
 """Ordering options when selecting data from "proposal_details"."""
 input proposal_details_order_by {
+  base_cond_vault_acct: order_by
   categories: order_by
   content: order_by
   description: order_by
+  fail_market_acct: order_by
+  pass_market_acct: order_by
   proposal: proposals_order_by
   proposal_acct: order_by
   proposal_id: order_by
+  proposer_acct: order_by
+  quote_cond_vault_acct: order_by
   slug: order_by
   title: order_by
 }
@@ -8073,6 +8867,9 @@ select columns of table "proposal_details"
 """
 enum proposal_details_select_column {
   """column name"""
+  base_cond_vault_acct
+
+  """column name"""
   categories
 
   """column name"""
@@ -8082,10 +8879,22 @@ enum proposal_details_select_column {
   description
 
   """column name"""
+  fail_market_acct
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
   proposal_acct
 
   """column name"""
   proposal_id
+
+  """column name"""
+  proposer_acct
+
+  """column name"""
+  quote_cond_vault_acct
 
   """column name"""
   slug
@@ -8098,11 +8907,16 @@ enum proposal_details_select_column {
 input type for updating data in table "proposal_details"
 """
 input proposal_details_set_input {
+  base_cond_vault_acct: String
   categories: jsonb
   content: String
   description: String
+  fail_market_acct: String
+  pass_market_acct: String
   proposal_acct: String
   proposal_id: bigint
+  proposer_acct: String
+  quote_cond_vault_acct: String
   slug: String
   title: String
 }
@@ -8156,11 +8970,16 @@ input proposal_details_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input proposal_details_stream_cursor_value_input {
+  base_cond_vault_acct: String
   categories: jsonb
   content: String
   description: String
+  fail_market_acct: String
+  pass_market_acct: String
   proposal_acct: String
   proposal_id: bigint
+  proposer_acct: String
+  quote_cond_vault_acct: String
   slug: String
   title: String
 }
@@ -8182,6 +9001,9 @@ update columns of table "proposal_details"
 """
 enum proposal_details_update_column {
   """column name"""
+  base_cond_vault_acct
+
+  """column name"""
   categories
 
   """column name"""
@@ -8191,10 +9013,22 @@ enum proposal_details_update_column {
   description
 
   """column name"""
+  fail_market_acct
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
   proposal_acct
 
   """column name"""
   proposal_id
+
+  """column name"""
+  proposer_acct
+
+  """column name"""
+  quote_cond_vault_acct
 
   """column name"""
   slug
@@ -9601,6 +10435,45 @@ type query_root {
 
   """fetch data from the table: "orders" using primary key columns"""
   orders_by_pk(order_tx_sig: String!): orders
+
+  """An array relationship"""
+  prices(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): [prices!]!
+
+  """An aggregate relationship"""
+  prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): prices_aggregate!
+
+  """fetch data from the table: "prices" using primary key columns"""
+  prices_by_pk(market_acct: String!, updated_slot: bigint!): prices
 
   """
   fetch data from the table: "program_system"
@@ -11073,6 +11946,59 @@ type subscription_root {
     """filter the rows returned"""
     where: orders_bool_exp
   ): [orders!]!
+
+  """An array relationship"""
+  prices(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): [prices!]!
+
+  """An aggregate relationship"""
+  prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): prices_aggregate!
+
+  """fetch data from the table: "prices" using primary key columns"""
+  prices_by_pk(market_acct: String!, updated_slot: bigint!): prices
+
+  """
+  fetch data from the table in a streaming manner: "prices"
+  """
+  prices_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [prices_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): [prices!]!
 
   """
   fetch data from the table: "program_system"
@@ -13726,44 +14652,9 @@ type transaction_watchers {
   checked_up_to_slot: bigint!
   description: String!
   first_tx_sig: String
-
-  """An array relationship"""
-  indexer_account_dependencies(
-    """distinct select on columns"""
-    distinct_on: [indexer_account_dependencies_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [indexer_account_dependencies_order_by!]
-
-    """filter the rows returned"""
-    where: indexer_account_dependencies_bool_exp
-  ): [indexer_account_dependencies!]!
-
-  """An aggregate relationship"""
-  indexer_account_dependencies_aggregate(
-    """distinct select on columns"""
-    distinct_on: [indexer_account_dependencies_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [indexer_account_dependencies_order_by!]
-
-    """filter the rows returned"""
-    where: indexer_account_dependencies_bool_exp
-  ): indexer_account_dependencies_aggregate!
   latest_tx_sig: String
   serializer_logic_version: smallint!
+  status: String!
 
   """An object relationship"""
   transaction: transactions
@@ -13896,10 +14787,9 @@ input transaction_watchers_bool_exp {
   checked_up_to_slot: bigint_comparison_exp
   description: String_comparison_exp
   first_tx_sig: String_comparison_exp
-  indexer_account_dependencies: indexer_account_dependencies_bool_exp
-  indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_bool_exp
   latest_tx_sig: String_comparison_exp
   serializer_logic_version: smallint_comparison_exp
+  status: String_comparison_exp
   transaction: transactions_bool_exp
   transactionByLatestTxSig: transactions_bool_exp
   transaction_watcher_transactions: transaction_watcher_transactions_bool_exp
@@ -13932,9 +14822,9 @@ input transaction_watchers_insert_input {
   checked_up_to_slot: bigint
   description: String
   first_tx_sig: String
-  indexer_account_dependencies: indexer_account_dependencies_arr_rel_insert_input
   latest_tx_sig: String
   serializer_logic_version: smallint
+  status: String
   transaction: transactions_obj_rel_insert_input
   transactionByLatestTxSig: transactions_obj_rel_insert_input
   transaction_watcher_transactions: transaction_watcher_transactions_arr_rel_insert_input
@@ -13948,6 +14838,7 @@ type transaction_watchers_max_fields {
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
+  status: String
 }
 
 """
@@ -13960,6 +14851,7 @@ input transaction_watchers_max_order_by {
   first_tx_sig: order_by
   latest_tx_sig: order_by
   serializer_logic_version: order_by
+  status: order_by
 }
 
 """aggregate min on columns"""
@@ -13970,6 +14862,7 @@ type transaction_watchers_min_fields {
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
+  status: String
 }
 
 """
@@ -13982,6 +14875,7 @@ input transaction_watchers_min_order_by {
   first_tx_sig: order_by
   latest_tx_sig: order_by
   serializer_logic_version: order_by
+  status: order_by
 }
 
 """
@@ -14020,9 +14914,9 @@ input transaction_watchers_order_by {
   checked_up_to_slot: order_by
   description: order_by
   first_tx_sig: order_by
-  indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_order_by
   latest_tx_sig: order_by
   serializer_logic_version: order_by
+  status: order_by
   transaction: transactions_order_by
   transactionByLatestTxSig: transactions_order_by
   transaction_watcher_transactions_aggregate: transaction_watcher_transactions_aggregate_order_by
@@ -14054,6 +14948,9 @@ enum transaction_watchers_select_column {
 
   """column name"""
   serializer_logic_version
+
+  """column name"""
+  status
 }
 
 """
@@ -14066,6 +14963,7 @@ input transaction_watchers_set_input {
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
+  status: String
 }
 
 """aggregate stddev on columns"""
@@ -14129,6 +15027,7 @@ input transaction_watchers_stream_cursor_value_input {
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
+  status: String
 }
 
 """aggregate sum on columns"""
@@ -14166,6 +15065,9 @@ enum transaction_watchers_update_column {
 
   """column name"""
   serializer_logic_version
+
+  """column name"""
+  status
 }
 
 input transaction_watchers_updates {
@@ -14668,6 +15570,10 @@ type transactions_variance_fields {
 columns and relationships of "twaps"
 """
 type twaps {
+  created_at: timestamp!
+  last_observation: numeric
+  last_price: numeric
+
   """An object relationship"""
   market: markets!
   market_acct: String!
@@ -14745,6 +15651,8 @@ input twaps_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type twaps_avg_fields {
+  last_observation: Float
+  last_price: Float
   observation_agg: Float
   token_amount: Float
   updated_slot: Float
@@ -14754,6 +15662,8 @@ type twaps_avg_fields {
 order by avg() on columns of table "twaps"
 """
 input twaps_avg_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by
@@ -14766,6 +15676,9 @@ input twaps_bool_exp {
   _and: [twaps_bool_exp!]
   _not: twaps_bool_exp
   _or: [twaps_bool_exp!]
+  created_at: timestamp_comparison_exp
+  last_observation: numeric_comparison_exp
+  last_price: numeric_comparison_exp
   market: markets_bool_exp
   market_acct: String_comparison_exp
   observation_agg: numeric_comparison_exp
@@ -14782,13 +15695,15 @@ enum twaps_constraint {
   """
   unique or primary key constraint on columns "updated_slot", "market_acct"
   """
-  twaps_market_acct_updated_slot_pk
+  twaps_updated_slot_market_acct_pk
 }
 
 """
 input type for incrementing numeric columns in table "twaps"
 """
 input twaps_inc_input {
+  last_observation: numeric
+  last_price: numeric
   observation_agg: numeric
   token_amount: bigint
   updated_slot: bigint
@@ -14798,6 +15713,9 @@ input twaps_inc_input {
 input type for inserting data into table "twaps"
 """
 input twaps_insert_input {
+  created_at: timestamp
+  last_observation: numeric
+  last_price: numeric
   market: markets_obj_rel_insert_input
   market_acct: String
   observation_agg: numeric
@@ -14809,6 +15727,9 @@ input twaps_insert_input {
 
 """aggregate max on columns"""
 type twaps_max_fields {
+  created_at: timestamp
+  last_observation: numeric
+  last_price: numeric
   market_acct: String
   observation_agg: numeric
   proposal_acct: String
@@ -14820,6 +15741,9 @@ type twaps_max_fields {
 order by max() on columns of table "twaps"
 """
 input twaps_max_order_by {
+  created_at: order_by
+  last_observation: order_by
+  last_price: order_by
   market_acct: order_by
   observation_agg: order_by
   proposal_acct: order_by
@@ -14829,6 +15753,9 @@ input twaps_max_order_by {
 
 """aggregate min on columns"""
 type twaps_min_fields {
+  created_at: timestamp
+  last_observation: numeric
+  last_price: numeric
   market_acct: String
   observation_agg: numeric
   proposal_acct: String
@@ -14840,6 +15767,9 @@ type twaps_min_fields {
 order by min() on columns of table "twaps"
 """
 input twaps_min_order_by {
+  created_at: order_by
+  last_observation: order_by
+  last_price: order_by
   market_acct: order_by
   observation_agg: order_by
   proposal_acct: order_by
@@ -14869,6 +15799,9 @@ input twaps_on_conflict {
 
 """Ordering options when selecting data from "twaps"."""
 input twaps_order_by {
+  created_at: order_by
+  last_observation: order_by
+  last_price: order_by
   market: markets_order_by
   market_acct: order_by
   observation_agg: order_by
@@ -14889,6 +15822,15 @@ select columns of table "twaps"
 """
 enum twaps_select_column {
   """column name"""
+  created_at
+
+  """column name"""
+  last_observation
+
+  """column name"""
+  last_price
+
+  """column name"""
   market_acct
 
   """column name"""
@@ -14908,6 +15850,9 @@ enum twaps_select_column {
 input type for updating data in table "twaps"
 """
 input twaps_set_input {
+  created_at: timestamp
+  last_observation: numeric
+  last_price: numeric
   market_acct: String
   observation_agg: numeric
   proposal_acct: String
@@ -14917,6 +15862,8 @@ input twaps_set_input {
 
 """aggregate stddev on columns"""
 type twaps_stddev_fields {
+  last_observation: Float
+  last_price: Float
   observation_agg: Float
   token_amount: Float
   updated_slot: Float
@@ -14926,6 +15873,8 @@ type twaps_stddev_fields {
 order by stddev() on columns of table "twaps"
 """
 input twaps_stddev_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by
@@ -14933,6 +15882,8 @@ input twaps_stddev_order_by {
 
 """aggregate stddev_pop on columns"""
 type twaps_stddev_pop_fields {
+  last_observation: Float
+  last_price: Float
   observation_agg: Float
   token_amount: Float
   updated_slot: Float
@@ -14942,6 +15893,8 @@ type twaps_stddev_pop_fields {
 order by stddev_pop() on columns of table "twaps"
 """
 input twaps_stddev_pop_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by
@@ -14949,6 +15902,8 @@ input twaps_stddev_pop_order_by {
 
 """aggregate stddev_samp on columns"""
 type twaps_stddev_samp_fields {
+  last_observation: Float
+  last_price: Float
   observation_agg: Float
   token_amount: Float
   updated_slot: Float
@@ -14958,6 +15913,8 @@ type twaps_stddev_samp_fields {
 order by stddev_samp() on columns of table "twaps"
 """
 input twaps_stddev_samp_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by
@@ -14976,6 +15933,9 @@ input twaps_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input twaps_stream_cursor_value_input {
+  created_at: timestamp
+  last_observation: numeric
+  last_price: numeric
   market_acct: String
   observation_agg: numeric
   proposal_acct: String
@@ -14985,6 +15945,8 @@ input twaps_stream_cursor_value_input {
 
 """aggregate sum on columns"""
 type twaps_sum_fields {
+  last_observation: numeric
+  last_price: numeric
   observation_agg: numeric
   token_amount: bigint
   updated_slot: bigint
@@ -14994,6 +15956,8 @@ type twaps_sum_fields {
 order by sum() on columns of table "twaps"
 """
 input twaps_sum_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by
@@ -15003,6 +15967,15 @@ input twaps_sum_order_by {
 update columns of table "twaps"
 """
 enum twaps_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  last_observation
+
+  """column name"""
+  last_price
+
   """column name"""
   market_acct
 
@@ -15032,6 +16005,8 @@ input twaps_updates {
 
 """aggregate var_pop on columns"""
 type twaps_var_pop_fields {
+  last_observation: Float
+  last_price: Float
   observation_agg: Float
   token_amount: Float
   updated_slot: Float
@@ -15041,6 +16016,8 @@ type twaps_var_pop_fields {
 order by var_pop() on columns of table "twaps"
 """
 input twaps_var_pop_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by
@@ -15048,6 +16025,8 @@ input twaps_var_pop_order_by {
 
 """aggregate var_samp on columns"""
 type twaps_var_samp_fields {
+  last_observation: Float
+  last_price: Float
   observation_agg: Float
   token_amount: Float
   updated_slot: Float
@@ -15057,6 +16036,8 @@ type twaps_var_samp_fields {
 order by var_samp() on columns of table "twaps"
 """
 input twaps_var_samp_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by
@@ -15064,6 +16045,8 @@ input twaps_var_samp_order_by {
 
 """aggregate variance on columns"""
 type twaps_variance_fields {
+  last_observation: Float
+  last_price: Float
   observation_agg: Float
   token_amount: Float
   updated_slot: Float
@@ -15073,6 +16056,8 @@ type twaps_variance_fields {
 order by variance() on columns of table "twaps"
 """
 input twaps_variance_order_by {
+  last_observation: order_by
+  last_price: order_by
   observation_agg: order_by
   token_amount: order_by
   updated_slot: order_by

@@ -84,7 +84,20 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               market_type: true,
               twaps: {
                 token_amount: true,
+                created_at: true,
+                last_observation: true,
+                last_price: true,
+                observation_agg: true,
+                updated_slot: true,
               },
+              prices: {
+                base_amount: true,
+                quote_amount: true,
+                price: true,
+                created_at: true,
+                updated_slot: true,
+                price_type: true,
+              }
             },
             proposal_details: {
               title: true,
@@ -206,11 +219,13 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               prices: {
                 fail: {
                   // TODO: need to pull this data for twaps
-                  spot: 0,
+                  spot: p.markets[1].prices[0].price || 0,
+                  twap: p.markets[1].twaps[0].last_price || 0,
                 },
                 pass: {
                   // TODO: need to pull this data for twaps as well
-                  spot: 0,
+                  spot: p.markets[0].prices[0].price || 0,
+                  twap: p.markets[0].twaps[0].last_price || 0,
                 },
               },
               proposer: {

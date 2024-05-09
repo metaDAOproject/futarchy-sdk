@@ -1,5 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { Idl } from "@coral-xyz/anchor";
+import { BN } from "@coral-xyz/anchor";
+
 import { ProgramVersionLabel } from "@/types";
 import {
   IDL as OPENBOOK_TWAP_IDLV0_1,
@@ -42,3 +44,6 @@ export const autocratVersionToTwapMap: Record<
     idl: OPENBOOK_TWAP_IDLV0_2
   }
 };
+
+export const maxObservationChangePerUpdateLots: BN = new BN(5000);
+export const twapMarketBuffer = Buffer.from("twap_market", "utf8")

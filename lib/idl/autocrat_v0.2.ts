@@ -177,7 +177,7 @@ export type AutocratV0 = {
   ];
   accounts: [
     {
-      name: "dao";
+      name: "DAO";
       type: {
         kind: "struct";
         fields: [
@@ -237,7 +237,7 @@ export type AutocratV0 = {
       };
     },
     {
-      name: "proposal";
+      name: "Proposal";
       type: {
         kind: "struct";
         fields: [
@@ -643,7 +643,7 @@ export const IDL: AutocratV0 = {
   ],
   accounts: [
     {
-      name: "dao",
+      name: "DAO",
       type: {
         kind: "struct",
         fields: [
@@ -703,7 +703,7 @@ export const IDL: AutocratV0 = {
       },
     },
     {
-      name: "proposal",
+      name: "Proposal",
       type: {
         kind: "struct",
         fields: [

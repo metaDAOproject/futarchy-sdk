@@ -10,6 +10,7 @@ import {
   LiquidityAddError,
   SwapPreview,
 } from "@/types/amm";
+import { SendTransactionResponse } from "@/types/transactions";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
@@ -160,8 +161,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     quoteAmount: number,
     maxBaseAmount: number,
     slippage: number
-  ): Promise<string[] | LiquidityAddError> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return { signatures: [], errors: [{ message: "Transaction sender is undefined", name: "Transaction Sender Error" }] };
 
     const validationError = this.validateAddLiquidity(
       ammMarket,
@@ -170,7 +171,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       slippage
     );
     if (validationError) {
-      return validationError;
+      return { signatures: [], errors: [{ message: validationError, name: "Failed to Add Liquidity." }] };
+
     }
 
     const quoteAmountArg = new BN(
@@ -279,9 +281,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       new BN(minQuoteWithSlippage)
     );
     const tx = await ix.transaction();
-    return (
-      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
-    );
+    return this.transactionSender?.send([tx], this.rpcProvider.connection)
   }
 
   async swap(
@@ -290,8 +290,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: number,
     outputAmountMin: number,
     slippage: number
-  ): Promise<string[]> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return { signatures: [], errors: [{ message: "Transaction sender is undefined", name: "Transaction Sender Error" }] };
     let [inputToken, outputToken] = swapType.buy
       ? [ammMarket.quoteToken, ammMarket.baseToken]
       : [ammMarket.baseToken, ammMarket.quoteToken];
@@ -320,9 +320,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       )
       .transaction();
 
-    return (
-      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
-    );
+    return this.transactionSender?.send([tx], this.rpcProvider.connection)
   }
 
   async getSwapPreview(

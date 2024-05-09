@@ -14,12 +14,16 @@ import {
   VaultAccountWithProtocol,
   OpenbookMarket,
   AmmMarket,
-  LiquidityAddError,
+  DaoAccount,
   TokenWithPDA,
+  LiquidityAddError,
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
+import { SendTransactionResponse } from "@/types/transactions";
+import { BN } from "@coral-xyz/anchor";
+import { CreateProposalInstruction, MarketParams, ProposalDetails } from "@/types/createProp";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -34,6 +38,8 @@ export interface FutarchyDaoClient {
     daoAddress: string,
     protocol: FutarchyProtocol
   ): Promise<DaoAggregate | null>;
+  getMinLpToProvide(daoAggregate: DaoAggregate): Promise<{ base: BN, quote: BN } | undefined>;
+  getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[] }>
 }
 
 export interface FutarchyProposalsClient {
@@ -42,8 +48,15 @@ export interface FutarchyProposalsClient {
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccountWithProtocol
-  ): Promise<string[] | undefined>;
-  withdraw(proposal: Proposal): Promise<string[] | undefined>;
+  ): SendTransactionResponse;
+  withdraw(proposal: Proposal): SendTransactionResponse;
+  createProposal(
+    daoAggregate: DaoAggregate,
+    version: "V0.2" | "V1",
+    instructionParams: CreateProposalInstruction,
+    marketParams: MarketParams,
+    proposalDetails: ProposalDetails
+  ): SendTransactionResponse;
 }
 
 export interface FutarchyBalancesClient {
@@ -98,8 +111,8 @@ export interface FutarchyOrderbookMarketsClient<
     market: M,
     order: Omit<O, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType
-  ): Promise<string[]>;
-  cancelOrder(market: M, order: O): Promise<string[]>;
+  ): SendTransactionResponse;
+  cancelOrder(market: M, order: O): SendTransactionResponse;
 }
 
 export interface FutarchyAmmMarketsClient {
@@ -110,12 +123,12 @@ export interface FutarchyAmmMarketsClient {
     inputAmount: number,
     outputAmountMin: number,
     slippage: number
-  ): Promise<string[]>;
+  ): SendTransactionResponse;
   removeLiquidity(
     ammMarket: AmmMarket,
     lpTokensToBurn: number,
     slippage: number
-  ): Promise<string[]>;
+  ): SendTransactionResponse;
   validateAddLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
@@ -129,5 +142,5 @@ export interface FutarchyAmmMarketsClient {
     quoteAmount: number,
     maxBaseAmount: number,
     slippage: number
-  ): Promise<string[] | LiquidityAddError>;
+  ): SendTransactionResponse;
 }

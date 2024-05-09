@@ -37,6 +37,7 @@ import { getTwapMarketKey } from "@/openbookTwap";
 import { BASE_FORMAT, MAX_MARKET_PRICE, NUMERAL_FORMAT } from "@/constants";
 import { shortKey } from "@/utils";
 import { utf8 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
+import { SendTransactionResponse } from "@/types/transactions";
 
 export class FutarchyOpenbookMarketsRPCClient
   implements FutarchyOrderbookMarketsClient<OpenbookMarket, OpenbookOrder>
@@ -95,15 +96,15 @@ export class FutarchyOpenbookMarketsRPCClient
       const baseTokenWithSymbol = !baseToken.isFallback
         ? baseToken
         : {
-            ...baseToken,
-            symbol: marketName.split("/")[0],
-          };
+          ...baseToken,
+          symbol: marketName.split("/")[0],
+        };
       const quoteTokenWithSymbol = !quoteToken.isFallback
         ? quoteToken
         : {
-            ...quoteToken,
-            symbol: marketName.split("/")[0],
-          };
+          ...quoteToken,
+          symbol: marketName.split("/")[0],
+        };
 
       return {
         baseMint: obMarket.account.baseMint,
@@ -210,8 +211,8 @@ export class FutarchyOpenbookMarketsRPCClient
     market: OpenbookMarket,
     order: Omit<OpenbookOrder, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType
-  ): Promise<string[]> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return { signatures: [], errors: [{ message: "Transaction sender is undefined", name: "Transaction Sender Error" }] };
     const mint =
       order.side === "ask"
         ? market.marketInstance.account.baseMint
@@ -246,7 +247,7 @@ export class FutarchyOpenbookMarketsRPCClient
 
     if (!placeLimitOrderArgs) {
       console.error("failed to create place limit order args");
-      return [];
+      return { signatures: [], errors: [{ name: "Limit order args", message: "failed to create place limit order args" }] };
     }
 
     const placeTx = await market.twapProgram.methods
@@ -368,8 +369,8 @@ export class FutarchyOpenbookMarketsRPCClient
   async cancelOrder(
     market: OpenbookMarket,
     order: OpenbookOrder
-  ): Promise<string[]> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return { signatures: [], errors: [{ message: "Transaction sender is undefined", name: "Transaction Sender Error" }] };
     const tx = await this.cancelAndSettleFundsTransactions(order, market);
     return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
@@ -423,11 +424,10 @@ export class FutarchyOpenbookMarketsRPCClient
     order: Omit<OpenbookOrder, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType,
     openOrdersAccountAddress?: PublicKey
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     // consider just creating an open orders account everytime
-    if (!this.transactionSender) {
-      return [];
-    }
+    if (!this.transactionSender) return { signatures: [], errors: [{ message: "Transaction sender is undefined", name: "Transaction Sender Error" }] };
+
     const placeTx = new Transaction();
     if (!openOrdersAccountAddress) {
       // use the first open orders account by default
@@ -455,7 +455,7 @@ export class FutarchyOpenbookMarketsRPCClient
     }
     if (!openOrdersAccountAddress) {
       console.error("no OpenOrders address found");
-      return [];
+      return { signatures: [], errors: [{ message: "No Open Orders", name: "No OpenOrders accound found." }] };
     }
     const mint =
       order.side === "ask"
@@ -564,7 +564,7 @@ export class FutarchyOpenbookMarketsRPCClient
       );
     }
 
-    return [];
+    return { signatures: [], errors: [{ message: "Place order", name: "Place order didnt go through." }] };
   }
 }
 

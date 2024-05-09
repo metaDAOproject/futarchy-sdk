@@ -1,4 +1,4 @@
-import { Dao, DaoAggregate, DaoDetails__GQL, FutarchyProtocol } from "@/types";
+import { Dao, DaoAccount, DaoAggregate, DaoDetails__GQL, FutarchyProtocol } from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { FutarchyRPCDaoClient } from "../rpc";
 import { Client as IndexerGraphQLClient } from "./__generated__";
@@ -161,5 +161,13 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
         })
         .filter((d) => !!d) as Dao[],
     };
+  }
+
+  async getMinLpToProvide(daoAggregate:DaoAggregate){
+    return this.rpcDaoClient.getMinLpToProvide(daoAggregate)
+  }
+
+  async getTreasuryBalance(daoAccount: DaoAccount){
+    return this.rpcDaoClient.getTreasuryBalance(daoAccount)
   }
 }

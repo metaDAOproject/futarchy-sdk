@@ -251,7 +251,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     return this.rpcProposalsClient.withdraw(proposal);
   }
 
-  async createProposal(daoAggregate: DaoAggregate, user: PublicKey): SendTransactionResponse {
-    return this.rpcProposalsClient.createProposal(daoAggregate, user)
+  async createProposal(daoAggregate: DaoAggregate): SendTransactionResponse {
+    return this.rpcProposalsClient.createProposal(daoAggregate)
+  }
+
+  async createProposalV02(daoAggregate: DaoAggregate): SendTransactionResponse {
+    return this.rpcProposalsClient.createProposalV02(daoAggregate)
   }
 }

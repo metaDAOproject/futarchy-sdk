@@ -454,7 +454,7 @@ export class FutarchyOpenbookMarketsRPCClient
       }
     }
     if (!openOrdersAccountAddress) {
-      return {errors: [new Error("No openOrders address found")]}
+      return {errors: [new Error("No openOrders address found")], signatures:[]}
     }
     const mint =
       order.side === "ask"

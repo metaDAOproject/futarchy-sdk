@@ -47,7 +47,7 @@ export class TransactionSender {
   async send<T extends Transaction | VersionedTransaction>(
     txs: SingleOrArray<T>[],
     connection: Connection,
-    alreadySignedTxs?: T[],
+    // alreadySignedTxs?: T[],
     opts?: { sequential: boolean, commitment: Commitment }
   ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
@@ -84,10 +84,10 @@ export class TransactionSender {
 
     const errors: TransactionError[] = []
     const signatures: string[] = [];
-    const flatTx = await this.signAllTransactions(timedTxs.flat()).catch(e => { errors.push({ name: e.name, message: e.message }); return })
-    if (!flatTx) return { signatures: signatures, errors: errors }
+    const signedTxs = await this.signAllTransactions(timedTxs.flat()).catch(e => { errors.push({ name: e.name, message: e.message }); return })
+    if (!signedTxs) return { signatures: signatures, errors: errors }
 
-    const signedTxs = alreadySignedTxs ? [...flatTx, ...alreadySignedTxs] : flatTx
+    console.log(signedTxs)
     // Reconstruct signed sequence
     let i = 0;
     const signedSequence: T[][] = sequence.map((set) =>
@@ -97,7 +97,7 @@ export class TransactionSender {
     if (!opts?.sequential) {
       signedSequence.map((set) =>
         Promise.all(
-          set.map((tx) => {
+          set.map(async (tx) => {
             console.log(tx)
             return connection
               .sendRawTransaction(tx.serialize(), { skipPreflight: true })

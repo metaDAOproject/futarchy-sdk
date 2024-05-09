@@ -16,11 +16,13 @@ import {
   AmmMarket,
   LiquidityAddError,
   TokenWithPDA,
+  DaoAccount,
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { SendTransactionResponse } from "@/types/transactions";
+import { BN } from "@coral-xyz/anchor";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -35,6 +37,8 @@ export interface FutarchyDaoClient {
     daoAddress: string,
     protocol: FutarchyProtocol
   ): Promise<DaoAggregate | null>;
+  getMinLpToProvide(daoAggregate: DaoAggregate): Promise<{ base: BN, quote: BN } | undefined>;
+  getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: { mint: string, amount: number }[]}>
 }
 
 export interface FutarchyProposalsClient {
@@ -45,7 +49,8 @@ export interface FutarchyProposalsClient {
     vaultAccount: VaultAccountWithProtocol
   ): SendTransactionResponse;
   withdraw(proposal: Proposal): SendTransactionResponse;
-  createProposal(daoAggregate: DaoAggregate, user: PublicKey): SendTransactionResponse;
+  createProposal(daoAggregate: DaoAggregate): SendTransactionResponse;
+  createProposalV02(daoAggregate: DaoAggregate): SendTransactionResponse;
 }
 
 export interface FutarchyBalancesClient {

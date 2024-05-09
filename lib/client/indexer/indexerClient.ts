@@ -16,7 +16,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
   public balances: FutarchyIndexerBalancesClient;
   public markets: FutarchyIndexerMarketsClient;
   private protocolMap: Map<string, FutarchyProtocol>;
-
+  
   constructor(
     rpcClient: FutarchyRPCClient,
     indexerURL: string,

@@ -301,6 +301,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return [vault, tx];
   }
 
+  // TO DO standardize naming
   private async createProposalV02(dao: Dao, onPassIx: ProposalInstructionWithPreinstructions, marketParams: OpenbookMarketParams): SendTransactionResponse {
     const proposalKP = Keypair.generate();
 
@@ -327,8 +328,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const daoAccount = await autocrat.account.dao.fetch(currentDao.publicKey)
     if (!daoAccount) return
 
-    // const baseNonce:BN = new BN(daoAccount.proposalCount);
-    const baseNonce: BN = new BN(1027);
+    const baseNonce:BN = new BN(daoAccount.proposalCount);
+    // const baseNonce: BN = new BN(1027);
     const daoTreasury = daoAccount.treasury
     const tokenMint = daoAccount.metaMint!!;
     const usdcMint = daoAccount.usdcMint;
@@ -350,7 +351,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     let [passMarketIx, passMarketSigners] =
       await openbook.createMarketIx(
         this.rpcProvider.publicKey,
-        `${baseNonce.toString()}pMETA/pUSDC`,
+        `${baseNonce.toString()}p${dao.baseToken.symbol}/pUSDC`,
         quotePassMint.publicKey,
         basePassMint.publicKey,
         quoteLotSize,
@@ -374,7 +375,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     let [failMarketIx, failMarketSigners] =
       await openbook.createMarketIx(
         this.rpcProvider.publicKey,
-        `${baseNonce.toString()}fMETA/fUSDC`,
+        `${baseNonce.toString()}f${dao.baseToken.symbol}/fUSDC`,
         quoteFailMint.publicKey,
         baseFailMint.publicKey,
         quoteLotSize,
@@ -458,6 +459,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return txResp
   }
 
+  // TO DO standardize naming
   private async createProposalV1(dao: Dao, onPassIx: ProposalInstructionWithPreinstructions, marketParams: AmmMarketParams): SendTransactionResponse {
     const proposalKP = Keypair.generate();
     const proposal = proposalKP.publicKey

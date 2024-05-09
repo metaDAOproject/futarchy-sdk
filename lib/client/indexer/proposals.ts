@@ -96,7 +96,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 price: true,
                 created_at: true,
                 updated_slot: true,
-                price_type: true,
+                prices_type: true,
               }
             },
             proposal_details: {

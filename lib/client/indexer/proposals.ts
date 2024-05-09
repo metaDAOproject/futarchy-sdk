@@ -11,6 +11,7 @@ import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
 import { Client as IndexerGraphQLClient } from "./__generated__";
 import { SendTransactionResponse } from "@/types/transactions";
+import { CreateProposalInstruction, MarketParams, ProposalDetails } from "@/types/createProp";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -251,11 +252,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     return this.rpcProposalsClient.withdraw(proposal);
   }
 
-  async createProposal(daoAggregate: DaoAggregate): SendTransactionResponse {
-    return this.rpcProposalsClient.createProposal(daoAggregate)
-  }
-
-  async createProposalV02(daoAggregate: DaoAggregate): SendTransactionResponse {
-    return this.rpcProposalsClient.createProposalV02(daoAggregate)
+  async createProposal(daoAggregate: DaoAggregate,
+    version: "V0.2" | "V1" = "V1",
+    instructionParams: CreateProposalInstruction,
+    marketParams: MarketParams,
+    proposalDetails: ProposalDetails): SendTransactionResponse {
+    return this.rpcProposalsClient.createProposal(daoAggregate,version,instructionParams,marketParams,proposalDetails)
   }
 }

@@ -4,7 +4,7 @@ import { FutarchyIndexerProposalsClient } from "./proposals";
 import { FutarchyIndexerBalancesClient } from "./balances";
 import { FutarchyIndexerMarketsClient } from "./markets";
 import { createClient } from "./__generated__";
-import { ClientOptions, createClient as createWsClient } from "graphql-ws";
+import { createClient as createWsClient, ClientOptions } from "graphql-ws";
 import { FutarchyProtocol } from "@/types";
 
 /**

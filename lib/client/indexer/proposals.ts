@@ -83,6 +83,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               quote_mint_acct: true,
               market_type: true,
               twaps: {
+                __args: {
+                  order_by: [{
+                    created_at: 'desc'
+                  }]
+                },
                 token_amount: true,
                 created_at: true,
                 last_observation: true,
@@ -91,6 +96,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 updated_slot: true,
               },
               prices: {
+                __args: {
+                  order_by: [{
+                    created_at: 'desc'
+                  }]
+                },
                 base_amount: true,
                 quote_amount: true,
                 price: true,
@@ -129,6 +139,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             const baseVault = p.conditional_vault;
             const quoteVault = p.conditionalVaultByQuoteVault;
             const proposalDetails = p.proposal_details[0];
+            const passPrice = passMarket?.prices ?? [];
+            const failPrice = failMarket?.prices ?? [];
+            const passTwap = passMarket?.twaps ?? [];
+            const failTwap = failMarket?.twaps ?? [];
             if (!proposalDetails || !passMarket || !failMarket) return;
             return {
               account: {
@@ -216,16 +230,18 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               finalizationDate: new Date(new Date().getDate() + 20),
               participants: [],
               // TOKEN amount on twap is probably volume
+              // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????
               prices: {
                 fail: {
                   // TODO: need to pull this data for twaps
-                  spot: p.markets[1].prices[0].price || 0,
-                  twap: p.markets[1].twaps[0].last_price || 0,
+                  spot: failPrice.length > 0 ? failPrice[0].price : 0,
+                  // TODO: Fix this... We're really trying to handle a few things with different twaps here......
+                  twap: failTwap.length > 0 ? (failTwap[0].last_price ? failTwap[0].last_price : failTwap[0].last_observation) : 0,
                 },
                 pass: {
                   // TODO: need to pull this data for twaps as well
-                  spot: p.markets[0].prices[0].price || 0,
-                  twap: p.markets[0].twaps[0].last_price || 0,
+                  spot: passPrice.length > 0 ? passPrice[0].price : 0,
+                  twap: passTwap.length > 0 ? (passTwap[0].last_price ? passTwap[0].last_price : passTwap[0].last_observation) : 0,
                 },
               },
               proposer: {

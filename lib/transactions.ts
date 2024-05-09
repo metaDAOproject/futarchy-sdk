@@ -1,10 +1,16 @@
 import {
+  Commitment,
   ComputeBudgetProgram,
   Connection,
   PublicKey,
   Transaction,
+  TransactionInstruction,
+  TransactionMessage,
+  TransactionStatus,
   VersionedTransaction,
 } from "@solana/web3.js";
+import { SendTransactionResponse, TransactionError } from "./types/transactions";
+import { AnchorProvider } from "@coral-xyz/anchor";
 
 type SingleOrArray<T> = T | T[];
 
@@ -13,12 +19,14 @@ export class TransactionSender {
   private signAllTransactions: <T extends Transaction | VersionedTransaction>(
     transactions: T[]
   ) => Promise<T[]>;
+
   public priorityFee: number;
   constructor(
     owner: PublicKey,
     signAllTransactions: <T extends Transaction | VersionedTransaction>(
       transactions: T[]
     ) => Promise<T[]>,
+
     priorityFee: number
   ) {
     this.owner = owner;
@@ -42,8 +50,10 @@ export class TransactionSender {
    */
   async send<T extends Transaction | VersionedTransaction>(
     txs: SingleOrArray<T>[],
-    connection: Connection
-  ) {
+    connection: Connection,
+    // alreadySignedTxs?: T[],
+    opts?: { sequential: boolean, commitment: Commitment }
+  ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
     }
@@ -55,15 +65,16 @@ export class TransactionSender {
     const sequence =
       txs[0] instanceof Array ? (txs as T[][]) : ([txs] as T[][]);
 
-    const blockhask = await connection.getLatestBlockhash();
+    const latestBlockhash = await connection.getLatestBlockhash();
     const timedTxs = sequence.map((set) =>
       set.map((e: T) => {
         const tx = e;
         if (!(tx instanceof VersionedTransaction)) {
-          tx.recentBlockhash = blockhask.blockhash;
+          tx.recentBlockhash = latestBlockhash.blockhash;
           tx.feePayer = this.owner!;
           // Compute limit ix & priority fee ix
           tx.instructions = [
+            //MAX 1M
             ComputeBudgetProgram.setComputeUnitLimit({ units: 200_000 }),
             ComputeBudgetProgram.setComputeUnitPrice({
               microLamports: this.priorityFee,
@@ -75,8 +86,11 @@ export class TransactionSender {
       })
     );
 
+    const errors: TransactionError[] = []
+    const signatures: string[] = [];
     try {
-      const signedTxs = await this.signAllTransactions(timedTxs.flat());
+      const signedTxs = await this.signAllTransactions(timedTxs.flat()).catch(e => { errors.push({ name: e.name, message: e.message }); return })
+      if (!signedTxs) return { signatures: signatures, errors: errors }
 
       // Reconstruct signed sequence
       let i = 0;
@@ -84,27 +98,62 @@ export class TransactionSender {
         Array.from({ length: set.length }).map(() => signedTxs[i++])
       );
 
-      const signaturesPromises = signedSequence.map((set) =>
-        Promise.all(
-          set.map((tx) =>
-            connection
-              .sendRawTransaction(tx.serialize(), { skipPreflight: true })
-              .then((txSignature) =>
-                connection
-                  .confirmTransaction(txSignature)
-                  .then(() => txSignature)
-              )
+      if (!opts?.sequential) {
+        signedSequence.map((set) =>
+          Promise.all(
+            set.map(async (tx) => {
+              console.log(tx)
+              return connection
+                .sendRawTransaction(tx.serialize(), { skipPreflight: true })
+                .then((txSignature) =>
+                  connection
+                    .confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
+                    .then(() => signatures.push(txSignature))
+                )
+            }
+            )
           )
-        )
-      );
-      return (await Promise.all(signaturesPromises)).flat();
-    } catch (err) {
-      console.error("error occured sending txn:", err);
-      return [];
+        );
+      }
+      else {
+        for (const set of signedSequence) {
+          for (const tx of set) {
+            const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
+            if (txSignature) {
+              const confirmation = await connection.confirmTransaction(txSignature, opts.commitment ?? "confirmed");
+              signatures.push(txSignature); // Push only on successful confirmation
+            }
+          }
+        }
+      }
+    }
+    catch (e) {
+      errors.push(e as any)
+    }
+    return {
+      signatures: signatures,
+      errors: errors
     }
   }
 
   public setPriorityFee(priorityFee: number) {
     this.priorityFee = priorityFee;
   }
+}
+
+export async function createVersionedTransaction(instructions: TransactionInstruction[], rpcProvider: AnchorProvider) {
+  if (!rpcProvider.publicKey) throw new Error('Wallet is not connected or public key is not available.');
+
+  const recentBlockhashResponse = await rpcProvider.connection.getLatestBlockhash();
+  if (!recentBlockhashResponse.blockhash) {
+    throw new Error('Failed to get the latest blockhash.');
+  }
+
+  const messageV0 = new TransactionMessage({
+    payerKey: rpcProvider.publicKey,
+    recentBlockhash: recentBlockhashResponse.blockhash,
+    instructions,
+  }).compileToV0Message()
+
+  return new VersionedTransaction(messageV0);
 }

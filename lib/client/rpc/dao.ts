@@ -141,6 +141,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   async getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[] }> {
     const treasury = daoAccount.treasury
     const balance = await this.rpcProvider.connection.getBalance(treasury).catch(e => null)
+    // we can import this as well as include token2022 
     const tokenAccounts = await this.rpcProvider.connection.getParsedTokenAccountsByOwner(treasury, {
       programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
     });

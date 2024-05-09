@@ -216,16 +216,17 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               finalizationDate: new Date(new Date().getDate() + 20),
               participants: [],
               // TOKEN amount on twap is probably volume
+              // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????
               prices: {
                 fail: {
                   // TODO: need to pull this data for twaps
-                  spot: p.markets[1].prices[0].price || 0,
-                  twap: p.markets[1].twaps[0].last_price || 0,
+                  spot: !p.markets[1].prices ? 0 : p.markets[1].prices[0].price,
+                  twap: !p.markets[1].twaps ? 0 : p.markets[1].twaps[0].last_price,
                 },
                 pass: {
                   // TODO: need to pull this data for twaps as well
-                  spot: p.markets[0].prices[0].price || 0,
-                  twap: p.markets[0].twaps[0].last_price || 0,
+                  spot: !p.markets[0].prices ? 0 : p.markets[0].prices[0].price,
+                  twap: !p.markets[0].twaps ? 0 : p.markets[0].twaps[0].last_price,
                 },
               },
               proposer: {

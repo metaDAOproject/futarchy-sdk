@@ -37,6 +37,7 @@ import { getTwapMarketKey } from "@/openbookTwap";
 import { BASE_FORMAT, MAX_MARKET_PRICE, NUMERAL_FORMAT } from "@/constants";
 import { shortKey } from "@/utils";
 import { utf8 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
+import { SendTransactionResponse } from "@/types/transactions";
 
 export class FutarchyOpenbookMarketsRPCClient
   implements FutarchyOrderbookMarketsClient<OpenbookMarket, OpenbookOrder>
@@ -210,8 +211,8 @@ export class FutarchyOpenbookMarketsRPCClient
     market: OpenbookMarket,
     order: Omit<OpenbookOrder, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType
-  ): Promise<string[]> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return
     const mint =
       order.side === "ask"
         ? market.marketInstance.account.baseMint
@@ -246,7 +247,7 @@ export class FutarchyOpenbookMarketsRPCClient
 
     if (!placeLimitOrderArgs) {
       console.error("failed to create place limit order args");
-      return [];
+      return;
     }
 
     const placeTx = await market.twapProgram.methods
@@ -368,8 +369,8 @@ export class FutarchyOpenbookMarketsRPCClient
   async cancelOrder(
     market: OpenbookMarket,
     order: OpenbookOrder
-  ): Promise<string[]> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return;
     const tx = await this.cancelAndSettleFundsTransactions(order, market);
     return this.transactionSender.send([tx], this.rpcProvider.connection);
   }
@@ -423,11 +424,10 @@ export class FutarchyOpenbookMarketsRPCClient
     order: Omit<OpenbookOrder, "owner" | "status" | "filled">,
     placeOrderType: PlaceOrderType,
     openOrdersAccountAddress?: PublicKey
-  ): Promise<string[]> {
+  ): SendTransactionResponse {
     // consider just creating an open orders account everytime
-    if (!this.transactionSender) {
-      return [];
-    }
+    if (!this.transactionSender) return 
+
     const placeTx = new Transaction();
     if (!openOrdersAccountAddress) {
       // use the first open orders account by default
@@ -454,8 +454,7 @@ export class FutarchyOpenbookMarketsRPCClient
       }
     }
     if (!openOrdersAccountAddress) {
-      console.error("no OpenOrders address found");
-      return [];
+      return {errors: [new Error("No openOrders address found")]}
     }
     const mint =
       order.side === "ask"
@@ -564,7 +563,7 @@ export class FutarchyOpenbookMarketsRPCClient
       );
     }
 
-    return [];
+    return ;
   }
 }
 

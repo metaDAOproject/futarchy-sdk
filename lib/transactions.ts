@@ -1,10 +1,12 @@
 import {
+  Commitment,
   ComputeBudgetProgram,
   Connection,
   PublicKey,
   Transaction,
   VersionedTransaction,
 } from "@solana/web3.js";
+import { SendTransactionResponse, TransactionError } from "./types/transactions";
 
 type SingleOrArray<T> = T | T[];
 
@@ -13,7 +15,6 @@ export class TransactionSender {
   private signAllTransactions: <T extends Transaction | VersionedTransaction>(
     transactions: T[]
   ) => Promise<T[]>;
-  private signTransaction: <T extends Transaction | VersionedTransaction>(transaction: T) => Promise<T>
 
   public priorityFee: number;
   constructor(
@@ -21,13 +22,11 @@ export class TransactionSender {
     signAllTransactions: <T extends Transaction | VersionedTransaction>(
       transactions: T[]
     ) => Promise<T[]>,
-    signTransaction: <T extends Transaction | VersionedTransaction>(transaction: T) => Promise<T>,
 
     priorityFee: number
   ) {
     this.owner = owner;
     this.signAllTransactions = signAllTransactions;
-    this.signTransaction = signTransaction;
     this.priorityFee = priorityFee;
   }
 
@@ -36,10 +35,9 @@ export class TransactionSender {
     signAllTransactions: <T extends Transaction | VersionedTransaction>(
       transactions: T[]
     ) => Promise<T[]>,
-    signTransaction: <T extends Transaction | VersionedTransaction>(transaction: T) => Promise<T>,
     priorityFee: number
   ): TransactionSender {
-    return new TransactionSender(owner, signAllTransactions, signTransaction, priorityFee);
+    return new TransactionSender(owner, signAllTransactions, priorityFee);
   }
   /**
    * Sends transactions.
@@ -50,7 +48,8 @@ export class TransactionSender {
     txs: SingleOrArray<T>[],
     connection: Connection,
     alreadySignedTxs?: T[],
-  ) {
+    opts?: { sequential: boolean, commitment: Commitment }
+  ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
     }
@@ -62,15 +61,13 @@ export class TransactionSender {
     const sequence =
       txs[0] instanceof Array ? (txs as T[][]) : ([txs] as T[][]);
 
-    const blockhask = await connection.getLatestBlockhash();
+    const latestBlockhash = await connection.getLatestBlockhash();
     const timedTxs = sequence.map((set) =>
       set.map((e: T) => {
         const tx = e;
         if (!(tx instanceof VersionedTransaction)) {
-          tx.recentBlockhash = blockhask.blockhash;
-          // console.log(tx.feePayer)
+          tx.recentBlockhash = latestBlockhash.blockhash;
           tx.feePayer = this.owner!;
-          // console.log(tx.feePayer)
           // Compute limit ix & priority fee ix
           tx.instructions = [
             //MAX 1M
@@ -80,45 +77,69 @@ export class TransactionSender {
             }),
             ...tx.instructions,
           ];
-          // console.log(tx.verifySignatures())
-          // this.signTransaction(tx)
-
-
         }
         return tx;
       })
     );
 
-    try {
-      // const signedTxs = timedTxs.flat()
-      const flatTx = await this.signAllTransactions(timedTxs.flat())
-      const signedTxs = alreadySignedTxs ? [...flatTx, ...alreadySignedTxs]: flatTx 
-      // Reconstruct signed sequence
-      let i = 0;
-      const signedSequence: T[][] = sequence.map((set) =>
-        Array.from({ length: set.length }).map(() => signedTxs[i++])
-      );
-      console.log(signedSequence)
-      const signaturesPromises = signedSequence.map((set) =>
+    const errors: TransactionError[] = []
+    const signatures: string[] = [];
+    const flatTx = await this.signAllTransactions(timedTxs.flat()).catch(e => { errors.push({ name: e.name, message: e.message }); return })
+    if (!flatTx) return { signatures: signatures, errors: errors }
+
+    const signedTxs = alreadySignedTxs ? [...flatTx, ...alreadySignedTxs] : flatTx
+    // Reconstruct signed sequence
+    let i = 0;
+    const signedSequence: T[][] = sequence.map((set) =>
+      Array.from({ length: set.length }).map(() => signedTxs[i++])
+    );
+
+    if (!opts?.sequential) {
+      signedSequence.map((set) =>
         Promise.all(
-          set.map((tx) =>{
+          set.map((tx) => {
             console.log(tx)
             return connection
               .sendRawTransaction(tx.serialize(), { skipPreflight: true })
-              .then((txSignature) => 
+              .then((txSignature) =>
                 connection
-                  .confirmTransaction(txSignature)
-                  .then(() => txSignature)
-            
+                  .confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
+                  .then(() => signatures.push(txSignature))
               )
           }
           )
         )
       );
-      return (await Promise.all(signaturesPromises)).flat();
-    } catch (err) {
-      console.error("error occured sending txn:", err);
-      return [];
+    }
+    else {
+      for (const set of signedSequence) {
+        for (const tx of set) {
+          try {
+            const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
+            if (txSignature) {
+              try {
+                const confirmation = await connection.confirmTransaction(txSignature, opts.commitment ?? "confirmed");
+                console.log(confirmation)
+                signatures.push(txSignature); // Push only on successful confirmation
+              } catch (confirmationError) {
+                //TO DO Better error handling
+                console.error(`Transaction failed to confirm: ${confirmationError}`);
+                errors.push(confirmationError as any)
+              }
+            }
+
+          } catch (err) {
+            if (err instanceof Error) {
+              errors.push(err)
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      signatures: signatures,
+      errors: errors
     }
   }
 

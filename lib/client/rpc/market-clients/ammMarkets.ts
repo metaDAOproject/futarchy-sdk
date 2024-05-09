@@ -10,6 +10,7 @@ import {
   LiquidityAddError,
   SwapPreview,
 } from "@/types/amm";
+import { SendTransactionResponse } from "@/types/transactions";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
@@ -98,11 +99,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   ): LiquidityAddError | null {
     const quoteAmountArg = new BN(
       quoteAmount *
-        new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
+      new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
     );
     const maxBaseAmountArg = new BN(
       maxBaseAmount *
-        new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
+      new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
 
     const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
@@ -127,7 +128,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     if (userQuoteBalance !== undefined) {
       const userQuoteBalanceScaled = new BN(
         userQuoteBalance *
-          new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
+        new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
       );
       const requiredQuoteBalance = quoteAmountArg.toNumber();
       if (userQuoteBalanceScaled.toNumber() < requiredQuoteBalance) {
@@ -141,7 +142,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     if (userBaseBalance !== undefined) {
       const userBaseBalanceScaled = new BN(
         userBaseBalance *
-          new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
+        new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
       );
       const requiredBaseBalance = ammBaseAmount.toNumber();
       if (userBaseBalanceScaled.toNumber() < requiredBaseBalance) {
@@ -160,8 +161,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     quoteAmount: number,
     maxBaseAmount: number,
     slippage: number
-  ): Promise<string[] | LiquidityAddError> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return { signatures: [], errors: [{ message: "No transaction sender Found.", name: "Transaction Sender Error" }] };
 
     const validationError = this.validateAddLiquidity(
       ammMarket,
@@ -170,16 +171,16 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       slippage
     );
     if (validationError) {
-      return validationError;
+      return { signatures: [], errors: [{ message: validationError, name: "Simulation failed." }] };
     }
 
     const quoteAmountArg = new BN(
       quoteAmount *
-        new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
+      new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
     );
     const maxBaseAmountArg = new BN(
       maxBaseAmount *
-        new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
+      new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
     );
     const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
       maxBaseAmountArg,
@@ -218,15 +219,15 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
 
     const quoteAmountArg = quoteAmount
       ? new BN(
-          quoteAmount *
-            new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
-        )
+        quoteAmount *
+        new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
+      )
       : undefined;
     const baseAmountArg = baseAmount
       ? new BN(
-          baseAmount *
-            new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
-        )
+        baseAmount *
+        new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
+      )
       : undefined;
 
     const simulation = this.ammClient.simulateAddLiquidity(
@@ -254,7 +255,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     ammMarket: AmmMarket,
     lpTokensToBurn: number,
     slippage: number
-  ) {
+  ): SendTransactionResponse {
     // fetch or have lp token account
     const lpTokensLots = new BN(
       lpTokensToBurn * new BN(10).pow(new BN(9)).toNumber()
@@ -279,9 +280,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       new BN(minQuoteWithSlippage)
     );
     const tx = await ix.transaction();
-    return (
-      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
-    );
+    return this.transactionSender?.send([tx], this.rpcProvider.connection)
   }
 
   async swap(
@@ -290,8 +289,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: number,
     outputAmountMin: number,
     slippage: number
-  ): Promise<string[]> {
-    if (!this.transactionSender) return [];
+  ): SendTransactionResponse {
+    if (!this.transactionSender) return { signatures: [], errors: [{ message: "No transaction sender Found.", name: "Transaction Sender Error" }] };
     let [inputToken, outputToken] = swapType.buy
       ? [ammMarket.quoteToken, ammMarket.baseToken]
       : [ammMarket.baseToken, ammMarket.quoteToken];
@@ -320,9 +319,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       )
       .transaction();
 
-    return (
-      this.transactionSender?.send([tx], this.rpcProvider.connection) ?? []
-    );
+    return this.transactionSender?.send([tx], this.rpcProvider.connection)
   }
 
   async getSwapPreview(
@@ -330,10 +327,14 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: number,
     isBuyBase: boolean
   ): Promise<SwapPreview> {
-    const ammAcount = await this.ammClient.getAmm(ammAddr);
-    const resp = this.ammClient.getSwapPreview(
-      ammAcount,
-      inputAmount,
+    const ammAccount = await this.ammClient.getAmm(ammMarket.publicKey);
+    const inputAmountLots = isBuyBase
+      ? inputAmount * 10 ** ammMarket.baseToken.decimals
+      : inputAmount * 10 ** ammMarket.quoteToken.decimals;
+
+    const resp = this.calculateSwapPreview(
+      ammAccount,
+      new BN(inputAmountLots),
       isBuyBase
     );
     return resp;

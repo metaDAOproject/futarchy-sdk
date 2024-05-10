@@ -41,6 +41,7 @@ export type Order = {
   side: OrderBookSideType;
   token: TokenProps;
   owner: PublicKey;
+  market: PublicKey;
 };
 
 export type Orderbook<O extends Order = Order> = {

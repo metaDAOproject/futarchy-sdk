@@ -168,7 +168,6 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            console.log("next in SDK data", data);
             const orders = data.data?.orders
               ?.map<Order | undefined>((order) => {
                 const token =
@@ -182,7 +181,6 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   !order.market_acct
                 )
                   return;
-                console.log("we didn't get filtered!");
                 return {
                   time: new Date(order.order_time),
                   status: order.is_active ? "open" : "closed",

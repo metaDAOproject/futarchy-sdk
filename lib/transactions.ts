@@ -52,7 +52,7 @@ export class TransactionSender {
     txs: SingleOrArray<T>[],
     connection: Connection,
     // alreadySignedTxs?: T[],
-    opts?: { sequential: boolean, commitment: Commitment }
+    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number>[]}
   ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
@@ -67,15 +67,16 @@ export class TransactionSender {
 
     const latestBlockhash = await connection.getLatestBlockhash();
     const timedTxs = sequence.map((set) =>
-      set.map((e: T) => {
+      set.map((e: T, i:number) => {
         const tx = e;
         if (!(tx instanceof VersionedTransaction)) {
           tx.recentBlockhash = latestBlockhash.blockhash;
           tx.feePayer = this.owner!;
           // Compute limit ix & priority fee ix
+          const units = Array.isArray(opts?.CUs) ? opts.CUs[i] as number : opts?.CUs;
           tx.instructions = [
             //MAX 1M
-            ComputeBudgetProgram.setComputeUnitLimit({ units: 200_000 }),
+            ComputeBudgetProgram.setComputeUnitLimit({ units: units ?? 200_000 }),
             ComputeBudgetProgram.setComputeUnitPrice({
               microLamports: this.priorityFee,
             }),

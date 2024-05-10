@@ -52,7 +52,7 @@ export class TransactionSender {
     txs: SingleOrArray<T>[],
     connection: Connection,
     // alreadySignedTxs?: T[],
-    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number>[]}
+    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number>}
   ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
@@ -60,6 +60,12 @@ export class TransactionSender {
 
     if (txs.length === 0 || (txs[0] instanceof Array && txs[0].length === 0)) {
       throw new Error("No transactions passed");
+    }
+
+    if (opts?.CUs) {
+      if ((!Array.isArray(opts.CUs) && Array.isArray(txs.length)) || (Array.isArray(opts.CUs) && opts.CUs.length !== txs.length)) {
+        throw new Error("CUs length must match transactions length");
+      }
     }
 
     const sequence =

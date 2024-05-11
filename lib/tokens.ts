@@ -175,7 +175,7 @@ async function getMetaplexMetadataForToken(
 async function fetchJupTokenListFromGithub(): Promise<TokenProps[]> {
   try {
     const url =
-      "https://api.github.com/repos/jup-ag/token-list/contents/validated-tokens.csv";
+      "https://pub-bd38b8db5046423081fe3923f7d53200.r2.dev/validated-tokens.csv";
     const response = await fetch(url);
     const data = await response.json();
 

@@ -174,36 +174,20 @@ async function getMetaplexMetadataForToken(
 
 async function fetchJupTokenListFromGithub(): Promise<TokenProps[]> {
   try {
-    const url =
-      "https://api.github.com/repos/jup-ag/token-list/contents/validated-tokens.csv";
+    const url = "https://pub-bd38b8db5046423081fe3923f7d53200.r2.dev/validated-tokens.json";
     const response = await fetch(url);
+
     const data = await response.json();
 
-    // Check if the content is base64 encoded
-    if (data.encoding !== "base64") {
-      throw new Error("Content is not base64 encoded.");
-    }
-
-    // Decode content from Base64
-    const csvContent = Buffer.from(data.content, "base64").toString();
-
-    const lines = csvContent.split("\n");
-    const tokens: TokenProps[] = [];
-    const headers = lines[0].split(",");
-
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(",");
-      if (values.length !== headers.length) continue; // Skip malformed rows
-      const token: TokenProps = {
-        name: values[0],
-        symbol: values[1],
-        publicKey: values[2],
-        decimals: parseInt(values[3]),
-        url: values[4],
-      };
-      tokens.push(token);
-    }
-
+    const tokens = data.map((token: Array<string>) => {
+      return {
+        name: token[0],
+        symbol: token[1],
+        publicKey: token[2],
+        decimals: parseInt(token[3]),
+        url: token[4],
+      }
+    });
     return tokens;
   } catch (error) {
     console.error("Error fetching or decoding CSV:", error);

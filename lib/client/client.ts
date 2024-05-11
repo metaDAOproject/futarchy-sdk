@@ -17,13 +17,18 @@ import {
   DaoAccount,
   TokenWithPDA,
   LiquidityAddError,
+  OpenbookOrder,
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { SendTransactionResponse } from "@/types/transactions";
 import { BN } from "@coral-xyz/anchor";
-import { CreateProposalInstruction, MarketParams, ProposalDetails } from "@/types/createProp";
+import {
+  CreateProposalInstruction,
+  MarketParams,
+  ProposalDetails,
+} from "@/types/createProp";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -36,10 +41,14 @@ export interface FutarchyDaoClient {
   fetchAllDaos(): Promise<DaoAggregate[]>;
   fetchDao(
     daoAddress: string,
-    protocol: FutarchyProtocol
+    protocol: FutarchyProtocol,
   ): Promise<DaoAggregate | null>;
-  getMinLpToProvide(daoAggregate: DaoAggregate): Promise<{ base: BN, quote: BN } | undefined>;
-  getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[] }>
+  getMinLpToProvide(
+    daoAggregate: DaoAggregate,
+  ): Promise<{ base: BN; quote: BN } | undefined>;
+  getTreasuryBalance(
+    daoAccount: DaoAccount,
+  ): Promise<{ total: number; tokens: TokenWithBalance[] }>;
 }
 
 export interface FutarchyProposalsClient {
@@ -47,7 +56,7 @@ export interface FutarchyProposalsClient {
   deposit(
     amount: number,
     vaultAccountAddress: PublicKey,
-    vaultAccount: VaultAccountWithProtocol
+    vaultAccount: VaultAccountWithProtocol,
   ): SendTransactionResponse;
   withdraw(proposal: Proposal): SendTransactionResponse;
   createProposal(
@@ -55,34 +64,34 @@ export interface FutarchyProposalsClient {
     version: "V0.2" | "V1",
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
-    proposalDetails: ProposalDetails
+    proposalDetails: ProposalDetails,
   ): SendTransactionResponse;
 }
 
 export interface FutarchyBalancesClient {
   getDaoAggregateMainTokensByMint(
     daoAggregate: DaoAggregate,
-    owner: PublicKey | null
+    owner: PublicKey | null,
   ): Map<string, Pick<TokenWithPDA, "token"> & { pda: PublicKey | null }>;
   fetchMainTokenWalletBalances(
     dao: DaoAggregate,
-    ownerWallet: PublicKey
+    ownerWallet: PublicKey,
   ): Promise<TokenWithBalance[]>;
   watchMainTokenWalletBalances(
     dao: DaoAggregate,
-    ownerWallet: PublicKey
+    ownerWallet: PublicKey,
   ): Observable<TokenWithBalance>[];
   getConditionalTokensFromProposals(
     proposals: Proposal[],
     owner: PublicKey,
     quoteToken: TokenProps,
-    baseToken: TokenProps
+    baseToken: TokenProps,
   ): Array<TokenWithPDA & { proposal: PublicKey }>;
   fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey,
     quoteToken: TokenProps,
     baseToken: TokenProps,
-    proposals: Proposal[]
+    proposals: Proposal[],
   ): Promise<TokenWithBalancePDAAndProposal[]>;
   watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance>;
 }
@@ -91,26 +100,31 @@ export interface FutarchyMarketsClient {
   openbook: FutarchyOrderbookMarketsClient;
   amm: FutarchyAmmMarketsClient;
   fetchMarket(
-    request: MarketFetchRequest
+    request: MarketFetchRequest,
   ): Promise<OpenbookMarket | AmmMarket | undefined>;
+  watchAllUserOrders(owner: PublicKey): Observable<Array<Order>>;
+  watchUserOrdersForMarket(
+    owner: PublicKey,
+    marketAcct: PublicKey,
+  ): Observable<Array<Order>>;
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
 }
 
 export interface FutarchyOrderbookMarketsClient<
   M extends Market = Market,
-  O extends Order = Order
+  O extends Order = Order,
 > {
   fetchMarket(request: MarketFetchRequest): Promise<M | undefined>;
   fetchOrderBook(market: M): Promise<Orderbook<O> | undefined>;
   fetchUserOrdersFromOrderbooks(
     owner: PublicKey,
-    orderbooks: Orderbook<O>[]
+    orderbooks: Orderbook<O>[],
   ): Promise<O[]>;
   placeOrder(
     market: M,
     order: Omit<O, "owner" | "status" | "filled">,
-    placeOrderType: PlaceOrderType
+    placeOrderType: PlaceOrderType,
   ): SendTransactionResponse;
   cancelOrder(market: M, order: O): SendTransactionResponse;
 }
@@ -122,12 +136,12 @@ export interface FutarchyAmmMarketsClient {
     swapType: SwapType,
     inputAmount: number,
     outputAmountMin: number,
-    slippage: number
+    slippage: number,
   ): SendTransactionResponse;
   removeLiquidity(
     ammMarket: AmmMarket,
     lpTokensToBurn: number,
-    slippage: number
+    slippage: number,
   ): SendTransactionResponse;
   validateAddLiquidity(
     ammMarket: AmmMarket,
@@ -135,12 +149,12 @@ export interface FutarchyAmmMarketsClient {
     maxBaseAmount: number,
     slippage: number,
     userBaseBalance?: number,
-    userQuoteBalance?: number
+    userQuoteBalance?: number,
   ): LiquidityAddError | null;
   addLiquidity(
     ammAddr: AmmMarket,
     quoteAmount: number,
     maxBaseAmount: number,
-    slippage: number
+    slippage: number,
   ): SendTransactionResponse;
 }

@@ -1,5 +1,9 @@
 {
   "semi": true,
   "useTabs": false,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "printWidth": 80,
+  "endOfLine": "lf",
+  "trailingComma": "none",
+  "tabWidth": 2
 }

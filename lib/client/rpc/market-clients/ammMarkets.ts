@@ -8,7 +8,7 @@ import {
   AmmMarket,
   AmmMarketFetchRequest,
   LiquidityAddError,
-  SwapPreview,
+  SwapPreview
 } from "@/types/amm";
 import { SendTransactionResponse } from "@/types/transactions";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
@@ -19,7 +19,7 @@ import {
   PriceMath,
   SwapType,
   getAmmAddr,
-  getAmmLpMintAddr,
+  getAmmLpMintAddr
 } from "@metadaoproject/futarchy-ts";
 import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
@@ -82,7 +82,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         publicKey: request.marketKey,
         type: "amm",
         twapLastUpdatedSlot: ammAccount.oracle.lastUpdatedSlot,
-        twapAggregator: ammAccount.oracle.aggregator,
+        twapAggregator: ammAccount.oracle.aggregator
       };
     } catch (e) {
       console.error("error fetching amm market", e);
@@ -162,7 +162,16 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     maxBaseAmount: number,
     slippage: number
   ): SendTransactionResponse {
-    if (!this.transactionSender) return { signatures: [], errors: [{ message: "Transaction sender is undefined", name: "Transaction Sender Error" }] };
+    if (!this.transactionSender)
+      return {
+        signatures: [],
+        errors: [
+          {
+            message: "Transaction sender is undefined",
+            name: "Transaction Sender Error"
+          }
+        ]
+      };
 
     const validationError = this.validateAddLiquidity(
       ammMarket,
@@ -171,8 +180,10 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       slippage
     );
     if (validationError) {
-      return { signatures: [], errors: [{ message: validationError, name: "Failed to Add Liquidity." }] };
-
+      return {
+        signatures: [],
+        errors: [{ message: validationError, name: "Failed to Add Liquidity." }]
+      };
     }
 
     const quoteAmountArg = new BN(
@@ -248,7 +259,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       baseAmount: simulationBase,
       quoteAmount: simulationQuote,
       // warning this value is not divided by the lot size of the LP tokens
-      expectedLpTokens: simulation.expectedLpTokens.toNumber(),
+      expectedLpTokens: simulation.expectedLpTokens.toNumber()
     };
   }
 
@@ -281,7 +292,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       new BN(minQuoteWithSlippage)
     );
     const tx = await ix.transaction();
-    return this.transactionSender?.send([tx], this.rpcProvider.connection)
+    return this.transactionSender?.send([tx], this.rpcProvider.connection);
   }
 
   async swap(
@@ -291,7 +302,16 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     outputAmountMin: number,
     slippage: number
   ): SendTransactionResponse {
-    if (!this.transactionSender) return { signatures: [], errors: [{ message: "Transaction sender is undefined", name: "Transaction Sender Error" }] };
+    if (!this.transactionSender)
+      return {
+        signatures: [],
+        errors: [
+          {
+            message: "Transaction sender is undefined",
+            name: "Transaction Sender Error"
+          }
+        ]
+      };
     let [inputToken, outputToken] = swapType.buy
       ? [ammMarket.quoteToken, ammMarket.baseToken]
       : [ammMarket.baseToken, ammMarket.quoteToken];
@@ -301,7 +321,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       inputToken.decimals
     );
     let outputAmountMinScaled: BN = PriceMath.getChainAmount(
-      inputAmount,
+      outputAmountMin,
       outputToken.decimals
     );
 
@@ -320,7 +340,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       )
       .transaction();
 
-    return this.transactionSender?.send([tx], this.rpcProvider.connection)
+    return this.transactionSender?.send([tx], this.rpcProvider.connection);
   }
 
   async getSwapPreview(
@@ -381,7 +401,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         startPrice,
         finalPrice,
         avgSwapPrice: inputUnits / outputUnits,
-        priceImpact,
+        priceImpact
       };
     } else {
       const tempBaseAmount = baseAmount.add(inputMinusFee);
@@ -406,7 +426,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         startPrice,
         finalPrice,
         avgSwapPrice: outputUnits / inputUnits,
-        priceImpact,
+        priceImpact
       };
     }
   }
@@ -416,7 +436,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
 
     return {
       base: ammAccount.baseAmount,
-      quote: ammAccount.quoteAmount,
+      quote: ammAccount.quoteAmount
     };
   }
 
@@ -456,12 +476,12 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
 
       return {
         balance: balanceFormatted,
-        token: lpToken,
+        token: lpToken
       };
     } catch (e) {
       return {
         balance: 0,
-        token: lpToken,
+        token: lpToken
       };
     }
   }

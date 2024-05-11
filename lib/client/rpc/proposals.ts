@@ -4,6 +4,7 @@ import {
   SystemProgram,
   Transaction,
   TransactionInstruction,
+  TransactionMessage,
 } from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import {
@@ -22,7 +23,7 @@ import { VaultAccount, VaultAccountWithProtocol } from "@/types/conditionalVault
 import { TransactionSender, createVersionedTransaction } from "@/transactions";
 import { enrichTokenMetadata } from "@/tokens";
 import { getProposalFromAccount } from "@/proposal";
-import { AMM_PROGRAM_ID, AUTOCRAT_PROGRAM_ID, AutocratClient, CONDITIONAL_VAULT_PROGRAM_ID, getAmmAddr, getVaultAddr, getVaultFinalizeMintAddr, getVaultRevertMintAddr } from "@metadaoproject/futarchy-ts";
+import { AMM_PROGRAM_ID, AUTOCRAT_PROGRAM_ID, AutocratClient, CONDITIONAL_VAULT_PROGRAM_ID, getAmmAddr, getVaultAddr, getVaultFinalizeMintAddr, getVaultRevertMintAddr, MaxCUs } from "@metadaoproject/futarchy-ts";
 import { SendTransactionResponse } from "@/types/transactions";
 import { SYSTEM_PROGRAM, autocratProgramToLoSizeMap, autocratVersionToConditionalVaultMap, autocratVersionToTwapMap, makerFee, maxObservationChangePerUpdateLots, takerFee, twapMarketBuffer } from "@/constants";
 import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
@@ -328,7 +329,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const daoAccount = await autocrat.account.dao.fetch(currentDao.publicKey)
     if (!daoAccount) return
 
-    const baseNonce:BN = new BN(daoAccount.proposalCount);
+    const baseNonce: BN = new BN(daoAccount.proposalCount);
     // const baseNonce: BN = new BN(1027);
     const daoTreasury = daoAccount.treasury
     const tokenMint = daoAccount.metaMint!!;
@@ -519,11 +520,17 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const initializeProposalTx = await createVersionedTransaction(initializeProposalIx, this.rpcProvider)
     initializeProposalTx.sign([proposalKP])
 
+
     const allTxs = [initializeVaultsAndMintTx, createAmmdAddLiquidityTx, initializeProposalTx]
+
+    const initializeVaultsAndMintCus = MaxCUs.createIdempotent * 6 + MaxCUs.initializeConditionalVault * 2 + MaxCUs.mintConditionalTokens * 2
+    const createAmmdAddLiquidityCus = MaxCUs.initializeAmm * 2 + MaxCUs.addLiquidity * 2
+    const initializeProposalCus = MaxCUs.createIdempotent + MaxCUs.initializeProposal
+
     const txResp = await this.transactionSender?.send(
       allTxs,
       this.rpcProvider.connection,
-      { commitment: "finalized", sequential: true }
+      { commitment: "confirmed", sequential: true, CUs: [initializeVaultsAndMintCus, createAmmdAddLiquidityCus, initializeProposalCus] }
     )
     const accounts = {
       proposer_acct: this.rpcProvider.publicKey,

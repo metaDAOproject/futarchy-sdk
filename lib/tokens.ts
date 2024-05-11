@@ -179,20 +179,15 @@ async function fetchJupTokenListFromGithub(): Promise<TokenProps[]> {
 
     const data = await response.json();
 
-    const tokens = [];
-
-    const lines = data
-    for (let i = 1; i < lines.length; i++) {
-        const values = lines[i][0].split(",");
-        const token = {
-            name: values[0],
-            symbol: values[1],
-            publicKey: values[2],
-            decimals: parseInt(values[3]),
-            url: values[4],
-        };
-        tokens.push(token);
-    }
+    const tokens = data.map((token: Array<string>) => {
+      return {
+        name: token[0],
+        symbol: token[1],
+        publicKey: token[2],
+        decimals: parseInt(token[3]),
+        url: token[4],
+      }
+    });
     return tokens;
   } catch (error) {
     console.error("Error fetching or decoding CSV:", error);

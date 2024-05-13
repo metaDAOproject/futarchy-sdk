@@ -217,9 +217,9 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               endSlot: p.end_slot,
               // TODO figure this out by slot enqueued maybe
               creationDate: p.created_at,
-              endDate: p.ended_at ?? new Date(p.created_at.getDate() + 3),
+              endDate: p.ended_at ?? new Date(new Date(p.created_at).getDate() + 3),
               // TODO figure this out by slot enqueued maybe
-              finalizationDate: p.completed_at ?? new Date(p.created_at.getDate() + 3),
+              finalizationDate: p.completed_at ?? new Date(new Date(p.created_at).getDate() + 3),
               dao: {
                 publicKey: new PublicKey(d.dao_acct),
                 daoAccount: {

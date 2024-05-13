@@ -2194,6 +2194,7 @@ type daos {
     where: proposals_bool_exp
   ): proposals_aggregate!
   quote_acct: String
+  slots_per_proposal: bigint
 
   """An object relationship"""
   token: tokens!
@@ -2273,6 +2274,7 @@ input daos_arr_rel_insert_input {
 """aggregate avg on columns"""
 type daos_avg_fields {
   dao_id: Float
+  slots_per_proposal: Float
 }
 
 """
@@ -2280,6 +2282,7 @@ order by avg() on columns of table "daos"
 """
 input daos_avg_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 """
@@ -2301,6 +2304,7 @@ input daos_bool_exp {
   proposals: proposals_bool_exp
   proposals_aggregate: proposals_aggregate_bool_exp
   quote_acct: String_comparison_exp
+  slots_per_proposal: bigint_comparison_exp
   token: tokens_bool_exp
   tokenByBaseAcct: tokens_bool_exp
   tokenByQuoteAcct: tokens_bool_exp
@@ -2333,6 +2337,7 @@ input type for incrementing numeric columns in table "daos"
 """
 input daos_inc_input {
   dao_id: bigint
+  slots_per_proposal: bigint
 }
 
 """
@@ -2349,6 +2354,7 @@ input daos_insert_input {
   program_acct: String
   proposals: proposals_arr_rel_insert_input
   quote_acct: String
+  slots_per_proposal: bigint
   token: tokens_obj_rel_insert_input
   tokenByBaseAcct: tokens_obj_rel_insert_input
   tokenByQuoteAcct: tokens_obj_rel_insert_input
@@ -2364,6 +2370,7 @@ type daos_max_fields {
   dao_id: bigint
   program_acct: String
   quote_acct: String
+  slots_per_proposal: bigint
   treasury_acct: String
   updated_at: timestamp
 }
@@ -2378,6 +2385,7 @@ input daos_max_order_by {
   dao_id: order_by
   program_acct: order_by
   quote_acct: order_by
+  slots_per_proposal: order_by
   treasury_acct: order_by
   updated_at: order_by
 }
@@ -2390,6 +2398,7 @@ type daos_min_fields {
   dao_id: bigint
   program_acct: String
   quote_acct: String
+  slots_per_proposal: bigint
   treasury_acct: String
   updated_at: timestamp
 }
@@ -2404,6 +2413,7 @@ input daos_min_order_by {
   dao_id: order_by
   program_acct: order_by
   quote_acct: order_by
+  slots_per_proposal: order_by
   treasury_acct: order_by
   updated_at: order_by
 }
@@ -2450,6 +2460,7 @@ input daos_order_by {
   program_acct: order_by
   proposals_aggregate: proposals_aggregate_order_by
   quote_acct: order_by
+  slots_per_proposal: order_by
   token: tokens_order_by
   tokenByBaseAcct: tokens_order_by
   tokenByQuoteAcct: tokens_order_by
@@ -2485,6 +2496,9 @@ enum daos_select_column {
   quote_acct
 
   """column name"""
+  slots_per_proposal
+
+  """column name"""
   treasury_acct
 
   """column name"""
@@ -2501,6 +2515,7 @@ input daos_set_input {
   dao_id: bigint
   program_acct: String
   quote_acct: String
+  slots_per_proposal: bigint
   treasury_acct: String
   updated_at: timestamp
 }
@@ -2508,6 +2523,7 @@ input daos_set_input {
 """aggregate stddev on columns"""
 type daos_stddev_fields {
   dao_id: Float
+  slots_per_proposal: Float
 }
 
 """
@@ -2515,11 +2531,13 @@ order by stddev() on columns of table "daos"
 """
 input daos_stddev_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type daos_stddev_pop_fields {
   dao_id: Float
+  slots_per_proposal: Float
 }
 
 """
@@ -2527,11 +2545,13 @@ order by stddev_pop() on columns of table "daos"
 """
 input daos_stddev_pop_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type daos_stddev_samp_fields {
   dao_id: Float
+  slots_per_proposal: Float
 }
 
 """
@@ -2539,6 +2559,7 @@ order by stddev_samp() on columns of table "daos"
 """
 input daos_stddev_samp_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 """
@@ -2560,6 +2581,7 @@ input daos_stream_cursor_value_input {
   dao_id: bigint
   program_acct: String
   quote_acct: String
+  slots_per_proposal: bigint
   treasury_acct: String
   updated_at: timestamp
 }
@@ -2567,6 +2589,7 @@ input daos_stream_cursor_value_input {
 """aggregate sum on columns"""
 type daos_sum_fields {
   dao_id: bigint
+  slots_per_proposal: bigint
 }
 
 """
@@ -2574,6 +2597,7 @@ order by sum() on columns of table "daos"
 """
 input daos_sum_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 """
@@ -2599,6 +2623,9 @@ enum daos_update_column {
   quote_acct
 
   """column name"""
+  slots_per_proposal
+
+  """column name"""
   treasury_acct
 
   """column name"""
@@ -2619,6 +2646,7 @@ input daos_updates {
 """aggregate var_pop on columns"""
 type daos_var_pop_fields {
   dao_id: Float
+  slots_per_proposal: Float
 }
 
 """
@@ -2626,11 +2654,13 @@ order by var_pop() on columns of table "daos"
 """
 input daos_var_pop_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 """aggregate var_samp on columns"""
 type daos_var_samp_fields {
   dao_id: Float
+  slots_per_proposal: Float
 }
 
 """
@@ -2638,11 +2668,13 @@ order by var_samp() on columns of table "daos"
 """
 input daos_var_samp_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 """aggregate variance on columns"""
 type daos_variance_fields {
   dao_id: Float
+  slots_per_proposal: Float
 }
 
 """
@@ -2650,6 +2682,7 @@ order by variance() on columns of table "daos"
 """
 input daos_variance_order_by {
   dao_id: order_by
+  slots_per_proposal: order_by
 }
 
 scalar float8
@@ -3752,12 +3785,12 @@ columns and relationships of "markets"
 """
 type markets {
   active_slot: bigint
-  asks_token_acct: String!
+  asks_token_acct: String
   base_lot_size: bigint!
   base_maker_fee: smallint!
   base_mint_acct: String!
   base_taker_fee: smallint!
-  bids_token_acct: String!
+  bids_token_acct: String
 
   """An array relationship"""
   candles(
@@ -3795,6 +3828,7 @@ type markets {
     where: candles_bool_exp
   ): candles_aggregate!
   create_tx_sig: String!
+  created_at: timestamp!
   inactive_slot: bigint
 
   """An array relationship"""
@@ -3956,13 +3990,13 @@ type markets {
   token: tokens!
 
   """An object relationship"""
-  tokenAcctByBidsTokenAcct: token_accts!
+  tokenAcctByBidsTokenAcct: token_accts
 
   """An object relationship"""
   tokenByQuoteMintAcct: tokens!
 
   """An object relationship"""
-  token_acct: token_accts!
+  token_acct: token_accts
 
   """An array relationship"""
   twaps(
@@ -4109,6 +4143,7 @@ input markets_bool_exp {
   candles: candles_bool_exp
   candles_aggregate: candles_aggregate_bool_exp
   create_tx_sig: String_comparison_exp
+  created_at: timestamp_comparison_exp
   inactive_slot: bigint_comparison_exp
   makes: makes_bool_exp
   makes_aggregate: makes_aggregate_bool_exp
@@ -4173,6 +4208,7 @@ input markets_insert_input {
   bids_token_acct: String
   candles: candles_arr_rel_insert_input
   create_tx_sig: String
+  created_at: timestamp
   inactive_slot: bigint
   makes: makes_arr_rel_insert_input
   market_acct: String
@@ -4204,6 +4240,7 @@ type markets_max_fields {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
+  created_at: timestamp
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4227,6 +4264,7 @@ input markets_max_order_by {
   base_taker_fee: order_by
   bids_token_acct: order_by
   create_tx_sig: order_by
+  created_at: order_by
   inactive_slot: order_by
   market_acct: order_by
   market_type: order_by
@@ -4248,6 +4286,7 @@ type markets_min_fields {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
+  created_at: timestamp
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4271,6 +4310,7 @@ input markets_min_order_by {
   base_taker_fee: order_by
   bids_token_acct: order_by
   create_tx_sig: order_by
+  created_at: order_by
   inactive_slot: order_by
   market_acct: order_by
   market_type: order_by
@@ -4323,6 +4363,7 @@ input markets_order_by {
   bids_token_acct: order_by
   candles_aggregate: candles_aggregate_order_by
   create_tx_sig: order_by
+  created_at: order_by
   inactive_slot: order_by
   makes_aggregate: makes_aggregate_order_by
   market_acct: order_by
@@ -4378,6 +4419,9 @@ enum markets_select_column {
   create_tx_sig
 
   """column name"""
+  created_at
+
+  """column name"""
   inactive_slot
 
   """column name"""
@@ -4417,6 +4461,7 @@ input markets_set_input {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
+  created_at: timestamp
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4533,6 +4578,7 @@ input markets_stream_cursor_value_input {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
+  created_at: timestamp
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4599,6 +4645,9 @@ enum markets_update_column {
 
   """column name"""
   create_tx_sig
+
+  """column name"""
+  created_at
 
   """column name"""
   inactive_slot
@@ -4866,7 +4915,7 @@ type mutation_root {
   """
   delete single row from the table: "prices"
   """
-  delete_prices_by_pk(market_acct: String!, updated_slot: bigint!): prices
+  delete_prices_by_pk(created_at: timestamp!, market_acct: String!): prices
 
   """
   delete data from the table: "program_system"
@@ -7227,9 +7276,9 @@ unique or primary key constraints on table "prices"
 """
 enum prices_constraint {
   """
-  unique or primary key constraint on columns "updated_slot", "market_acct"
+  unique or primary key constraint on columns "created_at", "market_acct"
   """
-  prices_updated_slot_market_acct_pk
+  prices_created_at_market_acct_pk
 }
 
 """
@@ -7338,8 +7387,8 @@ input prices_order_by {
 
 """primary key columns input for table: prices"""
 input prices_pk_columns_input {
+  created_at: timestamp!
   market_acct: String!
-  updated_slot: bigint!
 }
 
 """
@@ -9147,17 +9196,21 @@ type proposals {
     """filter the rows returned"""
     where: comments_bool_exp
   ): comments_aggregate!
+  completed_at: timestamp
 
   """An object relationship"""
   conditionalVaultByQuoteVault: conditional_vaults
 
   """An object relationship"""
   conditional_vault: conditional_vaults
+  created_at: timestamp!
 
   """An object relationship"""
   dao: daos!
   dao_acct: String!
   description_url: String
+  end_slot: bigint
+  ended_at: timestamp
   fail_market_acct: String
   initial_slot: bigint!
 
@@ -9455,6 +9508,7 @@ input proposals_arr_rel_insert_input {
 """aggregate avg on columns"""
 type proposals_avg_fields {
   autocrat_version: Float
+  end_slot: Float
   initial_slot: Float
   proposal_num: Float
 }
@@ -9464,6 +9518,7 @@ order by avg() on columns of table "proposals"
 """
 input proposals_avg_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -9479,11 +9534,15 @@ input proposals_bool_exp {
   base_vault: String_comparison_exp
   comments: comments_bool_exp
   comments_aggregate: comments_aggregate_bool_exp
+  completed_at: timestamp_comparison_exp
   conditionalVaultByQuoteVault: conditional_vaults_bool_exp
   conditional_vault: conditional_vaults_bool_exp
+  created_at: timestamp_comparison_exp
   dao: daos_bool_exp
   dao_acct: String_comparison_exp
   description_url: String_comparison_exp
+  end_slot: bigint_comparison_exp
+  ended_at: timestamp_comparison_exp
   fail_market_acct: String_comparison_exp
   initial_slot: bigint_comparison_exp
   markets: markets_bool_exp
@@ -9520,6 +9579,7 @@ input type for incrementing numeric columns in table "proposals"
 """
 input proposals_inc_input {
   autocrat_version: float8
+  end_slot: bigint
   initial_slot: bigint
   proposal_num: bigint
 }
@@ -9531,11 +9591,15 @@ input proposals_insert_input {
   autocrat_version: float8
   base_vault: String
   comments: comments_arr_rel_insert_input
+  completed_at: timestamp
   conditionalVaultByQuoteVault: conditional_vaults_obj_rel_insert_input
   conditional_vault: conditional_vaults_obj_rel_insert_input
+  created_at: timestamp
   dao: daos_obj_rel_insert_input
   dao_acct: String
   description_url: String
+  end_slot: bigint
+  ended_at: timestamp
   fail_market_acct: String
   initial_slot: bigint
   markets: markets_arr_rel_insert_input
@@ -9557,8 +9621,12 @@ input proposals_insert_input {
 type proposals_max_fields {
   autocrat_version: float8
   base_vault: String
+  completed_at: timestamp
+  created_at: timestamp
   dao_acct: String
   description_url: String
+  end_slot: bigint
+  ended_at: timestamp
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -9578,8 +9646,12 @@ order by max() on columns of table "proposals"
 input proposals_max_order_by {
   autocrat_version: order_by
   base_vault: order_by
+  completed_at: order_by
+  created_at: order_by
   dao_acct: order_by
   description_url: order_by
+  end_slot: order_by
+  ended_at: order_by
   fail_market_acct: order_by
   initial_slot: order_by
   pass_market_acct: order_by
@@ -9597,8 +9669,12 @@ input proposals_max_order_by {
 type proposals_min_fields {
   autocrat_version: float8
   base_vault: String
+  completed_at: timestamp
+  created_at: timestamp
   dao_acct: String
   description_url: String
+  end_slot: bigint
+  ended_at: timestamp
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -9618,8 +9694,12 @@ order by min() on columns of table "proposals"
 input proposals_min_order_by {
   autocrat_version: order_by
   base_vault: order_by
+  completed_at: order_by
+  created_at: order_by
   dao_acct: order_by
   description_url: order_by
+  end_slot: order_by
+  ended_at: order_by
   fail_market_acct: order_by
   initial_slot: order_by
   pass_market_acct: order_by
@@ -9668,11 +9748,15 @@ input proposals_order_by {
   autocrat_version: order_by
   base_vault: order_by
   comments_aggregate: comments_aggregate_order_by
+  completed_at: order_by
   conditionalVaultByQuoteVault: conditional_vaults_order_by
   conditional_vault: conditional_vaults_order_by
+  created_at: order_by
   dao: daos_order_by
   dao_acct: order_by
   description_url: order_by
+  end_slot: order_by
+  ended_at: order_by
   fail_market_acct: order_by
   initial_slot: order_by
   markets_aggregate: markets_aggregate_order_by
@@ -9706,10 +9790,22 @@ enum proposals_select_column {
   base_vault
 
   """column name"""
+  completed_at
+
+  """column name"""
+  created_at
+
+  """column name"""
   dao_acct
 
   """column name"""
   description_url
+
+  """column name"""
+  end_slot
+
+  """column name"""
+  ended_at
 
   """column name"""
   fail_market_acct
@@ -9815,8 +9911,12 @@ input type for updating data in table "proposals"
 input proposals_set_input {
   autocrat_version: float8
   base_vault: String
+  completed_at: timestamp
+  created_at: timestamp
   dao_acct: String
   description_url: String
+  end_slot: bigint
+  ended_at: timestamp
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -9833,6 +9933,7 @@ input proposals_set_input {
 """aggregate stddev on columns"""
 type proposals_stddev_fields {
   autocrat_version: Float
+  end_slot: Float
   initial_slot: Float
   proposal_num: Float
 }
@@ -9842,6 +9943,7 @@ order by stddev() on columns of table "proposals"
 """
 input proposals_stddev_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -9849,6 +9951,7 @@ input proposals_stddev_order_by {
 """aggregate stddev_pop on columns"""
 type proposals_stddev_pop_fields {
   autocrat_version: Float
+  end_slot: Float
   initial_slot: Float
   proposal_num: Float
 }
@@ -9858,6 +9961,7 @@ order by stddev_pop() on columns of table "proposals"
 """
 input proposals_stddev_pop_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -9865,6 +9969,7 @@ input proposals_stddev_pop_order_by {
 """aggregate stddev_samp on columns"""
 type proposals_stddev_samp_fields {
   autocrat_version: Float
+  end_slot: Float
   initial_slot: Float
   proposal_num: Float
 }
@@ -9874,6 +9979,7 @@ order by stddev_samp() on columns of table "proposals"
 """
 input proposals_stddev_samp_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -9893,8 +9999,12 @@ input proposals_stream_cursor_input {
 input proposals_stream_cursor_value_input {
   autocrat_version: float8
   base_vault: String
+  completed_at: timestamp
+  created_at: timestamp
   dao_acct: String
   description_url: String
+  end_slot: bigint
+  ended_at: timestamp
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -9911,6 +10021,7 @@ input proposals_stream_cursor_value_input {
 """aggregate sum on columns"""
 type proposals_sum_fields {
   autocrat_version: float8
+  end_slot: bigint
   initial_slot: bigint
   proposal_num: bigint
 }
@@ -9920,6 +10031,7 @@ order by sum() on columns of table "proposals"
 """
 input proposals_sum_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -9935,10 +10047,22 @@ enum proposals_update_column {
   base_vault
 
   """column name"""
+  completed_at
+
+  """column name"""
+  created_at
+
+  """column name"""
   dao_acct
 
   """column name"""
   description_url
+
+  """column name"""
+  end_slot
+
+  """column name"""
+  ended_at
 
   """column name"""
   fail_market_acct
@@ -9988,6 +10112,7 @@ input proposals_updates {
 """aggregate var_pop on columns"""
 type proposals_var_pop_fields {
   autocrat_version: Float
+  end_slot: Float
   initial_slot: Float
   proposal_num: Float
 }
@@ -9997,6 +10122,7 @@ order by var_pop() on columns of table "proposals"
 """
 input proposals_var_pop_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -10004,6 +10130,7 @@ input proposals_var_pop_order_by {
 """aggregate var_samp on columns"""
 type proposals_var_samp_fields {
   autocrat_version: Float
+  end_slot: Float
   initial_slot: Float
   proposal_num: Float
 }
@@ -10013,6 +10140,7 @@ order by var_samp() on columns of table "proposals"
 """
 input proposals_var_samp_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -10020,6 +10148,7 @@ input proposals_var_samp_order_by {
 """aggregate variance on columns"""
 type proposals_variance_fields {
   autocrat_version: Float
+  end_slot: Float
   initial_slot: Float
   proposal_num: Float
 }
@@ -10029,6 +10158,7 @@ order by variance() on columns of table "proposals"
 """
 input proposals_variance_order_by {
   autocrat_version: order_by
+  end_slot: order_by
   initial_slot: order_by
   proposal_num: order_by
 }
@@ -10473,7 +10603,7 @@ type query_root {
   ): prices_aggregate!
 
   """fetch data from the table: "prices" using primary key columns"""
-  prices_by_pk(market_acct: String!, updated_slot: bigint!): prices
+  prices_by_pk(created_at: timestamp!, market_acct: String!): prices
 
   """
   fetch data from the table: "program_system"
@@ -11984,7 +12114,7 @@ type subscription_root {
   ): prices_aggregate!
 
   """fetch data from the table: "prices" using primary key columns"""
-  prices_by_pk(market_acct: String!, updated_slot: bigint!): prices
+  prices_by_pk(created_at: timestamp!, market_acct: String!): prices
 
   """
   fetch data from the table in a streaming manner: "prices"
@@ -12736,6 +12866,7 @@ type takes {
   order_tx_sig: String!
   quote_price: bigint!
   taker_base_fee: bigint!
+  taker_quote_fee: bigint!
 }
 
 """
@@ -12809,6 +12940,7 @@ type takes_avg_fields {
   order_block: Float
   quote_price: Float
   taker_base_fee: Float
+  taker_quote_fee: Float
 }
 
 """
@@ -12821,6 +12953,7 @@ input takes_avg_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """
@@ -12843,6 +12976,7 @@ input takes_bool_exp {
   order_tx_sig: String_comparison_exp
   quote_price: bigint_comparison_exp
   taker_base_fee: bigint_comparison_exp
+  taker_quote_fee: bigint_comparison_exp
 }
 
 """
@@ -12865,6 +12999,7 @@ input takes_inc_input {
   order_block: bigint
   quote_price: bigint
   taker_base_fee: bigint
+  taker_quote_fee: bigint
 }
 
 """
@@ -12884,6 +13019,7 @@ input takes_insert_input {
   order_tx_sig: String
   quote_price: bigint
   taker_base_fee: bigint
+  taker_quote_fee: bigint
 }
 
 """aggregate max on columns"""
@@ -12898,6 +13034,7 @@ type takes_max_fields {
   order_tx_sig: String
   quote_price: bigint
   taker_base_fee: bigint
+  taker_quote_fee: bigint
 }
 
 """
@@ -12914,6 +13051,7 @@ input takes_max_order_by {
   order_tx_sig: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """aggregate min on columns"""
@@ -12928,6 +13066,7 @@ type takes_min_fields {
   order_tx_sig: String
   quote_price: bigint
   taker_base_fee: bigint
+  taker_quote_fee: bigint
 }
 
 """
@@ -12944,6 +13083,7 @@ input takes_min_order_by {
   order_tx_sig: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """
@@ -12991,6 +13131,7 @@ input takes_order_by {
   order_tx_sig: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """primary key columns input for table: takes"""
@@ -13031,6 +13172,9 @@ enum takes_select_column {
 
   """column name"""
   taker_base_fee
+
+  """column name"""
+  taker_quote_fee
 }
 
 """
@@ -13047,6 +13191,7 @@ input takes_set_input {
   order_tx_sig: String
   quote_price: bigint
   taker_base_fee: bigint
+  taker_quote_fee: bigint
 }
 
 """aggregate stddev on columns"""
@@ -13057,6 +13202,7 @@ type takes_stddev_fields {
   order_block: Float
   quote_price: Float
   taker_base_fee: Float
+  taker_quote_fee: Float
 }
 
 """
@@ -13069,6 +13215,7 @@ input takes_stddev_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """aggregate stddev_pop on columns"""
@@ -13079,6 +13226,7 @@ type takes_stddev_pop_fields {
   order_block: Float
   quote_price: Float
   taker_base_fee: Float
+  taker_quote_fee: Float
 }
 
 """
@@ -13091,6 +13239,7 @@ input takes_stddev_pop_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -13101,6 +13250,7 @@ type takes_stddev_samp_fields {
   order_block: Float
   quote_price: Float
   taker_base_fee: Float
+  taker_quote_fee: Float
 }
 
 """
@@ -13113,6 +13263,7 @@ input takes_stddev_samp_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """
@@ -13138,6 +13289,7 @@ input takes_stream_cursor_value_input {
   order_tx_sig: String
   quote_price: bigint
   taker_base_fee: bigint
+  taker_quote_fee: bigint
 }
 
 """aggregate sum on columns"""
@@ -13148,6 +13300,7 @@ type takes_sum_fields {
   order_block: bigint
   quote_price: bigint
   taker_base_fee: bigint
+  taker_quote_fee: bigint
 }
 
 """
@@ -13160,6 +13313,7 @@ input takes_sum_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """
@@ -13195,6 +13349,9 @@ enum takes_update_column {
 
   """column name"""
   taker_base_fee
+
+  """column name"""
+  taker_quote_fee
 }
 
 input takes_updates {
@@ -13216,6 +13373,7 @@ type takes_var_pop_fields {
   order_block: Float
   quote_price: Float
   taker_base_fee: Float
+  taker_quote_fee: Float
 }
 
 """
@@ -13228,6 +13386,7 @@ input takes_var_pop_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """aggregate var_samp on columns"""
@@ -13238,6 +13397,7 @@ type takes_var_samp_fields {
   order_block: Float
   quote_price: Float
   taker_base_fee: Float
+  taker_quote_fee: Float
 }
 
 """
@@ -13250,6 +13410,7 @@ input takes_var_samp_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 """aggregate variance on columns"""
@@ -13260,6 +13421,7 @@ type takes_variance_fields {
   order_block: Float
   quote_price: Float
   taker_base_fee: Float
+  taker_quote_fee: Float
 }
 
 """
@@ -13272,6 +13434,7 @@ input takes_variance_order_by {
   order_block: order_by
   quote_price: order_by
   taker_base_fee: order_by
+  taker_quote_fee: order_by
 }
 
 scalar timestamp

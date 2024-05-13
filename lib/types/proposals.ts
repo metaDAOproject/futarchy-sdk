@@ -60,13 +60,17 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   proposer: GovernanceParticipant;
   content: string;
   state: ProposalState;
+  startSlot: number;
+  endSlot: number | null;
   creationDate: Date;
-  finalizationDate: Date;
+  endDate: Date | null;
+  finalizationDate: Date | null;
   prices: ProposalPrices;
   volume: number;
   tags: string[];
   participants: GovernanceParticipant[];
   reactions: string[];
+  
 };
 
 export type GovernanceParticipant = {

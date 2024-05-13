@@ -42,6 +42,7 @@ export type Order = {
   token: TokenProps;
   owner: PublicKey;
   market: PublicKey;
+  signature: string | null;
 };
 
 export type Orderbook<O extends Order = Order> = {

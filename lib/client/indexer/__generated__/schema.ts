@@ -667,6 +667,7 @@ export interface daos {
     /** An aggregate relationship */
     proposals_aggregate: proposals_aggregate
     quote_acct: (Scalars['String'] | null)
+    slots_per_proposal: (Scalars['bigint'] | null)
     /** An object relationship */
     token: tokens
     /** An object relationship */
@@ -707,6 +708,7 @@ export interface daos_aggregate_fields {
 /** aggregate avg on columns */
 export interface daos_avg_fields {
     dao_id: (Scalars['Float'] | null)
+    slots_per_proposal: (Scalars['Float'] | null)
     __typename: 'daos_avg_fields'
 }
 
@@ -723,6 +725,7 @@ export interface daos_max_fields {
     dao_id: (Scalars['bigint'] | null)
     program_acct: (Scalars['String'] | null)
     quote_acct: (Scalars['String'] | null)
+    slots_per_proposal: (Scalars['bigint'] | null)
     treasury_acct: (Scalars['String'] | null)
     updated_at: (Scalars['timestamp'] | null)
     __typename: 'daos_max_fields'
@@ -737,6 +740,7 @@ export interface daos_min_fields {
     dao_id: (Scalars['bigint'] | null)
     program_acct: (Scalars['String'] | null)
     quote_acct: (Scalars['String'] | null)
+    slots_per_proposal: (Scalars['bigint'] | null)
     treasury_acct: (Scalars['String'] | null)
     updated_at: (Scalars['timestamp'] | null)
     __typename: 'daos_min_fields'
@@ -754,12 +758,13 @@ export interface daos_mutation_response {
 
 
 /** select columns of table "daos" */
-export type daos_select_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'program_acct' | 'quote_acct' | 'treasury_acct' | 'updated_at'
+export type daos_select_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'program_acct' | 'quote_acct' | 'slots_per_proposal' | 'treasury_acct' | 'updated_at'
 
 
 /** aggregate stddev on columns */
 export interface daos_stddev_fields {
     dao_id: (Scalars['Float'] | null)
+    slots_per_proposal: (Scalars['Float'] | null)
     __typename: 'daos_stddev_fields'
 }
 
@@ -767,6 +772,7 @@ export interface daos_stddev_fields {
 /** aggregate stddev_pop on columns */
 export interface daos_stddev_pop_fields {
     dao_id: (Scalars['Float'] | null)
+    slots_per_proposal: (Scalars['Float'] | null)
     __typename: 'daos_stddev_pop_fields'
 }
 
@@ -774,6 +780,7 @@ export interface daos_stddev_pop_fields {
 /** aggregate stddev_samp on columns */
 export interface daos_stddev_samp_fields {
     dao_id: (Scalars['Float'] | null)
+    slots_per_proposal: (Scalars['Float'] | null)
     __typename: 'daos_stddev_samp_fields'
 }
 
@@ -781,17 +788,19 @@ export interface daos_stddev_samp_fields {
 /** aggregate sum on columns */
 export interface daos_sum_fields {
     dao_id: (Scalars['bigint'] | null)
+    slots_per_proposal: (Scalars['bigint'] | null)
     __typename: 'daos_sum_fields'
 }
 
 
 /** update columns of table "daos" */
-export type daos_update_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'program_acct' | 'quote_acct' | 'treasury_acct' | 'updated_at'
+export type daos_update_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'program_acct' | 'quote_acct' | 'slots_per_proposal' | 'treasury_acct' | 'updated_at'
 
 
 /** aggregate var_pop on columns */
 export interface daos_var_pop_fields {
     dao_id: (Scalars['Float'] | null)
+    slots_per_proposal: (Scalars['Float'] | null)
     __typename: 'daos_var_pop_fields'
 }
 
@@ -799,6 +808,7 @@ export interface daos_var_pop_fields {
 /** aggregate var_samp on columns */
 export interface daos_var_samp_fields {
     dao_id: (Scalars['Float'] | null)
+    slots_per_proposal: (Scalars['Float'] | null)
     __typename: 'daos_var_samp_fields'
 }
 
@@ -806,6 +816,7 @@ export interface daos_var_samp_fields {
 /** aggregate variance on columns */
 export interface daos_variance_fields {
     dao_id: (Scalars['Float'] | null)
+    slots_per_proposal: (Scalars['Float'] | null)
     __typename: 'daos_variance_fields'
 }
 
@@ -1192,17 +1203,18 @@ export interface makes_variance_fields {
 /** columns and relationships of "markets" */
 export interface markets {
     active_slot: (Scalars['bigint'] | null)
-    asks_token_acct: Scalars['String']
+    asks_token_acct: (Scalars['String'] | null)
     base_lot_size: Scalars['bigint']
     base_maker_fee: Scalars['smallint']
     base_mint_acct: Scalars['String']
     base_taker_fee: Scalars['smallint']
-    bids_token_acct: Scalars['String']
+    bids_token_acct: (Scalars['String'] | null)
     /** An array relationship */
     candles: candles[]
     /** An aggregate relationship */
     candles_aggregate: candles_aggregate
     create_tx_sig: Scalars['String']
+    created_at: Scalars['timestamp']
     inactive_slot: (Scalars['bigint'] | null)
     /** An array relationship */
     makes: makes[]
@@ -1233,11 +1245,11 @@ export interface markets {
     /** An object relationship */
     token: tokens
     /** An object relationship */
-    tokenAcctByBidsTokenAcct: token_accts
+    tokenAcctByBidsTokenAcct: (token_accts | null)
     /** An object relationship */
     tokenByQuoteMintAcct: tokens
     /** An object relationship */
-    token_acct: token_accts
+    token_acct: (token_accts | null)
     /** An array relationship */
     twaps: twaps[]
     /** An aggregate relationship */
@@ -1300,6 +1312,7 @@ export interface markets_max_fields {
     base_taker_fee: (Scalars['smallint'] | null)
     bids_token_acct: (Scalars['String'] | null)
     create_tx_sig: (Scalars['String'] | null)
+    created_at: (Scalars['timestamp'] | null)
     inactive_slot: (Scalars['bigint'] | null)
     market_acct: (Scalars['String'] | null)
     market_type: (Scalars['String'] | null)
@@ -1323,6 +1336,7 @@ export interface markets_min_fields {
     base_taker_fee: (Scalars['smallint'] | null)
     bids_token_acct: (Scalars['String'] | null)
     create_tx_sig: (Scalars['String'] | null)
+    created_at: (Scalars['timestamp'] | null)
     inactive_slot: (Scalars['bigint'] | null)
     market_acct: (Scalars['String'] | null)
     market_type: (Scalars['String'] | null)
@@ -1347,7 +1361,7 @@ export interface markets_mutation_response {
 
 
 /** select columns of table "markets" */
-export type markets_select_column = 'active_slot' | 'asks_token_acct' | 'base_lot_size' | 'base_maker_fee' | 'base_mint_acct' | 'base_taker_fee' | 'bids_token_acct' | 'create_tx_sig' | 'inactive_slot' | 'market_acct' | 'market_type' | 'proposal_acct' | 'quote_lot_size' | 'quote_maker_fee' | 'quote_mint_acct' | 'quote_taker_fee' | 'quote_tick_size'
+export type markets_select_column = 'active_slot' | 'asks_token_acct' | 'base_lot_size' | 'base_maker_fee' | 'base_mint_acct' | 'base_taker_fee' | 'bids_token_acct' | 'create_tx_sig' | 'created_at' | 'inactive_slot' | 'market_acct' | 'market_type' | 'proposal_acct' | 'quote_lot_size' | 'quote_maker_fee' | 'quote_mint_acct' | 'quote_taker_fee' | 'quote_tick_size'
 
 
 /** aggregate stddev on columns */
@@ -1411,7 +1425,7 @@ export interface markets_sum_fields {
 
 
 /** update columns of table "markets" */
-export type markets_update_column = 'active_slot' | 'asks_token_acct' | 'base_lot_size' | 'base_maker_fee' | 'base_mint_acct' | 'base_taker_fee' | 'bids_token_acct' | 'create_tx_sig' | 'inactive_slot' | 'market_acct' | 'market_type' | 'proposal_acct' | 'quote_lot_size' | 'quote_maker_fee' | 'quote_mint_acct' | 'quote_taker_fee' | 'quote_tick_size'
+export type markets_update_column = 'active_slot' | 'asks_token_acct' | 'base_lot_size' | 'base_maker_fee' | 'base_mint_acct' | 'base_taker_fee' | 'bids_token_acct' | 'create_tx_sig' | 'created_at' | 'inactive_slot' | 'market_acct' | 'market_type' | 'proposal_acct' | 'quote_lot_size' | 'quote_maker_fee' | 'quote_mint_acct' | 'quote_taker_fee' | 'quote_tick_size'
 
 
 /** aggregate var_pop on columns */
@@ -2059,7 +2073,7 @@ export interface prices_avg_fields {
 
 
 /** unique or primary key constraints on table "prices" */
-export type prices_constraint = 'prices_updated_slot_market_acct_pk'
+export type prices_constraint = 'prices_created_at_market_acct_pk'
 
 
 /** aggregate max on columns */
@@ -2673,14 +2687,18 @@ export interface proposals {
     comments: comments[]
     /** An aggregate relationship */
     comments_aggregate: comments_aggregate
+    completed_at: (Scalars['timestamp'] | null)
     /** An object relationship */
     conditionalVaultByQuoteVault: (conditional_vaults | null)
     /** An object relationship */
     conditional_vault: (conditional_vaults | null)
+    created_at: Scalars['timestamp']
     /** An object relationship */
     dao: daos
     dao_acct: Scalars['String']
     description_url: (Scalars['String'] | null)
+    end_slot: (Scalars['bigint'] | null)
+    ended_at: (Scalars['timestamp'] | null)
     fail_market_acct: (Scalars['String'] | null)
     initial_slot: Scalars['bigint']
     /** An array relationship */
@@ -2740,6 +2758,7 @@ export interface proposals_aggregate_fields {
 /** aggregate avg on columns */
 export interface proposals_avg_fields {
     autocrat_version: (Scalars['Float'] | null)
+    end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
     __typename: 'proposals_avg_fields'
@@ -2754,8 +2773,12 @@ export type proposals_constraint = 'proposals_pkey'
 export interface proposals_max_fields {
     autocrat_version: (Scalars['float8'] | null)
     base_vault: (Scalars['String'] | null)
+    completed_at: (Scalars['timestamp'] | null)
+    created_at: (Scalars['timestamp'] | null)
     dao_acct: (Scalars['String'] | null)
     description_url: (Scalars['String'] | null)
+    end_slot: (Scalars['bigint'] | null)
+    ended_at: (Scalars['timestamp'] | null)
     fail_market_acct: (Scalars['String'] | null)
     initial_slot: (Scalars['bigint'] | null)
     pass_market_acct: (Scalars['String'] | null)
@@ -2775,8 +2798,12 @@ export interface proposals_max_fields {
 export interface proposals_min_fields {
     autocrat_version: (Scalars['float8'] | null)
     base_vault: (Scalars['String'] | null)
+    completed_at: (Scalars['timestamp'] | null)
+    created_at: (Scalars['timestamp'] | null)
     dao_acct: (Scalars['String'] | null)
     description_url: (Scalars['String'] | null)
+    end_slot: (Scalars['bigint'] | null)
+    ended_at: (Scalars['timestamp'] | null)
     fail_market_acct: (Scalars['String'] | null)
     initial_slot: (Scalars['bigint'] | null)
     pass_market_acct: (Scalars['String'] | null)
@@ -2803,7 +2830,7 @@ export interface proposals_mutation_response {
 
 
 /** select columns of table "proposals" */
-export type proposals_select_column = 'autocrat_version' | 'base_vault' | 'dao_acct' | 'description_url' | 'fail_market_acct' | 'initial_slot' | 'pass_market_acct' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'updated_at'
+export type proposals_select_column = 'autocrat_version' | 'base_vault' | 'completed_at' | 'created_at' | 'dao_acct' | 'description_url' | 'end_slot' | 'ended_at' | 'fail_market_acct' | 'initial_slot' | 'pass_market_acct' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'updated_at'
 
 
 /** select "proposals_aggregate_bool_exp_avg_arguments_columns" columns of table "proposals" */
@@ -2841,6 +2868,7 @@ export type proposals_select_column_proposals_aggregate_bool_exp_var_samp_argume
 /** aggregate stddev on columns */
 export interface proposals_stddev_fields {
     autocrat_version: (Scalars['Float'] | null)
+    end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
     __typename: 'proposals_stddev_fields'
@@ -2850,6 +2878,7 @@ export interface proposals_stddev_fields {
 /** aggregate stddev_pop on columns */
 export interface proposals_stddev_pop_fields {
     autocrat_version: (Scalars['Float'] | null)
+    end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
     __typename: 'proposals_stddev_pop_fields'
@@ -2859,6 +2888,7 @@ export interface proposals_stddev_pop_fields {
 /** aggregate stddev_samp on columns */
 export interface proposals_stddev_samp_fields {
     autocrat_version: (Scalars['Float'] | null)
+    end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
     __typename: 'proposals_stddev_samp_fields'
@@ -2868,6 +2898,7 @@ export interface proposals_stddev_samp_fields {
 /** aggregate sum on columns */
 export interface proposals_sum_fields {
     autocrat_version: (Scalars['float8'] | null)
+    end_slot: (Scalars['bigint'] | null)
     initial_slot: (Scalars['bigint'] | null)
     proposal_num: (Scalars['bigint'] | null)
     __typename: 'proposals_sum_fields'
@@ -2875,12 +2906,13 @@ export interface proposals_sum_fields {
 
 
 /** update columns of table "proposals" */
-export type proposals_update_column = 'autocrat_version' | 'base_vault' | 'dao_acct' | 'description_url' | 'fail_market_acct' | 'initial_slot' | 'pass_market_acct' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'updated_at'
+export type proposals_update_column = 'autocrat_version' | 'base_vault' | 'completed_at' | 'created_at' | 'dao_acct' | 'description_url' | 'end_slot' | 'ended_at' | 'fail_market_acct' | 'initial_slot' | 'pass_market_acct' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'updated_at'
 
 
 /** aggregate var_pop on columns */
 export interface proposals_var_pop_fields {
     autocrat_version: (Scalars['Float'] | null)
+    end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
     __typename: 'proposals_var_pop_fields'
@@ -2890,6 +2922,7 @@ export interface proposals_var_pop_fields {
 /** aggregate var_samp on columns */
 export interface proposals_var_samp_fields {
     autocrat_version: (Scalars['Float'] | null)
+    end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
     __typename: 'proposals_var_samp_fields'
@@ -2899,6 +2932,7 @@ export interface proposals_var_samp_fields {
 /** aggregate variance on columns */
 export interface proposals_variance_fields {
     autocrat_version: (Scalars['Float'] | null)
+    end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
     __typename: 'proposals_variance_fields'
@@ -3403,6 +3437,7 @@ export interface takes {
     order_tx_sig: Scalars['String']
     quote_price: Scalars['bigint']
     taker_base_fee: Scalars['bigint']
+    taker_quote_fee: Scalars['bigint']
     __typename: 'takes'
 }
 
@@ -3440,6 +3475,7 @@ export interface takes_avg_fields {
     order_block: (Scalars['Float'] | null)
     quote_price: (Scalars['Float'] | null)
     taker_base_fee: (Scalars['Float'] | null)
+    taker_quote_fee: (Scalars['Float'] | null)
     __typename: 'takes_avg_fields'
 }
 
@@ -3460,6 +3496,7 @@ export interface takes_max_fields {
     order_tx_sig: (Scalars['String'] | null)
     quote_price: (Scalars['bigint'] | null)
     taker_base_fee: (Scalars['bigint'] | null)
+    taker_quote_fee: (Scalars['bigint'] | null)
     __typename: 'takes_max_fields'
 }
 
@@ -3476,6 +3513,7 @@ export interface takes_min_fields {
     order_tx_sig: (Scalars['String'] | null)
     quote_price: (Scalars['bigint'] | null)
     taker_base_fee: (Scalars['bigint'] | null)
+    taker_quote_fee: (Scalars['bigint'] | null)
     __typename: 'takes_min_fields'
 }
 
@@ -3491,7 +3529,7 @@ export interface takes_mutation_response {
 
 
 /** select columns of table "takes" */
-export type takes_select_column = 'base_amount' | 'maker_base_fee' | 'maker_order_tx_sig' | 'maker_quote_fee' | 'market_acct' | 'order_block' | 'order_time' | 'order_tx_sig' | 'quote_price' | 'taker_base_fee'
+export type takes_select_column = 'base_amount' | 'maker_base_fee' | 'maker_order_tx_sig' | 'maker_quote_fee' | 'market_acct' | 'order_block' | 'order_time' | 'order_tx_sig' | 'quote_price' | 'taker_base_fee' | 'taker_quote_fee'
 
 
 /** aggregate stddev on columns */
@@ -3502,6 +3540,7 @@ export interface takes_stddev_fields {
     order_block: (Scalars['Float'] | null)
     quote_price: (Scalars['Float'] | null)
     taker_base_fee: (Scalars['Float'] | null)
+    taker_quote_fee: (Scalars['Float'] | null)
     __typename: 'takes_stddev_fields'
 }
 
@@ -3514,6 +3553,7 @@ export interface takes_stddev_pop_fields {
     order_block: (Scalars['Float'] | null)
     quote_price: (Scalars['Float'] | null)
     taker_base_fee: (Scalars['Float'] | null)
+    taker_quote_fee: (Scalars['Float'] | null)
     __typename: 'takes_stddev_pop_fields'
 }
 
@@ -3526,6 +3566,7 @@ export interface takes_stddev_samp_fields {
     order_block: (Scalars['Float'] | null)
     quote_price: (Scalars['Float'] | null)
     taker_base_fee: (Scalars['Float'] | null)
+    taker_quote_fee: (Scalars['Float'] | null)
     __typename: 'takes_stddev_samp_fields'
 }
 
@@ -3538,12 +3579,13 @@ export interface takes_sum_fields {
     order_block: (Scalars['bigint'] | null)
     quote_price: (Scalars['bigint'] | null)
     taker_base_fee: (Scalars['bigint'] | null)
+    taker_quote_fee: (Scalars['bigint'] | null)
     __typename: 'takes_sum_fields'
 }
 
 
 /** update columns of table "takes" */
-export type takes_update_column = 'base_amount' | 'maker_base_fee' | 'maker_order_tx_sig' | 'maker_quote_fee' | 'market_acct' | 'order_block' | 'order_time' | 'order_tx_sig' | 'quote_price' | 'taker_base_fee'
+export type takes_update_column = 'base_amount' | 'maker_base_fee' | 'maker_order_tx_sig' | 'maker_quote_fee' | 'market_acct' | 'order_block' | 'order_time' | 'order_tx_sig' | 'quote_price' | 'taker_base_fee' | 'taker_quote_fee'
 
 
 /** aggregate var_pop on columns */
@@ -3554,6 +3596,7 @@ export interface takes_var_pop_fields {
     order_block: (Scalars['Float'] | null)
     quote_price: (Scalars['Float'] | null)
     taker_base_fee: (Scalars['Float'] | null)
+    taker_quote_fee: (Scalars['Float'] | null)
     __typename: 'takes_var_pop_fields'
 }
 
@@ -3566,6 +3609,7 @@ export interface takes_var_samp_fields {
     order_block: (Scalars['Float'] | null)
     quote_price: (Scalars['Float'] | null)
     taker_base_fee: (Scalars['Float'] | null)
+    taker_quote_fee: (Scalars['Float'] | null)
     __typename: 'takes_var_samp_fields'
 }
 
@@ -3578,6 +3622,7 @@ export interface takes_variance_fields {
     order_block: (Scalars['Float'] | null)
     quote_price: (Scalars['Float'] | null)
     taker_base_fee: (Scalars['Float'] | null)
+    taker_quote_fee: (Scalars['Float'] | null)
     __typename: 'takes_variance_fields'
 }
 
@@ -5791,6 +5836,7 @@ export interface daosGenqlSelection{
     /** filter the rows returned */
     where?: (proposals_bool_exp | null)} })
     quote_acct?: boolean | number
+    slots_per_proposal?: boolean | number
     /** An object relationship */
     token?: tokensGenqlSelection
     /** An object relationship */
@@ -5848,25 +5894,26 @@ on_conflict?: (daos_on_conflict | null)}
 /** aggregate avg on columns */
 export interface daos_avg_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by avg() on columns of table "daos" */
-export interface daos_avg_order_by {dao_id?: (order_by | null)}
+export interface daos_avg_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "daos". All fields are combined with a logical 'AND'. */
-export interface daos_bool_exp {_and?: (daos_bool_exp[] | null),_not?: (daos_bool_exp | null),_or?: (daos_bool_exp[] | null),base_acct?: (String_comparison_exp | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),created_at?: (timestamp_comparison_exp | null),dao_acct?: (String_comparison_exp | null),dao_detail?: (dao_details_bool_exp | null),dao_id?: (bigint_comparison_exp | null),program?: (programs_bool_exp | null),program_acct?: (String_comparison_exp | null),proposals?: (proposals_bool_exp | null),proposals_aggregate?: (proposals_aggregate_bool_exp | null),quote_acct?: (String_comparison_exp | null),token?: (tokens_bool_exp | null),tokenByBaseAcct?: (tokens_bool_exp | null),tokenByQuoteAcct?: (tokens_bool_exp | null),treasury_acct?: (String_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface daos_bool_exp {_and?: (daos_bool_exp[] | null),_not?: (daos_bool_exp | null),_or?: (daos_bool_exp[] | null),base_acct?: (String_comparison_exp | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),created_at?: (timestamp_comparison_exp | null),dao_acct?: (String_comparison_exp | null),dao_detail?: (dao_details_bool_exp | null),dao_id?: (bigint_comparison_exp | null),program?: (programs_bool_exp | null),program_acct?: (String_comparison_exp | null),proposals?: (proposals_bool_exp | null),proposals_aggregate?: (proposals_aggregate_bool_exp | null),quote_acct?: (String_comparison_exp | null),slots_per_proposal?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenByBaseAcct?: (tokens_bool_exp | null),tokenByQuoteAcct?: (tokens_bool_exp | null),treasury_acct?: (String_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "daos" */
-export interface daos_inc_input {dao_id?: (Scalars['bigint'] | null)}
+export interface daos_inc_input {dao_id?: (Scalars['bigint'] | null),slots_per_proposal?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "daos" */
-export interface daos_insert_input {base_acct?: (Scalars['String'] | null),conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_detail?: (dao_details_obj_rel_insert_input | null),dao_id?: (Scalars['bigint'] | null),program?: (programs_obj_rel_insert_input | null),program_acct?: (Scalars['String'] | null),proposals?: (proposals_arr_rel_insert_input | null),quote_acct?: (Scalars['String'] | null),token?: (tokens_obj_rel_insert_input | null),tokenByBaseAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteAcct?: (tokens_obj_rel_insert_input | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface daos_insert_input {base_acct?: (Scalars['String'] | null),conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_detail?: (dao_details_obj_rel_insert_input | null),dao_id?: (Scalars['bigint'] | null),program?: (programs_obj_rel_insert_input | null),program_acct?: (Scalars['String'] | null),proposals?: (proposals_arr_rel_insert_input | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenByBaseAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteAcct?: (tokens_obj_rel_insert_input | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
@@ -5877,6 +5924,7 @@ export interface daos_max_fieldsGenqlSelection{
     dao_id?: boolean | number
     program_acct?: boolean | number
     quote_acct?: boolean | number
+    slots_per_proposal?: boolean | number
     treasury_acct?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
@@ -5885,7 +5933,7 @@ export interface daos_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "daos" */
-export interface daos_max_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
+export interface daos_max_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -5896,6 +5944,7 @@ export interface daos_min_fieldsGenqlSelection{
     dao_id?: boolean | number
     program_acct?: boolean | number
     quote_acct?: boolean | number
+    slots_per_proposal?: boolean | number
     treasury_acct?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
@@ -5904,7 +5953,7 @@ export interface daos_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "daos" */
-export interface daos_min_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
+export interface daos_min_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** response of any mutation on the table "daos" */
@@ -5929,7 +5978,7 @@ export interface daos_on_conflict {constraint: daos_constraint,update_columns?: 
 
 
 /** Ordering options when selecting data from "daos". */
-export interface daos_order_by {base_acct?: (order_by | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_detail?: (dao_details_order_by | null),dao_id?: (order_by | null),program?: (programs_order_by | null),program_acct?: (order_by | null),proposals_aggregate?: (proposals_aggregate_order_by | null),quote_acct?: (order_by | null),token?: (tokens_order_by | null),tokenByBaseAcct?: (tokens_order_by | null),tokenByQuoteAcct?: (tokens_order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
+export interface daos_order_by {base_acct?: (order_by | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_detail?: (dao_details_order_by | null),dao_id?: (order_by | null),program?: (programs_order_by | null),program_acct?: (order_by | null),proposals_aggregate?: (proposals_aggregate_order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),token?: (tokens_order_by | null),tokenByBaseAcct?: (tokens_order_by | null),tokenByQuoteAcct?: (tokens_order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: daos */
@@ -5937,43 +5986,46 @@ export interface daos_pk_columns_input {dao_acct: Scalars['String']}
 
 
 /** input type for updating data in table "daos" */
-export interface daos_set_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface daos_set_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate stddev on columns */
 export interface daos_stddev_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev() on columns of table "daos" */
-export interface daos_stddev_order_by {dao_id?: (order_by | null)}
+export interface daos_stddev_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface daos_stddev_pop_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_pop() on columns of table "daos" */
-export interface daos_stddev_pop_order_by {dao_id?: (order_by | null)}
+export interface daos_stddev_pop_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface daos_stddev_samp_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_samp() on columns of table "daos" */
-export interface daos_stddev_samp_order_by {dao_id?: (order_by | null)}
+export interface daos_stddev_samp_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 
 /** Streaming cursor of the table "daos" */
@@ -5985,19 +6037,20 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface daos_stream_cursor_value_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface daos_stream_cursor_value_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate sum on columns */
 export interface daos_sum_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by sum() on columns of table "daos" */
-export interface daos_sum_order_by {dao_id?: (order_by | null)}
+export interface daos_sum_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 export interface daos_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -6011,37 +6064,40 @@ where: daos_bool_exp}
 /** aggregate var_pop on columns */
 export interface daos_var_pop_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_pop() on columns of table "daos" */
-export interface daos_var_pop_order_by {dao_id?: (order_by | null)}
+export interface daos_var_pop_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface daos_var_samp_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_samp() on columns of table "daos" */
-export interface daos_var_samp_order_by {dao_id?: (order_by | null)}
+export interface daos_var_samp_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface daos_variance_fieldsGenqlSelection{
     dao_id?: boolean | number
+    slots_per_proposal?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by variance() on columns of table "daos" */
-export interface daos_variance_order_by {dao_id?: (order_by | null)}
+export interface daos_variance_order_by {dao_id?: (order_by | null),slots_per_proposal?: (order_by | null)}
 
 
 /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -6737,6 +6793,7 @@ export interface marketsGenqlSelection{
     /** filter the rows returned */
     where?: (candles_bool_exp | null)} })
     create_tx_sig?: boolean | number
+    created_at?: boolean | number
     inactive_slot?: boolean | number
     /** An array relationship */
     makes?: (makesGenqlSelection & { __args?: {
@@ -6943,7 +7000,7 @@ export interface markets_avg_order_by {active_slot?: (order_by | null),base_lot_
 
 
 /** Boolean expression to filter rows from the table "markets". All fields are combined with a logical 'AND'. */
-export interface markets_bool_exp {_and?: (markets_bool_exp[] | null),_not?: (markets_bool_exp | null),_or?: (markets_bool_exp[] | null),active_slot?: (bigint_comparison_exp | null),asks_token_acct?: (String_comparison_exp | null),base_lot_size?: (bigint_comparison_exp | null),base_maker_fee?: (smallint_comparison_exp | null),base_mint_acct?: (String_comparison_exp | null),base_taker_fee?: (smallint_comparison_exp | null),bids_token_acct?: (String_comparison_exp | null),candles?: (candles_bool_exp | null),candles_aggregate?: (candles_aggregate_bool_exp | null),create_tx_sig?: (String_comparison_exp | null),inactive_slot?: (bigint_comparison_exp | null),makes?: (makes_bool_exp | null),makes_aggregate?: (makes_aggregate_bool_exp | null),market_acct?: (String_comparison_exp | null),market_type?: (String_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),prices?: (prices_bool_exp | null),prices_aggregate?: (prices_aggregate_bool_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),quote_lot_size?: (bigint_comparison_exp | null),quote_maker_fee?: (smallint_comparison_exp | null),quote_mint_acct?: (String_comparison_exp | null),quote_taker_fee?: (smallint_comparison_exp | null),quote_tick_size?: (bigint_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),token?: (tokens_bool_exp | null),tokenAcctByBidsTokenAcct?: (token_accts_bool_exp | null),tokenByQuoteMintAcct?: (tokens_bool_exp | null),token_acct?: (token_accts_bool_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null)}
+export interface markets_bool_exp {_and?: (markets_bool_exp[] | null),_not?: (markets_bool_exp | null),_or?: (markets_bool_exp[] | null),active_slot?: (bigint_comparison_exp | null),asks_token_acct?: (String_comparison_exp | null),base_lot_size?: (bigint_comparison_exp | null),base_maker_fee?: (smallint_comparison_exp | null),base_mint_acct?: (String_comparison_exp | null),base_taker_fee?: (smallint_comparison_exp | null),bids_token_acct?: (String_comparison_exp | null),candles?: (candles_bool_exp | null),candles_aggregate?: (candles_aggregate_bool_exp | null),create_tx_sig?: (String_comparison_exp | null),created_at?: (timestamp_comparison_exp | null),inactive_slot?: (bigint_comparison_exp | null),makes?: (makes_bool_exp | null),makes_aggregate?: (makes_aggregate_bool_exp | null),market_acct?: (String_comparison_exp | null),market_type?: (String_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),prices?: (prices_bool_exp | null),prices_aggregate?: (prices_aggregate_bool_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),quote_lot_size?: (bigint_comparison_exp | null),quote_maker_fee?: (smallint_comparison_exp | null),quote_mint_acct?: (String_comparison_exp | null),quote_taker_fee?: (smallint_comparison_exp | null),quote_tick_size?: (bigint_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),token?: (tokens_bool_exp | null),tokenAcctByBidsTokenAcct?: (token_accts_bool_exp | null),tokenByQuoteMintAcct?: (tokens_bool_exp | null),token_acct?: (token_accts_bool_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "markets" */
@@ -6951,7 +7008,7 @@ export interface markets_inc_input {active_slot?: (Scalars['bigint'] | null),bas
 
 
 /** input type for inserting data into table "markets" */
-export interface markets_insert_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),candles?: (candles_arr_rel_insert_input | null),create_tx_sig?: (Scalars['String'] | null),inactive_slot?: (Scalars['bigint'] | null),makes?: (makes_arr_rel_insert_input | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),orders?: (orders_arr_rel_insert_input | null),prices?: (prices_arr_rel_insert_input | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null),takes?: (takes_arr_rel_insert_input | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByBidsTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenByQuoteMintAcct?: (tokens_obj_rel_insert_input | null),token_acct?: (token_accts_obj_rel_insert_input | null),twaps?: (twaps_arr_rel_insert_input | null)}
+export interface markets_insert_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),candles?: (candles_arr_rel_insert_input | null),create_tx_sig?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),inactive_slot?: (Scalars['bigint'] | null),makes?: (makes_arr_rel_insert_input | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),orders?: (orders_arr_rel_insert_input | null),prices?: (prices_arr_rel_insert_input | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null),takes?: (takes_arr_rel_insert_input | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByBidsTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenByQuoteMintAcct?: (tokens_obj_rel_insert_input | null),token_acct?: (token_accts_obj_rel_insert_input | null),twaps?: (twaps_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -6964,6 +7021,7 @@ export interface markets_max_fieldsGenqlSelection{
     base_taker_fee?: boolean | number
     bids_token_acct?: boolean | number
     create_tx_sig?: boolean | number
+    created_at?: boolean | number
     inactive_slot?: boolean | number
     market_acct?: boolean | number
     market_type?: boolean | number
@@ -6979,7 +7037,7 @@ export interface markets_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "markets" */
-export interface markets_max_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),create_tx_sig?: (order_by | null),inactive_slot?: (order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null)}
+export interface markets_max_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),create_tx_sig?: (order_by | null),created_at?: (order_by | null),inactive_slot?: (order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -6992,6 +7050,7 @@ export interface markets_min_fieldsGenqlSelection{
     base_taker_fee?: boolean | number
     bids_token_acct?: boolean | number
     create_tx_sig?: boolean | number
+    created_at?: boolean | number
     inactive_slot?: boolean | number
     market_acct?: boolean | number
     market_type?: boolean | number
@@ -7007,7 +7066,7 @@ export interface markets_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "markets" */
-export interface markets_min_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),create_tx_sig?: (order_by | null),inactive_slot?: (order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null)}
+export interface markets_min_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),create_tx_sig?: (order_by | null),created_at?: (order_by | null),inactive_slot?: (order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null)}
 
 
 /** response of any mutation on the table "markets" */
@@ -7032,7 +7091,7 @@ export interface markets_on_conflict {constraint: markets_constraint,update_colu
 
 
 /** Ordering options when selecting data from "markets". */
-export interface markets_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),candles_aggregate?: (candles_aggregate_order_by | null),create_tx_sig?: (order_by | null),inactive_slot?: (order_by | null),makes_aggregate?: (makes_aggregate_order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),prices_aggregate?: (prices_aggregate_order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null),takes_aggregate?: (takes_aggregate_order_by | null),token?: (tokens_order_by | null),tokenAcctByBidsTokenAcct?: (token_accts_order_by | null),tokenByQuoteMintAcct?: (tokens_order_by | null),token_acct?: (token_accts_order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null)}
+export interface markets_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),candles_aggregate?: (candles_aggregate_order_by | null),create_tx_sig?: (order_by | null),created_at?: (order_by | null),inactive_slot?: (order_by | null),makes_aggregate?: (makes_aggregate_order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),prices_aggregate?: (prices_aggregate_order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null),takes_aggregate?: (takes_aggregate_order_by | null),token?: (tokens_order_by | null),tokenAcctByBidsTokenAcct?: (token_accts_order_by | null),tokenByQuoteMintAcct?: (tokens_order_by | null),token_acct?: (token_accts_order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: markets */
@@ -7040,7 +7099,7 @@ export interface markets_pk_columns_input {market_acct: Scalars['String']}
 
 
 /** input type for updating data in table "markets" */
-export interface markets_set_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),create_tx_sig?: (Scalars['String'] | null),inactive_slot?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null)}
+export interface markets_set_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),create_tx_sig?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),inactive_slot?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -7112,7 +7171,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface markets_stream_cursor_value_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),create_tx_sig?: (Scalars['String'] | null),inactive_slot?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null)}
+export interface markets_stream_cursor_value_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),create_tx_sig?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),inactive_slot?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null)}
 
 
 /** aggregate sum on columns */
@@ -7270,7 +7329,7 @@ export interface mutation_rootGenqlSelection{
     /** filter the rows which have to be deleted */
     where: prices_bool_exp} })
     /** delete single row from the table: "prices" */
-    delete_prices_by_pk?: (pricesGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
+    delete_prices_by_pk?: (pricesGenqlSelection & { __args: {created_at: Scalars['timestamp'], market_acct: Scalars['String']} })
     /** delete data from the table: "program_system" */
     delete_program_system?: (program_system_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -8553,7 +8612,7 @@ export interface prices_order_by {base_amount?: (order_by | null),created_at?: (
 
 
 /** primary key columns input for table: prices */
-export interface prices_pk_columns_input {market_acct: Scalars['String'],updated_slot: Scalars['bigint']}
+export interface prices_pk_columns_input {created_at: Scalars['timestamp'],market_acct: Scalars['String']}
 
 
 /** input type for updating data in table "prices" */
@@ -9586,14 +9645,18 @@ export interface proposalsGenqlSelection{
     order_by?: (comments_order_by[] | null), 
     /** filter the rows returned */
     where?: (comments_bool_exp | null)} })
+    completed_at?: boolean | number
     /** An object relationship */
     conditionalVaultByQuoteVault?: conditional_vaultsGenqlSelection
     /** An object relationship */
     conditional_vault?: conditional_vaultsGenqlSelection
+    created_at?: boolean | number
     /** An object relationship */
     dao?: daosGenqlSelection
     dao_acct?: boolean | number
     description_url?: boolean | number
+    end_slot?: boolean | number
+    ended_at?: boolean | number
     fail_market_acct?: boolean | number
     initial_slot?: boolean | number
     /** An array relationship */
@@ -9770,6 +9833,7 @@ on_conflict?: (proposals_on_conflict | null)}
 /** aggregate avg on columns */
 export interface proposals_avg_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9778,27 +9842,31 @@ export interface proposals_avg_fieldsGenqlSelection{
 
 
 /** order by avg() on columns of table "proposals" */
-export interface proposals_avg_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_avg_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "proposals". All fields are combined with a logical 'AND'. */
-export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),conditionalVaultByQuoteVault?: (conditional_vaults_bool_exp | null),conditional_vault?: (conditional_vaults_bool_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),completed_at?: (timestamp_comparison_exp | null),conditionalVaultByQuoteVault?: (conditional_vaults_bool_exp | null),conditional_vault?: (conditional_vaults_bool_exp | null),created_at?: (timestamp_comparison_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),end_slot?: (bigint_comparison_exp | null),ended_at?: (timestamp_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "proposals" */
-export interface proposals_inc_input {autocrat_version?: (Scalars['float8'] | null),initial_slot?: (Scalars['bigint'] | null),proposal_num?: (Scalars['bigint'] | null)}
+export interface proposals_inc_input {autocrat_version?: (Scalars['float8'] | null),end_slot?: (Scalars['bigint'] | null),initial_slot?: (Scalars['bigint'] | null),proposal_num?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "proposals" */
-export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),conditionalVaultByQuoteVault?: (conditional_vaults_obj_rel_insert_input | null),conditional_vault?: (conditional_vaults_obj_rel_insert_input | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),completed_at?: (Scalars['timestamp'] | null),conditionalVaultByQuoteVault?: (conditional_vaults_obj_rel_insert_input | null),conditional_vault?: (conditional_vaults_obj_rel_insert_input | null),created_at?: (Scalars['timestamp'] | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamp'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
 export interface proposals_max_fieldsGenqlSelection{
     autocrat_version?: boolean | number
     base_vault?: boolean | number
+    completed_at?: boolean | number
+    created_at?: boolean | number
     dao_acct?: boolean | number
     description_url?: boolean | number
+    end_slot?: boolean | number
+    ended_at?: boolean | number
     fail_market_acct?: boolean | number
     initial_slot?: boolean | number
     pass_market_acct?: boolean | number
@@ -9816,15 +9884,19 @@ export interface proposals_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "proposals" */
-export interface proposals_max_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
+export interface proposals_max_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),completed_at?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** aggregate min on columns */
 export interface proposals_min_fieldsGenqlSelection{
     autocrat_version?: boolean | number
     base_vault?: boolean | number
+    completed_at?: boolean | number
+    created_at?: boolean | number
     dao_acct?: boolean | number
     description_url?: boolean | number
+    end_slot?: boolean | number
+    ended_at?: boolean | number
     fail_market_acct?: boolean | number
     initial_slot?: boolean | number
     pass_market_acct?: boolean | number
@@ -9842,7 +9914,7 @@ export interface proposals_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "proposals" */
-export interface proposals_min_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
+export interface proposals_min_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),completed_at?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** response of any mutation on the table "proposals" */
@@ -9867,7 +9939,7 @@ export interface proposals_on_conflict {constraint: proposals_constraint,update_
 
 
 /** Ordering options when selecting data from "proposals". */
-export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),conditionalVaultByQuoteVault?: (conditional_vaults_order_by | null),conditional_vault?: (conditional_vaults_order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null)}
+export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),completed_at?: (order_by | null),conditionalVaultByQuoteVault?: (conditional_vaults_order_by | null),conditional_vault?: (conditional_vaults_order_by | null),created_at?: (order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: proposals */
@@ -9875,12 +9947,13 @@ export interface proposals_pk_columns_input {proposal_acct: Scalars['String']}
 
 
 /** input type for updating data in table "proposals" */
-export interface proposals_set_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface proposals_set_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),completed_at?: (Scalars['timestamp'] | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamp'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate stddev on columns */
 export interface proposals_stddev_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9889,12 +9962,13 @@ export interface proposals_stddev_fieldsGenqlSelection{
 
 
 /** order by stddev() on columns of table "proposals" */
-export interface proposals_stddev_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_stddev_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface proposals_stddev_pop_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9903,12 +9977,13 @@ export interface proposals_stddev_pop_fieldsGenqlSelection{
 
 
 /** order by stddev_pop() on columns of table "proposals" */
-export interface proposals_stddev_pop_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_stddev_pop_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface proposals_stddev_samp_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9917,7 +9992,7 @@ export interface proposals_stddev_samp_fieldsGenqlSelection{
 
 
 /** order by stddev_samp() on columns of table "proposals" */
-export interface proposals_stddev_samp_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_stddev_samp_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 
 /** Streaming cursor of the table "proposals" */
@@ -9929,12 +10004,13 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface proposals_stream_cursor_value_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface proposals_stream_cursor_value_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),completed_at?: (Scalars['timestamp'] | null),created_at?: (Scalars['timestamp'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamp'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate sum on columns */
 export interface proposals_sum_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9943,7 +10019,7 @@ export interface proposals_sum_fieldsGenqlSelection{
 
 
 /** order by sum() on columns of table "proposals" */
-export interface proposals_sum_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_sum_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 export interface proposals_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -9957,6 +10033,7 @@ where: proposals_bool_exp}
 /** aggregate var_pop on columns */
 export interface proposals_var_pop_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9965,12 +10042,13 @@ export interface proposals_var_pop_fieldsGenqlSelection{
 
 
 /** order by var_pop() on columns of table "proposals" */
-export interface proposals_var_pop_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_var_pop_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface proposals_var_samp_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9979,12 +10057,13 @@ export interface proposals_var_samp_fieldsGenqlSelection{
 
 
 /** order by var_samp() on columns of table "proposals" */
-export interface proposals_var_samp_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_var_samp_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface proposals_variance_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    end_slot?: boolean | number
     initial_slot?: boolean | number
     proposal_num?: boolean | number
     __typename?: boolean | number
@@ -9993,7 +10072,7 @@ export interface proposals_variance_fieldsGenqlSelection{
 
 
 /** order by variance() on columns of table "proposals" */
-export interface proposals_variance_order_by {autocrat_version?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_variance_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
 
 export interface query_rootGenqlSelection{
     /** An array relationship */
@@ -10281,7 +10360,7 @@ export interface query_rootGenqlSelection{
     /** filter the rows returned */
     where?: (prices_bool_exp | null)} })
     /** fetch data from the table: "prices" using primary key columns */
-    prices_by_pk?: (pricesGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
+    prices_by_pk?: (pricesGenqlSelection & { __args: {created_at: Scalars['timestamp'], market_acct: Scalars['String']} })
     /** fetch data from the table: "program_system" */
     program_system?: (program_systemGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -11236,7 +11315,7 @@ export interface subscription_rootGenqlSelection{
     /** filter the rows returned */
     where?: (prices_bool_exp | null)} })
     /** fetch data from the table: "prices" using primary key columns */
-    prices_by_pk?: (pricesGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
+    prices_by_pk?: (pricesGenqlSelection & { __args: {created_at: Scalars['timestamp'], market_acct: Scalars['String']} })
     /** fetch data from the table in a streaming manner: "prices" */
     prices_stream?: (pricesGenqlSelection & { __args: {
     /** maximum number of rows returned in a single batch */
@@ -11708,6 +11787,7 @@ export interface takesGenqlSelection{
     order_tx_sig?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -11762,25 +11842,26 @@ export interface takes_avg_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by avg() on columns of table "takes" */
-export interface takes_avg_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_avg_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "takes". All fields are combined with a logical 'AND'. */
-export interface takes_bool_exp {_and?: (takes_bool_exp[] | null),_not?: (takes_bool_exp | null),_or?: (takes_bool_exp[] | null),base_amount?: (bigint_comparison_exp | null),make?: (makes_bool_exp | null),maker_base_fee?: (bigint_comparison_exp | null),maker_order_tx_sig?: (String_comparison_exp | null),maker_quote_fee?: (bigint_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order?: (orders_bool_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (bigint_comparison_exp | null),taker_base_fee?: (bigint_comparison_exp | null)}
+export interface takes_bool_exp {_and?: (takes_bool_exp[] | null),_not?: (takes_bool_exp | null),_or?: (takes_bool_exp[] | null),base_amount?: (bigint_comparison_exp | null),make?: (makes_bool_exp | null),maker_base_fee?: (bigint_comparison_exp | null),maker_order_tx_sig?: (String_comparison_exp | null),maker_quote_fee?: (bigint_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order?: (orders_bool_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (bigint_comparison_exp | null),taker_base_fee?: (bigint_comparison_exp | null),taker_quote_fee?: (bigint_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "takes" */
-export interface takes_inc_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_quote_fee?: (Scalars['bigint'] | null),order_block?: (Scalars['bigint'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null)}
+export interface takes_inc_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_quote_fee?: (Scalars['bigint'] | null),order_block?: (Scalars['bigint'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "takes" */
-export interface takes_insert_input {base_amount?: (Scalars['bigint'] | null),make?: (makes_obj_rel_insert_input | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null)}
+export interface takes_insert_input {base_amount?: (Scalars['bigint'] | null),make?: (makes_obj_rel_insert_input | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** aggregate max on columns */
@@ -11795,13 +11876,14 @@ export interface takes_max_fieldsGenqlSelection{
     order_tx_sig?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by max() on columns of table "takes" */
-export interface takes_max_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_order_tx_sig?: (order_by | null),maker_quote_fee?: (order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_max_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_order_tx_sig?: (order_by | null),maker_quote_fee?: (order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -11816,13 +11898,14 @@ export interface takes_min_fieldsGenqlSelection{
     order_tx_sig?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by min() on columns of table "takes" */
-export interface takes_min_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_order_tx_sig?: (order_by | null),maker_quote_fee?: (order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_min_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_order_tx_sig?: (order_by | null),maker_quote_fee?: (order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** response of any mutation on the table "takes" */
@@ -11847,7 +11930,7 @@ export interface takes_on_conflict {constraint: takes_constraint,update_columns?
 
 
 /** Ordering options when selecting data from "takes". */
-export interface takes_order_by {base_amount?: (order_by | null),make?: (makes_order_by | null),maker_base_fee?: (order_by | null),maker_order_tx_sig?: (order_by | null),maker_quote_fee?: (order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),order?: (orders_order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_order_by {base_amount?: (order_by | null),make?: (makes_order_by | null),maker_base_fee?: (order_by | null),maker_order_tx_sig?: (order_by | null),maker_quote_fee?: (order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),order?: (orders_order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** primary key columns input for table: takes */
@@ -11855,7 +11938,7 @@ export interface takes_pk_columns_input {order_tx_sig: Scalars['String']}
 
 
 /** input type for updating data in table "takes" */
-export interface takes_set_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null)}
+export interface takes_set_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -11866,13 +11949,14 @@ export interface takes_stddev_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev() on columns of table "takes" */
-export interface takes_stddev_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_stddev_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
@@ -11883,13 +11967,14 @@ export interface takes_stddev_pop_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_pop() on columns of table "takes" */
-export interface takes_stddev_pop_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_stddev_pop_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
@@ -11900,13 +11985,14 @@ export interface takes_stddev_samp_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_samp() on columns of table "takes" */
-export interface takes_stddev_samp_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_stddev_samp_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** Streaming cursor of the table "takes" */
@@ -11918,7 +12004,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface takes_stream_cursor_value_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null)}
+export interface takes_stream_cursor_value_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** aggregate sum on columns */
@@ -11929,13 +12015,14 @@ export interface takes_sum_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by sum() on columns of table "takes" */
-export interface takes_sum_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_sum_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 export interface takes_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -11954,13 +12041,14 @@ export interface takes_var_pop_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_pop() on columns of table "takes" */
-export interface takes_var_pop_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_var_pop_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
@@ -11971,13 +12059,14 @@ export interface takes_var_samp_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_samp() on columns of table "takes" */
-export interface takes_var_samp_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_var_samp_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** aggregate variance on columns */
@@ -11988,13 +12077,14 @@ export interface takes_variance_fieldsGenqlSelection{
     order_block?: boolean | number
     quote_price?: boolean | number
     taker_base_fee?: boolean | number
+    taker_quote_fee?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by variance() on columns of table "takes" */
-export interface takes_variance_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null)}
+export interface takes_variance_order_by {base_amount?: (order_by | null),maker_base_fee?: (order_by | null),maker_quote_fee?: (order_by | null),order_block?: (order_by | null),quote_price?: (order_by | null),taker_base_fee?: (order_by | null),taker_quote_fee?: (order_by | null)}
 
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -16513,6 +16603,7 @@ export const enumDaosSelectColumn = {
    dao_id: 'dao_id' as const,
    program_acct: 'program_acct' as const,
    quote_acct: 'quote_acct' as const,
+   slots_per_proposal: 'slots_per_proposal' as const,
    treasury_acct: 'treasury_acct' as const,
    updated_at: 'updated_at' as const
 }
@@ -16524,6 +16615,7 @@ export const enumDaosUpdateColumn = {
    dao_id: 'dao_id' as const,
    program_acct: 'program_acct' as const,
    quote_acct: 'quote_acct' as const,
+   slots_per_proposal: 'slots_per_proposal' as const,
    treasury_acct: 'treasury_acct' as const,
    updated_at: 'updated_at' as const
 }
@@ -16607,6 +16699,7 @@ export const enumMarketsSelectColumn = {
    base_taker_fee: 'base_taker_fee' as const,
    bids_token_acct: 'bids_token_acct' as const,
    create_tx_sig: 'create_tx_sig' as const,
+   created_at: 'created_at' as const,
    inactive_slot: 'inactive_slot' as const,
    market_acct: 'market_acct' as const,
    market_type: 'market_type' as const,
@@ -16627,6 +16720,7 @@ export const enumMarketsUpdateColumn = {
    base_taker_fee: 'base_taker_fee' as const,
    bids_token_acct: 'bids_token_acct' as const,
    create_tx_sig: 'create_tx_sig' as const,
+   created_at: 'created_at' as const,
    inactive_slot: 'inactive_slot' as const,
    market_acct: 'market_acct' as const,
    market_type: 'market_type' as const,
@@ -16694,7 +16788,7 @@ export const enumOrdersUpdateColumn = {
 }
 
 export const enumPricesConstraint = {
-   prices_updated_slot_market_acct_pk: 'prices_updated_slot_market_acct_pk' as const
+   prices_created_at_market_acct_pk: 'prices_created_at_market_acct_pk' as const
 }
 
 export const enumPricesSelectColumn = {
@@ -16832,8 +16926,12 @@ export const enumProposalsConstraint = {
 export const enumProposalsSelectColumn = {
    autocrat_version: 'autocrat_version' as const,
    base_vault: 'base_vault' as const,
+   completed_at: 'completed_at' as const,
+   created_at: 'created_at' as const,
    dao_acct: 'dao_acct' as const,
    description_url: 'description_url' as const,
+   end_slot: 'end_slot' as const,
+   ended_at: 'ended_at' as const,
    fail_market_acct: 'fail_market_acct' as const,
    initial_slot: 'initial_slot' as const,
    pass_market_acct: 'pass_market_acct' as const,
@@ -16882,8 +16980,12 @@ export const enumProposalsSelectColumnProposalsAggregateBoolExpVarSampArgumentsC
 export const enumProposalsUpdateColumn = {
    autocrat_version: 'autocrat_version' as const,
    base_vault: 'base_vault' as const,
+   completed_at: 'completed_at' as const,
+   created_at: 'created_at' as const,
    dao_acct: 'dao_acct' as const,
    description_url: 'description_url' as const,
+   end_slot: 'end_slot' as const,
+   ended_at: 'ended_at' as const,
    fail_market_acct: 'fail_market_acct' as const,
    initial_slot: 'initial_slot' as const,
    pass_market_acct: 'pass_market_acct' as const,
@@ -16931,7 +17033,8 @@ export const enumTakesSelectColumn = {
    order_time: 'order_time' as const,
    order_tx_sig: 'order_tx_sig' as const,
    quote_price: 'quote_price' as const,
-   taker_base_fee: 'taker_base_fee' as const
+   taker_base_fee: 'taker_base_fee' as const,
+   taker_quote_fee: 'taker_quote_fee' as const
 }
 
 export const enumTakesUpdateColumn = {
@@ -16944,7 +17047,8 @@ export const enumTakesUpdateColumn = {
    order_time: 'order_time' as const,
    order_tx_sig: 'order_tx_sig' as const,
    quote_price: 'quote_price' as const,
-   taker_base_fee: 'taker_base_fee' as const
+   taker_base_fee: 'taker_base_fee' as const,
+   taker_quote_fee: 'taker_quote_fee' as const
 }
 
 export const enumTokenAcctsConstraint = {

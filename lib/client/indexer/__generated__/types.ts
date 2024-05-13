@@ -3497,6 +3497,9 @@ export default {
             "quote_acct": [
                 5
             ],
+            "slots_per_proposal": [
+                7
+            ],
             "token": [
                 750
             ],
@@ -3652,12 +3655,18 @@ export default {
             "dao_id": [
                 2
             ],
+            "slots_per_proposal": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_avg_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -3710,6 +3719,9 @@ export default {
             "quote_acct": [
                 6
             ],
+            "slots_per_proposal": [
+                8
+            ],
             "token": [
                 754
             ],
@@ -3732,6 +3744,9 @@ export default {
         "daos_constraint": {},
         "daos_inc_input": {
             "dao_id": [
+                7
+            ],
+            "slots_per_proposal": [
                 7
             ],
             "__typename": [
@@ -3768,6 +3783,9 @@ export default {
             ],
             "quote_acct": [
                 5
+            ],
+            "slots_per_proposal": [
+                7
             ],
             "token": [
                 761
@@ -3807,6 +3825,9 @@ export default {
             "quote_acct": [
                 5
             ],
+            "slots_per_proposal": [
+                7
+            ],
             "treasury_acct": [
                 5
             ],
@@ -3834,6 +3855,9 @@ export default {
                 340
             ],
             "quote_acct": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "treasury_acct": [
@@ -3865,6 +3889,9 @@ export default {
             "quote_acct": [
                 5
             ],
+            "slots_per_proposal": [
+                7
+            ],
             "treasury_acct": [
                 5
             ],
@@ -3892,6 +3919,9 @@ export default {
                 340
             ],
             "quote_acct": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "treasury_acct": [
@@ -3971,6 +4001,9 @@ export default {
             "quote_acct": [
                 340
             ],
+            "slots_per_proposal": [
+                340
+            ],
             "token": [
                 763
             ],
@@ -4018,6 +4051,9 @@ export default {
             "quote_acct": [
                 5
             ],
+            "slots_per_proposal": [
+                7
+            ],
             "treasury_acct": [
                 5
             ],
@@ -4032,12 +4068,18 @@ export default {
             "dao_id": [
                 2
             ],
+            "slots_per_proposal": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_stddev_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -4048,12 +4090,18 @@ export default {
             "dao_id": [
                 2
             ],
+            "slots_per_proposal": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_stddev_pop_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -4064,12 +4112,18 @@ export default {
             "dao_id": [
                 2
             ],
+            "slots_per_proposal": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_stddev_samp_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -4106,6 +4160,9 @@ export default {
             "quote_acct": [
                 5
             ],
+            "slots_per_proposal": [
+                7
+            ],
             "treasury_acct": [
                 5
             ],
@@ -4120,12 +4177,18 @@ export default {
             "dao_id": [
                 7
             ],
+            "slots_per_proposal": [
+                7
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_sum_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -4151,12 +4214,18 @@ export default {
             "dao_id": [
                 2
             ],
+            "slots_per_proposal": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_var_pop_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -4167,12 +4236,18 @@ export default {
             "dao_id": [
                 2
             ],
+            "slots_per_proposal": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_var_samp_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -4183,12 +4258,18 @@ export default {
             "dao_id": [
                 2
             ],
+            "slots_per_proposal": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "daos_variance_order_by": {
             "dao_id": [
+                340
+            ],
+            "slots_per_proposal": [
                 340
             ],
             "__typename": [
@@ -5898,6 +5979,9 @@ export default {
             "create_tx_sig": [
                 5
             ],
+            "created_at": [
+                706
+            ],
             "inactive_slot": [
                 7
             ],
@@ -6400,6 +6484,9 @@ export default {
             "create_tx_sig": [
                 6
             ],
+            "created_at": [
+                707
+            ],
             "inactive_slot": [
                 8
             ],
@@ -6537,6 +6624,9 @@ export default {
             "create_tx_sig": [
                 5
             ],
+            "created_at": [
+                706
+            ],
             "inactive_slot": [
                 7
             ],
@@ -6623,6 +6713,9 @@ export default {
             "create_tx_sig": [
                 5
             ],
+            "created_at": [
+                706
+            ],
             "inactive_slot": [
                 7
             ],
@@ -6677,6 +6770,9 @@ export default {
                 340
             ],
             "create_tx_sig": [
+                340
+            ],
+            "created_at": [
                 340
             ],
             "inactive_slot": [
@@ -6735,6 +6831,9 @@ export default {
             "create_tx_sig": [
                 5
             ],
+            "created_at": [
+                706
+            ],
             "inactive_slot": [
                 7
             ],
@@ -6789,6 +6888,9 @@ export default {
                 340
             ],
             "create_tx_sig": [
+                340
+            ],
+            "created_at": [
                 340
             ],
             "inactive_slot": [
@@ -6886,6 +6988,9 @@ export default {
             "create_tx_sig": [
                 340
             ],
+            "created_at": [
+                340
+            ],
             "inactive_slot": [
                 340
             ],
@@ -6980,6 +7085,9 @@ export default {
             ],
             "create_tx_sig": [
                 5
+            ],
+            "created_at": [
+                706
             ],
             "inactive_slot": [
                 7
@@ -7239,6 +7347,9 @@ export default {
             ],
             "create_tx_sig": [
                 5
+            ],
+            "created_at": [
+                706
             ],
             "inactive_slot": [
                 7
@@ -9104,11 +9215,11 @@ export default {
             ]
         },
         "prices_pk_columns_input": {
+            "created_at": [
+                706
+            ],
             "market_acct": [
                 5
-            ],
-            "updated_slot": [
-                7
             ],
             "__typename": [
                 5
@@ -11717,11 +11828,17 @@ export default {
                     ]
                 }
             ],
+            "completed_at": [
+                706
+            ],
             "conditionalVaultByQuoteVault": [
                 92
             ],
             "conditional_vault": [
                 92
+            ],
+            "created_at": [
+                706
             ],
             "dao": [
                 151
@@ -11731,6 +11848,12 @@ export default {
             ],
             "description_url": [
                 5
+            ],
+            "end_slot": [
+                7
+            ],
+            "ended_at": [
+                706
             ],
             "fail_market_acct": [
                 5
@@ -12263,6 +12386,9 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "end_slot": [
+                2
+            ],
             "initial_slot": [
                 2
             ],
@@ -12275,6 +12401,9 @@ export default {
         },
         "proposals_avg_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -12309,11 +12438,17 @@ export default {
             "comments_aggregate": [
                 52
             ],
+            "completed_at": [
+                707
+            ],
             "conditionalVaultByQuoteVault": [
                 99
             ],
             "conditional_vault": [
                 99
+            ],
+            "created_at": [
+                707
             ],
             "dao": [
                 160
@@ -12323,6 +12458,12 @@ export default {
             ],
             "description_url": [
                 6
+            ],
+            "end_slot": [
+                8
+            ],
+            "ended_at": [
+                707
             ],
             "fail_market_acct": [
                 6
@@ -12390,6 +12531,9 @@ export default {
             "autocrat_version": [
                 193
             ],
+            "end_slot": [
+                7
+            ],
             "initial_slot": [
                 7
             ],
@@ -12410,11 +12554,17 @@ export default {
             "comments": [
                 56
             ],
+            "completed_at": [
+                706
+            ],
             "conditionalVaultByQuoteVault": [
                 107
             ],
             "conditional_vault": [
                 107
+            ],
+            "created_at": [
+                706
             ],
             "dao": [
                 169
@@ -12424,6 +12574,12 @@ export default {
             ],
             "description_url": [
                 5
+            ],
+            "end_slot": [
+                7
+            ],
+            "ended_at": [
+                706
             ],
             "fail_market_acct": [
                 5
@@ -12481,11 +12637,23 @@ export default {
             "base_vault": [
                 5
             ],
+            "completed_at": [
+                706
+            ],
+            "created_at": [
+                706
+            ],
             "dao_acct": [
                 5
             ],
             "description_url": [
                 5
+            ],
+            "end_slot": [
+                7
+            ],
+            "ended_at": [
+                706
             ],
             "fail_market_acct": [
                 5
@@ -12531,10 +12699,22 @@ export default {
             "base_vault": [
                 340
             ],
+            "completed_at": [
+                340
+            ],
+            "created_at": [
+                340
+            ],
             "dao_acct": [
                 340
             ],
             "description_url": [
+                340
+            ],
+            "end_slot": [
+                340
+            ],
+            "ended_at": [
                 340
             ],
             "fail_market_acct": [
@@ -12581,11 +12761,23 @@ export default {
             "base_vault": [
                 5
             ],
+            "completed_at": [
+                706
+            ],
+            "created_at": [
+                706
+            ],
             "dao_acct": [
                 5
             ],
             "description_url": [
                 5
+            ],
+            "end_slot": [
+                7
+            ],
+            "ended_at": [
+                706
             ],
             "fail_market_acct": [
                 5
@@ -12631,10 +12823,22 @@ export default {
             "base_vault": [
                 340
             ],
+            "completed_at": [
+                340
+            ],
+            "created_at": [
+                340
+            ],
             "dao_acct": [
                 340
             ],
             "description_url": [
+                340
+            ],
+            "end_slot": [
+                340
+            ],
+            "ended_at": [
                 340
             ],
             "fail_market_acct": [
@@ -12720,11 +12924,17 @@ export default {
             "comments_aggregate": [
                 55
             ],
+            "completed_at": [
+                340
+            ],
             "conditionalVaultByQuoteVault": [
                 109
             ],
             "conditional_vault": [
                 109
+            ],
+            "created_at": [
+                340
             ],
             "dao": [
                 171
@@ -12733,6 +12943,12 @@ export default {
                 340
             ],
             "description_url": [
+                340
+            ],
+            "end_slot": [
+                340
+            ],
+            "ended_at": [
                 340
             ],
             "fail_market_acct": [
@@ -12808,11 +13024,23 @@ export default {
             "base_vault": [
                 5
             ],
+            "completed_at": [
+                706
+            ],
+            "created_at": [
+                706
+            ],
             "dao_acct": [
                 5
             ],
             "description_url": [
                 5
+            ],
+            "end_slot": [
+                7
+            ],
+            "ended_at": [
+                706
             ],
             "fail_market_acct": [
                 5
@@ -12855,6 +13083,9 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "end_slot": [
+                2
+            ],
             "initial_slot": [
                 2
             ],
@@ -12867,6 +13098,9 @@ export default {
         },
         "proposals_stddev_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -12883,6 +13117,9 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "end_slot": [
+                2
+            ],
             "initial_slot": [
                 2
             ],
@@ -12895,6 +13132,9 @@ export default {
         },
         "proposals_stddev_pop_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -12911,6 +13151,9 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "end_slot": [
+                2
+            ],
             "initial_slot": [
                 2
             ],
@@ -12923,6 +13166,9 @@ export default {
         },
         "proposals_stddev_samp_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -12953,11 +13199,23 @@ export default {
             "base_vault": [
                 5
             ],
+            "completed_at": [
+                706
+            ],
+            "created_at": [
+                706
+            ],
             "dao_acct": [
                 5
             ],
             "description_url": [
                 5
+            ],
+            "end_slot": [
+                7
+            ],
+            "ended_at": [
+                706
             ],
             "fail_market_acct": [
                 5
@@ -13000,6 +13258,9 @@ export default {
             "autocrat_version": [
                 193
             ],
+            "end_slot": [
+                7
+            ],
             "initial_slot": [
                 7
             ],
@@ -13012,6 +13273,9 @@ export default {
         },
         "proposals_sum_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -13043,6 +13307,9 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "end_slot": [
+                2
+            ],
             "initial_slot": [
                 2
             ],
@@ -13055,6 +13322,9 @@ export default {
         },
         "proposals_var_pop_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -13071,6 +13341,9 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "end_slot": [
+                2
+            ],
             "initial_slot": [
                 2
             ],
@@ -13083,6 +13356,9 @@ export default {
         },
         "proposals_var_samp_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -13099,6 +13375,9 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "end_slot": [
+                2
+            ],
             "initial_slot": [
                 2
             ],
@@ -13111,6 +13390,9 @@ export default {
         },
         "proposals_variance_order_by": {
             "autocrat_version": [
+                340
+            ],
+            "end_slot": [
                 340
             ],
             "initial_slot": [
@@ -13764,6 +14046,9 @@ export default {
             "taker_base_fee": [
                 7
             ],
+            "taker_quote_fee": [
+                7
+            ],
             "__typename": [
                 5
             ]
@@ -13919,6 +14204,9 @@ export default {
             "taker_base_fee": [
                 2
             ],
+            "taker_quote_fee": [
+                2
+            ],
             "__typename": [
                 5
             ]
@@ -13940,6 +14228,9 @@ export default {
                 340
             ],
             "taker_base_fee": [
+                340
+            ],
+            "taker_quote_fee": [
                 340
             ],
             "__typename": [
@@ -13995,6 +14286,9 @@ export default {
             "taker_base_fee": [
                 8
             ],
+            "taker_quote_fee": [
+                8
+            ],
             "__typename": [
                 5
             ]
@@ -14017,6 +14311,9 @@ export default {
                 7
             ],
             "taker_base_fee": [
+                7
+            ],
+            "taker_quote_fee": [
                 7
             ],
             "__typename": [
@@ -14063,6 +14360,9 @@ export default {
             "taker_base_fee": [
                 7
             ],
+            "taker_quote_fee": [
+                7
+            ],
             "__typename": [
                 5
             ]
@@ -14096,6 +14396,9 @@ export default {
                 7
             ],
             "taker_base_fee": [
+                7
+            ],
+            "taker_quote_fee": [
                 7
             ],
             "__typename": [
@@ -14133,6 +14436,9 @@ export default {
             "taker_base_fee": [
                 340
             ],
+            "taker_quote_fee": [
+                340
+            ],
             "__typename": [
                 5
             ]
@@ -14168,6 +14474,9 @@ export default {
             "taker_base_fee": [
                 7
             ],
+            "taker_quote_fee": [
+                7
+            ],
             "__typename": [
                 5
             ]
@@ -14201,6 +14510,9 @@ export default {
                 340
             ],
             "taker_base_fee": [
+                340
+            ],
+            "taker_quote_fee": [
                 340
             ],
             "__typename": [
@@ -14283,6 +14595,9 @@ export default {
             "taker_base_fee": [
                 340
             ],
+            "taker_quote_fee": [
+                340
+            ],
             "__typename": [
                 5
             ]
@@ -14327,6 +14642,9 @@ export default {
             "taker_base_fee": [
                 7
             ],
+            "taker_quote_fee": [
+                7
+            ],
             "__typename": [
                 5
             ]
@@ -14348,6 +14666,9 @@ export default {
                 2
             ],
             "taker_base_fee": [
+                2
+            ],
+            "taker_quote_fee": [
                 2
             ],
             "__typename": [
@@ -14373,6 +14694,9 @@ export default {
             "taker_base_fee": [
                 340
             ],
+            "taker_quote_fee": [
+                340
+            ],
             "__typename": [
                 5
             ]
@@ -14394,6 +14718,9 @@ export default {
                 2
             ],
             "taker_base_fee": [
+                2
+            ],
+            "taker_quote_fee": [
                 2
             ],
             "__typename": [
@@ -14419,6 +14746,9 @@ export default {
             "taker_base_fee": [
                 340
             ],
+            "taker_quote_fee": [
+                340
+            ],
             "__typename": [
                 5
             ]
@@ -14442,6 +14772,9 @@ export default {
             "taker_base_fee": [
                 2
             ],
+            "taker_quote_fee": [
+                2
+            ],
             "__typename": [
                 5
             ]
@@ -14463,6 +14796,9 @@ export default {
                 340
             ],
             "taker_base_fee": [
+                340
+            ],
+            "taker_quote_fee": [
                 340
             ],
             "__typename": [
@@ -14511,6 +14847,9 @@ export default {
             "taker_base_fee": [
                 7
             ],
+            "taker_quote_fee": [
+                7
+            ],
             "__typename": [
                 5
             ]
@@ -14534,6 +14873,9 @@ export default {
             "taker_base_fee": [
                 7
             ],
+            "taker_quote_fee": [
+                7
+            ],
             "__typename": [
                 5
             ]
@@ -14555,6 +14897,9 @@ export default {
                 340
             ],
             "taker_base_fee": [
+                340
+            ],
+            "taker_quote_fee": [
                 340
             ],
             "__typename": [
@@ -14595,6 +14940,9 @@ export default {
             "taker_base_fee": [
                 2
             ],
+            "taker_quote_fee": [
+                2
+            ],
             "__typename": [
                 5
             ]
@@ -14616,6 +14964,9 @@ export default {
                 340
             ],
             "taker_base_fee": [
+                340
+            ],
+            "taker_quote_fee": [
                 340
             ],
             "__typename": [
@@ -14641,6 +14992,9 @@ export default {
             "taker_base_fee": [
                 2
             ],
+            "taker_quote_fee": [
+                2
+            ],
             "__typename": [
                 5
             ]
@@ -14662,6 +15016,9 @@ export default {
                 340
             ],
             "taker_base_fee": [
+                340
+            ],
+            "taker_quote_fee": [
                 340
             ],
             "__typename": [
@@ -14687,6 +15044,9 @@ export default {
             "taker_base_fee": [
                 2
             ],
+            "taker_quote_fee": [
+                2
+            ],
             "__typename": [
                 5
             ]
@@ -14708,6 +15068,9 @@ export default {
                 340
             ],
             "taker_base_fee": [
+                340
+            ],
+            "taker_quote_fee": [
                 340
             ],
             "__typename": [
@@ -19717,13 +20080,13 @@ export default {
             "prices_by_pk": [
                 387,
                 {
+                    "created_at": [
+                        706,
+                        "timestamp!"
+                    ],
                     "market_acct": [
                         5,
                         "String!"
-                    ],
-                    "updated_slot": [
-                        7,
-                        "bigint!"
                     ]
                 }
             ],
@@ -20632,13 +20995,13 @@ export default {
             "delete_prices_by_pk": [
                 387,
                 {
+                    "created_at": [
+                        706,
+                        "timestamp!"
+                    ],
                     "market_acct": [
                         5,
                         "String!"
-                    ],
-                    "updated_slot": [
-                        7,
-                        "bigint!"
                     ]
                 }
             ],
@@ -23179,13 +23542,13 @@ export default {
             "prices_by_pk": [
                 387,
                 {
+                    "created_at": [
+                        706,
+                        "timestamp!"
+                    ],
                     "market_acct": [
                         5,
                         "String!"
-                    ],
-                    "updated_slot": [
-                        7,
-                        "bigint!"
                     ]
                 }
             ],

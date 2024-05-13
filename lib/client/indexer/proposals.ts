@@ -70,6 +70,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             },
             status: true,
             initial_slot: true,
+            created_at: true,
+            end_slot: true,
+            ended_at: true,
+            completed_at: true,
             description_url: true,
             base_vault: true,
             quote_vault: true,
@@ -209,8 +213,13 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               description: proposalDetails.description ?? "",
               // both markets should have the same type... but maybe this could be cleaned up
               marketType: p.markets[0].market_type as MarketType,
+              startSlot: p.initial_slot,
+              endSlot: p.end_slot,
               // TODO figure this out by slot enqueued maybe
-              creationDate: p.initial_slot,
+              creationDate: p.created_at,
+              endDate: p.ended_at ?? new Date(p.created_at.getDate() + 3),
+              // TODO figure this out by slot enqueued maybe
+              finalizationDate: p.completed_at ?? new Date(p.created_at.getDate() + 3),
               dao: {
                 publicKey: new PublicKey(d.dao_acct),
                 daoAccount: {
@@ -226,8 +235,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     : undefined,
                 },
               },
-              // TODO figure this out by slot enqueued maybe
-              finalizationDate: new Date(new Date().getDate() + 20),
               participants: [],
               // TOKEN amount on twap is probably volume
               // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????

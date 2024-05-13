@@ -47,9 +47,16 @@ export function getProposalFromAccount(
     failMarket: new PublicKey(failMarket ?? 5),
     passMarket: new PublicKey(passMarket ?? 5),
     publicKey,
-    finalizationDate: new Date(),
-    content: "",
+    // TODO: Review
+    startSlot: account.slotEnqueued,
+    endSlot: account.slotEnqueued + ((86400000 / 400) * 3),
+    // TODO: We can do better than this ;)
     creationDate: new Date(),
+    // TODO: :)
+    finalizationDate: new Date(new Date().getDate() + 3),
+    // TODO: :)
+    endDate: new Date(new Date().getDate() + 3),
+    content: "",
     state: getStrStateFromProposal(account),
     participants: [],
     reactions: [],

@@ -113,6 +113,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         quote_price: true,
         side: true,
         market_acct: true,
+        order_tx_sig: true,
         market: {
           tokenAcctByBidsTokenAcct: {
             token: {
@@ -122,6 +123,13 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
               name: true,
               mint_acct: true,
             },
+          },
+          token: {
+            decimals: true,
+            image_url: true,
+            symbol: true,
+            name: true,
+            mint_acct: true,
           },
           tokenByQuoteMintAcct: {
             decimals: true,
@@ -144,6 +152,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           quote_price: number;
           side: string;
           market_acct: string;
+          order_tx_sig: string;
           market: {
             tokenAcctByBidsTokenAcct: {
               token: {
@@ -153,6 +162,13 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                 name: string | null;
                 mint_acct: string | null;
               };
+            };
+            token: {
+              decimals: string | null;
+              image_url: string | null;
+              symbol: string | null;
+              name: string | null;
+              mint_acct: string | null;
             };
             tokenByQuoteMintAcct: {
               decimals: string | null;
@@ -170,10 +186,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           next: (data) => {
             const orders = data.data?.orders
               ?.map<Order | undefined>((order) => {
-                const token =
-                  order.side === "BID"
-                    ? order.market.tokenAcctByBidsTokenAcct.token
-                    : order.market.tokenByQuoteMintAcct;
+                const token = order.market.token
                 if (
                   !token.mint_acct ||
                   !token.decimals ||
@@ -197,6 +210,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                     url: token.image_url ?? "",
                   },
                   owner: new PublicKey(order.actor_acct),
+                  signature: order.order_tx_sig,
                 };
               })
               .filter((o): o is Order => Boolean(o));

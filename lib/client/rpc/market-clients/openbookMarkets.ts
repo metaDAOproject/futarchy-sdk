@@ -185,6 +185,7 @@ export class FutarchyOpenbookMarketsRPCClient
       status: "open",
       time: new Date(bookSideOrder.leafNode.timestamp.toNumber()),
       token: side === "bid" ? market.quoteToken : market.baseToken,
+      signature: null,
     };
   }
 

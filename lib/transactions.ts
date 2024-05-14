@@ -109,7 +109,6 @@ export class TransactionSender {
         signedSequence.map((set) =>
           Promise.all(
             set.map(async (tx) => {
-              console.log(tx)
               return connection
                 .sendRawTransaction(tx.serialize(), { skipPreflight: true })
                 .then((txSignature) =>
@@ -127,7 +126,7 @@ export class TransactionSender {
           for (const tx of set) {
             const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
             if (txSignature) {
-              const confirmation = await connection.confirmTransaction(txSignature, opts.commitment ?? "confirmed");
+              const confirmation = await connection.confirmTransaction(txSignature, opts?.commitment ?? "confirmed");
               signatures.push(txSignature); // Push only on successful confirmation
             }
           }

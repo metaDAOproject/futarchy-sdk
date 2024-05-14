@@ -312,9 +312,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
           }
         ]
       };
-    let [inputToken, outputToken] = swapType.buy
-      ? [ammMarket.quoteToken, ammMarket.baseToken]
-      : [ammMarket.baseToken, ammMarket.quoteToken];
+    // TODO: Review this later as we may want to handle a max / min situation given we put in values
+    // from different directions and technically should estimate...
+    let [inputToken, outputToken] = [ammMarket.baseToken, ammMarket.quoteToken];
 
     let inputAmountScaled: BN = PriceMath.getChainAmount(
       inputAmount,

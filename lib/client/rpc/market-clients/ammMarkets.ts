@@ -300,7 +300,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     const quoteReserves = ammMarket.quoteAmount;
     const lpSupply = new BN(ammMarket.lpMintSupply)
     
-    const lpToken = new BN(lpTokensToBurn * new BN(10).pow(new BN(9)).toNumber())
+    const lpToken = PriceMath.getChainAmount(lpTokensToBurn, 9)
     const simulation = this.ammClient.simulateRemoveLiquidity(lpToken, baseReserves, quoteReserves, lpSupply)
 
     return {

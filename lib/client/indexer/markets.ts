@@ -4,9 +4,7 @@ import {
   MarketFetchRequest,
   OpenbookMarket,
   OpenbookMarketFetchRequest,
-  Order,
-  OrderBookSide,
-  TokenProps,
+  Order
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { FutarchyIndexerOpenbookMarketsClient } from "./market-clients/openbookMarkets";
@@ -20,7 +18,7 @@ import {
   generateSubscriptionOp,
   orders_bool_exp,
   orders_order_by,
-  orders_select_column,
+  orders_select_column
 } from "./__generated__";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
@@ -35,10 +33,10 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     rpcOpenbookMarketsClient: FutarchyOpenbookMarketsRPCClient,
     rpcAmmMarketsClient: FutarchyAmmMarketsRPCClient,
     marketsClient: FutarchyMarketsRPCClient,
-    graphqlWSClient: GQLWebSocketClient,
+    graphqlWSClient: GQLWebSocketClient
   ) {
     this.openbook = new FutarchyIndexerOpenbookMarketsClient(
-      rpcOpenbookMarketsClient,
+      rpcOpenbookMarketsClient
     );
     this.amm = new FutarchyIndexerAmmMarketsClient(rpcAmmMarketsClient);
     this.rpcClient = marketsClient;
@@ -46,7 +44,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   async fetchMarket(
-    request: MarketFetchRequest,
+    request: MarketFetchRequest
   ): Promise<OpenbookMarket | AmmMarket | undefined> {
     if (request instanceof OpenbookMarketFetchRequest) {
       return this.openbook.fetchMarket(request);
@@ -62,12 +60,18 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       twaps: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() },
+            market_acct: { _eq: marketKey.toString() }
           },
+          order_by: [
+            {
+              created_at: "asc"
+            }
+          ]
         },
         token_amount: true,
         updated_slot: true,
-      },
+        created_at: true
+      }
     });
 
     return new Observable((subscriber) => {
@@ -75,6 +79,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         twaps: {
           token_amount: number;
           updated_slot: number;
+          created_at: Date;
         }[];
       }>(
         { query, variables },
@@ -84,13 +89,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
               (d) => ({
                 price: d.token_amount,
                 slot: d.updated_slot,
-              }),
+                createdAt: d.created_at
+              })
             );
             subscriber.next(twapObservations ?? []);
           },
           error: (error) => subscriber.error(error),
-          complete: () => subscriber.complete(),
-        },
+          complete: () => subscriber.complete()
+        }
       );
 
       return () => subscriptionCleanup();
@@ -121,26 +127,26 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
               image_url: true,
               symbol: true,
               name: true,
-              mint_acct: true,
-            },
+              mint_acct: true
+            }
           },
           token: {
             decimals: true,
             image_url: true,
             symbol: true,
             name: true,
-            mint_acct: true,
+            mint_acct: true
           },
           tokenByQuoteMintAcct: {
             decimals: true,
             image_url: true,
             symbol: true,
             name: true,
-            mint_acct: true,
-          },
+            mint_acct: true
+          }
         },
-        actor_acct: true,
-      },
+        actor_acct: true
+      }
     });
 
     return new Observable((subscriber) => {
@@ -186,7 +192,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           next: (data) => {
             const orders = data.data?.orders
               ?.map<Order | undefined>((order) => {
-                const token = order.market.token
+                const token = order.market.token;
                 if (
                   !token.mint_acct ||
                   !token.decimals ||
@@ -207,18 +213,18 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                     name: token.name ?? "",
                     publicKey: token.mint_acct ?? "",
                     symbol: token.symbol ?? "",
-                    url: token.image_url ?? "",
+                    url: token.image_url ?? ""
                   },
                   owner: new PublicKey(order.actor_acct),
-                  signature: order.order_tx_sig,
+                  signature: order.order_tx_sig
                 };
               })
               .filter((o): o is Order => Boolean(o));
             subscriber.next(orders ?? []);
           },
           error: (error) => subscriber.error(error),
-          complete: () => subscriber.complete(),
-        },
+          complete: () => subscriber.complete()
+        }
       );
       return () => subscriptionCleanup();
     });
@@ -227,20 +233,20 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   watchAllUserOrders(owner: PublicKey): Observable<Order[]> {
     return this.watchOrdersForArgs({
       where: {
-        actor_acct: { _eq: owner.toBase58() },
-      },
+        actor_acct: { _eq: owner.toBase58() }
+      }
     });
   }
 
   watchUserOrdersForMarket(
     owner: PublicKey,
-    marketAcct: PublicKey,
+    marketAcct: PublicKey
   ): Observable<Order[]> {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
-        market_acct: { _eq: marketAcct.toBase58() },
-      },
+        market_acct: { _eq: marketAcct.toBase58() }
+      }
     });
   }
 
@@ -249,18 +255,24 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       takes: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() },
+            market_acct: { _eq: marketKey.toString() }
           },
+          order_by: [
+            {
+              order_time: "asc"
+            }
+          ]
         },
         order_time: true,
-        quote_price: true,
-      },
+
+        quote_price: true
+      }
     });
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
         takes: {
-          order_time: number;
+          order_time: Date;
           quote_price: number;
         }[];
       }>(
@@ -270,14 +282,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             const spotObservations = data.data?.takes?.map<SpotObservation>(
               (d) => ({
                 price: d.quote_price,
-                slot: d.order_time,
-              }),
+                createdAt: d.order_time
+              })
             );
             subscriber.next(spotObservations ?? []);
           },
           error: (error) => subscriber.error(error),
-          complete: () => subscriber.complete(),
-        },
+          complete: () => subscriber.complete()
+        }
       );
       return () => subscriptionCleanup();
     });

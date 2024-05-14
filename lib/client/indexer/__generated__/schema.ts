@@ -1038,7 +1038,7 @@ export interface makes {
     /** An object relationship */
     order: orders
     order_tx_sig: Scalars['String']
-    quote_price: Scalars['bigint']
+    quote_price: Scalars['numeric']
     /** An array relationship */
     takes: takes[]
     /** An aggregate relationship */
@@ -1092,7 +1092,7 @@ export interface makes_max_fields {
     filled_base_amount: (Scalars['bigint'] | null)
     market_acct: (Scalars['String'] | null)
     order_tx_sig: (Scalars['String'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     unfilled_base_amount: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamp'] | null)
     __typename: 'makes_max_fields'
@@ -1104,7 +1104,7 @@ export interface makes_min_fields {
     filled_base_amount: (Scalars['bigint'] | null)
     market_acct: (Scalars['String'] | null)
     order_tx_sig: (Scalars['String'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     unfilled_base_amount: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamp'] | null)
     __typename: 'makes_min_fields'
@@ -1163,7 +1163,7 @@ export interface makes_stddev_samp_fields {
 /** aggregate sum on columns */
 export interface makes_sum_fields {
     filled_base_amount: (Scalars['bigint'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     unfilled_base_amount: (Scalars['bigint'] | null)
     __typename: 'makes_sum_fields'
 }
@@ -1831,7 +1831,7 @@ export interface orders {
     order_block: Scalars['bigint']
     order_time: Scalars['timestamp']
     order_tx_sig: Scalars['String']
-    quote_price: Scalars['bigint']
+    quote_price: Scalars['numeric']
     side: Scalars['String']
     /** An object relationship */
     take: (takes | null)
@@ -1892,7 +1892,7 @@ export interface orders_max_fields {
     order_block: (Scalars['bigint'] | null)
     order_time: (Scalars['timestamp'] | null)
     order_tx_sig: (Scalars['String'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     side: (Scalars['String'] | null)
     unfilled_base_amount: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamp'] | null)
@@ -1911,7 +1911,7 @@ export interface orders_min_fields {
     order_block: (Scalars['bigint'] | null)
     order_time: (Scalars['timestamp'] | null)
     order_tx_sig: (Scalars['String'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     side: (Scalars['String'] | null)
     unfilled_base_amount: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamp'] | null)
@@ -1979,7 +1979,7 @@ export interface orders_sum_fields {
     cancel_block: (Scalars['bigint'] | null)
     filled_base_amount: (Scalars['bigint'] | null)
     order_block: (Scalars['bigint'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     unfilled_base_amount: (Scalars['bigint'] | null)
     __typename: 'orders_sum_fields'
 }
@@ -3435,7 +3435,7 @@ export interface takes {
     order_block: Scalars['bigint']
     order_time: Scalars['timestamp']
     order_tx_sig: Scalars['String']
-    quote_price: Scalars['bigint']
+    quote_price: Scalars['numeric']
     taker_base_fee: Scalars['bigint']
     taker_quote_fee: Scalars['bigint']
     __typename: 'takes'
@@ -3494,7 +3494,7 @@ export interface takes_max_fields {
     order_block: (Scalars['bigint'] | null)
     order_time: (Scalars['timestamp'] | null)
     order_tx_sig: (Scalars['String'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     taker_base_fee: (Scalars['bigint'] | null)
     taker_quote_fee: (Scalars['bigint'] | null)
     __typename: 'takes_max_fields'
@@ -3511,7 +3511,7 @@ export interface takes_min_fields {
     order_block: (Scalars['bigint'] | null)
     order_time: (Scalars['timestamp'] | null)
     order_tx_sig: (Scalars['String'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     taker_base_fee: (Scalars['bigint'] | null)
     taker_quote_fee: (Scalars['bigint'] | null)
     __typename: 'takes_min_fields'
@@ -3577,7 +3577,7 @@ export interface takes_sum_fields {
     maker_base_fee: (Scalars['bigint'] | null)
     maker_quote_fee: (Scalars['bigint'] | null)
     order_block: (Scalars['bigint'] | null)
-    quote_price: (Scalars['bigint'] | null)
+    quote_price: (Scalars['numeric'] | null)
     taker_base_fee: (Scalars['bigint'] | null)
     taker_quote_fee: (Scalars['bigint'] | null)
     __typename: 'takes_sum_fields'
@@ -6563,15 +6563,15 @@ export interface makes_avg_order_by {filled_base_amount?: (order_by | null),quot
 
 
 /** Boolean expression to filter rows from the table "makes". All fields are combined with a logical 'AND'. */
-export interface makes_bool_exp {_and?: (makes_bool_exp[] | null),_not?: (makes_bool_exp | null),_or?: (makes_bool_exp[] | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order?: (orders_bool_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (bigint_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface makes_bool_exp {_and?: (makes_bool_exp[] | null),_not?: (makes_bool_exp | null),_or?: (makes_bool_exp[] | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order?: (orders_bool_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (numeric_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "makes" */
-export interface makes_inc_input {filled_base_amount?: (Scalars['bigint'] | null),quote_price?: (Scalars['bigint'] | null),unfilled_base_amount?: (Scalars['bigint'] | null)}
+export interface makes_inc_input {filled_base_amount?: (Scalars['bigint'] | null),quote_price?: (Scalars['numeric'] | null),unfilled_base_amount?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "makes" */
-export interface makes_insert_input {filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),takes?: (takes_arr_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface makes_insert_input {filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),takes?: (takes_arr_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
@@ -6638,7 +6638,7 @@ export interface makes_pk_columns_input {order_tx_sig: Scalars['String']}
 
 
 /** input type for updating data in table "makes" */
-export interface makes_set_input {filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface makes_set_input {filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -6692,7 +6692,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface makes_stream_cursor_value_input {filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface makes_stream_cursor_value_input {filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate sum on columns */
@@ -8248,15 +8248,15 @@ export interface orders_avg_order_by {cancel_block?: (order_by | null),filled_ba
 
 
 /** Boolean expression to filter rows from the table "orders". All fields are combined with a logical 'AND'. */
-export interface orders_bool_exp {_and?: (orders_bool_exp[] | null),_not?: (orders_bool_exp | null),_or?: (orders_bool_exp[] | null),actor_acct?: (String_comparison_exp | null),cancel_block?: (bigint_comparison_exp | null),cancel_time?: (timestamp_comparison_exp | null),cancel_tx_sig?: (String_comparison_exp | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),make?: (makes_bool_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (bigint_comparison_exp | null),side?: (String_comparison_exp | null),take?: (takes_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface orders_bool_exp {_and?: (orders_bool_exp[] | null),_not?: (orders_bool_exp | null),_or?: (orders_bool_exp[] | null),actor_acct?: (String_comparison_exp | null),cancel_block?: (bigint_comparison_exp | null),cancel_time?: (timestamp_comparison_exp | null),cancel_tx_sig?: (String_comparison_exp | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),make?: (makes_bool_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (numeric_comparison_exp | null),side?: (String_comparison_exp | null),take?: (takes_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "orders" */
-export interface orders_inc_input {cancel_block?: (Scalars['bigint'] | null),filled_base_amount?: (Scalars['bigint'] | null),order_block?: (Scalars['bigint'] | null),quote_price?: (Scalars['bigint'] | null),unfilled_base_amount?: (Scalars['bigint'] | null)}
+export interface orders_inc_input {cancel_block?: (Scalars['bigint'] | null),filled_base_amount?: (Scalars['bigint'] | null),order_block?: (Scalars['bigint'] | null),quote_price?: (Scalars['numeric'] | null),unfilled_base_amount?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "orders" */
-export interface orders_insert_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),make?: (makes_obj_rel_insert_input | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),side?: (Scalars['String'] | null),take?: (takes_obj_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface orders_insert_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),make?: (makes_obj_rel_insert_input | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),side?: (Scalars['String'] | null),take?: (takes_obj_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
@@ -8337,7 +8337,7 @@ export interface orders_pk_columns_input {order_tx_sig: Scalars['String']}
 
 
 /** input type for updating data in table "orders" */
-export interface orders_set_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),side?: (Scalars['String'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface orders_set_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),side?: (Scalars['String'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -8397,7 +8397,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface orders_stream_cursor_value_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),side?: (Scalars['String'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface orders_stream_cursor_value_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),side?: (Scalars['String'] | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate sum on columns */
@@ -11853,15 +11853,15 @@ export interface takes_avg_order_by {base_amount?: (order_by | null),maker_base_
 
 
 /** Boolean expression to filter rows from the table "takes". All fields are combined with a logical 'AND'. */
-export interface takes_bool_exp {_and?: (takes_bool_exp[] | null),_not?: (takes_bool_exp | null),_or?: (takes_bool_exp[] | null),base_amount?: (bigint_comparison_exp | null),make?: (makes_bool_exp | null),maker_base_fee?: (bigint_comparison_exp | null),maker_order_tx_sig?: (String_comparison_exp | null),maker_quote_fee?: (bigint_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order?: (orders_bool_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (bigint_comparison_exp | null),taker_base_fee?: (bigint_comparison_exp | null),taker_quote_fee?: (bigint_comparison_exp | null)}
+export interface takes_bool_exp {_and?: (takes_bool_exp[] | null),_not?: (takes_bool_exp | null),_or?: (takes_bool_exp[] | null),base_amount?: (bigint_comparison_exp | null),make?: (makes_bool_exp | null),maker_base_fee?: (bigint_comparison_exp | null),maker_order_tx_sig?: (String_comparison_exp | null),maker_quote_fee?: (bigint_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order?: (orders_bool_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (numeric_comparison_exp | null),taker_base_fee?: (bigint_comparison_exp | null),taker_quote_fee?: (bigint_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "takes" */
-export interface takes_inc_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_quote_fee?: (Scalars['bigint'] | null),order_block?: (Scalars['bigint'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
+export interface takes_inc_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_quote_fee?: (Scalars['bigint'] | null),order_block?: (Scalars['bigint'] | null),quote_price?: (Scalars['numeric'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "takes" */
-export interface takes_insert_input {base_amount?: (Scalars['bigint'] | null),make?: (makes_obj_rel_insert_input | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
+export interface takes_insert_input {base_amount?: (Scalars['bigint'] | null),make?: (makes_obj_rel_insert_input | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** aggregate max on columns */
@@ -11938,7 +11938,7 @@ export interface takes_pk_columns_input {order_tx_sig: Scalars['String']}
 
 
 /** input type for updating data in table "takes" */
-export interface takes_set_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
+export interface takes_set_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -12004,7 +12004,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface takes_stream_cursor_value_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['bigint'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
+export interface takes_stream_cursor_value_input {base_amount?: (Scalars['bigint'] | null),maker_base_fee?: (Scalars['bigint'] | null),maker_order_tx_sig?: (Scalars['String'] | null),maker_quote_fee?: (Scalars['bigint'] | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),taker_base_fee?: (Scalars['bigint'] | null),taker_quote_fee?: (Scalars['bigint'] | null)}
 
 
 /** aggregate sum on columns */

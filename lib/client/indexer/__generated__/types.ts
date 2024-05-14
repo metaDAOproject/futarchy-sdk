@@ -5109,7 +5109,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "takes": [
                 664,
@@ -5394,7 +5394,7 @@ export default {
                 6
             ],
             "quote_price": [
-                8
+                339
             ],
             "takes": [
                 673
@@ -5418,7 +5418,7 @@ export default {
                 7
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -5447,7 +5447,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "takes": [
                 670
@@ -5473,7 +5473,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -5519,7 +5519,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -5650,7 +5650,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -5771,7 +5771,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -5788,7 +5788,7 @@ export default {
                 7
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -7725,7 +7725,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "side": [
                 5
@@ -8002,7 +8002,7 @@ export default {
                 6
             ],
             "quote_price": [
-                8
+                339
             ],
             "side": [
                 6
@@ -8032,7 +8032,7 @@ export default {
                 7
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -8079,7 +8079,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "side": [
                 5
@@ -8126,7 +8126,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "side": [
                 5
@@ -8214,7 +8214,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "side": [
                 5
@@ -8408,7 +8408,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "side": [
                 5
@@ -8586,7 +8586,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "side": [
                 5
@@ -8612,7 +8612,7 @@ export default {
                 7
             ],
             "quote_price": [
-                7
+                338
             ],
             "unfilled_base_amount": [
                 7
@@ -14041,7 +14041,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7
@@ -14281,7 +14281,7 @@ export default {
                 6
             ],
             "quote_price": [
-                8
+                339
             ],
             "taker_base_fee": [
                 8
@@ -14308,7 +14308,7 @@ export default {
                 7
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7
@@ -14355,7 +14355,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7
@@ -14393,7 +14393,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7
@@ -14469,7 +14469,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7
@@ -14637,7 +14637,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7
@@ -14842,7 +14842,7 @@ export default {
                 5
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7
@@ -14868,7 +14868,7 @@ export default {
                 7
             ],
             "quote_price": [
-                7
+                338
             ],
             "taker_base_fee": [
                 7

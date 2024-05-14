@@ -86,7 +86,7 @@ export class FutarchyIndexerAmmMarketsClient
   }
 
   simulateRemoveLiquidity(
-    lpTokensToBurn: BN,
+    lpTokensToBurn: number,
     ammMarket: AmmMarket,
   ): RemoveLiquiditySimulationResponse {
     return this.rpcMarketsClient.simulateRemoveLiquidity(
@@ -122,8 +122,6 @@ export class FutarchyIndexerAmmMarketsClient
       isBuyBase
     );
   }
-
-
 
   async getPoolLiquidity(ammAddr: PublicKey): Promise<any> {
     // Replace `any` with the actual return type if defined

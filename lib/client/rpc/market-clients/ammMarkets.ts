@@ -295,18 +295,17 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     return this.transactionSender?.send([tx], this.rpcProvider.connection);
   }
 
-  simulateRemoveLiquidity(lpTokensToBurn: BN, ammMarket: AmmMarket) {
+  simulateRemoveLiquidity(lpTokensToBurn: number, ammMarket: AmmMarket) {
     const baseReserves = ammMarket.baseAmount;
     const quoteReserves = ammMarket.quoteAmount;
     const lpSupply = new BN(ammMarket.lpMintSupply)
     
-    const simulation = this.ammClient.simulateRemoveLiquidity(lpTokensToBurn, baseReserves, quoteReserves, lpSupply)
+    const lpToken = new BN(lpTokensToBurn * new BN(10).pow(new BN(9)).toNumber())
+    const simulation = this.ammClient.simulateRemoveLiquidity(lpToken, baseReserves, quoteReserves, lpSupply)
 
     return {
-      // baseAmount: simulation.expectedBaseOut.toNumber() / 10 ** ammMarket.baseToken.decimals,
-      baseAmount: simulation.expectedBaseOut.toNumber(),
-      // quoteAmount: simulation.expectedQuoteOut.toNumber() / 10 ** ammMarket.quoteToken.decimals
-      quoteAmount: simulation.expectedQuoteOut.toNumber()
+      baseAmount: simulation.expectedBaseOut.toNumber() / 10 ** ammMarket.baseToken.decimals,
+      quoteAmount: simulation.expectedQuoteOut.toNumber() / 10 ** ammMarket.quoteToken.decimals
     }
   }
 

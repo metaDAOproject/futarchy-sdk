@@ -6,7 +6,7 @@ import {
   MarketFetchRequest,
   OpenbookMarket,
   OpenbookMarketFetchRequest,
-  Order,
+  Order
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
@@ -29,24 +29,24 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
     openbookClient: OpenBookV2Client,
     amm: Program<AmmIDLType>,
     ammClient: AmmClient,
-    transactionSender: TransactionSender | undefined,
+    transactionSender: TransactionSender | undefined
   ) {
     this.openbook = new FutarchyOpenbookMarketsRPCClient(
       rpcProvider,
       openbook,
       openbookClient,
-      transactionSender,
+      transactionSender
     );
     this.amm = new FutarchyAmmMarketsRPCClient(
       rpcProvider,
       amm,
       ammClient,
-      transactionSender,
+      transactionSender
     );
   }
 
   async fetchMarket(
-    request: MarketFetchRequest,
+    request: MarketFetchRequest
   ): Promise<OpenbookMarket | AmmMarket | undefined> {
     if (request instanceof OpenbookMarketFetchRequest) {
       return this.openbook.fetchMarket(request);
@@ -66,10 +66,10 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
 
   watchUserOrdersForMarket(
     owner: PublicKey,
-    marketAcct: PublicKey,
+    marketAcct: PublicKey
   ): Observable<Order[]> {
     console.warn(
-      "watchUserOrdersForMarket is not implemented in the RPC client.",
+      "watchUserOrdersForMarket is not implemented in the RPC client."
     );
     return new Observable((subscriber) => {
       subscriber.next([]);
@@ -88,13 +88,14 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
             {
               price: PriceMath.getHumanPrice(
                 market?.twapAggregator.div(
-                  market.twapLastUpdatedSlot.sub(market.createdAtSlot),
+                  market.twapLastUpdatedSlot.sub(market.createdAtSlot)
                 ),
                 market?.baseToken.decimals!!,
-                market?.quoteToken.decimals!!,
+                market?.quoteToken.decimals!!
               ),
-              slot: 0,
-            },
+              createdAt: new Date(),
+              slot: 0
+            }
           ]);
         });
     });
@@ -113,13 +114,13 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
               price: PriceMath.getHumanPrice(
                 PriceMath.getAmmPriceFromReserves(
                   market?.baseAmount,
-                  market?.quoteAmount,
+                  market?.quoteAmount
                 ),
                 market?.baseToken.decimals!!,
-                market?.quoteToken.decimals!!,
+                market?.quoteToken.decimals!!
               ),
-              slot: 0,
-            },
+              createdAt: new Date()
+            }
           ]);
         });
     });

@@ -3270,7 +3270,7 @@ type makes {
   """An object relationship"""
   order: orders!
   order_tx_sig: String!
-  quote_price: bigint!
+  quote_price: numeric!
 
   """An array relationship"""
   takes(
@@ -3419,7 +3419,7 @@ input makes_bool_exp {
   market_acct: String_comparison_exp
   order: orders_bool_exp
   order_tx_sig: String_comparison_exp
-  quote_price: bigint_comparison_exp
+  quote_price: numeric_comparison_exp
   takes: takes_bool_exp
   takes_aggregate: takes_aggregate_bool_exp
   unfilled_base_amount: bigint_comparison_exp
@@ -3441,7 +3441,7 @@ input type for incrementing numeric columns in table "makes"
 """
 input makes_inc_input {
   filled_base_amount: bigint
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
 }
 
@@ -3455,7 +3455,7 @@ input makes_insert_input {
   market_acct: String
   order: orders_obj_rel_insert_input
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   takes: takes_arr_rel_insert_input
   unfilled_base_amount: bigint
   updated_at: timestamp
@@ -3466,7 +3466,7 @@ type makes_max_fields {
   filled_base_amount: bigint
   market_acct: String
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
   updated_at: timestamp
 }
@@ -3488,7 +3488,7 @@ type makes_min_fields {
   filled_base_amount: bigint
   market_acct: String
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
   updated_at: timestamp
 }
@@ -3604,7 +3604,7 @@ input makes_set_input {
   is_active: Boolean
   market_acct: String
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
   updated_at: timestamp
 }
@@ -3674,7 +3674,7 @@ input makes_stream_cursor_value_input {
   is_active: Boolean
   market_acct: String
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
   updated_at: timestamp
 }
@@ -3682,7 +3682,7 @@ input makes_stream_cursor_value_input {
 """aggregate sum on columns"""
 type makes_sum_fields {
   filled_base_amount: bigint
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
 }
 
@@ -6541,7 +6541,7 @@ type orders {
   order_block: bigint!
   order_time: timestamp!
   order_tx_sig: String!
-  quote_price: bigint!
+  quote_price: numeric!
   side: String!
 
   """An object relationship"""
@@ -6668,7 +6668,7 @@ input orders_bool_exp {
   order_block: bigint_comparison_exp
   order_time: timestamp_comparison_exp
   order_tx_sig: String_comparison_exp
-  quote_price: bigint_comparison_exp
+  quote_price: numeric_comparison_exp
   side: String_comparison_exp
   take: takes_bool_exp
   unfilled_base_amount: bigint_comparison_exp
@@ -6692,7 +6692,7 @@ input orders_inc_input {
   cancel_block: bigint
   filled_base_amount: bigint
   order_block: bigint
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
 }
 
@@ -6712,7 +6712,7 @@ input orders_insert_input {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   side: String
   take: takes_obj_rel_insert_input
   unfilled_base_amount: bigint
@@ -6730,7 +6730,7 @@ type orders_max_fields {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   side: String
   unfilled_base_amount: bigint
   updated_at: timestamp
@@ -6766,7 +6766,7 @@ type orders_min_fields {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   side: String
   unfilled_base_amount: bigint
   updated_at: timestamp
@@ -6924,7 +6924,7 @@ input orders_set_input {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   side: String
   unfilled_base_amount: bigint
   updated_at: timestamp
@@ -7013,7 +7013,7 @@ input orders_stream_cursor_value_input {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   side: String
   unfilled_base_amount: bigint
   updated_at: timestamp
@@ -7024,7 +7024,7 @@ type orders_sum_fields {
   cancel_block: bigint
   filled_base_amount: bigint
   order_block: bigint
-  quote_price: bigint
+  quote_price: numeric
   unfilled_base_amount: bigint
 }
 
@@ -12864,7 +12864,7 @@ type takes {
   order_block: bigint!
   order_time: timestamp!
   order_tx_sig: String!
-  quote_price: bigint!
+  quote_price: numeric!
   taker_base_fee: bigint!
   taker_quote_fee: bigint!
 }
@@ -12974,7 +12974,7 @@ input takes_bool_exp {
   order_block: bigint_comparison_exp
   order_time: timestamp_comparison_exp
   order_tx_sig: String_comparison_exp
-  quote_price: bigint_comparison_exp
+  quote_price: numeric_comparison_exp
   taker_base_fee: bigint_comparison_exp
   taker_quote_fee: bigint_comparison_exp
 }
@@ -12997,7 +12997,7 @@ input takes_inc_input {
   maker_base_fee: bigint
   maker_quote_fee: bigint
   order_block: bigint
-  quote_price: bigint
+  quote_price: numeric
   taker_base_fee: bigint
   taker_quote_fee: bigint
 }
@@ -13017,7 +13017,7 @@ input takes_insert_input {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   taker_base_fee: bigint
   taker_quote_fee: bigint
 }
@@ -13032,7 +13032,7 @@ type takes_max_fields {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   taker_base_fee: bigint
   taker_quote_fee: bigint
 }
@@ -13064,7 +13064,7 @@ type takes_min_fields {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   taker_base_fee: bigint
   taker_quote_fee: bigint
 }
@@ -13189,7 +13189,7 @@ input takes_set_input {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   taker_base_fee: bigint
   taker_quote_fee: bigint
 }
@@ -13287,7 +13287,7 @@ input takes_stream_cursor_value_input {
   order_block: bigint
   order_time: timestamp
   order_tx_sig: String
-  quote_price: bigint
+  quote_price: numeric
   taker_base_fee: bigint
   taker_quote_fee: bigint
 }
@@ -13298,7 +13298,7 @@ type takes_sum_fields {
   maker_base_fee: bigint
   maker_quote_fee: bigint
   order_block: bigint
-  quote_price: bigint
+  quote_price: numeric
   taker_base_fee: bigint
   taker_quote_fee: bigint
 }

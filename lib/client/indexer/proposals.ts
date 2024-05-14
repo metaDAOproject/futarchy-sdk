@@ -6,12 +6,16 @@ import {
   FutarchyProtocol,
   ProposalState,
   MarketType,
+  ProposalAccounts,
+  ProgramVersionLabel,
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
 import { Client as IndexerGraphQLClient } from "./__generated__";
 import { SendTransactionResponse } from "@/types/transactions";
 import { CreateProposalInstruction, MarketParams, ProposalDetails } from "@/types/createProp";
+import { AutocratClient } from "@metadaoproject/futarchy-ts";
+import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -75,6 +79,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             ended_at: true,
             completed_at: true,
             description_url: true,
+            updated_at: true,
             base_vault: true,
             quote_vault: true,
             fail_market_acct: true,
@@ -290,7 +295,23 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     return this.rpcProposalsClient.withdraw(proposal);
   }
 
-  async createProposal(daoAggregate: DaoAggregate, version: "V0.2" | "V1", instructionParams: CreateProposalInstruction, marketParams: MarketParams, proposalDetails: ProposalDetails): SendTransactionResponse {
+  async createProposal(daoAggregate: DaoAggregate, version: ProgramVersionLabel, instructionParams: CreateProposalInstruction, marketParams: MarketParams, proposalDetails: ProposalDetails): SendTransactionResponse {
     return this.rpcProposalsClient.createProposal(daoAggregate, version, instructionParams, marketParams, proposalDetails)
+  }
+
+  async finalizeProposal(proposal: Proposal) {
+    return this.rpcProposalsClient.finalizeProposal(proposal)
+  }
+
+  async saveProposalDetails(proposalDetails: ProposalDetails) {
+    this.rpcProposalsClient.saveProposalDetails(proposalDetails)
+  }
+
+  async updateProposalAccounts(accounts: ProposalAccounts) {
+    this.rpcProposalsClient.updateProposalAccounts(accounts)
+  }
+
+  async mergeConditionalTokensForUnderlyingTokens(programVersion: ProgramVersionLabel, amount: BN, proposal: Proposal, underlyingToken: "base" | "quote"): SendTransactionResponse {
+    return this.rpcProposalsClient.mergeConditionalTokensForUnderlyingTokens(programVersion, amount, proposal, underlyingToken)
   }
 }

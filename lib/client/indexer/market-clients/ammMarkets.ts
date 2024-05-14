@@ -5,18 +5,19 @@ import {
   AmmMarket,
   AmmMarketFetchRequest,
   LiquidityAddError,
+  RemoveLiquiditySimulationResponse,
   SwapPreview,
   TokenMetadataSource,
   TokenProps,
   TokenWithBalance,
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
-import { SwapType } from "@metadaoproject/futarchy-ts";
+import { RemoveLiquiditySimulation, SwapType } from "@metadaoproject/futarchy-ts";
 import { SendTransactionResponse } from "@/types/transactions";
+import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerAmmMarketsClient
-  implements FutarchyAmmMarketsClient
-{
+  implements FutarchyAmmMarketsClient {
   private rpcMarketsClient: FutarchyAmmMarketsRPCClient;
   constructor(rpcMarketsClient: FutarchyAmmMarketsRPCClient) {
     this.rpcMarketsClient = rpcMarketsClient;
@@ -84,6 +85,16 @@ export class FutarchyIndexerAmmMarketsClient
     );
   }
 
+  simulateRemoveLiquidity(
+    lpTokensToBurn: BN,
+    ammMarket: AmmMarket,
+  ): RemoveLiquiditySimulationResponse {
+    return this.rpcMarketsClient.simulateRemoveLiquidity(
+      lpTokensToBurn,
+      ammMarket
+    );
+  }
+
   async swap(
     ammMarket: AmmMarket,
     swapType: SwapType,
@@ -111,6 +122,8 @@ export class FutarchyIndexerAmmMarketsClient
       isBuyBase
     );
   }
+
+
 
   async getPoolLiquidity(ammAddr: PublicKey): Promise<any> {
     // Replace `any` with the actual return type if defined

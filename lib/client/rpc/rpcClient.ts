@@ -7,7 +7,7 @@ import {
 } from "@openbook-dex/openbook-v2";
 import { FutarchyClient } from "@/client";
 import { FutarchyRPCDaoClient } from "@/client/rpc/dao";
-import { FutarchyRPCProposalsClient } from "./proposals";
+import { FutarchyRPCProposalsClient } from "./proposals/proposals";
 import { FutarchyRPCBalancesClient } from "./balances";
 import { TransactionSender } from "@/transactions";
 import { getFutarchyProtocols } from "@/utils";

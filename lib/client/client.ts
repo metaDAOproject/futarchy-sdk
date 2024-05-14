@@ -17,9 +17,10 @@ import {
   DaoAccount,
   TokenWithPDA,
   LiquidityAddError,
-  OpenbookOrder,
+  ProposalAccounts,
+  ProgramVersionLabel,
 } from "@/types";
-import { SwapType } from "@metadaoproject/futarchy-ts";
+import { AutocratClient, SwapType } from "@metadaoproject/futarchy-ts";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { SendTransactionResponse } from "@/types/transactions";
@@ -52,6 +53,7 @@ export interface FutarchyDaoClient {
 }
 
 export interface FutarchyProposalsClient {
+  // autocratClient: AutocratClient,
   fetchProposals(daoAggregate: DaoAggregate): Promise<Proposal[]>;
   deposit(
     amount: number,
@@ -66,6 +68,10 @@ export interface FutarchyProposalsClient {
     marketParams: MarketParams,
     proposalDetails: ProposalDetails,
   ): SendTransactionResponse;
+  finalizeProposal(proposal: Proposal): SendTransactionResponse,
+  saveProposalDetails(proposalDetails: ProposalDetails): void,
+  updateProposalAccounts(accounts: ProposalAccounts): void
+  mergeConditionalTokensForUnderlyingTokens(programVersion: ProgramVersionLabel, amoutn: BN, proposal: Proposal, underlyingToken: "base" | "quote"): SendTransactionResponse
 }
 
 export interface FutarchyBalancesClient {
@@ -157,4 +163,17 @@ export interface FutarchyAmmMarketsClient {
     maxBaseAmount: number,
     slippage: number,
   ): SendTransactionResponse;
+}
+
+export interface FinalizeProposal {
+  finalizeProposal(proposal: Proposal): SendTransactionResponse;
+}
+
+export interface CreateProposal {
+  createProposal(
+    daoAggregate: DaoAggregate,
+    version: "V0.2" | "V1",
+    instructionParams: CreateProposalInstruction,
+    marketParams: MarketParams,
+    proposalDetails: ProposalDetails): void
 }

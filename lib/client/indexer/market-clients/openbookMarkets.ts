@@ -5,7 +5,7 @@ import {
   OpenbookOrder,
   Order,
   Orderbook,
-  PlaceOrderType,
+  PlaceOrderType
 } from "@/types";
 import { FutarchyOrderbookMarketsClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
@@ -50,7 +50,7 @@ export class FutarchyIndexerOpenbookMarketsClient
 
   async placeOrder(
     market: OpenbookMarket,
-    order: Omit<OpenbookOrder, "status" | "filled">,
+    order: Omit<OpenbookOrder, "status" | "transactionStatus" | "filled">,
     placeOrderType: PlaceOrderType
   ): SendTransactionResponse {
     return this.rpcMarketsClient.placeOrder(market, order, placeOrderType);

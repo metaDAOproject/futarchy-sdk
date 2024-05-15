@@ -20,7 +20,7 @@ export const validOrderTypes = [
   "immediateOrCancel",
   "fillOrKill",
   "postOnly",
-  "postOnlySlide",
+  "postOnlySlide"
 ];
 
 export function isPlaceOrderType(str: string): str is PlaceOrderType {
@@ -34,6 +34,7 @@ export type OrderBookSide = "ask" | "bid";
 
 export type Order = {
   time: Date;
+  transactionStatus: "succeeded" | "failed";
   status: "open" | "closed";
   size: number;
   filled: number; // Amount of the order that is already filled

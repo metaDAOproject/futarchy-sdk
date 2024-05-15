@@ -120,6 +120,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         side: true,
         market_acct: true,
         order_tx_sig: true,
+        transaction: {
+          failed: true
+        },
         market: {
           tokenAcctByBidsTokenAcct: {
             token: {
@@ -159,6 +162,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           side: string;
           market_acct: string;
           order_tx_sig: string;
+          transaction: {
+            failed: boolean;
+          };
           market: {
             tokenAcctByBidsTokenAcct: {
               token: {
@@ -202,6 +208,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   return;
                 return {
                   time: new Date(order.order_time),
+                  transactionStatus: order.transaction.failed
+                    ? "failed"
+                    : "succeeded",
                   status: order.is_active ? "open" : "closed",
                   size: order.filled_base_amount,
                   filled: order.filled_base_amount,
@@ -234,7 +243,12 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() }
-      }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ]
     });
   }
 
@@ -246,34 +260,41 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       where: {
         actor_acct: { _eq: owner.toBase58() },
         market_acct: { _eq: marketAcct.toBase58() }
-      }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ]
     });
   }
 
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
     const { query, variables } = generateSubscriptionOp({
-      takes: {
+      prices: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() }
+            market_acct: { _eq: marketKey.toString() },
+            prices_type: {
+              _in: ["spot", "conditional"]
+            }
           },
           order_by: [
             {
-              order_time: "asc"
+              created_at: "desc"
             }
           ]
         },
-        order_time: true,
-
-        quote_price: true
+        created_at: true,
+        price: true
       }
     });
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
         takes: {
-          order_time: Date;
-          quote_price: number;
+          created_at: Date;
+          price: number;
         }[];
       }>(
         { query, variables },
@@ -281,8 +302,8 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           next: (data) => {
             const spotObservations = data.data?.takes?.map<SpotObservation>(
               (d) => ({
-                price: d.quote_price,
-                createdAt: d.order_time
+                price: d.price,
+                createdAt: d.created_at
               })
             );
             subscriber.next(spotObservations ?? []);

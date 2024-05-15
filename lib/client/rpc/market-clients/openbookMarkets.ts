@@ -211,7 +211,10 @@ export class FutarchyOpenbookMarketsRPCClient
 
   async placeOrder(
     market: OpenbookMarket,
-    order: Omit<OpenbookOrder, "owner" | "status" | "filled">,
+    order: Omit<
+      OpenbookOrder,
+      "owner" | "transactionStatus" | "status" | "filled"
+    >,
     placeOrderType: PlaceOrderType
   ): SendTransactionResponse {
     if (!this.transactionSender)
@@ -449,7 +452,10 @@ export class FutarchyOpenbookMarketsRPCClient
   /** deprecated */
   async placeOrderNoNewOpenOrdersAccount(
     market: OpenbookMarket,
-    order: Omit<OpenbookOrder, "owner" | "status" | "filled">,
+    order: Omit<
+      OpenbookOrder,
+      "owner" | "transactionStatus" | "status" | "filled"
+    >,
     placeOrderType: PlaceOrderType,
     openOrdersAccountAddress?: PublicKey
   ): SendTransactionResponse {

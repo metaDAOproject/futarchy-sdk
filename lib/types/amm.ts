@@ -34,6 +34,12 @@ export type AddLiquiditySimulationResponse = {
   expectedLpTokens: number;
 };
 
+
+export type RemoveLiquiditySimulationResponse = {
+  baseAmount: number;
+  quoteAmount: number;
+};
+
 export type SwapPreview = {
   isBuyBase: boolean;
   inputAmount: BN;

@@ -120,6 +120,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         side: true,
         market_acct: true,
         order_tx_sig: true,
+        transaction: {
+          failed: true
+        },
         market: {
           tokenAcctByBidsTokenAcct: {
             token: {
@@ -159,6 +162,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           side: string;
           market_acct: string;
           order_tx_sig: string;
+          transaction: {
+            failed: boolean;
+          };
           market: {
             tokenAcctByBidsTokenAcct: {
               token: {
@@ -202,6 +208,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   return;
                 return {
                   time: new Date(order.order_time),
+                  transactionStatus: order.transaction.failed
+                    ? "failed"
+                    : "succeeded",
                   status: order.is_active ? "open" : "closed",
                   size: order.filled_base_amount,
                   filled: order.filled_base_amount,

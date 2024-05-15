@@ -243,7 +243,12 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() }
-      }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ]
     });
   }
 
@@ -255,7 +260,12 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       where: {
         actor_acct: { _eq: owner.toBase58() },
         market_acct: { _eq: marketAcct.toBase58() }
-      }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ]
     });
   }
 

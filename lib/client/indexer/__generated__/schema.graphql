@@ -6546,6 +6546,9 @@ type orders {
 
   """An object relationship"""
   take: takes
+
+  """An object relationship"""
+  transaction: transactions
   unfilled_base_amount: bigint!
   updated_at: timestamp!
 }
@@ -6671,6 +6674,7 @@ input orders_bool_exp {
   quote_price: numeric_comparison_exp
   side: String_comparison_exp
   take: takes_bool_exp
+  transaction: transactions_bool_exp
   unfilled_base_amount: bigint_comparison_exp
   updated_at: timestamp_comparison_exp
 }
@@ -6715,6 +6719,7 @@ input orders_insert_input {
   quote_price: numeric
   side: String
   take: takes_obj_rel_insert_input
+  transaction: transactions_obj_rel_insert_input
   unfilled_base_amount: bigint
   updated_at: timestamp
 }
@@ -6838,6 +6843,7 @@ input orders_order_by {
   quote_price: order_by
   side: order_by
   take: takes_order_by
+  transaction: transactions_order_by
   unfilled_base_amount: order_by
   updated_at: order_by
 }

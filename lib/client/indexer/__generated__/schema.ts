@@ -1835,6 +1835,8 @@ export interface orders {
     side: Scalars['String']
     /** An object relationship */
     take: (takes | null)
+    /** An object relationship */
+    transaction: (transactions | null)
     unfilled_base_amount: Scalars['bigint']
     updated_at: Scalars['timestamp']
     __typename: 'orders'
@@ -8179,6 +8181,8 @@ export interface ordersGenqlSelection{
     side?: boolean | number
     /** An object relationship */
     take?: takesGenqlSelection
+    /** An object relationship */
+    transaction?: transactionsGenqlSelection
     unfilled_base_amount?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
@@ -8248,7 +8252,7 @@ export interface orders_avg_order_by {cancel_block?: (order_by | null),filled_ba
 
 
 /** Boolean expression to filter rows from the table "orders". All fields are combined with a logical 'AND'. */
-export interface orders_bool_exp {_and?: (orders_bool_exp[] | null),_not?: (orders_bool_exp | null),_or?: (orders_bool_exp[] | null),actor_acct?: (String_comparison_exp | null),cancel_block?: (bigint_comparison_exp | null),cancel_time?: (timestamp_comparison_exp | null),cancel_tx_sig?: (String_comparison_exp | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),make?: (makes_bool_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (numeric_comparison_exp | null),side?: (String_comparison_exp | null),take?: (takes_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
+export interface orders_bool_exp {_and?: (orders_bool_exp[] | null),_not?: (orders_bool_exp | null),_or?: (orders_bool_exp[] | null),actor_acct?: (String_comparison_exp | null),cancel_block?: (bigint_comparison_exp | null),cancel_time?: (timestamp_comparison_exp | null),cancel_tx_sig?: (String_comparison_exp | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),make?: (makes_bool_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamp_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (numeric_comparison_exp | null),side?: (String_comparison_exp | null),take?: (takes_bool_exp | null),transaction?: (transactions_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "orders" */
@@ -8256,7 +8260,7 @@ export interface orders_inc_input {cancel_block?: (Scalars['bigint'] | null),fil
 
 
 /** input type for inserting data into table "orders" */
-export interface orders_insert_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),make?: (makes_obj_rel_insert_input | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),side?: (Scalars['String'] | null),take?: (takes_obj_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
+export interface orders_insert_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamp'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),make?: (makes_obj_rel_insert_input | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamp'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),side?: (Scalars['String'] | null),take?: (takes_obj_rel_insert_input | null),transaction?: (transactions_obj_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
@@ -8329,7 +8333,7 @@ export interface orders_on_conflict {constraint: orders_constraint,update_column
 
 
 /** Ordering options when selecting data from "orders". */
-export interface orders_order_by {actor_acct?: (order_by | null),cancel_block?: (order_by | null),cancel_time?: (order_by | null),cancel_tx_sig?: (order_by | null),filled_base_amount?: (order_by | null),is_active?: (order_by | null),make?: (makes_order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),side?: (order_by | null),take?: (takes_order_by | null),unfilled_base_amount?: (order_by | null),updated_at?: (order_by | null)}
+export interface orders_order_by {actor_acct?: (order_by | null),cancel_block?: (order_by | null),cancel_time?: (order_by | null),cancel_tx_sig?: (order_by | null),filled_base_amount?: (order_by | null),is_active?: (order_by | null),make?: (makes_order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),side?: (order_by | null),take?: (takes_order_by | null),transaction?: (transactions_order_by | null),unfilled_base_amount?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: orders */

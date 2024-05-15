@@ -304,23 +304,23 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
           }
         ]
       };
-    // TODO: Review this later as we may want to handle a max / min situation given we put in values
-    // from different directions and technically should estimate...
-    let [inputToken, outputToken] = [ammMarket.baseToken, ammMarket.quoteToken];
+    let [inputToken, outputToken] = swapType.buy
+      ? [ammMarket.quoteToken, ammMarket.baseToken]
+      : [ammMarket.baseToken, ammMarket.quoteToken];
 
-    let inputAmountScaled: BN = PriceMath.getChainAmount(
+    const inputAmountScaled: BN = PriceMath.getChainAmount(
       inputAmount,
       inputToken.decimals
     );
-    let outputAmountMinScaled: BN = PriceMath.getChainAmount(
+    const outputAmountMinScaled: BN = PriceMath.getChainAmount(
       outputAmountMin,
       outputToken.decimals
     );
-
-    const outputAmountWithSlippage = calculateMinWithSlippage(
+    const outputAmountWithSlippage = new BN(calculateMinWithSlippage(
       outputAmountMinScaled.toNumber(),
       slippage
-    );
+    ));
+
     const tx = await this.ammClient
       .swapIx(
         ammMarket.publicKey,
@@ -328,7 +328,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         ammMarket.quoteMint,
         swapType,
         inputAmountScaled,
-        new BN(outputAmountWithSlippage)
+        outputAmountWithSlippage
       )
       .transaction();
 
@@ -344,7 +344,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     const ammAccount = await this.ammClient.getAmm(ammMarket.publicKey);
 
     const inputAmountLots = PriceMath.getChainAmount(inputAmount, 
-      isBuyBase ? ammMarket.baseToken.decimals : ammMarket.quoteToken.decimals)
+      isBuyBase ? ammMarket.quoteToken.decimals : ammMarket.baseToken.decimals)
+
     const resp = this.calculateSwapPreview(
       ammAccount,
       new BN(inputAmountLots),
@@ -358,68 +359,36 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: BN,
     isBuyBase: boolean
   ): SwapPreview {
-    const quoteAmount = amm.quoteAmount;
-    const baseAmount = amm.baseAmount;
-    const startPrice =
-      quoteAmount.toNumber() /
-      Math.pow(10, amm.quoteMintDecimals) /
-      (baseAmount.toNumber() / Math.pow(10, amm.baseMintDecimals));
-    const k = quoteAmount.mul(baseAmount);
-    const inputMinusFee = inputAmount
-      .mul(new BN(10000).sub(new BN(100)))
-      .div(new BN(10000));
+    const swapType = isBuyBase ? { buy: {}} : { sell: {}}
+    let startPrice = amm.quoteAmount / amm.baseAmount
+  
+    const { expectedOut, newBaseReserves, newQuoteReserves } = this.ammClient.simulateSwap(inputAmount, swapType, amm.baseAmount, amm.quoteAmount)
 
-    if (isBuyBase) {
-      const tempQuoteAmount = quoteAmount.add(inputMinusFee);
-      const tempBaseAmount = k.div(tempQuoteAmount);
-      const finalPrice =
-        tempQuoteAmount.toNumber() /
-        Math.pow(10, amm.quoteMintDecimals) /
-        (tempBaseAmount.toNumber() / Math.pow(10, amm.baseMintDecimals));
-      const outputAmountBase = baseAmount.sub(tempBaseAmount);
-      const inputUnits =
-        inputAmount.toNumber() / Math.pow(10, amm.quoteMintDecimals);
-      const outputUnits =
-        outputAmountBase.toNumber() / Math.pow(10, amm.baseMintDecimals);
-      const priceImpact = Math.abs(finalPrice - startPrice) / startPrice;
-
-      return {
-        isBuyBase,
-        inputAmount,
-        outputAmount: outputAmountBase,
-        inputUnits,
-        outputUnits,
-        startPrice,
-        finalPrice,
-        avgSwapPrice: inputUnits / outputUnits,
-        priceImpact
-      };
-    } else {
-      const tempBaseAmount = baseAmount.add(inputMinusFee);
-      const tempQuoteAmount = k.div(tempBaseAmount);
-      const finalPrice =
-        tempQuoteAmount.toNumber() /
-        Math.pow(10, amm.quoteMintDecimals) /
-        (tempBaseAmount.toNumber() / Math.pow(10, amm.baseMintDecimals));
-      const outputAmountQuote = quoteAmount.sub(tempQuoteAmount);
-      const inputUnits =
-        inputAmount.toNumber() / Math.pow(10, amm.baseMintDecimals);
-      const outputUnits =
-        outputAmountQuote.toNumber() / Math.pow(10, amm.quoteMintDecimals);
-      const priceImpact = Math.abs(finalPrice - startPrice) / startPrice;
-
-      return {
-        isBuyBase,
-        inputAmount,
-        outputAmount: outputAmountQuote,
-        inputUnits,
-        outputUnits,
-        startPrice,
-        finalPrice,
-        avgSwapPrice: outputUnits / inputUnits,
-        priceImpact
-      };
+    const finalPrice = newQuoteReserves / newBaseReserves
+    
+    // NOTE: Default is selling into USDC
+    let avgSwapPrice = expectedOut / inputAmount
+    let humanInput = inputAmount / 10 ** amm.baseMintDecimals
+    let humanOutput = expectedOut / 10 ** amm.quoteMintDecimals
+    if (swapType.buy) {
+      avgSwapPrice = inputAmount / expectedOut
+      humanInput = inputAmount / 10 ** amm.quoteMintDecimals
+      humanOutput = expectedOut / 10 ** amm.baseMintDecimals
     }
+    
+    const priceImpact = Math.abs(finalPrice - startPrice) / startPrice;
+
+    return {
+      isBuyBase,
+      inputAmount,
+      outputAmount: expectedOut,
+      inputUnits: humanInput,
+      outputUnits: humanOutput,
+      startPrice,
+      finalPrice,
+      avgSwapPrice: inputAmount / expectedOut,
+      priceImpact
+    };
   }
 
   async getPoolLiquidity(ammAddr: PublicKey) {

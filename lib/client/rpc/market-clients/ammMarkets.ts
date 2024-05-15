@@ -97,14 +97,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     userBaseBalance?: number,
     userQuoteBalance?: number
   ): LiquidityAddError | null {
-    const quoteAmountArg = new BN(
-      quoteAmount *
-        new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
-    );
-    const maxBaseAmountArg = new BN(
-      maxBaseAmount *
-        new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
-    );
+    const quoteAmountArg = PriceMath.getChainAmount(quoteAmount, ammMarket.quoteToken.decimals)
+    const maxBaseAmountArg = PriceMath.getChainAmount(maxBaseAmount, ammMarket.baseToken.decimals)
 
     const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
       maxBaseAmountArg,
@@ -126,10 +120,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     }
 
     if (userQuoteBalance !== undefined) {
-      const userQuoteBalanceScaled = new BN(
-        userQuoteBalance *
-          new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
-      );
+      const userQuoteBalanceScaled = PriceMath.getChainAmount(userQuoteBalance, ammMarket.quoteToken.decimals)
       const requiredQuoteBalance = quoteAmountArg.toNumber();
       if (userQuoteBalanceScaled.toNumber() < requiredQuoteBalance) {
         console.warn(
@@ -140,10 +131,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     }
 
     if (userBaseBalance !== undefined) {
-      const userBaseBalanceScaled = new BN(
-        userBaseBalance *
-          new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
-      );
+
+      const userBaseBalanceScaled = PriceMath.getChainAmount(userBaseBalance, ammMarket.baseToken.decimals)
       const requiredBaseBalance = ammBaseAmount.toNumber();
       if (userBaseBalanceScaled.toNumber() < requiredBaseBalance) {
         console.warn(
@@ -186,14 +175,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       };
     }
 
-    const quoteAmountArg = new BN(
-      quoteAmount *
-        new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
-    );
-    const maxBaseAmountArg = new BN(
-      maxBaseAmount *
-        new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
-    );
+    const quoteAmountArg = PriceMath.getChainAmount(quoteAmount, ammMarket.quoteToken.decimals)
+    const maxBaseAmountArg = PriceMath.getChainAmount(maxBaseAmount, ammMarket.baseToken.decimals)
+
     const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
       maxBaseAmountArg,
       slippage
@@ -230,16 +214,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     const quoteReserves = ammMarket.quoteAmount;
 
     const quoteAmountArg = quoteAmount
-      ? new BN(
-          quoteAmount *
-            new BN(10).pow(new BN(ammMarket.quoteToken.decimals)).toNumber()
-        )
+      ? PriceMath.getChainAmount(quoteAmount, ammMarket.quoteToken.decimals)
       : undefined;
     const baseAmountArg = baseAmount
-      ? new BN(
-          baseAmount *
-            new BN(10).pow(new BN(ammMarket.baseToken.decimals)).toNumber()
-        )
+      ?
+      PriceMath.getChainAmount(baseAmount, ammMarket.baseToken.decimals)
       : undefined;
 
     const simulation = this.ammClient.simulateAddLiquidity(
@@ -269,9 +248,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     slippage: number
   ) {
     // fetch or have lp token account
-    const lpTokensLots = new BN(
-      lpTokensToBurn * new BN(10).pow(new BN(9)).toNumber()
-    );
+    const lpTokensLots = PriceMath.getChainAmount(lpTokensToBurn, 9)
+
     const lpRatio = lpTokensLots.toNumber() / ammMarket.lpMintSupply;
     const minQuoteAmount = lpRatio * ammMarket.quoteAmount.toNumber();
     const minQuoteWithSlippage = calculateMinWithSlippage(
@@ -293,6 +271,20 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     );
     const tx = await ix.transaction();
     return this.transactionSender?.send([tx], this.rpcProvider.connection);
+  }
+
+  simulateRemoveLiquidity(lpTokensToBurn: number, ammMarket: AmmMarket) {
+    const baseReserves = ammMarket.baseAmount;
+    const quoteReserves = ammMarket.quoteAmount;
+    const lpSupply = new BN(ammMarket.lpMintSupply)
+
+    const lpToken = PriceMath.getChainAmount(lpTokensToBurn, 9)
+    const simulation = this.ammClient.simulateRemoveLiquidity(lpToken, baseReserves, quoteReserves, lpSupply)
+
+    return {
+      baseAmount: simulation.expectedBaseOut.toNumber() / 10 ** ammMarket.baseToken.decimals,
+      quoteAmount: simulation.expectedQuoteOut.toNumber() / 10 ** ammMarket.quoteToken.decimals
+    }
   }
 
   async swap(
@@ -351,9 +343,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     // TODO we shouldn't need to refetch this if we can build the account type correctly
     const ammAccount = await this.ammClient.getAmm(ammMarket.publicKey);
 
-    const inputAmountLots = isBuyBase
-      ? inputAmount * 10 ** ammMarket.quoteToken.decimals
-      : inputAmount * 10 ** ammMarket.baseToken.decimals;
+    const inputAmountLots = PriceMath.getChainAmount(inputAmount, 
+      isBuyBase ? ammMarket.quoteToken.decimals : ammMarket.baseToken.decimals)
+
     const resp = this.calculateSwapPreview(
       ammAccount,
       new BN(inputAmountLots),

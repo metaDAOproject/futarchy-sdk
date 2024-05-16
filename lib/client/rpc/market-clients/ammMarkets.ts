@@ -25,8 +25,6 @@ import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { AccountInfo, PublicKey } from "@solana/web3.js";
 
-// nuke v1.0 and CURRENT v0.3(replace it), only v0, v0.1, v0.2, v0.3
-
 export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   private rpcProvider: Provider;
   private amm: Program<AmmIDLType>;

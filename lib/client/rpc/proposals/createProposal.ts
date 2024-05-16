@@ -99,6 +99,9 @@ export class CreateProposalClient implements CreateProposal {
       true
     );
 
+    const vaultExists = await this.rpcProvider.connection.getAccountInfo(vaultUnderlyingTokenAccount)
+    if (vaultExists) return [vault, undefined]
+
     const ix = (
       await vaultProgram.methods
         .initializeConditionalVault(settlementAuthority, nonce)
@@ -167,7 +170,6 @@ export class CreateProposalClient implements CreateProposal {
     if (!daoAccount) return;
 
     const baseNonce: BN = new BN(daoAccount.proposalCount);
-    // const baseNonce: BN = new BN(1027);
     const daoTreasury = daoAccount.treasury;
     const tokenMint = daoAccount.metaMint!!;
     const usdcMint = daoAccount.usdcMint;
@@ -207,11 +209,16 @@ export class CreateProposalClient implements CreateProposal {
       twapProgram.programId
     );
 
+    const existingPassBaseMint = (await vaultProgram.account.conditionalVault.fetch(baseVault))?.conditionalOnFinalizeTokenMint
+    const existingFailBaseMint = (await vaultProgram.account.conditionalVault.fetch(baseVault))?.conditionalOnRevertTokenMint
+    const existingPassQuoteMint = (await vaultProgram.account.conditionalVault.fetch(quoteVault))?.conditionalOnFinalizeTokenMint
+    const existingFailQuoteMint = (await vaultProgram.account.conditionalVault.fetch(quoteVault))?.conditionalOnRevertTokenMint
+
     let [passMarketIx, passMarketSigners] = await openbook.createMarketIx(
       this.rpcProvider.publicKey,
       `${baseNonce.toString()}p${dao.baseToken.symbol}/pUSDC`,
-      quotePassMint.publicKey,
-      basePassMint.publicKey,
+      existingPassQuoteMint || quotePassMint.publicKey,
+      existingPassBaseMint || basePassMint.publicKey,
       quoteLotSize,
       baseLotSize,
       makerFee,
@@ -236,8 +243,8 @@ export class CreateProposalClient implements CreateProposal {
     let [failMarketIx, failMarketSigners] = await openbook.createMarketIx(
       this.rpcProvider.publicKey,
       `${baseNonce.toString()}f${dao.baseToken.symbol}/fUSDC`,
-      quoteFailMint.publicKey,
-      baseFailMint.publicKey,
+      existingFailQuoteMint || quoteFailMint.publicKey,
+      existingFailBaseMint || baseFailMint.publicKey,
       quoteLotSize,
       baseLotSize,
       makerFee,
@@ -324,7 +331,7 @@ export class CreateProposalClient implements CreateProposal {
       createFailMarketTx,
       createTwaps,
       initializeProposalTx
-    ];
+    ].filter(tx => tx !== undefined)
     const txResp = await this.transactionSender?.send(
       allTxs,
       this.rpcProvider.connection,

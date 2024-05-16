@@ -3,6 +3,7 @@
   "version": "2.1.0-alpha.0",
   "main": "dist",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",
     "build:tests": "tsc && tscpaths -p tsconfig.json -s ./tests -o ./dist"
   },

@@ -63,7 +63,7 @@ export interface FutarchyProposalsClient {
   withdraw(proposal: Proposal): SendTransactionResponse;
   createProposal(
     daoAggregate: DaoAggregate,
-    version: "V0.2",
+    version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails
@@ -177,7 +177,7 @@ export interface FinalizeProposal {
 export interface CreateProposal {
   createProposal(
     daoAggregate: DaoAggregate,
-    version: "V0.2",
+    version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails

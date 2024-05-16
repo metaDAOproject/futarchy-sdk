@@ -225,7 +225,7 @@ export class FinalizeProposalClient implements FinalizeProposal {
     switch (proposal.protocol.deploymentVersion) {
       case "V0.2":
         return await this.finalizeProposalv02(proposal);
-      case "V1":
+      case "V0.3":
         return await this.finalizeProposalv1(proposal);
       default:
         throw Error("Version incompatible");

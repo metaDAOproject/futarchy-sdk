@@ -3,7 +3,7 @@ import { PublicKey } from "@solana/web3.js";
 import { AutocratV0 } from "@/idl/autocrat_v0";
 import { AutocratV0 as AutocratV0_1 } from "@/idl/autocrat_v0.1";
 import { AutocratV0 as AutocratV0_2 } from "@/idl/autocrat_v0.2";
-import { AutocratV0 as AutocratV0_3 } from "@/idl/autocrat_v0.3";
+import { Autocrat as AutocratV0_3 } from "@/idl/autocrat_v0.3";
 import { MergeWithOptionalFields, TokenProps } from "@/types";
 import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
 import { OpenbookTwapV0_1 } from "@/idl/openbook_twap_v0.1";
@@ -16,7 +16,7 @@ import { Autocrat as AutocratV1 } from "@metadaoproject/futarchy/dist/types/auto
 /**
  * Programs
  */
-export type ProgramVersionLabel = "V1" | "V0.3" | "V0.2" | "V0.1" | "V0";
+export type ProgramVersionLabel = "V0.3" | "V0.2" | "V0.1" | "V0";
 export type ProgramVersion = {
   label: ProgramVersionLabel;
   programId: PublicKey;

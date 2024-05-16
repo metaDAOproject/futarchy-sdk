@@ -9,7 +9,6 @@ import AUTOCRAT_V0_IDL from "@/idl/autocrat_v0.json";
 import AUTOCRAT_V0_1_IDL from "@/idl/autocrat_v0.1.json";
 import AUTOCRAT_V0_2_IDL from "@/idl/autocrat_v0.2.json";
 import AUTOCRAT_V0_3_IDL from "@/idl/autocrat_v0.3.json";
-import AUTOCRAT_V1_IDL from "@/idl/autocrat_v1.json";
 
 export const SYSTEM_PROGRAM: PublicKey = new PublicKey(
   "11111111111111111111111111111111"
@@ -34,39 +33,33 @@ export const BN_0 = new BN(0);
 
 export const AUTOCRAT_VERSIONS: ProgramVersion[] = [
   {
-    label: "V1",
-    programId: new PublicKey("5scUH1qY87Awh5D8bQkbP2uv9BaXJXiMgrqRBw1K2vVv"),
-    idl: AUTOCRAT_V1_IDL as AutocratProgram,
-    dao: "multidao"
-  },
-  {
     label: "V0.3",
-    programId: new PublicKey("FuTPR6ScKMPHtZFwacq9qrtf9VjscawNEFTb2wSYr1gY"),
+    programId: new PublicKey("autoQP9RmUNkzzKRXsMkWicDVZ3h29vvyMDcAYjCxxg"),
     idl: AUTOCRAT_V0_3_IDL as AutocratProgram,
-    dao: "multidao",
+    dao: "multidao"
   },
   {
     label: "V0.2",
     programId: new PublicKey("fut5MzSUFcmxaEHMvo9qQThrAL4nAv5FQ52McqhniSt"),
     idl: AUTOCRAT_V0_2_IDL as AutocratProgram,
-    dao: "futuredao",
+    dao: "futuredao"
   },
   {
     label: "V0.2",
     programId: new PublicKey("metaRK9dUBnrAdZN6uUDKvxBVKW5pyCbPVmLtUZwtBp"),
     idl: AUTOCRAT_V0_2_IDL as AutocratProgram,
-    dao: "metadao",
+    dao: "metadao"
   },
   {
     label: "V0.1",
     programId: new PublicKey("metaX99LHn3A7Gr7VAcCfXhpfocvpMpqQ3eyp3PGUUq"),
     idl: AUTOCRAT_V0_1_IDL as AutocratProgram,
-    dao: "metadao",
+    dao: "metadao"
   },
   {
     label: "V0",
     programId: new PublicKey("meta3cxKzFBmWYgCVozmvCQAS3y9b3fGxrG9HkHL7Wi"),
     idl: AUTOCRAT_V0_IDL as unknown as AutocratProgram,
-    dao: "metadao",
-  },
+    dao: "metadao"
+  }
 ];

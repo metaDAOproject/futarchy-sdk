@@ -202,7 +202,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
   public async createProposal(
     daoAggregate: DaoAggregate,
-    version: ProgramVersionLabel = "V1",
+    version: ProgramVersionLabel = "V0.3",
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails
@@ -260,7 +260,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     proposal: Proposal,
     underlyingToken: "base" | "quote"
   ) {
-    if (programVersion == "V1") {
+    if (programVersion == "V0.3") {
       const vaultProgram = this.autocratClient.vaultClient.vaultProgram;
 
       const vaultAccount =

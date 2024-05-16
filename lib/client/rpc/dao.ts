@@ -5,13 +5,13 @@ import {
   DaoAccount,
   Dao,
   DaoAggregate,
-  TokenWithBalance,
+  TokenWithBalance
 } from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
 import { PublicKey } from "@solana/web3.js";
 import { createSlug } from "@/utils";
-import { AutocratV1, IDL as AUTOCRAT_V1_IDL } from "@/idl/autocrat_v1";
+import { Autocrat, IDL as AUTOCRAT_V0_3_IDL } from "@/idl/autocrat_v0.3";
 
 export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   private futarchyProtocols: FutarchyProtocol[];
@@ -61,7 +61,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
       const daoAgg: DaoAggregate = {
         name: key,
         daos: daosByName[key],
-        slug: createSlug(key),
+        slug: createSlug(key)
       };
       doaAggregates.push(daoAgg);
     }
@@ -81,13 +81,13 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
       if (dao && dao.baseToken?.name) {
         const daoAccountWithKey = {
           ...dao,
-          publicKey: new PublicKey(daoAddress),
+          publicKey: new PublicKey(daoAddress)
         };
         return {
           daos: [daoAccountWithKey],
           name: dao.baseToken.name,
           logo: dao.baseToken.url ?? "",
-          slug: createSlug(dao.baseToken?.name ?? ""),
+          slug: createSlug(dao.baseToken?.name ?? "")
         };
       }
       return null;
@@ -108,8 +108,8 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     protocol: FutarchyProtocol
   ): Promise<Omit<Dao, "publicKey"> | undefined> {
     const baseMint = ["V0", "V0.1", "V0.2"].includes(protocol.deploymentVersion)
-      ? daoAccount.metaMint :
-      daoAccount.tokenMint;
+      ? daoAccount.metaMint
+      : daoAccount.tokenMint;
     const quoteMint = daoAccount.usdcMint;
     if (baseMint) {
       const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);
@@ -118,47 +118,72 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
         ...daoAccount,
         tokenMint: daoAccount.tokenMint
           ? daoAccount.tokenMint
-          : new PublicKey(daoAccount.metaMint ?? ""),
+          : new PublicKey(daoAccount.metaMint ?? "")
       };
       return {
         daoAccount: dao,
         baseToken,
         quoteToken,
-        protocol,
+        protocol
       };
     }
   }
-  async getMinLpToProvide(daoAggregate: DaoAggregate): Promise<{ base: BN, quote: BN } | undefined> {
-    const autocrat = new Program<AutocratV1>(AUTOCRAT_V1_IDL, "5scUH1qY87Awh5D8bQkbP2uv9BaXJXiMgrqRBw1K2vVv", this.rpcProvider)
-    const currentDao = daoAggregate.daos.filter((dao) => dao.protocol.deploymentVersion === "V1").slice(-1)[0]
-    if (!currentDao) return
+  async getMinLpToProvide(
+    daoAggregate: DaoAggregate
+  ): Promise<{ base: BN; quote: BN } | undefined> {
+    const autocrat = new Program<Autocrat>(
+      AUTOCRAT_V0_3_IDL,
+      "5scUH1qY87Awh5D8bQkbP2uv9BaXJXiMgrqRBw1K2vVv",
+      this.rpcProvider
+    );
+    const currentDao = daoAggregate.daos
+      .filter((dao) => dao.protocol.deploymentVersion === "V0.3")
+      .slice(-1)[0];
+    if (!currentDao) return;
 
-    const daoAccount = await autocrat.account.dao?.fetch(currentDao.publicKey)
+    const daoAccount = await autocrat.account.dao?.fetch(currentDao.publicKey);
 
-    return { base: daoAccount.minBaseFutarchicLiquidity , quote: daoAccount.minQuoteFutarchicLiquidity }
+    return {
+      base: daoAccount.minBaseFutarchicLiquidity,
+      quote: daoAccount.minQuoteFutarchicLiquidity
+    };
   }
 
-  async getTreasuryBalance(daoAccount: DaoAccount): Promise<{ total: number, tokens: TokenWithBalance[] }> {
-    const treasury = daoAccount.treasury
-    const balance = await this.rpcProvider.connection.getBalance(treasury).catch(e => null)
-    // we can import this as well as include token2022 
-    const tokenAccounts = await this.rpcProvider.connection.getParsedTokenAccountsByOwner(treasury, {
-      programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
-    });
+  async getTreasuryBalance(
+    daoAccount: DaoAccount
+  ): Promise<{ total: number; tokens: TokenWithBalance[] }> {
+    const treasury = daoAccount.treasury;
+    const balance = await this.rpcProvider.connection
+      .getBalance(treasury)
+      .catch((e) => null);
+    // we can import this as well as include token2022
+    const tokenAccounts =
+      await this.rpcProvider.connection.getParsedTokenAccountsByOwner(
+        treasury,
+        {
+          programId: new PublicKey(
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          )
+        }
+      );
 
-    const tokens = await Promise.all(tokenAccounts.value.map(async (accountInfo) => {
-      const tokenAmount = accountInfo.account.data.parsed.info.tokenAmount;
-      const token = await enrichTokenMetadata(accountInfo.account.data.parsed.info.mint, this.rpcProvider)
-      return {
-        token: token,
-        balance: tokenAmount.uiAmount,
-      };
-    }))
+    const tokens = await Promise.all(
+      tokenAccounts.value.map(async (accountInfo) => {
+        const tokenAmount = accountInfo.account.data.parsed.info.tokenAmount;
+        const token = await enrichTokenMetadata(
+          accountInfo.account.data.parsed.info.mint,
+          this.rpcProvider
+        );
+        return {
+          token: token,
+          balance: tokenAmount.uiAmount
+        };
+      })
+    );
 
     return {
       total: balance ?? 0,
       tokens: tokens
-    }
+    };
   }
-
 }

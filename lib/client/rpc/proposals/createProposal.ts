@@ -348,7 +348,7 @@ export class CreateProposalClient implements CreateProposal {
   }
 
   // TO DO standardize naming
-  private async createProposalV1(
+  private async createProposalV0_3(
     dao: Dao,
     onPassIx: ProposalInstructionWithPreinstructions,
     marketParams: AmmMarketParams
@@ -530,7 +530,7 @@ export class CreateProposalClient implements CreateProposal {
 
   public async createProposal(
     daoAggregate: DaoAggregate,
-    version: ProgramVersionLabel = "V1",
+    version: ProgramVersionLabel = "V0.3",
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails
@@ -565,8 +565,8 @@ export class CreateProposalClient implements CreateProposal {
           onPassIxs,
           marketParams as OpenbookMarketParams
         ));
-      case "V1":
-        return (resp = await this.createProposalV1(
+      case "V0.3":
+        return (resp = await this.createProposalV0_3(
           currentDao,
           onPassIxs,
           marketParams as AmmMarketParams

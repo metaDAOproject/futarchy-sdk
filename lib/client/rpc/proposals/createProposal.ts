@@ -331,7 +331,7 @@ export class CreateProposalClient implements CreateProposal {
       createFailMarketTx,
       createTwaps,
       initializeProposalTx
-    ];
+    ].filter(tx => tx !== undefined)
     const txResp = await this.transactionSender?.send(
       allTxs,
       this.rpcProvider.connection,

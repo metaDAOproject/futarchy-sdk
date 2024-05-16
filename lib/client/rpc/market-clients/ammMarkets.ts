@@ -20,8 +20,8 @@ import {
   SwapType,
   getAmmAddr,
   getAmmLpMintAddr
-} from "@metadaoproject/futarchy-ts";
-import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
+} from "@metadaoproject/futarchy";
+import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { AccountInfo, PublicKey } from "@solana/web3.js";
 
@@ -437,7 +437,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     baseMint: PublicKey,
     quoteMint: PublicKey
   ) {
-    return getAmmAddr(AMM_PROGRAM_ID, baseMint, quoteMint, proposal)[0];
+    return getAmmAddr(AMM_PROGRAM_ID, baseMint, quoteMint)[0];
   }
 
   async getLpToken(ammAddr: PublicKey) {

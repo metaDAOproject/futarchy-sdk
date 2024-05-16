@@ -20,7 +20,7 @@ import {
   ProposalAccounts,
   ProgramVersionLabel
 } from "@/types";
-import { SwapType } from "@metadaoproject/futarchy-ts";
+import { SwapType } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { SendTransactionResponse } from "@/types/transactions";
@@ -63,7 +63,7 @@ export interface FutarchyProposalsClient {
   withdraw(proposal: Proposal): SendTransactionResponse;
   createProposal(
     daoAggregate: DaoAggregate,
-    version: "V0.2" | "V1",
+    version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails
@@ -177,7 +177,7 @@ export interface FinalizeProposal {
 export interface CreateProposal {
   createProposal(
     daoAggregate: DaoAggregate,
-    version: "V0.2" | "V1",
+    version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails

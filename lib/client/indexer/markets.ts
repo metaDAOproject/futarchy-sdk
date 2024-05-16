@@ -22,7 +22,7 @@ import {
 } from "./__generated__";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
-import { PriceMath } from "@metadaoproject/futarchy-ts";
+import { PriceMath } from "@metadaoproject/futarchy";
 import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {

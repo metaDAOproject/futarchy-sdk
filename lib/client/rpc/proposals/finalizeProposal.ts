@@ -20,7 +20,7 @@ import {
   getVaultAddr,
   getVaultFinalizeMintAddr,
   getVaultRevertMintAddr
-} from "@metadaoproject/futarchy-ts";
+} from "@metadaoproject/futarchy";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 
 export class FinalizeProposalClient implements FinalizeProposal {
@@ -136,14 +136,12 @@ export class FinalizeProposalClient implements FinalizeProposal {
     const [baseVault] = getVaultAddr(
       this.autocratClient.vaultClient.vaultProgram.programId,
       daoTreasury,
-      daoToken,
-      proposal
+      daoToken
     );
     const [quoteVault] = getVaultAddr(
       this.autocratClient.vaultClient.vaultProgram.programId,
       daoTreasury,
-      usdc,
-      proposal
+      usdc
     );
 
     const [passBase] = getVaultFinalizeMintAddr(vaultProgramId, baseVault);
@@ -155,14 +153,12 @@ export class FinalizeProposalClient implements FinalizeProposal {
     const [passAmm] = getAmmAddr(
       this.autocratClient.ammClient.program.programId,
       passBase,
-      passQuote,
-      proposal
+      passQuote
     );
     const [failAmm] = getAmmAddr(
       this.autocratClient.ammClient.program.programId,
       failBase,
-      failQuote,
-      proposal
+      failQuote
     );
 
     const [passLp] = getAmmLpMintAddr(

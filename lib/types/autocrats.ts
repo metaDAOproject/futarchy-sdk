@@ -11,7 +11,7 @@ import { ConditionalVault as ConditionalVaultV1 } from "@/idl/conditional_vault_
 import { ConditionalVault as ConditionalVaultV0_2 } from "@/idl/conditional_vault_v0.2";
 import { ConditionalVault as ConditionalVaultV0_1 } from "@/idl/conditional_vault_v0.1";
 import { ConditionalVault as ConditionalVaultV0 } from "@/idl/conditional_vault_v0.1";
-import { Autocrat as AutocratV1 } from "@metadaoproject/futarchy-ts/dist/types/autocrat";
+import { Autocrat as AutocratV1 } from "@metadaoproject/futarchy/dist/types/autocrat";
 
 /**
  * Programs

@@ -20,7 +20,7 @@ import {
   ProposalAccounts,
   ProgramVersionLabel
 } from "@/types";
-import { SwapType } from "@metadaoproject/futarchy-ts";
+import { SwapType } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { SendTransactionResponse } from "@/types/transactions";

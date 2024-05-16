@@ -1245,7 +1245,11 @@ export interface markets {
     /** An object relationship */
     token: tokens
     /** An object relationship */
+    tokenAcctByAsksTokenAcct: (token_accts | null)
+    /** An object relationship */
     tokenAcctByBidsTokenAcct: (token_accts | null)
+    /** An object relationship */
+    tokenByBaseMintAcct: (tokens | null)
     /** An object relationship */
     tokenByQuoteMintAcct: tokens
     /** An object relationship */
@@ -4249,6 +4253,8 @@ export interface transactions {
     indexer_account_dependencies: indexer_account_dependencies[]
     /** An aggregate relationship */
     indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate
+    /** An object relationship */
+    order: (orders | null)
     payload: Scalars['String']
     serializer_logic_version: Scalars['smallint']
     slot: Scalars['bigint']
@@ -6906,7 +6912,11 @@ export interface marketsGenqlSelection{
     /** An object relationship */
     token?: tokensGenqlSelection
     /** An object relationship */
+    tokenAcctByAsksTokenAcct?: token_acctsGenqlSelection
+    /** An object relationship */
     tokenAcctByBidsTokenAcct?: token_acctsGenqlSelection
+    /** An object relationship */
+    tokenByBaseMintAcct?: tokensGenqlSelection
     /** An object relationship */
     tokenByQuoteMintAcct?: tokensGenqlSelection
     /** An object relationship */
@@ -7002,7 +7012,7 @@ export interface markets_avg_order_by {active_slot?: (order_by | null),base_lot_
 
 
 /** Boolean expression to filter rows from the table "markets". All fields are combined with a logical 'AND'. */
-export interface markets_bool_exp {_and?: (markets_bool_exp[] | null),_not?: (markets_bool_exp | null),_or?: (markets_bool_exp[] | null),active_slot?: (bigint_comparison_exp | null),asks_token_acct?: (String_comparison_exp | null),base_lot_size?: (bigint_comparison_exp | null),base_maker_fee?: (smallint_comparison_exp | null),base_mint_acct?: (String_comparison_exp | null),base_taker_fee?: (smallint_comparison_exp | null),bids_token_acct?: (String_comparison_exp | null),candles?: (candles_bool_exp | null),candles_aggregate?: (candles_aggregate_bool_exp | null),create_tx_sig?: (String_comparison_exp | null),created_at?: (timestamp_comparison_exp | null),inactive_slot?: (bigint_comparison_exp | null),makes?: (makes_bool_exp | null),makes_aggregate?: (makes_aggregate_bool_exp | null),market_acct?: (String_comparison_exp | null),market_type?: (String_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),prices?: (prices_bool_exp | null),prices_aggregate?: (prices_aggregate_bool_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),quote_lot_size?: (bigint_comparison_exp | null),quote_maker_fee?: (smallint_comparison_exp | null),quote_mint_acct?: (String_comparison_exp | null),quote_taker_fee?: (smallint_comparison_exp | null),quote_tick_size?: (bigint_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),token?: (tokens_bool_exp | null),tokenAcctByBidsTokenAcct?: (token_accts_bool_exp | null),tokenByQuoteMintAcct?: (tokens_bool_exp | null),token_acct?: (token_accts_bool_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null)}
+export interface markets_bool_exp {_and?: (markets_bool_exp[] | null),_not?: (markets_bool_exp | null),_or?: (markets_bool_exp[] | null),active_slot?: (bigint_comparison_exp | null),asks_token_acct?: (String_comparison_exp | null),base_lot_size?: (bigint_comparison_exp | null),base_maker_fee?: (smallint_comparison_exp | null),base_mint_acct?: (String_comparison_exp | null),base_taker_fee?: (smallint_comparison_exp | null),bids_token_acct?: (String_comparison_exp | null),candles?: (candles_bool_exp | null),candles_aggregate?: (candles_aggregate_bool_exp | null),create_tx_sig?: (String_comparison_exp | null),created_at?: (timestamp_comparison_exp | null),inactive_slot?: (bigint_comparison_exp | null),makes?: (makes_bool_exp | null),makes_aggregate?: (makes_aggregate_bool_exp | null),market_acct?: (String_comparison_exp | null),market_type?: (String_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),prices?: (prices_bool_exp | null),prices_aggregate?: (prices_aggregate_bool_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),quote_lot_size?: (bigint_comparison_exp | null),quote_maker_fee?: (smallint_comparison_exp | null),quote_mint_acct?: (String_comparison_exp | null),quote_taker_fee?: (smallint_comparison_exp | null),quote_tick_size?: (bigint_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),token?: (tokens_bool_exp | null),tokenAcctByAsksTokenAcct?: (token_accts_bool_exp | null),tokenAcctByBidsTokenAcct?: (token_accts_bool_exp | null),tokenByBaseMintAcct?: (tokens_bool_exp | null),tokenByQuoteMintAcct?: (tokens_bool_exp | null),token_acct?: (token_accts_bool_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "markets" */
@@ -7010,7 +7020,7 @@ export interface markets_inc_input {active_slot?: (Scalars['bigint'] | null),bas
 
 
 /** input type for inserting data into table "markets" */
-export interface markets_insert_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),candles?: (candles_arr_rel_insert_input | null),create_tx_sig?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),inactive_slot?: (Scalars['bigint'] | null),makes?: (makes_arr_rel_insert_input | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),orders?: (orders_arr_rel_insert_input | null),prices?: (prices_arr_rel_insert_input | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null),takes?: (takes_arr_rel_insert_input | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByBidsTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenByQuoteMintAcct?: (tokens_obj_rel_insert_input | null),token_acct?: (token_accts_obj_rel_insert_input | null),twaps?: (twaps_arr_rel_insert_input | null)}
+export interface markets_insert_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),candles?: (candles_arr_rel_insert_input | null),create_tx_sig?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),inactive_slot?: (Scalars['bigint'] | null),makes?: (makes_arr_rel_insert_input | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),orders?: (orders_arr_rel_insert_input | null),prices?: (prices_arr_rel_insert_input | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null),takes?: (takes_arr_rel_insert_input | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByAsksTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenAcctByBidsTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenByBaseMintAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteMintAcct?: (tokens_obj_rel_insert_input | null),token_acct?: (token_accts_obj_rel_insert_input | null),twaps?: (twaps_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -7093,7 +7103,7 @@ export interface markets_on_conflict {constraint: markets_constraint,update_colu
 
 
 /** Ordering options when selecting data from "markets". */
-export interface markets_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),candles_aggregate?: (candles_aggregate_order_by | null),create_tx_sig?: (order_by | null),created_at?: (order_by | null),inactive_slot?: (order_by | null),makes_aggregate?: (makes_aggregate_order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),prices_aggregate?: (prices_aggregate_order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null),takes_aggregate?: (takes_aggregate_order_by | null),token?: (tokens_order_by | null),tokenAcctByBidsTokenAcct?: (token_accts_order_by | null),tokenByQuoteMintAcct?: (tokens_order_by | null),token_acct?: (token_accts_order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null)}
+export interface markets_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),candles_aggregate?: (candles_aggregate_order_by | null),create_tx_sig?: (order_by | null),created_at?: (order_by | null),inactive_slot?: (order_by | null),makes_aggregate?: (makes_aggregate_order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),prices_aggregate?: (prices_aggregate_order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null),takes_aggregate?: (takes_aggregate_order_by | null),token?: (tokens_order_by | null),tokenAcctByAsksTokenAcct?: (token_accts_order_by | null),tokenAcctByBidsTokenAcct?: (token_accts_order_by | null),tokenByBaseMintAcct?: (tokens_order_by | null),tokenByQuoteMintAcct?: (tokens_order_by | null),token_acct?: (token_accts_order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: markets */
@@ -13295,6 +13305,8 @@ export interface transactionsGenqlSelection{
     order_by?: (indexer_account_dependencies_order_by[] | null), 
     /** filter the rows returned */
     where?: (indexer_account_dependencies_bool_exp | null)} })
+    /** An object relationship */
+    order?: ordersGenqlSelection
     payload?: boolean | number
     serializer_logic_version?: boolean | number
     slot?: boolean | number
@@ -13413,7 +13425,7 @@ export interface transactions_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
-export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamp_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null)}
+export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamp_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),order?: (orders_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "transactions" */
@@ -13421,7 +13433,7 @@ export interface transactions_inc_input {serializer_logic_version?: (Scalars['sm
 
 
 /** input type for inserting data into table "transactions" */
-export interface transactions_insert_input {block_time?: (Scalars['timestamp'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null)}
+export interface transactions_insert_input {block_time?: (Scalars['timestamp'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),order?: (orders_obj_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -13470,7 +13482,7 @@ export interface transactions_on_conflict {constraint: transactions_constraint,u
 
 
 /** Ordering options when selecting data from "transactions". */
-export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null)}
+export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),order?: (orders_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null)}
 
 
 /** primary key columns input for table: transactions */

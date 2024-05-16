@@ -6191,8 +6191,14 @@ export default {
             "token": [
                 750
             ],
+            "tokenAcctByAsksTokenAcct": [
+                708
+            ],
             "tokenAcctByBidsTokenAcct": [
                 708
+            ],
+            "tokenByBaseMintAcct": [
+                750
             ],
             "tokenByQuoteMintAcct": [
                 750
@@ -6544,8 +6550,14 @@ export default {
             "token": [
                 754
             ],
+            "tokenAcctByAsksTokenAcct": [
+                717
+            ],
             "tokenAcctByBidsTokenAcct": [
                 717
+            ],
+            "tokenByBaseMintAcct": [
+                754
             ],
             "tokenByQuoteMintAcct": [
                 754
@@ -6672,8 +6684,14 @@ export default {
             "token": [
                 761
             ],
+            "tokenAcctByAsksTokenAcct": [
+                726
+            ],
             "tokenAcctByBidsTokenAcct": [
                 726
+            ],
+            "tokenByBaseMintAcct": [
+                761
             ],
             "tokenByQuoteMintAcct": [
                 761
@@ -7036,8 +7054,14 @@ export default {
             "token": [
                 763
             ],
+            "tokenAcctByAsksTokenAcct": [
+                728
+            ],
             "tokenAcctByBidsTokenAcct": [
                 728
+            ],
+            "tokenByBaseMintAcct": [
+                763
             ],
             "tokenByQuoteMintAcct": [
                 763
@@ -17873,6 +17897,9 @@ export default {
                     ]
                 }
             ],
+            "order": [
+                341
+            ],
             "payload": [
                 5
             ],
@@ -18112,6 +18139,9 @@ export default {
             "indexer_account_dependencies_aggregate": [
                 197
             ],
+            "order": [
+                352
+            ],
             "payload": [
                 6
             ],
@@ -18167,6 +18197,9 @@ export default {
             ],
             "indexer_account_dependencies": [
                 201
+            ],
+            "order": [
+                361
             ],
             "payload": [
                 5
@@ -18278,6 +18311,9 @@ export default {
             ],
             "indexer_account_dependencies_aggregate": [
                 200
+            ],
+            "order": [
+                363
             ],
             "payload": [
                 340

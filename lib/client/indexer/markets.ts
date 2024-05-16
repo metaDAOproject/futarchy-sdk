@@ -22,6 +22,8 @@ import {
 } from "./__generated__";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
+import { PriceMath } from "@metadaoproject/futarchy-ts";
+import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public openbook: FutarchyIndexerOpenbookMarketsClient;
@@ -66,9 +68,18 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             {
               created_at: "asc"
             }
-          ]
+          ],
+          distinct_on: ["created_at"]
         },
         token_amount: true,
+        market: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        },
         updated_slot: true,
         created_at: true
       }
@@ -80,6 +91,15 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           token_amount: number;
           updated_slot: number;
           created_at: Date;
+          // TODO this query might be a bit slow... hasura warned about caching directive, we need to watch for this
+          market: {
+            tokenByQuoteMintAcct: {
+              decimals: number;
+            };
+            tokenByBaseMintAcct: {
+              decimals: number;
+            };
+          };
         }[];
       }>(
         { query, variables },
@@ -87,7 +107,12 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           next: (data) => {
             const twapObservations = data.data?.twaps?.map<TwapObservation>(
               (d) => ({
-                price: d.token_amount,
+                priceUi: PriceMath.getHumanPrice(
+                  new BN(d.token_amount),
+                  d.market?.tokenByBaseMintAcct.decimals!!,
+                  d.market?.tokenByQuoteMintAcct.decimals!!
+                ),
+                priceRaw: d.token_amount,
                 slot: d.updated_slot,
                 createdAt: d.created_at
               })
@@ -281,29 +306,52 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           },
           order_by: [
             {
-              created_at: "desc"
+              created_at: "asc"
             }
-          ]
+          ],
+          distinct_on: ["created_at"]
         },
         created_at: true,
-        price: true
+        price: true,
+        quote_amount: true,
+        base_amount: true,
+        market: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        }
       }
     });
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        takes: {
+        prices: {
           created_at: Date;
           price: number;
+          quote_amount: number;
+          base_amount: number;
+          market: {
+            tokenByQuoteMintAcct: {
+              decimals: number;
+            };
+            tokenByBaseMintAcct: {
+              decimals: number;
+            };
+          };
         }[];
       }>(
         { query, variables },
         {
           next: (data) => {
-            const spotObservations = data.data?.takes?.map<SpotObservation>(
+            const spotObservations = data.data?.prices?.map<SpotObservation>(
               (d) => ({
-                price: d.price,
-                createdAt: d.created_at
+                priceUi: d.price,
+                createdAt: d.created_at,
+                quoteAmount: d.quote_amount,
+                baseAmount: d.base_amount
               })
             );
             subscriber.next(spotObservations ?? []);

@@ -5,11 +5,11 @@ import { BN } from "@coral-xyz/anchor";
 import { ProgramVersionLabel } from "@/types";
 import {
   IDL as OPENBOOK_TWAP_IDLV0_1,
-  OpenbookTwapV0_1,
+  OpenbookTwapV0_1
 } from "@/idl/openbook_twap_v0.1";
 import {
   IDL as OPENBOOK_TWAP_IDLV0_2,
-  OpenbookTwapV0_2,
+  OpenbookTwapV0_2
 } from "@/idl/openbook_twap_v0.2";
 
 export const OPENBOOK_TWAP_PROGRAM_IDV0_1 = new PublicKey(
@@ -25,25 +25,21 @@ export const autocratVersionToTwapMap: Record<
 > = {
   V0: {
     programId: OPENBOOK_TWAP_PROGRAM_IDV0_1,
-    idl: OPENBOOK_TWAP_IDLV0_1,
+    idl: OPENBOOK_TWAP_IDLV0_1
   },
   "V0.1": {
     programId: OPENBOOK_TWAP_PROGRAM_IDV0_1,
-    idl: OPENBOOK_TWAP_IDLV0_1,
+    idl: OPENBOOK_TWAP_IDLV0_1
   },
   "V0.2": {
     programId: OPENBOOK_TWAP_PROGRAM_IDV0_2,
-    idl: OPENBOOK_TWAP_IDLV0_2,
+    idl: OPENBOOK_TWAP_IDLV0_2
   },
   "V0.3": {
-    programId: OPENBOOK_TWAP_PROGRAM_IDV0_2,
-    idl: OPENBOOK_TWAP_IDLV0_2,
-  },
-  "V1": {
     programId: OPENBOOK_TWAP_PROGRAM_IDV0_2,
     idl: OPENBOOK_TWAP_IDLV0_2
   }
 };
 
 export const maxObservationChangePerUpdateLots: BN = new BN(5000);
-export const twapMarketBuffer = Buffer.from("twap_market", "utf8")
+export const twapMarketBuffer = Buffer.from("twap_market", "utf8");

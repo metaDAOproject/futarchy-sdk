@@ -10,10 +10,10 @@ import {
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
-import { AmmClient, PriceMath } from "@metadaoproject/futarchy-ts";
+import { AmmClient, PriceMath } from "@metadaoproject/futarchy";
 import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
 import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
-import { Amm as AmmIDLType } from "@metadaoproject/futarchy-ts/dist/types/amm";
+import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
 import { SpotObservation, TwapObservation } from "@/types/prices";
 import { PublicKey } from "@solana/web3.js";
 import { Observable } from "rxjs";

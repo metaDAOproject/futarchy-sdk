@@ -2,7 +2,7 @@ import { IdlAccounts, IdlTypes } from "@coral-xyz/anchor";
 import { AutocratV0 } from "@/idl/autocrat_v0";
 import { AutocratV0 as AutocratV0_1 } from "@/idl/autocrat_v0.1";
 import { AutocratV0 as AutocratV0_2 } from "@/idl/autocrat_v0.2";
-import { AutocratV1 } from "@/idl/autocrat_v1";
+import { Autocrat as AutocratV0_3 } from "@/idl/autocrat_v0.3";
 import {
   AccountWithKey,
   MergeWithOptionalFields,
@@ -33,7 +33,7 @@ export type ProposalAccount = MergeWithOptionalFields<
     IdlAccounts<AutocratV0_1>["proposal"],
     MergeWithOptionalFields<
       IdlAccounts<AutocratV0>["proposal"],
-      IdlAccounts<AutocratV1>["Proposal"]
+      IdlAccounts<AutocratV0_3>["proposal"]
     >
   >
 >;

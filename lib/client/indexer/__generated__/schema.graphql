@@ -3990,7 +3990,13 @@ type markets {
   token: tokens!
 
   """An object relationship"""
+  tokenAcctByAsksTokenAcct: token_accts
+
+  """An object relationship"""
   tokenAcctByBidsTokenAcct: token_accts
+
+  """An object relationship"""
+  tokenByBaseMintAcct: tokens
 
   """An object relationship"""
   tokenByQuoteMintAcct: tokens!
@@ -4163,7 +4169,9 @@ input markets_bool_exp {
   takes: takes_bool_exp
   takes_aggregate: takes_aggregate_bool_exp
   token: tokens_bool_exp
+  tokenAcctByAsksTokenAcct: token_accts_bool_exp
   tokenAcctByBidsTokenAcct: token_accts_bool_exp
+  tokenByBaseMintAcct: tokens_bool_exp
   tokenByQuoteMintAcct: tokens_bool_exp
   token_acct: token_accts_bool_exp
   twaps: twaps_bool_exp
@@ -4224,7 +4232,9 @@ input markets_insert_input {
   quote_tick_size: bigint
   takes: takes_arr_rel_insert_input
   token: tokens_obj_rel_insert_input
+  tokenAcctByAsksTokenAcct: token_accts_obj_rel_insert_input
   tokenAcctByBidsTokenAcct: token_accts_obj_rel_insert_input
+  tokenByBaseMintAcct: tokens_obj_rel_insert_input
   tokenByQuoteMintAcct: tokens_obj_rel_insert_input
   token_acct: token_accts_obj_rel_insert_input
   twaps: twaps_arr_rel_insert_input
@@ -4379,7 +4389,9 @@ input markets_order_by {
   quote_tick_size: order_by
   takes_aggregate: takes_aggregate_order_by
   token: tokens_order_by
+  tokenAcctByAsksTokenAcct: token_accts_order_by
   tokenAcctByBidsTokenAcct: token_accts_order_by
+  tokenByBaseMintAcct: tokens_order_by
   tokenByQuoteMintAcct: tokens_order_by
   token_acct: token_accts_order_by
   twaps_aggregate: twaps_aggregate_order_by
@@ -15334,6 +15346,9 @@ type transactions {
     """filter the rows returned"""
     where: indexer_account_dependencies_bool_exp
   ): indexer_account_dependencies_aggregate!
+
+  """An object relationship"""
+  order: orders
   payload: String!
   serializer_logic_version: smallint!
   slot: bigint!
@@ -15490,6 +15505,7 @@ input transactions_bool_exp {
   failed: Boolean_comparison_exp
   indexer_account_dependencies: indexer_account_dependencies_bool_exp
   indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_bool_exp
+  order: orders_bool_exp
   payload: String_comparison_exp
   serializer_logic_version: smallint_comparison_exp
   slot: bigint_comparison_exp
@@ -15527,6 +15543,7 @@ input transactions_insert_input {
   block_time: timestamp
   failed: Boolean
   indexer_account_dependencies: indexer_account_dependencies_arr_rel_insert_input
+  order: orders_obj_rel_insert_input
   payload: String
   serializer_logic_version: smallint
   slot: bigint
@@ -15589,6 +15606,7 @@ input transactions_order_by {
   block_time: order_by
   failed: order_by
   indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_order_by
+  order: orders_order_by
   payload: order_by
   serializer_logic_version: order_by
   slot: order_by

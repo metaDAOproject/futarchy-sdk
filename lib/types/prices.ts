@@ -1,9 +1,17 @@
 export type TwapObservation = {
-  price: number;
+  priceRaw?: number;
+  priceUi: number;
   slot: number;
   createdAt: Date;
 };
+
+/**
+ * Quote and Base amounts generally available on market spot prices
+ */
 export type SpotObservation = {
-  price: number;
+  priceRaw?: number;
+  priceUi: number;
   createdAt: Date;
+  quoteAmount?: number;
+  baseAmount?: number;
 };

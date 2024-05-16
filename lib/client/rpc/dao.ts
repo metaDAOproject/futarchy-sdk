@@ -133,7 +133,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   ): Promise<{ base: BN; quote: BN } | undefined> {
     const autocrat = new Program<Autocrat>(
       AUTOCRAT_V0_3_IDL,
-      "5scUH1qY87Awh5D8bQkbP2uv9BaXJXiMgrqRBw1K2vVv",
+      "autoQP9RmUNkzzKRXsMkWicDVZ3h29vvyMDcAYjCxxg    ",
       this.rpcProvider
     );
     const currentDao = daoAggregate.daos

@@ -195,7 +195,7 @@ export class FinalizeProposalClient implements FinalizeProposal {
   }
 
   //CURRENT VERSION
-  private async finalizeProposalv1(proposal: Proposal) {
+  private async finalizeProposalv03(proposal: Proposal) {
     try {
       const proposalAccount = await this.autocratClient.getProposal(
         proposal.publicKey
@@ -226,7 +226,7 @@ export class FinalizeProposalClient implements FinalizeProposal {
       case "V0.2":
         return await this.finalizeProposalv02(proposal);
       case "V0.3":
-        return await this.finalizeProposalv1(proposal);
+        return await this.finalizeProposalv03(proposal);
       default:
         throw Error("Version incompatible");
     }

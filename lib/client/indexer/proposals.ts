@@ -237,9 +237,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               startSlot: p.initial_slot,
               endSlot: p.end_slot,
               // TODO figure this out by slot enqueued maybe
-              // TODO used updated_at because created_at date always the same in the indexer
-              creationDate: new Date(p.updated_at),
-              endDate: p.ended_at ||  new Date((new Date(p.updated_at)).setDate((new Date(p.updated_at)).getDate() + 3)),
+              creationDate: new Date(p.created_at),
+              endDate: p.ended_at ||  new Date((new Date(p.created_at)).setDate((new Date(p.created_at)).getDate() + 3)),
               // TODO figure this out by slot enqueued maybe
               finalizationDate: p.completed_at,
               dao: {

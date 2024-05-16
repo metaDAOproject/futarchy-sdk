@@ -1,6 +1,6 @@
-export type AutocratV0 = {
-  version: "0.1.0";
-  name: "autocrat_v0";
+export type Autocrat = {
+  version: "0.3.0";
+  name: "autocrat";
   instructions: [
     {
       name: "initializeDao";
@@ -33,12 +33,10 @@ export type AutocratV0 = {
       ];
       args: [
         {
-          name: "baseLotSize";
-          type: "i64";
-        },
-        {
-          name: "twapExpectedValue";
-          type: "u64";
+          name: "params";
+          type: {
+            defined: "InitializeDaoParams";
+          };
         }
       ];
     },
@@ -48,15 +46,10 @@ export type AutocratV0 = {
         {
           name: "proposal";
           isMut: true;
-          isSigner: true;
-        },
-        {
-          name: "dao";
-          isMut: true;
           isSigner: false;
         },
         {
-          name: "daoTreasury";
+          name: "dao";
           isMut: true;
           isSigner: false;
         },
@@ -71,29 +64,54 @@ export type AutocratV0 = {
           isSigner: false;
         },
         {
-          name: "openbookPassMarket";
+          name: "passAmm";
           isMut: false;
           isSigner: false;
         },
         {
-          name: "openbookFailMarket";
+          name: "passLpMint";
           isMut: false;
           isSigner: false;
         },
         {
-          name: "openbookTwapPassMarket";
+          name: "failLpMint";
           isMut: false;
           isSigner: false;
         },
         {
-          name: "openbookTwapFailMarket";
+          name: "failAmm";
           isMut: false;
+          isSigner: false;
+        },
+        {
+          name: "passLpUserAccount";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "failLpUserAccount";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "passLpVaultAccount";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "failLpVaultAccount";
+          isMut: true;
           isSigner: false;
         },
         {
           name: "proposer";
           isMut: true;
           isSigner: true;
+        },
+        {
+          name: "tokenProgram";
+          isMut: false;
+          isSigner: false;
         },
         {
           name: "systemProgram";
@@ -103,13 +121,9 @@ export type AutocratV0 = {
       ];
       args: [
         {
-          name: "descriptionUrl";
-          type: "string";
-        },
-        {
-          name: "instruction";
+          name: "params";
           type: {
-            defined: "ProposalInstruction";
+            defined: "InitializeProposalParams";
           };
         }
       ];
@@ -123,12 +137,12 @@ export type AutocratV0 = {
           isSigner: false;
         },
         {
-          name: "openbookTwapPassMarket";
+          name: "passAmm";
           isMut: false;
           isSigner: false;
         },
         {
-          name: "openbookTwapFailMarket";
+          name: "failAmm";
           isMut: false;
           isSigner: false;
         },
@@ -148,13 +162,54 @@ export type AutocratV0 = {
           isSigner: false;
         },
         {
-          name: "vaultProgram";
+          name: "treasury";
           isMut: false;
           isSigner: false;
         },
         {
-          name: "daoTreasury";
+          name: "passLpUserAccount";
           isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "failLpUserAccount";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "passLpVaultAccount";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "failLpVaultAccount";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "tokenProgram";
+          isMut: false;
+          isSigner: false;
+        },
+        {
+          name: "vaultProgram";
+          isMut: false;
+          isSigner: false;
+        }
+      ];
+      args: [];
+    },
+    {
+      name: "executeProposal";
+      accounts: [
+        {
+          name: "proposal";
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: "dao";
+          isMut: false;
           isSigner: false;
         }
       ];
@@ -169,7 +224,7 @@ export type AutocratV0 = {
           isSigner: false;
         },
         {
-          name: "daoTreasury";
+          name: "treasury";
           isMut: false;
           isSigner: true;
         }
@@ -211,40 +266,52 @@ export type AutocratV0 = {
             type: "u32";
           },
           {
-            name: "lastProposalSlot";
-            type: "u64";
-          },
-          {
             name: "passThresholdBps";
             type: "u16";
-          },
-          {
-            name: "baseBurnLamports";
-            type: "u64";
-          },
-          {
-            name: "burnDecayPerSlotLamports";
-            type: "u64";
           },
           {
             name: "slotsPerProposal";
             type: "u64";
           },
           {
-            name: "marketTakerFee";
-            type: "i64";
+            name: "twapInitialObservation";
+            docs: [
+              "For manipulation-resistance the TWAP is a time-weighted average observation,",
+              "where observation tries to approximate price but can only move by",
+              "`twap_max_observation_change_per_update` per update. Because it can only move",
+              "a little bit per update, you need to check that it has a good initial observation.",
+              "Otherwise, an attacker could create a very high initial observation in the pass",
+              "market and a very low one in the fail market to force the proposal to pass.",
+              "",
+              "We recommend setting an initial observation around the spot price of the token,",
+              "and max observation change per update around 2% the spot price of the token.",
+              "For example, if the spot price of META is $400, we'd recommend setting an initial",
+              "observation of 400 (converted into the AMM prices) and a max observation change per",
+              "update of 8 (also converted into the AMM prices). Observations can be updated once",
+              "a minute, so 2% allows the proposal market to reach double the spot price or 0",
+              "in 50 minutes."
+            ];
+            type: "u128";
           },
           {
-            name: "twapExpectedValue";
+            name: "twapMaxObservationChangePerUpdate";
+            type: "u128";
+          },
+          {
+            name: "minQuoteFutarchicLiquidity";
+            docs: [
+              "As an anti-spam measure and to help liquidity, you need to lock up some liquidity",
+              "in both futarchic markets in order to create a proposal.",
+              "",
+              "For example, for META, we can use a `min_quote_futarchic_liquidity` of",
+              "5000 * 1_000_000 (5000 USDC) and a `min_base_futarchic_liquidity` of",
+              "10 * 1_000_000_000 (10 META)."
+            ];
             type: "u64";
           },
           {
-            name: "maxObservationChangePerUpdateLots";
+            name: "minBaseFutarchicLiquidity";
             type: "u64";
-          },
-          {
-            name: "baseLotSize";
-            type: "i64";
           }
         ];
       };
@@ -283,19 +350,11 @@ export type AutocratV0 = {
             };
           },
           {
-            name: "openbookTwapPassMarket";
+            name: "passAmm";
             type: "publicKey";
           },
           {
-            name: "openbookTwapFailMarket";
-            type: "publicKey";
-          },
-          {
-            name: "openbookPassMarket";
-            type: "publicKey";
-          },
-          {
-            name: "openbookFailMarket";
+            name: "failAmm";
             type: "publicKey";
           },
           {
@@ -305,6 +364,32 @@ export type AutocratV0 = {
           {
             name: "quoteVault";
             type: "publicKey";
+          },
+          {
+            name: "dao";
+            type: "publicKey";
+          },
+          {
+            name: "passLpTokensLocked";
+            type: "u64";
+          },
+          {
+            name: "failLpTokensLocked";
+            type: "u64";
+          },
+          {
+            name: "nonce";
+            docs: [
+              "We need to include a per-proposer nonce to prevent some weird proposal",
+              "front-running edge cases. Using a `u64` means that proposers are unlikely",
+              "to run into collisions, even if they generate nonces randomly - I've run",
+              "the math :D"
+            ];
+            type: "u64";
+          },
+          {
+            name: "pdaBump";
+            type: "u8";
           }
         ];
       };
@@ -312,25 +397,111 @@ export type AutocratV0 = {
   ];
   types: [
     {
-      name: "ProposalInstruction";
+      name: "InitializeDaoParams";
       type: {
         kind: "struct";
         fields: [
           {
-            name: "programId";
-            type: "publicKey";
+            name: "twapInitialObservation";
+            type: "u128";
           },
           {
-            name: "accounts";
+            name: "twapMaxObservationChangePerUpdate";
+            type: "u128";
+          },
+          {
+            name: "minQuoteFutarchicLiquidity";
+            type: "u64";
+          },
+          {
+            name: "minBaseFutarchicLiquidity";
+            type: "u64";
+          },
+          {
+            name: "passThresholdBps";
             type: {
-              vec: {
-                defined: "ProposalAccount";
-              };
+              option: "u16";
             };
           },
           {
-            name: "data";
-            type: "bytes";
+            name: "slotsPerProposal";
+            type: {
+              option: "u64";
+            };
+          }
+        ];
+      };
+    },
+    {
+      name: "InitializeProposalParams";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "descriptionUrl";
+            type: "string";
+          },
+          {
+            name: "instruction";
+            type: {
+              defined: "ProposalInstruction";
+            };
+          },
+          {
+            name: "passLpTokensToLock";
+            type: "u64";
+          },
+          {
+            name: "failLpTokensToLock";
+            type: "u64";
+          },
+          {
+            name: "nonce";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
+      name: "UpdateDaoParams";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "passThresholdBps";
+            type: {
+              option: "u16";
+            };
+          },
+          {
+            name: "slotsPerProposal";
+            type: {
+              option: "u64";
+            };
+          },
+          {
+            name: "twapInitialObservation";
+            type: {
+              option: "u128";
+            };
+          },
+          {
+            name: "twapMaxObservationChangePerUpdate";
+            type: {
+              option: "u128";
+            };
+          },
+          {
+            name: "minQuoteFutarchicLiquidity";
+            type: {
+              option: "u64";
+            };
+          },
+          {
+            name: "minBaseFutarchicLiquidity";
+            type: {
+              option: "u64";
+            };
           }
         ];
       };
@@ -356,57 +527,25 @@ export type AutocratV0 = {
       };
     },
     {
-      name: "UpdateDaoParams";
+      name: "ProposalInstruction";
       type: {
         kind: "struct";
         fields: [
           {
-            name: "passThresholdBps";
+            name: "programId";
+            type: "publicKey";
+          },
+          {
+            name: "accounts";
             type: {
-              option: "u16";
+              vec: {
+                defined: "ProposalAccount";
+              };
             };
           },
           {
-            name: "baseBurnLamports";
-            type: {
-              option: "u64";
-            };
-          },
-          {
-            name: "burnDecayPerSlotLamports";
-            type: {
-              option: "u64";
-            };
-          },
-          {
-            name: "slotsPerProposal";
-            type: {
-              option: "u64";
-            };
-          },
-          {
-            name: "marketTakerFee";
-            type: {
-              option: "i64";
-            };
-          },
-          {
-            name: "twapExpectedValue";
-            type: {
-              option: "u64";
-            };
-          },
-          {
-            name: "maxObservationChangePerUpdateLots";
-            type: {
-              option: "u64";
-            };
-          },
-          {
-            name: "baseLotSize";
-            type: {
-              option: "i64";
-            };
+            name: "data";
+            type: "bytes";
           }
         ];
       };
@@ -424,6 +563,9 @@ export type AutocratV0 = {
           },
           {
             name: "Failed";
+          },
+          {
+            name: "Executed";
           }
         ];
       };
@@ -432,60 +574,65 @@ export type AutocratV0 = {
   errors: [
     {
       code: 6000;
-      name: "InvalidMarket";
-      msg: "Either the `pass_market` or the `fail_market`'s tokens doesn't match the vaults supplied";
+      name: "AmmTooOld";
+      msg: "Amms must have been created within 5 minutes (counted in slots) of proposal initialization";
     },
     {
       code: 6001;
-      name: "TWAPMarketTooOld";
-      msg: "`TWAPMarket` must have an `initial_slot` within 50 slots of the proposal's `slot_enqueued`";
+      name: "InvalidInitialObservation";
+      msg: "An amm has an `initial_observation` that doesn't match the `dao`'s config";
     },
     {
       code: 6002;
-      name: "TWAPOracleWrongChangeLots";
-      msg: "`TWAPOracle` has an incorrect max_observation_change_per_update_lots value";
+      name: "InvalidMaxObservationChange";
+      msg: "An amm has a `max_observation_change_per_update` that doesn't match the `dao`'s config";
     },
     {
       code: 6003;
-      name: "TWAPMarketInvalidExpectedValue";
-      msg: "`TWAPMarket` has the wrong `expected_value`";
-    },
-    {
-      code: 6004;
       name: "InvalidSettlementAuthority";
       msg: "One of the vaults has an invalid `settlement_authority`";
     },
     {
-      code: 6005;
+      code: 6004;
       name: "ProposalTooYoung";
       msg: "Proposal is too young to be executed or rejected";
     },
     {
-      code: 6006;
+      code: 6005;
       name: "MarketsTooYoung";
-      msg: "Markets too young for proposal to be finalized";
+      msg: "Markets too young for proposal to be finalized. TWAP might need to be cranked";
     },
     {
-      code: 6007;
-      name: "ProposalCannotPass";
-      msg: "The market dictates that this proposal cannot pass";
-    },
-    {
-      code: 6008;
+      code: 6006;
       name: "ProposalAlreadyFinalized";
       msg: "This proposal has already been finalized";
     },
     {
-      code: 6009;
+      code: 6007;
       name: "InvalidVaultNonce";
-      msg: "A conditional vault has an invalid nonce. A nonce should encode pass = 0 / fail = 1 in its most significant bit, base = 0 / quote = 1 in its second most significant bit, and the proposal number in least significant 32 bits";
+      msg: "A conditional vault has an invalid nonce. A nonce should encode the proposal number";
+    },
+    {
+      code: 6008;
+      name: "ProposalNotPassed";
+      msg: "This proposal can't be executed because it isn't in the passed state";
+    },
+    {
+      code: 6009;
+      name: "InsufficientLpTokenBalance";
+      msg: "The proposer has fewer pass or fail LP tokens than they requested to lock";
+    },
+    {
+      code: 6010;
+      name: "InsufficientLpTokenLock";
+      msg: "The LP tokens passed in have less liquidity than the DAO's `min_quote_futarchic_liquidity` or `min_base_futachic_liquidity`";
     }
   ];
 };
 
-export const IDL: AutocratV0 = {
-  version: "0.1.0",
-  name: "autocrat_v0",
+export const IDL: Autocrat = {
+  version: "0.3.0",
+  name: "autocrat",
   instructions: [
     {
       name: "initializeDao",
@@ -493,39 +640,37 @@ export const IDL: AutocratV0 = {
         {
           name: "dao",
           isMut: true,
-          isSigner: true,
+          isSigner: true
         },
         {
           name: "payer",
           isMut: true,
-          isSigner: true,
+          isSigner: true
         },
         {
           name: "systemProgram",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
           name: "tokenMint",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
           name: "usdcMint",
           isMut: false,
-          isSigner: false,
-        },
+          isSigner: false
+        }
       ],
       args: [
         {
-          name: "baseLotSize",
-          type: "i64",
-        },
-        {
-          name: "twapExpectedValue",
-          type: "u64",
-        },
-      ],
+          name: "params",
+          type: {
+            defined: "InitializeDaoParams"
+          }
+        }
+      ]
     },
     {
       name: "initializeProposal",
@@ -533,71 +678,87 @@ export const IDL: AutocratV0 = {
         {
           name: "proposal",
           isMut: true,
-          isSigner: true,
+          isSigner: false
         },
         {
           name: "dao",
           isMut: true,
-          isSigner: false,
-        },
-        {
-          name: "daoTreasury",
-          isMut: true,
-          isSigner: false,
+          isSigner: false
         },
         {
           name: "quoteVault",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
           name: "baseVault",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
-          name: "openbookPassMarket",
+          name: "passAmm",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
-          name: "openbookFailMarket",
+          name: "passLpMint",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
-          name: "openbookTwapPassMarket",
+          name: "failLpMint",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
-          name: "openbookTwapFailMarket",
+          name: "failAmm",
           isMut: false,
-          isSigner: false,
+          isSigner: false
+        },
+        {
+          name: "passLpUserAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "failLpUserAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "passLpVaultAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "failLpVaultAccount",
+          isMut: true,
+          isSigner: false
         },
         {
           name: "proposer",
           isMut: true,
-          isSigner: true,
+          isSigner: true
+        },
+        {
+          name: "tokenProgram",
+          isMut: false,
+          isSigner: false
         },
         {
           name: "systemProgram",
           isMut: false,
-          isSigner: false,
-        },
+          isSigner: false
+        }
       ],
       args: [
         {
-          name: "descriptionUrl",
-          type: "string",
-        },
-        {
-          name: "instruction",
+          name: "params",
           type: {
-            defined: "ProposalInstruction",
-          },
-        },
-      ],
+            defined: "InitializeProposalParams"
+          }
+        }
+      ]
     },
     {
       name: "finalizeProposal",
@@ -605,45 +766,86 @@ export const IDL: AutocratV0 = {
         {
           name: "proposal",
           isMut: true,
-          isSigner: false,
+          isSigner: false
         },
         {
-          name: "openbookTwapPassMarket",
+          name: "passAmm",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
-          name: "openbookTwapFailMarket",
+          name: "failAmm",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
           name: "dao",
           isMut: false,
-          isSigner: false,
+          isSigner: false
         },
         {
           name: "baseVault",
           isMut: true,
-          isSigner: false,
+          isSigner: false
         },
         {
           name: "quoteVault",
           isMut: true,
-          isSigner: false,
+          isSigner: false
+        },
+        {
+          name: "treasury",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "passLpUserAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "failLpUserAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "passLpVaultAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "failLpVaultAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "tokenProgram",
+          isMut: false,
+          isSigner: false
         },
         {
           name: "vaultProgram",
           isMut: false,
-          isSigner: false,
+          isSigner: false
+        }
+      ],
+      args: []
+    },
+    {
+      name: "executeProposal",
+      accounts: [
+        {
+          name: "proposal",
+          isMut: true,
+          isSigner: false
         },
         {
-          name: "daoTreasury",
-          isMut: true,
-          isSigner: false,
-        },
+          name: "dao",
+          isMut: false,
+          isSigner: false
+        }
       ],
-      args: [],
+      args: []
     },
     {
       name: "updateDao",
@@ -651,23 +853,23 @@ export const IDL: AutocratV0 = {
         {
           name: "dao",
           isMut: true,
-          isSigner: false,
+          isSigner: false
         },
         {
-          name: "daoTreasury",
+          name: "treasury",
           isMut: false,
-          isSigner: true,
-        },
+          isSigner: true
+        }
       ],
       args: [
         {
           name: "daoParams",
           type: {
-            defined: "UpdateDaoParams",
-          },
-        },
-      ],
-    },
+            defined: "UpdateDaoParams"
+          }
+        }
+      ]
+    }
   ],
   accounts: [
     {
@@ -677,62 +879,74 @@ export const IDL: AutocratV0 = {
         fields: [
           {
             name: "treasuryPdaBump",
-            type: "u8",
+            type: "u8"
           },
           {
             name: "treasury",
-            type: "publicKey",
+            type: "publicKey"
           },
           {
             name: "tokenMint",
-            type: "publicKey",
+            type: "publicKey"
           },
           {
             name: "usdcMint",
-            type: "publicKey",
+            type: "publicKey"
           },
           {
             name: "proposalCount",
-            type: "u32",
-          },
-          {
-            name: "lastProposalSlot",
-            type: "u64",
+            type: "u32"
           },
           {
             name: "passThresholdBps",
-            type: "u16",
-          },
-          {
-            name: "baseBurnLamports",
-            type: "u64",
-          },
-          {
-            name: "burnDecayPerSlotLamports",
-            type: "u64",
+            type: "u16"
           },
           {
             name: "slotsPerProposal",
-            type: "u64",
+            type: "u64"
           },
           {
-            name: "marketTakerFee",
-            type: "i64",
+            name: "twapInitialObservation",
+            docs: [
+              "For manipulation-resistance the TWAP is a time-weighted average observation,",
+              "where observation tries to approximate price but can only move by",
+              "`twap_max_observation_change_per_update` per update. Because it can only move",
+              "a little bit per update, you need to check that it has a good initial observation.",
+              "Otherwise, an attacker could create a very high initial observation in the pass",
+              "market and a very low one in the fail market to force the proposal to pass.",
+              "",
+              "We recommend setting an initial observation around the spot price of the token,",
+              "and max observation change per update around 2% the spot price of the token.",
+              "For example, if the spot price of META is $400, we'd recommend setting an initial",
+              "observation of 400 (converted into the AMM prices) and a max observation change per",
+              "update of 8 (also converted into the AMM prices). Observations can be updated once",
+              "a minute, so 2% allows the proposal market to reach double the spot price or 0",
+              "in 50 minutes."
+            ],
+            type: "u128"
           },
           {
-            name: "twapExpectedValue",
-            type: "u64",
+            name: "twapMaxObservationChangePerUpdate",
+            type: "u128"
           },
           {
-            name: "maxObservationChangePerUpdateLots",
-            type: "u64",
+            name: "minQuoteFutarchicLiquidity",
+            docs: [
+              "As an anti-spam measure and to help liquidity, you need to lock up some liquidity",
+              "in both futarchic markets in order to create a proposal.",
+              "",
+              "For example, for META, we can use a `min_quote_futarchic_liquidity` of",
+              "5000 * 1_000_000 (5000 USDC) and a `min_base_futarchic_liquidity` of",
+              "10 * 1_000_000_000 (10 META)."
+            ],
+            type: "u64"
           },
           {
-            name: "baseLotSize",
-            type: "i64",
-          },
-        ],
-      },
+            name: "minBaseFutarchicLiquidity",
+            type: "u64"
+          }
+        ]
+      }
     },
     {
       name: "proposal",
@@ -741,104 +955,144 @@ export const IDL: AutocratV0 = {
         fields: [
           {
             name: "number",
-            type: "u32",
+            type: "u32"
           },
           {
             name: "proposer",
-            type: "publicKey",
+            type: "publicKey"
           },
           {
             name: "descriptionUrl",
-            type: "string",
+            type: "string"
           },
           {
             name: "slotEnqueued",
-            type: "u64",
+            type: "u64"
           },
           {
             name: "state",
             type: {
-              defined: "ProposalState",
-            },
+              defined: "ProposalState"
+            }
           },
           {
             name: "instruction",
             type: {
-              defined: "ProposalInstruction",
-            },
+              defined: "ProposalInstruction"
+            }
           },
           {
-            name: "openbookTwapPassMarket",
-            type: "publicKey",
+            name: "passAmm",
+            type: "publicKey"
           },
           {
-            name: "openbookTwapFailMarket",
-            type: "publicKey",
-          },
-          {
-            name: "openbookPassMarket",
-            type: "publicKey",
-          },
-          {
-            name: "openbookFailMarket",
-            type: "publicKey",
+            name: "failAmm",
+            type: "publicKey"
           },
           {
             name: "baseVault",
-            type: "publicKey",
+            type: "publicKey"
           },
           {
             name: "quoteVault",
-            type: "publicKey",
+            type: "publicKey"
           },
-        ],
-      },
-    },
+          {
+            name: "dao",
+            type: "publicKey"
+          },
+          {
+            name: "passLpTokensLocked",
+            type: "u64"
+          },
+          {
+            name: "failLpTokensLocked",
+            type: "u64"
+          },
+          {
+            name: "nonce",
+            docs: [
+              "We need to include a per-proposer nonce to prevent some weird proposal",
+              "front-running edge cases. Using a `u64` means that proposers are unlikely",
+              "to run into collisions, even if they generate nonces randomly - I've run",
+              "the math :D"
+            ],
+            type: "u64"
+          },
+          {
+            name: "pdaBump",
+            type: "u8"
+          }
+        ]
+      }
+    }
   ],
   types: [
     {
-      name: "ProposalInstruction",
+      name: "InitializeDaoParams",
       type: {
         kind: "struct",
         fields: [
           {
-            name: "programId",
-            type: "publicKey",
+            name: "twapInitialObservation",
+            type: "u128"
           },
           {
-            name: "accounts",
+            name: "twapMaxObservationChangePerUpdate",
+            type: "u128"
+          },
+          {
+            name: "minQuoteFutarchicLiquidity",
+            type: "u64"
+          },
+          {
+            name: "minBaseFutarchicLiquidity",
+            type: "u64"
+          },
+          {
+            name: "passThresholdBps",
             type: {
-              vec: {
-                defined: "ProposalAccount",
-              },
-            },
+              option: "u16"
+            }
           },
           {
-            name: "data",
-            type: "bytes",
-          },
-        ],
-      },
+            name: "slotsPerProposal",
+            type: {
+              option: "u64"
+            }
+          }
+        ]
+      }
     },
     {
-      name: "ProposalAccount",
+      name: "InitializeProposalParams",
       type: {
         kind: "struct",
         fields: [
           {
-            name: "pubkey",
-            type: "publicKey",
+            name: "descriptionUrl",
+            type: "string"
           },
           {
-            name: "isSigner",
-            type: "bool",
+            name: "instruction",
+            type: {
+              defined: "ProposalInstruction"
+            }
           },
           {
-            name: "isWritable",
-            type: "bool",
+            name: "passLpTokensToLock",
+            type: "u64"
           },
-        ],
-      },
+          {
+            name: "failLpTokensToLock",
+            type: "u64"
+          },
+          {
+            name: "nonce",
+            type: "u64"
+          }
+        ]
+      }
     },
     {
       name: "UpdateDaoParams",
@@ -848,53 +1102,85 @@ export const IDL: AutocratV0 = {
           {
             name: "passThresholdBps",
             type: {
-              option: "u16",
-            },
-          },
-          {
-            name: "baseBurnLamports",
-            type: {
-              option: "u64",
-            },
-          },
-          {
-            name: "burnDecayPerSlotLamports",
-            type: {
-              option: "u64",
-            },
+              option: "u16"
+            }
           },
           {
             name: "slotsPerProposal",
             type: {
-              option: "u64",
-            },
+              option: "u64"
+            }
           },
           {
-            name: "marketTakerFee",
+            name: "twapInitialObservation",
             type: {
-              option: "i64",
-            },
+              option: "u128"
+            }
           },
           {
-            name: "twapExpectedValue",
+            name: "twapMaxObservationChangePerUpdate",
             type: {
-              option: "u64",
-            },
+              option: "u128"
+            }
           },
           {
-            name: "maxObservationChangePerUpdateLots",
+            name: "minQuoteFutarchicLiquidity",
             type: {
-              option: "u64",
-            },
+              option: "u64"
+            }
           },
           {
-            name: "baseLotSize",
+            name: "minBaseFutarchicLiquidity",
             type: {
-              option: "i64",
-            },
+              option: "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      name: "ProposalAccount",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "pubkey",
+            type: "publicKey"
           },
-        ],
-      },
+          {
+            name: "isSigner",
+            type: "bool"
+          },
+          {
+            name: "isWritable",
+            type: "bool"
+          }
+        ]
+      }
+    },
+    {
+      name: "ProposalInstruction",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "programId",
+            type: "publicKey"
+          },
+          {
+            name: "accounts",
+            type: {
+              vec: {
+                defined: "ProposalAccount"
+              }
+            }
+          },
+          {
+            name: "data",
+            type: "bytes"
+          }
+        ]
+      }
     },
     {
       name: "ProposalState",
@@ -902,68 +1188,76 @@ export const IDL: AutocratV0 = {
         kind: "enum",
         variants: [
           {
-            name: "Pending",
+            name: "Pending"
           },
           {
-            name: "Passed",
+            name: "Passed"
           },
           {
-            name: "Failed",
+            name: "Failed"
           },
-        ],
-      },
-    },
+          {
+            name: "Executed"
+          }
+        ]
+      }
+    }
   ],
   errors: [
     {
       code: 6000,
-      name: "InvalidMarket",
-      msg: "Either the `pass_market` or the `fail_market`'s tokens doesn't match the vaults supplied",
+      name: "AmmTooOld",
+      msg: "Amms must have been created within 5 minutes (counted in slots) of proposal initialization"
     },
     {
       code: 6001,
-      name: "TWAPMarketTooOld",
-      msg: "`TWAPMarket` must have an `initial_slot` within 50 slots of the proposal's `slot_enqueued`",
+      name: "InvalidInitialObservation",
+      msg: "An amm has an `initial_observation` that doesn't match the `dao`'s config"
     },
     {
       code: 6002,
-      name: "TWAPOracleWrongChangeLots",
-      msg: "`TWAPOracle` has an incorrect max_observation_change_per_update_lots value",
+      name: "InvalidMaxObservationChange",
+      msg: "An amm has a `max_observation_change_per_update` that doesn't match the `dao`'s config"
     },
     {
       code: 6003,
-      name: "TWAPMarketInvalidExpectedValue",
-      msg: "`TWAPMarket` has the wrong `expected_value`",
+      name: "InvalidSettlementAuthority",
+      msg: "One of the vaults has an invalid `settlement_authority`"
     },
     {
       code: 6004,
-      name: "InvalidSettlementAuthority",
-      msg: "One of the vaults has an invalid `settlement_authority`",
+      name: "ProposalTooYoung",
+      msg: "Proposal is too young to be executed or rejected"
     },
     {
       code: 6005,
-      name: "ProposalTooYoung",
-      msg: "Proposal is too young to be executed or rejected",
+      name: "MarketsTooYoung",
+      msg: "Markets too young for proposal to be finalized. TWAP might need to be cranked"
     },
     {
       code: 6006,
-      name: "MarketsTooYoung",
-      msg: "Markets too young for proposal to be finalized",
+      name: "ProposalAlreadyFinalized",
+      msg: "This proposal has already been finalized"
     },
     {
       code: 6007,
-      name: "ProposalCannotPass",
-      msg: "The market dictates that this proposal cannot pass",
+      name: "InvalidVaultNonce",
+      msg: "A conditional vault has an invalid nonce. A nonce should encode the proposal number"
     },
     {
       code: 6008,
-      name: "ProposalAlreadyFinalized",
-      msg: "This proposal has already been finalized",
+      name: "ProposalNotPassed",
+      msg: "This proposal can't be executed because it isn't in the passed state"
     },
     {
       code: 6009,
-      name: "InvalidVaultNonce",
-      msg: "A conditional vault has an invalid nonce. A nonce should encode pass = 0 / fail = 1 in its most significant bit, base = 0 / quote = 1 in its second most significant bit, and the proposal number in least significant 32 bits",
+      name: "InsufficientLpTokenBalance",
+      msg: "The proposer has fewer pass or fail LP tokens than they requested to lock"
     },
-  ],
+    {
+      code: 6010,
+      name: "InsufficientLpTokenLock",
+      msg: "The LP tokens passed in have less liquidity than the DAO's `min_quote_futarchic_liquidity` or `min_base_futachic_liquidity`"
+    }
+  ]
 };

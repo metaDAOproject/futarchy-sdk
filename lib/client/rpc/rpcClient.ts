@@ -3,7 +3,7 @@ import {
   IDL as OPENBOOK_IDL,
   OPENBOOK_PROGRAM_ID,
   OpenBookV2Client,
-  OpenbookV2,
+  OpenbookV2
 } from "@openbook-dex/openbook-v2";
 import { FutarchyClient } from "@/client";
 import { FutarchyRPCDaoClient } from "@/client/rpc/dao";
@@ -12,8 +12,12 @@ import { FutarchyRPCBalancesClient } from "./balances";
 import { TransactionSender } from "@/transactions";
 import { getFutarchyProtocols } from "@/utils";
 import { FutarchyProtocol } from "@/types";
-import { AMM_PROGRAM_ID, AmmClient } from "@metadaoproject/futarchy-ts";
-import { Amm as AmmIDLType, IDL as AMM_IDL } from "@/idl/amm";
+import {
+  AMM_PROGRAM_ID,
+  Amm as AmmIDLType,
+  AmmClient,
+  AmmIDL as AMM_IDL
+} from "@metadaoproject/futarchy";
 import { FutarchyMarketsRPCClient } from "./markets";
 
 export class FutarchyRPCClient implements FutarchyClient {

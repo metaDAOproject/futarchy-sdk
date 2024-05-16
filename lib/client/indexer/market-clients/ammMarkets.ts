@@ -12,7 +12,7 @@ import {
   TokenWithBalance
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
-import { SwapType } from "@metadaoproject/futarchy-ts";
+import { SwapType } from "@metadaoproject/futarchy";
 import { SendTransactionResponse } from "@/types/transactions";
 
 export class FutarchyIndexerAmmMarketsClient

@@ -1,8 +1,9 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "1.1.0-alpha.36",
+  "version": "2.0.0-alpha.1",
   "main": "dist",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",
     "build:tests": "tsc && tscpaths -p tsconfig.json -s ./tests -o ./dist"
   },
@@ -14,6 +15,7 @@
   ],
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.1-beta.2",
+    "@metadaoproject/futarchy": "^0.3.0-alpha.2",
     "@metadaoproject/futarchy-ts": "2.1.0",
     "@metaplex-foundation/js": "^0.20.1",
     "@metaplex-foundation/mpl-token-metadata": "^3.2.1",

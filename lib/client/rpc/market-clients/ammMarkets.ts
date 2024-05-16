@@ -66,6 +66,10 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         ammAccount.quoteMint,
         this.rpcProvider
       );
+      const lpToken = await enrichTokenMetadata(
+        ammAccount.lpMint,
+        this.rpcProvider
+      );
 
       const ammMintAccountSupply =
         await this.rpcProvider.connection.getTokenSupply(ammAccount.lpMint);
@@ -73,6 +77,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       return {
         baseAmount: ammAccount.baseAmount,
         quoteAmount: ammAccount.quoteAmount,
+        lpToken,
         lpMintSupply: parseInt(ammMintAccountSupply.value.amount),
         baseMint: ammAccount.baseMint,
         baseToken,
@@ -245,16 +250,25 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       quoteAmountArg
     );
 
-    const simulationBase =
-      simulation.baseAmount.toNumber() / 10 ** ammMarket.baseToken.decimals;
-    const simulationQuote =
-      simulation.quoteAmount.toNumber() / 10 ** ammMarket.quoteToken.decimals;
+    const simulationBase = PriceMath.getHumanAmount(
+      simulation.baseAmount,
+      ammMarket.baseToken.decimals
+    );
+    const simulationQuote = PriceMath.getHumanAmount(
+      simulation.quoteAmount,
+      ammMarket.quoteToken.decimals
+    );
+
+    const simulationExpectedLp = PriceMath.getHumanAmount(
+      simulation.expectedLpTokens,
+      ammMarket.lpToken.decimals
+    );
 
     return {
       baseAmount: simulationBase,
       quoteAmount: simulationQuote,
       // warning this value is not divided by the lot size of the LP tokens
-      expectedLpTokens: simulation.expectedLpTokens.toNumber()
+      expectedLpTokens: simulationExpectedLp
     };
   }
 

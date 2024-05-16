@@ -1,6 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { Market, MarketFetchRequest } from "./markets";
 import { BN } from "@coral-xyz/anchor";
+import { TokenProps } from "./tokens";
 
 export class AmmMarketFetchRequest implements MarketFetchRequest {
   public marketKey: PublicKey;
@@ -15,6 +16,7 @@ export type AmmMarket = Market & {
   baseAmount: BN;
   quoteAmount: BN;
   lpMintSupply: number;
+  lpToken: TokenProps;
   createdAtSlot: BN;
   twapLastUpdatedSlot: BN;
   twapAggregator: BN;
@@ -33,7 +35,6 @@ export type AddLiquiditySimulationResponse = {
   quoteAmount: number;
   expectedLpTokens: number;
 };
-
 
 export type RemoveLiquiditySimulationResponse = {
   baseAmount: number;

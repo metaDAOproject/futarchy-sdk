@@ -9,7 +9,7 @@ import {
   FutarchyProtocol,
   VaultAccountWithProtocol,
   Dao,
-  MarketType,
+  MarketType
 } from "@/types";
 import { PublicKey } from "@metaplex-foundation/js";
 import { TransactionInstruction } from "@solana/web3.js";
@@ -22,7 +22,10 @@ export type ProposalInstruction = MergeWithOptionalFields<
   >
 >;
 
-export type ProposalInstructionWithPreinstructions = { preInstructions: (TransactionInstruction[] | undefined), instruction: ProposalInstruction }
+export type ProposalInstructionWithPreinstructions = {
+  preInstructions: TransactionInstruction[] | undefined;
+  instruction: ProposalInstruction;
+};
 
 export type ProposalAccount = MergeWithOptionalFields<
   IdlAccounts<AutocratV0_2>["Proposal"],
@@ -34,8 +37,6 @@ export type ProposalAccount = MergeWithOptionalFields<
     >
   >
 >;
-
-
 
 export type ProposalAccountWithKey = AccountWithKey<ProposalAccount>;
 
@@ -50,7 +51,7 @@ export type ProposalState = "pending" | "passed" | "failed";
 export type Proposal = ProposalAccountWithKeyNoState & {
   title: string;
   description: string;
-  dao: Pick<Dao, "daoAccount" | "publicKey">;
+  dao: Pick<Dao, "baseToken" | "quoteToken" | "daoAccount" | "publicKey">;
   protocol: FutarchyProtocol;
   marketType: MarketType;
   baseVaultAccount: VaultAccountWithProtocol;
@@ -70,7 +71,6 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   tags: string[];
   participants: GovernanceParticipant[];
   reactions: string[];
-  
 };
 
 export type GovernanceParticipant = {
@@ -89,10 +89,10 @@ export type MarketPrices = {
 };
 
 export type ProposalAccounts = {
-  proposer_acct: PublicKey,
-  base_cond_vault_acct: PublicKey | null,
-  quote_cond_vault_acct: PublicKey | null,
-  pass_market_acct: PublicKey | null,
-  fail_market_acct: PublicKey | null,
-  proposal_acct: PublicKey | null,
-}
+  proposer_acct: PublicKey;
+  base_cond_vault_acct: PublicKey | null;
+  quote_cond_vault_acct: PublicKey | null;
+  pass_market_acct: PublicKey | null;
+  fail_market_acct: PublicKey | null;
+  proposal_acct: PublicKey | null;
+};

@@ -46,10 +46,18 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           dao_acct: true,
           treasury_acct: true,
           tokenByBaseAcct: {
-            mint_acct: true
+            mint_acct: true,
+            image_url: true,
+            decimals: true,
+            symbol: true,
+            name: true
           },
           tokenByQuoteAcct: {
-            mint_acct: true
+            mint_acct: true,
+            image_url: true,
+            decimals: true,
+            symbol: true,
+            name: true
           },
           program: {
             program_acct: true,
@@ -247,6 +255,20 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                   tokenMint: d.tokenByBaseAcct
                     ? new PublicKey(d.tokenByBaseAcct.mint_acct)
                     : undefined
+                },
+                baseToken: {
+                  decimals: d.tokenByBaseAcct?.decimals ?? 0,
+                  name: d.tokenByBaseAcct?.name ?? "",
+                  symbol: d.tokenByBaseAcct?.symbol ?? "",
+                  url: d.tokenByBaseAcct?.image_url ?? "",
+                  publicKey: d.tokenByBaseAcct?.mint_acct ?? ""
+                },
+                quoteToken: {
+                  decimals: d.tokenByQuoteAcct?.decimals ?? 0,
+                  name: d.tokenByQuoteAcct?.name ?? "",
+                  symbol: d.tokenByQuoteAcct?.symbol ?? "",
+                  url: d.tokenByQuoteAcct?.image_url ?? "",
+                  publicKey: d.tokenByQuoteAcct?.mint_acct ?? ""
                 }
               },
               participants: [],

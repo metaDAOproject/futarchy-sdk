@@ -84,15 +84,17 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
       this.amm
         .fetchMarket(new AmmMarketFetchRequest(marketKey))
         .then((market) => {
+          const twapPrice = market?.twapAggregator.div(
+            market.twapLastUpdatedSlot.sub(market.createdAtSlot)
+          );
           subscriber.next([
             {
-              price: PriceMath.getHumanPrice(
-                market?.twapAggregator.div(
-                  market.twapLastUpdatedSlot.sub(market.createdAtSlot)
-                ),
+              priceUi: PriceMath.getHumanPrice(
+                twapPrice,
                 market?.baseToken.decimals!!,
                 market?.quoteToken.decimals!!
               ),
+              priceRaw: twapPrice.toNumber(),
               createdAt: new Date(),
               slot: 0
             }
@@ -109,16 +111,18 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
       this.amm
         .fetchMarket(new AmmMarketFetchRequest(marketKey))
         .then((market) => {
+          const ammPrice = PriceMath.getAmmPriceFromReserves(
+            market?.baseAmount,
+            market?.quoteAmount
+          );
           subscriber.next([
             {
-              price: PriceMath.getHumanPrice(
-                PriceMath.getAmmPriceFromReserves(
-                  market?.baseAmount,
-                  market?.quoteAmount
-                ),
+              priceUi: PriceMath.getHumanPrice(
+                ammPrice,
                 market?.baseToken.decimals!!,
                 market?.quoteToken.decimals!!
               ),
+              priceRaw: ammPrice.toNumber(),
               createdAt: new Date()
             }
           ]);

@@ -250,11 +250,6 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       quoteAmountArg
     );
 
-    console.log(
-      "simulation base amount to number",
-      simulation.baseAmount.toNumber()
-    );
-
     const simulationBase = PriceMath.getHumanAmount(
       simulation.baseAmount,
       ammMarket.baseToken.decimals
@@ -263,8 +258,6 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       simulation.quoteAmount,
       ammMarket.quoteToken.decimals
     );
-
-    console.log("ammMarket.lpToken", ammMarket.lpToken);
 
     const simulationExpectedLp = PriceMath.getHumanAmount(
       simulation.expectedLpTokens,

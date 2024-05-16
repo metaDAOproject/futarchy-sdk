@@ -64,7 +64,7 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   startSlot: number;
   endSlot: number | null;
   creationDate: Date;
-  endDate: Date | null;
+  endDate: Date;
   finalizationDate: Date | null;
   prices: ProposalPrices;
   volume: number;

@@ -63,7 +63,7 @@ export type Dao = {
   publicKey: PublicKey;
   daoAccount: Pick<
     DaoAccount,
-    "treasury" | "tokenMint" | "usdcMint" | "proposalCount" | "metaMint"
+    "treasury" | "tokenMint" | "usdcMint" | "proposalCount" | "metaMint" | "slotsPerProposal"
   >;
   baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
     name: string | null;

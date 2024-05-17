@@ -355,6 +355,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       outputAmountMin,
       outputToken.decimals
     );
+    // TODO don't need to do this if we use new futarchy SDK with slippage on preview calculation
     const outputAmountWithSlippage = new BN(
       calculateMinWithSlippage(outputAmountMinScaled.toNumber(), slippage)
     );
@@ -376,7 +377,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   async getSwapPreview(
     ammMarket: AmmMarket,
     inputAmount: number,
-    isBuyBase: boolean
+    isBuyBase: boolean,
+    slippage: number
   ): Promise<SwapPreview> {
     // TODO we shouldn't need to refetch this if we can build the account type correctly
     const ammAccount = await this.ammClient.getAmm(ammMarket.publicKey);
@@ -386,10 +388,13 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       isBuyBase ? ammMarket.quoteToken.decimals : ammMarket.baseToken.decimals
     );
 
+    const slippageBps = new BN(slippage * 100);
+
     const resp = this.calculateSwapPreview(
       ammAccount,
       new BN(inputAmountLots),
-      isBuyBase
+      isBuyBase,
+      slippageBps
     );
     return resp;
   }
@@ -397,7 +402,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   calculateSwapPreview(
     amm: AmmAccount,
     inputAmount: BN,
-    isBuyBase: boolean
+    isBuyBase: boolean,
+    slippageBps: BN
   ): SwapPreview {
     const swapType = isBuyBase ? { buy: {} } : { sell: {} };
     let startPrice = amm.quoteAmount / amm.baseAmount;
@@ -407,7 +413,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         inputAmount,
         swapType,
         amm.baseAmount,
-        amm.quoteAmount
+        amm.quoteAmount,
+        slippageBps
       );
 
     const finalPrice = newQuoteReserves / newBaseReserves;

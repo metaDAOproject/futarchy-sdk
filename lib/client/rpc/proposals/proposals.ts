@@ -136,7 +136,6 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     if (!this.rpcProvider.publicKey || !this.transactionSender) {
       return;
     }
-    console.log(vaultAccountAddress);
     // we fetch metadata with finalize token mint, but it could be revert mint instead
     const { decimals } = await enrichTokenMetadata(
       vaultAccount.conditionalOnFinalizeTokenMint,

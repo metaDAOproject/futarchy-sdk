@@ -41,7 +41,8 @@ export async function enrichTokenMetadata(
     // next, try metaplex
     const tokenPropsFromMetaplex = await getMetaplexMetadataForToken(
       tokenAddress,
-      rpcProvider
+      rpcProvider,
+      mint,
     );
     if (tokenPropsFromMetaplex) {
       return { ...tokenPropsFromMetaplex, source: "metaplex" };
@@ -132,7 +133,8 @@ async function getTokenFromJupStrictList(
 
 async function getMetaplexMetadataForToken(
   tokenAddress: PublicKey,
-  rpcProvider: Provider
+  rpcProvider: Provider,
+  mint: Mint 
 ): Promise<TokenProps | null> {
   try {
     const mplTokenProgramID = new PublicKey(MPL_TOKEN_METADATA_PROGRAM_ID);
@@ -160,7 +162,7 @@ async function getMetaplexMetadataForToken(
             symbol: jsonMetadata.symbol ?? "",
             publicKey: tokenAddress.toString(),
             url: jsonMetadata.image ?? null,
-            decimals: jsonMetadata.seller_fee_basis_points ?? 6,
+            decimals: mint.decimals ?? 6,
             name: jsonMetadata.name ?? null,
           }
         : null;

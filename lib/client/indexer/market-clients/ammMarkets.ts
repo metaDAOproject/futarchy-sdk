@@ -111,15 +111,26 @@ export class FutarchyIndexerAmmMarketsClient
     );
   }
 
+  /**
+   *
+   * @param ammMarket
+   * @param inputAmount
+   * @param isBuyBase
+   * @param slippage - pass this in as a percentage (0.3% would equal 0.3)
+   * @returns
+   */
+
   async getSwapPreview(
     ammMarket: AmmMarket,
     inputAmount: number,
-    isBuyBase: boolean
+    isBuyBase: boolean,
+    slippage: number
   ): Promise<SwapPreview> {
     return this.rpcMarketsClient.getSwapPreview(
       ammMarket,
       inputAmount,
-      isBuyBase
+      isBuyBase,
+      slippage
     );
   }
 

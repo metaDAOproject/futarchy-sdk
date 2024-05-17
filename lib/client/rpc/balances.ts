@@ -15,7 +15,7 @@ import { FutarchyBalancesClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
 import { Proposal } from "@/types/proposals";
 import { BN, Provider } from "@coral-xyz/anchor";
-import { Observable } from "rxjs";
+import { Observable, retry } from "rxjs";
 
 export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
   private rpcProvider: Provider;
@@ -126,7 +126,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
   public watchTokenBalance(
     tokenWithPDA: TokenWithPDA
   ): Observable<TokenWithBalance> {
-    return new Observable((subscriber) => {
+    const obs = new Observable<TokenWithBalance>((subscriber) => {
       // yield initial fetch
       this.rpcProvider.connection
         .getTokenAccountBalance(tokenWithPDA.pda)
@@ -158,6 +158,13 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
 
       return () => subscriber.complete();
     });
+
+    return obs.pipe<TokenWithBalance>(
+      retry({
+        count: 100,
+        delay: 5_000
+      })
+    );
   }
 
   /**

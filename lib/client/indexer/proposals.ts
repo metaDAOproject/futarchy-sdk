@@ -19,6 +19,7 @@ import {
   ProposalDetails
 } from "@/types/createProp";
 import { BN } from "@coral-xyz/anchor";
+import { PriceMath } from "@metadaoproject/futarchy";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -124,6 +125,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 observation_agg: true,
                 updated_slot: true
               },
+              orders: {
+                quote_price: true,
+                filled_base_amount: true
+              },
               prices: {
                 __args: {
                   order_by: [
@@ -172,6 +177,29 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             const failPrice = failMarket?.prices ?? [];
             const passTwap = passMarket?.twaps ?? [];
             const failTwap = failMarket?.twaps ?? [];
+            const passVolume =
+              passMarket?.orders?.reduce(
+                (prev, curr) =>
+                  prev +
+                  PriceMath.getHumanAmount(
+                    new BN(curr.filled_base_amount),
+                    new BN(d.tokenByBaseAcct?.decimals ?? 6)
+                  ) *
+                    curr.quote_price,
+                0
+              ) ?? 0;
+            const failVolume =
+              failMarket?.orders?.reduce(
+                (prev, curr) =>
+                  prev +
+                  PriceMath.getHumanAmount(
+                    new BN(curr.filled_base_amount),
+                    new BN(d.tokenByBaseAcct?.decimals ?? 6)
+                  ) *
+                    curr.quote_price,
+                0
+              ) ?? 0;
+
             if (!proposalDetails || !passMarket || !failMarket) return;
             return {
               account: {
@@ -238,7 +266,13 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               endSlot: p.end_slot,
               // TODO figure this out by slot enqueued maybe
               creationDate: new Date(p.created_at),
-              endDate: p.ended_at ||  new Date((new Date(p.created_at)).setDate((new Date(p.created_at)).getDate() + 3)),
+              endDate:
+                p.ended_at ||
+                new Date(
+                  new Date(p.created_at).setDate(
+                    new Date(p.created_at).getDate() + 3
+                  )
+                ),
               // TODO figure this out by slot enqueued maybe
               finalizationDate: p.completed_at,
               dao: {
@@ -281,7 +315,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                       ? failTwap[0].last_price
                         ? failTwap[0].last_price
                         : failTwap[0].last_observation
-                      : 0
+                      : 0,
+                  volume: failVolume
                 },
                 pass: {
                   // TODO: need to pull this data for twaps as well
@@ -291,7 +326,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                       ? passTwap[0].last_price
                         ? passTwap[0].last_price
                         : passTwap[0].last_observation
-                      : 0
+                      : 0,
+                  volume: passVolume
                 }
               },
               proposer: {
@@ -305,8 +341,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               // TODO we need our beatufiul tags
               tags: proposalDetails.categories || [],
               title: proposalDetails.title ?? "",
-              // TODO we need to pump up the volume
-              volume: 0
+              volume: passVolume + failVolume
             };
           });
         }

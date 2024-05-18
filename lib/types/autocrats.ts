@@ -63,7 +63,7 @@ export type Dao = {
   publicKey: PublicKey;
   daoAccount: Pick<
     DaoAccount,
-    "treasury" | "tokenMint" | "usdcMint" | "proposalCount" | "metaMint"
+    "treasury" | "tokenMint" | "usdcMint" | "proposalCount" | "metaMint" |  "slotsPerProposal" | "passThresholdBps"
   >;
   baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
     name: string | null;
@@ -93,6 +93,8 @@ export type DaoDetails__GQL = {
   daos: Array<{
     program_acct: string;
     dao_acct: string;
+    pass_threshold_bps: number;
+    slots_per_proposal: number | null;
     treasury_acct: string | null;
     tokenByBaseAcct: {
       symbol: string;

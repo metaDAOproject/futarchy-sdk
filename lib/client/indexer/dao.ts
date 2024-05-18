@@ -46,6 +46,8 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               name: true,
               image_url: true,
             },
+            pass_threshold_bps: true,
+            slots_per_proposal: true,
             treasury_acct: true,
             proposals_aggregate: {
               aggregate: {
@@ -101,6 +103,8 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               name: true,
               image_url: true,
             },
+            pass_threshold_bps: true,
+            slots_per_proposal: true,
             treasury_acct: true,
             proposals_aggregate: {
               aggregate: {
@@ -153,6 +157,8 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                   ? new PublicKey(d.tokenByBaseAcct?.mint_acct)
                   : undefined,
                 proposalCount: d.proposals_aggregate.aggregate?.count,
+                passThresholdBps: d.pass_threshold_bps,
+                slotsPerProposal: d.slots_per_proposal,
               },
               publicKey: new PublicKey(d.dao_acct),
               protocol: this.protocolMap.get(d.program_acct),

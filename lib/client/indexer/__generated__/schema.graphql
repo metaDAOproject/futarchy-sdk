@@ -1197,9 +1197,6 @@ type conditional_vaults {
   cond_finalize_token_mint_acct: String!
   cond_revert_token_mint_acct: String!
   cond_vault_acct: String!
-
-  """An object relationship"""
-  dao: daos!
   nonce: String
 
   """An array relationship"""
@@ -1339,7 +1336,6 @@ input conditional_vaults_bool_exp {
   cond_finalize_token_mint_acct: String_comparison_exp
   cond_revert_token_mint_acct: String_comparison_exp
   cond_vault_acct: String_comparison_exp
-  dao: daos_bool_exp
   nonce: String_comparison_exp
   proposals: proposals_bool_exp
   proposalsByQuoteVault: proposals_bool_exp
@@ -1369,7 +1365,6 @@ input conditional_vaults_insert_input {
   cond_finalize_token_mint_acct: String
   cond_revert_token_mint_acct: String
   cond_vault_acct: String
-  dao: daos_obj_rel_insert_input
   nonce: String
   proposals: proposals_arr_rel_insert_input
   proposalsByQuoteVault: proposals_arr_rel_insert_input
@@ -1467,7 +1462,6 @@ input conditional_vaults_order_by {
   cond_finalize_token_mint_acct: order_by
   cond_revert_token_mint_acct: order_by
   cond_vault_acct: order_by
-  dao: daos_order_by
   nonce: order_by
   proposalsByQuoteVault_aggregate: proposals_aggregate_order_by
   proposals_aggregate: proposals_aggregate_order_by
@@ -2111,48 +2105,13 @@ columns and relationships of "daos"
 """
 type daos {
   base_acct: String!
-
-  """An array relationship"""
-  conditional_vaults(
-    """distinct select on columns"""
-    distinct_on: [conditional_vaults_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [conditional_vaults_order_by!]
-
-    """filter the rows returned"""
-    where: conditional_vaults_bool_exp
-  ): [conditional_vaults!]!
-
-  """An aggregate relationship"""
-  conditional_vaults_aggregate(
-    """distinct select on columns"""
-    distinct_on: [conditional_vaults_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [conditional_vaults_order_by!]
-
-    """filter the rows returned"""
-    where: conditional_vaults_bool_exp
-  ): conditional_vaults_aggregate!
   created_at: timestamp!
   dao_acct: String!
 
   """An object relationship"""
   dao_detail: dao_details
   dao_id: bigint
+  pass_threshold_bps: bigint
 
   """An object relationship"""
   program: programs!
@@ -2274,6 +2233,7 @@ input daos_arr_rel_insert_input {
 """aggregate avg on columns"""
 type daos_avg_fields {
   dao_id: Float
+  pass_threshold_bps: Float
   slots_per_proposal: Float
 }
 
@@ -2282,6 +2242,7 @@ order by avg() on columns of table "daos"
 """
 input daos_avg_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
@@ -2293,12 +2254,11 @@ input daos_bool_exp {
   _not: daos_bool_exp
   _or: [daos_bool_exp!]
   base_acct: String_comparison_exp
-  conditional_vaults: conditional_vaults_bool_exp
-  conditional_vaults_aggregate: conditional_vaults_aggregate_bool_exp
   created_at: timestamp_comparison_exp
   dao_acct: String_comparison_exp
   dao_detail: dao_details_bool_exp
   dao_id: bigint_comparison_exp
+  pass_threshold_bps: bigint_comparison_exp
   program: programs_bool_exp
   program_acct: String_comparison_exp
   proposals: proposals_bool_exp
@@ -2337,6 +2297,7 @@ input type for incrementing numeric columns in table "daos"
 """
 input daos_inc_input {
   dao_id: bigint
+  pass_threshold_bps: bigint
   slots_per_proposal: bigint
 }
 
@@ -2345,11 +2306,11 @@ input type for inserting data into table "daos"
 """
 input daos_insert_input {
   base_acct: String
-  conditional_vaults: conditional_vaults_arr_rel_insert_input
   created_at: timestamp
   dao_acct: String
   dao_detail: dao_details_obj_rel_insert_input
   dao_id: bigint
+  pass_threshold_bps: bigint
   program: programs_obj_rel_insert_input
   program_acct: String
   proposals: proposals_arr_rel_insert_input
@@ -2368,6 +2329,7 @@ type daos_max_fields {
   created_at: timestamp
   dao_acct: String
   dao_id: bigint
+  pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
@@ -2383,6 +2345,7 @@ input daos_max_order_by {
   created_at: order_by
   dao_acct: order_by
   dao_id: order_by
+  pass_threshold_bps: order_by
   program_acct: order_by
   quote_acct: order_by
   slots_per_proposal: order_by
@@ -2396,6 +2359,7 @@ type daos_min_fields {
   created_at: timestamp
   dao_acct: String
   dao_id: bigint
+  pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
@@ -2411,6 +2375,7 @@ input daos_min_order_by {
   created_at: order_by
   dao_acct: order_by
   dao_id: order_by
+  pass_threshold_bps: order_by
   program_acct: order_by
   quote_acct: order_by
   slots_per_proposal: order_by
@@ -2451,11 +2416,11 @@ input daos_on_conflict {
 """Ordering options when selecting data from "daos"."""
 input daos_order_by {
   base_acct: order_by
-  conditional_vaults_aggregate: conditional_vaults_aggregate_order_by
   created_at: order_by
   dao_acct: order_by
   dao_detail: dao_details_order_by
   dao_id: order_by
+  pass_threshold_bps: order_by
   program: programs_order_by
   program_acct: order_by
   proposals_aggregate: proposals_aggregate_order_by
@@ -2490,6 +2455,9 @@ enum daos_select_column {
   dao_id
 
   """column name"""
+  pass_threshold_bps
+
+  """column name"""
   program_acct
 
   """column name"""
@@ -2513,6 +2481,7 @@ input daos_set_input {
   created_at: timestamp
   dao_acct: String
   dao_id: bigint
+  pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
@@ -2523,6 +2492,7 @@ input daos_set_input {
 """aggregate stddev on columns"""
 type daos_stddev_fields {
   dao_id: Float
+  pass_threshold_bps: Float
   slots_per_proposal: Float
 }
 
@@ -2531,12 +2501,14 @@ order by stddev() on columns of table "daos"
 """
 input daos_stddev_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type daos_stddev_pop_fields {
   dao_id: Float
+  pass_threshold_bps: Float
   slots_per_proposal: Float
 }
 
@@ -2545,12 +2517,14 @@ order by stddev_pop() on columns of table "daos"
 """
 input daos_stddev_pop_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type daos_stddev_samp_fields {
   dao_id: Float
+  pass_threshold_bps: Float
   slots_per_proposal: Float
 }
 
@@ -2559,6 +2533,7 @@ order by stddev_samp() on columns of table "daos"
 """
 input daos_stddev_samp_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
@@ -2579,6 +2554,7 @@ input daos_stream_cursor_value_input {
   created_at: timestamp
   dao_acct: String
   dao_id: bigint
+  pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
@@ -2589,6 +2565,7 @@ input daos_stream_cursor_value_input {
 """aggregate sum on columns"""
 type daos_sum_fields {
   dao_id: bigint
+  pass_threshold_bps: bigint
   slots_per_proposal: bigint
 }
 
@@ -2597,6 +2574,7 @@ order by sum() on columns of table "daos"
 """
 input daos_sum_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
@@ -2615,6 +2593,9 @@ enum daos_update_column {
 
   """column name"""
   dao_id
+
+  """column name"""
+  pass_threshold_bps
 
   """column name"""
   program_acct
@@ -2646,6 +2627,7 @@ input daos_updates {
 """aggregate var_pop on columns"""
 type daos_var_pop_fields {
   dao_id: Float
+  pass_threshold_bps: Float
   slots_per_proposal: Float
 }
 
@@ -2654,12 +2636,14 @@ order by var_pop() on columns of table "daos"
 """
 input daos_var_pop_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
 """aggregate var_samp on columns"""
 type daos_var_samp_fields {
   dao_id: Float
+  pass_threshold_bps: Float
   slots_per_proposal: Float
 }
 
@@ -2668,12 +2652,14 @@ order by var_samp() on columns of table "daos"
 """
 input daos_var_samp_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
 """aggregate variance on columns"""
 type daos_variance_fields {
   dao_id: Float
+  pass_threshold_bps: Float
   slots_per_proposal: Float
 }
 
@@ -2682,6 +2668,7 @@ order by variance() on columns of table "daos"
 """
 input daos_variance_order_by {
   dao_id: order_by
+  pass_threshold_bps: order_by
   slots_per_proposal: order_by
 }
 
@@ -5008,6 +4995,19 @@ type mutation_root {
   delete_takes_by_pk(order_tx_sig: String!): takes
 
   """
+  delete data from the table: "token_acct_balances"
+  """
+  delete_token_acct_balances(
+    """filter the rows which have to be deleted"""
+    where: token_acct_balances_bool_exp!
+  ): token_acct_balances_mutation_response
+
+  """
+  delete single row from the table: "token_acct_balances"
+  """
+  delete_token_acct_balances_by_pk(amount: bigint!, created_at: timestamp!, mint_acct: String!, token_acct: String!): token_acct_balances
+
+  """
   delete data from the table: "token_accts"
   """
   delete_token_accts(
@@ -5466,6 +5466,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: takes_on_conflict
   ): takes
+
+  """
+  insert data into the table: "token_acct_balances"
+  """
+  insert_token_acct_balances(
+    """the rows to be inserted"""
+    objects: [token_acct_balances_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: token_acct_balances_on_conflict
+  ): token_acct_balances_mutation_response
+
+  """
+  insert a single row into the table: "token_acct_balances"
+  """
+  insert_token_acct_balances_one(
+    """the row to be inserted"""
+    object: token_acct_balances_insert_input!
+
+    """upsert condition"""
+    on_conflict: token_acct_balances_on_conflict
+  ): token_acct_balances
 
   """
   insert data into the table: "token_accts"
@@ -6270,6 +6292,40 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [takes_updates!]!
   ): [takes_mutation_response]
+
+  """
+  update data of the table: "token_acct_balances"
+  """
+  update_token_acct_balances(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: token_acct_balances_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: token_acct_balances_set_input
+
+    """filter the rows which have to be updated"""
+    where: token_acct_balances_bool_exp!
+  ): token_acct_balances_mutation_response
+
+  """
+  update single row of the table: "token_acct_balances"
+  """
+  update_token_acct_balances_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: token_acct_balances_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: token_acct_balances_set_input
+    pk_columns: token_acct_balances_pk_columns_input!
+  ): token_acct_balances
+
+  """
+  update multiples rows of table: "token_acct_balances"
+  """
+  update_token_acct_balances_many(
+    """updates to execute, in order"""
+    updates: [token_acct_balances_updates!]!
+  ): [token_acct_balances_mutation_response]
 
   """
   update data of the table: "token_accts"
@@ -10868,6 +10924,47 @@ type query_root {
   takes_by_pk(order_tx_sig: String!): takes
 
   """An array relationship"""
+  token_acct_balances(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): [token_acct_balances!]!
+
+  """An aggregate relationship"""
+  token_acct_balances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): token_acct_balances_aggregate!
+
+  """
+  fetch data from the table: "token_acct_balances" using primary key columns
+  """
+  token_acct_balances_by_pk(amount: bigint!, created_at: timestamp!, mint_acct: String!, token_acct: String!): token_acct_balances
+
+  """An array relationship"""
   token_accts(
     """distinct select on columns"""
     distinct_on: [token_accts_select_column!]
@@ -12477,6 +12574,61 @@ type subscription_root {
   ): [takes!]!
 
   """An array relationship"""
+  token_acct_balances(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): [token_acct_balances!]!
+
+  """An aggregate relationship"""
+  token_acct_balances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): token_acct_balances_aggregate!
+
+  """
+  fetch data from the table: "token_acct_balances" using primary key columns
+  """
+  token_acct_balances_by_pk(amount: bigint!, created_at: timestamp!, mint_acct: String!, token_acct: String!): token_acct_balances
+
+  """
+  fetch data from the table in a streaming manner: "token_acct_balances"
+  """
+  token_acct_balances_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [token_acct_balances_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): [token_acct_balances!]!
+
+  """An array relationship"""
   token_accts(
     """distinct select on columns"""
     distinct_on: [token_accts_select_column!]
@@ -13473,6 +13625,389 @@ input timestamp_comparison_exp {
 }
 
 """
+columns and relationships of "token_acct_balances"
+"""
+type token_acct_balances {
+  amount: bigint!
+  created_at: timestamp!
+  mint_acct: String!
+  owner_acct: String!
+
+  """An object relationship"""
+  token: tokens!
+
+  """An object relationship"""
+  tokenAcctByTokenAcct: token_accts!
+  token_acct: String!
+}
+
+"""
+aggregated selection of "token_acct_balances"
+"""
+type token_acct_balances_aggregate {
+  aggregate: token_acct_balances_aggregate_fields
+  nodes: [token_acct_balances!]!
+}
+
+input token_acct_balances_aggregate_bool_exp {
+  count: token_acct_balances_aggregate_bool_exp_count
+}
+
+input token_acct_balances_aggregate_bool_exp_count {
+  arguments: [token_acct_balances_select_column!]
+  distinct: Boolean
+  filter: token_acct_balances_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "token_acct_balances"
+"""
+type token_acct_balances_aggregate_fields {
+  avg: token_acct_balances_avg_fields
+  count(columns: [token_acct_balances_select_column!], distinct: Boolean): Int!
+  max: token_acct_balances_max_fields
+  min: token_acct_balances_min_fields
+  stddev: token_acct_balances_stddev_fields
+  stddev_pop: token_acct_balances_stddev_pop_fields
+  stddev_samp: token_acct_balances_stddev_samp_fields
+  sum: token_acct_balances_sum_fields
+  var_pop: token_acct_balances_var_pop_fields
+  var_samp: token_acct_balances_var_samp_fields
+  variance: token_acct_balances_variance_fields
+}
+
+"""
+order by aggregate values of table "token_acct_balances"
+"""
+input token_acct_balances_aggregate_order_by {
+  avg: token_acct_balances_avg_order_by
+  count: order_by
+  max: token_acct_balances_max_order_by
+  min: token_acct_balances_min_order_by
+  stddev: token_acct_balances_stddev_order_by
+  stddev_pop: token_acct_balances_stddev_pop_order_by
+  stddev_samp: token_acct_balances_stddev_samp_order_by
+  sum: token_acct_balances_sum_order_by
+  var_pop: token_acct_balances_var_pop_order_by
+  var_samp: token_acct_balances_var_samp_order_by
+  variance: token_acct_balances_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "token_acct_balances"
+"""
+input token_acct_balances_arr_rel_insert_input {
+  data: [token_acct_balances_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: token_acct_balances_on_conflict
+}
+
+"""aggregate avg on columns"""
+type token_acct_balances_avg_fields {
+  amount: Float
+}
+
+"""
+order by avg() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_avg_order_by {
+  amount: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "token_acct_balances". All fields are combined with a logical 'AND'.
+"""
+input token_acct_balances_bool_exp {
+  _and: [token_acct_balances_bool_exp!]
+  _not: token_acct_balances_bool_exp
+  _or: [token_acct_balances_bool_exp!]
+  amount: bigint_comparison_exp
+  created_at: timestamp_comparison_exp
+  mint_acct: String_comparison_exp
+  owner_acct: String_comparison_exp
+  token: tokens_bool_exp
+  tokenAcctByTokenAcct: token_accts_bool_exp
+  token_acct: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "token_acct_balances"
+"""
+enum token_acct_balances_constraint {
+  """
+  unique or primary key constraint on columns "mint_acct", "created_at", "amount", "token_acct"
+  """
+  token_acct_balances_token_acct_mint_acct_amount_created_at_pk
+}
+
+"""
+input type for incrementing numeric columns in table "token_acct_balances"
+"""
+input token_acct_balances_inc_input {
+  amount: bigint
+}
+
+"""
+input type for inserting data into table "token_acct_balances"
+"""
+input token_acct_balances_insert_input {
+  amount: bigint
+  created_at: timestamp
+  mint_acct: String
+  owner_acct: String
+  token: tokens_obj_rel_insert_input
+  tokenAcctByTokenAcct: token_accts_obj_rel_insert_input
+  token_acct: String
+}
+
+"""aggregate max on columns"""
+type token_acct_balances_max_fields {
+  amount: bigint
+  created_at: timestamp
+  mint_acct: String
+  owner_acct: String
+  token_acct: String
+}
+
+"""
+order by max() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_max_order_by {
+  amount: order_by
+  created_at: order_by
+  mint_acct: order_by
+  owner_acct: order_by
+  token_acct: order_by
+}
+
+"""aggregate min on columns"""
+type token_acct_balances_min_fields {
+  amount: bigint
+  created_at: timestamp
+  mint_acct: String
+  owner_acct: String
+  token_acct: String
+}
+
+"""
+order by min() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_min_order_by {
+  amount: order_by
+  created_at: order_by
+  mint_acct: order_by
+  owner_acct: order_by
+  token_acct: order_by
+}
+
+"""
+response of any mutation on the table "token_acct_balances"
+"""
+type token_acct_balances_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [token_acct_balances!]!
+}
+
+"""
+on_conflict condition type for table "token_acct_balances"
+"""
+input token_acct_balances_on_conflict {
+  constraint: token_acct_balances_constraint!
+  update_columns: [token_acct_balances_update_column!]! = []
+  where: token_acct_balances_bool_exp
+}
+
+"""Ordering options when selecting data from "token_acct_balances"."""
+input token_acct_balances_order_by {
+  amount: order_by
+  created_at: order_by
+  mint_acct: order_by
+  owner_acct: order_by
+  token: tokens_order_by
+  tokenAcctByTokenAcct: token_accts_order_by
+  token_acct: order_by
+}
+
+"""primary key columns input for table: token_acct_balances"""
+input token_acct_balances_pk_columns_input {
+  amount: bigint!
+  created_at: timestamp!
+  mint_acct: String!
+  token_acct: String!
+}
+
+"""
+select columns of table "token_acct_balances"
+"""
+enum token_acct_balances_select_column {
+  """column name"""
+  amount
+
+  """column name"""
+  created_at
+
+  """column name"""
+  mint_acct
+
+  """column name"""
+  owner_acct
+
+  """column name"""
+  token_acct
+}
+
+"""
+input type for updating data in table "token_acct_balances"
+"""
+input token_acct_balances_set_input {
+  amount: bigint
+  created_at: timestamp
+  mint_acct: String
+  owner_acct: String
+  token_acct: String
+}
+
+"""aggregate stddev on columns"""
+type token_acct_balances_stddev_fields {
+  amount: Float
+}
+
+"""
+order by stddev() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_stddev_order_by {
+  amount: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type token_acct_balances_stddev_pop_fields {
+  amount: Float
+}
+
+"""
+order by stddev_pop() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_stddev_pop_order_by {
+  amount: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type token_acct_balances_stddev_samp_fields {
+  amount: Float
+}
+
+"""
+order by stddev_samp() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_stddev_samp_order_by {
+  amount: order_by
+}
+
+"""
+Streaming cursor of the table "token_acct_balances"
+"""
+input token_acct_balances_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: token_acct_balances_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input token_acct_balances_stream_cursor_value_input {
+  amount: bigint
+  created_at: timestamp
+  mint_acct: String
+  owner_acct: String
+  token_acct: String
+}
+
+"""aggregate sum on columns"""
+type token_acct_balances_sum_fields {
+  amount: bigint
+}
+
+"""
+order by sum() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_sum_order_by {
+  amount: order_by
+}
+
+"""
+update columns of table "token_acct_balances"
+"""
+enum token_acct_balances_update_column {
+  """column name"""
+  amount
+
+  """column name"""
+  created_at
+
+  """column name"""
+  mint_acct
+
+  """column name"""
+  owner_acct
+
+  """column name"""
+  token_acct
+}
+
+input token_acct_balances_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: token_acct_balances_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: token_acct_balances_set_input
+
+  """filter the rows which have to be updated"""
+  where: token_acct_balances_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type token_acct_balances_var_pop_fields {
+  amount: Float
+}
+
+"""
+order by var_pop() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_var_pop_order_by {
+  amount: order_by
+}
+
+"""aggregate var_samp on columns"""
+type token_acct_balances_var_samp_fields {
+  amount: Float
+}
+
+"""
+order by var_samp() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_var_samp_order_by {
+  amount: order_by
+}
+
+"""aggregate variance on columns"""
+type token_acct_balances_variance_fields {
+  amount: Float
+}
+
+"""
+order by variance() on columns of table "token_acct_balances"
+"""
+input token_acct_balances_variance_order_by {
+  amount: order_by
+}
+
+"""
 columns and relationships of "token_accts"
 """
 type token_accts {
@@ -13555,6 +14090,42 @@ type token_accts {
   """An object relationship"""
   token: tokens!
   token_acct: String!
+
+  """An array relationship"""
+  token_acct_balances(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): [token_acct_balances!]!
+
+  """An aggregate relationship"""
+  token_acct_balances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): token_acct_balances_aggregate!
   updated_at: timestamp!
 }
 
@@ -13649,6 +14220,8 @@ input token_accts_bool_exp {
   owner_acct: String_comparison_exp
   token: tokens_bool_exp
   token_acct: String_comparison_exp
+  token_acct_balances: token_acct_balances_bool_exp
+  token_acct_balances_aggregate: token_acct_balances_aggregate_bool_exp
   updated_at: timestamp_comparison_exp
 }
 
@@ -13680,6 +14253,7 @@ input token_accts_insert_input {
   owner_acct: String
   token: tokens_obj_rel_insert_input
   token_acct: String
+  token_acct_balances: token_acct_balances_arr_rel_insert_input
   updated_at: timestamp
 }
 
@@ -13762,6 +14336,7 @@ input token_accts_order_by {
   owner_acct: order_by
   token: tokens_order_by
   token_acct: order_by
+  token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
   updated_at: order_by
 }
 
@@ -14127,6 +14702,42 @@ type tokens {
   symbol: String!
 
   """An array relationship"""
+  token_acct_balances(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): [token_acct_balances!]!
+
+  """An aggregate relationship"""
+  token_acct_balances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): token_acct_balances_aggregate!
+
+  """An array relationship"""
   token_accts(
     """distinct select on columns"""
     distinct_on: [token_accts_select_column!]
@@ -14218,6 +14829,8 @@ input tokens_bool_exp {
   name: String_comparison_exp
   supply: bigint_comparison_exp
   symbol: String_comparison_exp
+  token_acct_balances: token_acct_balances_bool_exp
+  token_acct_balances_aggregate: token_acct_balances_aggregate_bool_exp
   token_accts: token_accts_bool_exp
   token_accts_aggregate: token_accts_aggregate_bool_exp
   updated_at: timestamp_comparison_exp
@@ -14256,6 +14869,7 @@ input tokens_insert_input {
   name: String
   supply: bigint
   symbol: String
+  token_acct_balances: token_acct_balances_arr_rel_insert_input
   token_accts: token_accts_arr_rel_insert_input
   updated_at: timestamp
 }
@@ -14325,6 +14939,7 @@ input tokens_order_by {
   name: order_by
   supply: order_by
   symbol: order_by
+  token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
   token_accts_aggregate: token_accts_aggregate_order_by
   updated_at: order_by
 }
@@ -14832,6 +15447,7 @@ type transaction_watchers {
   acct: String!
   checked_up_to_slot: bigint!
   description: String!
+  failure_log: String
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint!
@@ -14878,6 +15494,7 @@ type transaction_watchers {
     """filter the rows returned"""
     where: transaction_watcher_transactions_bool_exp
   ): transaction_watcher_transactions_aggregate!
+  updated_at: timestamp
 }
 
 """
@@ -14967,6 +15584,7 @@ input transaction_watchers_bool_exp {
   acct: String_comparison_exp
   checked_up_to_slot: bigint_comparison_exp
   description: String_comparison_exp
+  failure_log: String_comparison_exp
   first_tx_sig: String_comparison_exp
   latest_tx_sig: String_comparison_exp
   serializer_logic_version: smallint_comparison_exp
@@ -14975,6 +15593,7 @@ input transaction_watchers_bool_exp {
   transactionByLatestTxSig: transactions_bool_exp
   transaction_watcher_transactions: transaction_watcher_transactions_bool_exp
   transaction_watcher_transactions_aggregate: transaction_watcher_transactions_aggregate_bool_exp
+  updated_at: timestamp_comparison_exp
 }
 
 """
@@ -15002,6 +15621,7 @@ input transaction_watchers_insert_input {
   acct: String
   checked_up_to_slot: bigint
   description: String
+  failure_log: String
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
@@ -15009,6 +15629,7 @@ input transaction_watchers_insert_input {
   transaction: transactions_obj_rel_insert_input
   transactionByLatestTxSig: transactions_obj_rel_insert_input
   transaction_watcher_transactions: transaction_watcher_transactions_arr_rel_insert_input
+  updated_at: timestamp
 }
 
 """aggregate max on columns"""
@@ -15016,10 +15637,12 @@ type transaction_watchers_max_fields {
   acct: String
   checked_up_to_slot: bigint
   description: String
+  failure_log: String
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
+  updated_at: timestamp
 }
 
 """
@@ -15029,10 +15652,12 @@ input transaction_watchers_max_order_by {
   acct: order_by
   checked_up_to_slot: order_by
   description: order_by
+  failure_log: order_by
   first_tx_sig: order_by
   latest_tx_sig: order_by
   serializer_logic_version: order_by
   status: order_by
+  updated_at: order_by
 }
 
 """aggregate min on columns"""
@@ -15040,10 +15665,12 @@ type transaction_watchers_min_fields {
   acct: String
   checked_up_to_slot: bigint
   description: String
+  failure_log: String
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
+  updated_at: timestamp
 }
 
 """
@@ -15053,10 +15680,12 @@ input transaction_watchers_min_order_by {
   acct: order_by
   checked_up_to_slot: order_by
   description: order_by
+  failure_log: order_by
   first_tx_sig: order_by
   latest_tx_sig: order_by
   serializer_logic_version: order_by
   status: order_by
+  updated_at: order_by
 }
 
 """
@@ -15094,6 +15723,7 @@ input transaction_watchers_order_by {
   acct: order_by
   checked_up_to_slot: order_by
   description: order_by
+  failure_log: order_by
   first_tx_sig: order_by
   latest_tx_sig: order_by
   serializer_logic_version: order_by
@@ -15101,6 +15731,7 @@ input transaction_watchers_order_by {
   transaction: transactions_order_by
   transactionByLatestTxSig: transactions_order_by
   transaction_watcher_transactions_aggregate: transaction_watcher_transactions_aggregate_order_by
+  updated_at: order_by
 }
 
 """primary key columns input for table: transaction_watchers"""
@@ -15122,6 +15753,9 @@ enum transaction_watchers_select_column {
   description
 
   """column name"""
+  failure_log
+
+  """column name"""
   first_tx_sig
 
   """column name"""
@@ -15132,6 +15766,9 @@ enum transaction_watchers_select_column {
 
   """column name"""
   status
+
+  """column name"""
+  updated_at
 }
 
 """
@@ -15141,10 +15778,12 @@ input transaction_watchers_set_input {
   acct: String
   checked_up_to_slot: bigint
   description: String
+  failure_log: String
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
+  updated_at: timestamp
 }
 
 """aggregate stddev on columns"""
@@ -15205,10 +15844,12 @@ input transaction_watchers_stream_cursor_value_input {
   acct: String
   checked_up_to_slot: bigint
   description: String
+  failure_log: String
   first_tx_sig: String
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
+  updated_at: timestamp
 }
 
 """aggregate sum on columns"""
@@ -15239,6 +15880,9 @@ enum transaction_watchers_update_column {
   description
 
   """column name"""
+  failure_log
+
+  """column name"""
   first_tx_sig
 
   """column name"""
@@ -15249,6 +15893,9 @@ enum transaction_watchers_update_column {
 
   """column name"""
   status
+
+  """column name"""
+  updated_at
 }
 
 input transaction_watchers_updates {

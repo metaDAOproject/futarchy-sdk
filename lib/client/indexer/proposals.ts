@@ -46,6 +46,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         daos: {
           dao_acct: true,
           treasury_acct: true,
+          pass_threshold_bps: true,
+          slots_per_proposal: true,
           tokenByBaseAcct: {
             mint_acct: true,
             image_url: true,
@@ -278,6 +280,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               dao: {
                 publicKey: new PublicKey(d.dao_acct),
                 daoAccount: {
+                  passThresholdBps: d.pass_threshold_bps,
+                  slotsPerProposal: d.slots_per_proposal,
                   proposalCount: d.proposals.length,
                   // TODO these null conditionals will create public keys that don't make sense
                   treasury: new PublicKey(d.treasury_acct ?? 5),

@@ -86,6 +86,7 @@ export type ProposalPrices = {
 export type MarketPrices = {
   spot: number;
   twap?: number;
+  volume?: number;
 };
 
 export type ProposalAccounts = {

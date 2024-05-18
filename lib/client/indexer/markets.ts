@@ -137,7 +137,15 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }): Observable<Order[]> {
     const { query, variables } = generateSubscriptionOp({
       orders: {
-        __args: args,
+        __args: {
+          ...args,
+          where: {
+            ...args.where,
+            transaction: {
+              failed: { _eq: false }
+            }
+          }
+        },
         order_time: true,
         is_active: true,
         filled_base_amount: true,

@@ -110,12 +110,17 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     const baseMint = ["V0", "V0.1", "V0.2"].includes(protocol.deploymentVersion)
       ? daoAccount.metaMint
       : daoAccount.tokenMint;
+    const slotsPerProposal: BN =
+      protocol.deploymentVersion === "V0"
+        ? new BN(2160000)
+        : daoAccount.slotsPerProposal;
     const quoteMint = daoAccount.usdcMint;
     if (baseMint) {
       const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);
       const quoteToken = await enrichTokenMetadata(quoteMint, this.rpcProvider);
       const dao = {
         ...daoAccount,
+        slotsPerProposal,
         tokenMint: daoAccount.tokenMint
           ? daoAccount.tokenMint
           : new PublicKey(daoAccount.metaMint ?? "")

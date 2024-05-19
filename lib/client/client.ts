@@ -99,7 +99,7 @@ export interface FutarchyBalancesClient {
     baseToken: TokenProps
   ): Array<TokenWithPDA & { proposal: PublicKey }>;
   fetchAllConditionalTokenWalletBalances(
-    ownerWallet: PublicKey,
+    ownerWallet: PublicKey | null,
     quoteToken: TokenProps,
     baseToken: TokenProps,
     proposals: Proposal[]

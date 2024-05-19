@@ -15,6 +15,11 @@ export type TokenWithBalancePDAAndProposal = TokenWithBalance & {
   pda: PublicKey;
 };
 
+export type TokenWithNullableBalancePDAAndProposal = Omit<
+  TokenWithBalancePDAAndProposal,
+  "pda"
+> & { pda: PublicKey | null };
+
 export type TokenWithPDA = {
   token: TokenProps;
   pda: PublicKey;

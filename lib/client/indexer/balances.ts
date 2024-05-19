@@ -5,7 +5,7 @@ import {
   TokenProps,
   TokenWithBalance,
   TokenWithBalancePDAAndProposal,
-  TokenWithPDA,
+  TokenWithPDA
 } from "@/types";
 import { FutarchyBalancesClient } from "@/client";
 import { Proposal } from "@/types/proposals";
@@ -67,7 +67,7 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     );
   }
   async fetchAllConditionalTokenWalletBalances(
-    ownerWallet: PublicKey,
+    ownerWallet: PublicKey | null,
     baseToken: TokenProps,
     quoteToken: TokenProps,
     proposalsWithVaults: Proposal[]

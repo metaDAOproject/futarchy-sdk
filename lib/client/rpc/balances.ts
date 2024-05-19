@@ -175,24 +175,26 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
    * @returns
    */
   async fetchAllConditionalTokenWalletBalances(
-    ownerWallet: PublicKey,
+    ownerWallet: PublicKey | null,
     baseToken: TokenProps,
     quoteToken: TokenProps,
     proposals: Proposal[]
   ): Promise<TokenWithBalancePDAAndProposal[]> {
     const tokenBalances = await Promise.all(
       proposals.map(async (proposal) => {
-        if (ownerWallet && proposal.publicKey && quoteToken.publicKey) {
+        if (proposal.publicKey && quoteToken.publicKey) {
           //TODO create proper type or even class with functionality for this(for readability)
           const tokensWithPDA = [
             {
-              pda: getAssociatedTokenAddressSync(
-                new PublicKey(
-                  proposal.baseVaultAccount.conditionalOnFinalizeTokenMint
-                ),
-                ownerWallet,
-                true
-              ),
+              pda: ownerWallet
+                ? getAssociatedTokenAddressSync(
+                    new PublicKey(
+                      proposal.baseVaultAccount.conditionalOnFinalizeTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
+                : null,
               token: {
                 ...baseToken,
                 publicKey:
@@ -202,13 +204,15 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               proposal: proposal.publicKey
             },
             {
-              pda: getAssociatedTokenAddressSync(
-                new PublicKey(
-                  proposal.baseVaultAccount.conditionalOnRevertTokenMint
-                ),
-                ownerWallet,
-                true
-              ),
+              pda: ownerWallet
+                ? getAssociatedTokenAddressSync(
+                    new PublicKey(
+                      proposal.baseVaultAccount.conditionalOnRevertTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
+                : null,
               token: {
                 ...baseToken,
                 publicKey:
@@ -218,13 +222,15 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               proposal: proposal.publicKey
             },
             {
-              pda: getAssociatedTokenAddressSync(
-                new PublicKey(
-                  proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint
-                ),
-                ownerWallet,
-                true
-              ),
+              pda: ownerWallet
+                ? getAssociatedTokenAddressSync(
+                    new PublicKey(
+                      proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
+                : null,
               token: {
                 ...quoteToken,
                 publicKey:
@@ -234,13 +240,15 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               proposal: proposal.publicKey
             },
             {
-              pda: getAssociatedTokenAddressSync(
-                new PublicKey(
-                  proposal.quoteVaultAccount.conditionalOnRevertTokenMint
-                ),
-                ownerWallet,
-                true
-              ),
+              pda: ownerWallet
+                ? getAssociatedTokenAddressSync(
+                    new PublicKey(
+                      proposal.quoteVaultAccount.conditionalOnRevertTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
+                : null,
               token: {
                 ...quoteToken,
                 publicKey:
@@ -254,10 +262,11 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
           const tokensBalances = await Promise.all(
             tokensWithPDA.map(async (t) => {
               try {
-                const tokenBalance =
-                  await this.rpcProvider.connection.getTokenAccountBalance(
-                    t.pda
-                  );
+                const tokenBalance = t.pda
+                  ? await this.rpcProvider.connection.getTokenAccountBalance(
+                      t.pda
+                    )
+                  : { value: { uiAmount: 0 } };
                 return {
                   balance: tokenBalance.value.uiAmount ?? 0,
                   token: t.token,

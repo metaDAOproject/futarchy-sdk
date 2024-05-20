@@ -24,7 +24,6 @@ import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
 import { PriceMath } from "@metadaoproject/futarchy";
 import { BN } from "@coral-xyz/anchor";
-
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public openbook: FutarchyIndexerOpenbookMarketsClient;
   public amm: FutarchyIndexerAmmMarketsClient;
@@ -59,17 +58,16 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
     const { query, variables } = generateSubscriptionOp({
-      twaps: {
+      twap_chart_data: {
         __args: {
           where: {
             market_acct: { _eq: marketKey.toString() }
           },
           order_by: [
             {
-              created_at: "asc"
+              interv: "asc"
             }
-          ],
-          distinct_on: ["created_at"]
+          ]
         },
         token_amount: true,
         market: {
@@ -80,17 +78,16 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             decimals: true
           }
         },
-        updated_slot: true,
-        created_at: true
+        interv: true
       }
     });
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        twaps: {
+        twap_chart_data: {
           token_amount: number;
           updated_slot: number;
-          created_at: Date;
+          interv: string;
           // TODO this query might be a bit slow... hasura warned about caching directive, we need to watch for this
           market: {
             tokenByQuoteMintAcct: {
@@ -105,19 +102,17 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            const twapObservations = data.data?.twaps?.map<TwapObservation>(
-              (d) => ({
+            const twapObservations =
+              data.data?.twap_chart_data?.map<TwapObservation>((d) => ({
                 priceUi: PriceMath.getHumanPrice(
                   new BN(d.token_amount),
                   d.market?.tokenByBaseMintAcct.decimals!!,
                   d.market?.tokenByQuoteMintAcct.decimals!!
                 ),
                 priceRaw: d.token_amount,
-                slot: d.updated_slot,
-                createdAt: d.created_at
-              })
-            );
-            subscriber.next(twapObservations ?? []);
+                createdAt: new Date(d.interv)
+              }));
+            subscriber.next(twapObservations);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()
@@ -304,7 +299,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
 
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
     const { query, variables } = generateSubscriptionOp({
-      prices: {
+      prices_chart_data: {
         __args: {
           where: {
             market_acct: { _eq: marketKey.toString() },
@@ -314,12 +309,11 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           },
           order_by: [
             {
-              created_at: "asc"
+              interv: "asc"
             }
-          ],
-          distinct_on: ["created_at"]
+          ]
         },
-        created_at: true,
+        interv: true,
         price: true,
         quote_amount: true,
         base_amount: true,
@@ -336,8 +330,8 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        prices: {
-          created_at: Date;
+        prices_chart_data: {
+          interv: string;
           price: number;
           quote_amount: number;
           base_amount: number;
@@ -354,15 +348,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            const spotObservations = data.data?.prices?.map<SpotObservation>(
-              (d) => ({
+            const spotObservations =
+              data.data?.prices_chart_data?.map<SpotObservation>((d) => ({
                 priceUi: d.price,
-                createdAt: d.created_at,
+                createdAt: new Date(d.interv),
                 quoteAmount: d.quote_amount,
                 baseAmount: d.base_amount
-              })
-            );
-            subscriber.next(spotObservations ?? []);
+              }));
+            subscriber.next(spotObservations);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()

@@ -4,7 +4,7 @@ import {
   ProposalAccount,
   ProposalAccountWithKey,
   ProposalState,
-  VaultAccount,
+  VaultAccount
 } from "@/types";
 import { getMarketTypeFromProtocolVersion } from "./markets";
 import { PublicKey } from "@metaplex-foundation/js";
@@ -13,11 +13,11 @@ export function getStrStateFromProposal(
   relatedProposalAccount: ProposalAccount
 ): ProposalState {
   if (relatedProposalAccount.state.passed) {
-    return "passed";
+    return "Passed";
   } else if (relatedProposalAccount.state.failed) {
-    return "failed";
+    return "Failed";
   }
-  return "pending";
+  return "Pending";
 }
 
 // we should remove function once indexer fetches all the data we need
@@ -38,7 +38,7 @@ export function getProposalFromAccount(
   return {
     account,
     proposer: {
-      publicKey: account.proposer.toString(),
+      publicKey: account.proposer.toString()
     },
     title: `Proposal - ${account.number}`,
     description: "",
@@ -49,7 +49,7 @@ export function getProposalFromAccount(
     publicKey,
     // TODO: Review
     startSlot: account.slotEnqueued,
-    endSlot: account.slotEnqueued + ((86400000 / 400) * 3),
+    endSlot: account.slotEnqueued + (86400000 / 400) * 3,
     // TODO: We can do better than this ;)
     creationDate: new Date(),
     // TODO: :)
@@ -65,21 +65,21 @@ export function getProposalFromAccount(
     prices: {
       fail: {
         spot: 0,
-        twap: 0,
+        twap: 0
       },
       pass: {
         spot: 0,
-        twap: 0,
-      },
+        twap: 0
+      }
     },
     protocol: dao.protocol,
     baseVaultAccount: {
       ...baseVaultAccount,
-      protocol: dao.protocol,
+      protocol: dao.protocol
     },
     quoteVaultAccount: {
       ...quoteVaultAccount,
-      protocol: dao.protocol,
-    },
+      protocol: dao.protocol
+    }
   };
 }

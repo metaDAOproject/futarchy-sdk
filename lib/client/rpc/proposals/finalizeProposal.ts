@@ -119,81 +119,6 @@ export class FinalizeProposalClient implements FinalizeProposal {
     );
   }
 
-  private async finalizeProposalIx(
-    proposal: PublicKey,
-    instruction: any,
-    dao: PublicKey,
-    daoToken: PublicKey,
-    usdc: PublicKey,
-    proposer: PublicKey
-  ) {
-    let vaultProgramId = this.autocratClient.vaultClient.vaultProgram.programId;
-
-    const [daoTreasury] = getDaoTreasuryAddr(
-      this.autocratClient.autocrat.programId,
-      dao
-    );
-    const [baseVault] = getVaultAddr(
-      this.autocratClient.vaultClient.vaultProgram.programId,
-      daoTreasury,
-      daoToken
-    );
-    const [quoteVault] = getVaultAddr(
-      this.autocratClient.vaultClient.vaultProgram.programId,
-      daoTreasury,
-      usdc
-    );
-
-    const [passBase] = getVaultFinalizeMintAddr(vaultProgramId, baseVault);
-    const [passQuote] = getVaultFinalizeMintAddr(vaultProgramId, quoteVault);
-
-    const [failBase] = getVaultRevertMintAddr(vaultProgramId, baseVault);
-    const [failQuote] = getVaultRevertMintAddr(vaultProgramId, quoteVault);
-
-    const [passAmm] = getAmmAddr(
-      this.autocratClient.ammClient.program.programId,
-      passBase,
-      passQuote
-    );
-    const [failAmm] = getAmmAddr(
-      this.autocratClient.ammClient.program.programId,
-      failBase,
-      failQuote
-    );
-
-    const [passLp] = getAmmLpMintAddr(
-      this.autocratClient.ammClient.program.programId,
-      passAmm
-    );
-    const [failLp] = getAmmLpMintAddr(
-      this.autocratClient.ammClient.program.programId,
-      failAmm
-    );
-
-    return this.autocratClient.autocrat.methods.finalizeProposal().accounts({
-      proposal,
-      passAmm,
-      failAmm,
-      dao,
-      baseVault,
-      quoteVault,
-      passLpUserAccount: getAssociatedTokenAddressSync(passLp, proposer),
-      failLpUserAccount: getAssociatedTokenAddressSync(failLp, proposer),
-      passLpVaultAccount: getAssociatedTokenAddressSync(
-        passLp,
-        daoTreasury,
-        true
-      ),
-      failLpVaultAccount: getAssociatedTokenAddressSync(
-        failLp,
-        daoTreasury,
-        true
-      ),
-      vaultProgram: this.autocratClient.vaultClient.vaultProgram.programId,
-      treasury: daoTreasury
-    });
-  }
-
   //CURRENT VERSION
   private async finalizeProposalv03(proposal: Proposal) {
     try {
@@ -201,16 +126,15 @@ export class FinalizeProposalClient implements FinalizeProposal {
         proposal.publicKey
       );
       const dao = await this.autocratClient.getDao(proposalAccount.dao);
-      const finalizeProposalTx = await (
-        await this.finalizeProposalIx(
+      const finalizeProposalTx =
+        await this.autocratClient.finalizeProposalIx(
           proposal.publicKey,
           proposalAccount.instruction,
           proposalAccount.dao,
           dao.tokenMint,
           dao.usdcMint,
           proposalAccount.proposer
-        )
-      ).transaction();
+        ).transaction()
 
       return await this.transactionSender?.send(
         [finalizeProposalTx],

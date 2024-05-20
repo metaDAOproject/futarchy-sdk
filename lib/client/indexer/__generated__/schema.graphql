@@ -2699,9 +2699,11 @@ type indexer_account_dependencies {
   indexer: indexers!
   latest_tx_sig_processed: String
   name: String!
+  status: String
 
   """An object relationship"""
   transaction: transactions
+  updated_at: timestamp
 }
 
 """
@@ -2762,7 +2764,9 @@ input indexer_account_dependencies_bool_exp {
   indexer: indexers_bool_exp
   latest_tx_sig_processed: String_comparison_exp
   name: String_comparison_exp
+  status: String_comparison_exp
   transaction: transactions_bool_exp
+  updated_at: timestamp_comparison_exp
 }
 
 """
@@ -2783,7 +2787,9 @@ input indexer_account_dependencies_insert_input {
   indexer: indexers_obj_rel_insert_input
   latest_tx_sig_processed: String
   name: String
+  status: String
   transaction: transactions_obj_rel_insert_input
+  updated_at: timestamp
 }
 
 """aggregate max on columns"""
@@ -2791,6 +2797,8 @@ type indexer_account_dependencies_max_fields {
   acct: String
   latest_tx_sig_processed: String
   name: String
+  status: String
+  updated_at: timestamp
 }
 
 """
@@ -2800,6 +2808,8 @@ input indexer_account_dependencies_max_order_by {
   acct: order_by
   latest_tx_sig_processed: order_by
   name: order_by
+  status: order_by
+  updated_at: order_by
 }
 
 """aggregate min on columns"""
@@ -2807,6 +2817,8 @@ type indexer_account_dependencies_min_fields {
   acct: String
   latest_tx_sig_processed: String
   name: String
+  status: String
+  updated_at: timestamp
 }
 
 """
@@ -2816,6 +2828,8 @@ input indexer_account_dependencies_min_order_by {
   acct: order_by
   latest_tx_sig_processed: order_by
   name: order_by
+  status: order_by
+  updated_at: order_by
 }
 
 """
@@ -2846,7 +2860,9 @@ input indexer_account_dependencies_order_by {
   indexer: indexers_order_by
   latest_tx_sig_processed: order_by
   name: order_by
+  status: order_by
   transaction: transactions_order_by
+  updated_at: order_by
 }
 
 """primary key columns input for table: indexer_account_dependencies"""
@@ -2867,6 +2883,12 @@ enum indexer_account_dependencies_select_column {
 
   """column name"""
   name
+
+  """column name"""
+  status
+
+  """column name"""
+  updated_at
 }
 
 """
@@ -2876,6 +2898,8 @@ input indexer_account_dependencies_set_input {
   acct: String
   latest_tx_sig_processed: String
   name: String
+  status: String
+  updated_at: timestamp
 }
 
 """
@@ -2894,6 +2918,8 @@ input indexer_account_dependencies_stream_cursor_value_input {
   acct: String
   latest_tx_sig_processed: String
   name: String
+  status: String
+  updated_at: timestamp
 }
 
 """
@@ -2908,6 +2934,12 @@ enum indexer_account_dependencies_update_column {
 
   """column name"""
   name
+
+  """column name"""
+  status
+
+  """column name"""
+  updated_at
 }
 
 input indexer_account_dependencies_updates {
@@ -7237,6 +7269,7 @@ columns and relationships of "prices"
 type prices {
   base_amount: bigint
   created_at: timestamp!
+  created_by: String
 
   """An object relationship"""
   market: markets!
@@ -7337,12 +7370,200 @@ input prices_bool_exp {
   _or: [prices_bool_exp!]
   base_amount: bigint_comparison_exp
   created_at: timestamp_comparison_exp
+  created_by: String_comparison_exp
   market: markets_bool_exp
   market_acct: String_comparison_exp
   price: numeric_comparison_exp
   prices_type: String_comparison_exp
   quote_amount: bigint_comparison_exp
   updated_slot: bigint_comparison_exp
+}
+
+"""
+columns and relationships of "prices_chart_data"
+"""
+type prices_chart_data {
+  base_amount: bigint
+  interv: timestamp
+
+  """An object relationship"""
+  market: markets
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+}
+
+"""
+aggregated selection of "prices_chart_data"
+"""
+type prices_chart_data_aggregate {
+  aggregate: prices_chart_data_aggregate_fields
+  nodes: [prices_chart_data!]!
+}
+
+"""
+aggregate fields of "prices_chart_data"
+"""
+type prices_chart_data_aggregate_fields {
+  avg: prices_chart_data_avg_fields
+  count(columns: [prices_chart_data_select_column!], distinct: Boolean): Int!
+  max: prices_chart_data_max_fields
+  min: prices_chart_data_min_fields
+  stddev: prices_chart_data_stddev_fields
+  stddev_pop: prices_chart_data_stddev_pop_fields
+  stddev_samp: prices_chart_data_stddev_samp_fields
+  sum: prices_chart_data_sum_fields
+  var_pop: prices_chart_data_var_pop_fields
+  var_samp: prices_chart_data_var_samp_fields
+  variance: prices_chart_data_variance_fields
+}
+
+"""aggregate avg on columns"""
+type prices_chart_data_avg_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+}
+
+"""
+Boolean expression to filter rows from the table "prices_chart_data". All fields are combined with a logical 'AND'.
+"""
+input prices_chart_data_bool_exp {
+  _and: [prices_chart_data_bool_exp!]
+  _not: prices_chart_data_bool_exp
+  _or: [prices_chart_data_bool_exp!]
+  base_amount: bigint_comparison_exp
+  interv: timestamp_comparison_exp
+  market: markets_bool_exp
+  market_acct: String_comparison_exp
+  price: numeric_comparison_exp
+  prices_type: String_comparison_exp
+  quote_amount: bigint_comparison_exp
+}
+
+"""aggregate max on columns"""
+type prices_chart_data_max_fields {
+  base_amount: bigint
+  interv: timestamp
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+}
+
+"""aggregate min on columns"""
+type prices_chart_data_min_fields {
+  base_amount: bigint
+  interv: timestamp
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+}
+
+"""Ordering options when selecting data from "prices_chart_data"."""
+input prices_chart_data_order_by {
+  base_amount: order_by
+  interv: order_by
+  market: markets_order_by
+  market_acct: order_by
+  price: order_by
+  prices_type: order_by
+  quote_amount: order_by
+}
+
+"""
+select columns of table "prices_chart_data"
+"""
+enum prices_chart_data_select_column {
+  """column name"""
+  base_amount
+
+  """column name"""
+  interv
+
+  """column name"""
+  market_acct
+
+  """column name"""
+  price
+
+  """column name"""
+  prices_type
+
+  """column name"""
+  quote_amount
+}
+
+"""aggregate stddev on columns"""
+type prices_chart_data_stddev_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type prices_chart_data_stddev_pop_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type prices_chart_data_stddev_samp_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+}
+
+"""
+Streaming cursor of the table "prices_chart_data"
+"""
+input prices_chart_data_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: prices_chart_data_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input prices_chart_data_stream_cursor_value_input {
+  base_amount: bigint
+  interv: timestamp
+  market_acct: String
+  price: numeric
+  prices_type: String
+  quote_amount: bigint
+}
+
+"""aggregate sum on columns"""
+type prices_chart_data_sum_fields {
+  base_amount: bigint
+  price: numeric
+  quote_amount: bigint
+}
+
+"""aggregate var_pop on columns"""
+type prices_chart_data_var_pop_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+}
+
+"""aggregate var_samp on columns"""
+type prices_chart_data_var_samp_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
+}
+
+"""aggregate variance on columns"""
+type prices_chart_data_variance_fields {
+  base_amount: Float
+  price: Float
+  quote_amount: Float
 }
 
 """
@@ -7371,6 +7592,7 @@ input type for inserting data into table "prices"
 input prices_insert_input {
   base_amount: bigint
   created_at: timestamp
+  created_by: String
   market: markets_obj_rel_insert_input
   market_acct: String
   price: numeric
@@ -7383,6 +7605,7 @@ input prices_insert_input {
 type prices_max_fields {
   base_amount: bigint
   created_at: timestamp
+  created_by: String
   market_acct: String
   price: numeric
   prices_type: String
@@ -7396,6 +7619,7 @@ order by max() on columns of table "prices"
 input prices_max_order_by {
   base_amount: order_by
   created_at: order_by
+  created_by: order_by
   market_acct: order_by
   price: order_by
   prices_type: order_by
@@ -7407,6 +7631,7 @@ input prices_max_order_by {
 type prices_min_fields {
   base_amount: bigint
   created_at: timestamp
+  created_by: String
   market_acct: String
   price: numeric
   prices_type: String
@@ -7420,6 +7645,7 @@ order by min() on columns of table "prices"
 input prices_min_order_by {
   base_amount: order_by
   created_at: order_by
+  created_by: order_by
   market_acct: order_by
   price: order_by
   prices_type: order_by
@@ -7451,6 +7677,7 @@ input prices_on_conflict {
 input prices_order_by {
   base_amount: order_by
   created_at: order_by
+  created_by: order_by
   market: markets_order_by
   market_acct: order_by
   price: order_by
@@ -7476,6 +7703,9 @@ enum prices_select_column {
   created_at
 
   """column name"""
+  created_by
+
+  """column name"""
   market_acct
 
   """column name"""
@@ -7497,6 +7727,7 @@ input type for updating data in table "prices"
 input prices_set_input {
   base_amount: bigint
   created_at: timestamp
+  created_by: String
   market_acct: String
   price: numeric
   prices_type: String
@@ -7573,6 +7804,7 @@ input prices_stream_cursor_input {
 input prices_stream_cursor_value_input {
   base_amount: bigint
   created_at: timestamp
+  created_by: String
   market_acct: String
   price: numeric
   prices_type: String
@@ -7607,6 +7839,9 @@ enum prices_update_column {
 
   """column name"""
   created_at
+
+  """column name"""
+  created_by
 
   """column name"""
   market_acct
@@ -10680,6 +10915,46 @@ type query_root {
   prices_by_pk(created_at: timestamp!, market_acct: String!): prices
 
   """
+  fetch data from the table: "prices_chart_data"
+  """
+  prices_chart_data(
+    """distinct select on columns"""
+    distinct_on: [prices_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: prices_chart_data_bool_exp
+  ): [prices_chart_data!]!
+
+  """
+  fetch aggregated fields from the table: "prices_chart_data"
+  """
+  prices_chart_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: prices_chart_data_bool_exp
+  ): prices_chart_data_aggregate!
+
+  """
   fetch data from the table: "program_system"
   """
   program_system(
@@ -11170,6 +11445,46 @@ type query_root {
 
   """fetch data from the table: "transactions" using primary key columns"""
   transactions_by_pk(tx_sig: String!): transactions
+
+  """
+  fetch data from the table: "twap_chart_data"
+  """
+  twap_chart_data(
+    """distinct select on columns"""
+    distinct_on: [twap_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [twap_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: twap_chart_data_bool_exp
+  ): [twap_chart_data!]!
+
+  """
+  fetch aggregated fields from the table: "twap_chart_data"
+  """
+  twap_chart_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [twap_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [twap_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: twap_chart_data_bool_exp
+  ): twap_chart_data_aggregate!
 
   """An array relationship"""
   twaps(
@@ -12232,6 +12547,60 @@ type subscription_root {
   prices_by_pk(created_at: timestamp!, market_acct: String!): prices
 
   """
+  fetch data from the table: "prices_chart_data"
+  """
+  prices_chart_data(
+    """distinct select on columns"""
+    distinct_on: [prices_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: prices_chart_data_bool_exp
+  ): [prices_chart_data!]!
+
+  """
+  fetch aggregated fields from the table: "prices_chart_data"
+  """
+  prices_chart_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: prices_chart_data_bool_exp
+  ): prices_chart_data_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "prices_chart_data"
+  """
+  prices_chart_data_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [prices_chart_data_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: prices_chart_data_bool_exp
+  ): [prices_chart_data!]!
+
+  """
   fetch data from the table in a streaming manner: "prices"
   """
   prices_stream(
@@ -12904,6 +13273,60 @@ type subscription_root {
     """filter the rows returned"""
     where: transactions_bool_exp
   ): [transactions!]!
+
+  """
+  fetch data from the table: "twap_chart_data"
+  """
+  twap_chart_data(
+    """distinct select on columns"""
+    distinct_on: [twap_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [twap_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: twap_chart_data_bool_exp
+  ): [twap_chart_data!]!
+
+  """
+  fetch aggregated fields from the table: "twap_chart_data"
+  """
+  twap_chart_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [twap_chart_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [twap_chart_data_order_by!]
+
+    """filter the rows returned"""
+    where: twap_chart_data_bool_exp
+  ): twap_chart_data_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "twap_chart_data"
+  """
+  twap_chart_data_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [twap_chart_data_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: twap_chart_data_bool_exp
+  ): [twap_chart_data!]!
 
   """An array relationship"""
   twaps(
@@ -14126,7 +14549,7 @@ type token_accts {
     """filter the rows returned"""
     where: token_acct_balances_bool_exp
   ): token_acct_balances_aggregate!
-  updated_at: timestamp!
+  updated_at: timestamp
 }
 
 """
@@ -16398,6 +16821,150 @@ type transactions_var_samp_fields {
 type transactions_variance_fields {
   serializer_logic_version: Float
   slot: Float
+}
+
+"""
+columns and relationships of "twap_chart_data"
+"""
+type twap_chart_data {
+  interv: timestamp
+
+  """An object relationship"""
+  market: markets
+  market_acct: String
+  token_amount: bigint
+}
+
+"""
+aggregated selection of "twap_chart_data"
+"""
+type twap_chart_data_aggregate {
+  aggregate: twap_chart_data_aggregate_fields
+  nodes: [twap_chart_data!]!
+}
+
+"""
+aggregate fields of "twap_chart_data"
+"""
+type twap_chart_data_aggregate_fields {
+  avg: twap_chart_data_avg_fields
+  count(columns: [twap_chart_data_select_column!], distinct: Boolean): Int!
+  max: twap_chart_data_max_fields
+  min: twap_chart_data_min_fields
+  stddev: twap_chart_data_stddev_fields
+  stddev_pop: twap_chart_data_stddev_pop_fields
+  stddev_samp: twap_chart_data_stddev_samp_fields
+  sum: twap_chart_data_sum_fields
+  var_pop: twap_chart_data_var_pop_fields
+  var_samp: twap_chart_data_var_samp_fields
+  variance: twap_chart_data_variance_fields
+}
+
+"""aggregate avg on columns"""
+type twap_chart_data_avg_fields {
+  token_amount: Float
+}
+
+"""
+Boolean expression to filter rows from the table "twap_chart_data". All fields are combined with a logical 'AND'.
+"""
+input twap_chart_data_bool_exp {
+  _and: [twap_chart_data_bool_exp!]
+  _not: twap_chart_data_bool_exp
+  _or: [twap_chart_data_bool_exp!]
+  interv: timestamp_comparison_exp
+  market: markets_bool_exp
+  market_acct: String_comparison_exp
+  token_amount: bigint_comparison_exp
+}
+
+"""aggregate max on columns"""
+type twap_chart_data_max_fields {
+  interv: timestamp
+  market_acct: String
+  token_amount: bigint
+}
+
+"""aggregate min on columns"""
+type twap_chart_data_min_fields {
+  interv: timestamp
+  market_acct: String
+  token_amount: bigint
+}
+
+"""Ordering options when selecting data from "twap_chart_data"."""
+input twap_chart_data_order_by {
+  interv: order_by
+  market: markets_order_by
+  market_acct: order_by
+  token_amount: order_by
+}
+
+"""
+select columns of table "twap_chart_data"
+"""
+enum twap_chart_data_select_column {
+  """column name"""
+  interv
+
+  """column name"""
+  market_acct
+
+  """column name"""
+  token_amount
+}
+
+"""aggregate stddev on columns"""
+type twap_chart_data_stddev_fields {
+  token_amount: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type twap_chart_data_stddev_pop_fields {
+  token_amount: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type twap_chart_data_stddev_samp_fields {
+  token_amount: Float
+}
+
+"""
+Streaming cursor of the table "twap_chart_data"
+"""
+input twap_chart_data_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: twap_chart_data_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input twap_chart_data_stream_cursor_value_input {
+  interv: timestamp
+  market_acct: String
+  token_amount: bigint
+}
+
+"""aggregate sum on columns"""
+type twap_chart_data_sum_fields {
+  token_amount: bigint
+}
+
+"""aggregate var_pop on columns"""
+type twap_chart_data_var_pop_fields {
+  token_amount: Float
+}
+
+"""aggregate var_samp on columns"""
+type twap_chart_data_var_samp_fields {
+  token_amount: Float
+}
+
+"""aggregate variance on columns"""
+type twap_chart_data_variance_fields {
+  token_amount: Float
 }
 
 """

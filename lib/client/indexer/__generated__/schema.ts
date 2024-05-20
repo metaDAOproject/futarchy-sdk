@@ -833,8 +833,10 @@ export interface indexer_account_dependencies {
     indexer: indexers
     latest_tx_sig_processed: (Scalars['String'] | null)
     name: Scalars['String']
+    status: (Scalars['String'] | null)
     /** An object relationship */
     transaction: (transactions | null)
+    updated_at: (Scalars['timestamp'] | null)
     __typename: 'indexer_account_dependencies'
 }
 
@@ -865,6 +867,8 @@ export interface indexer_account_dependencies_max_fields {
     acct: (Scalars['String'] | null)
     latest_tx_sig_processed: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
+    status: (Scalars['String'] | null)
+    updated_at: (Scalars['timestamp'] | null)
     __typename: 'indexer_account_dependencies_max_fields'
 }
 
@@ -874,6 +878,8 @@ export interface indexer_account_dependencies_min_fields {
     acct: (Scalars['String'] | null)
     latest_tx_sig_processed: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
+    status: (Scalars['String'] | null)
+    updated_at: (Scalars['timestamp'] | null)
     __typename: 'indexer_account_dependencies_min_fields'
 }
 
@@ -889,11 +895,11 @@ export interface indexer_account_dependencies_mutation_response {
 
 
 /** select columns of table "indexer_account_dependencies" */
-export type indexer_account_dependencies_select_column = 'acct' | 'latest_tx_sig_processed' | 'name'
+export type indexer_account_dependencies_select_column = 'acct' | 'latest_tx_sig_processed' | 'name' | 'status' | 'updated_at'
 
 
 /** update columns of table "indexer_account_dependencies" */
-export type indexer_account_dependencies_update_column = 'acct' | 'latest_tx_sig_processed' | 'name'
+export type indexer_account_dependencies_update_column = 'acct' | 'latest_tx_sig_processed' | 'name' | 'status' | 'updated_at'
 
 
 /** columns and relationships of "indexers" */
@@ -2051,6 +2057,7 @@ export interface orders_variance_fields {
 export interface prices {
     base_amount: (Scalars['bigint'] | null)
     created_at: Scalars['timestamp']
+    created_by: (Scalars['String'] | null)
     /** An object relationship */
     market: markets
     market_acct: Scalars['String']
@@ -2097,6 +2104,145 @@ export interface prices_avg_fields {
 }
 
 
+/** columns and relationships of "prices_chart_data" */
+export interface prices_chart_data {
+    base_amount: (Scalars['bigint'] | null)
+    interv: (Scalars['timestamp'] | null)
+    /** An object relationship */
+    market: (markets | null)
+    market_acct: (Scalars['String'] | null)
+    price: (Scalars['numeric'] | null)
+    prices_type: (Scalars['String'] | null)
+    quote_amount: (Scalars['bigint'] | null)
+    __typename: 'prices_chart_data'
+}
+
+
+/** aggregated selection of "prices_chart_data" */
+export interface prices_chart_data_aggregate {
+    aggregate: (prices_chart_data_aggregate_fields | null)
+    nodes: prices_chart_data[]
+    __typename: 'prices_chart_data_aggregate'
+}
+
+
+/** aggregate fields of "prices_chart_data" */
+export interface prices_chart_data_aggregate_fields {
+    avg: (prices_chart_data_avg_fields | null)
+    count: Scalars['Int']
+    max: (prices_chart_data_max_fields | null)
+    min: (prices_chart_data_min_fields | null)
+    stddev: (prices_chart_data_stddev_fields | null)
+    stddev_pop: (prices_chart_data_stddev_pop_fields | null)
+    stddev_samp: (prices_chart_data_stddev_samp_fields | null)
+    sum: (prices_chart_data_sum_fields | null)
+    var_pop: (prices_chart_data_var_pop_fields | null)
+    var_samp: (prices_chart_data_var_samp_fields | null)
+    variance: (prices_chart_data_variance_fields | null)
+    __typename: 'prices_chart_data_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface prices_chart_data_avg_fields {
+    base_amount: (Scalars['Float'] | null)
+    price: (Scalars['Float'] | null)
+    quote_amount: (Scalars['Float'] | null)
+    __typename: 'prices_chart_data_avg_fields'
+}
+
+
+/** aggregate max on columns */
+export interface prices_chart_data_max_fields {
+    base_amount: (Scalars['bigint'] | null)
+    interv: (Scalars['timestamp'] | null)
+    market_acct: (Scalars['String'] | null)
+    price: (Scalars['numeric'] | null)
+    prices_type: (Scalars['String'] | null)
+    quote_amount: (Scalars['bigint'] | null)
+    __typename: 'prices_chart_data_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface prices_chart_data_min_fields {
+    base_amount: (Scalars['bigint'] | null)
+    interv: (Scalars['timestamp'] | null)
+    market_acct: (Scalars['String'] | null)
+    price: (Scalars['numeric'] | null)
+    prices_type: (Scalars['String'] | null)
+    quote_amount: (Scalars['bigint'] | null)
+    __typename: 'prices_chart_data_min_fields'
+}
+
+
+/** select columns of table "prices_chart_data" */
+export type prices_chart_data_select_column = 'base_amount' | 'interv' | 'market_acct' | 'price' | 'prices_type' | 'quote_amount'
+
+
+/** aggregate stddev on columns */
+export interface prices_chart_data_stddev_fields {
+    base_amount: (Scalars['Float'] | null)
+    price: (Scalars['Float'] | null)
+    quote_amount: (Scalars['Float'] | null)
+    __typename: 'prices_chart_data_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface prices_chart_data_stddev_pop_fields {
+    base_amount: (Scalars['Float'] | null)
+    price: (Scalars['Float'] | null)
+    quote_amount: (Scalars['Float'] | null)
+    __typename: 'prices_chart_data_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface prices_chart_data_stddev_samp_fields {
+    base_amount: (Scalars['Float'] | null)
+    price: (Scalars['Float'] | null)
+    quote_amount: (Scalars['Float'] | null)
+    __typename: 'prices_chart_data_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface prices_chart_data_sum_fields {
+    base_amount: (Scalars['bigint'] | null)
+    price: (Scalars['numeric'] | null)
+    quote_amount: (Scalars['bigint'] | null)
+    __typename: 'prices_chart_data_sum_fields'
+}
+
+
+/** aggregate var_pop on columns */
+export interface prices_chart_data_var_pop_fields {
+    base_amount: (Scalars['Float'] | null)
+    price: (Scalars['Float'] | null)
+    quote_amount: (Scalars['Float'] | null)
+    __typename: 'prices_chart_data_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface prices_chart_data_var_samp_fields {
+    base_amount: (Scalars['Float'] | null)
+    price: (Scalars['Float'] | null)
+    quote_amount: (Scalars['Float'] | null)
+    __typename: 'prices_chart_data_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface prices_chart_data_variance_fields {
+    base_amount: (Scalars['Float'] | null)
+    price: (Scalars['Float'] | null)
+    quote_amount: (Scalars['Float'] | null)
+    __typename: 'prices_chart_data_variance_fields'
+}
+
+
 /** unique or primary key constraints on table "prices" */
 export type prices_constraint = 'prices_created_at_market_acct_pk'
 
@@ -2105,6 +2251,7 @@ export type prices_constraint = 'prices_created_at_market_acct_pk'
 export interface prices_max_fields {
     base_amount: (Scalars['bigint'] | null)
     created_at: (Scalars['timestamp'] | null)
+    created_by: (Scalars['String'] | null)
     market_acct: (Scalars['String'] | null)
     price: (Scalars['numeric'] | null)
     prices_type: (Scalars['String'] | null)
@@ -2118,6 +2265,7 @@ export interface prices_max_fields {
 export interface prices_min_fields {
     base_amount: (Scalars['bigint'] | null)
     created_at: (Scalars['timestamp'] | null)
+    created_by: (Scalars['String'] | null)
     market_acct: (Scalars['String'] | null)
     price: (Scalars['numeric'] | null)
     prices_type: (Scalars['String'] | null)
@@ -2138,7 +2286,7 @@ export interface prices_mutation_response {
 
 
 /** select columns of table "prices" */
-export type prices_select_column = 'base_amount' | 'created_at' | 'market_acct' | 'price' | 'prices_type' | 'quote_amount' | 'updated_slot'
+export type prices_select_column = 'base_amount' | 'created_at' | 'created_by' | 'market_acct' | 'price' | 'prices_type' | 'quote_amount' | 'updated_slot'
 
 
 /** aggregate stddev on columns */
@@ -2182,7 +2330,7 @@ export interface prices_sum_fields {
 
 
 /** update columns of table "prices" */
-export type prices_update_column = 'base_amount' | 'created_at' | 'market_acct' | 'price' | 'prices_type' | 'quote_amount' | 'updated_slot'
+export type prices_update_column = 'base_amount' | 'created_at' | 'created_by' | 'market_acct' | 'price' | 'prices_type' | 'quote_amount' | 'updated_slot'
 
 
 /** aggregate var_pop on columns */
@@ -3030,6 +3178,10 @@ export interface query_root {
     prices_aggregate: prices_aggregate
     /** fetch data from the table: "prices" using primary key columns */
     prices_by_pk: (prices | null)
+    /** fetch data from the table: "prices_chart_data" */
+    prices_chart_data: prices_chart_data[]
+    /** fetch aggregated fields from the table: "prices_chart_data" */
+    prices_chart_data_aggregate: prices_chart_data_aggregate
     /** fetch data from the table: "program_system" */
     program_system: program_system[]
     /** fetch aggregated fields from the table: "program_system" */
@@ -3102,6 +3254,10 @@ export interface query_root {
     transactions_aggregate: transactions_aggregate
     /** fetch data from the table: "transactions" using primary key columns */
     transactions_by_pk: (transactions | null)
+    /** fetch data from the table: "twap_chart_data" */
+    twap_chart_data: twap_chart_data[]
+    /** fetch aggregated fields from the table: "twap_chart_data" */
+    twap_chart_data_aggregate: twap_chart_data_aggregate
     /** An array relationship */
     twaps: twaps[]
     /** An aggregate relationship */
@@ -3342,6 +3498,12 @@ export interface subscription_root {
     prices_aggregate: prices_aggregate
     /** fetch data from the table: "prices" using primary key columns */
     prices_by_pk: (prices | null)
+    /** fetch data from the table: "prices_chart_data" */
+    prices_chart_data: prices_chart_data[]
+    /** fetch aggregated fields from the table: "prices_chart_data" */
+    prices_chart_data_aggregate: prices_chart_data_aggregate
+    /** fetch data from the table in a streaming manner: "prices_chart_data" */
+    prices_chart_data_stream: prices_chart_data[]
     /** fetch data from the table in a streaming manner: "prices" */
     prices_stream: prices[]
     /** fetch data from the table: "program_system" */
@@ -3440,6 +3602,12 @@ export interface subscription_root {
     transactions_by_pk: (transactions | null)
     /** fetch data from the table in a streaming manner: "transactions" */
     transactions_stream: transactions[]
+    /** fetch data from the table: "twap_chart_data" */
+    twap_chart_data: twap_chart_data[]
+    /** fetch aggregated fields from the table: "twap_chart_data" */
+    twap_chart_data_aggregate: twap_chart_data_aggregate
+    /** fetch data from the table in a streaming manner: "twap_chart_data" */
+    twap_chart_data_stream: twap_chart_data[]
     /** An array relationship */
     twaps: twaps[]
     /** An aggregate relationship */
@@ -3826,7 +3994,7 @@ export interface token_accts {
     token_acct_balances: token_acct_balances[]
     /** An aggregate relationship */
     token_acct_balances_aggregate: token_acct_balances_aggregate
-    updated_at: Scalars['timestamp']
+    updated_at: (Scalars['timestamp'] | null)
     __typename: 'token_accts'
 }
 
@@ -4592,6 +4760,120 @@ export interface transactions_variance_fields {
     serializer_logic_version: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'transactions_variance_fields'
+}
+
+
+/** columns and relationships of "twap_chart_data" */
+export interface twap_chart_data {
+    interv: (Scalars['timestamp'] | null)
+    /** An object relationship */
+    market: (markets | null)
+    market_acct: (Scalars['String'] | null)
+    token_amount: (Scalars['bigint'] | null)
+    __typename: 'twap_chart_data'
+}
+
+
+/** aggregated selection of "twap_chart_data" */
+export interface twap_chart_data_aggregate {
+    aggregate: (twap_chart_data_aggregate_fields | null)
+    nodes: twap_chart_data[]
+    __typename: 'twap_chart_data_aggregate'
+}
+
+
+/** aggregate fields of "twap_chart_data" */
+export interface twap_chart_data_aggregate_fields {
+    avg: (twap_chart_data_avg_fields | null)
+    count: Scalars['Int']
+    max: (twap_chart_data_max_fields | null)
+    min: (twap_chart_data_min_fields | null)
+    stddev: (twap_chart_data_stddev_fields | null)
+    stddev_pop: (twap_chart_data_stddev_pop_fields | null)
+    stddev_samp: (twap_chart_data_stddev_samp_fields | null)
+    sum: (twap_chart_data_sum_fields | null)
+    var_pop: (twap_chart_data_var_pop_fields | null)
+    var_samp: (twap_chart_data_var_samp_fields | null)
+    variance: (twap_chart_data_variance_fields | null)
+    __typename: 'twap_chart_data_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface twap_chart_data_avg_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'twap_chart_data_avg_fields'
+}
+
+
+/** aggregate max on columns */
+export interface twap_chart_data_max_fields {
+    interv: (Scalars['timestamp'] | null)
+    market_acct: (Scalars['String'] | null)
+    token_amount: (Scalars['bigint'] | null)
+    __typename: 'twap_chart_data_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface twap_chart_data_min_fields {
+    interv: (Scalars['timestamp'] | null)
+    market_acct: (Scalars['String'] | null)
+    token_amount: (Scalars['bigint'] | null)
+    __typename: 'twap_chart_data_min_fields'
+}
+
+
+/** select columns of table "twap_chart_data" */
+export type twap_chart_data_select_column = 'interv' | 'market_acct' | 'token_amount'
+
+
+/** aggregate stddev on columns */
+export interface twap_chart_data_stddev_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'twap_chart_data_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface twap_chart_data_stddev_pop_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'twap_chart_data_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface twap_chart_data_stddev_samp_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'twap_chart_data_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface twap_chart_data_sum_fields {
+    token_amount: (Scalars['bigint'] | null)
+    __typename: 'twap_chart_data_sum_fields'
+}
+
+
+/** aggregate var_pop on columns */
+export interface twap_chart_data_var_pop_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'twap_chart_data_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface twap_chart_data_var_samp_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'twap_chart_data_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface twap_chart_data_variance_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'twap_chart_data_variance_fields'
 }
 
 
@@ -6291,8 +6573,10 @@ export interface indexer_account_dependenciesGenqlSelection{
     indexer?: indexersGenqlSelection
     latest_tx_sig_processed?: boolean | number
     name?: boolean | number
+    status?: boolean | number
     /** An object relationship */
     transaction?: transactionsGenqlSelection
+    updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -6332,11 +6616,11 @@ on_conflict?: (indexer_account_dependencies_on_conflict | null)}
 
 
 /** Boolean expression to filter rows from the table "indexer_account_dependencies". All fields are combined with a logical 'AND'. */
-export interface indexer_account_dependencies_bool_exp {_and?: (indexer_account_dependencies_bool_exp[] | null),_not?: (indexer_account_dependencies_bool_exp | null),_or?: (indexer_account_dependencies_bool_exp[] | null),acct?: (String_comparison_exp | null),indexer?: (indexers_bool_exp | null),latest_tx_sig_processed?: (String_comparison_exp | null),name?: (String_comparison_exp | null),transaction?: (transactions_bool_exp | null)}
+export interface indexer_account_dependencies_bool_exp {_and?: (indexer_account_dependencies_bool_exp[] | null),_not?: (indexer_account_dependencies_bool_exp | null),_or?: (indexer_account_dependencies_bool_exp[] | null),acct?: (String_comparison_exp | null),indexer?: (indexers_bool_exp | null),latest_tx_sig_processed?: (String_comparison_exp | null),name?: (String_comparison_exp | null),status?: (String_comparison_exp | null),transaction?: (transactions_bool_exp | null),updated_at?: (timestamp_comparison_exp | null)}
 
 
 /** input type for inserting data into table "indexer_account_dependencies" */
-export interface indexer_account_dependencies_insert_input {acct?: (Scalars['String'] | null),indexer?: (indexers_obj_rel_insert_input | null),latest_tx_sig_processed?: (Scalars['String'] | null),name?: (Scalars['String'] | null),transaction?: (transactions_obj_rel_insert_input | null)}
+export interface indexer_account_dependencies_insert_input {acct?: (Scalars['String'] | null),indexer?: (indexers_obj_rel_insert_input | null),latest_tx_sig_processed?: (Scalars['String'] | null),name?: (Scalars['String'] | null),status?: (Scalars['String'] | null),transaction?: (transactions_obj_rel_insert_input | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** aggregate max on columns */
@@ -6344,13 +6628,15 @@ export interface indexer_account_dependencies_max_fieldsGenqlSelection{
     acct?: boolean | number
     latest_tx_sig_processed?: boolean | number
     name?: boolean | number
+    status?: boolean | number
+    updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by max() on columns of table "indexer_account_dependencies" */
-export interface indexer_account_dependencies_max_order_by {acct?: (order_by | null),latest_tx_sig_processed?: (order_by | null),name?: (order_by | null)}
+export interface indexer_account_dependencies_max_order_by {acct?: (order_by | null),latest_tx_sig_processed?: (order_by | null),name?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -6358,13 +6644,15 @@ export interface indexer_account_dependencies_min_fieldsGenqlSelection{
     acct?: boolean | number
     latest_tx_sig_processed?: boolean | number
     name?: boolean | number
+    status?: boolean | number
+    updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by min() on columns of table "indexer_account_dependencies" */
-export interface indexer_account_dependencies_min_order_by {acct?: (order_by | null),latest_tx_sig_processed?: (order_by | null),name?: (order_by | null)}
+export interface indexer_account_dependencies_min_order_by {acct?: (order_by | null),latest_tx_sig_processed?: (order_by | null),name?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** response of any mutation on the table "indexer_account_dependencies" */
@@ -6383,7 +6671,7 @@ export interface indexer_account_dependencies_on_conflict {constraint: indexer_a
 
 
 /** Ordering options when selecting data from "indexer_account_dependencies". */
-export interface indexer_account_dependencies_order_by {acct?: (order_by | null),indexer?: (indexers_order_by | null),latest_tx_sig_processed?: (order_by | null),name?: (order_by | null),transaction?: (transactions_order_by | null)}
+export interface indexer_account_dependencies_order_by {acct?: (order_by | null),indexer?: (indexers_order_by | null),latest_tx_sig_processed?: (order_by | null),name?: (order_by | null),status?: (order_by | null),transaction?: (transactions_order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: indexer_account_dependencies */
@@ -6391,7 +6679,7 @@ export interface indexer_account_dependencies_pk_columns_input {acct: Scalars['S
 
 
 /** input type for updating data in table "indexer_account_dependencies" */
-export interface indexer_account_dependencies_set_input {acct?: (Scalars['String'] | null),latest_tx_sig_processed?: (Scalars['String'] | null),name?: (Scalars['String'] | null)}
+export interface indexer_account_dependencies_set_input {acct?: (Scalars['String'] | null),latest_tx_sig_processed?: (Scalars['String'] | null),name?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 
 /** Streaming cursor of the table "indexer_account_dependencies" */
@@ -6403,7 +6691,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface indexer_account_dependencies_stream_cursor_value_input {acct?: (Scalars['String'] | null),latest_tx_sig_processed?: (Scalars['String'] | null),name?: (Scalars['String'] | null)}
+export interface indexer_account_dependencies_stream_cursor_value_input {acct?: (Scalars['String'] | null),latest_tx_sig_processed?: (Scalars['String'] | null),name?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamp'] | null)}
 
 export interface indexer_account_dependencies_updates {
 /** sets the columns of the filtered rows to the given values */
@@ -8698,6 +8986,7 @@ export interface orders_variance_order_by {cancel_block?: (order_by | null),fill
 export interface pricesGenqlSelection{
     base_amount?: boolean | number
     created_at?: boolean | number
+    created_by?: boolean | number
     /** An object relationship */
     market?: marketsGenqlSelection
     market_acct?: boolean | number
@@ -8767,7 +9056,175 @@ export interface prices_avg_order_by {base_amount?: (order_by | null),price?: (o
 
 
 /** Boolean expression to filter rows from the table "prices". All fields are combined with a logical 'AND'. */
-export interface prices_bool_exp {_and?: (prices_bool_exp[] | null),_not?: (prices_bool_exp | null),_or?: (prices_bool_exp[] | null),base_amount?: (bigint_comparison_exp | null),created_at?: (timestamp_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),price?: (numeric_comparison_exp | null),prices_type?: (String_comparison_exp | null),quote_amount?: (bigint_comparison_exp | null),updated_slot?: (bigint_comparison_exp | null)}
+export interface prices_bool_exp {_and?: (prices_bool_exp[] | null),_not?: (prices_bool_exp | null),_or?: (prices_bool_exp[] | null),base_amount?: (bigint_comparison_exp | null),created_at?: (timestamp_comparison_exp | null),created_by?: (String_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),price?: (numeric_comparison_exp | null),prices_type?: (String_comparison_exp | null),quote_amount?: (bigint_comparison_exp | null),updated_slot?: (bigint_comparison_exp | null)}
+
+
+/** columns and relationships of "prices_chart_data" */
+export interface prices_chart_dataGenqlSelection{
+    base_amount?: boolean | number
+    interv?: boolean | number
+    /** An object relationship */
+    market?: marketsGenqlSelection
+    market_acct?: boolean | number
+    price?: boolean | number
+    prices_type?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "prices_chart_data" */
+export interface prices_chart_data_aggregateGenqlSelection{
+    aggregate?: prices_chart_data_aggregate_fieldsGenqlSelection
+    nodes?: prices_chart_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate fields of "prices_chart_data" */
+export interface prices_chart_data_aggregate_fieldsGenqlSelection{
+    avg?: prices_chart_data_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (prices_chart_data_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: prices_chart_data_max_fieldsGenqlSelection
+    min?: prices_chart_data_min_fieldsGenqlSelection
+    stddev?: prices_chart_data_stddev_fieldsGenqlSelection
+    stddev_pop?: prices_chart_data_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: prices_chart_data_stddev_samp_fieldsGenqlSelection
+    sum?: prices_chart_data_sum_fieldsGenqlSelection
+    var_pop?: prices_chart_data_var_pop_fieldsGenqlSelection
+    var_samp?: prices_chart_data_var_samp_fieldsGenqlSelection
+    variance?: prices_chart_data_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate avg on columns */
+export interface prices_chart_data_avg_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Boolean expression to filter rows from the table "prices_chart_data". All fields are combined with a logical 'AND'. */
+export interface prices_chart_data_bool_exp {_and?: (prices_chart_data_bool_exp[] | null),_not?: (prices_chart_data_bool_exp | null),_or?: (prices_chart_data_bool_exp[] | null),base_amount?: (bigint_comparison_exp | null),interv?: (timestamp_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),price?: (numeric_comparison_exp | null),prices_type?: (String_comparison_exp | null),quote_amount?: (bigint_comparison_exp | null)}
+
+
+/** aggregate max on columns */
+export interface prices_chart_data_max_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    interv?: boolean | number
+    market_acct?: boolean | number
+    price?: boolean | number
+    prices_type?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate min on columns */
+export interface prices_chart_data_min_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    interv?: boolean | number
+    market_acct?: boolean | number
+    price?: boolean | number
+    prices_type?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Ordering options when selecting data from "prices_chart_data". */
+export interface prices_chart_data_order_by {base_amount?: (order_by | null),interv?: (order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),price?: (order_by | null),prices_type?: (order_by | null),quote_amount?: (order_by | null)}
+
+
+/** aggregate stddev on columns */
+export interface prices_chart_data_stddev_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface prices_chart_data_stddev_pop_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface prices_chart_data_stddev_samp_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Streaming cursor of the table "prices_chart_data" */
+export interface prices_chart_data_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: prices_chart_data_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface prices_chart_data_stream_cursor_value_input {base_amount?: (Scalars['bigint'] | null),interv?: (Scalars['timestamp'] | null),market_acct?: (Scalars['String'] | null),price?: (Scalars['numeric'] | null),prices_type?: (Scalars['String'] | null),quote_amount?: (Scalars['bigint'] | null)}
+
+
+/** aggregate sum on columns */
+export interface prices_chart_data_sum_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_pop on columns */
+export interface prices_chart_data_var_pop_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_samp on columns */
+export interface prices_chart_data_var_samp_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate variance on columns */
+export interface prices_chart_data_variance_fieldsGenqlSelection{
+    base_amount?: boolean | number
+    price?: boolean | number
+    quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
 
 
 /** input type for incrementing numeric columns in table "prices" */
@@ -8775,13 +9232,14 @@ export interface prices_inc_input {base_amount?: (Scalars['bigint'] | null),pric
 
 
 /** input type for inserting data into table "prices" */
-export interface prices_insert_input {base_amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamp'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),price?: (Scalars['numeric'] | null),prices_type?: (Scalars['String'] | null),quote_amount?: (Scalars['bigint'] | null),updated_slot?: (Scalars['bigint'] | null)}
+export interface prices_insert_input {base_amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamp'] | null),created_by?: (Scalars['String'] | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),price?: (Scalars['numeric'] | null),prices_type?: (Scalars['String'] | null),quote_amount?: (Scalars['bigint'] | null),updated_slot?: (Scalars['bigint'] | null)}
 
 
 /** aggregate max on columns */
 export interface prices_max_fieldsGenqlSelection{
     base_amount?: boolean | number
     created_at?: boolean | number
+    created_by?: boolean | number
     market_acct?: boolean | number
     price?: boolean | number
     prices_type?: boolean | number
@@ -8793,13 +9251,14 @@ export interface prices_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "prices" */
-export interface prices_max_order_by {base_amount?: (order_by | null),created_at?: (order_by | null),market_acct?: (order_by | null),price?: (order_by | null),prices_type?: (order_by | null),quote_amount?: (order_by | null),updated_slot?: (order_by | null)}
+export interface prices_max_order_by {base_amount?: (order_by | null),created_at?: (order_by | null),created_by?: (order_by | null),market_acct?: (order_by | null),price?: (order_by | null),prices_type?: (order_by | null),quote_amount?: (order_by | null),updated_slot?: (order_by | null)}
 
 
 /** aggregate min on columns */
 export interface prices_min_fieldsGenqlSelection{
     base_amount?: boolean | number
     created_at?: boolean | number
+    created_by?: boolean | number
     market_acct?: boolean | number
     price?: boolean | number
     prices_type?: boolean | number
@@ -8811,7 +9270,7 @@ export interface prices_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "prices" */
-export interface prices_min_order_by {base_amount?: (order_by | null),created_at?: (order_by | null),market_acct?: (order_by | null),price?: (order_by | null),prices_type?: (order_by | null),quote_amount?: (order_by | null),updated_slot?: (order_by | null)}
+export interface prices_min_order_by {base_amount?: (order_by | null),created_at?: (order_by | null),created_by?: (order_by | null),market_acct?: (order_by | null),price?: (order_by | null),prices_type?: (order_by | null),quote_amount?: (order_by | null),updated_slot?: (order_by | null)}
 
 
 /** response of any mutation on the table "prices" */
@@ -8830,7 +9289,7 @@ export interface prices_on_conflict {constraint: prices_constraint,update_column
 
 
 /** Ordering options when selecting data from "prices". */
-export interface prices_order_by {base_amount?: (order_by | null),created_at?: (order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),price?: (order_by | null),prices_type?: (order_by | null),quote_amount?: (order_by | null),updated_slot?: (order_by | null)}
+export interface prices_order_by {base_amount?: (order_by | null),created_at?: (order_by | null),created_by?: (order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),price?: (order_by | null),prices_type?: (order_by | null),quote_amount?: (order_by | null),updated_slot?: (order_by | null)}
 
 
 /** primary key columns input for table: prices */
@@ -8838,7 +9297,7 @@ export interface prices_pk_columns_input {created_at: Scalars['timestamp'],marke
 
 
 /** input type for updating data in table "prices" */
-export interface prices_set_input {base_amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamp'] | null),market_acct?: (Scalars['String'] | null),price?: (Scalars['numeric'] | null),prices_type?: (Scalars['String'] | null),quote_amount?: (Scalars['bigint'] | null),updated_slot?: (Scalars['bigint'] | null)}
+export interface prices_set_input {base_amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamp'] | null),created_by?: (Scalars['String'] | null),market_acct?: (Scalars['String'] | null),price?: (Scalars['numeric'] | null),prices_type?: (Scalars['String'] | null),quote_amount?: (Scalars['bigint'] | null),updated_slot?: (Scalars['bigint'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -8895,7 +9354,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface prices_stream_cursor_value_input {base_amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamp'] | null),market_acct?: (Scalars['String'] | null),price?: (Scalars['numeric'] | null),prices_type?: (Scalars['String'] | null),quote_amount?: (Scalars['bigint'] | null),updated_slot?: (Scalars['bigint'] | null)}
+export interface prices_stream_cursor_value_input {base_amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamp'] | null),created_by?: (Scalars['String'] | null),market_acct?: (Scalars['String'] | null),price?: (Scalars['numeric'] | null),prices_type?: (Scalars['String'] | null),quote_amount?: (Scalars['bigint'] | null),updated_slot?: (Scalars['bigint'] | null)}
 
 
 /** aggregate sum on columns */
@@ -10583,6 +11042,30 @@ export interface query_rootGenqlSelection{
     where?: (prices_bool_exp | null)} })
     /** fetch data from the table: "prices" using primary key columns */
     prices_by_pk?: (pricesGenqlSelection & { __args: {created_at: Scalars['timestamp'], market_acct: Scalars['String']} })
+    /** fetch data from the table: "prices_chart_data" */
+    prices_chart_data?: (prices_chart_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (prices_chart_data_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "prices_chart_data" */
+    prices_chart_data_aggregate?: (prices_chart_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (prices_chart_data_bool_exp | null)} })
     /** fetch data from the table: "program_system" */
     program_system?: (program_systemGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -10895,6 +11378,30 @@ export interface query_rootGenqlSelection{
     where?: (transactions_bool_exp | null)} })
     /** fetch data from the table: "transactions" using primary key columns */
     transactions_by_pk?: (transactionsGenqlSelection & { __args: {tx_sig: Scalars['String']} })
+    /** fetch data from the table: "twap_chart_data" */
+    twap_chart_data?: (twap_chart_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (twap_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (twap_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (twap_chart_data_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "twap_chart_data" */
+    twap_chart_data_aggregate?: (twap_chart_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (twap_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (twap_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (twap_chart_data_bool_exp | null)} })
     /** An array relationship */
     twaps?: (twapsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -11564,6 +12071,38 @@ export interface subscription_rootGenqlSelection{
     where?: (prices_bool_exp | null)} })
     /** fetch data from the table: "prices" using primary key columns */
     prices_by_pk?: (pricesGenqlSelection & { __args: {created_at: Scalars['timestamp'], market_acct: Scalars['String']} })
+    /** fetch data from the table: "prices_chart_data" */
+    prices_chart_data?: (prices_chart_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (prices_chart_data_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "prices_chart_data" */
+    prices_chart_data_aggregate?: (prices_chart_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (prices_chart_data_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "prices_chart_data" */
+    prices_chart_data_stream?: (prices_chart_dataGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (prices_chart_data_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (prices_chart_data_bool_exp | null)} })
     /** fetch data from the table in a streaming manner: "prices" */
     prices_stream?: (pricesGenqlSelection & { __args: {
     /** maximum number of rows returned in a single batch */
@@ -11980,6 +12519,38 @@ export interface subscription_rootGenqlSelection{
     cursor: (transactions_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (transactions_bool_exp | null)} })
+    /** fetch data from the table: "twap_chart_data" */
+    twap_chart_data?: (twap_chart_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (twap_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (twap_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (twap_chart_data_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "twap_chart_data" */
+    twap_chart_data_aggregate?: (twap_chart_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (twap_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (twap_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (twap_chart_data_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "twap_chart_data" */
+    twap_chart_data_stream?: (twap_chart_dataGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (twap_chart_data_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (twap_chart_data_bool_exp | null)} })
     /** An array relationship */
     twaps?: (twapsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -14142,6 +14713,149 @@ export interface transactions_variance_fieldsGenqlSelection{
 }
 
 
+/** columns and relationships of "twap_chart_data" */
+export interface twap_chart_dataGenqlSelection{
+    interv?: boolean | number
+    /** An object relationship */
+    market?: marketsGenqlSelection
+    market_acct?: boolean | number
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "twap_chart_data" */
+export interface twap_chart_data_aggregateGenqlSelection{
+    aggregate?: twap_chart_data_aggregate_fieldsGenqlSelection
+    nodes?: twap_chart_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate fields of "twap_chart_data" */
+export interface twap_chart_data_aggregate_fieldsGenqlSelection{
+    avg?: twap_chart_data_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (twap_chart_data_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: twap_chart_data_max_fieldsGenqlSelection
+    min?: twap_chart_data_min_fieldsGenqlSelection
+    stddev?: twap_chart_data_stddev_fieldsGenqlSelection
+    stddev_pop?: twap_chart_data_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: twap_chart_data_stddev_samp_fieldsGenqlSelection
+    sum?: twap_chart_data_sum_fieldsGenqlSelection
+    var_pop?: twap_chart_data_var_pop_fieldsGenqlSelection
+    var_samp?: twap_chart_data_var_samp_fieldsGenqlSelection
+    variance?: twap_chart_data_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate avg on columns */
+export interface twap_chart_data_avg_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Boolean expression to filter rows from the table "twap_chart_data". All fields are combined with a logical 'AND'. */
+export interface twap_chart_data_bool_exp {_and?: (twap_chart_data_bool_exp[] | null),_not?: (twap_chart_data_bool_exp | null),_or?: (twap_chart_data_bool_exp[] | null),interv?: (timestamp_comparison_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),token_amount?: (bigint_comparison_exp | null)}
+
+
+/** aggregate max on columns */
+export interface twap_chart_data_max_fieldsGenqlSelection{
+    interv?: boolean | number
+    market_acct?: boolean | number
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate min on columns */
+export interface twap_chart_data_min_fieldsGenqlSelection{
+    interv?: boolean | number
+    market_acct?: boolean | number
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Ordering options when selecting data from "twap_chart_data". */
+export interface twap_chart_data_order_by {interv?: (order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),token_amount?: (order_by | null)}
+
+
+/** aggregate stddev on columns */
+export interface twap_chart_data_stddev_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface twap_chart_data_stddev_pop_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface twap_chart_data_stddev_samp_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Streaming cursor of the table "twap_chart_data" */
+export interface twap_chart_data_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: twap_chart_data_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface twap_chart_data_stream_cursor_value_input {interv?: (Scalars['timestamp'] | null),market_acct?: (Scalars['String'] | null),token_amount?: (Scalars['bigint'] | null)}
+
+
+/** aggregate sum on columns */
+export interface twap_chart_data_sum_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_pop on columns */
+export interface twap_chart_data_var_pop_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_samp on columns */
+export interface twap_chart_data_var_samp_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate variance on columns */
+export interface twap_chart_data_variance_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
 /** columns and relationships of "twaps" */
 export interface twapsGenqlSelection{
     created_at?: boolean | number
@@ -15554,6 +16268,110 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     export const isprices_avg_fields = (obj?: { __typename?: any } | null): obj is prices_avg_fields => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isprices_avg_fields"')
       return prices_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_possibleTypes: string[] = ['prices_chart_data']
+    export const isprices_chart_data = (obj?: { __typename?: any } | null): obj is prices_chart_data => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data"')
+      return prices_chart_data_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_aggregate_possibleTypes: string[] = ['prices_chart_data_aggregate']
+    export const isprices_chart_data_aggregate = (obj?: { __typename?: any } | null): obj is prices_chart_data_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_aggregate"')
+      return prices_chart_data_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_aggregate_fields_possibleTypes: string[] = ['prices_chart_data_aggregate_fields']
+    export const isprices_chart_data_aggregate_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_aggregate_fields"')
+      return prices_chart_data_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_avg_fields_possibleTypes: string[] = ['prices_chart_data_avg_fields']
+    export const isprices_chart_data_avg_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_avg_fields"')
+      return prices_chart_data_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_max_fields_possibleTypes: string[] = ['prices_chart_data_max_fields']
+    export const isprices_chart_data_max_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_max_fields"')
+      return prices_chart_data_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_min_fields_possibleTypes: string[] = ['prices_chart_data_min_fields']
+    export const isprices_chart_data_min_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_min_fields"')
+      return prices_chart_data_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_stddev_fields_possibleTypes: string[] = ['prices_chart_data_stddev_fields']
+    export const isprices_chart_data_stddev_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_stddev_fields"')
+      return prices_chart_data_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_stddev_pop_fields_possibleTypes: string[] = ['prices_chart_data_stddev_pop_fields']
+    export const isprices_chart_data_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_stddev_pop_fields"')
+      return prices_chart_data_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_stddev_samp_fields_possibleTypes: string[] = ['prices_chart_data_stddev_samp_fields']
+    export const isprices_chart_data_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_stddev_samp_fields"')
+      return prices_chart_data_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_sum_fields_possibleTypes: string[] = ['prices_chart_data_sum_fields']
+    export const isprices_chart_data_sum_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_sum_fields"')
+      return prices_chart_data_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_var_pop_fields_possibleTypes: string[] = ['prices_chart_data_var_pop_fields']
+    export const isprices_chart_data_var_pop_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_var_pop_fields"')
+      return prices_chart_data_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_var_samp_fields_possibleTypes: string[] = ['prices_chart_data_var_samp_fields']
+    export const isprices_chart_data_var_samp_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_var_samp_fields"')
+      return prices_chart_data_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const prices_chart_data_variance_fields_possibleTypes: string[] = ['prices_chart_data_variance_fields']
+    export const isprices_chart_data_variance_fields = (obj?: { __typename?: any } | null): obj is prices_chart_data_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isprices_chart_data_variance_fields"')
+      return prices_chart_data_variance_fields_possibleTypes.includes(obj.__typename)
     }
     
 
@@ -16998,6 +17816,110 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const twap_chart_data_possibleTypes: string[] = ['twap_chart_data']
+    export const istwap_chart_data = (obj?: { __typename?: any } | null): obj is twap_chart_data => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data"')
+      return twap_chart_data_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_aggregate_possibleTypes: string[] = ['twap_chart_data_aggregate']
+    export const istwap_chart_data_aggregate = (obj?: { __typename?: any } | null): obj is twap_chart_data_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_aggregate"')
+      return twap_chart_data_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_aggregate_fields_possibleTypes: string[] = ['twap_chart_data_aggregate_fields']
+    export const istwap_chart_data_aggregate_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_aggregate_fields"')
+      return twap_chart_data_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_avg_fields_possibleTypes: string[] = ['twap_chart_data_avg_fields']
+    export const istwap_chart_data_avg_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_avg_fields"')
+      return twap_chart_data_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_max_fields_possibleTypes: string[] = ['twap_chart_data_max_fields']
+    export const istwap_chart_data_max_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_max_fields"')
+      return twap_chart_data_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_min_fields_possibleTypes: string[] = ['twap_chart_data_min_fields']
+    export const istwap_chart_data_min_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_min_fields"')
+      return twap_chart_data_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_stddev_fields_possibleTypes: string[] = ['twap_chart_data_stddev_fields']
+    export const istwap_chart_data_stddev_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_stddev_fields"')
+      return twap_chart_data_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_stddev_pop_fields_possibleTypes: string[] = ['twap_chart_data_stddev_pop_fields']
+    export const istwap_chart_data_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_stddev_pop_fields"')
+      return twap_chart_data_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_stddev_samp_fields_possibleTypes: string[] = ['twap_chart_data_stddev_samp_fields']
+    export const istwap_chart_data_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_stddev_samp_fields"')
+      return twap_chart_data_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_sum_fields_possibleTypes: string[] = ['twap_chart_data_sum_fields']
+    export const istwap_chart_data_sum_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_sum_fields"')
+      return twap_chart_data_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_var_pop_fields_possibleTypes: string[] = ['twap_chart_data_var_pop_fields']
+    export const istwap_chart_data_var_pop_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_var_pop_fields"')
+      return twap_chart_data_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_var_samp_fields_possibleTypes: string[] = ['twap_chart_data_var_samp_fields']
+    export const istwap_chart_data_var_samp_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_var_samp_fields"')
+      return twap_chart_data_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const twap_chart_data_variance_fields_possibleTypes: string[] = ['twap_chart_data_variance_fields']
+    export const istwap_chart_data_variance_fields = (obj?: { __typename?: any } | null): obj is twap_chart_data_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "istwap_chart_data_variance_fields"')
+      return twap_chart_data_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const twaps_possibleTypes: string[] = ['twaps']
     export const istwaps = (obj?: { __typename?: any } | null): obj is twaps => {
       if (!obj?.__typename) throw new Error('__typename is missing in "istwaps"')
@@ -17323,13 +18245,17 @@ export const enumIndexerAccountDependenciesConstraint = {
 export const enumIndexerAccountDependenciesSelectColumn = {
    acct: 'acct' as const,
    latest_tx_sig_processed: 'latest_tx_sig_processed' as const,
-   name: 'name' as const
+   name: 'name' as const,
+   status: 'status' as const,
+   updated_at: 'updated_at' as const
 }
 
 export const enumIndexerAccountDependenciesUpdateColumn = {
    acct: 'acct' as const,
    latest_tx_sig_processed: 'latest_tx_sig_processed' as const,
-   name: 'name' as const
+   name: 'name' as const,
+   status: 'status' as const,
+   updated_at: 'updated_at' as const
 }
 
 export const enumIndexersConstraint = {
@@ -17483,6 +18409,15 @@ export const enumOrdersUpdateColumn = {
    updated_at: 'updated_at' as const
 }
 
+export const enumPricesChartDataSelectColumn = {
+   base_amount: 'base_amount' as const,
+   interv: 'interv' as const,
+   market_acct: 'market_acct' as const,
+   price: 'price' as const,
+   prices_type: 'prices_type' as const,
+   quote_amount: 'quote_amount' as const
+}
+
 export const enumPricesConstraint = {
    prices_created_at_market_acct_pk: 'prices_created_at_market_acct_pk' as const
 }
@@ -17490,6 +18425,7 @@ export const enumPricesConstraint = {
 export const enumPricesSelectColumn = {
    base_amount: 'base_amount' as const,
    created_at: 'created_at' as const,
+   created_by: 'created_by' as const,
    market_acct: 'market_acct' as const,
    price: 'price' as const,
    prices_type: 'prices_type' as const,
@@ -17500,6 +18436,7 @@ export const enumPricesSelectColumn = {
 export const enumPricesUpdateColumn = {
    base_amount: 'base_amount' as const,
    created_at: 'created_at' as const,
+   created_by: 'created_by' as const,
    market_acct: 'market_acct' as const,
    price: 'price' as const,
    prices_type: 'prices_type' as const,
@@ -17875,6 +18812,12 @@ export const enumTransactionsUpdateColumn = {
    serializer_logic_version: 'serializer_logic_version' as const,
    slot: 'slot' as const,
    tx_sig: 'tx_sig' as const
+}
+
+export const enumTwapChartDataSelectColumn = {
+   interv: 'interv' as const,
+   market_acct: 'market_acct' as const,
+   token_amount: 'token_amount' as const
 }
 
 export const enumTwapsConstraint = {

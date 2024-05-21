@@ -269,7 +269,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               // TODO figure this out by slot enqueued maybe
               creationDate: new Date(p.created_at),
               endDate:
-                p.ended_at ||
+                new Date(p.ended_at) ||
                 new Date(
                   new Date(p.created_at).setDate(
                     new Date(p.created_at).getDate() + 3

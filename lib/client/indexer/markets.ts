@@ -13,7 +13,11 @@ import { FutarchyIndexerAmmMarketsClient } from "./market-clients/ammMarkets";
 import { FutarchyAmmMarketsRPCClient } from "../rpc";
 import { PublicKey } from "@solana/web3.js";
 import { Observable } from "rxjs";
-import { SpotObservation, TwapObservation } from "@/types/prices";
+import {
+  ProposalMarketPricesAggregate,
+  SpotObservation,
+  TwapObservation
+} from "@/types/prices";
 import {
   generateSubscriptionOp,
   orders_bool_exp,
@@ -112,6 +116,119 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                 priceRaw: d.token_amount,
                 createdAt: new Date(d.interv)
               }));
+            subscriber.next(twapObservations);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+
+      return () => subscriptionCleanup();
+    });
+  }
+
+  watchProposalMarketPricesAggregate(
+    proposalKey: PublicKey
+  ): Observable<ProposalMarketPricesAggregate[]> {
+    const { query, variables } = generateSubscriptionOp({
+      proposal_prices_chart_data: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposalKey.toBase58() }
+          },
+          order_by: [
+            {
+              interv: "asc"
+            }
+          ]
+        },
+        fail_market_price: true,
+        fail_market_acct: true,
+        fail_market_base_amount: true,
+        fail_market_quote_amount: true,
+        pass_market_price: true,
+        pass_market_acct: true,
+        pass_market_base_amount: true,
+        pass_market_quote_amount: true,
+        proposalPriceFailMarket: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        },
+        proposalPricePassMarket: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        },
+        interv: true
+      }
+    });
+
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        proposal_prices_chart_data: {
+          fail_market_price: number;
+          fail_market_acct: string;
+          fail_market_base_amount: number;
+          fail_market_quote_amount: number;
+          pass_market_price: number;
+          pass_market_acct: string;
+          pass_market_base_amount: number;
+          pass_market_quote_amount: number;
+          proposalPriceFailMarket: {
+            tokenByQuoteMintAcct: {
+              decimals: number;
+            };
+            tokenByBaseMintAcct: {
+              decimals: number;
+            };
+          };
+          proposalPricePassMarket: {
+            tokenByQuoteMintAcct: {
+              decimals: number;
+            };
+            tokenByBaseMintAcct: {
+              decimals: number;
+            };
+          };
+          interv: string;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const twapObservations =
+              data.data?.proposal_prices_chart_data?.map<ProposalMarketPricesAggregate>(
+                (d) => ({
+                  failMarket: {
+                    acct: d.fail_market_acct,
+                    baseAmount: d.fail_market_base_amount,
+                    baseDecimals:
+                      d.proposalPriceFailMarket.tokenByBaseMintAcct.decimals,
+                    price: d.fail_market_price,
+                    quoteAmount: d.fail_market_quote_amount,
+                    quoteDecimals:
+                      d.proposalPriceFailMarket.tokenByQuoteMintAcct.decimals
+                  },
+                  passMarket: {
+                    acct: d.pass_market_acct,
+                    baseAmount: d.pass_market_base_amount,
+                    baseDecimals:
+                      d.proposalPricePassMarket.tokenByBaseMintAcct.decimals,
+                    price: d.pass_market_price,
+                    quoteAmount: d.pass_market_quote_amount,
+                    quoteDecimals:
+                      d.proposalPricePassMarket.tokenByQuoteMintAcct.decimals
+                  },
+                  createdAt: new Date(d.interv)
+                })
+              );
             subscriber.next(twapObservations);
           },
           error: (error) => subscriber.error(error),

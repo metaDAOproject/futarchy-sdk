@@ -1,3 +1,5 @@
+import { TokenProps } from "./tokens";
+
 export type TwapObservation = {
   priceRaw?: number;
   priceUi: number;
@@ -14,4 +16,22 @@ export type SpotObservation = {
   createdAt: Date;
   quoteAmount?: number;
   baseAmount?: number;
+};
+
+export type ProposalMarketPrices = {
+  baseDecimals: number;
+  quoteDecimals: number;
+  price: number;
+  acct: string;
+  quoteAmount: number;
+  baseAmount: number;
+};
+
+/**
+ * A type used to subscribe to all the relevant spot prices and charting data for a proposal
+ */
+export type ProposalMarketPricesAggregate = {
+  createdAt: Date;
+  failMarket: ProposalMarketPrices;
+  passMarket: ProposalMarketPrices;
 };

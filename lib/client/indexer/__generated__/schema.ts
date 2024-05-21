@@ -2852,6 +2852,189 @@ export interface proposal_details_variance_fields {
 }
 
 
+/** columns and relationships of "proposal_prices_chart_data" */
+export interface proposal_prices_chart_data {
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_price: (Scalars['numeric'] | null)
+    fail_market_prices_type: (Scalars['String'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    interv: (Scalars['timestamp'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_price: (Scalars['numeric'] | null)
+    pass_market_prices_type: (Scalars['String'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    /** An object relationship */
+    proposalPriceFailMarket: (markets | null)
+    /** An object relationship */
+    proposalPricePassMarket: (markets | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_prices_chart_data'
+}
+
+
+/** aggregated selection of "proposal_prices_chart_data" */
+export interface proposal_prices_chart_data_aggregate {
+    aggregate: (proposal_prices_chart_data_aggregate_fields | null)
+    nodes: proposal_prices_chart_data[]
+    __typename: 'proposal_prices_chart_data_aggregate'
+}
+
+
+/** aggregate fields of "proposal_prices_chart_data" */
+export interface proposal_prices_chart_data_aggregate_fields {
+    avg: (proposal_prices_chart_data_avg_fields | null)
+    count: Scalars['Int']
+    max: (proposal_prices_chart_data_max_fields | null)
+    min: (proposal_prices_chart_data_min_fields | null)
+    stddev: (proposal_prices_chart_data_stddev_fields | null)
+    stddev_pop: (proposal_prices_chart_data_stddev_pop_fields | null)
+    stddev_samp: (proposal_prices_chart_data_stddev_samp_fields | null)
+    sum: (proposal_prices_chart_data_sum_fields | null)
+    var_pop: (proposal_prices_chart_data_var_pop_fields | null)
+    var_samp: (proposal_prices_chart_data_var_samp_fields | null)
+    variance: (proposal_prices_chart_data_variance_fields | null)
+    __typename: 'proposal_prices_chart_data_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_prices_chart_data_avg_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_price: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_prices_chart_data_avg_fields'
+}
+
+
+/** aggregate max on columns */
+export interface proposal_prices_chart_data_max_fields {
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_price: (Scalars['numeric'] | null)
+    fail_market_prices_type: (Scalars['String'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    interv: (Scalars['timestamp'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_price: (Scalars['numeric'] | null)
+    pass_market_prices_type: (Scalars['String'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_prices_chart_data_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface proposal_prices_chart_data_min_fields {
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_price: (Scalars['numeric'] | null)
+    fail_market_prices_type: (Scalars['String'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    interv: (Scalars['timestamp'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_price: (Scalars['numeric'] | null)
+    pass_market_prices_type: (Scalars['String'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_prices_chart_data_min_fields'
+}
+
+
+/** select columns of table "proposal_prices_chart_data" */
+export type proposal_prices_chart_data_select_column = 'fail_market_acct' | 'fail_market_base_amount' | 'fail_market_price' | 'fail_market_prices_type' | 'fail_market_quote_amount' | 'interv' | 'pass_market_acct' | 'pass_market_base_amount' | 'pass_market_price' | 'pass_market_prices_type' | 'pass_market_quote_amount' | 'proposal_acct'
+
+
+/** aggregate stddev on columns */
+export interface proposal_prices_chart_data_stddev_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_price: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_prices_chart_data_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_prices_chart_data_stddev_pop_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_price: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_prices_chart_data_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_prices_chart_data_stddev_samp_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_price: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_prices_chart_data_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface proposal_prices_chart_data_sum_fields {
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_price: (Scalars['numeric'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_price: (Scalars['numeric'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    __typename: 'proposal_prices_chart_data_sum_fields'
+}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_prices_chart_data_var_pop_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_price: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_prices_chart_data_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_prices_chart_data_var_samp_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_price: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_prices_chart_data_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_prices_chart_data_variance_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_price: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_prices_chart_data_variance_fields'
+}
+
+
 /** columns and relationships of "proposals" */
 export interface proposals {
     autocrat_version: Scalars['float8']
@@ -3200,6 +3383,10 @@ export interface query_root {
     proposal_details_aggregate: proposal_details_aggregate
     /** fetch data from the table: "proposal_details" using primary key columns */
     proposal_details_by_pk: (proposal_details | null)
+    /** fetch data from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data: proposal_prices_chart_data[]
+    /** fetch aggregated fields from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data_aggregate: proposal_prices_chart_data_aggregate
     /** An array relationship */
     proposals: proposals[]
     /** An aggregate relationship */
@@ -3530,6 +3717,12 @@ export interface subscription_root {
     proposal_details_by_pk: (proposal_details | null)
     /** fetch data from the table in a streaming manner: "proposal_details" */
     proposal_details_stream: proposal_details[]
+    /** fetch data from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data: proposal_prices_chart_data[]
+    /** fetch aggregated fields from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data_aggregate: proposal_prices_chart_data_aggregate
+    /** fetch data from the table in a streaming manner: "proposal_prices_chart_data" */
+    proposal_prices_chart_data_stream: proposal_prices_chart_data[]
     /** An array relationship */
     proposals: proposals[]
     /** An aggregate relationship */
@@ -10298,6 +10491,218 @@ export interface proposal_details_variance_fieldsGenqlSelection{
 export interface proposal_details_variance_order_by {proposal_id?: (order_by | null)}
 
 
+/** columns and relationships of "proposal_prices_chart_data" */
+export interface proposal_prices_chart_dataGenqlSelection{
+    fail_market_acct?: boolean | number
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_prices_type?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    interv?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_prices_type?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    /** An object relationship */
+    proposalPriceFailMarket?: marketsGenqlSelection
+    /** An object relationship */
+    proposalPricePassMarket?: marketsGenqlSelection
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "proposal_prices_chart_data" */
+export interface proposal_prices_chart_data_aggregateGenqlSelection{
+    aggregate?: proposal_prices_chart_data_aggregate_fieldsGenqlSelection
+    nodes?: proposal_prices_chart_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate fields of "proposal_prices_chart_data" */
+export interface proposal_prices_chart_data_aggregate_fieldsGenqlSelection{
+    avg?: proposal_prices_chart_data_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (proposal_prices_chart_data_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: proposal_prices_chart_data_max_fieldsGenqlSelection
+    min?: proposal_prices_chart_data_min_fieldsGenqlSelection
+    stddev?: proposal_prices_chart_data_stddev_fieldsGenqlSelection
+    stddev_pop?: proposal_prices_chart_data_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: proposal_prices_chart_data_stddev_samp_fieldsGenqlSelection
+    sum?: proposal_prices_chart_data_sum_fieldsGenqlSelection
+    var_pop?: proposal_prices_chart_data_var_pop_fieldsGenqlSelection
+    var_samp?: proposal_prices_chart_data_var_samp_fieldsGenqlSelection
+    variance?: proposal_prices_chart_data_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_prices_chart_data_avg_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Boolean expression to filter rows from the table "proposal_prices_chart_data". All fields are combined with a logical 'AND'. */
+export interface proposal_prices_chart_data_bool_exp {_and?: (proposal_prices_chart_data_bool_exp[] | null),_not?: (proposal_prices_chart_data_bool_exp | null),_or?: (proposal_prices_chart_data_bool_exp[] | null),fail_market_acct?: (String_comparison_exp | null),fail_market_base_amount?: (bigint_comparison_exp | null),fail_market_price?: (numeric_comparison_exp | null),fail_market_prices_type?: (String_comparison_exp | null),fail_market_quote_amount?: (bigint_comparison_exp | null),interv?: (timestamp_comparison_exp | null),pass_market_acct?: (String_comparison_exp | null),pass_market_base_amount?: (bigint_comparison_exp | null),pass_market_price?: (numeric_comparison_exp | null),pass_market_prices_type?: (String_comparison_exp | null),pass_market_quote_amount?: (bigint_comparison_exp | null),proposalPriceFailMarket?: (markets_bool_exp | null),proposalPricePassMarket?: (markets_bool_exp | null),proposal_acct?: (String_comparison_exp | null)}
+
+
+/** aggregate max on columns */
+export interface proposal_prices_chart_data_max_fieldsGenqlSelection{
+    fail_market_acct?: boolean | number
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_prices_type?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    interv?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_prices_type?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate min on columns */
+export interface proposal_prices_chart_data_min_fieldsGenqlSelection{
+    fail_market_acct?: boolean | number
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_prices_type?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    interv?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_prices_type?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Ordering options when selecting data from "proposal_prices_chart_data". */
+export interface proposal_prices_chart_data_order_by {fail_market_acct?: (order_by | null),fail_market_base_amount?: (order_by | null),fail_market_price?: (order_by | null),fail_market_prices_type?: (order_by | null),fail_market_quote_amount?: (order_by | null),interv?: (order_by | null),pass_market_acct?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_price?: (order_by | null),pass_market_prices_type?: (order_by | null),pass_market_quote_amount?: (order_by | null),proposalPriceFailMarket?: (markets_order_by | null),proposalPricePassMarket?: (markets_order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** aggregate stddev on columns */
+export interface proposal_prices_chart_data_stddev_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_prices_chart_data_stddev_pop_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_prices_chart_data_stddev_samp_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Streaming cursor of the table "proposal_prices_chart_data" */
+export interface proposal_prices_chart_data_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: proposal_prices_chart_data_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface proposal_prices_chart_data_stream_cursor_value_input {fail_market_acct?: (Scalars['String'] | null),fail_market_base_amount?: (Scalars['bigint'] | null),fail_market_price?: (Scalars['numeric'] | null),fail_market_prices_type?: (Scalars['String'] | null),fail_market_quote_amount?: (Scalars['bigint'] | null),interv?: (Scalars['timestamp'] | null),pass_market_acct?: (Scalars['String'] | null),pass_market_base_amount?: (Scalars['bigint'] | null),pass_market_price?: (Scalars['numeric'] | null),pass_market_prices_type?: (Scalars['String'] | null),pass_market_quote_amount?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate sum on columns */
+export interface proposal_prices_chart_data_sum_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_prices_chart_data_var_pop_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_prices_chart_data_var_samp_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_prices_chart_data_variance_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_price?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_price?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
 /** columns and relationships of "proposals" */
 export interface proposalsGenqlSelection{
     autocrat_version?: boolean | number
@@ -11144,6 +11549,30 @@ export interface query_rootGenqlSelection{
     where?: (proposal_details_bool_exp | null)} })
     /** fetch data from the table: "proposal_details" using primary key columns */
     proposal_details_by_pk?: (proposal_detailsGenqlSelection & { __args: {proposal_id: Scalars['bigint']} })
+    /** fetch data from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data?: (proposal_prices_chart_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_prices_chart_data_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data_aggregate?: (proposal_prices_chart_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_prices_chart_data_bool_exp | null)} })
     /** An array relationship */
     proposals?: (proposalsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -12213,6 +12642,38 @@ export interface subscription_rootGenqlSelection{
     cursor: (proposal_details_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (proposal_details_bool_exp | null)} })
+    /** fetch data from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data?: (proposal_prices_chart_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_prices_chart_data_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "proposal_prices_chart_data" */
+    proposal_prices_chart_data_aggregate?: (proposal_prices_chart_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_prices_chart_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_prices_chart_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_prices_chart_data_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "proposal_prices_chart_data" */
+    proposal_prices_chart_data_stream?: (proposal_prices_chart_dataGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (proposal_prices_chart_data_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (proposal_prices_chart_data_bool_exp | null)} })
     /** An array relationship */
     proposals?: (proposalsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -16792,6 +17253,110 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const proposal_prices_chart_data_possibleTypes: string[] = ['proposal_prices_chart_data']
+    export const isproposal_prices_chart_data = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data"')
+      return proposal_prices_chart_data_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_aggregate_possibleTypes: string[] = ['proposal_prices_chart_data_aggregate']
+    export const isproposal_prices_chart_data_aggregate = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_aggregate"')
+      return proposal_prices_chart_data_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_aggregate_fields_possibleTypes: string[] = ['proposal_prices_chart_data_aggregate_fields']
+    export const isproposal_prices_chart_data_aggregate_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_aggregate_fields"')
+      return proposal_prices_chart_data_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_avg_fields_possibleTypes: string[] = ['proposal_prices_chart_data_avg_fields']
+    export const isproposal_prices_chart_data_avg_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_avg_fields"')
+      return proposal_prices_chart_data_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_max_fields_possibleTypes: string[] = ['proposal_prices_chart_data_max_fields']
+    export const isproposal_prices_chart_data_max_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_max_fields"')
+      return proposal_prices_chart_data_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_min_fields_possibleTypes: string[] = ['proposal_prices_chart_data_min_fields']
+    export const isproposal_prices_chart_data_min_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_min_fields"')
+      return proposal_prices_chart_data_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_stddev_fields_possibleTypes: string[] = ['proposal_prices_chart_data_stddev_fields']
+    export const isproposal_prices_chart_data_stddev_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_stddev_fields"')
+      return proposal_prices_chart_data_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_stddev_pop_fields_possibleTypes: string[] = ['proposal_prices_chart_data_stddev_pop_fields']
+    export const isproposal_prices_chart_data_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_stddev_pop_fields"')
+      return proposal_prices_chart_data_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_stddev_samp_fields_possibleTypes: string[] = ['proposal_prices_chart_data_stddev_samp_fields']
+    export const isproposal_prices_chart_data_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_stddev_samp_fields"')
+      return proposal_prices_chart_data_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_sum_fields_possibleTypes: string[] = ['proposal_prices_chart_data_sum_fields']
+    export const isproposal_prices_chart_data_sum_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_sum_fields"')
+      return proposal_prices_chart_data_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_var_pop_fields_possibleTypes: string[] = ['proposal_prices_chart_data_var_pop_fields']
+    export const isproposal_prices_chart_data_var_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_var_pop_fields"')
+      return proposal_prices_chart_data_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_var_samp_fields_possibleTypes: string[] = ['proposal_prices_chart_data_var_samp_fields']
+    export const isproposal_prices_chart_data_var_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_var_samp_fields"')
+      return proposal_prices_chart_data_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_prices_chart_data_variance_fields_possibleTypes: string[] = ['proposal_prices_chart_data_variance_fields']
+    export const isproposal_prices_chart_data_variance_fields = (obj?: { __typename?: any } | null): obj is proposal_prices_chart_data_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_prices_chart_data_variance_fields"')
+      return proposal_prices_chart_data_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const proposals_possibleTypes: string[] = ['proposals']
     export const isproposals = (obj?: { __typename?: any } | null): obj is proposals => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isproposals"')
@@ -18550,6 +19115,21 @@ export const enumProposalDetailsUpdateColumn = {
    quote_cond_vault_acct: 'quote_cond_vault_acct' as const,
    slug: 'slug' as const,
    title: 'title' as const
+}
+
+export const enumProposalPricesChartDataSelectColumn = {
+   fail_market_acct: 'fail_market_acct' as const,
+   fail_market_base_amount: 'fail_market_base_amount' as const,
+   fail_market_price: 'fail_market_price' as const,
+   fail_market_prices_type: 'fail_market_prices_type' as const,
+   fail_market_quote_amount: 'fail_market_quote_amount' as const,
+   interv: 'interv' as const,
+   pass_market_acct: 'pass_market_acct' as const,
+   pass_market_base_amount: 'pass_market_base_amount' as const,
+   pass_market_price: 'pass_market_price' as const,
+   pass_market_prices_type: 'pass_market_prices_type' as const,
+   pass_market_quote_amount: 'pass_market_quote_amount' as const,
+   proposal_acct: 'proposal_acct' as const
 }
 
 export const enumProposalsConstraint = {

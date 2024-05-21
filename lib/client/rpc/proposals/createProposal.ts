@@ -24,14 +24,11 @@ import {
   ProposalDetails
 } from "@/types/createProp";
 import { SendTransactionResponse } from "@/types/transactions";
-import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
+import { AnchorProvider, Program, BN } from "@coral-xyz/anchor";
 import {
   AutocratClient,
+  InstructionUtils,
   MaxCUs,
-  getAmmAddr,
-  getVaultAddr,
-  getVaultFinalizeMintAddr,
-  getVaultRevertMintAddr
 } from "@metadaoproject/futarchy";
 import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import {
@@ -55,7 +52,6 @@ import {
 } from "@/idl/openbook_twap_v0.2";
 import { CreateProposal, FutarchyProposalsClient } from "@/client";
 import { ConditionalVault as Conditional_vault_v0_2 } from "@/idl/conditional_vault_v0.2";
-import { createNonce } from "@/nonce";
 
 export class CreateProposalClient implements CreateProposal {
   private proposalsClient: FutarchyProposalsClient;
@@ -318,6 +314,11 @@ export class CreateProposalClient implements CreateProposal {
         .transaction()
     ).instructions;
 
+
+
+    // initializeProposal needs to be a versioned tx to be able to partial sign with wallet signAllTransactions
+    // signing after a partial sign overwrites it
+    // versionedTransaction have no partialSign fn because it's sign fn is a partialSign
     const initializeProposalTx = await createVersionedTransaction(
       [...initializeProposalIxs],
       this.rpcProvider
@@ -354,159 +355,114 @@ export class CreateProposalClient implements CreateProposal {
     return txResp;
   }
 
-  // TO DO standardize naming
   private async createProposalV0_3(
     dao: Dao,
     onPassIx: ProposalInstructionWithPreinstructions,
     marketParams: AmmMarketParams
   ): SendTransactionResponse {
-    const proposalKP = Keypair.generate();
-    const proposal = proposalKP.publicKey;
-    const nonce = createNonce(this.rpcProvider.connection);
+    if (!this.transactionSender) return
 
+    const nonce = new BN(Math.random() * 2 ** 50);
+    const proposal = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("proposal"),
+        this.rpcProvider.publicKey.toBuffer(),
+        nonce.toArrayLike(Buffer, "le", 8),
+      ],
+      this.autocratClient.autocrat.programId
+    )[0]
+
+    const accountInfo = await this.rpcProvider.connection.getAccountInfo(proposal);
+    if (accountInfo !== null) {
+      this.createProposalV0_3(dao, onPassIx, marketParams)
+    }
     const autocrat = this.autocratClient.autocrat;
-    const vaultClient = this.autocratClient.vaultClient;
-    const ammClient = this.autocratClient.ammClient;
-    const treasury = dao.daoAccount.treasury;
-
-    const usdcMint = dao.daoAccount.usdcMint;
-    const tokenMint = dao.daoAccount.tokenMint!!;
-    const vaultProgramId = vaultClient.vaultProgram.programId;
 
     const daoAccount = await autocrat.account.dao.fetch(dao.publicKey);
 
     const baseTokensToLP = new BN(marketParams.baseLiquidity);
     const quoteTokensToLP = new BN(marketParams.quoteLiquidity);
 
-    const [baseVault] = getVaultAddr(vaultProgramId, treasury, tokenMint);
-    const [quoteVault] = getVaultAddr(vaultProgramId, treasury, usdcMint);
 
-    const [passBase] = getVaultFinalizeMintAddr(vaultProgramId, baseVault);
-    const [passQuote] = getVaultFinalizeMintAddr(vaultProgramId, quoteVault);
+    const { failAmm, passAmm, failBaseMint, failQuoteMint, failLp, passBaseMint, passQuoteMint, passLp, baseVault, quoteVault } = this.autocratClient.getProposalPdas(proposal, daoAccount.tokenMint, daoAccount.usdcMint, dao.publicKey)
 
-    const [failBase] = getVaultRevertMintAddr(vaultProgramId, baseVault);
-    const [failQuote] = getVaultRevertMintAddr(vaultProgramId, quoteVault);
-
-    const [passAmm] = getAmmAddr(
-      ammClient.program.programId,
-      passBase,
-      passQuote
-    );
-    const [failAmm] = getAmmAddr(
-      ammClient.program.programId,
-      failBase,
-      failQuote
-    );
-
-    const initializeVaultsAndMintTx = await this.autocratClient.vaultClient
-      .initializeVaultIx(treasury, tokenMint)
-      .postInstructions([
-        ...(
-          await this.autocratClient.vaultClient
-            .initializeVaultIx(treasury, usdcMint)
-            .transaction()
-        ).instructions,
-        ...(
-          await this.autocratClient.vaultClient
-            .mintConditionalTokensIx(baseVault, tokenMint, baseTokensToLP)
-            .transaction()
-        ).instructions,
-        ...(
-          await this.autocratClient.vaultClient
-            .mintConditionalTokensIx(quoteVault, usdcMint, quoteTokensToLP)
-            .transaction()
-        ).instructions
-      ])
-      .transaction();
-
-    const createAmmdAddLiquidityTx = await ammClient
-      .createAmmIx(
-        passBase,
-        passQuote,
-        daoAccount.twapInitialObservation,
-        daoAccount.twapMaxObservationChangePerUpdate
-      )
-      .postInstructions([
-        ...(
-          await ammClient
-            .createAmmIx(
-              failBase,
-              failQuote,
-              daoAccount.twapInitialObservation,
-              daoAccount.twapMaxObservationChangePerUpdate
-            )
-            .transaction()
-        ).instructions,
-        ...(
-          await this.autocratClient.ammClient
-            .addLiquidityIx(
-              passAmm,
-              passBase,
-              passQuote,
-              quoteTokensToLP,
-              baseTokensToLP,
-              new BN(0)
-            )
-            .transaction()
-        ).instructions,
-        ...(
-          await this.autocratClient.ammClient
-            .addLiquidityIx(
-              failAmm,
-              failBase,
-              failQuote,
-              quoteTokensToLP,
-              baseTokensToLP,
-              new BN(0)
-            )
-            .transaction()
-        ).instructions
-      ])
-      .transaction();
-
-    const initializeProposalIx = (
-      await this.autocratClient
-        .initializeProposalIx(
-          "www.google.com",
-          onPassIx.instruction,
-          dao.publicKey,
-          tokenMint,
-          usdcMint,
-          quoteTokensToLP,
-          quoteTokensToLP,
-          nonce
+    const initializeVaultsAndCreateAmmsTx = await this.autocratClient.vaultClient
+      .initializeVaultIx(proposal, daoAccount.tokenMint)
+      .postInstructions(
+        await InstructionUtils.getInstructions(
+          this.autocratClient.vaultClient.initializeVaultIx(proposal, daoAccount.usdcMint),
+          this.autocratClient.ammClient.createAmmIx(
+            passBaseMint,
+            passQuoteMint,
+            daoAccount.twapInitialObservation,
+            daoAccount.twapMaxObservationChangePerUpdate
+          ),
+          this.autocratClient.ammClient.createAmmIx(
+            failBaseMint,
+            failQuoteMint,
+            daoAccount.twapInitialObservation,
+            daoAccount.twapMaxObservationChangePerUpdate
+          )
         )
-        .preInstructions([
-          ...(onPassIx.preInstructions || []),
-          await autocrat.account.proposal.createInstruction(proposalKP, 2500)
-        ])
-        .signers([proposalKP])
-        .transaction()
-    ).instructions;
+      ).transaction()
 
-    // initializeProposal needs to be a versioned tx to be able to partial sign with wallet signAllTransactions
-    // signing after a partial sign overwrites it
-    // versionedTransaction have no partialSign fn because it's sign fn is a partialSign
-    const initializeProposalTx = await createVersionedTransaction(
-      initializeProposalIx,
-      this.rpcProvider
-    );
-    initializeProposalTx.sign([proposalKP]);
+    const mintTx = await this.autocratClient.vaultClient
+      .mintConditionalTokensIx(baseVault, daoAccount.tokenMint, baseTokensToLP)
+      .postInstructions(
+        await InstructionUtils.getInstructions(
+          this.autocratClient.vaultClient.mintConditionalTokensIx(
+            quoteVault,
+            daoAccount.usdcMint,
+            quoteTokensToLP
+          ),
+        )
+      )
+      .transaction()
 
-    const allTxs = [
-      initializeVaultsAndMintTx,
-      createAmmdAddLiquidityTx,
-      initializeProposalTx
-    ];
+    const liquidityTx = await this.autocratClient.ammClient.addLiquidityIx(
+      failAmm,
+      failBaseMint,
+      failQuoteMint,
+      quoteTokensToLP,
+      baseTokensToLP,
+      new BN(0)
+    ).postInstructions(
+      await InstructionUtils.getInstructions(
+        this.autocratClient.ammClient
+          .addLiquidityIx(
+            passAmm,
+            passBaseMint,
+            passQuoteMint,
+            quoteTokensToLP,
+            baseTokensToLP,
+            new BN(0)
+          )
+      )
+    ).transaction()
 
-    const initializeVaultsAndMintCus =
-      MaxCUs.createIdempotent * 6 +
-      MaxCUs.initializeConditionalVault * 2 +
-      MaxCUs.mintConditionalTokens * 2;
-    const createAmmdAddLiquidityCus =
-      MaxCUs.initializeAmm * 2 + MaxCUs.addLiquidity * 2;
-    const initializeProposalCus =
-      MaxCUs.createIdempotent + MaxCUs.initializeProposal;
+    const initializeProposalTx = await this.autocratClient
+      .initializeProposalIx(
+        "www.google.com",
+        onPassIx.instruction,
+        dao.publicKey,
+        daoAccount.tokenMint,
+        daoAccount.usdcMint,
+        quoteTokensToLP,
+        quoteTokensToLP,
+        nonce
+      )
+      .preInstructions([
+        ...(onPassIx.preInstructions || []),
+      ])
+      .transaction()
+
+    const allTxs = [initializeVaultsAndCreateAmmsTx, mintTx, liquidityTx, initializeProposalTx];
+
+    //TO DO : recalculate compute units
+    const initializeVaultsAndAmmCus = MaxCUs.createIdempotent * 2 + MaxCUs.initializeConditionalVault * 2 + MaxCUs.initializeAmm * 2
+    const mintCus = MaxCUs.createIdempotent * 4 + MaxCUs.mintConditionalTokens * 2 + 50000;
+    const addLiquidityCus = + MaxCUs.addLiquidity * 2;
+    const initializeProposalCus = MaxCUs.createIdempotent + MaxCUs.initializeProposal + 50000;
 
     const txResp = await this.transactionSender?.send(
       allTxs,
@@ -515,8 +471,9 @@ export class CreateProposalClient implements CreateProposal {
         commitment: "confirmed",
         sequential: true,
         CUs: [
-          initializeVaultsAndMintCus,
-          createAmmdAddLiquidityCus,
+          initializeVaultsAndAmmCus,
+          mintCus,
+          addLiquidityCus,
           initializeProposalCus
         ]
       }

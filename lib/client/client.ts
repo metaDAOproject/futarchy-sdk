@@ -22,7 +22,11 @@ import {
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
-import { SpotObservation, TwapObservation } from "@/types/prices";
+import {
+  ProposalMarketPricesAggregate,
+  SpotObservation,
+  TwapObservation
+} from "@/types/prices";
 import { SendTransactionResponse } from "@/types/transactions";
 import { BN } from "@coral-xyz/anchor";
 import {
@@ -120,6 +124,9 @@ export interface FutarchyMarketsClient {
   ): Observable<Array<Order>>;
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
+  watchProposalMarketPricesAggregate(
+    proposalKey: PublicKey
+  ): Observable<ProposalMarketPricesAggregate[]>;
 }
 
 export interface FutarchyOrderbookMarketsClient<

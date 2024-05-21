@@ -14,7 +14,11 @@ import { AmmClient, PriceMath } from "@metadaoproject/futarchy";
 import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
 import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
 import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
-import { SpotObservation, TwapObservation } from "@/types/prices";
+import {
+  ProposalMarketPricesAggregate,
+  SpotObservation,
+  TwapObservation
+} from "@/types/prices";
 import { PublicKey } from "@solana/web3.js";
 import { Observable } from "rxjs";
 
@@ -127,6 +131,20 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
             }
           ]);
         });
+    });
+  }
+  watchProposalMarketPricesAggregate(
+    proposalKey: PublicKey
+  ): Observable<ProposalMarketPricesAggregate[]> {
+    // TODO: this only works for AMM today, should be extended for
+    // order books
+
+    console.warn(
+      "watchProposalMarketPricesAggregate is not implemented for the RPC client"
+    );
+
+    return new Observable((subscriber) => {
+      subscriber.next([]);
     });
   }
 }

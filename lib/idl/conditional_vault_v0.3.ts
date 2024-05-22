@@ -1,5 +1,5 @@
 export type ConditionalVault = {
-  version: "1.0.0";
+  version: "0.3.0";
   name: "conditional_vault";
   instructions: [
     {
@@ -342,14 +342,6 @@ export type ConditionalVault = {
             type: "publicKey";
           },
           {
-            name: "proposal";
-            docs: [
-              "We need to be able to create multiple vault for a single underlying token",
-              "account, so we use proposal as a PDA seed."
-            ];
-            type: "publicKey";
-          },
-          {
             name: "underlyingTokenAccount";
             docs: ["The vault's storage account for deposited funds."];
             type: "publicKey";
@@ -403,10 +395,6 @@ export type ConditionalVault = {
           {
             name: "settlementAuthority";
             type: "publicKey";
-          },
-          {
-            name: "proposal";
-            type: "publicKey";
           }
         ];
       };
@@ -459,7 +447,7 @@ export type ConditionalVault = {
 };
 
 export const IDL: ConditionalVault = {
-  version: "1.0.0",
+  version: "0.3.0",
   name: "conditional_vault",
   instructions: [
     {
@@ -802,14 +790,6 @@ export const IDL: ConditionalVault = {
             type: "publicKey",
           },
           {
-            name: "proposal",
-            docs: [
-              "We need to be able to create multiple vault for a single underlying token",
-              "account, so we use proposal as a PDA seed.",
-            ],
-            type: "publicKey",
-          },
-          {
             name: "underlyingTokenAccount",
             docs: ["The vault's storage account for deposited funds."],
             type: "publicKey",
@@ -862,10 +842,6 @@ export const IDL: ConditionalVault = {
         fields: [
           {
             name: "settlementAuthority",
-            type: "publicKey",
-          },
-          {
-            name: "proposal",
             type: "publicKey",
           },
         ],

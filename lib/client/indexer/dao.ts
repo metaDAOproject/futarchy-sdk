@@ -29,6 +29,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           x_account: true,
           description: true,
           image_url: true,
+          fail_token_image_url: true,
+          pass_token_image_url: true,
+          lp_token_image_url: true,
           daos: {
             program_acct: true,
             dao_acct: true,
@@ -86,6 +89,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           x_account: true,
           description: true,
           image_url: true,
+          fail_token_image_url: true,
+          pass_token_image_url: true,
+          lp_token_image_url: true,
           daos: {
             program_acct: true,
             dao_acct: true,
@@ -131,6 +137,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
       name: daoDetails.name ?? "",
       slug: daoDetails.slug ?? "",
       logo: daoDetails.image_url,
+      failTokenImageUrl: daoDetails.fail_token_image_url,
+      passTokenImageUrl: daoDetails.pass_token_image_url,
+      lpTokenImageUrl: daoDetails.lp_token_image_url,
       daos: daoDetails.daos
         .map((d) => {
           if (this.protocolMap.get(d.program_acct)) {

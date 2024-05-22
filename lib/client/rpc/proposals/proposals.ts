@@ -1,5 +1,5 @@
 import { PublicKey, Transaction } from "@solana/web3.js";
-import { AnchorProvider, BN } from "@coral-xyz/anchor";
+import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import {
   TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountIdempotentInstruction,
@@ -36,6 +36,7 @@ import {
 } from "@/types/createProp";
 import { FinalizeProposalClient } from "./finalizeProposal";
 import { CreateProposalClient } from "./createProposal";
+import { autocratVersionToConditionalVaultMap } from "@/constants";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: AnchorProvider;
@@ -259,8 +260,9 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     proposal: Proposal,
     underlyingToken: "base" | "quote"
   ) {
-    if (programVersion == "V0.3") {
-      const vaultProgram = this.autocratClient.vaultClient.vaultProgram;
+    if (programVersion == "V0.3" || programVersion == "V0.2") {
+      const vaultForVersion = autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion]
+      const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId)
 
       const vaultAccount =
         underlyingToken == "base"
@@ -293,7 +295,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   }
 
   public async withdraw(proposal: Proposal) {
-    const vaultProgram = this.autocratClient.vaultClient.vaultProgram;
+    const vaultForVersion = autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion]
+    const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId)
 
     const baseAccounts = await this.getVaultAccounts(
       proposal.baseVaultAccount,

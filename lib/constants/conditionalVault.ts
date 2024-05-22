@@ -1,6 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import { ConditionalVaultProgram, ProgramVersionLabel } from "@/types";
-import { IDL as ConditionalVaultV0_3_IDL } from "@/idl/conditional_vault_v1";
+import { IDL as ConditionalVaultV0_3_IDL } from "@/idl/conditional_vault_v0.3";
 import { IDL as ConditionalVaultV0_2_IDL } from "@/idl/conditional_vault_v0.2";
 import { IDL as ConditionalVaultV0_1_IDL } from "@/idl/conditional_vault_v0.1";
 import { IDL as ConditionalVaultV0_IDL } from "@/idl/conditional_vault_v0.1";

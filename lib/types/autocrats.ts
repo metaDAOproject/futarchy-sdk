@@ -7,11 +7,10 @@ import { Autocrat as AutocratV0_3 } from "@/idl/autocrat_v0.3";
 import { MergeWithOptionalFields, TokenProps } from "@/types";
 import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
 import { OpenbookTwapV0_1 } from "@/idl/openbook_twap_v0.1";
-import { ConditionalVault as ConditionalVaultV1 } from "@/idl/conditional_vault_v1";
+import { ConditionalVault as ConditionalVaultV0_3 } from "@/idl/conditional_vault_v0.3";
 import { ConditionalVault as ConditionalVaultV0_2 } from "@/idl/conditional_vault_v0.2";
 import { ConditionalVault as ConditionalVaultV0_1 } from "@/idl/conditional_vault_v0.1";
 import { ConditionalVault as ConditionalVaultV0 } from "@/idl/conditional_vault_v0.1";
-import { Autocrat as AutocratV1 } from "@metadaoproject/futarchy/dist/types/autocrat";
 
 /**
  * Programs
@@ -28,10 +27,9 @@ export type AutocratProgram =
   | AutocratV0_1
   | AutocratV0_2
   | AutocratV0_3
-  | AutocratV1;
 
 export type ConditionalVaultProgram =
-  | ConditionalVaultV1
+  | ConditionalVaultV0_3
   | ConditionalVaultV0_2
   | ConditionalVaultV0_1
   | ConditionalVaultV0;

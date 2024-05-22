@@ -61,17 +61,25 @@ export type Dao = {
   publicKey: PublicKey;
   daoAccount: Pick<
     DaoAccount,
-    "treasury" | "tokenMint" | "usdcMint" | "proposalCount" | "metaMint" |  "slotsPerProposal" | "passThresholdBps"
+    | "treasury"
+    | "tokenMint"
+    | "usdcMint"
+    | "proposalCount"
+    | "metaMint"
+    | "slotsPerProposal"
+    | "passThresholdBps"
   >;
   baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
     name: string | null;
     publicKey: string | null;
     url: string | null;
+    supply: number | null;
   };
   quoteToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
     name: string | null;
     publicKey: string | null;
     url: string | null;
+    supply: number | null;
   };
 };
 
@@ -81,9 +89,9 @@ export type DaoAggregate = {
   slug: string;
   daos: Dao[];
   logo?: string | null;
-  failTokenImageUrl?: string | null,
-  passTokenImageUrl?: string | null,
-  lpTokenImageUrl?: string | null,
+  failTokenImageUrl?: string | null;
+  passTokenImageUrl?: string | null;
+  lpTokenImageUrl?: string | null;
 };
 
 /** INDEXER GRAPHQL TYPES */
@@ -91,9 +99,9 @@ export type DaoDetails__GQL = {
   name: string | null;
   slug: string | null;
   image_url: string | null;
-  fail_token_image_url: string | null,
-  pass_token_image_url: string | null,
-  lp_token_image_url: string | null,
+  fail_token_image_url: string | null;
+  pass_token_image_url: string | null;
+  lp_token_image_url: string | null;
   daos: Array<{
     program_acct: string;
     dao_acct: string;
@@ -106,6 +114,7 @@ export type DaoDetails__GQL = {
       name: string | null;
       mint_acct: string;
       image_url: string | null;
+      supply: number | null;
     } | null;
     tokenByQuoteAcct: {
       symbol: string;
@@ -113,6 +122,7 @@ export type DaoDetails__GQL = {
       name: string | null;
       mint_acct: string | null;
       image_url: string | null;
+      supply: number | null;
     } | null;
     proposals_aggregate: {
       aggregate: {

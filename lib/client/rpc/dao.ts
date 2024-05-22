@@ -127,8 +127,8 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
       };
       return {
         daoAccount: dao,
-        baseToken,
-        quoteToken,
+        baseToken: { ...baseToken, supply: 0 },
+        quoteToken: { ...quoteToken, supply: 0 },
         protocol
       };
     }

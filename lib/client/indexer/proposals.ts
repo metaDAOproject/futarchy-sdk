@@ -53,14 +53,16 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             image_url: true,
             decimals: true,
             symbol: true,
-            name: true
+            name: true,
+            supply: true
           },
           tokenByQuoteAcct: {
             mint_acct: true,
             image_url: true,
             decimals: true,
             symbol: true,
-            name: true
+            name: true,
+            supply: true
           },
           program: {
             program_acct: true,
@@ -296,14 +298,16 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                   name: d.tokenByBaseAcct?.name ?? "",
                   symbol: d.tokenByBaseAcct?.symbol ?? "",
                   url: d.tokenByBaseAcct?.image_url ?? "",
-                  publicKey: d.tokenByBaseAcct?.mint_acct ?? ""
+                  publicKey: d.tokenByBaseAcct?.mint_acct ?? "",
+                  supply: d.tokenByBaseAcct?.supply ?? 0
                 },
                 quoteToken: {
                   decimals: d.tokenByQuoteAcct?.decimals ?? 0,
                   name: d.tokenByQuoteAcct?.name ?? "",
                   symbol: d.tokenByQuoteAcct?.symbol ?? "",
                   url: d.tokenByQuoteAcct?.image_url ?? "",
-                  publicKey: d.tokenByQuoteAcct?.mint_acct ?? ""
+                  publicKey: d.tokenByQuoteAcct?.mint_acct ?? "",
+                  supply: d.tokenByQuoteAcct?.supply ?? 0
                 }
               },
               participants: [],

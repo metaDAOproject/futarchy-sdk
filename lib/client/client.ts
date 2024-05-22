@@ -104,9 +104,11 @@ export interface FutarchyBalancesClient {
   ): Array<TokenWithPDA & { proposal: PublicKey }>;
   fetchAllConditionalTokenWalletBalances(
     ownerWallet: PublicKey | null,
-    quoteToken: TokenProps,
     baseToken: TokenProps,
-    proposals: Proposal[]
+    quoteToken: TokenProps,
+    proposals: Proposal[],
+    passTokenUrl?: string,
+    failTokenUrl?: string,
   ): Promise<TokenWithBalancePDAAndProposal[]>;
   watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance>;
 }

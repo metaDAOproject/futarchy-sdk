@@ -413,6 +413,18 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       ]
     });
   }
+  watchOrdersForMarket(marketAcct: PublicKey): Observable<Order[]> {
+    return this.watchOrdersForArgs({
+      where: {
+        market_acct: { _eq: marketAcct.toBase58() }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ]
+    });
+  }
 
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
     const { query, variables } = generateSubscriptionOp({

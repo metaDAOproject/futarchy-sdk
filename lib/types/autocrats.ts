@@ -7,11 +7,10 @@ import { Autocrat as AutocratV0_3 } from "@/idl/autocrat_v0.3";
 import { MergeWithOptionalFields, TokenProps } from "@/types";
 import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
 import { OpenbookTwapV0_1 } from "@/idl/openbook_twap_v0.1";
-import { ConditionalVault as ConditionalVaultV1 } from "@/idl/conditional_vault_v1";
+import { ConditionalVault as ConditionalVaultV0_3 } from "@/idl/conditional_vault_v0.3";
 import { ConditionalVault as ConditionalVaultV0_2 } from "@/idl/conditional_vault_v0.2";
 import { ConditionalVault as ConditionalVaultV0_1 } from "@/idl/conditional_vault_v0.1";
 import { ConditionalVault as ConditionalVaultV0 } from "@/idl/conditional_vault_v0.1";
-import { Autocrat as AutocratV1 } from "@metadaoproject/futarchy/dist/types/autocrat";
 
 /**
  * Programs
@@ -28,10 +27,9 @@ export type AutocratProgram =
   | AutocratV0_1
   | AutocratV0_2
   | AutocratV0_3
-  | AutocratV1;
 
 export type ConditionalVaultProgram =
-  | ConditionalVaultV1
+  | ConditionalVaultV0_3
   | ConditionalVaultV0_2
   | ConditionalVaultV0_1
   | ConditionalVaultV0;
@@ -63,17 +61,25 @@ export type Dao = {
   publicKey: PublicKey;
   daoAccount: Pick<
     DaoAccount,
-    "treasury" | "tokenMint" | "usdcMint" | "proposalCount" | "metaMint" |  "slotsPerProposal" | "passThresholdBps"
+    | "treasury"
+    | "tokenMint"
+    | "usdcMint"
+    | "proposalCount"
+    | "metaMint"
+    | "slotsPerProposal"
+    | "passThresholdBps"
   >;
   baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
     name: string | null;
     publicKey: string | null;
     url: string | null;
+    supply: number | null;
   };
   quoteToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
     name: string | null;
     publicKey: string | null;
     url: string | null;
+    supply: number | null;
   };
 };
 
@@ -83,6 +89,9 @@ export type DaoAggregate = {
   slug: string;
   daos: Dao[];
   logo?: string | null;
+  failTokenImageUrl?: string | null;
+  passTokenImageUrl?: string | null;
+  lpTokenImageUrl?: string | null;
 };
 
 /** INDEXER GRAPHQL TYPES */
@@ -90,6 +99,9 @@ export type DaoDetails__GQL = {
   name: string | null;
   slug: string | null;
   image_url: string | null;
+  fail_token_image_url: string | null;
+  pass_token_image_url: string | null;
+  lp_token_image_url: string | null;
   daos: Array<{
     program_acct: string;
     dao_acct: string;
@@ -102,6 +114,7 @@ export type DaoDetails__GQL = {
       name: string | null;
       mint_acct: string;
       image_url: string | null;
+      supply: number | null;
     } | null;
     tokenByQuoteAcct: {
       symbol: string;
@@ -109,6 +122,7 @@ export type DaoDetails__GQL = {
       name: string | null;
       mint_acct: string | null;
       image_url: string | null;
+      supply: number | null;
     } | null;
     proposals_aggregate: {
       aggregate: {

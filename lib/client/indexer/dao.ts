@@ -1,4 +1,10 @@
-import { Dao, DaoAccount, DaoAggregate, DaoDetails__GQL, FutarchyProtocol } from "@/types";
+import {
+  Dao,
+  DaoAccount,
+  DaoAggregate,
+  DaoDetails__GQL,
+  FutarchyProtocol
+} from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { FutarchyRPCDaoClient } from "../rpc";
 import { Client as IndexerGraphQLClient } from "./__generated__";
@@ -29,6 +35,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           x_account: true,
           description: true,
           image_url: true,
+          fail_token_image_url: true,
+          pass_token_image_url: true,
+          lp_token_image_url: true,
           daos: {
             program_acct: true,
             dao_acct: true,
@@ -38,6 +47,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               mint_acct: true,
               name: true,
               image_url: true,
+              supply: true
             },
             tokenByQuoteAcct: {
               decimals: true,
@@ -45,17 +55,18 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               mint_acct: true,
               name: true,
               image_url: true,
+              supply: true
             },
             pass_threshold_bps: true,
             slots_per_proposal: true,
             treasury_acct: true,
             proposals_aggregate: {
               aggregate: {
-                count: true,
-              },
-            },
-          },
-        },
+                count: true
+              }
+            }
+          }
+        }
       });
 
       const daoAggregates = dao_details.map<DaoAggregate>((daoDetails) =>
@@ -75,9 +86,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
         dao_details: {
           __args: {
             where: {
-              slug: { _eq: daoSlug },
+              slug: { _eq: daoSlug }
             },
-            limit: 1,
+            limit: 1
           },
           name: true,
           slug: true,
@@ -86,6 +97,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           x_account: true,
           description: true,
           image_url: true,
+          fail_token_image_url: true,
+          pass_token_image_url: true,
+          lp_token_image_url: true,
           daos: {
             program_acct: true,
             dao_acct: true,
@@ -95,6 +109,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               mint_acct: true,
               name: true,
               image_url: true,
+              supply: true
             },
             tokenByQuoteAcct: {
               decimals: true,
@@ -102,17 +117,18 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               mint_acct: true,
               name: true,
               image_url: true,
+              supply: true
             },
             pass_threshold_bps: true,
             slots_per_proposal: true,
             treasury_acct: true,
             proposals_aggregate: {
               aggregate: {
-                count: true,
-              },
-            },
-          },
-        },
+                count: true
+              }
+            }
+          }
+        }
       });
       if (dao_details[0]) {
         return this.getDaoAggregateFromDaoDetailsQuery(dao_details[0]);
@@ -131,6 +147,9 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
       name: daoDetails.name ?? "",
       slug: daoDetails.slug ?? "",
       logo: daoDetails.image_url,
+      failTokenImageUrl: daoDetails.fail_token_image_url,
+      passTokenImageUrl: daoDetails.pass_token_image_url,
+      lpTokenImageUrl: daoDetails.lp_token_image_url,
       daos: daoDetails.daos
         .map((d) => {
           if (this.protocolMap.get(d.program_acct)) {
@@ -141,6 +160,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                 name: d.tokenByBaseAcct?.name ?? null,
                 publicKey: d.tokenByBaseAcct?.mint_acct,
                 url: d.tokenByBaseAcct?.image_url,
+                supply: d.tokenByBaseAcct?.supply ?? null
               },
               quoteToken: {
                 symbol: d.tokenByQuoteAcct?.symbol,
@@ -148,6 +168,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                 name: d.tokenByQuoteAcct?.name,
                 publicKey: d.tokenByQuoteAcct?.mint_acct,
                 url: d.tokenByQuoteAcct?.image_url,
+                supply: d.tokenByBaseAcct?.supply ?? null
               },
               daoAccount: {
                 // TODO these nullable conditions result in public keys that don't make sense potentially
@@ -158,22 +179,22 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                   : undefined,
                 proposalCount: d.proposals_aggregate.aggregate?.count,
                 passThresholdBps: d.pass_threshold_bps,
-                slotsPerProposal: d.slots_per_proposal,
+                slotsPerProposal: d.slots_per_proposal
               },
               publicKey: new PublicKey(d.dao_acct),
-              protocol: this.protocolMap.get(d.program_acct),
+              protocol: this.protocolMap.get(d.program_acct)
             };
           }
         })
-        .filter((d) => !!d) as Dao[],
+        .filter((d) => !!d) as Dao[]
     };
   }
 
-  async getMinLpToProvide(daoAggregate:DaoAggregate){
-    return this.rpcDaoClient.getMinLpToProvide(daoAggregate)
+  async getMinLpToProvide(daoAggregate: DaoAggregate) {
+    return this.rpcDaoClient.getMinLpToProvide(daoAggregate);
   }
 
-  async getTreasuryBalance(daoAccount: DaoAccount){
-    return this.rpcDaoClient.getTreasuryBalance(daoAccount)
+  async getTreasuryBalance(daoAccount: DaoAccount) {
+    return this.rpcDaoClient.getTreasuryBalance(daoAccount);
   }
 }

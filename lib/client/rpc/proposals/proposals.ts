@@ -1,5 +1,5 @@
 import { PublicKey, Transaction } from "@solana/web3.js";
-import { AnchorProvider, BN } from "@coral-xyz/anchor";
+import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import {
   TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountIdempotentInstruction,
@@ -36,6 +36,7 @@ import {
 } from "@/types/createProp";
 import { FinalizeProposalClient } from "./finalizeProposal";
 import { CreateProposalClient } from "./createProposal";
+import { autocratVersionToConditionalVaultMap } from "@/constants";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: AnchorProvider;

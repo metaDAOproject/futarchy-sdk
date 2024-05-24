@@ -68,6 +68,15 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
     });
   }
 
+  watchOrdersForMarket(marketAcct: PublicKey): Observable<Order[]> {
+    console.warn(
+      "watchUserOrdersForMarket is not implemented in the RPC client."
+    );
+    return new Observable((subscriber) => {
+      subscriber.next([]);
+    });
+  }
+
   watchUserOrdersForMarket(
     owner: PublicKey,
     marketAcct: PublicKey

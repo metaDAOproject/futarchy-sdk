@@ -108,7 +108,7 @@ export interface FutarchyBalancesClient {
     quoteToken: TokenProps,
     proposals: Proposal[],
     passTokenUrl?: string,
-    failTokenUrl?: string,
+    failTokenUrl?: string
   ): Promise<TokenWithBalancePDAAndProposal[]>;
   watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance>;
 }
@@ -124,6 +124,7 @@ export interface FutarchyMarketsClient {
     owner: PublicKey,
     marketAcct: PublicKey
   ): Observable<Array<Order>>;
+  watchOrdersForMarket(marketAcct: PublicKey): Observable<Array<Order>>;
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
   watchProposalMarketPricesAggregate(

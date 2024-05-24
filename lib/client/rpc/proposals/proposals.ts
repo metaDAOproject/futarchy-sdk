@@ -262,7 +262,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   ) {
     if (programVersion == "V0.3" || programVersion == "V0.2") {
       const vaultForVersion = autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion]
-      const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId)
+      const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId, this.rpcProvider)
 
       const vaultAccount =
         underlyingToken == "base"
@@ -296,7 +296,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
   public async withdraw(proposal: Proposal) {
     const vaultForVersion = autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion]
-    const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId)
+    const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId, this.rpcProvider)
 
     const baseAccounts = await this.getVaultAccounts(
       proposal.baseVaultAccount,
@@ -317,6 +317,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         })
         .transaction()
     ).instructions;
+
     const redeeemQuoteIx = (
       await vaultProgram.methods
         .redeemConditionalTokensForUnderlyingTokens()

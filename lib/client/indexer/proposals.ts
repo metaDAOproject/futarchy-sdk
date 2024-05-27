@@ -21,6 +21,7 @@ import {
 import { BN } from "@coral-xyz/anchor";
 import { PriceMath } from "@metadaoproject/futarchy";
 
+
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
   private rpcProposalsClient: FutarchyRPCProposalsClient;
@@ -189,7 +190,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     new BN(curr.filled_base_amount),
                     new BN(d.tokenByBaseAcct?.decimals ?? 6)
                   ) *
-                    curr.quote_price,
+                  curr.quote_price,
                 0
               ) ?? 0;
             const failVolume =
@@ -200,7 +201,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     new BN(curr.filled_base_amount),
                     new BN(d.tokenByBaseAcct?.decimals ?? 6)
                   ) *
-                    curr.quote_price,
+                  curr.quote_price,
                 0
               ) ?? 0;
 
@@ -273,10 +274,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               endDate: p.ended_at
                 ? new Date(p.ended_at)
                 : new Date(
-                    new Date(p.created_at).setDate(
-                      new Date(p.created_at).getDate() + 3
-                    )
-                  ),
+                  new Date(p.created_at).setDate(
+                    new Date(p.created_at).getDate() + 3
+                  )
+                ),
               // TODO figure this out by slot enqueued maybe
               finalizationDate: p.completed_at,
               dao: {
@@ -416,5 +417,52 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       proposal,
       underlyingToken
     );
+  }
+
+  async getReactions(proposal: string, user?: string) {
+    console.log("REACTION", proposal, user)
+    const { reactions } = await this.graphqlClient.query?.({
+      reactions: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposal }
+          }
+        },
+        reactor_acct: true,
+        updated_at: true,
+        reaction: true,
+        proposal_acct: true,
+      }
+    });
+    const reactionsTypes = [
+      "ThumbsUp",
+      "Rocket",
+      "Heart",
+      "ThumbsDown",
+      "Fire",
+      "Eyes",
+      "LaughingFace",
+      "FrownyFace",
+      "Celebrate"
+    ]
+    
+    type ReactionType = typeof reactionsTypes[number];
+  
+
+    console.log(reactions)
+    const reactionCounts: {[key in ReactionType]: { count: number, userReacted: boolean } } = {};
+    // Initialize each reaction type
+    reactionsTypes.forEach((reactionType) => {
+      reactionCounts[reactionType] = { count: 0, userReacted: false };
+    })
+    reactions.forEach((reaction) => {
+      reactionCounts[reaction.reaction]!!.count += + 1;
+      if (user && reaction.reactor_acct === user)
+        reactionCounts[reaction.reaction]!!.userReacted = true;
+    })
+    console.log("hihi")
+    console.log("counts, ", reactionCounts)
+
+    return reactionCounts;
   }
 }

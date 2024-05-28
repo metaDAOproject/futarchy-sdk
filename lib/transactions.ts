@@ -52,7 +52,7 @@ export class TransactionSender {
     txs: SingleOrArray<T>[],
     connection: Connection,
     // alreadySignedTxs?: T[],
-    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number>}
+    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number> }
   ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
@@ -73,7 +73,7 @@ export class TransactionSender {
 
     const latestBlockhash = await connection.getLatestBlockhash();
     const timedTxs = sequence.map((set) =>
-      set.map((e: T, i:number) => {
+      set.map((e: T, i: number) => {
         const tx = e;
         if (!(tx instanceof VersionedTransaction)) {
           tx.recentBlockhash = latestBlockhash.blockhash;
@@ -106,8 +106,8 @@ export class TransactionSender {
       );
 
       if (!opts?.sequential) {
-        signedSequence.map((set) =>
-          Promise.all(
+        await Promise.all(signedSequence.map(async (set) =>
+           await Promise.all(
             set.map(async (tx) => {
               return connection
                 .sendRawTransaction(tx.serialize(), { skipPreflight: true })
@@ -119,7 +119,7 @@ export class TransactionSender {
             }
             )
           )
-        );
+        ));
       }
       else {
         for (const set of signedSequence) {

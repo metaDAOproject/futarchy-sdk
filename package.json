@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.1-beta.2",
-    "@metadaoproject/futarchy": "^0.3.0-alpha.5",
+    "@metadaoproject/futarchy": "^0.3.0-alpha.6",
     "@metadaoproject/futarchy-ts": "2.1.0",
     "@metaplex-foundation/js": "^0.20.1",
     "@metaplex-foundation/mpl-token-metadata": "^3.2.1",

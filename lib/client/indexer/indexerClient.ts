@@ -7,9 +7,6 @@ import { createClient } from "./__generated__";
 import { ClientOptions, createClient as createWsClient } from "graphql-ws";
 import { FutarchyProtocol } from "@/types";
 
-/**
- * This class is not yet implemented. Use the RPC client for now instead
- */
 export class FutarchyIndexerClient implements FutarchyClient {
   public daos: FutarchyIndexerDaoClient;
   public proposals: FutarchyIndexerProposalsClient;
@@ -53,6 +50,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
     this.proposals = new FutarchyIndexerProposalsClient(
       rpcClient.proposals,
       graphqlClient,
+      wsClient,
       this.protocolMap
     );
     this.balances = new FutarchyIndexerBalancesClient(rpcClient.balances);

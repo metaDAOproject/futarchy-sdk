@@ -34,6 +34,7 @@ import {
   MarketParams,
   ProposalDetails
 } from "@/types/createProp";
+import { ReactionResponse } from "@/types/reactions";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -81,6 +82,7 @@ export interface FutarchyProposalsClient {
     proposal: Proposal,
     underlyingToken: "base" | "quote"
   ): SendTransactionResponse;
+  watchReactions?: (proposal: string, user?: string) =>  Observable<ReactionResponse>
 }
 
 export interface FutarchyBalancesClient {

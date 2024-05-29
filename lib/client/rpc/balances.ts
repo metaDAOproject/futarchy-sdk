@@ -17,8 +17,10 @@ import { Proposal } from "@/types/proposals";
 import { BN, Provider } from "@coral-xyz/anchor";
 import { Observable, retry } from "rxjs";
 
-const PASS_USDC_URL = "https://imagedelivery.net/HYEnlujCFMCgj6yA728xIw/f38677ab-8ec6-4706-6606-7d4e0a3cfc00/public"
-const FAIL_USDC_URL = "https://imagedelivery.net/HYEnlujCFMCgj6yA728xIw/d9bfd8de-2937-419a-96f6-8d6a3a76d200/public"
+const PASS_USDC_URL =
+  "https://imagedelivery.net/HYEnlujCFMCgj6yA728xIw/f38677ab-8ec6-4706-6606-7d4e0a3cfc00/public";
+const FAIL_USDC_URL =
+  "https://imagedelivery.net/HYEnlujCFMCgj6yA728xIw/d9bfd8de-2937-419a-96f6-8d6a3a76d200/public";
 
 export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
   private rpcProvider: Provider;
@@ -43,33 +45,38 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
         await Promise.all(
           Array.from(tokensByMint.values())
             .filter((t): t is TokenWithPDA => !!t.pda)
-            .map<Promise<TokenWithBalance | undefined>>(async (t) => {
-              try {
-                const tokenBalance =
-                  await this.rpcProvider.connection.getTokenAccountBalance(
-                    t.pda
-                  );
-                return {
-                  balance: tokenBalance.value.uiAmount ?? 0,
-                  token: t.token
-                };
-              } catch (e) {
-                if (!JSON.stringify(e).includes("not found")) {
-                  console.info(
-                    "error fetching wallet balance for token:",
-                    t.token.symbol
-                  );
-                }
-                return {
-                  balance: 0,
-                  token: t.token
-                };
-              }
-            })
+            .map<Promise<TokenWithBalance | undefined>>(async (t) =>
+              this.fetchTokenBalance(t.pda, t.token)
+            )
         )
       ).filter((b): b is TokenWithBalance => !!b);
     }
     return [];
+  }
+
+  async fetchTokenBalance(pda: PublicKey | null, token: TokenProps) {
+    if (!pda)
+      return {
+        balance: 0,
+        token: token
+      };
+
+    try {
+      const tokenBalance =
+        await this.rpcProvider.connection.getTokenAccountBalance(pda);
+      return {
+        balance: tokenBalance.value.uiAmount ?? 0,
+        token: token
+      };
+    } catch (e) {
+      if (!JSON.stringify(e).includes("not found")) {
+        console.info("error fetching wallet balance for token:", token.symbol);
+      }
+      return {
+        balance: 0,
+        token: token
+      };
+    }
   }
 
   watchMainTokenWalletBalances(
@@ -101,10 +108,10 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
         mapping.set(dao.baseToken.publicKey, {
           pda: owner
             ? getAssociatedTokenAddressSync(
-              new PublicKey(dao.baseToken.publicKey),
-              owner,
-              true
-            )
+                new PublicKey(dao.baseToken.publicKey),
+                owner,
+                true
+              )
             : null,
           token: dao.baseToken
         });
@@ -113,10 +120,10 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
         mapping.set(dao.quoteToken.publicKey, {
           pda: owner
             ? getAssociatedTokenAddressSync(
-              new PublicKey(dao.quoteToken.publicKey),
-              owner,
-              true
-            )
+                new PublicKey(dao.quoteToken.publicKey),
+                owner,
+                true
+              )
             : null,
           token: dao.quoteToken
         });
@@ -183,7 +190,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
     quoteToken: TokenProps,
     proposals: Proposal[],
     passTokenUrl?: string,
-    failTokenUrl?: string,
+    failTokenUrl?: string
   ): Promise<TokenWithBalancePDAAndProposal[]> {
     const tokenBalances = await Promise.all(
       proposals.map(async (proposal) => {
@@ -193,12 +200,12 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
             {
               pda: ownerWallet
                 ? getAssociatedTokenAddressSync(
-                  new PublicKey(
-                    proposal.baseVaultAccount.conditionalOnFinalizeTokenMint
-                  ),
-                  ownerWallet,
-                  true
-                )
+                    new PublicKey(
+                      proposal.baseVaultAccount.conditionalOnFinalizeTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
                 : null,
               token: {
                 ...baseToken,
@@ -212,12 +219,12 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
             {
               pda: ownerWallet
                 ? getAssociatedTokenAddressSync(
-                  new PublicKey(
-                    proposal.baseVaultAccount.conditionalOnRevertTokenMint
-                  ),
-                  ownerWallet,
-                  true
-                )
+                    new PublicKey(
+                      proposal.baseVaultAccount.conditionalOnRevertTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
                 : null,
               token: {
                 ...baseToken,
@@ -231,12 +238,12 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
             {
               pda: ownerWallet
                 ? getAssociatedTokenAddressSync(
-                  new PublicKey(
-                    proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint
-                  ),
-                  ownerWallet,
-                  true
-                )
+                    new PublicKey(
+                      proposal.quoteVaultAccount.conditionalOnFinalizeTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
                 : null,
               token: {
                 ...quoteToken,
@@ -250,12 +257,12 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
             {
               pda: ownerWallet
                 ? getAssociatedTokenAddressSync(
-                  new PublicKey(
-                    proposal.quoteVaultAccount.conditionalOnRevertTokenMint
-                  ),
-                  ownerWallet,
-                  true
-                )
+                    new PublicKey(
+                      proposal.quoteVaultAccount.conditionalOnRevertTokenMint
+                    ),
+                    ownerWallet,
+                    true
+                  )
                 : null,
               token: {
                 ...quoteToken,
@@ -273,8 +280,8 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
               try {
                 const tokenBalance = t.pda
                   ? await this.rpcProvider.connection.getTokenAccountBalance(
-                    t.pda
-                  )
+                      t.pda
+                    )
                   : { value: { uiAmount: 0 } };
                 return {
                   balance: tokenBalance.value.uiAmount ?? 0,

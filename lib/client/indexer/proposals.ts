@@ -11,7 +11,7 @@ import {
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
-import { Client as IndexerGraphQLClient } from "./__generated__";
+import { Client as IndexerGraphQLClient, generateSubscriptionOp } from "./__generated__";
 import { SendTransactionResponse } from "@/types/transactions";
 import {
   CreateProposalInstruction,
@@ -20,18 +20,27 @@ import {
 } from "@/types/createProp";
 import { BN } from "@coral-xyz/anchor";
 import { PriceMath } from "@metadaoproject/futarchy";
+import { Observable } from "rxjs";
+import { Client as GQLWebSocketClient } from "graphql-ws";
+import { SUPPORTED_EMOJIS } from "@/constants/reactions";
+import { ReactionType } from "@/types/reactions";
+
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
   private rpcProposalsClient: FutarchyRPCProposalsClient;
   private graphqlClient: IndexerGraphQLClient;
+  private graphqlWSClient: GQLWebSocketClient;
+
   constructor(
     rpcProposalsClient: FutarchyRPCProposalsClient,
     graphqlClient: IndexerGraphQLClient,
+    graphqlWSClient: GQLWebSocketClient,
     protocolMap: Map<string, FutarchyProtocol>
   ) {
     this.rpcProposalsClient = rpcProposalsClient;
     this.graphqlClient = graphqlClient;
+    this.graphqlWSClient = graphqlWSClient;
     this.protocolMap = protocolMap;
   }
   async fetchProposals(dao: DaoAggregate): Promise<Proposal[]> {
@@ -189,7 +198,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     new BN(curr.filled_base_amount),
                     new BN(d.tokenByBaseAcct?.decimals ?? 6)
                   ) *
-                    curr.quote_price,
+                  curr.quote_price,
                 0
               ) ?? 0;
             const failVolume =
@@ -200,7 +209,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                     new BN(curr.filled_base_amount),
                     new BN(d.tokenByBaseAcct?.decimals ?? 6)
                   ) *
-                    curr.quote_price,
+                  curr.quote_price,
                 0
               ) ?? 0;
 
@@ -273,10 +282,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               endDate: p.ended_at
                 ? new Date(p.ended_at)
                 : new Date(
-                    new Date(p.created_at).setDate(
-                      new Date(p.created_at).getDate() + 3
-                    )
-                  ),
+                  new Date(p.created_at).setDate(
+                    new Date(p.created_at).getDate() + 3
+                  )
+                ),
               // TODO figure this out by slot enqueued maybe
               finalizationDate: p.completed_at,
               dao: {
@@ -417,4 +426,58 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       underlyingToken
     );
   }
+
+  watchReactions(proposal: string, user?: string) : Observable<{ [key in ReactionType]: { count: number, userReacted: boolean } }> {
+    const { query, variables } = generateSubscriptionOp({
+      reactions: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposal }
+          }
+        },
+        reactor_acct: true,
+        updated_at: true,
+        reaction: true,
+        proposal_acct: true,
+      }
+    });
+
+    return new Observable((subscriber) => {
+      const subscriptionCleanup:() => void = this.graphqlWSClient.subscribe<{
+        reactions: {
+          reactor_acct: string,
+          updated_at: string,
+          reaction: string,
+          proposal_acct: string,
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const reactions = data.data
+            
+            const reactionCounts: { [key in ReactionType]: { count: number, userReacted: boolean } } = {};
+            // Initialize each reaction type
+            SUPPORTED_EMOJIS.forEach((reactionType) => {
+              reactionCounts[reactionType] = { count: 0, userReacted: false };
+            })
+
+            // Might need some optimization later
+            reactions?.reactions.forEach((reaction) => {
+              reactionCounts[reaction.reaction]!!.count += 1;
+              if (user && reaction.reactor_acct === user)
+                reactionCounts[reaction.reaction]!!.userReacted = true;
+            })
+  
+            subscriber.next(reactionCounts);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriptionCleanup()
+        }
+      );
+      return () => subscriptionCleanup();
+    });
+  }
 }
+
+

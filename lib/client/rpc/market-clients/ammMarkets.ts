@@ -10,10 +10,7 @@ import {
   LiquidityAddError,
   SwapPreview
 } from "@/types/amm";
-import {
-  SendTransactionResponse,
-  TransactionProcessingUpdate
-} from "@/types/transactions";
+import { TransactionProcessingUpdate } from "@/types/transactions";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
@@ -306,10 +303,17 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       new BN(minQuoteWithSlippage)
     );
     const tx = await ix.transaction();
-    return this.transactionSender?.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors],
-      CUs: 70_000
-    });
+    return this.transactionSender?.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [this.ammClient.program.idl.errors],
+        CUs: 70_000
+      },
+      {
+        title: "Removing Liquidity"
+      }
+    );
   }
 
   simulateRemoveLiquidity(lpTokensToBurn: number, ammMarket: AmmMarket) {

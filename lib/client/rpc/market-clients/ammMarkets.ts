@@ -224,10 +224,17 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       this.rpcProvider.publicKey
     );
     const tx = await ix.transaction();
-    return this.transactionSender.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors],
-      CUs: 100_000
-    });
+    return this.transactionSender.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [this.ammClient.program.idl.errors],
+        CUs: 100_000
+      },
+      {
+        title: "Adding Liquidity"
+      }
+    );
   }
 
   simulateAddLiquidity(
@@ -377,10 +384,15 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       )
       .transaction();
 
-    return this.transactionSender?.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors],
-      CUs: 80_000
-    });
+    return this.transactionSender?.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [this.ammClient.program.idl.errors],
+        CUs: 80_000
+      },
+      { title: "Swapping" }
+    );
   }
 
   async getSwapPreview(

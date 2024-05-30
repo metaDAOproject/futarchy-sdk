@@ -28,7 +28,7 @@ import { AnchorProvider, Program, BN } from "@coral-xyz/anchor";
 import {
   AutocratClient,
   InstructionUtils,
-  MaxCUs,
+  MaxCUs
 } from "@metadaoproject/futarchy";
 import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import {
@@ -95,8 +95,10 @@ export class CreateProposalClient implements CreateProposal {
       true
     );
 
-    const vaultExists = await this.rpcProvider.connection.getAccountInfo(vaultUnderlyingTokenAccount)
-    if (vaultExists) return [vault, undefined]
+    const vaultExists = await this.rpcProvider.connection.getAccountInfo(
+      vaultUnderlyingTokenAccount
+    );
+    if (vaultExists) return [vault, undefined];
 
     const ix = (
       await vaultProgram.methods
@@ -205,10 +207,18 @@ export class CreateProposalClient implements CreateProposal {
       twapProgram.programId
     );
 
-    const existingPassBaseMint = (await vaultProgram.account.conditionalVault.fetch(baseVault))?.conditionalOnFinalizeTokenMint
-    const existingFailBaseMint = (await vaultProgram.account.conditionalVault.fetch(baseVault))?.conditionalOnRevertTokenMint
-    const existingPassQuoteMint = (await vaultProgram.account.conditionalVault.fetch(quoteVault))?.conditionalOnFinalizeTokenMint
-    const existingFailQuoteMint = (await vaultProgram.account.conditionalVault.fetch(quoteVault))?.conditionalOnRevertTokenMint
+    const existingPassBaseMint = (
+      await vaultProgram.account.conditionalVault.fetch(baseVault)
+    )?.conditionalOnFinalizeTokenMint;
+    const existingFailBaseMint = (
+      await vaultProgram.account.conditionalVault.fetch(baseVault)
+    )?.conditionalOnRevertTokenMint;
+    const existingPassQuoteMint = (
+      await vaultProgram.account.conditionalVault.fetch(quoteVault)
+    )?.conditionalOnFinalizeTokenMint;
+    const existingFailQuoteMint = (
+      await vaultProgram.account.conditionalVault.fetch(quoteVault)
+    )?.conditionalOnRevertTokenMint;
 
     let [passMarketIx, passMarketSigners] = await openbook.createMarketIx(
       this.rpcProvider.publicKey,
@@ -314,8 +324,6 @@ export class CreateProposalClient implements CreateProposal {
         .transaction()
     ).instructions;
 
-
-
     // initializeProposal needs to be a versioned tx to be able to partial sign with wallet signAllTransactions
     // signing after a partial sign overwrites it
     // versionedTransaction have no partialSign fn because it's sign fn is a partialSign
@@ -332,11 +340,12 @@ export class CreateProposalClient implements CreateProposal {
       createFailMarketTx,
       createTwaps,
       initializeProposalTx
-    ].filter(tx => tx !== undefined)
+    ].filter((tx) => tx !== undefined);
     const txResp = await this.transactionSender?.send(
       allTxs,
       this.rpcProvider.connection,
-      { commitment: "confirmed", sequential: true }
+      { commitment: "confirmed", sequential: true },
+      { title: "Creating Proposal" }
     );
 
     const accounts = {
@@ -360,21 +369,23 @@ export class CreateProposalClient implements CreateProposal {
     onPassIx: ProposalInstructionWithPreinstructions,
     marketParams: AmmMarketParams
   ): SendTransactionResponse {
-    if (!this.transactionSender) return
+    if (!this.transactionSender) return;
 
     const nonce = new BN(Math.random() * 2 ** 50);
     const proposal = PublicKey.findProgramAddressSync(
       [
         Buffer.from("proposal"),
         this.rpcProvider.publicKey.toBuffer(),
-        nonce.toArrayLike(Buffer, "le", 8),
+        nonce.toArrayLike(Buffer, "le", 8)
       ],
       this.autocratClient.autocrat.programId
-    )[0]
+    )[0];
 
-    const accountInfo = await this.rpcProvider.connection.getAccountInfo(proposal);
+    const accountInfo = await this.rpcProvider.connection.getAccountInfo(
+      proposal
+    );
     if (accountInfo !== null) {
-      this.createProposalV0_3(dao, onPassIx, marketParams)
+      this.createProposalV0_3(dao, onPassIx, marketParams);
     }
     const autocrat = this.autocratClient.autocrat;
 
@@ -383,28 +394,48 @@ export class CreateProposalClient implements CreateProposal {
     const baseTokensToLP = new BN(marketParams.baseLiquidity);
     const quoteTokensToLP = new BN(marketParams.quoteLiquidity);
 
+    const {
+      failAmm,
+      passAmm,
+      failBaseMint,
+      failQuoteMint,
+      failLp,
+      passBaseMint,
+      passQuoteMint,
+      passLp,
+      baseVault,
+      quoteVault
+    } = this.autocratClient.getProposalPdas(
+      proposal,
+      daoAccount.tokenMint,
+      daoAccount.usdcMint,
+      dao.publicKey
+    );
 
-    const { failAmm, passAmm, failBaseMint, failQuoteMint, failLp, passBaseMint, passQuoteMint, passLp, baseVault, quoteVault } = this.autocratClient.getProposalPdas(proposal, daoAccount.tokenMint, daoAccount.usdcMint, dao.publicKey)
-
-    const initializeVaultsAndCreateAmmsTx = await this.autocratClient.vaultClient
-      .initializeVaultIx(proposal, daoAccount.tokenMint)
-      .postInstructions(
-        await InstructionUtils.getInstructions(
-          this.autocratClient.vaultClient.initializeVaultIx(proposal, daoAccount.usdcMint),
-          this.autocratClient.ammClient.createAmmIx(
-            passBaseMint,
-            passQuoteMint,
-            daoAccount.twapInitialObservation,
-            daoAccount.twapMaxObservationChangePerUpdate
-          ),
-          this.autocratClient.ammClient.createAmmIx(
-            failBaseMint,
-            failQuoteMint,
-            daoAccount.twapInitialObservation,
-            daoAccount.twapMaxObservationChangePerUpdate
+    const initializeVaultsAndCreateAmmsTx =
+      await this.autocratClient.vaultClient
+        .initializeVaultIx(proposal, daoAccount.tokenMint)
+        .postInstructions(
+          await InstructionUtils.getInstructions(
+            this.autocratClient.vaultClient.initializeVaultIx(
+              proposal,
+              daoAccount.usdcMint
+            ),
+            this.autocratClient.ammClient.createAmmIx(
+              passBaseMint,
+              passQuoteMint,
+              daoAccount.twapInitialObservation,
+              daoAccount.twapMaxObservationChangePerUpdate
+            ),
+            this.autocratClient.ammClient.createAmmIx(
+              failBaseMint,
+              failQuoteMint,
+              daoAccount.twapInitialObservation,
+              daoAccount.twapMaxObservationChangePerUpdate
+            )
           )
         )
-      ).transaction()
+        .transaction();
 
     const mintTx = await this.autocratClient.vaultClient
       .mintConditionalTokensIx(baseVault, daoAccount.tokenMint, baseTokensToLP)
@@ -414,22 +445,23 @@ export class CreateProposalClient implements CreateProposal {
             quoteVault,
             daoAccount.usdcMint,
             quoteTokensToLP
-          ),
+          )
         )
       )
-      .transaction()
+      .transaction();
 
-    const liquidityTx = await this.autocratClient.ammClient.addLiquidityIx(
-      failAmm,
-      failBaseMint,
-      failQuoteMint,
-      quoteTokensToLP,
-      baseTokensToLP,
-      new BN(0)
-    ).postInstructions(
-      await InstructionUtils.getInstructions(
-        this.autocratClient.ammClient
-          .addLiquidityIx(
+    const liquidityTx = await this.autocratClient.ammClient
+      .addLiquidityIx(
+        failAmm,
+        failBaseMint,
+        failQuoteMint,
+        quoteTokensToLP,
+        baseTokensToLP,
+        new BN(0)
+      )
+      .postInstructions(
+        await InstructionUtils.getInstructions(
+          this.autocratClient.ammClient.addLiquidityIx(
             passAmm,
             passBaseMint,
             passQuoteMint,
@@ -437,8 +469,9 @@ export class CreateProposalClient implements CreateProposal {
             baseTokensToLP,
             new BN(0)
           )
+        )
       )
-    ).transaction()
+      .transaction();
 
     const initializeProposalTx = await this.autocratClient
       .initializeProposalIx(
@@ -451,18 +484,26 @@ export class CreateProposalClient implements CreateProposal {
         quoteTokensToLP,
         nonce
       )
-      .preInstructions([
-        ...(onPassIx.preInstructions || []),
-      ])
-      .transaction()
+      .preInstructions([...(onPassIx.preInstructions || [])])
+      .transaction();
 
-    const allTxs = [initializeVaultsAndCreateAmmsTx, mintTx, liquidityTx, initializeProposalTx];
+    const allTxs = [
+      initializeVaultsAndCreateAmmsTx,
+      mintTx,
+      liquidityTx,
+      initializeProposalTx
+    ];
 
     //TO DO : recalculate compute units
-    const initializeVaultsAndAmmCus = MaxCUs.createIdempotent * 2 + MaxCUs.initializeConditionalVault * 2 + MaxCUs.initializeAmm * 2
-    const mintCus = MaxCUs.createIdempotent * 4 + MaxCUs.mintConditionalTokens * 2 + 50000;
-    const addLiquidityCus = + MaxCUs.addLiquidity * 2;
-    const initializeProposalCus = MaxCUs.createIdempotent + MaxCUs.initializeProposal + 50000;
+    const initializeVaultsAndAmmCus =
+      MaxCUs.createIdempotent * 2 +
+      MaxCUs.initializeConditionalVault * 2 +
+      MaxCUs.initializeAmm * 2;
+    const mintCus =
+      MaxCUs.createIdempotent * 4 + MaxCUs.mintConditionalTokens * 2 + 50000;
+    const addLiquidityCus = +MaxCUs.addLiquidity * 2;
+    const initializeProposalCus =
+      MaxCUs.createIdempotent + MaxCUs.initializeProposal + 50000;
 
     const txResp = await this.transactionSender?.send(
       allTxs,
@@ -476,7 +517,8 @@ export class CreateProposalClient implements CreateProposal {
           addLiquidityCus,
           initializeProposalCus
         ]
-      }
+      },
+      { title: "Creating Proposal" }
     );
 
     const accounts = {

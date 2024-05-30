@@ -118,7 +118,8 @@ export class FinalizeProposalClient implements FinalizeProposal {
       this.rpcProvider.connection,
       {
         customErrors: [autocrat.idl.errors]
-      }
+      },
+      { title: "Finalizing Proposal" }
     );
   }
 
@@ -129,22 +130,24 @@ export class FinalizeProposalClient implements FinalizeProposal {
         proposal.publicKey
       );
       const dao = await this.autocratClient.getDao(proposalAccount.dao);
-      const finalizeProposalTx =
-        await this.autocratClient.finalizeProposalIx(
+      const finalizeProposalTx = await this.autocratClient
+        .finalizeProposalIx(
           proposal.publicKey,
           proposalAccount.instruction,
           proposalAccount.dao,
           dao.tokenMint,
           dao.usdcMint,
           proposalAccount.proposer
-        ).transaction()
+        )
+        .transaction();
 
       return await this.transactionSender?.send(
         [finalizeProposalTx],
         this.rpcProvider.connection,
         {
           customErrors: [this.autocratClient.autocrat.idl.errors]
-        }
+        },
+        { title: "Finalizing Proposal" }
       );
     } catch (e) {
       console.log("error", e);

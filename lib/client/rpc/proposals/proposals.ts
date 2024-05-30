@@ -205,10 +205,15 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       mintConditionalsIx
     ];
     const tx = new Transaction().add(...ixs);
-    return this.transactionSender.send([tx], this.rpcProvider.connection, {
-      customErrors: [vaultAccount.protocol.vault.idl.errors],
-      CUs: 100_000
-    });
+    return this.transactionSender.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [vaultAccount.protocol.vault.idl.errors],
+        CUs: 100_000
+      },
+      { title: "Minting" }
+    );
   }
 
   public async createProposal(
@@ -310,7 +315,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         {
           customErrors: [vaultProgram.idl.errors],
           CUs: 80_000
-        }
+        },
+        { title: "Merging Conditional Tokens" }
       );
       return resp;
     } else throw Error("Version not compatible");
@@ -363,7 +369,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       {
         customErrors: [vaultProgram.idl.errors],
         CUs: 130_000
-      }
+      },
+      { title: "Withdrawing" }
     );
     return resp;
   }

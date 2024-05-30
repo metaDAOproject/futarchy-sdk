@@ -51,8 +51,7 @@ export class TransactionSender {
   async send<T extends Transaction | VersionedTransaction>(
     txs: SingleOrArray<T>[],
     connection: Connection,
-    // alreadySignedTxs?: T[],
-    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number> }
+    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number>, customErrors?: { code: number, name: string, msg: string }[][] }
   ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
@@ -68,36 +67,35 @@ export class TransactionSender {
       }
     }
 
-    const sequence =
-      txs[0] instanceof Array ? (txs as T[][]) : ([txs] as T[][]);
-
-    const latestBlockhash = await connection.getLatestBlockhash();
-    const timedTxs = sequence.map((set) =>
-      set.map((e: T, i: number) => {
-        const tx = e;
-        if (!(tx instanceof VersionedTransaction)) {
-          tx.recentBlockhash = latestBlockhash.blockhash;
-          tx.feePayer = this.owner!;
-          // Compute limit ix & priority fee ix
-          const units = Array.isArray(opts?.CUs) ? opts.CUs[i] as number : opts?.CUs;
-          tx.instructions = [
-            //MAX 1M
-            ComputeBudgetProgram.setComputeUnitLimit({ units: units ?? 200_000 }),
-            ComputeBudgetProgram.setComputeUnitPrice({
-              microLamports: this.priorityFee,
-            }),
-            ...tx.instructions,
-          ];
-        }
-        return tx;
-      })
-    );
-
     const errors: TransactionError[] = []
     const signatures: string[] = [];
     try {
-      const signedTxs = await this.signAllTransactions(timedTxs.flat()).catch(e => { errors.push({ name: e.name, message: e.message }); return })
-      if (!signedTxs) return { signatures: signatures, errors: errors }
+      const sequence =
+        txs[0] instanceof Array ? (txs as T[][]) : ([txs] as T[][]);
+
+      const latestBlockhash = await connection.getLatestBlockhash();
+      const timedTxs = sequence.map((set) =>
+        set.map((e: T, i: number) => {
+          const tx = e;
+          if (!(tx instanceof VersionedTransaction)) {
+            tx.recentBlockhash = latestBlockhash.blockhash;
+            tx.feePayer = this.owner!;
+            // Compute limit ix & priority fee ix
+            const units = Array.isArray(opts?.CUs) ? opts.CUs[i] as number : opts?.CUs;
+            tx.instructions = [
+              //MAX 1M
+              ComputeBudgetProgram.setComputeUnitLimit({ units: units ?? 200_000 }),
+              ComputeBudgetProgram.setComputeUnitPrice({
+                microLamports: this.priorityFee,
+              }),
+              ...tx.instructions,
+            ];
+          }
+          return tx;
+        })
+      );
+
+      const signedTxs = await this.signAllTransactions(timedTxs.flat())
 
       // Reconstruct signed sequence
       let i = 0;
@@ -107,15 +105,20 @@ export class TransactionSender {
 
       if (!opts?.sequential) {
         await Promise.all(signedSequence.map(async (set) =>
-           await Promise.all(
-            set.map(async (tx) => {
-              return connection
-                .sendRawTransaction(tx.serialize(), { skipPreflight: true })
-                .then((txSignature) =>
-                  connection
-                    .confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
-                    .then(() => signatures.push(txSignature))
-                )
+          await Promise.all(
+            set.map(async (tx, index) => {
+              const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
+              const confirmation = await connection.confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
+              if (confirmation.value.err) {
+                //@ts-ignore
+                confirmation.value.err.InstructionError.forEach((error) => {
+                  if (error.Custom) {
+                    const _error: { code: number, msg: string, name: string } | undefined = opts?.customErrors?.[index]?.find(e => e.code == error.Custom)
+                    errors.push({ message: _error?.msg || "Custom program Error, check on explorer.", name: _error?.name || "Anchor Error" })
+                  }
+                })
+              }
+              signatures.push(txSignature)
             }
             )
           )
@@ -123,18 +126,27 @@ export class TransactionSender {
       }
       else {
         for (const set of signedSequence) {
-          for (const tx of set) {
+          set.forEach(async (tx, index) => {
             const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
             if (txSignature) {
-              const confirmation = await connection.confirmTransaction(txSignature, opts?.commitment ?? "confirmed");
-              signatures.push(txSignature); // Push only on successful confirmation
+              const confirmation = await connection.confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
+              if (confirmation.value.err) {
+                //@ts-ignore
+                confirmation.value.err.InstructionError.forEach((error) => {
+                  if (error.Custom) {
+                    const _error: { code: number, msg: string, name: string } | undefined = opts?.customErrors?.[index]?.find(e => e.code == error.Custom)
+                    errors.push({ message: _error?.msg || "Custom program Error, check on explorer.", name: _error?.name || "Anchor Error" })
+                  }
+                })
+              }
+              signatures.push(txSignature);
             }
-          }
+          })
         }
       }
     }
-    catch (e) {
-      errors.push(e as any)
+    catch (e: any) {
+      errors.push({ message: e.message, name: e.name ?? "Transaction Error" })
     }
     return {
       signatures: signatures,

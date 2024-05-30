@@ -224,7 +224,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       this.rpcProvider.publicKey
     );
     const tx = await ix.transaction();
-    return this.transactionSender.send([tx], this.rpcProvider.connection);
+    return this.transactionSender.send([tx], this.rpcProvider.connection, {
+      customErrors: [this.ammClient.program.idl.errors]
+    });
   }
 
   simulateAddLiquidity(
@@ -300,7 +302,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       new BN(minQuoteWithSlippage)
     );
     const tx = await ix.transaction();
-    return this.transactionSender?.send([tx], this.rpcProvider.connection);
+    return this.transactionSender?.send([tx], this.rpcProvider.connection, {
+      customErrors: [this.ammClient.program.idl.errors]
+    });
   }
 
   simulateRemoveLiquidity(lpTokensToBurn: number, ammMarket: AmmMarket) {
@@ -371,7 +375,9 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       )
       .transaction();
 
-    return this.transactionSender?.send([tx], this.rpcProvider.connection);
+    return this.transactionSender?.send([tx], this.rpcProvider.connection, {
+      customErrors: [this.ammClient.program.idl.errors]
+    });
   }
 
   async getSwapPreview(

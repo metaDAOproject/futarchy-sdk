@@ -96,15 +96,15 @@ export class FutarchyOpenbookMarketsRPCClient
       const baseTokenWithSymbol = !baseToken.isFallback
         ? baseToken
         : {
-            ...baseToken,
-            symbol: marketName.split("/")[0]
-          };
+          ...baseToken,
+          symbol: marketName.split("/")[0]
+        };
       const quoteTokenWithSymbol = !quoteToken.isFallback
         ? quoteToken
         : {
-            ...quoteToken,
-            symbol: marketName.split("/")[0]
-          };
+          ...quoteToken,
+          symbol: marketName.split("/")[0]
+        };
 
       return {
         baseMint: obMarket.account.baseMint,
@@ -295,7 +295,7 @@ export class FutarchyOpenbookMarketsRPCClient
       .preInstructions(openTx.instructions)
       .transaction();
 
-    return this.transactionSender.send([placeTx], this.rpcProvider.connection);
+    return this.transactionSender.send([placeTx], this.rpcProvider.connection, { customErrors: [market.twapProgram.idl.errors] });
   }
 
   async getOrCreateOpenOrdersIndexer({
@@ -403,7 +403,7 @@ export class FutarchyOpenbookMarketsRPCClient
         ]
       };
     const tx = await this.cancelAndSettleFundsTransactions(order, market);
-    return this.transactionSender.send([tx], this.rpcProvider.connection);
+    return this.transactionSender.send([tx], this.rpcProvider.connection, { customErrors: [this.openbookClient.program.idl.errors] });
   }
 
   private async cancelAndSettleFundsTransactions(
@@ -608,7 +608,8 @@ export class FutarchyOpenbookMarketsRPCClient
       placeTx.add(placeIx);
       return this.transactionSender.send(
         [placeTx],
-        this.rpcProvider.connection
+        this.rpcProvider.connection,
+        { customErrors: [market.twapProgram.idl.errors] }
       );
     }
 

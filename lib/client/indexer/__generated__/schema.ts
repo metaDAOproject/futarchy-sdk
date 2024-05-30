@@ -14,6 +14,7 @@ export type Scalars = {
     numeric: any,
     smallint: any,
     timestamp: any,
+    uuid: any,
 }
 
 
@@ -1554,6 +1555,10 @@ export interface mutation_root {
     delete_reactions: (reactions_mutation_response | null)
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk: (reactions | null)
+    /** delete data from the table: "sessions" */
+    delete_sessions: (sessions_mutation_response | null)
+    /** delete single row from the table: "sessions" */
+    delete_sessions_by_pk: (sessions | null)
     /** delete data from the table: "takes" */
     delete_takes: (takes_mutation_response | null)
     /** delete single row from the table: "takes" */
@@ -1588,6 +1593,8 @@ export interface mutation_root {
     delete_twaps_by_pk: (twaps | null)
     /** delete data from the table: "users" */
     delete_users: (users_mutation_response | null)
+    /** delete single row from the table: "users" */
+    delete_users_by_pk: (users | null)
     /** insert data into the table: "candles" */
     insert_candles: (candles_mutation_response | null)
     /** insert a single row into the table: "candles" */
@@ -1652,6 +1659,10 @@ export interface mutation_root {
     insert_reactions: (reactions_mutation_response | null)
     /** insert a single row into the table: "reactions" */
     insert_reactions_one: (reactions | null)
+    /** insert data into the table: "sessions" */
+    insert_sessions: (sessions_mutation_response | null)
+    /** insert a single row into the table: "sessions" */
+    insert_sessions_one: (sessions | null)
     /** insert data into the table: "takes" */
     insert_takes: (takes_mutation_response | null)
     /** insert a single row into the table: "takes" */
@@ -1784,6 +1795,12 @@ export interface mutation_root {
     update_reactions_by_pk: (reactions | null)
     /** update multiples rows of table: "reactions" */
     update_reactions_many: ((reactions_mutation_response | null)[] | null)
+    /** update data of the table: "sessions" */
+    update_sessions: (sessions_mutation_response | null)
+    /** update single row of the table: "sessions" */
+    update_sessions_by_pk: (sessions | null)
+    /** update multiples rows of table: "sessions" */
+    update_sessions_many: ((sessions_mutation_response | null)[] | null)
     /** update data of the table: "takes" */
     update_takes: (takes_mutation_response | null)
     /** update single row of the table: "takes" */
@@ -1834,6 +1851,8 @@ export interface mutation_root {
     update_twaps_many: ((twaps_mutation_response | null)[] | null)
     /** update data of the table: "users" */
     update_users: (users_mutation_response | null)
+    /** update single row of the table: "users" */
+    update_users_by_pk: (users | null)
     /** update multiples rows of table: "users" */
     update_users_many: ((users_mutation_response | null)[] | null)
     __typename: 'mutation_root'
@@ -3035,6 +3054,138 @@ export interface proposal_prices_chart_data_variance_fields {
 }
 
 
+/** columns and relationships of "proposal_total_trade_volume" */
+export interface proposal_total_trade_volume {
+    fail_market_acct: (Scalars['String'] | null)
+    fail_volume: (Scalars['numeric'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_volume: (Scalars['numeric'] | null)
+    /** An object relationship */
+    proposalTradeVolume: (proposals | null)
+    /** An object relationship */
+    proposalTradeVolumeFailMarket: (markets | null)
+    /** An object relationship */
+    proposalTradeVolumePassMarket: (markets | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_total_trade_volume'
+}
+
+
+/** aggregated selection of "proposal_total_trade_volume" */
+export interface proposal_total_trade_volume_aggregate {
+    aggregate: (proposal_total_trade_volume_aggregate_fields | null)
+    nodes: proposal_total_trade_volume[]
+    __typename: 'proposal_total_trade_volume_aggregate'
+}
+
+
+/** aggregate fields of "proposal_total_trade_volume" */
+export interface proposal_total_trade_volume_aggregate_fields {
+    avg: (proposal_total_trade_volume_avg_fields | null)
+    count: Scalars['Int']
+    max: (proposal_total_trade_volume_max_fields | null)
+    min: (proposal_total_trade_volume_min_fields | null)
+    stddev: (proposal_total_trade_volume_stddev_fields | null)
+    stddev_pop: (proposal_total_trade_volume_stddev_pop_fields | null)
+    stddev_samp: (proposal_total_trade_volume_stddev_samp_fields | null)
+    sum: (proposal_total_trade_volume_sum_fields | null)
+    var_pop: (proposal_total_trade_volume_var_pop_fields | null)
+    var_samp: (proposal_total_trade_volume_var_samp_fields | null)
+    variance: (proposal_total_trade_volume_variance_fields | null)
+    __typename: 'proposal_total_trade_volume_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_total_trade_volume_avg_fields {
+    fail_volume: (Scalars['Float'] | null)
+    pass_volume: (Scalars['Float'] | null)
+    __typename: 'proposal_total_trade_volume_avg_fields'
+}
+
+
+/** aggregate max on columns */
+export interface proposal_total_trade_volume_max_fields {
+    fail_market_acct: (Scalars['String'] | null)
+    fail_volume: (Scalars['numeric'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_volume: (Scalars['numeric'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_total_trade_volume_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface proposal_total_trade_volume_min_fields {
+    fail_market_acct: (Scalars['String'] | null)
+    fail_volume: (Scalars['numeric'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_volume: (Scalars['numeric'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_total_trade_volume_min_fields'
+}
+
+
+/** select columns of table "proposal_total_trade_volume" */
+export type proposal_total_trade_volume_select_column = 'fail_market_acct' | 'fail_volume' | 'pass_market_acct' | 'pass_volume' | 'proposal_acct'
+
+
+/** aggregate stddev on columns */
+export interface proposal_total_trade_volume_stddev_fields {
+    fail_volume: (Scalars['Float'] | null)
+    pass_volume: (Scalars['Float'] | null)
+    __typename: 'proposal_total_trade_volume_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_total_trade_volume_stddev_pop_fields {
+    fail_volume: (Scalars['Float'] | null)
+    pass_volume: (Scalars['Float'] | null)
+    __typename: 'proposal_total_trade_volume_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_total_trade_volume_stddev_samp_fields {
+    fail_volume: (Scalars['Float'] | null)
+    pass_volume: (Scalars['Float'] | null)
+    __typename: 'proposal_total_trade_volume_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface proposal_total_trade_volume_sum_fields {
+    fail_volume: (Scalars['numeric'] | null)
+    pass_volume: (Scalars['numeric'] | null)
+    __typename: 'proposal_total_trade_volume_sum_fields'
+}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_total_trade_volume_var_pop_fields {
+    fail_volume: (Scalars['Float'] | null)
+    pass_volume: (Scalars['Float'] | null)
+    __typename: 'proposal_total_trade_volume_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_total_trade_volume_var_samp_fields {
+    fail_volume: (Scalars['Float'] | null)
+    pass_volume: (Scalars['Float'] | null)
+    __typename: 'proposal_total_trade_volume_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_total_trade_volume_variance_fields {
+    fail_volume: (Scalars['Float'] | null)
+    pass_volume: (Scalars['Float'] | null)
+    __typename: 'proposal_total_trade_volume_variance_fields'
+}
+
+
 /** columns and relationships of "proposals" */
 export interface proposals {
     autocrat_version: Scalars['float8']
@@ -3387,6 +3538,10 @@ export interface query_root {
     proposal_prices_chart_data: proposal_prices_chart_data[]
     /** fetch aggregated fields from the table: "proposal_prices_chart_data" */
     proposal_prices_chart_data_aggregate: proposal_prices_chart_data_aggregate
+    /** fetch data from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume: proposal_total_trade_volume[]
+    /** fetch aggregated fields from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume_aggregate: proposal_total_trade_volume_aggregate
     /** An array relationship */
     proposals: proposals[]
     /** An aggregate relationship */
@@ -3399,6 +3554,12 @@ export interface query_root {
     reactions_aggregate: reactions_aggregate
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk: (reactions | null)
+    /** An array relationship */
+    sessions: sessions[]
+    /** An aggregate relationship */
+    sessions_aggregate: sessions_aggregate
+    /** fetch data from the table: "sessions" using primary key columns */
+    sessions_by_pk: (sessions | null)
     /** An array relationship */
     takes: takes[]
     /** An aggregate relationship */
@@ -3455,6 +3616,8 @@ export interface query_root {
     users: users[]
     /** fetch aggregated fields from the table: "users" */
     users_aggregate: users_aggregate
+    /** fetch data from the table: "users" using primary key columns */
+    users_by_pk: (users | null)
     __typename: 'query_root'
 }
 
@@ -3598,6 +3761,77 @@ export interface reactions_variance_fields {
     __typename: 'reactions_variance_fields'
 }
 
+
+/** columns and relationships of "sessions" */
+export interface sessions {
+    created_at: Scalars['timestamp']
+    expires_at: (Scalars['timestamp'] | null)
+    id: Scalars['uuid']
+    /** An object relationship */
+    user: (users | null)
+    user_acct: (Scalars['String'] | null)
+    __typename: 'sessions'
+}
+
+
+/** aggregated selection of "sessions" */
+export interface sessions_aggregate {
+    aggregate: (sessions_aggregate_fields | null)
+    nodes: sessions[]
+    __typename: 'sessions_aggregate'
+}
+
+
+/** aggregate fields of "sessions" */
+export interface sessions_aggregate_fields {
+    count: Scalars['Int']
+    max: (sessions_max_fields | null)
+    min: (sessions_min_fields | null)
+    __typename: 'sessions_aggregate_fields'
+}
+
+
+/** unique or primary key constraints on table "sessions" */
+export type sessions_constraint = 'sessions_pkey'
+
+
+/** aggregate max on columns */
+export interface sessions_max_fields {
+    created_at: (Scalars['timestamp'] | null)
+    expires_at: (Scalars['timestamp'] | null)
+    id: (Scalars['uuid'] | null)
+    user_acct: (Scalars['String'] | null)
+    __typename: 'sessions_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface sessions_min_fields {
+    created_at: (Scalars['timestamp'] | null)
+    expires_at: (Scalars['timestamp'] | null)
+    id: (Scalars['uuid'] | null)
+    user_acct: (Scalars['String'] | null)
+    __typename: 'sessions_min_fields'
+}
+
+
+/** response of any mutation on the table "sessions" */
+export interface sessions_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: sessions[]
+    __typename: 'sessions_mutation_response'
+}
+
+
+/** select columns of table "sessions" */
+export type sessions_select_column = 'created_at' | 'expires_at' | 'id' | 'user_acct'
+
+
+/** update columns of table "sessions" */
+export type sessions_update_column = 'created_at' | 'expires_at' | 'id' | 'user_acct'
+
 export interface subscription_root {
     /** An array relationship */
     candles: candles[]
@@ -3723,6 +3957,12 @@ export interface subscription_root {
     proposal_prices_chart_data_aggregate: proposal_prices_chart_data_aggregate
     /** fetch data from the table in a streaming manner: "proposal_prices_chart_data" */
     proposal_prices_chart_data_stream: proposal_prices_chart_data[]
+    /** fetch data from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume: proposal_total_trade_volume[]
+    /** fetch aggregated fields from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume_aggregate: proposal_total_trade_volume_aggregate
+    /** fetch data from the table in a streaming manner: "proposal_total_trade_volume" */
+    proposal_total_trade_volume_stream: proposal_total_trade_volume[]
     /** An array relationship */
     proposals: proposals[]
     /** An aggregate relationship */
@@ -3739,6 +3979,14 @@ export interface subscription_root {
     reactions_by_pk: (reactions | null)
     /** fetch data from the table in a streaming manner: "reactions" */
     reactions_stream: reactions[]
+    /** An array relationship */
+    sessions: sessions[]
+    /** An aggregate relationship */
+    sessions_aggregate: sessions_aggregate
+    /** fetch data from the table: "sessions" using primary key columns */
+    sessions_by_pk: (sessions | null)
+    /** fetch data from the table in a streaming manner: "sessions" */
+    sessions_stream: sessions[]
     /** An array relationship */
     takes: takes[]
     /** An aggregate relationship */
@@ -3813,6 +4061,8 @@ export interface subscription_root {
     users: users[]
     /** fetch aggregated fields from the table: "users" */
     users_aggregate: users_aggregate
+    /** fetch data from the table: "users" using primary key columns */
+    users_by_pk: (users | null)
     /** fetch data from the table in a streaming manner: "users" */
     users_stream: users[]
     __typename: 'subscription_root'
@@ -5254,6 +5504,10 @@ export interface twaps_variance_fields {
 /** columns and relationships of "users" */
 export interface users {
     created_at: Scalars['timestamp']
+    /** An array relationship */
+    sessions: sessions[]
+    /** An aggregate relationship */
+    sessions_aggregate: sessions_aggregate
     user_acct: Scalars['String']
     __typename: 'users'
 }
@@ -5277,7 +5531,7 @@ export interface users_aggregate_fields {
 
 
 /** unique or primary key constraints on table "users" */
-export type users_constraint = 'unique_user'
+export type users_constraint = 'users_pkey'
 
 
 /** aggregate max on columns */
@@ -8025,6 +8279,12 @@ export interface mutation_rootGenqlSelection{
     where: reactions_bool_exp} })
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: (reactionsGenqlSelection & { __args: {proposal_acct: Scalars['String'], reaction: Scalars['String'], reactor_acct: Scalars['String']} })
+    /** delete data from the table: "sessions" */
+    delete_sessions?: (sessions_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: sessions_bool_exp} })
+    /** delete single row from the table: "sessions" */
+    delete_sessions_by_pk?: (sessionsGenqlSelection & { __args: {id: Scalars['uuid']} })
     /** delete data from the table: "takes" */
     delete_takes?: (takes_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -8077,6 +8337,8 @@ export interface mutation_rootGenqlSelection{
     delete_users?: (users_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
     where: users_bool_exp} })
+    /** delete single row from the table: "users" */
+    delete_users_by_pk?: (usersGenqlSelection & { __args: {user_acct: Scalars['String']} })
     /** insert data into the table: "candles" */
     insert_candles?: (candles_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -8269,6 +8531,18 @@ export interface mutation_rootGenqlSelection{
     object: reactions_insert_input, 
     /** upsert condition */
     on_conflict?: (reactions_on_conflict | null)} })
+    /** insert data into the table: "sessions" */
+    insert_sessions?: (sessions_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: sessions_insert_input[], 
+    /** upsert condition */
+    on_conflict?: (sessions_on_conflict | null)} })
+    /** insert a single row into the table: "sessions" */
+    insert_sessions_one?: (sessionsGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: sessions_insert_input, 
+    /** upsert condition */
+    on_conflict?: (sessions_on_conflict | null)} })
     /** insert data into the table: "takes" */
     insert_takes?: (takes_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -8697,6 +8971,20 @@ export interface mutation_rootGenqlSelection{
     update_reactions_many?: (reactions_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: reactions_updates[]} })
+    /** update data of the table: "sessions" */
+    update_sessions?: (sessions_mutation_responseGenqlSelection & { __args: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (sessions_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: sessions_bool_exp} })
+    /** update single row of the table: "sessions" */
+    update_sessions_by_pk?: (sessionsGenqlSelection & { __args: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (sessions_set_input | null), pk_columns: sessions_pk_columns_input} })
+    /** update multiples rows of table: "sessions" */
+    update_sessions_many?: (sessions_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: sessions_updates[]} })
     /** update data of the table: "takes" */
     update_takes?: (takes_mutation_responseGenqlSelection & { __args: {
     /** increments the numeric columns with given value of the filtered values */
@@ -8847,6 +9135,10 @@ export interface mutation_rootGenqlSelection{
     _set?: (users_set_input | null), 
     /** filter the rows which have to be updated */
     where: users_bool_exp} })
+    /** update single row of the table: "users" */
+    update_users_by_pk?: (usersGenqlSelection & { __args: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (users_set_input | null), pk_columns: users_pk_columns_input} })
     /** update multiples rows of table: "users" */
     update_users_many?: (users_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
@@ -10703,6 +10995,167 @@ export interface proposal_prices_chart_data_variance_fieldsGenqlSelection{
 }
 
 
+/** columns and relationships of "proposal_total_trade_volume" */
+export interface proposal_total_trade_volumeGenqlSelection{
+    fail_market_acct?: boolean | number
+    fail_volume?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_volume?: boolean | number
+    /** An object relationship */
+    proposalTradeVolume?: proposalsGenqlSelection
+    /** An object relationship */
+    proposalTradeVolumeFailMarket?: marketsGenqlSelection
+    /** An object relationship */
+    proposalTradeVolumePassMarket?: marketsGenqlSelection
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "proposal_total_trade_volume" */
+export interface proposal_total_trade_volume_aggregateGenqlSelection{
+    aggregate?: proposal_total_trade_volume_aggregate_fieldsGenqlSelection
+    nodes?: proposal_total_trade_volumeGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate fields of "proposal_total_trade_volume" */
+export interface proposal_total_trade_volume_aggregate_fieldsGenqlSelection{
+    avg?: proposal_total_trade_volume_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (proposal_total_trade_volume_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: proposal_total_trade_volume_max_fieldsGenqlSelection
+    min?: proposal_total_trade_volume_min_fieldsGenqlSelection
+    stddev?: proposal_total_trade_volume_stddev_fieldsGenqlSelection
+    stddev_pop?: proposal_total_trade_volume_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: proposal_total_trade_volume_stddev_samp_fieldsGenqlSelection
+    sum?: proposal_total_trade_volume_sum_fieldsGenqlSelection
+    var_pop?: proposal_total_trade_volume_var_pop_fieldsGenqlSelection
+    var_samp?: proposal_total_trade_volume_var_samp_fieldsGenqlSelection
+    variance?: proposal_total_trade_volume_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_total_trade_volume_avg_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Boolean expression to filter rows from the table "proposal_total_trade_volume". All fields are combined with a logical 'AND'. */
+export interface proposal_total_trade_volume_bool_exp {_and?: (proposal_total_trade_volume_bool_exp[] | null),_not?: (proposal_total_trade_volume_bool_exp | null),_or?: (proposal_total_trade_volume_bool_exp[] | null),fail_market_acct?: (String_comparison_exp | null),fail_volume?: (numeric_comparison_exp | null),pass_market_acct?: (String_comparison_exp | null),pass_volume?: (numeric_comparison_exp | null),proposalTradeVolume?: (proposals_bool_exp | null),proposalTradeVolumeFailMarket?: (markets_bool_exp | null),proposalTradeVolumePassMarket?: (markets_bool_exp | null),proposal_acct?: (String_comparison_exp | null)}
+
+
+/** aggregate max on columns */
+export interface proposal_total_trade_volume_max_fieldsGenqlSelection{
+    fail_market_acct?: boolean | number
+    fail_volume?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_volume?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate min on columns */
+export interface proposal_total_trade_volume_min_fieldsGenqlSelection{
+    fail_market_acct?: boolean | number
+    fail_volume?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_volume?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Ordering options when selecting data from "proposal_total_trade_volume". */
+export interface proposal_total_trade_volume_order_by {fail_market_acct?: (order_by | null),fail_volume?: (order_by | null),pass_market_acct?: (order_by | null),pass_volume?: (order_by | null),proposalTradeVolume?: (proposals_order_by | null),proposalTradeVolumeFailMarket?: (markets_order_by | null),proposalTradeVolumePassMarket?: (markets_order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** aggregate stddev on columns */
+export interface proposal_total_trade_volume_stddev_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_total_trade_volume_stddev_pop_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_total_trade_volume_stddev_samp_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Streaming cursor of the table "proposal_total_trade_volume" */
+export interface proposal_total_trade_volume_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: proposal_total_trade_volume_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface proposal_total_trade_volume_stream_cursor_value_input {fail_market_acct?: (Scalars['String'] | null),fail_volume?: (Scalars['numeric'] | null),pass_market_acct?: (Scalars['String'] | null),pass_volume?: (Scalars['numeric'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate sum on columns */
+export interface proposal_total_trade_volume_sum_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_total_trade_volume_var_pop_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_total_trade_volume_var_samp_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_total_trade_volume_variance_fieldsGenqlSelection{
+    fail_volume?: boolean | number
+    pass_volume?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
 /** columns and relationships of "proposals" */
 export interface proposalsGenqlSelection{
     autocrat_version?: boolean | number
@@ -11573,6 +12026,30 @@ export interface query_rootGenqlSelection{
     order_by?: (proposal_prices_chart_data_order_by[] | null), 
     /** filter the rows returned */
     where?: (proposal_prices_chart_data_bool_exp | null)} })
+    /** fetch data from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume?: (proposal_total_trade_volumeGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_total_trade_volume_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_total_trade_volume_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_total_trade_volume_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume_aggregate?: (proposal_total_trade_volume_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_total_trade_volume_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_total_trade_volume_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_total_trade_volume_bool_exp | null)} })
     /** An array relationship */
     proposals?: (proposalsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -11625,6 +12102,32 @@ export interface query_rootGenqlSelection{
     where?: (reactions_bool_exp | null)} })
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: (reactionsGenqlSelection & { __args: {proposal_acct: Scalars['String'], reaction: Scalars['String'], reactor_acct: Scalars['String']} })
+    /** An array relationship */
+    sessions?: (sessionsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (sessions_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (sessions_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (sessions_bool_exp | null)} })
+    /** An aggregate relationship */
+    sessions_aggregate?: (sessions_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (sessions_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (sessions_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (sessions_bool_exp | null)} })
+    /** fetch data from the table: "sessions" using primary key columns */
+    sessions_by_pk?: (sessionsGenqlSelection & { __args: {id: Scalars['uuid']} })
     /** An array relationship */
     takes?: (takesGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -11881,6 +12384,8 @@ export interface query_rootGenqlSelection{
     order_by?: (users_order_by[] | null), 
     /** filter the rows returned */
     where?: (users_bool_exp | null)} })
+    /** fetch data from the table: "users" using primary key columns */
+    users_by_pk?: (usersGenqlSelection & { __args: {user_acct: Scalars['String']} })
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -12128,6 +12633,135 @@ export interface reactions_variance_fieldsGenqlSelection{
 
 /** order by variance() on columns of table "reactions" */
 export interface reactions_variance_order_by {comment_id?: (order_by | null)}
+
+
+/** columns and relationships of "sessions" */
+export interface sessionsGenqlSelection{
+    created_at?: boolean | number
+    expires_at?: boolean | number
+    id?: boolean | number
+    /** An object relationship */
+    user?: usersGenqlSelection
+    user_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "sessions" */
+export interface sessions_aggregateGenqlSelection{
+    aggregate?: sessions_aggregate_fieldsGenqlSelection
+    nodes?: sessionsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface sessions_aggregate_bool_exp {count?: (sessions_aggregate_bool_exp_count | null)}
+
+export interface sessions_aggregate_bool_exp_count {arguments?: (sessions_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (sessions_bool_exp | null),predicate: Int_comparison_exp}
+
+
+/** aggregate fields of "sessions" */
+export interface sessions_aggregate_fieldsGenqlSelection{
+    count?: { __args: {columns?: (sessions_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: sessions_max_fieldsGenqlSelection
+    min?: sessions_min_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by aggregate values of table "sessions" */
+export interface sessions_aggregate_order_by {count?: (order_by | null),max?: (sessions_max_order_by | null),min?: (sessions_min_order_by | null)}
+
+
+/** input type for inserting array relation for remote table "sessions" */
+export interface sessions_arr_rel_insert_input {data: sessions_insert_input[],
+/** upsert condition */
+on_conflict?: (sessions_on_conflict | null)}
+
+
+/** Boolean expression to filter rows from the table "sessions". All fields are combined with a logical 'AND'. */
+export interface sessions_bool_exp {_and?: (sessions_bool_exp[] | null),_not?: (sessions_bool_exp | null),_or?: (sessions_bool_exp[] | null),created_at?: (timestamp_comparison_exp | null),expires_at?: (timestamp_comparison_exp | null),id?: (uuid_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null)}
+
+
+/** input type for inserting data into table "sessions" */
+export interface sessions_insert_input {created_at?: (Scalars['timestamp'] | null),expires_at?: (Scalars['timestamp'] | null),id?: (Scalars['uuid'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate max on columns */
+export interface sessions_max_fieldsGenqlSelection{
+    created_at?: boolean | number
+    expires_at?: boolean | number
+    id?: boolean | number
+    user_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by max() on columns of table "sessions" */
+export interface sessions_max_order_by {created_at?: (order_by | null),expires_at?: (order_by | null),id?: (order_by | null),user_acct?: (order_by | null)}
+
+
+/** aggregate min on columns */
+export interface sessions_min_fieldsGenqlSelection{
+    created_at?: boolean | number
+    expires_at?: boolean | number
+    id?: boolean | number
+    user_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by min() on columns of table "sessions" */
+export interface sessions_min_order_by {created_at?: (order_by | null),expires_at?: (order_by | null),id?: (order_by | null),user_acct?: (order_by | null)}
+
+
+/** response of any mutation on the table "sessions" */
+export interface sessions_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: sessionsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** on_conflict condition type for table "sessions" */
+export interface sessions_on_conflict {constraint: sessions_constraint,update_columns?: sessions_update_column[],where?: (sessions_bool_exp | null)}
+
+
+/** Ordering options when selecting data from "sessions". */
+export interface sessions_order_by {created_at?: (order_by | null),expires_at?: (order_by | null),id?: (order_by | null),user?: (users_order_by | null),user_acct?: (order_by | null)}
+
+
+/** primary key columns input for table: sessions */
+export interface sessions_pk_columns_input {id: Scalars['uuid']}
+
+
+/** input type for updating data in table "sessions" */
+export interface sessions_set_input {created_at?: (Scalars['timestamp'] | null),expires_at?: (Scalars['timestamp'] | null),id?: (Scalars['uuid'] | null),user_acct?: (Scalars['String'] | null)}
+
+
+/** Streaming cursor of the table "sessions" */
+export interface sessions_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: sessions_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface sessions_stream_cursor_value_input {created_at?: (Scalars['timestamp'] | null),expires_at?: (Scalars['timestamp'] | null),id?: (Scalars['uuid'] | null),user_acct?: (Scalars['String'] | null)}
+
+export interface sessions_updates {
+/** sets the columns of the filtered rows to the given values */
+_set?: (sessions_set_input | null),
+/** filter the rows which have to be updated */
+where: sessions_bool_exp}
 
 
 /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
@@ -12674,6 +13308,38 @@ export interface subscription_rootGenqlSelection{
     cursor: (proposal_prices_chart_data_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (proposal_prices_chart_data_bool_exp | null)} })
+    /** fetch data from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume?: (proposal_total_trade_volumeGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_total_trade_volume_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_total_trade_volume_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_total_trade_volume_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "proposal_total_trade_volume" */
+    proposal_total_trade_volume_aggregate?: (proposal_total_trade_volume_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_total_trade_volume_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_total_trade_volume_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_total_trade_volume_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "proposal_total_trade_volume" */
+    proposal_total_trade_volume_stream?: (proposal_total_trade_volumeGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (proposal_total_trade_volume_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (proposal_total_trade_volume_bool_exp | null)} })
     /** An array relationship */
     proposals?: (proposalsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -12742,6 +13408,40 @@ export interface subscription_rootGenqlSelection{
     cursor: (reactions_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (reactions_bool_exp | null)} })
+    /** An array relationship */
+    sessions?: (sessionsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (sessions_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (sessions_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (sessions_bool_exp | null)} })
+    /** An aggregate relationship */
+    sessions_aggregate?: (sessions_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (sessions_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (sessions_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (sessions_bool_exp | null)} })
+    /** fetch data from the table: "sessions" using primary key columns */
+    sessions_by_pk?: (sessionsGenqlSelection & { __args: {id: Scalars['uuid']} })
+    /** fetch data from the table in a streaming manner: "sessions" */
+    sessions_stream?: (sessionsGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (sessions_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (sessions_bool_exp | null)} })
     /** An array relationship */
     takes?: (takesGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -13070,6 +13770,8 @@ export interface subscription_rootGenqlSelection{
     order_by?: (users_order_by[] | null), 
     /** filter the rows returned */
     where?: (users_bool_exp | null)} })
+    /** fetch data from the table: "users" using primary key columns */
+    users_by_pk?: (usersGenqlSelection & { __args: {user_acct: Scalars['String']} })
     /** fetch data from the table in a streaming manner: "users" */
     users_stream?: (usersGenqlSelection & { __args: {
     /** maximum number of rows returned in a single batch */
@@ -15605,6 +16307,30 @@ export interface twaps_variance_order_by {last_observation?: (order_by | null),l
 /** columns and relationships of "users" */
 export interface usersGenqlSelection{
     created_at?: boolean | number
+    /** An array relationship */
+    sessions?: (sessionsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (sessions_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (sessions_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (sessions_bool_exp | null)} })
+    /** An aggregate relationship */
+    sessions_aggregate?: (sessions_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (sessions_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (sessions_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (sessions_bool_exp | null)} })
     user_acct?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -15631,11 +16357,11 @@ export interface users_aggregate_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
-export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamp_comparison_exp | null),user_acct?: (String_comparison_exp | null)}
+export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamp_comparison_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null)}
 
 
 /** input type for inserting data into table "users" */
-export interface users_insert_input {created_at?: (Scalars['timestamp'] | null),user_acct?: (Scalars['String'] | null)}
+export interface users_insert_input {created_at?: (Scalars['timestamp'] | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -15667,12 +16393,22 @@ export interface users_mutation_responseGenqlSelection{
 }
 
 
+/** input type for inserting object relation for remote table "users" */
+export interface users_obj_rel_insert_input {data: users_insert_input,
+/** upsert condition */
+on_conflict?: (users_on_conflict | null)}
+
+
 /** on_conflict condition type for table "users" */
 export interface users_on_conflict {constraint: users_constraint,update_columns?: users_update_column[],where?: (users_bool_exp | null)}
 
 
 /** Ordering options when selecting data from "users". */
-export interface users_order_by {created_at?: (order_by | null),user_acct?: (order_by | null)}
+export interface users_order_by {created_at?: (order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null)}
+
+
+/** primary key columns input for table: users */
+export interface users_pk_columns_input {user_acct: Scalars['String']}
 
 
 /** input type for updating data in table "users" */
@@ -15695,6 +16431,10 @@ export interface users_updates {
 _set?: (users_set_input | null),
 /** filter the rows which have to be updated */
 where: users_bool_exp}
+
+
+/** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+export interface uuid_comparison_exp {_eq?: (Scalars['uuid'] | null),_gt?: (Scalars['uuid'] | null),_gte?: (Scalars['uuid'] | null),_in?: (Scalars['uuid'][] | null),_is_null?: (Scalars['Boolean'] | null),_lt?: (Scalars['uuid'] | null),_lte?: (Scalars['uuid'] | null),_neq?: (Scalars['uuid'] | null),_nin?: (Scalars['uuid'][] | null)}
 
 export type QueryGenqlSelection = query_rootGenqlSelection
 export type MutationGenqlSelection = mutation_rootGenqlSelection
@@ -17357,6 +18097,110 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const proposal_total_trade_volume_possibleTypes: string[] = ['proposal_total_trade_volume']
+    export const isproposal_total_trade_volume = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume"')
+      return proposal_total_trade_volume_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_aggregate_possibleTypes: string[] = ['proposal_total_trade_volume_aggregate']
+    export const isproposal_total_trade_volume_aggregate = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_aggregate"')
+      return proposal_total_trade_volume_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_aggregate_fields_possibleTypes: string[] = ['proposal_total_trade_volume_aggregate_fields']
+    export const isproposal_total_trade_volume_aggregate_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_aggregate_fields"')
+      return proposal_total_trade_volume_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_avg_fields_possibleTypes: string[] = ['proposal_total_trade_volume_avg_fields']
+    export const isproposal_total_trade_volume_avg_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_avg_fields"')
+      return proposal_total_trade_volume_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_max_fields_possibleTypes: string[] = ['proposal_total_trade_volume_max_fields']
+    export const isproposal_total_trade_volume_max_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_max_fields"')
+      return proposal_total_trade_volume_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_min_fields_possibleTypes: string[] = ['proposal_total_trade_volume_min_fields']
+    export const isproposal_total_trade_volume_min_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_min_fields"')
+      return proposal_total_trade_volume_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_stddev_fields_possibleTypes: string[] = ['proposal_total_trade_volume_stddev_fields']
+    export const isproposal_total_trade_volume_stddev_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_stddev_fields"')
+      return proposal_total_trade_volume_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_stddev_pop_fields_possibleTypes: string[] = ['proposal_total_trade_volume_stddev_pop_fields']
+    export const isproposal_total_trade_volume_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_stddev_pop_fields"')
+      return proposal_total_trade_volume_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_stddev_samp_fields_possibleTypes: string[] = ['proposal_total_trade_volume_stddev_samp_fields']
+    export const isproposal_total_trade_volume_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_stddev_samp_fields"')
+      return proposal_total_trade_volume_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_sum_fields_possibleTypes: string[] = ['proposal_total_trade_volume_sum_fields']
+    export const isproposal_total_trade_volume_sum_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_sum_fields"')
+      return proposal_total_trade_volume_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_var_pop_fields_possibleTypes: string[] = ['proposal_total_trade_volume_var_pop_fields']
+    export const isproposal_total_trade_volume_var_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_var_pop_fields"')
+      return proposal_total_trade_volume_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_var_samp_fields_possibleTypes: string[] = ['proposal_total_trade_volume_var_samp_fields']
+    export const isproposal_total_trade_volume_var_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_var_samp_fields"')
+      return proposal_total_trade_volume_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_total_trade_volume_variance_fields_possibleTypes: string[] = ['proposal_total_trade_volume_variance_fields']
+    export const isproposal_total_trade_volume_variance_fields = (obj?: { __typename?: any } | null): obj is proposal_total_trade_volume_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_total_trade_volume_variance_fields"')
+      return proposal_total_trade_volume_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const proposals_possibleTypes: string[] = ['proposals']
     export const isproposals = (obj?: { __typename?: any } | null): obj is proposals => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isproposals"')
@@ -17585,6 +18429,54 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     export const isreactions_variance_fields = (obj?: { __typename?: any } | null): obj is reactions_variance_fields => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isreactions_variance_fields"')
       return reactions_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const sessions_possibleTypes: string[] = ['sessions']
+    export const issessions = (obj?: { __typename?: any } | null): obj is sessions => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "issessions"')
+      return sessions_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const sessions_aggregate_possibleTypes: string[] = ['sessions_aggregate']
+    export const issessions_aggregate = (obj?: { __typename?: any } | null): obj is sessions_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "issessions_aggregate"')
+      return sessions_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const sessions_aggregate_fields_possibleTypes: string[] = ['sessions_aggregate_fields']
+    export const issessions_aggregate_fields = (obj?: { __typename?: any } | null): obj is sessions_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "issessions_aggregate_fields"')
+      return sessions_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const sessions_max_fields_possibleTypes: string[] = ['sessions_max_fields']
+    export const issessions_max_fields = (obj?: { __typename?: any } | null): obj is sessions_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "issessions_max_fields"')
+      return sessions_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const sessions_min_fields_possibleTypes: string[] = ['sessions_min_fields']
+    export const issessions_min_fields = (obj?: { __typename?: any } | null): obj is sessions_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "issessions_min_fields"')
+      return sessions_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const sessions_mutation_response_possibleTypes: string[] = ['sessions_mutation_response']
+    export const issessions_mutation_response = (obj?: { __typename?: any } | null): obj is sessions_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "issessions_mutation_response"')
+      return sessions_mutation_response_possibleTypes.includes(obj.__typename)
     }
     
 
@@ -19132,6 +20024,14 @@ export const enumProposalPricesChartDataSelectColumn = {
    proposal_acct: 'proposal_acct' as const
 }
 
+export const enumProposalTotalTradeVolumeSelectColumn = {
+   fail_market_acct: 'fail_market_acct' as const,
+   fail_volume: 'fail_volume' as const,
+   pass_market_acct: 'pass_market_acct' as const,
+   pass_volume: 'pass_volume' as const,
+   proposal_acct: 'proposal_acct' as const
+}
+
 export const enumProposalsConstraint = {
    proposals_pkey: 'proposals_pkey' as const
 }
@@ -19230,6 +20130,24 @@ export const enumReactionsUpdateColumn = {
    reaction: 'reaction' as const,
    reactor_acct: 'reactor_acct' as const,
    updated_at: 'updated_at' as const
+}
+
+export const enumSessionsConstraint = {
+   sessions_pkey: 'sessions_pkey' as const
+}
+
+export const enumSessionsSelectColumn = {
+   created_at: 'created_at' as const,
+   expires_at: 'expires_at' as const,
+   id: 'id' as const,
+   user_acct: 'user_acct' as const
+}
+
+export const enumSessionsUpdateColumn = {
+   created_at: 'created_at' as const,
+   expires_at: 'expires_at' as const,
+   id: 'id' as const,
+   user_acct: 'user_acct' as const
 }
 
 export const enumTakesConstraint = {
@@ -19427,7 +20345,7 @@ export const enumTwapsUpdateColumn = {
 }
 
 export const enumUsersConstraint = {
-   unique_user: 'unique_user' as const
+   users_pkey: 'users_pkey' as const
 }
 
 export const enumUsersSelectColumn = {

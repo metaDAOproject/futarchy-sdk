@@ -83,6 +83,11 @@ export type ProposalPrices = {
   fail: MarketPrices;
 };
 
+export type ProposalVolume = {
+  pass: number;
+  fail: number;
+};
+
 export type MarketPrices = {
   spot: number;
   twap?: number;

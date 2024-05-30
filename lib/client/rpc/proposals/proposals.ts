@@ -206,7 +206,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const tx = new Transaction().add(...ixs);
     return this.transactionSender.send([tx], this.rpcProvider.connection, {
       customErrors: [vaultAccount.protocol.vault.idl.errors],
-      CUs: 100_000
+      CUs: 80_000
     });
   }
 
@@ -307,7 +307,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         [mergeTx],
         this.rpcProvider.connection,
         {
-          customErrors: [vaultProgram.idl.errors]
+          customErrors: [vaultProgram.idl.errors],
+          CUs: 80_000
         }
       );
       return resp;
@@ -359,7 +360,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       [tx],
       this.rpcProvider.connection,
       {
-        customErrors: [vaultProgram.idl.errors]
+        customErrors: [vaultProgram.idl.errors],
+        CUs: 130_000
       }
     );
     return resp;

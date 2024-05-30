@@ -204,7 +204,9 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       mintConditionalsIx
     ];
     const tx = new Transaction().add(...ixs);
-    return this.transactionSender.send([tx], this.rpcProvider.connection);
+    return this.transactionSender.send([tx], this.rpcProvider.connection, {
+      customErrors: [vaultAccount.protocol.vault.idl.errors]
+    });
   }
 
   public async createProposal(
@@ -270,7 +272,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     if (programVersion == "V0.3" || programVersion == "V0.2") {
       const vaultForVersion =
         autocratVersionToConditionalVaultMap[
-          proposal.protocol.deploymentVersion
+        proposal.protocol.deploymentVersion
         ];
       const vaultProgram = new Program(
         vaultForVersion.idl,
@@ -302,7 +304,10 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
       const resp = await this.transactionSender?.send(
         [mergeTx],
-        this.rpcProvider.connection
+        this.rpcProvider.connection,
+        {
+          customErrors: [vaultProgram.idl.errors]
+        }
       );
       return resp;
     } else throw Error("Version not compatible");
@@ -351,12 +356,16 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const tx = new Transaction().add(...redeeemBaseIx).add(...redeeemQuoteIx);
     const resp = await this.transactionSender?.send(
       [tx],
-      this.rpcProvider.connection
+      this.rpcProvider.connection,
+      {
+        customErrors: [vaultProgram.idl.errors]
+      }
+
     );
     return resp;
   }
 
   // TO DO INDEXER
-  public async saveProposalDetails(proposalDetails: ProposalDetails) {}
-  public async updateProposalAccounts(accounts: ProposalAccounts) {}
+  public async saveProposalDetails(proposalDetails: ProposalDetails) { }
+  public async updateProposalAccounts(accounts: ProposalAccounts) { }
 }

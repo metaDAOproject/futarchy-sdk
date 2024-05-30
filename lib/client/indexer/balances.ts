@@ -72,7 +72,7 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     quoteToken: TokenProps,
     proposalsWithVaults: Proposal[],
     passTokenUrl?: string,
-    failtokenUrl?: string,
+    failtokenUrl?: string
   ): Promise<TokenWithBalancePDAAndProposal[]> {
     return this.rpcBalancesClient.fetchAllConditionalTokenWalletBalances(
       ownerWallet,
@@ -80,9 +80,14 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
       quoteToken,
       proposalsWithVaults,
       passTokenUrl,
-      failtokenUrl,
+      failtokenUrl
     );
   }
+
+  async fetchTokenBalance(pda: PublicKey | null, token: TokenProps) {
+    return this.rpcBalancesClient.fetchTokenBalance(pda, token);
+  }
+
   watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance> {
     return this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
   }

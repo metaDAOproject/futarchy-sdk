@@ -205,7 +205,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     ];
     const tx = new Transaction().add(...ixs);
     return this.transactionSender.send([tx], this.rpcProvider.connection, {
-      customErrors: [vaultAccount.protocol.vault.idl.errors]
+      customErrors: [vaultAccount.protocol.vault.idl.errors],
+      CUs: 100_000
     });
   }
 
@@ -272,7 +273,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     if (programVersion == "V0.3" || programVersion == "V0.2") {
       const vaultForVersion =
         autocratVersionToConditionalVaultMap[
-        proposal.protocol.deploymentVersion
+          proposal.protocol.deploymentVersion
         ];
       const vaultProgram = new Program(
         vaultForVersion.idl,
@@ -360,12 +361,11 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       {
         customErrors: [vaultProgram.idl.errors]
       }
-
     );
     return resp;
   }
 
   // TO DO INDEXER
-  public async saveProposalDetails(proposalDetails: ProposalDetails) { }
-  public async updateProposalAccounts(accounts: ProposalAccounts) { }
+  public async saveProposalDetails(proposalDetails: ProposalDetails) {}
+  public async updateProposalAccounts(accounts: ProposalAccounts) {}
 }

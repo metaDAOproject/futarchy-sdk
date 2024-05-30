@@ -6,10 +6,12 @@ import {
   Transaction,
   TransactionInstruction,
   TransactionMessage,
-  TransactionStatus,
-  VersionedTransaction,
+  VersionedTransaction
 } from "@solana/web3.js";
-import { SendTransactionResponse, TransactionError } from "./types/transactions";
+import {
+  SendTransactionResponse,
+  TransactionError
+} from "./types/transactions";
 import { AnchorProvider } from "@coral-xyz/anchor";
 
 type SingleOrArray<T> = T | T[];
@@ -51,7 +53,12 @@ export class TransactionSender {
   async send<T extends Transaction | VersionedTransaction>(
     txs: SingleOrArray<T>[],
     connection: Connection,
-    opts?: { sequential?: boolean, commitment?: Commitment, CUs?: SingleOrArray<number>, customErrors?: { code: number, name: string, msg: string }[][] }
+    opts?: {
+      sequential?: boolean;
+      commitment?: Commitment;
+      CUs?: SingleOrArray<number>;
+      customErrors?: { code: number; name: string; msg: string }[][];
+    }
   ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
@@ -62,12 +69,15 @@ export class TransactionSender {
     }
 
     if (opts?.CUs) {
-      if ((!Array.isArray(opts.CUs) && Array.isArray(txs.length)) || (Array.isArray(opts.CUs) && opts.CUs.length !== txs.length)) {
+      if (
+        (!Array.isArray(opts.CUs) && Array.isArray(txs.length)) ||
+        (Array.isArray(opts.CUs) && opts.CUs.length !== txs.length)
+      ) {
         throw new Error("CUs length must match transactions length");
       }
     }
 
-    const errors: TransactionError[] = []
+    const errors: TransactionError[] = [];
     const signatures: string[] = [];
     try {
       const sequence =
@@ -81,21 +91,25 @@ export class TransactionSender {
             tx.recentBlockhash = latestBlockhash.blockhash;
             tx.feePayer = this.owner!;
             // Compute limit ix & priority fee ix
-            const units = Array.isArray(opts?.CUs) ? opts.CUs[i] as number : opts?.CUs;
+            const units = Array.isArray(opts?.CUs)
+              ? (opts.CUs[i] as number)
+              : opts?.CUs;
             tx.instructions = [
               //MAX 1M
-              ComputeBudgetProgram.setComputeUnitLimit({ units: units ?? 200_000 }),
-              ComputeBudgetProgram.setComputeUnitPrice({
-                microLamports: this.priorityFee,
+              ComputeBudgetProgram.setComputeUnitLimit({
+                units: units ?? 200_000
               }),
-              ...tx.instructions,
+              ComputeBudgetProgram.setComputeUnitPrice({
+                microLamports: this.priorityFee
+              }),
+              ...tx.instructions
             ];
           }
           return tx;
         })
       );
 
-      const signedTxs = await this.signAllTransactions(timedTxs.flat())
+      const signedTxs = await this.signAllTransactions(timedTxs.flat());
 
       // Reconstruct signed sequence
       let i = 0;
@@ -104,54 +118,84 @@ export class TransactionSender {
       );
 
       if (!opts?.sequential) {
-        await Promise.all(signedSequence.map(async (set) =>
-          await Promise.all(
-            set.map(async (tx, index) => {
-              const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
-              const confirmation = await connection.confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
-              if (confirmation.value.err) {
-                //@ts-ignore
-                confirmation.value.err.InstructionError.forEach((error) => {
-                  if (error.Custom) {
-                    const _error: { code: number, msg: string, name: string } | undefined = opts?.customErrors?.[index]?.find(e => e.code == error.Custom)
-                    errors.push({ message: _error?.msg || "Custom program Error, check on explorer.", name: _error?.name || "Anchor Error" })
+        await Promise.all(
+          signedSequence.map(
+            async (set) =>
+              await Promise.all(
+                set.map(async (tx, index) => {
+                  const txSignature = await connection.sendRawTransaction(
+                    tx.serialize(),
+                    { skipPreflight: true }
+                  );
+                  const confirmation = await connection.confirmTransaction(
+                    txSignature,
+                    opts?.commitment ?? "confirmed"
+                  );
+                  if (confirmation.value.err) {
+                    //@ts-ignore
+                    confirmation.value.err.InstructionError.forEach((error) => {
+                      if (error.Custom) {
+                        const _error:
+                          | { code: number; msg: string; name: string }
+                          | undefined = opts?.customErrors?.[index]?.find(
+                          (e) => e.code == error.Custom
+                        );
+                        errors.push({
+                          message:
+                            _error?.msg ||
+                            "Custom program Error, check on explorer.",
+                          name: _error?.name || "Anchor Error"
+                        });
+                      }
+                    });
                   }
+                  signatures.push(txSignature);
                 })
-              }
-              signatures.push(txSignature)
-            }
-            )
+              )
           )
-        ));
-      }
-      else {
+        );
+      } else {
         for (const set of signedSequence) {
           set.forEach(async (tx, index) => {
-            const txSignature = await connection.sendRawTransaction(tx.serialize(), { skipPreflight: true })
+            const txSignature = await connection.sendRawTransaction(
+              tx.serialize(),
+              { skipPreflight: true }
+            );
             if (txSignature) {
-              const confirmation = await connection.confirmTransaction(txSignature, opts?.commitment ?? "confirmed")
+              const confirmation = await connection.confirmTransaction(
+                txSignature,
+                opts?.commitment ?? "confirmed"
+              );
               if (confirmation.value.err) {
                 //@ts-ignore
                 confirmation.value.err.InstructionError.forEach((error) => {
                   if (error.Custom) {
-                    const _error: { code: number, msg: string, name: string } | undefined = opts?.customErrors?.[index]?.find(e => e.code == error.Custom)
-                    errors.push({ message: _error?.msg || "Custom program Error, check on explorer.", name: _error?.name || "Anchor Error" })
+                    const _error:
+                      | { code: number; msg: string; name: string }
+                      | undefined = opts?.customErrors?.[index]?.find(
+                      (e) => e.code == error.Custom
+                    );
+                    errors.push({
+                      message:
+                        _error?.msg ||
+                        "Custom program Error, check on explorer.",
+                      name: _error?.name || "Anchor Error"
+                    });
                   }
-                })
+                });
               }
               signatures.push(txSignature);
             }
-          })
+          });
         }
       }
-    }
-    catch (e: any) {
-      errors.push({ message: e.message, name: e.name ?? "Transaction Error" })
+    } catch (e: any) {
+      errors.push({ message: e.message, name: e.name ?? "Transaction Error" });
     }
     return {
       signatures: signatures,
       errors: errors
-    }
+    };
   }
 
   public setPriorityFee(priorityFee: number) {
@@ -159,19 +203,24 @@ export class TransactionSender {
   }
 }
 
-export async function createVersionedTransaction(instructions: TransactionInstruction[], rpcProvider: AnchorProvider) {
-  if (!rpcProvider.publicKey) throw new Error('Wallet is not connected or public key is not available.');
+export async function createVersionedTransaction(
+  instructions: TransactionInstruction[],
+  rpcProvider: AnchorProvider
+) {
+  if (!rpcProvider.publicKey)
+    throw new Error("Wallet is not connected or public key is not available.");
 
-  const recentBlockhashResponse = await rpcProvider.connection.getLatestBlockhash();
+  const recentBlockhashResponse =
+    await rpcProvider.connection.getLatestBlockhash();
   if (!recentBlockhashResponse.blockhash) {
-    throw new Error('Failed to get the latest blockhash.');
+    throw new Error("Failed to get the latest blockhash.");
   }
 
   const messageV0 = new TransactionMessage({
     payerKey: rpcProvider.publicKey,
     recentBlockhash: recentBlockhashResponse.blockhash,
-    instructions,
-  }).compileToV0Message()
+    instructions
+  }).compileToV0Message();
 
   return new VersionedTransaction(messageV0);
 }

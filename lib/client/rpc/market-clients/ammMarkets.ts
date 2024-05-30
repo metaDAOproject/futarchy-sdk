@@ -225,7 +225,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     );
     const tx = await ix.transaction();
     return this.transactionSender.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors]
+      customErrors: [this.ammClient.program.idl.errors],
+      CUs: 100_000
     });
   }
 
@@ -303,7 +304,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     );
     const tx = await ix.transaction();
     return this.transactionSender?.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors]
+      customErrors: [this.ammClient.program.idl.errors],
+      CUs: 70_000
     });
   }
 
@@ -376,7 +378,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       .transaction();
 
     return this.transactionSender?.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors]
+      customErrors: [this.ammClient.program.idl.errors],
+      CUs: 80_000
     });
   }
 

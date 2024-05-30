@@ -18,6 +18,7 @@ import {
   SendTransactionOptions
 } from "./types/transactions";
 import { AnchorProvider } from "@coral-xyz/anchor";
+import { Observable, Subscriber } from "rxjs";
 
 type SingleOrArray<T> = T | T[];
 
@@ -78,106 +79,121 @@ export class TransactionSender {
     this.onTransactionUpdate?.(update);
   }
 
-  async send<T extends Transaction | VersionedTransaction>(
+  send<T extends Transaction | VersionedTransaction>(
     tx: T[],
     connection: Connection,
     opts?: SendTransactionOptions,
     displayMetadata?: TransactionDisplayMetadata
-  ): SendTransactionResponse {
-    let signatureSubscriptionIds: number[] = [];
-    try {
-      const sendRes = await this.sendInner(tx, connection, opts);
-      if ((sendRes?.errors?.length ?? 0) > 0) {
-        if (
-          sendRes?.errors?.some((e) => e.name === "WalletSignTransactionError")
-        ) {
-          this.handleTransactionUpdate(
-            {
+  ): Observable<TransactionProcessingUpdate> {
+    return new Observable<TransactionProcessingUpdate>((subscriber) => {
+      let signatureSubscriptionIds: number[] = [];
+      this.sendInner(tx, connection, opts)
+        .then((sendRes) => {
+          if ((sendRes?.errors?.length ?? 0) > 0) {
+            if (
+              sendRes?.errors?.some(
+                (e) => e.name === "WalletSignTransactionError"
+              )
+            ) {
+              const txUpdate: TransactionProcessingUpdate = {
+                signature: sendRes?.signatures[0] ?? "",
+                errors: sendRes?.errors ?? [],
+                status: "unsigned",
+                displayMetadata
+              };
+              this.handleTransactionUpdate(
+                txUpdate,
+                connection,
+                signatureSubscriptionIds
+              );
+              subscriber.next(txUpdate);
+              return;
+            }
+            const txUpdate: TransactionProcessingUpdate = {
               signature: sendRes?.signatures[0] ?? "",
               errors: sendRes?.errors ?? [],
-              status: "unsigned",
+              status: "failed",
+              displayMetadata
+            };
+            this.handleTransactionUpdate(
+              txUpdate,
+              connection,
+              signatureSubscriptionIds
+            );
+            subscriber.next(txUpdate);
+            return;
+          }
+          if (!sendRes?.signatures[0]) {
+            const txUpdate: TransactionProcessingUpdate = {
+              signature: "",
+              errors: [
+                {
+                  message: "no signature returned",
+                  name: "Signature Missing"
+                }
+              ],
+              status: "failed",
+              displayMetadata
+            };
+            this.handleTransactionUpdate(
+              txUpdate,
+              connection,
+              signatureSubscriptionIds
+            );
+            subscriber.next(txUpdate);
+            return;
+          }
+
+          const txSignature = sendRes.signatures[0];
+          this.handleTransactionUpdate(
+            {
+              status: "sent",
+              errors: [],
+              signature: txSignature,
               displayMetadata
             },
             connection,
             signatureSubscriptionIds
           );
-          return;
-        }
-        this.handleTransactionUpdate(
-          {
-            signature: sendRes?.signatures[0] ?? "",
-            errors: sendRes?.errors ?? [],
-            status: "failed",
-            displayMetadata
-          },
-          connection,
-          signatureSubscriptionIds
-        );
-        return;
-      }
-      if (!sendRes?.signatures[0]) {
-        this.handleTransactionUpdate(
-          {
-            signature: "",
-            errors: [
-              { message: "no signature returned", name: "Signature Missing" }
-            ],
-            status: "failed",
-            displayMetadata
-          },
-          connection,
-          signatureSubscriptionIds
-        );
-        return;
-      }
-
-      const txSignature = sendRes.signatures[0];
-      this.handleTransactionUpdate(
-        {
-          status: "sent",
-          errors: [],
-          signature: txSignature,
-          displayMetadata
-        },
-        connection,
-        signatureSubscriptionIds
-      );
-      signatureSubscriptionIds = COMMITMENTS_TO_WATCH.map((s) => {
-        return connection.onSignature(
-          txSignature,
-          (signatureResult: SignatureResult, _context: Context) =>
-            this.handleSignatureResult(
+          signatureSubscriptionIds = COMMITMENTS_TO_WATCH.map((s) => {
+            return connection.onSignature(
               txSignature,
-              signatureResult,
-              connection,
-              signatureSubscriptionIds,
-              displayMetadata
-            ),
-          s
-        );
-      });
+              (signatureResult: SignatureResult, _context: Context) =>
+                this.handleSignatureResult(
+                  txSignature,
+                  signatureResult,
+                  connection,
+                  signatureSubscriptionIds,
+                  subscriber,
+                  displayMetadata
+                ),
+              s
+            );
+          });
 
-      return sendRes;
-    } catch (e) {
-      const error = {
-        message: JSON.stringify(e),
-        name: "general error"
-      };
-      this.handleTransactionUpdate(
-        {
-          signature: "",
-          errors: [error],
-          status: "failed",
-          displayMetadata
-        },
-        connection,
-        signatureSubscriptionIds
-      );
-      return {
-        signatures: [],
-        errors: [error]
-      };
-    }
+          return sendRes;
+        })
+        .catch((e) => {
+          const error = {
+            message: JSON.stringify(e),
+            name: "general error"
+          };
+          this.handleTransactionUpdate(
+            {
+              signature: "",
+              errors: [error],
+              status: "failed",
+              displayMetadata
+            },
+            connection,
+            signatureSubscriptionIds
+          );
+          return {
+            signatures: [],
+            errors: [error]
+          };
+        });
+    });
   }
 
   private async handleSignatureResult(
@@ -185,6 +201,7 @@ export class TransactionSender {
     signatureResult: SignatureResult,
     connection: Connection,
     signatureSubscriptionIds: number[],
+    txObserverSubscriber: Subscriber<TransactionProcessingUpdate>,
     displayMetadata?: TransactionDisplayMetadata
   ) {
     if (signatureResult.err) {
@@ -197,29 +214,32 @@ export class TransactionSender {
                 name: JSON.stringify(signatureResult.err)
               }
             ];
+      const txUpdate: TransactionProcessingUpdate = {
+        signature: txSignature,
+        errors: errors,
+        status: "failed",
+        displayMetadata
+      };
       this.handleTransactionUpdate(
-        {
-          signature: txSignature,
-          errors: errors,
-          status: "failed",
-          displayMetadata
-        },
+        txUpdate,
         connection,
         signatureSubscriptionIds
       );
+      txObserverSubscriber.next(txUpdate);
       return;
     }
 
     const statusRes = await connection.getSignatureStatus(txSignature);
     const status = statusRes.value;
     if (status?.confirmationStatus) {
+      const txUpdate: TransactionProcessingUpdate = {
+        signature: txSignature,
+        errors: [],
+        status: status.confirmationStatus,
+        displayMetadata
+      };
       this.handleTransactionUpdate(
-        {
-          signature: txSignature,
-          errors: [],
-          status: status.confirmationStatus,
-          displayMetadata
-        },
+        txUpdate,
         connection,
         signatureSubscriptionIds
       );

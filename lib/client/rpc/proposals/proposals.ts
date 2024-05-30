@@ -133,7 +133,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccountWithProtocol
-  ): SendTransactionResponse {
+  ) {
     if (!this.rpcProvider.publicKey || !this.transactionSender) {
       return;
     }

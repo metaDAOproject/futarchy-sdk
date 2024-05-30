@@ -27,7 +27,10 @@ import {
   SpotObservation,
   TwapObservation
 } from "@/types/prices";
-import { SendTransactionResponse } from "@/types/transactions";
+import {
+  SendTransactionResponse,
+  TransactionProcessingUpdate
+} from "@/types/transactions";
 import { BN } from "@coral-xyz/anchor";
 import {
   CreateProposalInstruction,
@@ -64,16 +67,20 @@ export interface FutarchyProposalsClient {
     amount: number,
     vaultAccountAddress: PublicKey,
     vaultAccount: VaultAccountWithProtocol
-  ): SendTransactionResponse;
-  withdraw(proposal: Proposal): SendTransactionResponse;
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
+  withdraw(
+    proposal: Proposal
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   createProposal(
     daoAggregate: DaoAggregate,
     version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails
-  ): SendTransactionResponse;
-  finalizeProposal(proposal: Proposal): SendTransactionResponse;
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
+  finalizeProposal(
+    proposal: Proposal
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   saveProposalDetails(proposalDetails: ProposalDetails): void;
   updateProposalAccounts(accounts: ProposalAccounts): void;
   mergeConditionalTokensForUnderlyingTokens(
@@ -81,8 +88,11 @@ export interface FutarchyProposalsClient {
     amoutn: BN,
     proposal: Proposal,
     underlyingToken: "base" | "quote"
-  ): SendTransactionResponse;
-  watchReactions?: (proposal: string, user?: string) =>  Observable<ReactionResponse>
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
+  watchReactions?: (
+    proposal: string,
+    user?: string
+  ) => Observable<ReactionResponse>;
 }
 
 export interface FutarchyBalancesClient {
@@ -148,8 +158,11 @@ export interface FutarchyOrderbookMarketsClient<
     market: M,
     order: Omit<O, "owner" | "transactionStatus" | "status" | "filled">,
     placeOrderType: PlaceOrderType
-  ): SendTransactionResponse;
-  cancelOrder(market: M, order: O): SendTransactionResponse;
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
+  cancelOrder(
+    market: M,
+    order: O
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
 }
 
 export interface FutarchyAmmMarketsClient {
@@ -160,12 +173,12 @@ export interface FutarchyAmmMarketsClient {
     inputAmount: number,
     outputAmountMin: number,
     slippage: number
-  ): SendTransactionResponse;
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   removeLiquidity(
     ammMarket: AmmMarket,
     lpTokensToBurn: number,
     slippage: number
-  ): SendTransactionResponse;
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   validateAddLiquidity(
     ammMarket: AmmMarket,
     quoteAmount: number,
@@ -179,11 +192,13 @@ export interface FutarchyAmmMarketsClient {
     quoteAmount: number,
     maxBaseAmount: number,
     slippage: number
-  ): SendTransactionResponse;
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
 }
 
 export interface FinalizeProposal {
-  finalizeProposal(proposal: Proposal): SendTransactionResponse;
+  finalizeProposal(
+    proposal: Proposal
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
 }
 
 export interface CreateProposal {

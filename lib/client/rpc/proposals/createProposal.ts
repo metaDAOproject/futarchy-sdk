@@ -129,7 +129,7 @@ export class CreateProposalClient implements CreateProposal {
     dao: Dao,
     onPassIx: ProposalInstructionWithPreinstructions,
     marketParams: OpenbookMarketParams
-  ): SendTransactionResponse {
+  ) {
     const proposalKP = Keypair.generate();
 
     const basePassMint = Keypair.generate();
@@ -348,18 +348,19 @@ export class CreateProposalClient implements CreateProposal {
       { title: "Creating Proposal" }
     );
 
-    const accounts = {
-      proposer_acct: this.rpcProvider.publicKey,
-      base_cond_vault_acct: txResp?.signatures.length == 1 ? baseVault : null,
-      quote_cond_vault_acct: txResp?.signatures.length == 2 ? quoteVault : null,
-      pass_market_acct:
-        txResp?.signatures.length == 3 ? passMarketKP.publicKey : null,
-      fail_market_acct:
-        txResp?.signatures.length == 4 ? failMarketKP.publicKey : null,
-      proposal_acct:
-        txResp?.signatures.length == allTxs.length ? proposalKP.publicKey : null
-    };
-    await this.proposalsClient.updateProposalAccounts(accounts);
+    // TODO commenting out since this does nothing right now, address later
+    // const accounts = {
+    //   proposer_acct: this.rpcProvider.publicKey,
+    //   base_cond_vault_acct: txResp?.signatures.length == 1 ? baseVault : null,
+    //   quote_cond_vault_acct: txResp?.signatures.length == 2 ? quoteVault : null,
+    //   pass_market_acct:
+    //     txResp?.signatures.length == 3 ? passMarketKP.publicKey : null,
+    //   fail_market_acct:
+    //     txResp?.signatures.length == 4 ? failMarketKP.publicKey : null,
+    //   proposal_acct:
+    //     txResp?.signatures.length == allTxs.length ? proposalKP.publicKey : null
+    // };
+    // await this.proposalsClient.updateProposalAccounts(accounts);
 
     return txResp;
   }
@@ -368,7 +369,7 @@ export class CreateProposalClient implements CreateProposal {
     dao: Dao,
     onPassIx: ProposalInstructionWithPreinstructions,
     marketParams: AmmMarketParams
-  ): SendTransactionResponse {
+  ) {
     if (!this.transactionSender) return;
 
     const nonce = new BN(Math.random() * 2 ** 50);
@@ -521,16 +522,17 @@ export class CreateProposalClient implements CreateProposal {
       { title: "Creating Proposal" }
     );
 
-    const accounts = {
-      proposer_acct: this.rpcProvider.publicKey,
-      base_cond_vault_acct: txResp?.signatures.length == 1 ? baseVault : null,
-      quote_cond_vault_acct: txResp?.signatures.length == 1 ? quoteVault : null,
-      pass_market_acct: txResp?.signatures.length == 2 ? passAmm : null,
-      fail_market_acct: txResp?.signatures.length == 2 ? failAmm : null,
-      proposal_acct:
-        txResp?.signatures.length == allTxs.length ? proposal : null
-    };
-    this.proposalsClient.updateProposalAccounts(accounts);
+    // TODO commenting out since this does nothing right now, address later
+    // const accounts = {
+    //   proposer_acct: this.rpcProvider.publicKey,
+    //   base_cond_vault_acct: txResp?.signatures.length == 1 ? baseVault : null,
+    //   quote_cond_vault_acct: txResp?.signatures.length == 1 ? quoteVault : null,
+    //   pass_market_acct: txResp?.signatures.length == 2 ? passAmm : null,
+    //   fail_market_acct: txResp?.signatures.length == 2 ? failAmm : null,
+    //   proposal_acct:
+    //     txResp?.signatures.length == allTxs.length ? proposal : null
+    // };
+    // this.proposalsClient.updateProposalAccounts(accounts);
     return txResp;
   }
 

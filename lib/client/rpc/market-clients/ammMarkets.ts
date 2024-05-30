@@ -10,7 +10,10 @@ import {
   LiquidityAddError,
   SwapPreview
 } from "@/types/amm";
-import { SendTransactionResponse } from "@/types/transactions";
+import {
+  SendTransactionResponse,
+  TransactionProcessingUpdate
+} from "@/types/transactions";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
@@ -24,6 +27,7 @@ import {
 import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { AccountInfo, PublicKey } from "@solana/web3.js";
+import { Observable } from "rxjs";
 
 export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   private rpcProvider: Provider;
@@ -166,17 +170,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     quoteAmount: number,
     maxBaseAmount: number,
     slippage: number
-  ): SendTransactionResponse {
-    if (!this.transactionSender)
-      return {
-        signatures: [],
-        errors: [
-          {
-            message: "Transaction sender is undefined",
-            name: "Transaction Sender Error"
-          }
-        ]
-      };
+  ) {
+    if (!this.transactionSender) {
+      console.error("Transaction sender is undefined");
+      return;
+    }
 
     const validationError = this.validateAddLiquidity(
       ammMarket,
@@ -185,10 +183,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       slippage
     );
     if (validationError) {
-      return {
-        signatures: [],
-        errors: [{ message: validationError, name: "Failed to Add Liquidity." }]
-      };
+      console.error("failed to add liquidity", validationError);
+      return;
     }
 
     const quoteAmountArg = PriceMath.getChainAmount(
@@ -286,7 +282,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     ammMarket: AmmMarket,
     lpTokensToBurn: number,
     slippage: number
-  ) {
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined> {
     // fetch or have lp token account
     const lpTokensLots = PriceMath.getChainAmount(lpTokensToBurn, 9);
 
@@ -345,17 +341,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: number,
     outputAmountMin: number,
     slippage: number
-  ): SendTransactionResponse {
-    if (!this.transactionSender)
-      return {
-        signatures: [],
-        errors: [
-          {
-            message: "Transaction sender is undefined",
-            name: "Transaction Sender Error"
-          }
-        ]
-      };
+  ) {
+    if (!this.transactionSender) {
+      console.error("Transaction sender is undefined");
+      return;
+    }
     let [inputToken, outputToken] = swapType.buy
       ? [ammMarket.quoteToken, ammMarket.baseToken]
       : [ammMarket.baseToken, ammMarket.quoteToken];

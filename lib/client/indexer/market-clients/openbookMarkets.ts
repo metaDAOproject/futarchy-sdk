@@ -19,10 +19,7 @@ export class FutarchyIndexerOpenbookMarketsClient
   constructor(rpcMarketsClient: FutarchyOpenbookMarketsRPCClient) {
     this.rpcMarketsClient = rpcMarketsClient;
   }
-  async cancelOrder(
-    market: OpenbookMarket,
-    order: OpenbookOrder
-  ): SendTransactionResponse {
+  async cancelOrder(market: OpenbookMarket, order: OpenbookOrder) {
     return this.rpcMarketsClient.cancelOrder(market, order);
   }
 
@@ -52,7 +49,7 @@ export class FutarchyIndexerOpenbookMarketsClient
     market: OpenbookMarket,
     order: Omit<OpenbookOrder, "status" | "transactionStatus" | "filled">,
     placeOrderType: PlaceOrderType
-  ): SendTransactionResponse {
+  ) {
     return this.rpcMarketsClient.placeOrder(market, order, placeOrderType);
   }
 }

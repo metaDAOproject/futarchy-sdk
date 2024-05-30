@@ -198,6 +198,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       )
       .accounts(accounts)
       .instruction();
+
     const ixs = [
       finalizeTokenPDACreateIx,
       revertTokenPDACreateIx,
@@ -206,7 +207,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     const tx = new Transaction().add(...ixs);
     return this.transactionSender.send([tx], this.rpcProvider.connection, {
       customErrors: [vaultAccount.protocol.vault.idl.errors],
-      CUs: 80_000
+      CUs: 100_000
     });
   }
 

@@ -66,7 +66,8 @@ export class TransactionSender {
   private async handleTransactionUpdate(
     update: TransactionProcessingUpdate,
     connection: Connection,
-    signatureSubscriptionIds: number[]
+    signatureSubscriptionIds: number[],
+    subscriber: Subscriber<TransactionProcessingUpdate>
   ) {
     if (update.status === "failed") {
       //TODO stop subscribing
@@ -77,6 +78,7 @@ export class TransactionSender {
       );
     }
     this.onTransactionUpdate?.(update);
+    subscriber.next(update);
   }
 
   send<T extends Transaction | VersionedTransaction>(
@@ -85,7 +87,7 @@ export class TransactionSender {
     opts?: SendTransactionOptions,
     displayMetadata?: TransactionDisplayMetadata
   ): Observable<TransactionProcessingUpdate> {
-    return new Observable<TransactionProcessingUpdate>((subscriber) => {
+    const obs = new Observable<TransactionProcessingUpdate>((subscriber) => {
       let signatureSubscriptionIds: number[] = [];
       this.sendInner(tx, connection, opts)
         .then((sendRes) => {
@@ -104,9 +106,9 @@ export class TransactionSender {
               this.handleTransactionUpdate(
                 txUpdate,
                 connection,
-                signatureSubscriptionIds
+                signatureSubscriptionIds,
+                subscriber
               );
-              subscriber.next(txUpdate);
               return;
             }
             const txUpdate: TransactionProcessingUpdate = {
@@ -118,9 +120,9 @@ export class TransactionSender {
             this.handleTransactionUpdate(
               txUpdate,
               connection,
-              signatureSubscriptionIds
+              signatureSubscriptionIds,
+              subscriber
             );
-            subscriber.next(txUpdate);
             return;
           }
           if (!sendRes?.signatures[0]) {
@@ -138,7 +140,8 @@ export class TransactionSender {
             this.handleTransactionUpdate(
               txUpdate,
               connection,
-              signatureSubscriptionIds
+              signatureSubscriptionIds,
+              subscriber
             );
             subscriber.next(txUpdate);
             return;
@@ -153,7 +156,8 @@ export class TransactionSender {
               displayMetadata
             },
             connection,
-            signatureSubscriptionIds
+            signatureSubscriptionIds,
+            subscriber
           );
           signatureSubscriptionIds = COMMITMENTS_TO_WATCH.map((s) => {
             return connection.onSignature(
@@ -186,7 +190,8 @@ export class TransactionSender {
               displayMetadata
             },
             connection,
-            signatureSubscriptionIds
+            signatureSubscriptionIds,
+            subscriber
           );
           return {
             signatures: [],
@@ -194,6 +199,7 @@ export class TransactionSender {
           };
         });
     });
+    return obs;
   }
 
   private async handleSignatureResult(
@@ -223,9 +229,9 @@ export class TransactionSender {
       this.handleTransactionUpdate(
         txUpdate,
         connection,
-        signatureSubscriptionIds
+        signatureSubscriptionIds,
+        txObserverSubscriber
       );
-      txObserverSubscriber.next(txUpdate);
       return;
     }
 
@@ -241,7 +247,8 @@ export class TransactionSender {
       this.handleTransactionUpdate(
         txUpdate,
         connection,
-        signatureSubscriptionIds
+        signatureSubscriptionIds,
+        txObserverSubscriber
       );
     } else {
       // error

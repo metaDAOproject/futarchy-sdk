@@ -115,7 +115,10 @@ export class FinalizeProposalClient implements FinalizeProposal {
 
     return await this.transactionSender?.send(
       [tx],
-      this.rpcProvider.connection
+      this.rpcProvider.connection,
+      {
+        customErrors: [autocrat.idl.errors]
+      }
     );
   }
 
@@ -138,7 +141,10 @@ export class FinalizeProposalClient implements FinalizeProposal {
 
       return await this.transactionSender?.send(
         [finalizeProposalTx],
-        this.rpcProvider.connection
+        this.rpcProvider.connection,
+        {
+          customErrors: [this.autocratClient.autocrat.idl.errors]
+        }
       );
     } catch (e) {
       console.log("error", e);

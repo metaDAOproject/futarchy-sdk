@@ -142,7 +142,31 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       vaultAccount.conditionalOnFinalizeTokenMint,
       this.rpcProvider
     );
-    const ixs = [
+    const accounts = {
+      vault: vaultAccountAddress,
+      userConditionalOnFinalizeTokenAccount: getAssociatedTokenAddressSync(
+        vaultAccount.conditionalOnFinalizeTokenMint,
+        this.rpcProvider.publicKey,
+        true
+      ),
+      userConditionalOnRevertTokenAccount: getAssociatedTokenAddressSync(
+        vaultAccount.conditionalOnRevertTokenMint,
+        this.rpcProvider.publicKey,
+        true
+      ),
+      userUnderlyingTokenAccount: getAssociatedTokenAddressSync(
+        vaultAccount.underlyingTokenMint,
+        this.rpcProvider.publicKey,
+        true
+      ),
+      vaultUnderlyingTokenAccount: vaultAccount.underlyingTokenAccount,
+      conditionalOnFinalizeTokenMint:
+        vaultAccount.conditionalOnFinalizeTokenMint,
+      conditionalOnRevertTokenMint: vaultAccount.conditionalOnRevertTokenMint,
+      // we used to not need to pass this in, but since we changed some things on the frontend now we do ¯\_(ツ)_/¯
+      authority: this.transactionSender.owner
+    };
+    const finalizeTokenPDACreateIx =
       createAssociatedTokenAccountIdempotentInstruction(
         this.rpcProvider.publicKey,
         getAssociatedTokenAddressSync(
@@ -152,7 +176,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         ),
         this.rpcProvider.publicKey,
         vaultAccount.conditionalOnFinalizeTokenMint
-      ),
+      );
+    const revertTokenPDACreateIx =
       createAssociatedTokenAccountIdempotentInstruction(
         this.rpcProvider.publicKey,
         getAssociatedTokenAddressSync(
@@ -162,39 +187,21 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         ),
         this.rpcProvider.publicKey,
         vaultAccount.conditionalOnRevertTokenMint
-      ),
-      await vaultAccount.protocol.vault.methods
-        .mintConditionalTokens(
-          new BN(
-            numeral(amount)
-              .multiply(10 ** (decimals || 0))
-              .format("0")
-          )
+      );
+    const mintConditionalsIx = await vaultAccount.protocol.vault.methods
+      .mintConditionalTokens(
+        new BN(
+          numeral(amount)
+            .multiply(10 ** (decimals || 0))
+            .format("0")
         )
-        .accounts({
-          vault: vaultAccountAddress,
-          userConditionalOnFinalizeTokenAccount: getAssociatedTokenAddressSync(
-            vaultAccount.conditionalOnFinalizeTokenMint,
-            this.rpcProvider.publicKey,
-            true
-          ),
-          userConditionalOnRevertTokenAccount: getAssociatedTokenAddressSync(
-            vaultAccount.conditionalOnRevertTokenMint,
-            this.rpcProvider.publicKey,
-            true
-          ),
-          userUnderlyingTokenAccount: getAssociatedTokenAddressSync(
-            vaultAccount.underlyingTokenMint,
-            this.rpcProvider.publicKey,
-            true
-          ),
-          vaultUnderlyingTokenAccount: vaultAccount.underlyingTokenAccount,
-          conditionalOnFinalizeTokenMint:
-            vaultAccount.conditionalOnFinalizeTokenMint,
-          conditionalOnRevertTokenMint:
-            vaultAccount.conditionalOnRevertTokenMint
-        })
-        .instruction()
+      )
+      .accounts(accounts)
+      .instruction();
+    const ixs = [
+      finalizeTokenPDACreateIx,
+      revertTokenPDACreateIx,
+      mintConditionalsIx
     ];
     const tx = new Transaction().add(...ixs);
     return this.transactionSender.send([tx], this.rpcProvider.connection);
@@ -261,8 +268,15 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     underlyingToken: "base" | "quote"
   ) {
     if (programVersion == "V0.3" || programVersion == "V0.2") {
-      const vaultForVersion = autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion]
-      const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId, this.rpcProvider)
+      const vaultForVersion =
+        autocratVersionToConditionalVaultMap[
+          proposal.protocol.deploymentVersion
+        ];
+      const vaultProgram = new Program(
+        vaultForVersion.idl,
+        vaultForVersion.programId,
+        this.rpcProvider
+      );
 
       const vaultAccount =
         underlyingToken == "base"
@@ -295,8 +309,13 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   }
 
   public async withdraw(proposal: Proposal) {
-    const vaultForVersion = autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion]
-    const vaultProgram = new Program(vaultForVersion.idl, vaultForVersion.programId, this.rpcProvider)
+    const vaultForVersion =
+      autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion];
+    const vaultProgram = new Program(
+      vaultForVersion.idl,
+      vaultForVersion.programId,
+      this.rpcProvider
+    );
 
     const baseAccounts = await this.getVaultAccounts(
       proposal.baseVaultAccount,

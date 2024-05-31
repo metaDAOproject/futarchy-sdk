@@ -5014,6 +5014,19 @@ type mutation_root {
   delete_reactions_by_pk(proposal_acct: String!, reaction: String!, reactor_acct: String!): reactions
 
   """
+  delete data from the table: "sessions"
+  """
+  delete_sessions(
+    """filter the rows which have to be deleted"""
+    where: sessions_bool_exp!
+  ): sessions_mutation_response
+
+  """
+  delete single row from the table: "sessions"
+  """
+  delete_sessions_by_pk(id: uuid!): sessions
+
+  """
   delete data from the table: "takes"
   """
   delete_takes(
@@ -5124,6 +5137,11 @@ type mutation_root {
     """filter the rows which have to be deleted"""
     where: users_bool_exp!
   ): users_mutation_response
+
+  """
+  delete single row from the table: "users"
+  """
+  delete_users_by_pk(user_acct: String!): users
 
   """
   insert data into the table: "candles"
@@ -5476,6 +5494,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: reactions_on_conflict
   ): reactions
+
+  """
+  insert data into the table: "sessions"
+  """
+  insert_sessions(
+    """the rows to be inserted"""
+    objects: [sessions_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: sessions_on_conflict
+  ): sessions_mutation_response
+
+  """
+  insert a single row into the table: "sessions"
+  """
+  insert_sessions_one(
+    """the row to be inserted"""
+    object: sessions_insert_input!
+
+    """upsert condition"""
+    on_conflict: sessions_on_conflict
+  ): sessions
 
   """
   insert data into the table: "takes"
@@ -6292,6 +6332,34 @@ type mutation_root {
   ): [reactions_mutation_response]
 
   """
+  update data of the table: "sessions"
+  """
+  update_sessions(
+    """sets the columns of the filtered rows to the given values"""
+    _set: sessions_set_input
+
+    """filter the rows which have to be updated"""
+    where: sessions_bool_exp!
+  ): sessions_mutation_response
+
+  """
+  update single row of the table: "sessions"
+  """
+  update_sessions_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: sessions_set_input
+    pk_columns: sessions_pk_columns_input!
+  ): sessions
+
+  """
+  update multiples rows of table: "sessions"
+  """
+  update_sessions_many(
+    """updates to execute, in order"""
+    updates: [sessions_updates!]!
+  ): [sessions_mutation_response]
+
+  """
   update data of the table: "takes"
   """
   update_takes(
@@ -6573,6 +6641,15 @@ type mutation_root {
     """filter the rows which have to be updated"""
     where: users_bool_exp!
   ): users_mutation_response
+
+  """
+  update single row of the table: "users"
+  """
+  update_users_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+    pk_columns: users_pk_columns_input!
+  ): users
 
   """
   update multiples rows of table: "users"
@@ -9736,6 +9813,188 @@ type proposal_prices_chart_data_variance_fields {
 }
 
 """
+columns and relationships of "proposal_total_trade_volume"
+"""
+type proposal_total_trade_volume {
+  fail_market_acct: String
+  fail_volume: numeric
+  pass_market_acct: String
+  pass_volume: numeric
+
+  """An object relationship"""
+  proposalTradeVolume: proposals
+
+  """An object relationship"""
+  proposalTradeVolumeFailMarket: markets
+
+  """An object relationship"""
+  proposalTradeVolumePassMarket: markets
+  proposal_acct: String
+}
+
+"""
+aggregated selection of "proposal_total_trade_volume"
+"""
+type proposal_total_trade_volume_aggregate {
+  aggregate: proposal_total_trade_volume_aggregate_fields
+  nodes: [proposal_total_trade_volume!]!
+}
+
+"""
+aggregate fields of "proposal_total_trade_volume"
+"""
+type proposal_total_trade_volume_aggregate_fields {
+  avg: proposal_total_trade_volume_avg_fields
+  count(columns: [proposal_total_trade_volume_select_column!], distinct: Boolean): Int!
+  max: proposal_total_trade_volume_max_fields
+  min: proposal_total_trade_volume_min_fields
+  stddev: proposal_total_trade_volume_stddev_fields
+  stddev_pop: proposal_total_trade_volume_stddev_pop_fields
+  stddev_samp: proposal_total_trade_volume_stddev_samp_fields
+  sum: proposal_total_trade_volume_sum_fields
+  var_pop: proposal_total_trade_volume_var_pop_fields
+  var_samp: proposal_total_trade_volume_var_samp_fields
+  variance: proposal_total_trade_volume_variance_fields
+}
+
+"""aggregate avg on columns"""
+type proposal_total_trade_volume_avg_fields {
+  fail_volume: Float
+  pass_volume: Float
+}
+
+"""
+Boolean expression to filter rows from the table "proposal_total_trade_volume". All fields are combined with a logical 'AND'.
+"""
+input proposal_total_trade_volume_bool_exp {
+  _and: [proposal_total_trade_volume_bool_exp!]
+  _not: proposal_total_trade_volume_bool_exp
+  _or: [proposal_total_trade_volume_bool_exp!]
+  fail_market_acct: String_comparison_exp
+  fail_volume: numeric_comparison_exp
+  pass_market_acct: String_comparison_exp
+  pass_volume: numeric_comparison_exp
+  proposalTradeVolume: proposals_bool_exp
+  proposalTradeVolumeFailMarket: markets_bool_exp
+  proposalTradeVolumePassMarket: markets_bool_exp
+  proposal_acct: String_comparison_exp
+}
+
+"""aggregate max on columns"""
+type proposal_total_trade_volume_max_fields {
+  fail_market_acct: String
+  fail_volume: numeric
+  pass_market_acct: String
+  pass_volume: numeric
+  proposal_acct: String
+}
+
+"""aggregate min on columns"""
+type proposal_total_trade_volume_min_fields {
+  fail_market_acct: String
+  fail_volume: numeric
+  pass_market_acct: String
+  pass_volume: numeric
+  proposal_acct: String
+}
+
+"""
+Ordering options when selecting data from "proposal_total_trade_volume".
+"""
+input proposal_total_trade_volume_order_by {
+  fail_market_acct: order_by
+  fail_volume: order_by
+  pass_market_acct: order_by
+  pass_volume: order_by
+  proposalTradeVolume: proposals_order_by
+  proposalTradeVolumeFailMarket: markets_order_by
+  proposalTradeVolumePassMarket: markets_order_by
+  proposal_acct: order_by
+}
+
+"""
+select columns of table "proposal_total_trade_volume"
+"""
+enum proposal_total_trade_volume_select_column {
+  """column name"""
+  fail_market_acct
+
+  """column name"""
+  fail_volume
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
+  pass_volume
+
+  """column name"""
+  proposal_acct
+}
+
+"""aggregate stddev on columns"""
+type proposal_total_trade_volume_stddev_fields {
+  fail_volume: Float
+  pass_volume: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type proposal_total_trade_volume_stddev_pop_fields {
+  fail_volume: Float
+  pass_volume: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type proposal_total_trade_volume_stddev_samp_fields {
+  fail_volume: Float
+  pass_volume: Float
+}
+
+"""
+Streaming cursor of the table "proposal_total_trade_volume"
+"""
+input proposal_total_trade_volume_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: proposal_total_trade_volume_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input proposal_total_trade_volume_stream_cursor_value_input {
+  fail_market_acct: String
+  fail_volume: numeric
+  pass_market_acct: String
+  pass_volume: numeric
+  proposal_acct: String
+}
+
+"""aggregate sum on columns"""
+type proposal_total_trade_volume_sum_fields {
+  fail_volume: numeric
+  pass_volume: numeric
+}
+
+"""aggregate var_pop on columns"""
+type proposal_total_trade_volume_var_pop_fields {
+  fail_volume: Float
+  pass_volume: Float
+}
+
+"""aggregate var_samp on columns"""
+type proposal_total_trade_volume_var_samp_fields {
+  fail_volume: Float
+  pass_volume: Float
+}
+
+"""aggregate variance on columns"""
+type proposal_total_trade_volume_variance_fields {
+  fail_volume: Float
+  pass_volume: Float
+}
+
+"""
 columns and relationships of "proposals"
 """
 type proposals {
@@ -11393,6 +11652,46 @@ type query_root {
     where: proposal_prices_chart_data_bool_exp
   ): proposal_prices_chart_data_aggregate!
 
+  """
+  fetch data from the table: "proposal_total_trade_volume"
+  """
+  proposal_total_trade_volume(
+    """distinct select on columns"""
+    distinct_on: [proposal_total_trade_volume_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_total_trade_volume_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_total_trade_volume_bool_exp
+  ): [proposal_total_trade_volume!]!
+
+  """
+  fetch aggregated fields from the table: "proposal_total_trade_volume"
+  """
+  proposal_total_trade_volume_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_total_trade_volume_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_total_trade_volume_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_total_trade_volume_bool_exp
+  ): proposal_total_trade_volume_aggregate!
+
   """An array relationship"""
   proposals(
     """distinct select on columns"""
@@ -11470,6 +11769,45 @@ type query_root {
 
   """fetch data from the table: "reactions" using primary key columns"""
   reactions_by_pk(proposal_acct: String!, reaction: String!, reactor_acct: String!): reactions
+
+  """An array relationship"""
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """An aggregate relationship"""
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
+
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessions_by_pk(id: uuid!): sessions
 
   """An array relationship"""
   takes(
@@ -11876,6 +12214,9 @@ type query_root {
     """filter the rows returned"""
     where: users_bool_exp
   ): users_aggregate!
+
+  """fetch data from the table: "users" using primary key columns"""
+  users_by_pk(user_acct: String!): users
 }
 
 """
@@ -12257,6 +12598,242 @@ order by variance() on columns of table "reactions"
 """
 input reactions_variance_order_by {
   comment_id: order_by
+}
+
+"""
+columns and relationships of "sessions"
+"""
+type sessions {
+  created_at: timestamp!
+  expires_at: timestamp
+  id: uuid!
+
+  """An object relationship"""
+  user: users
+  user_acct: String
+}
+
+"""
+aggregated selection of "sessions"
+"""
+type sessions_aggregate {
+  aggregate: sessions_aggregate_fields
+  nodes: [sessions!]!
+}
+
+input sessions_aggregate_bool_exp {
+  count: sessions_aggregate_bool_exp_count
+}
+
+input sessions_aggregate_bool_exp_count {
+  arguments: [sessions_select_column!]
+  distinct: Boolean
+  filter: sessions_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "sessions"
+"""
+type sessions_aggregate_fields {
+  count(columns: [sessions_select_column!], distinct: Boolean): Int!
+  max: sessions_max_fields
+  min: sessions_min_fields
+}
+
+"""
+order by aggregate values of table "sessions"
+"""
+input sessions_aggregate_order_by {
+  count: order_by
+  max: sessions_max_order_by
+  min: sessions_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "sessions"
+"""
+input sessions_arr_rel_insert_input {
+  data: [sessions_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: sessions_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "sessions". All fields are combined with a logical 'AND'.
+"""
+input sessions_bool_exp {
+  _and: [sessions_bool_exp!]
+  _not: sessions_bool_exp
+  _or: [sessions_bool_exp!]
+  created_at: timestamp_comparison_exp
+  expires_at: timestamp_comparison_exp
+  id: uuid_comparison_exp
+  user: users_bool_exp
+  user_acct: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "sessions"
+"""
+enum sessions_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  sessions_pkey
+}
+
+"""
+input type for inserting data into table "sessions"
+"""
+input sessions_insert_input {
+  created_at: timestamp
+  expires_at: timestamp
+  id: uuid
+  user: users_obj_rel_insert_input
+  user_acct: String
+}
+
+"""aggregate max on columns"""
+type sessions_max_fields {
+  created_at: timestamp
+  expires_at: timestamp
+  id: uuid
+  user_acct: String
+}
+
+"""
+order by max() on columns of table "sessions"
+"""
+input sessions_max_order_by {
+  created_at: order_by
+  expires_at: order_by
+  id: order_by
+  user_acct: order_by
+}
+
+"""aggregate min on columns"""
+type sessions_min_fields {
+  created_at: timestamp
+  expires_at: timestamp
+  id: uuid
+  user_acct: String
+}
+
+"""
+order by min() on columns of table "sessions"
+"""
+input sessions_min_order_by {
+  created_at: order_by
+  expires_at: order_by
+  id: order_by
+  user_acct: order_by
+}
+
+"""
+response of any mutation on the table "sessions"
+"""
+type sessions_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [sessions!]!
+}
+
+"""
+on_conflict condition type for table "sessions"
+"""
+input sessions_on_conflict {
+  constraint: sessions_constraint!
+  update_columns: [sessions_update_column!]! = []
+  where: sessions_bool_exp
+}
+
+"""Ordering options when selecting data from "sessions"."""
+input sessions_order_by {
+  created_at: order_by
+  expires_at: order_by
+  id: order_by
+  user: users_order_by
+  user_acct: order_by
+}
+
+"""primary key columns input for table: sessions"""
+input sessions_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "sessions"
+"""
+enum sessions_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  expires_at
+
+  """column name"""
+  id
+
+  """column name"""
+  user_acct
+}
+
+"""
+input type for updating data in table "sessions"
+"""
+input sessions_set_input {
+  created_at: timestamp
+  expires_at: timestamp
+  id: uuid
+  user_acct: String
+}
+
+"""
+Streaming cursor of the table "sessions"
+"""
+input sessions_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: sessions_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input sessions_stream_cursor_value_input {
+  created_at: timestamp
+  expires_at: timestamp
+  id: uuid
+  user_acct: String
+}
+
+"""
+update columns of table "sessions"
+"""
+enum sessions_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  expires_at
+
+  """column name"""
+  id
+
+  """column name"""
+  user_acct
+}
+
+input sessions_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: sessions_set_input
+
+  """filter the rows which have to be updated"""
+  where: sessions_bool_exp!
 }
 
 scalar smallint
@@ -13149,6 +13726,60 @@ type subscription_root {
     where: proposal_prices_chart_data_bool_exp
   ): [proposal_prices_chart_data!]!
 
+  """
+  fetch data from the table: "proposal_total_trade_volume"
+  """
+  proposal_total_trade_volume(
+    """distinct select on columns"""
+    distinct_on: [proposal_total_trade_volume_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_total_trade_volume_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_total_trade_volume_bool_exp
+  ): [proposal_total_trade_volume!]!
+
+  """
+  fetch aggregated fields from the table: "proposal_total_trade_volume"
+  """
+  proposal_total_trade_volume_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_total_trade_volume_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_total_trade_volume_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_total_trade_volume_bool_exp
+  ): proposal_total_trade_volume_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "proposal_total_trade_volume"
+  """
+  proposal_total_trade_volume_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [proposal_total_trade_volume_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: proposal_total_trade_volume_bool_exp
+  ): [proposal_total_trade_volume!]!
+
   """An array relationship"""
   proposals(
     """distinct select on columns"""
@@ -13254,6 +13885,59 @@ type subscription_root {
     """filter the rows returned"""
     where: reactions_bool_exp
   ): [reactions!]!
+
+  """An array relationship"""
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """An aggregate relationship"""
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
+
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessions_by_pk(id: uuid!): sessions
+
+  """
+  fetch data from the table in a streaming manner: "sessions"
+  """
+  sessions_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [sessions_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
 
   """An array relationship"""
   takes(
@@ -13786,6 +14470,9 @@ type subscription_root {
     """filter the rows returned"""
     where: users_bool_exp
   ): users_aggregate!
+
+  """fetch data from the table: "users" using primary key columns"""
+  users_by_pk(user_acct: String!): users
 
   """
   fetch data from the table in a streaming manner: "users"
@@ -17835,6 +18522,42 @@ columns and relationships of "users"
 """
 type users {
   created_at: timestamp!
+
+  """An array relationship"""
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """An aggregate relationship"""
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
   user_acct: String!
 }
 
@@ -17863,6 +18586,8 @@ input users_bool_exp {
   _not: users_bool_exp
   _or: [users_bool_exp!]
   created_at: timestamp_comparison_exp
+  sessions: sessions_bool_exp
+  sessions_aggregate: sessions_aggregate_bool_exp
   user_acct: String_comparison_exp
 }
 
@@ -17873,7 +18598,7 @@ enum users_constraint {
   """
   unique or primary key constraint on columns "user_acct"
   """
-  unique_user
+  users_pkey
 }
 
 """
@@ -17881,6 +18606,7 @@ input type for inserting data into table "users"
 """
 input users_insert_input {
   created_at: timestamp
+  sessions: sessions_arr_rel_insert_input
   user_acct: String
 }
 
@@ -17908,6 +18634,16 @@ type users_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "users"
+"""
+input users_obj_rel_insert_input {
+  data: users_insert_input!
+
+  """upsert condition"""
+  on_conflict: users_on_conflict
+}
+
+"""
 on_conflict condition type for table "users"
 """
 input users_on_conflict {
@@ -17919,7 +18655,13 @@ input users_on_conflict {
 """Ordering options when selecting data from "users"."""
 input users_order_by {
   created_at: order_by
+  sessions_aggregate: sessions_aggregate_order_by
   user_acct: order_by
+}
+
+"""primary key columns input for table: users"""
+input users_pk_columns_input {
+  user_acct: String!
 }
 
 """
@@ -17975,4 +18717,21 @@ input users_updates {
 
   """filter the rows which have to be updated"""
   where: users_bool_exp!
+}
+
+scalar uuid
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
 }

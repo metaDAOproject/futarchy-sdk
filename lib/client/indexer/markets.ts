@@ -4,7 +4,8 @@ import {
   MarketFetchRequest,
   OpenbookMarket,
   OpenbookMarketFetchRequest,
-  Order
+  Order,
+  ProposalVolume
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { FutarchyIndexerOpenbookMarketsClient } from "./market-clients/openbookMarkets";
@@ -485,6 +486,42 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                 baseAmount: d.base_amount
               }));
             subscriber.next(spotObservations);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+      return () => subscriptionCleanup();
+    });
+  }
+
+  watchProposalVolume(proposalAcct: PublicKey): Observable<ProposalVolume> {
+    const { query, variables } = generateSubscriptionOp({
+      proposal_total_trade_volume: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposalAcct.toBase58() }
+          }
+        },
+        pass_volume: true,
+        fail_volume: true
+      }
+    });
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        proposal_total_trade_volume: {
+          pass_volume: number;
+          fail_volume: number;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const volume: ProposalVolume = {
+              pass: data.data?.proposal_total_trade_volume[0].pass_volume ?? 0,
+              fail: data.data?.proposal_total_trade_volume[0].fail_volume ?? 0
+            };
+            subscriber.next(volume);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()

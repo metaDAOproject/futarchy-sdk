@@ -6,7 +6,8 @@ import {
   MarketFetchRequest,
   OpenbookMarket,
   OpenbookMarketFetchRequest,
-  Order
+  Order,
+  ProposalVolume
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions";
@@ -154,6 +155,14 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
 
     return new Observable((subscriber) => {
       subscriber.next([]);
+    });
+  }
+
+  watchProposalVolume(proposalAcct: PublicKey): Observable<ProposalVolume> {
+    console.warn("watchProposalVolume is not implemented for the RPC client");
+
+    return new Observable((subscriber) => {
+      subscriber.next({ fail: 0, pass: 0 });
     });
   }
 }

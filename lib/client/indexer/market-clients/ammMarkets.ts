@@ -52,7 +52,7 @@ export class FutarchyIndexerAmmMarketsClient
     quoteAmount: number,
     maxBaseAmount: number,
     slippage: number
-  ): SendTransactionResponse {
+  ) {
     return this.rpcMarketsClient.addLiquidity(
       ammMarket,
       quoteAmount,
@@ -77,7 +77,7 @@ export class FutarchyIndexerAmmMarketsClient
     ammMarket: AmmMarket,
     lpTokensToBurn: number,
     slippage: number
-  ): SendTransactionResponse {
+  ) {
     return this.rpcMarketsClient.removeLiquidity(
       ammMarket,
       lpTokensToBurn,
@@ -101,7 +101,7 @@ export class FutarchyIndexerAmmMarketsClient
     inputAmount: number,
     outputAmountMin: number,
     slippage: number
-  ): SendTransactionResponse {
+  ) {
     return this.rpcMarketsClient.swap(
       ammMarket,
       swapType,

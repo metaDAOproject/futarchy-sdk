@@ -2,7 +2,9 @@ import {
   Commitment,
   ComputeBudgetProgram,
   Connection,
+  Context,
   PublicKey,
+  SignatureResult,
   Transaction,
   TransactionInstruction,
   TransactionMessage,
@@ -10,11 +12,17 @@ import {
 } from "@solana/web3.js";
 import {
   SendTransactionResponse,
-  TransactionError
+  TransactionError,
+  TransactionDisplayMetadata,
+  TransactionProcessingUpdate,
+  SendTransactionOptions
 } from "./types/transactions";
 import { AnchorProvider } from "@coral-xyz/anchor";
+import { Observable, Subscriber } from "rxjs";
 
 type SingleOrArray<T> = T | T[];
+
+const COMMITMENTS_TO_WATCH: Commitment[] = ["confirmed", "finalized"];
 
 export class TransactionSender {
   public owner: PublicKey;
@@ -23,17 +31,20 @@ export class TransactionSender {
   ) => Promise<T[]>;
 
   public priorityFee: number;
+  public onTransactionUpdate?: (update: TransactionProcessingUpdate) => void;
   constructor(
     owner: PublicKey,
     signAllTransactions: <T extends Transaction | VersionedTransaction>(
       transactions: T[]
     ) => Promise<T[]>,
 
-    priorityFee: number
+    priorityFee: number,
+    onTransactionUpdate?: (update: TransactionProcessingUpdate) => void
   ) {
     this.owner = owner;
     this.signAllTransactions = signAllTransactions;
     this.priorityFee = priorityFee;
+    this.onTransactionUpdate = onTransactionUpdate;
   }
 
   static make(
@@ -41,24 +52,219 @@ export class TransactionSender {
     signAllTransactions: <T extends Transaction | VersionedTransaction>(
       transactions: T[]
     ) => Promise<T[]>,
-    priorityFee: number
+    priorityFee: number,
+    onTransactionUpdate?: (update: TransactionProcessingUpdate) => void
   ): TransactionSender {
-    return new TransactionSender(owner, signAllTransactions, priorityFee);
+    return new TransactionSender(
+      owner,
+      signAllTransactions,
+      priorityFee,
+      onTransactionUpdate
+    );
   }
+
+  private async handleTransactionUpdate(
+    update: TransactionProcessingUpdate,
+    connection: Connection,
+    signatureSubscriptionIds: number[],
+    subscriber: Subscriber<TransactionProcessingUpdate>
+  ) {
+    if (update.status === "failed") {
+      //TODO stop subscribing
+      await Promise.all(
+        signatureSubscriptionIds.map(async (s) =>
+          connection.removeSignatureListener(s)
+        )
+      );
+    }
+    this.onTransactionUpdate?.(update);
+    subscriber.next(update);
+  }
+
+  send<T extends Transaction | VersionedTransaction>(
+    tx: T[],
+    connection: Connection,
+    opts?: SendTransactionOptions,
+    displayMetadata?: TransactionDisplayMetadata
+  ): Observable<TransactionProcessingUpdate> {
+    const obs = new Observable<TransactionProcessingUpdate>((subscriber) => {
+      let signatureSubscriptionIds: number[] = [];
+      this.sendInner(tx, connection, opts)
+        .then((sendRes) => {
+          if ((sendRes?.errors?.length ?? 0) > 0) {
+            if (
+              sendRes?.errors?.some(
+                (e) => e.name === "WalletSignTransactionError"
+              )
+            ) {
+              const txUpdate: TransactionProcessingUpdate = {
+                signature: sendRes?.signatures[0] ?? "",
+                errors: sendRes?.errors ?? [],
+                status: "unsigned",
+                displayMetadata
+              };
+              this.handleTransactionUpdate(
+                txUpdate,
+                connection,
+                signatureSubscriptionIds,
+                subscriber
+              );
+              return;
+            }
+            const txUpdate: TransactionProcessingUpdate = {
+              signature: sendRes?.signatures[0] ?? "",
+              errors: sendRes?.errors ?? [],
+              status: "failed",
+              displayMetadata
+            };
+            this.handleTransactionUpdate(
+              txUpdate,
+              connection,
+              signatureSubscriptionIds,
+              subscriber
+            );
+            return;
+          }
+          if (!sendRes?.signatures[0]) {
+            const txUpdate: TransactionProcessingUpdate = {
+              signature: "",
+              errors: [
+                {
+                  message: "no signature returned",
+                  name: "Signature Missing"
+                }
+              ],
+              status: "failed",
+              displayMetadata
+            };
+            this.handleTransactionUpdate(
+              txUpdate,
+              connection,
+              signatureSubscriptionIds,
+              subscriber
+            );
+            subscriber.next(txUpdate);
+            return;
+          }
+
+          const txSignature = sendRes.signatures[0];
+          this.handleTransactionUpdate(
+            {
+              status: "sent",
+              errors: [],
+              signature: txSignature,
+              displayMetadata
+            },
+            connection,
+            signatureSubscriptionIds,
+            subscriber
+          );
+          signatureSubscriptionIds = COMMITMENTS_TO_WATCH.map((s) => {
+            return connection.onSignature(
+              txSignature,
+              (signatureResult: SignatureResult, _context: Context) =>
+                this.handleSignatureResult(
+                  txSignature,
+                  signatureResult,
+                  connection,
+                  signatureSubscriptionIds,
+                  subscriber,
+                  displayMetadata
+                ),
+              s
+            );
+          });
+
+          return sendRes;
+        })
+        .catch((e) => {
+          const error = {
+            message: JSON.stringify(e),
+            name: "general error"
+          };
+          this.handleTransactionUpdate(
+            {
+              signature: "",
+              errors: [error],
+              status: "failed",
+              displayMetadata
+            },
+            connection,
+            signatureSubscriptionIds,
+            subscriber
+          );
+          return {
+            signatures: [],
+            errors: [error]
+          };
+        });
+    });
+    return obs;
+  }
+
+  private async handleSignatureResult(
+    txSignature: string,
+    signatureResult: SignatureResult,
+    connection: Connection,
+    signatureSubscriptionIds: number[],
+    txObserverSubscriber: Subscriber<TransactionProcessingUpdate>,
+    displayMetadata?: TransactionDisplayMetadata
+  ) {
+    if (signatureResult.err) {
+      const errors =
+        typeof signatureResult.err === "string"
+          ? [{ message: signatureResult.err, name: signatureResult.err }]
+          : [
+              {
+                message: JSON.stringify(signatureResult.err),
+                name: JSON.stringify(signatureResult.err)
+              }
+            ];
+      const txUpdate: TransactionProcessingUpdate = {
+        signature: txSignature,
+        errors: errors,
+        status: "failed",
+        displayMetadata
+      };
+      this.handleTransactionUpdate(
+        txUpdate,
+        connection,
+        signatureSubscriptionIds,
+        txObserverSubscriber
+      );
+      return;
+    }
+
+    const statusRes = await connection.getSignatureStatus(txSignature);
+    const status = statusRes.value;
+    if (status?.confirmationStatus) {
+      const txUpdate: TransactionProcessingUpdate = {
+        signature: txSignature,
+        errors: [],
+        status: status.confirmationStatus,
+        displayMetadata
+      };
+      this.handleTransactionUpdate(
+        txUpdate,
+        connection,
+        signatureSubscriptionIds,
+        txObserverSubscriber
+      );
+    } else {
+      // error
+      console.warn("tx signature update is missing status");
+    }
+  }
+
   /**
    * Sends transactions.
    * @param txs A sequence of sets of transactions. Sets are executed simultaneously.
    * @returns A sequence of set of tx signatures.
    */
-  async send<T extends Transaction | VersionedTransaction>(
+  async sendInner<T extends Transaction | VersionedTransaction>(
     txs: SingleOrArray<T>[],
     connection: Connection,
-    opts?: {
-      sequential?: boolean;
-      commitment?: Commitment;
-      CUs?: SingleOrArray<number>;
-      customErrors?: { code: number; name: string; msg: string }[][];
-    }
+    opts?: SendTransactionOptions
   ): SendTransactionResponse {
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");

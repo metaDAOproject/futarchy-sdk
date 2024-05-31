@@ -10,7 +10,7 @@ import {
   LiquidityAddError,
   SwapPreview
 } from "@/types/amm";
-import { SendTransactionResponse } from "@/types/transactions";
+import { TransactionProcessingUpdate } from "@/types/transactions";
 import { BN, Program, Provider } from "@coral-xyz/anchor";
 import {
   AMM_PROGRAM_ID,
@@ -24,6 +24,7 @@ import {
 import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { AccountInfo, PublicKey } from "@solana/web3.js";
+import { Observable } from "rxjs";
 
 export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   private rpcProvider: Provider;
@@ -166,17 +167,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     quoteAmount: number,
     maxBaseAmount: number,
     slippage: number
-  ): SendTransactionResponse {
-    if (!this.transactionSender)
-      return {
-        signatures: [],
-        errors: [
-          {
-            message: "Transaction sender is undefined",
-            name: "Transaction Sender Error"
-          }
-        ]
-      };
+  ) {
+    if (!this.transactionSender) {
+      console.error("Transaction sender is undefined");
+      return;
+    }
 
     const validationError = this.validateAddLiquidity(
       ammMarket,
@@ -185,10 +180,8 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       slippage
     );
     if (validationError) {
-      return {
-        signatures: [],
-        errors: [{ message: validationError, name: "Failed to Add Liquidity." }]
-      };
+      console.error("failed to add liquidity", validationError);
+      return;
     }
 
     const quoteAmountArg = PriceMath.getChainAmount(
@@ -224,10 +217,17 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       this.rpcProvider.publicKey
     );
     const tx = await ix.transaction();
-    return this.transactionSender.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors],
-      CUs: 100_000
-    });
+    return this.transactionSender.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [this.ammClient.program.idl.errors],
+        CUs: 100_000
+      },
+      {
+        title: "Adding Liquidity"
+      }
+    );
   }
 
   simulateAddLiquidity(
@@ -279,7 +279,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     ammMarket: AmmMarket,
     lpTokensToBurn: number,
     slippage: number
-  ) {
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined> {
     // fetch or have lp token account
     const lpTokensLots = PriceMath.getChainAmount(lpTokensToBurn, 9);
 
@@ -303,10 +303,17 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       new BN(minQuoteWithSlippage)
     );
     const tx = await ix.transaction();
-    return this.transactionSender?.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors],
-      CUs: 70_000
-    });
+    return this.transactionSender?.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [this.ammClient.program.idl.errors],
+        CUs: 70_000
+      },
+      {
+        title: "Removing Liquidity"
+      }
+    );
   }
 
   simulateRemoveLiquidity(lpTokensToBurn: number, ammMarket: AmmMarket) {
@@ -338,17 +345,11 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     inputAmount: number,
     outputAmountMin: number,
     slippage: number
-  ): SendTransactionResponse {
-    if (!this.transactionSender)
-      return {
-        signatures: [],
-        errors: [
-          {
-            message: "Transaction sender is undefined",
-            name: "Transaction Sender Error"
-          }
-        ]
-      };
+  ) {
+    if (!this.transactionSender) {
+      console.error("Transaction sender is undefined");
+      return;
+    }
     let [inputToken, outputToken] = swapType.buy
       ? [ammMarket.quoteToken, ammMarket.baseToken]
       : [ammMarket.baseToken, ammMarket.quoteToken];
@@ -377,10 +378,15 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       )
       .transaction();
 
-    return this.transactionSender?.send([tx], this.rpcProvider.connection, {
-      customErrors: [this.ammClient.program.idl.errors],
-      CUs: 80_000
-    });
+    return this.transactionSender?.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [this.ammClient.program.idl.errors],
+        CUs: 80_000
+      },
+      { title: "Swapping" }
+    );
   }
 
   async getSwapPreview(

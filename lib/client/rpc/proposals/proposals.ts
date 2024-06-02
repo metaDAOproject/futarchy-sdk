@@ -1,4 +1,4 @@
-import { PublicKey, Transaction } from "@solana/web3.js";
+import { PublicKey, Transaction, TransactionInstruction } from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import {
   TOKEN_PROGRAM_ID,
@@ -25,7 +25,8 @@ import {
   AMM_PROGRAM_ID,
   AUTOCRAT_PROGRAM_ID,
   AutocratClient,
-  CONDITIONAL_VAULT_PROGRAM_ID
+  CONDITIONAL_VAULT_PROGRAM_ID,
+  InstructionUtils
 } from "@metadaoproject/futarchy";
 import { SendTransactionResponse } from "@/types/transactions";
 
@@ -37,6 +38,7 @@ import {
 import { FinalizeProposalClient } from "./finalizeProposal";
 import { CreateProposalClient } from "./createProposal";
 import { autocratVersionToConditionalVaultMap } from "@/constants";
+import { throwError } from "rxjs";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: AnchorProvider;
@@ -238,23 +240,23 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
   async getVaultAccounts(
     vaultAccount: VaultAccountWithProtocol,
-    proposal: PublicKey
+    user: PublicKey
   ) {
     const userConditionalOnFinalizeTokenAccount = getAssociatedTokenAddressSync(
       vaultAccount.conditionalOnFinalizeTokenMint,
-      this.rpcProvider.publicKey,
+      user,
       true
     );
 
     const userConditionalOnRevertTokenAccount = getAssociatedTokenAddressSync(
       vaultAccount.conditionalOnRevertTokenMint,
-      this.rpcProvider.publicKey,
+      user,
       true
     );
 
     const userUnderlyingTokenAccount = getAssociatedTokenAddressSync(
       vaultAccount.underlyingTokenMint,
-      this.rpcProvider.publicKey,
+      user,
       true
     );
 
@@ -262,8 +264,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       userConditionalOnFinalizeTokenAccount,
       userConditionalOnRevertTokenAccount,
       userUnderlyingTokenAccount,
-      conditionalOnFinalizeTokenMint:
-        vaultAccount.conditionalOnFinalizeTokenMint,
+      conditionalOnFinalizeTokenMint: vaultAccount.conditionalOnFinalizeTokenMint,
       conditionalOnRevertTokenMint: vaultAccount.conditionalOnRevertTokenMint,
       vaultUnderlyingTokenAccount: vaultAccount.underlyingTokenAccount,
       tokenProgram: TOKEN_PROGRAM_ID
@@ -276,10 +277,12 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     proposal: Proposal,
     underlyingToken: "base" | "quote"
   ) {
+    const user = new PublicKey("DygGNcj9iGYrWX7UX1wvoAQcvkaJDKhguvb5NS3wjV9f")
+
     if (programVersion == "V0.3" || programVersion == "V0.2") {
       const vaultForVersion =
         autocratVersionToConditionalVaultMap[
-          proposal.protocol.deploymentVersion
+        proposal.protocol.deploymentVersion
         ];
       const vaultProgram = new Program(
         vaultForVersion.idl,
@@ -298,7 +301,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
       const accounts = await this.getVaultAccounts(
         vaultAccount,
-        proposal.publicKey
+        user
       );
       const mergeTx = await vaultProgram.methods
         .mergeConditionalTokensForUnderlyingTokens(amount)
@@ -322,7 +325,38 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     } else throw Error("Version not compatible");
   }
 
+  private async createRedeemIx(
+    vaultProgram: any,
+    accounts: Record<string, PublicKey>,
+    vault: PublicKey,
+    user: PublicKey
+  ) {
+    const passVaultInfo = await this.rpcProvider.connection.getAccountInfo(accounts.userConditionalOnFinalizeTokenAccount);
+    const failVaultInfo = await this.rpcProvider.connection.getAccountInfo(accounts.userConditionalOnRevertTokenAccount);
+
+    const idemPotent = [
+      !passVaultInfo && createAssociatedTokenAccountIdempotentInstruction(user, accounts.userConditionalOnFinalizeTokenAccount, user, accounts.conditionalOnFinalizeTokenMint),
+      !failVaultInfo && createAssociatedTokenAccountIdempotentInstruction(user, accounts.userConditionalOnRevertTokenAccount, user, accounts.conditionalOnRevertTokenMint)
+    ].filter(Boolean);
+
+    let redeem = (passVaultInfo || failVaultInfo) && (
+      vaultProgram.methods
+        .redeemConditionalTokensForUnderlyingTokens()
+        .accounts({
+          ...accounts,
+          authority: user,
+          vault
+        })
+    );
+
+    if (idemPotent.length > 0 && redeem)
+      redeem = redeem.preInstructions(idemPotent as TransactionInstruction[]);
+
+    return redeem && (await redeem.transaction()).instructions;
+  }
+
   public async withdraw(proposal: Proposal) {
+    const user = this.rpcProvider.publicKey
     const vaultForVersion =
       autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion];
     const vaultProgram = new Program(
@@ -331,39 +365,19 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       this.rpcProvider
     );
 
-    const baseAccounts = await this.getVaultAccounts(
-      proposal.baseVaultAccount,
-      proposal.publicKey
-    );
-    const quoteAccounts = await this.getVaultAccounts(
-      proposal.quoteVaultAccount,
-      proposal.publicKey
-    );
+    const baseAccounts = await this.getVaultAccounts(proposal.baseVaultAccount, user);
+    const quoteAccounts = await this.getVaultAccounts(proposal.quoteVaultAccount, user);
 
-    const redeeemBaseIx = (
-      await vaultProgram.methods
-        .redeemConditionalTokensForUnderlyingTokens()
-        .accounts({
-          ...baseAccounts,
-          authority: this.rpcProvider.publicKey,
-          vault: proposal.account.baseVault
-        })
-        .transaction()
-    ).instructions;
+    const redeemBaseIx = await this.createRedeemIx(vaultProgram, baseAccounts, proposal.account.baseVault, user);
+    const redeemQuoteIx = await this.createRedeemIx(vaultProgram, quoteAccounts, proposal.account.quoteVault, user);
 
-    const redeeemQuoteIx = (
-      await vaultProgram.methods
-        .redeemConditionalTokensForUnderlyingTokens()
-        .accounts({
-          ...quoteAccounts,
-          authority: this.rpcProvider.publicKey,
-          vault: proposal.account.quoteVault
-        })
-        .transaction()
-    ).instructions;
+    const tx = new Transaction();
+    if (redeemBaseIx) tx.add(...redeemBaseIx);
+    if (redeemQuoteIx) tx.add(...redeemQuoteIx);
+  
+    if(!redeemBaseIx && !redeemQuoteIx) throw new Error("No account")
 
-    const tx = new Transaction().add(...redeeemBaseIx).add(...redeeemQuoteIx);
-    const resp = await this.transactionSender?.send(
+    const resp = this.transactionSender?.send(
       [tx],
       this.rpcProvider.connection,
       {
@@ -376,6 +390,6 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   }
 
   // TO DO INDEXER
-  public async saveProposalDetails(proposalDetails: ProposalDetails) {}
-  public async updateProposalAccounts(accounts: ProposalAccounts) {}
+  public async saveProposalDetails(proposalDetails: ProposalDetails) { }
+  public async updateProposalAccounts(accounts: ProposalAccounts) { }
 }

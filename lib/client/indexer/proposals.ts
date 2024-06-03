@@ -7,7 +7,8 @@ import {
   ProposalState,
   MarketType,
   ProposalAccounts,
-  ProgramVersionLabel
+  ProgramVersionLabel,
+  ProposalCounts
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -15,7 +16,6 @@ import {
   Client as IndexerGraphQLClient,
   generateSubscriptionOp
 } from "./__generated__";
-import { SendTransactionResponse } from "@/types/transactions";
 import {
   CreateProposalInstruction,
   MarketParams,
@@ -27,6 +27,7 @@ import { Observable } from "rxjs";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { SUPPORTED_EMOJIS } from "@/constants/reactions";
 import { ReactionType } from "@/types/reactions";
+import dayjs from "dayjs";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -370,6 +371,40 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       .flat()
       .flat()
       .filter((p): p is Proposal => !!p);
+  }
+  async fetchProposalCounts(daoSlug: string): Promise<ProposalCounts> {
+    const { proposals } = await this.graphqlClient.query?.({
+      proposals: {
+        __args: {
+          where: {
+            dao: {
+              dao_detail: {
+                slug: {
+                  _eq: daoSlug
+                }
+              }
+            }
+          },
+          order_by: [
+            {
+              created_at: "desc"
+            }
+          ]
+        },
+        proposal_acct: true,
+        ended_at: true
+      }
+    });
+
+    const liveLength = proposals.filter((p) =>
+      dayjs(p.ended_at).isAfter(dayjs())
+    ).length;
+    const pastLen = proposals.length - liveLength;
+
+    return {
+      live: liveLength,
+      past: pastLen
+    };
   }
   async deposit(
     amount: number,

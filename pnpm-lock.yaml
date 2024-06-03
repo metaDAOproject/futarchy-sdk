@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@coral-xyz/anchor':
     specifier: ^0.28.1-beta.2
@@ -43,6 +47,9 @@ dependencies:
   '@types/numeral':
     specifier: ^2.0.4
     version: 2.0.4
+  dayjs:
+    specifier: ^1.11.11
+    version: 1.11.11
   graphql-ws:
     specifier: ^5.16.0
     version: 5.16.0(graphql@16.8.1)
@@ -2398,6 +2405,10 @@ packages:
       stream-transform: 3.3.1
     dev: false
 
+  /dayjs@1.11.11:
+    resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
+    dev: false
+
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -4147,7 +4158,3 @@ packages:
     version: 5.4.7
     engines: {node: '>=0.11'}
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

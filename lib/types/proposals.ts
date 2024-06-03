@@ -47,6 +47,11 @@ export type ProposalAccountWithKeyNoState = AccountWithKey<
 // TODO: how to autogenerate type union from rust enum IDL?
 export type ProposalState = "Pending" | "Passed" | "Failed";
 
+export type ProposalCounts = {
+  live: number;
+  past: number;
+};
+
 // TODO we need to add way more here... this is the problem. This needs to sort of match what the UI needs for the most part
 export type Proposal = ProposalAccountWithKeyNoState & {
   title: string;

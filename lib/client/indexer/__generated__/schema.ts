@@ -10,10 +10,12 @@ export type Scalars = {
     String: string,
     bigint: any,
     float8: any,
+    interval: any,
     jsonb: any,
     numeric: any,
     smallint: any,
     timestamp: any,
+    timestamptz: any,
     uuid: any,
 }
 
@@ -1543,6 +1545,10 @@ export interface mutation_root {
     delete_programs: (programs_mutation_response | null)
     /** delete single row from the table: "programs" */
     delete_programs_by_pk: (programs | null)
+    /** delete data from the table: "proposal_bars" */
+    delete_proposal_bars: (proposal_bars_mutation_response | null)
+    /** delete single row from the table: "proposal_bars" */
+    delete_proposal_bars_by_pk: (proposal_bars | null)
     /** delete data from the table: "proposal_details" */
     delete_proposal_details: (proposal_details_mutation_response | null)
     /** delete single row from the table: "proposal_details" */
@@ -1647,6 +1653,10 @@ export interface mutation_root {
     insert_programs: (programs_mutation_response | null)
     /** insert a single row into the table: "programs" */
     insert_programs_one: (programs | null)
+    /** insert data into the table: "proposal_bars" */
+    insert_proposal_bars: (proposal_bars_mutation_response | null)
+    /** insert a single row into the table: "proposal_bars" */
+    insert_proposal_bars_one: (proposal_bars | null)
     /** insert data into the table: "proposal_details" */
     insert_proposal_details: (proposal_details_mutation_response | null)
     /** insert a single row into the table: "proposal_details" */
@@ -1777,6 +1787,12 @@ export interface mutation_root {
     update_programs_by_pk: (programs | null)
     /** update multiples rows of table: "programs" */
     update_programs_many: ((programs_mutation_response | null)[] | null)
+    /** update data of the table: "proposal_bars" */
+    update_proposal_bars: (proposal_bars_mutation_response | null)
+    /** update single row of the table: "proposal_bars" */
+    update_proposal_bars_by_pk: (proposal_bars | null)
+    /** update multiples rows of table: "proposal_bars" */
+    update_proposal_bars_many: ((proposal_bars_mutation_response | null)[] | null)
     /** update data of the table: "proposal_details" */
     update_proposal_details: (proposal_details_mutation_response | null)
     /** update single row of the table: "proposal_details" */
@@ -2714,6 +2730,202 @@ export interface programs_variance_fields {
 }
 
 
+/** columns and relationships of "proposal_bars" */
+export interface proposal_bars {
+    bar_size: Scalars['interval']
+    bar_start_time: Scalars['timestamptz']
+    fail_base_amount: (Scalars['bigint'] | null)
+    /** An object relationship */
+    fail_market: (markets | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_price: (Scalars['numeric'] | null)
+    fail_quote_amount: (Scalars['bigint'] | null)
+    pass_base_amount: (Scalars['bigint'] | null)
+    /** An object relationship */
+    pass_market: (markets | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_price: (Scalars['numeric'] | null)
+    pass_quote_amount: (Scalars['bigint'] | null)
+    proposal_acct: Scalars['String']
+    __typename: 'proposal_bars'
+}
+
+
+/** aggregated selection of "proposal_bars" */
+export interface proposal_bars_aggregate {
+    aggregate: (proposal_bars_aggregate_fields | null)
+    nodes: proposal_bars[]
+    __typename: 'proposal_bars_aggregate'
+}
+
+
+/** aggregate fields of "proposal_bars" */
+export interface proposal_bars_aggregate_fields {
+    avg: (proposal_bars_avg_fields | null)
+    count: Scalars['Int']
+    max: (proposal_bars_max_fields | null)
+    min: (proposal_bars_min_fields | null)
+    stddev: (proposal_bars_stddev_fields | null)
+    stddev_pop: (proposal_bars_stddev_pop_fields | null)
+    stddev_samp: (proposal_bars_stddev_samp_fields | null)
+    sum: (proposal_bars_sum_fields | null)
+    var_pop: (proposal_bars_var_pop_fields | null)
+    var_samp: (proposal_bars_var_samp_fields | null)
+    variance: (proposal_bars_variance_fields | null)
+    __typename: 'proposal_bars_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_bars_avg_fields {
+    fail_base_amount: (Scalars['Float'] | null)
+    fail_price: (Scalars['Float'] | null)
+    fail_quote_amount: (Scalars['Float'] | null)
+    pass_base_amount: (Scalars['Float'] | null)
+    pass_price: (Scalars['Float'] | null)
+    pass_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_bars_avg_fields'
+}
+
+
+/** unique or primary key constraints on table "proposal_bars" */
+export type proposal_bars_constraint = 'proposal_bars_pkey'
+
+
+/** aggregate max on columns */
+export interface proposal_bars_max_fields {
+    bar_start_time: (Scalars['timestamptz'] | null)
+    fail_base_amount: (Scalars['bigint'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_price: (Scalars['numeric'] | null)
+    fail_quote_amount: (Scalars['bigint'] | null)
+    pass_base_amount: (Scalars['bigint'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_price: (Scalars['numeric'] | null)
+    pass_quote_amount: (Scalars['bigint'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_bars_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface proposal_bars_min_fields {
+    bar_start_time: (Scalars['timestamptz'] | null)
+    fail_base_amount: (Scalars['bigint'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_price: (Scalars['numeric'] | null)
+    fail_quote_amount: (Scalars['bigint'] | null)
+    pass_base_amount: (Scalars['bigint'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_price: (Scalars['numeric'] | null)
+    pass_quote_amount: (Scalars['bigint'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_bars_min_fields'
+}
+
+
+/** response of any mutation on the table "proposal_bars" */
+export interface proposal_bars_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: proposal_bars[]
+    __typename: 'proposal_bars_mutation_response'
+}
+
+
+/** select columns of table "proposal_bars" */
+export type proposal_bars_select_column = 'bar_size' | 'bar_start_time' | 'fail_base_amount' | 'fail_market_acct' | 'fail_price' | 'fail_quote_amount' | 'pass_base_amount' | 'pass_market_acct' | 'pass_price' | 'pass_quote_amount' | 'proposal_acct'
+
+
+/** aggregate stddev on columns */
+export interface proposal_bars_stddev_fields {
+    fail_base_amount: (Scalars['Float'] | null)
+    fail_price: (Scalars['Float'] | null)
+    fail_quote_amount: (Scalars['Float'] | null)
+    pass_base_amount: (Scalars['Float'] | null)
+    pass_price: (Scalars['Float'] | null)
+    pass_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_bars_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_bars_stddev_pop_fields {
+    fail_base_amount: (Scalars['Float'] | null)
+    fail_price: (Scalars['Float'] | null)
+    fail_quote_amount: (Scalars['Float'] | null)
+    pass_base_amount: (Scalars['Float'] | null)
+    pass_price: (Scalars['Float'] | null)
+    pass_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_bars_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_bars_stddev_samp_fields {
+    fail_base_amount: (Scalars['Float'] | null)
+    fail_price: (Scalars['Float'] | null)
+    fail_quote_amount: (Scalars['Float'] | null)
+    pass_base_amount: (Scalars['Float'] | null)
+    pass_price: (Scalars['Float'] | null)
+    pass_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_bars_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface proposal_bars_sum_fields {
+    fail_base_amount: (Scalars['bigint'] | null)
+    fail_price: (Scalars['numeric'] | null)
+    fail_quote_amount: (Scalars['bigint'] | null)
+    pass_base_amount: (Scalars['bigint'] | null)
+    pass_price: (Scalars['numeric'] | null)
+    pass_quote_amount: (Scalars['bigint'] | null)
+    __typename: 'proposal_bars_sum_fields'
+}
+
+
+/** update columns of table "proposal_bars" */
+export type proposal_bars_update_column = 'bar_size' | 'bar_start_time' | 'fail_base_amount' | 'fail_market_acct' | 'fail_price' | 'fail_quote_amount' | 'pass_base_amount' | 'pass_market_acct' | 'pass_price' | 'pass_quote_amount' | 'proposal_acct'
+
+
+/** aggregate var_pop on columns */
+export interface proposal_bars_var_pop_fields {
+    fail_base_amount: (Scalars['Float'] | null)
+    fail_price: (Scalars['Float'] | null)
+    fail_quote_amount: (Scalars['Float'] | null)
+    pass_base_amount: (Scalars['Float'] | null)
+    pass_price: (Scalars['Float'] | null)
+    pass_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_bars_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_bars_var_samp_fields {
+    fail_base_amount: (Scalars['Float'] | null)
+    fail_price: (Scalars['Float'] | null)
+    fail_quote_amount: (Scalars['Float'] | null)
+    pass_base_amount: (Scalars['Float'] | null)
+    pass_price: (Scalars['Float'] | null)
+    pass_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_bars_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_bars_variance_fields {
+    fail_base_amount: (Scalars['Float'] | null)
+    fail_price: (Scalars['Float'] | null)
+    fail_quote_amount: (Scalars['Float'] | null)
+    pass_base_amount: (Scalars['Float'] | null)
+    pass_price: (Scalars['Float'] | null)
+    pass_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_bars_variance_fields'
+}
+
+
 /** columns and relationships of "proposal_details" */
 export interface proposal_details {
     base_cond_vault_acct: (Scalars['String'] | null)
@@ -3528,6 +3740,12 @@ export interface query_root {
     programs_aggregate: programs_aggregate
     /** fetch data from the table: "programs" using primary key columns */
     programs_by_pk: (programs | null)
+    /** fetch data from the table: "proposal_bars" */
+    proposal_bars: proposal_bars[]
+    /** fetch aggregated fields from the table: "proposal_bars" */
+    proposal_bars_aggregate: proposal_bars_aggregate
+    /** fetch data from the table: "proposal_bars" using primary key columns */
+    proposal_bars_by_pk: (proposal_bars | null)
     /** An array relationship */
     proposal_details: proposal_details[]
     /** An aggregate relationship */
@@ -3943,6 +4161,14 @@ export interface subscription_root {
     programs_by_pk: (programs | null)
     /** fetch data from the table in a streaming manner: "programs" */
     programs_stream: programs[]
+    /** fetch data from the table: "proposal_bars" */
+    proposal_bars: proposal_bars[]
+    /** fetch aggregated fields from the table: "proposal_bars" */
+    proposal_bars_aggregate: proposal_bars_aggregate
+    /** fetch data from the table: "proposal_bars" using primary key columns */
+    proposal_bars_by_pk: (proposal_bars | null)
+    /** fetch data from the table in a streaming manner: "proposal_bars" */
+    proposal_bars_stream: proposal_bars[]
     /** An array relationship */
     proposal_details: proposal_details[]
     /** An aggregate relationship */
@@ -7359,6 +7585,10 @@ export interface indexers_variance_fieldsGenqlSelection{
     __scalar?: boolean | number
 }
 
+
+/** Boolean expression to compare columns of type "interval". All fields are combined with logical 'AND'. */
+export interface interval_comparison_exp {_eq?: (Scalars['interval'] | null),_gt?: (Scalars['interval'] | null),_gte?: (Scalars['interval'] | null),_in?: (Scalars['interval'][] | null),_is_null?: (Scalars['Boolean'] | null),_lt?: (Scalars['interval'] | null),_lte?: (Scalars['interval'] | null),_neq?: (Scalars['interval'] | null),_nin?: (Scalars['interval'][] | null)}
+
 export interface jsonb_cast_exp {String?: (String_comparison_exp | null)}
 
 
@@ -8261,6 +8491,12 @@ export interface mutation_rootGenqlSelection{
     where: programs_bool_exp} })
     /** delete single row from the table: "programs" */
     delete_programs_by_pk?: (programsGenqlSelection & { __args: {program_acct: Scalars['String']} })
+    /** delete data from the table: "proposal_bars" */
+    delete_proposal_bars?: (proposal_bars_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: proposal_bars_bool_exp} })
+    /** delete single row from the table: "proposal_bars" */
+    delete_proposal_bars_by_pk?: (proposal_barsGenqlSelection & { __args: {bar_size: Scalars['interval'], bar_start_time: Scalars['timestamptz'], proposal_acct: Scalars['String']} })
     /** delete data from the table: "proposal_details" */
     delete_proposal_details?: (proposal_details_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -8495,6 +8731,18 @@ export interface mutation_rootGenqlSelection{
     object: programs_insert_input, 
     /** upsert condition */
     on_conflict?: (programs_on_conflict | null)} })
+    /** insert data into the table: "proposal_bars" */
+    insert_proposal_bars?: (proposal_bars_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: proposal_bars_insert_input[], 
+    /** upsert condition */
+    on_conflict?: (proposal_bars_on_conflict | null)} })
+    /** insert a single row into the table: "proposal_bars" */
+    insert_proposal_bars_one?: (proposal_barsGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: proposal_bars_insert_input, 
+    /** upsert condition */
+    on_conflict?: (proposal_bars_on_conflict | null)} })
     /** insert data into the table: "proposal_details" */
     insert_proposal_details?: (proposal_details_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -8897,6 +9145,24 @@ export interface mutation_rootGenqlSelection{
     update_programs_many?: (programs_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: programs_updates[]} })
+    /** update data of the table: "proposal_bars" */
+    update_proposal_bars?: (proposal_bars_mutation_responseGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (proposal_bars_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (proposal_bars_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: proposal_bars_bool_exp} })
+    /** update single row of the table: "proposal_bars" */
+    update_proposal_bars_by_pk?: (proposal_barsGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (proposal_bars_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (proposal_bars_set_input | null), pk_columns: proposal_bars_pk_columns_input} })
+    /** update multiples rows of table: "proposal_bars" */
+    update_proposal_bars_many?: (proposal_bars_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: proposal_bars_updates[]} })
     /** update data of the table: "proposal_details" */
     update_proposal_details?: (proposal_details_mutation_responseGenqlSelection & { __args: {
     /** append existing jsonb value of filtered columns with new jsonb value */
@@ -10490,6 +10756,252 @@ export interface programs_variance_fieldsGenqlSelection{
 }
 
 
+/** columns and relationships of "proposal_bars" */
+export interface proposal_barsGenqlSelection{
+    bar_size?: boolean | number
+    bar_start_time?: boolean | number
+    fail_base_amount?: boolean | number
+    /** An object relationship */
+    fail_market?: marketsGenqlSelection
+    fail_market_acct?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    /** An object relationship */
+    pass_market?: marketsGenqlSelection
+    pass_market_acct?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "proposal_bars" */
+export interface proposal_bars_aggregateGenqlSelection{
+    aggregate?: proposal_bars_aggregate_fieldsGenqlSelection
+    nodes?: proposal_barsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate fields of "proposal_bars" */
+export interface proposal_bars_aggregate_fieldsGenqlSelection{
+    avg?: proposal_bars_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (proposal_bars_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: proposal_bars_max_fieldsGenqlSelection
+    min?: proposal_bars_min_fieldsGenqlSelection
+    stddev?: proposal_bars_stddev_fieldsGenqlSelection
+    stddev_pop?: proposal_bars_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: proposal_bars_stddev_samp_fieldsGenqlSelection
+    sum?: proposal_bars_sum_fieldsGenqlSelection
+    var_pop?: proposal_bars_var_pop_fieldsGenqlSelection
+    var_samp?: proposal_bars_var_samp_fieldsGenqlSelection
+    variance?: proposal_bars_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_bars_avg_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Boolean expression to filter rows from the table "proposal_bars". All fields are combined with a logical 'AND'. */
+export interface proposal_bars_bool_exp {_and?: (proposal_bars_bool_exp[] | null),_not?: (proposal_bars_bool_exp | null),_or?: (proposal_bars_bool_exp[] | null),bar_size?: (interval_comparison_exp | null),bar_start_time?: (timestamptz_comparison_exp | null),fail_base_amount?: (bigint_comparison_exp | null),fail_market?: (markets_bool_exp | null),fail_market_acct?: (String_comparison_exp | null),fail_price?: (numeric_comparison_exp | null),fail_quote_amount?: (bigint_comparison_exp | null),pass_base_amount?: (bigint_comparison_exp | null),pass_market?: (markets_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pass_price?: (numeric_comparison_exp | null),pass_quote_amount?: (bigint_comparison_exp | null),proposal_acct?: (String_comparison_exp | null)}
+
+
+/** input type for incrementing numeric columns in table "proposal_bars" */
+export interface proposal_bars_inc_input {fail_base_amount?: (Scalars['bigint'] | null),fail_price?: (Scalars['numeric'] | null),fail_quote_amount?: (Scalars['bigint'] | null),pass_base_amount?: (Scalars['bigint'] | null),pass_price?: (Scalars['numeric'] | null),pass_quote_amount?: (Scalars['bigint'] | null)}
+
+
+/** input type for inserting data into table "proposal_bars" */
+export interface proposal_bars_insert_input {bar_size?: (Scalars['interval'] | null),bar_start_time?: (Scalars['timestamptz'] | null),fail_base_amount?: (Scalars['bigint'] | null),fail_market?: (markets_obj_rel_insert_input | null),fail_market_acct?: (Scalars['String'] | null),fail_price?: (Scalars['numeric'] | null),fail_quote_amount?: (Scalars['bigint'] | null),pass_base_amount?: (Scalars['bigint'] | null),pass_market?: (markets_obj_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pass_price?: (Scalars['numeric'] | null),pass_quote_amount?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate max on columns */
+export interface proposal_bars_max_fieldsGenqlSelection{
+    bar_start_time?: boolean | number
+    fail_base_amount?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate min on columns */
+export interface proposal_bars_min_fieldsGenqlSelection{
+    bar_start_time?: boolean | number
+    fail_base_amount?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** response of any mutation on the table "proposal_bars" */
+export interface proposal_bars_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: proposal_barsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** on_conflict condition type for table "proposal_bars" */
+export interface proposal_bars_on_conflict {constraint: proposal_bars_constraint,update_columns?: proposal_bars_update_column[],where?: (proposal_bars_bool_exp | null)}
+
+
+/** Ordering options when selecting data from "proposal_bars". */
+export interface proposal_bars_order_by {bar_size?: (order_by | null),bar_start_time?: (order_by | null),fail_base_amount?: (order_by | null),fail_market?: (markets_order_by | null),fail_market_acct?: (order_by | null),fail_price?: (order_by | null),fail_quote_amount?: (order_by | null),pass_base_amount?: (order_by | null),pass_market?: (markets_order_by | null),pass_market_acct?: (order_by | null),pass_price?: (order_by | null),pass_quote_amount?: (order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** primary key columns input for table: proposal_bars */
+export interface proposal_bars_pk_columns_input {bar_size: Scalars['interval'],bar_start_time: Scalars['timestamptz'],proposal_acct: Scalars['String']}
+
+
+/** input type for updating data in table "proposal_bars" */
+export interface proposal_bars_set_input {bar_size?: (Scalars['interval'] | null),bar_start_time?: (Scalars['timestamptz'] | null),fail_base_amount?: (Scalars['bigint'] | null),fail_market_acct?: (Scalars['String'] | null),fail_price?: (Scalars['numeric'] | null),fail_quote_amount?: (Scalars['bigint'] | null),pass_base_amount?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pass_price?: (Scalars['numeric'] | null),pass_quote_amount?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate stddev on columns */
+export interface proposal_bars_stddev_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_bars_stddev_pop_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_bars_stddev_samp_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Streaming cursor of the table "proposal_bars" */
+export interface proposal_bars_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: proposal_bars_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface proposal_bars_stream_cursor_value_input {bar_size?: (Scalars['interval'] | null),bar_start_time?: (Scalars['timestamptz'] | null),fail_base_amount?: (Scalars['bigint'] | null),fail_market_acct?: (Scalars['String'] | null),fail_price?: (Scalars['numeric'] | null),fail_quote_amount?: (Scalars['bigint'] | null),pass_base_amount?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pass_price?: (Scalars['numeric'] | null),pass_quote_amount?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate sum on columns */
+export interface proposal_bars_sum_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface proposal_bars_updates {
+/** increments the numeric columns with given value of the filtered values */
+_inc?: (proposal_bars_inc_input | null),
+/** sets the columns of the filtered rows to the given values */
+_set?: (proposal_bars_set_input | null),
+/** filter the rows which have to be updated */
+where: proposal_bars_bool_exp}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_bars_var_pop_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_bars_var_samp_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_bars_variance_fieldsGenqlSelection{
+    fail_base_amount?: boolean | number
+    fail_price?: boolean | number
+    fail_quote_amount?: boolean | number
+    pass_base_amount?: boolean | number
+    pass_price?: boolean | number
+    pass_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
 /** columns and relationships of "proposal_details" */
 export interface proposal_detailsGenqlSelection{
     base_cond_vault_acct?: boolean | number
@@ -11976,6 +12488,32 @@ export interface query_rootGenqlSelection{
     where?: (programs_bool_exp | null)} })
     /** fetch data from the table: "programs" using primary key columns */
     programs_by_pk?: (programsGenqlSelection & { __args: {program_acct: Scalars['String']} })
+    /** fetch data from the table: "proposal_bars" */
+    proposal_bars?: (proposal_barsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_bars_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_bars_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_bars_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "proposal_bars" */
+    proposal_bars_aggregate?: (proposal_bars_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_bars_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_bars_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_bars_bool_exp | null)} })
+    /** fetch data from the table: "proposal_bars" using primary key columns */
+    proposal_bars_by_pk?: (proposal_barsGenqlSelection & { __args: {bar_size: Scalars['interval'], bar_start_time: Scalars['timestamptz'], proposal_acct: Scalars['String']} })
     /** An array relationship */
     proposal_details?: (proposal_detailsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -13242,6 +13780,40 @@ export interface subscription_rootGenqlSelection{
     cursor: (programs_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (programs_bool_exp | null)} })
+    /** fetch data from the table: "proposal_bars" */
+    proposal_bars?: (proposal_barsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_bars_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_bars_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_bars_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "proposal_bars" */
+    proposal_bars_aggregate?: (proposal_bars_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_bars_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_bars_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_bars_bool_exp | null)} })
+    /** fetch data from the table: "proposal_bars" using primary key columns */
+    proposal_bars_by_pk?: (proposal_barsGenqlSelection & { __args: {bar_size: Scalars['interval'], bar_start_time: Scalars['timestamptz'], proposal_acct: Scalars['String']} })
+    /** fetch data from the table in a streaming manner: "proposal_bars" */
+    proposal_bars_stream?: (proposal_barsGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (proposal_bars_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (proposal_bars_bool_exp | null)} })
     /** An array relationship */
     proposal_details?: (proposal_detailsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -14105,6 +14677,10 @@ export interface takes_variance_order_by {base_amount?: (order_by | null),maker_
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export interface timestamp_comparison_exp {_eq?: (Scalars['timestamp'] | null),_gt?: (Scalars['timestamp'] | null),_gte?: (Scalars['timestamp'] | null),_in?: (Scalars['timestamp'][] | null),_is_null?: (Scalars['Boolean'] | null),_lt?: (Scalars['timestamp'] | null),_lte?: (Scalars['timestamp'] | null),_neq?: (Scalars['timestamp'] | null),_nin?: (Scalars['timestamp'][] | null)}
+
+
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export interface timestamptz_comparison_exp {_eq?: (Scalars['timestamptz'] | null),_gt?: (Scalars['timestamptz'] | null),_gte?: (Scalars['timestamptz'] | null),_in?: (Scalars['timestamptz'][] | null),_is_null?: (Scalars['Boolean'] | null),_lt?: (Scalars['timestamptz'] | null),_lte?: (Scalars['timestamptz'] | null),_neq?: (Scalars['timestamptz'] | null),_nin?: (Scalars['timestamptz'][] | null)}
 
 
 /** columns and relationships of "token_acct_balances" */
@@ -17881,6 +18457,118 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const proposal_bars_possibleTypes: string[] = ['proposal_bars']
+    export const isproposal_bars = (obj?: { __typename?: any } | null): obj is proposal_bars => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars"')
+      return proposal_bars_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_aggregate_possibleTypes: string[] = ['proposal_bars_aggregate']
+    export const isproposal_bars_aggregate = (obj?: { __typename?: any } | null): obj is proposal_bars_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_aggregate"')
+      return proposal_bars_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_aggregate_fields_possibleTypes: string[] = ['proposal_bars_aggregate_fields']
+    export const isproposal_bars_aggregate_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_aggregate_fields"')
+      return proposal_bars_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_avg_fields_possibleTypes: string[] = ['proposal_bars_avg_fields']
+    export const isproposal_bars_avg_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_avg_fields"')
+      return proposal_bars_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_max_fields_possibleTypes: string[] = ['proposal_bars_max_fields']
+    export const isproposal_bars_max_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_max_fields"')
+      return proposal_bars_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_min_fields_possibleTypes: string[] = ['proposal_bars_min_fields']
+    export const isproposal_bars_min_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_min_fields"')
+      return proposal_bars_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_mutation_response_possibleTypes: string[] = ['proposal_bars_mutation_response']
+    export const isproposal_bars_mutation_response = (obj?: { __typename?: any } | null): obj is proposal_bars_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_mutation_response"')
+      return proposal_bars_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_stddev_fields_possibleTypes: string[] = ['proposal_bars_stddev_fields']
+    export const isproposal_bars_stddev_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_stddev_fields"')
+      return proposal_bars_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_stddev_pop_fields_possibleTypes: string[] = ['proposal_bars_stddev_pop_fields']
+    export const isproposal_bars_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_stddev_pop_fields"')
+      return proposal_bars_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_stddev_samp_fields_possibleTypes: string[] = ['proposal_bars_stddev_samp_fields']
+    export const isproposal_bars_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_stddev_samp_fields"')
+      return proposal_bars_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_sum_fields_possibleTypes: string[] = ['proposal_bars_sum_fields']
+    export const isproposal_bars_sum_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_sum_fields"')
+      return proposal_bars_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_var_pop_fields_possibleTypes: string[] = ['proposal_bars_var_pop_fields']
+    export const isproposal_bars_var_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_var_pop_fields"')
+      return proposal_bars_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_var_samp_fields_possibleTypes: string[] = ['proposal_bars_var_samp_fields']
+    export const isproposal_bars_var_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_var_samp_fields"')
+      return proposal_bars_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_bars_variance_fields_possibleTypes: string[] = ['proposal_bars_variance_fields']
+    export const isproposal_bars_variance_fields = (obj?: { __typename?: any } | null): obj is proposal_bars_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_bars_variance_fields"')
+      return proposal_bars_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const proposal_details_possibleTypes: string[] = ['proposal_details']
     export const isproposal_details = (obj?: { __typename?: any } | null): obj is proposal_details => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_details"')
@@ -19972,6 +20660,38 @@ export const enumProgramsUpdateColumn = {
    program_acct: 'program_acct' as const,
    program_name: 'program_name' as const,
    version: 'version' as const
+}
+
+export const enumProposalBarsConstraint = {
+   proposal_bars_pkey: 'proposal_bars_pkey' as const
+}
+
+export const enumProposalBarsSelectColumn = {
+   bar_size: 'bar_size' as const,
+   bar_start_time: 'bar_start_time' as const,
+   fail_base_amount: 'fail_base_amount' as const,
+   fail_market_acct: 'fail_market_acct' as const,
+   fail_price: 'fail_price' as const,
+   fail_quote_amount: 'fail_quote_amount' as const,
+   pass_base_amount: 'pass_base_amount' as const,
+   pass_market_acct: 'pass_market_acct' as const,
+   pass_price: 'pass_price' as const,
+   pass_quote_amount: 'pass_quote_amount' as const,
+   proposal_acct: 'proposal_acct' as const
+}
+
+export const enumProposalBarsUpdateColumn = {
+   bar_size: 'bar_size' as const,
+   bar_start_time: 'bar_start_time' as const,
+   fail_base_amount: 'fail_base_amount' as const,
+   fail_market_acct: 'fail_market_acct' as const,
+   fail_price: 'fail_price' as const,
+   fail_quote_amount: 'fail_quote_amount' as const,
+   pass_base_amount: 'pass_base_amount' as const,
+   pass_market_acct: 'pass_market_acct' as const,
+   pass_price: 'pass_price' as const,
+   pass_quote_amount: 'pass_quote_amount' as const,
+   proposal_acct: 'proposal_acct' as const
 }
 
 export const enumProposalDetailsConstraint = {

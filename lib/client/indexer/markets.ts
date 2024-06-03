@@ -204,7 +204,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            const twapObservations =
+            const proposalMarketPrices =
               data.data?.proposal_prices_chart_data?.map<ProposalMarketPricesAggregate>(
                 (d) => ({
                   failMarket: {
@@ -230,7 +230,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   createdAt: new Date(d.interv)
                 })
               );
-            subscriber.next(twapObservations);
+            subscriber.next(proposalMarketPrices);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()
@@ -522,6 +522,110 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
               fail: data.data?.proposal_total_trade_volume[0].fail_volume ?? 0
             };
             subscriber.next(volume);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+      return () => subscriptionCleanup();
+    });
+  }
+
+  watchProposalBars(
+    proposalAcct: PublicKey
+  ): Observable<ProposalMarketPricesAggregate[]> {
+    const { query, variables } = generateSubscriptionOp({
+      proposal_bars: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposalAcct.toBase58() }
+          }
+        },
+        bar_start_time: true,
+        fail_base_amount: true,
+        fail_market_acct: true,
+        fail_market: {
+          tokenByBaseMintAcct: {
+            decimals: true
+          },
+          tokenByQuoteMintAcct: {
+            decimals: true
+          }
+        },
+        fail_price: true,
+        fail_quote_amount: true,
+        pass_base_amount: true,
+        pass_market_acct: true,
+        pass_market: {
+          tokenByBaseMintAcct: {
+            decimals: true
+          },
+          tokenByQuoteMintAcct: {
+            decimals: true
+          }
+        },
+        pass_price: true,
+        pass_quote_amount: true,
+        proposal_acct: true
+      }
+    });
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        proposal_bars: {
+          bar_start_time: string;
+          fail_base_amount: number;
+          fail_market_acct: string;
+          fail_market: {
+            tokenByBaseMintAcct: {
+              decimals: number;
+            };
+            tokenByQuoteMintAcct: {
+              decimals: number;
+            };
+          };
+          fail_price: number;
+          fail_quote_amount: number;
+          pass_base_amount: number;
+          pass_market_acct: string;
+          pass_market: {
+            tokenByBaseMintAcct: {
+              decimals: number;
+            };
+            tokenByQuoteMintAcct: {
+              decimals: number;
+            };
+          };
+          pass_price: number;
+          pass_quote_amount: number;
+          proposal_acct: string;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const proposalMarketPrices =
+              data.data?.proposal_bars?.map<ProposalMarketPricesAggregate>(
+                (d) => ({
+                  failMarket: {
+                    acct: d.fail_market_acct,
+                    baseAmount: d.fail_base_amount,
+                    baseDecimals: d.fail_market.tokenByBaseMintAcct.decimals,
+                    price: d.fail_price,
+                    quoteAmount: d.fail_quote_amount,
+                    quoteDecimals: d.fail_market.tokenByQuoteMintAcct.decimals
+                  },
+                  passMarket: {
+                    acct: d.pass_market_acct,
+                    baseAmount: d.pass_base_amount,
+                    baseDecimals: d.pass_market.tokenByBaseMintAcct.decimals,
+                    price: d.pass_price,
+                    quoteAmount: d.pass_quote_amount,
+                    quoteDecimals: d.pass_market.tokenByQuoteMintAcct.decimals
+                  },
+                  createdAt: new Date(d.bar_start_time)
+                })
+              ) ?? [];
+            subscriber.next(proposalMarketPrices);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()

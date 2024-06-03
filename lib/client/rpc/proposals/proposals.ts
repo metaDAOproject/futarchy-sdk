@@ -388,7 +388,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       this.rpcProvider.connection,
       {
         customErrors: [vaultProgram.idl.errors],
-        CUs: 130_000
+        CUs: 175_000
       },
       { title: "Withdrawing" }
     );

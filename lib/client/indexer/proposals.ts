@@ -377,6 +377,36 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     proposal: Proposal
   ) {
     // TODO: Fetch the market data SPECIFICALLY FOR THIS PROPOSAL MARKET
+    /*
+    query {
+      proposals(limit:1, where:{proposal_acct: {_eq: "2VCJfvNYQYemQt75diDo966J9Ut6pAPWw98ZxCViXTRX"}}){
+        proposal_acct
+        fail_market_acct
+        pass_market_acct
+        markets{
+          market_acct
+          base_mint_acct
+          quote_mint_acct
+          market_type
+          twaps(order_by: {created_at: desc}){
+            token_amount
+            created_at
+            last_price
+            last_observation
+            observation_agg
+            updated_slot
+          }
+          prices(order_by: {created_at: desc}){
+            base_amount
+            quote_amount
+            price
+            created_at
+            prices_type
+          }
+        }
+      }
+    }
+    */
     const { proposal_details } = await this.graphqlClient.query?.({
       proposals: {
         __args: {
@@ -408,10 +438,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             updated_slot: true
           },
           // TODO: Proxy for showing volume, maybe add it back or remove it now
-          orders: {
-            quote_price: true,
-            filled_base_amount: true
-          },
           prices: {
             __args: {
               order_by: [
@@ -424,7 +450,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             quote_amount: true,
             price: true,
             created_at: true,
-            updated_slot: true,
             prices_type: true
           }
         }
@@ -516,7 +541,25 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     proposal: Proposal
   ) {
     // TODO: Fetch the liquidity LIMIT 1 OR RPC METHOD FOR MOST UP TO DATE data SPECIFICALLY FOR THIS PROPOSAL MARKET
-    
+    /*
+    query {
+      proposals(limit:1, where:{proposal_acct: {_eq: "2VCJfvNYQYemQt75diDo966J9Ut6pAPWw98ZxCViXTRX"}}){
+        fail_market_acct
+        pass_market_acct
+        markets{
+          market_acct
+          base_mint_acct
+          quote_mint_acct
+          prices(limit: 1, order_by:{created_at: desc}){
+            base_amount
+            quote_amount
+            market_acct
+            created_at
+          }
+        }
+      }
+    }
+    */
     const { proposal_details } = await this.graphqlClient.query?.({
       proposals: {
         __args: {
@@ -545,6 +588,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             },
             base_amount: true,
             quote_amount: true,
+            prices_type: true,
             created_at: true,
           }
         }
@@ -572,6 +616,23 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     // TODO: Fetch the proposal's volume metrics / this can be slow / lazy we just don't want to combine it all to slow it down
     // could be a simple aggregate function...
     // TODO: Fetch the liquidity LIMIT 1 OR RPC METHOD FOR MOST UP TO DATE data SPECIFICALLY FOR THIS PROPOSAL MARKET
+    /*
+    query {
+      proposals(limit:1, where:{proposal_acct: {_eq: "2VCJfvNYQYemQt75diDo966J9Ut6pAPWw98ZxCViXTRX"}}){
+        fail_market_acct
+        pass_market_acct
+        markets{
+          market_acct
+          base_mint_acct
+          quote_mint_acct
+          orders{
+            quote_price
+            filled_base_amount
+          }
+        }
+      }
+    } 
+    */
     const { proposal_details } = await this.graphqlClient.query?.({
       proposals: {
         __args: {

@@ -377,6 +377,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     proposal: Proposal
   ) {
     // TODO: Fetch the market data SPECIFICALLY FOR THIS PROPOSAL MARKET
+    // TODO: We should add a filter on the end date and created date from the proposal itself
+    // NOTE: This load on one market is 2MB. We may want to consider some compression.
     /*
     query {
       proposals(limit:1, where:{proposal_acct: {_eq: "2VCJfvNYQYemQt75diDo966J9Ut6pAPWw98ZxCViXTRX"}}){

@@ -54,7 +54,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           where: {
             dao: { dao_detail: { slug: { _eq: dao.slug } } }
           },
-          limit: 1,
           order_by: [
             {
               created_at: "desc"
@@ -100,6 +99,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           market_type: true,
           twaps: {
             __args: {
+              limit: 1,
               order_by: [
                 {
                   created_at: "desc"
@@ -111,6 +111,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           },
           prices: {
             __args: {
+              limit: 1,
               order_by: [
                 {
                   created_at: "desc"
@@ -370,7 +371,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 {
                   created_at: "desc"
                 }
-              ]
+              ],
+              limit: 1
             },
             token_amount: true,
             created_at: true,
@@ -389,7 +391,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 {
                   created_at: "desc"
                 }
-              ]
+              ],
+              limit: 1
             },
             base_amount: true,
             quote_amount: true,

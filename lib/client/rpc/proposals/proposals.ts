@@ -277,8 +277,6 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     proposal: Proposal,
     underlyingToken: "base" | "quote"
   ) {
-    const user = new PublicKey("DygGNcj9iGYrWX7UX1wvoAQcvkaJDKhguvb5NS3wjV9f")
-
     if (programVersion == "V0.3" || programVersion == "V0.2") {
       const vaultForVersion =
         autocratVersionToConditionalVaultMap[
@@ -301,7 +299,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
 
       const accounts = await this.getVaultAccounts(
         vaultAccount,
-        user
+        this.rpcProvider.publicKey
       );
       const mergeTx = await vaultProgram.methods
         .mergeConditionalTokensForUnderlyingTokens(amount)
@@ -331,15 +329,23 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     vault: PublicKey,
     user: PublicKey
   ) {
-    const passVaultInfo = await this.rpcProvider.connection.getAccountInfo(accounts.userConditionalOnFinalizeTokenAccount);
-    const failVaultInfo = await this.rpcProvider.connection.getAccountInfo(accounts.userConditionalOnRevertTokenAccount);
+    const passVaultAccountRedeemCreateIx = 
+      createAssociatedTokenAccountIdempotentInstruction(
+        user,
+        accounts.userConditionalOnFinalizeTokenAccount, // TODO: Review if we want to instead use getAssociatedTokenAddressSync()
+        user,
+        accounts.conditionalOnFinalizeTokenMint
+      );
+    
+    const failVaultAccountRedeemCreateIx = 
+      createAssociatedTokenAccountIdempotentInstruction(
+        user,
+        accounts.userConditionalOnRevertTokenAccount, // TODO: Review if we want to instead use getAssociatedTokenAddressSync()
+        user,
+        accounts.conditionalOnRevertTokenMint
+      );
 
-    const idemPotent = [
-      !passVaultInfo && createAssociatedTokenAccountIdempotentInstruction(user, accounts.userConditionalOnFinalizeTokenAccount, user, accounts.conditionalOnFinalizeTokenMint),
-      !failVaultInfo && createAssociatedTokenAccountIdempotentInstruction(user, accounts.userConditionalOnRevertTokenAccount, user, accounts.conditionalOnRevertTokenMint)
-    ].filter(Boolean);
-
-    let redeem = (passVaultInfo || failVaultInfo) && (
+    let redeem = (
       vaultProgram.methods
         .redeemConditionalTokensForUnderlyingTokens()
         .accounts({
@@ -347,10 +353,10 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
           authority: user,
           vault
         })
+        .preInstructions(
+          [passVaultAccountRedeemCreateIx, failVaultAccountRedeemCreateIx]
+        )
     );
-
-    if (idemPotent.length > 0 && redeem)
-      redeem = redeem.preInstructions(idemPotent as TransactionInstruction[]);
 
     return redeem && (await redeem.transaction()).instructions;
   }

@@ -4,6 +4,7 @@ import {
   ProposalAccount,
   ProposalAccountWithKey,
   ProposalState,
+  ProposalWithFullData,
   VaultAccount
 } from "@/types";
 import { getMarketTypeFromProtocolVersion } from "./markets";
@@ -26,7 +27,7 @@ export function getProposalFromAccount(
   dao: Dao,
   baseVaultAccount: VaultAccount,
   quoteVaultAccount: VaultAccount
-): Proposal {
+): ProposalWithFullData {
   const { account, publicKey } = proposalAccountWithKey;
   const marketType = getMarketTypeFromProtocolVersion(
     dao.protocol.deploymentVersion
@@ -42,7 +43,11 @@ export function getProposalFromAccount(
     },
     title: `Proposal - ${account.number}`,
     description: "",
-    dao,
+    dao: {
+      name: "",
+      slug: "",
+      ...dao
+    },
     marketType,
     failMarket: new PublicKey(failMarket ?? 5),
     passMarket: new PublicKey(passMarket ?? 5),
@@ -72,6 +77,7 @@ export function getProposalFromAccount(
         twap: 0
       }
     },
+    passThreshold: dao.daoAccount.passThresholdBps,
     protocol: dao.protocol,
     baseVaultAccount: {
       ...baseVaultAccount,

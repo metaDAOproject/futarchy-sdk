@@ -18,7 +18,8 @@ import {
   TokenWithPDA,
   LiquidityAddError,
   ProposalAccounts,
-  ProgramVersionLabel
+  ProgramVersionLabel,
+  ProposalWithFullData
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
@@ -69,7 +70,7 @@ export interface FutarchyProposalsClient {
     vaultAccount: VaultAccountWithProtocol
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   withdraw(
-    proposal: Proposal
+    proposal: ProposalWithFullData
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   createProposal(
     daoAggregate: DaoAggregate,
@@ -79,7 +80,7 @@ export interface FutarchyProposalsClient {
     proposalDetails: ProposalDetails
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   finalizeProposal(
-    proposal: Proposal
+    proposal: ProposalWithFullData
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   saveProposalDetails(proposalDetails: ProposalDetails): void;
   updateProposalAccounts(accounts: ProposalAccounts): void;

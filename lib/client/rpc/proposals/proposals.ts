@@ -238,7 +238,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return this.finalizeProposalClient.finalizeProposal(proposal);
   }
 
-  async getVaultAccounts(
+  async getUserVaultAccounts(
     vaultAccount: VaultAccountWithProtocol,
     user: PublicKey
   ) {
@@ -297,7 +297,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
           ? proposal.account.baseVault
           : proposal.account.quoteVault;
 
-      const accounts = await this.getVaultAccounts(
+      const accounts = await this.getUserVaultAccounts(
         vaultAccount,
         this.rpcProvider.publicKey
       );
@@ -371,8 +371,8 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       this.rpcProvider
     );
 
-    const baseAccounts = await this.getVaultAccounts(proposal.baseVaultAccount, user);
-    const quoteAccounts = await this.getVaultAccounts(proposal.quoteVaultAccount, user);
+    const baseAccounts = await this.getUserVaultAccounts(proposal.baseVaultAccount, user);
+    const quoteAccounts = await this.getUserVaultAccounts(proposal.quoteVaultAccount, user);
 
     const redeemBaseIx = await this.createRedeemIx(vaultProgram, baseAccounts, proposal.account.baseVault, user);
     const redeemQuoteIx = await this.createRedeemIx(vaultProgram, quoteAccounts, proposal.account.quoteVault, user);

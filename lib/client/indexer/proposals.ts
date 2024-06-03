@@ -140,6 +140,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 observation_agg: true,
                 updated_slot: true
               },
+              // TODO: is this for user orders?
               orders: {
                 quote_price: true,
                 filled_base_amount: true
@@ -371,6 +372,265 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       .flat()
       .filter((p): p is Proposal => !!p);
   }
+  
+  async fetchProposalMarketsChartData (
+    proposal: Proposal
+  ) {
+    // TODO: Fetch the market data SPECIFICALLY FOR THIS PROPOSAL MARKET
+    const { proposal_details } = await this.graphqlClient.query?.({
+      proposals: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposal.publicKey.toBase58() }
+          },
+        },
+        proposal_acct: true,
+        fail_market_acct: true,
+        pass_market_acct: true,
+        markets: {
+          market_acct: true,
+          base_mint_acct: true,
+          quote_mint_acct: true,
+          market_type: true,
+          twaps: {
+            __args: {
+              order_by: [
+                {
+                  created_at: "desc"
+                }
+              ]
+            },
+            token_amount: true,
+            created_at: true,
+            last_observation: true,
+            last_price: true,
+            observation_agg: true,
+            updated_slot: true
+          },
+          // TODO: Proxy for showing volume, maybe add it back or remove it now
+          orders: {
+            quote_price: true,
+            filled_base_amount: true
+          },
+          prices: {
+            __args: {
+              order_by: [
+                {
+                  created_at: "desc"
+                }
+              ]
+            },
+            base_amount: true,
+            quote_amount: true,
+            price: true,
+            created_at: true,
+            updated_slot: true,
+            prices_type: true
+          }
+        }
+      }
+    });
+    if (!proposal_details[0]) return [];
+    const proposals = proposal_details.map((p) => {
+      const failMarket = p.markets.find(
+        (m) => m.market_acct === p.fail_market_acct
+      );
+      const passMarket = p.markets.find(
+        (m) => m.market_acct === p.pass_market_acct
+      );
+      const proposalDetails = p.proposal_details[0];
+      const passPrice = passMarket?.prices ?? [];
+      const failPrice = failMarket?.prices ?? [];
+      const passTwap = passMarket?.twaps ?? [];
+      const failTwap = failMarket?.twaps ?? [];
+      // TODO: If we're fetching this we can kick this out somewhere to load it..
+      // My preference would be to setup an aggregate and not push hard on this
+      // speeds up loading (maybe)
+      const passVolume =
+        passMarket?.orders?.reduce(
+          (prev, curr) =>
+            prev +
+            PriceMath.getHumanAmount(
+              new BN(curr.filled_base_amount),
+              // TODO: Need to setup this thing for not having DAO
+              new BN(d.tokenByBaseAcct?.decimals ?? 6)
+            ) *
+              curr.quote_price,
+          0
+        ) ?? 0;
+      const failVolume =
+        failMarket?.orders?.reduce(
+          (prev, curr) =>
+            prev +
+            PriceMath.getHumanAmount(
+              new BN(curr.filled_base_amount),
+              // TODO: Need to setup this thing for not having DAO
+              new BN(d.tokenByBaseAcct?.decimals ?? 6)
+            ) *
+              curr.quote_price,
+          0
+        ) ?? 0;
+
+      if (!proposalDetails || !passMarket || !failMarket) return;
+      return {
+        passMarket: new PublicKey(passMarket.market_acct),
+        failMarket: new PublicKey(failMarket.market_acct),
+        // TOKEN amount on twap is probably volume
+        // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????
+        prices: {
+          fail: {
+            // TODO: need to pull this data for twaps
+            spot: failPrice.length > 0 ? failPrice[0].price : 0,
+            // TODO: Fix this... We're really trying to handle a few things with different twaps here......
+            twap:
+              failTwap.length > 0
+                ? failTwap[0].last_price
+                  ? failTwap[0].last_price
+                  : failTwap[0].last_observation
+                : 0,
+            volume: failVolume
+          },
+          pass: {
+            // TODO: need to pull this data for twaps as well
+            spot: passPrice.length > 0 ? passPrice[0].price : 0,
+            twap:
+              passTwap.length > 0
+                ? passTwap[0].last_price
+                  ? passTwap[0].last_price
+                  : passTwap[0].last_observation
+                : 0,
+            volume: passVolume
+          }
+        },
+        publicKey: new PublicKey(p.proposal_acct),
+        volume: passVolume + failVolume
+      };
+    });
+    return proposals
+    .flat()
+    .flat()
+    .filter((p): p is Proposal => !!p);
+  }
+
+  async fetchCurrentProposalLiquidity (
+    proposal: Proposal
+  ) {
+    // TODO: Fetch the liquidity LIMIT 1 OR RPC METHOD FOR MOST UP TO DATE data SPECIFICALLY FOR THIS PROPOSAL MARKET
+    
+    const { proposal_details } = await this.graphqlClient.query?.({
+      proposals: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposal.publicKey.toBase58() }
+          },
+          limit: 1,
+        },
+        fail_market_acct: true,
+        pass_market_acct: true,
+        pricing_model_fail_acct: true,
+        pricing_model_pass_acct: true,
+        markets: {
+          market_acct: true,
+          base_mint_acct: true,
+          quote_mint_acct: true,
+          market_type: true,
+          prices: {
+            __args: {
+              order_by: [
+                {
+                  created_at: "desc"
+                }
+              ],
+              limit: 1,
+            },
+            base_amount: true,
+            quote_amount: true,
+            created_at: true,
+          }
+        }
+      }
+    });
+    return proposal_details.map<Proposal | undefined>((p) => {
+      const failMarket = p.markets.find(
+        (m) => m.market_acct === p.fail_market_acct
+      );
+      const passMarket = p.markets.find(
+        (m) => m.market_acct === p.pass_market_acct
+      );
+      return {
+        passMarketBaseLiquidity: passMarket.prices[0].base_amount,
+        passMarketQuoteLiquidity: passMarket.prices[0].quote_amount,
+        failMarketBaseLiquidity: failMarket.prices[0].base_amount,
+        failMarketQuoteLiquidity: failMarket.prices[0].quote_amount,
+      }
+    });
+  }
+
+  async fetchProposalVolume (
+    proposal: Proposal
+  ) {
+    // TODO: Fetch the proposal's volume metrics / this can be slow / lazy we just don't want to combine it all to slow it down
+    // could be a simple aggregate function...
+    // TODO: Fetch the liquidity LIMIT 1 OR RPC METHOD FOR MOST UP TO DATE data SPECIFICALLY FOR THIS PROPOSAL MARKET
+    const { proposal_details } = await this.graphqlClient.query?.({
+      proposals: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposal.publicKey.toBase58() }
+          },
+          limit: 1,
+        },
+        fail_market_acct: true,
+        pass_market_acct: true,
+        pricing_model_fail_acct: true,
+        pricing_model_pass_acct: true,
+        markets: {
+          market_acct: true,
+          base_mint_acct: true,
+          quote_mint_acct: true,
+          market_type: true,
+          // TODO: is this for user orders?
+          orders: {
+            quote_price: true,
+            filled_base_amount: true
+          },
+        }
+      }
+    });
+    return proposal_details.map<Proposal | undefined>((p) => {
+      const failMarket = p.markets.find(
+        (m) => m.market_acct === p.fail_market_acct
+      );
+      const passMarket = p.markets.find(
+        (m) => m.market_acct === p.pass_market_acct
+      );
+      const passVolume =
+        passMarket?.orders?.reduce(
+          (prev, curr) =>
+            prev +
+            PriceMath.getHumanAmount(
+              new BN(curr.filled_base_amount),
+              // TODO: Fix not having dao
+              new BN(d.tokenByBaseAcct?.decimals ?? 6)
+            ) *
+              curr.quote_price,
+          0
+        ) ?? 0;
+      const failVolume =
+        failMarket?.orders?.reduce(
+          (prev, curr) =>
+            prev +
+            PriceMath.getHumanAmount(
+              new BN(curr.filled_base_amount),
+              // TODO: Fix not having dao
+              new BN(d.tokenByBaseAcct?.decimals ?? 6)
+            ) *
+              curr.quote_price,
+          0
+        ) ?? 0;
+      });
+  }
+
   async deposit(
     amount: number,
     vaultAccountAddress: PublicKey,

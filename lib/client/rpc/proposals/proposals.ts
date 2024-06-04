@@ -405,6 +405,28 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       user
     );
 
+    const createUnderlyingBaseIx = createAssociatedTokenAccountIdempotentInstruction(
+      user,
+      getAssociatedTokenAddressSync(
+        new PublicKey(proposal.dao.baseToken.publicKey),
+        user,
+        true
+      ),
+      user,
+      new PublicKey(proposal.dao.baseToken.publicKey),
+    )
+
+    const createUnderlyingQuoteIx = createAssociatedTokenAccountIdempotentInstruction(
+      user,
+      getAssociatedTokenAddressSync(
+        new PublicKey(proposal.dao.quoteToken.publicKey),
+        user,
+        true
+      ),
+      user,
+      new PublicKey(proposal.dao.quoteToken.publicKey)
+    )
+
     const tx = new Transaction();
     if (redeemBaseIx) tx.add(...redeemBaseIx);
     if (redeemQuoteIx) tx.add(...redeemQuoteIx);
@@ -416,7 +438,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       this.rpcProvider.connection,
       {
         customErrors: [vaultProgram.idl.errors],
-        CUs: 175_000
+        CUs: 220_000
       },
       { title: "Withdrawing" }
     );

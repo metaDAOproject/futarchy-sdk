@@ -1,6 +1,6 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.5",
   "main": "dist",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -28,6 +28,7 @@
     "@solana/web3.js": "^1.91.7",
     "@types/bun": "^1.1.0",
     "@types/numeral": "^2.0.4",
+    "dayjs": "^1.11.11",
     "graphql-ws": "^5.16.0",
     "numeral": "^2.0.6",
     "rxjs": "^7.8.1"

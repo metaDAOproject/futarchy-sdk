@@ -3,7 +3,7 @@ import {
   AUTOCRAT_VERSIONS,
   autocratVersionToConditionalVaultMap
 } from "@/constants";
-import { Proposal } from "@/types";
+import { Proposal, ProposalWithFullData } from "@/types";
 import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import { PublicKey } from "@metaplex-foundation/js";
 import {
@@ -41,7 +41,7 @@ export class FinalizeProposalClient implements FinalizeProposal {
     this.transactionSender = transactionSender;
   }
 
-  private async finalizeProposalv02(proposal: Proposal) {
+  private async finalizeProposalv02(proposal: ProposalWithFullData) {
     const autocratProgramId = AUTOCRAT_VERSIONS.find(
       (a) => a.label == "V0.2"
     )?.programId;
@@ -154,7 +154,7 @@ export class FinalizeProposalClient implements FinalizeProposal {
     }
   }
 
-  public async finalizeProposal(proposal: Proposal) {
+  public async finalizeProposal(proposal: ProposalWithFullData) {
     switch (proposal.protocol.deploymentVersion) {
       case "V0.2":
         return await this.finalizeProposalv02(proposal);

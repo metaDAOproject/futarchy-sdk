@@ -47,30 +47,44 @@ export type ProposalAccountWithKeyNoState = AccountWithKey<
 // TODO: how to autogenerate type union from rust enum IDL?
 export type ProposalState = "Pending" | "Passed" | "Failed";
 
-// TODO we need to add way more here... this is the problem. This needs to sort of match what the UI needs for the most part
+export type ProposalCounts = {
+  live: number;
+  past: number;
+};
+
 export type Proposal = ProposalAccountWithKeyNoState & {
+  dao: {
+    name: string;
+    slug: string;
+  };
+  baseVaultAccount: VaultAccountWithProtocol;
+  creationDate: Date;
+  endSlot: number | null;
+  endDate: Date;
+  failMarket: PublicKey;
+  finalizationDate: Date | null;
+  participants: GovernanceParticipant[];
+  passMarket: PublicKey;
+  passThreshold: number;
+  prices: ProposalPrices;
+  quoteVaultAccount: VaultAccountWithProtocol;
+  reactions: string[];
+  state: ProposalState;
+  startSlot: number;
+  tags: string[];
   title: string;
+};
+
+// TODO we need to add way more here... this is the problem. This needs to sort of match what the UI needs for the most part
+export type ProposalWithFullData = Proposal & {
   description: string;
   dao: Pick<Dao, "baseToken" | "quoteToken" | "daoAccount" | "publicKey">;
   protocol: FutarchyProtocol;
   marketType: MarketType;
-  baseVaultAccount: VaultAccountWithProtocol;
-  quoteVaultAccount: VaultAccountWithProtocol;
-  passMarket: PublicKey;
-  failMarket: PublicKey;
   proposer: GovernanceParticipant;
   content: string;
-  state: ProposalState;
-  startSlot: number;
-  endSlot: number | null;
-  creationDate: Date;
-  endDate: Date;
-  finalizationDate: Date | null;
-  prices: ProposalPrices;
   volume: number;
   tags: string[];
-  participants: GovernanceParticipant[];
-  reactions: string[];
 };
 
 export type GovernanceParticipant = {

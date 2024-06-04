@@ -3238,6 +3238,23 @@ type indexers_variance_fields {
   latest_slot_processed: Float
 }
 
+scalar interval
+
+"""
+Boolean expression to compare columns of type "interval". All fields are combined with logical 'AND'.
+"""
+input interval_comparison_exp {
+  _eq: interval
+  _gt: interval
+  _gte: interval
+  _in: [interval!]
+  _is_null: Boolean
+  _lt: interval
+  _lte: interval
+  _neq: interval
+  _nin: [interval!]
+}
+
 scalar jsonb
 
 input jsonb_cast_exp {
@@ -4975,6 +4992,19 @@ type mutation_root {
   delete_programs_by_pk(program_acct: String!): programs
 
   """
+  delete data from the table: "proposal_bars"
+  """
+  delete_proposal_bars(
+    """filter the rows which have to be deleted"""
+    where: proposal_bars_bool_exp!
+  ): proposal_bars_mutation_response
+
+  """
+  delete single row from the table: "proposal_bars"
+  """
+  delete_proposal_bars_by_pk(bar_size: interval!, bar_start_time: timestamptz!, proposal_acct: String!): proposal_bars
+
+  """
   delete data from the table: "proposal_details"
   """
   delete_proposal_details(
@@ -5428,6 +5458,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: programs_on_conflict
   ): programs
+
+  """
+  insert data into the table: "proposal_bars"
+  """
+  insert_proposal_bars(
+    """the rows to be inserted"""
+    objects: [proposal_bars_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: proposal_bars_on_conflict
+  ): proposal_bars_mutation_response
+
+  """
+  insert a single row into the table: "proposal_bars"
+  """
+  insert_proposal_bars_one(
+    """the row to be inserted"""
+    object: proposal_bars_insert_input!
+
+    """upsert condition"""
+    on_conflict: proposal_bars_on_conflict
+  ): proposal_bars
 
   """
   insert data into the table: "proposal_details"
@@ -6186,6 +6238,40 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [programs_updates!]!
   ): [programs_mutation_response]
+
+  """
+  update data of the table: "proposal_bars"
+  """
+  update_proposal_bars(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: proposal_bars_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: proposal_bars_set_input
+
+    """filter the rows which have to be updated"""
+    where: proposal_bars_bool_exp!
+  ): proposal_bars_mutation_response
+
+  """
+  update single row of the table: "proposal_bars"
+  """
+  update_proposal_bars_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: proposal_bars_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: proposal_bars_set_input
+    pk_columns: proposal_bars_pk_columns_input!
+  ): proposal_bars
+
+  """
+  update multiples rows of table: "proposal_bars"
+  """
+  update_proposal_bars_many(
+    """updates to execute, in order"""
+    updates: [proposal_bars_updates!]!
+  ): [proposal_bars_mutation_response]
 
   """
   update data of the table: "proposal_details"
@@ -8999,6 +9085,399 @@ type programs_variance_fields {
 }
 
 """
+columns and relationships of "proposal_bars"
+"""
+type proposal_bars {
+  bar_size: interval!
+  bar_start_time: timestamptz!
+  fail_base_amount: bigint
+
+  """An object relationship"""
+  fail_market: markets
+  fail_market_acct: String
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+
+  """An object relationship"""
+  pass_market: markets
+  pass_market_acct: String
+  pass_price: numeric
+  pass_quote_amount: bigint
+  proposal_acct: String!
+}
+
+"""
+aggregated selection of "proposal_bars"
+"""
+type proposal_bars_aggregate {
+  aggregate: proposal_bars_aggregate_fields
+  nodes: [proposal_bars!]!
+}
+
+"""
+aggregate fields of "proposal_bars"
+"""
+type proposal_bars_aggregate_fields {
+  avg: proposal_bars_avg_fields
+  count(columns: [proposal_bars_select_column!], distinct: Boolean): Int!
+  max: proposal_bars_max_fields
+  min: proposal_bars_min_fields
+  stddev: proposal_bars_stddev_fields
+  stddev_pop: proposal_bars_stddev_pop_fields
+  stddev_samp: proposal_bars_stddev_samp_fields
+  sum: proposal_bars_sum_fields
+  var_pop: proposal_bars_var_pop_fields
+  var_samp: proposal_bars_var_samp_fields
+  variance: proposal_bars_variance_fields
+}
+
+"""aggregate avg on columns"""
+type proposal_bars_avg_fields {
+  fail_base_amount: Float
+  fail_price: Float
+  fail_quote_amount: Float
+  pass_base_amount: Float
+  pass_price: Float
+  pass_quote_amount: Float
+}
+
+"""
+Boolean expression to filter rows from the table "proposal_bars". All fields are combined with a logical 'AND'.
+"""
+input proposal_bars_bool_exp {
+  _and: [proposal_bars_bool_exp!]
+  _not: proposal_bars_bool_exp
+  _or: [proposal_bars_bool_exp!]
+  bar_size: interval_comparison_exp
+  bar_start_time: timestamptz_comparison_exp
+  fail_base_amount: bigint_comparison_exp
+  fail_market: markets_bool_exp
+  fail_market_acct: String_comparison_exp
+  fail_price: numeric_comparison_exp
+  fail_quote_amount: bigint_comparison_exp
+  pass_base_amount: bigint_comparison_exp
+  pass_market: markets_bool_exp
+  pass_market_acct: String_comparison_exp
+  pass_price: numeric_comparison_exp
+  pass_quote_amount: bigint_comparison_exp
+  proposal_acct: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "proposal_bars"
+"""
+enum proposal_bars_constraint {
+  """
+  unique or primary key constraint on columns "bar_size", "bar_start_time", "proposal_acct"
+  """
+  proposal_bars_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "proposal_bars"
+"""
+input proposal_bars_inc_input {
+  fail_base_amount: bigint
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+  pass_price: numeric
+  pass_quote_amount: bigint
+}
+
+"""
+input type for inserting data into table "proposal_bars"
+"""
+input proposal_bars_insert_input {
+  bar_size: interval
+  bar_start_time: timestamptz
+  fail_base_amount: bigint
+  fail_market: markets_obj_rel_insert_input
+  fail_market_acct: String
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+  pass_market: markets_obj_rel_insert_input
+  pass_market_acct: String
+  pass_price: numeric
+  pass_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""aggregate max on columns"""
+type proposal_bars_max_fields {
+  bar_start_time: timestamptz
+  fail_base_amount: bigint
+  fail_market_acct: String
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+  pass_market_acct: String
+  pass_price: numeric
+  pass_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""aggregate min on columns"""
+type proposal_bars_min_fields {
+  bar_start_time: timestamptz
+  fail_base_amount: bigint
+  fail_market_acct: String
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+  pass_market_acct: String
+  pass_price: numeric
+  pass_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""
+response of any mutation on the table "proposal_bars"
+"""
+type proposal_bars_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [proposal_bars!]!
+}
+
+"""
+on_conflict condition type for table "proposal_bars"
+"""
+input proposal_bars_on_conflict {
+  constraint: proposal_bars_constraint!
+  update_columns: [proposal_bars_update_column!]! = []
+  where: proposal_bars_bool_exp
+}
+
+"""Ordering options when selecting data from "proposal_bars"."""
+input proposal_bars_order_by {
+  bar_size: order_by
+  bar_start_time: order_by
+  fail_base_amount: order_by
+  fail_market: markets_order_by
+  fail_market_acct: order_by
+  fail_price: order_by
+  fail_quote_amount: order_by
+  pass_base_amount: order_by
+  pass_market: markets_order_by
+  pass_market_acct: order_by
+  pass_price: order_by
+  pass_quote_amount: order_by
+  proposal_acct: order_by
+}
+
+"""primary key columns input for table: proposal_bars"""
+input proposal_bars_pk_columns_input {
+  bar_size: interval!
+  bar_start_time: timestamptz!
+  proposal_acct: String!
+}
+
+"""
+select columns of table "proposal_bars"
+"""
+enum proposal_bars_select_column {
+  """column name"""
+  bar_size
+
+  """column name"""
+  bar_start_time
+
+  """column name"""
+  fail_base_amount
+
+  """column name"""
+  fail_market_acct
+
+  """column name"""
+  fail_price
+
+  """column name"""
+  fail_quote_amount
+
+  """column name"""
+  pass_base_amount
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
+  pass_price
+
+  """column name"""
+  pass_quote_amount
+
+  """column name"""
+  proposal_acct
+}
+
+"""
+input type for updating data in table "proposal_bars"
+"""
+input proposal_bars_set_input {
+  bar_size: interval
+  bar_start_time: timestamptz
+  fail_base_amount: bigint
+  fail_market_acct: String
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+  pass_market_acct: String
+  pass_price: numeric
+  pass_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""aggregate stddev on columns"""
+type proposal_bars_stddev_fields {
+  fail_base_amount: Float
+  fail_price: Float
+  fail_quote_amount: Float
+  pass_base_amount: Float
+  pass_price: Float
+  pass_quote_amount: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type proposal_bars_stddev_pop_fields {
+  fail_base_amount: Float
+  fail_price: Float
+  fail_quote_amount: Float
+  pass_base_amount: Float
+  pass_price: Float
+  pass_quote_amount: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type proposal_bars_stddev_samp_fields {
+  fail_base_amount: Float
+  fail_price: Float
+  fail_quote_amount: Float
+  pass_base_amount: Float
+  pass_price: Float
+  pass_quote_amount: Float
+}
+
+"""
+Streaming cursor of the table "proposal_bars"
+"""
+input proposal_bars_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: proposal_bars_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input proposal_bars_stream_cursor_value_input {
+  bar_size: interval
+  bar_start_time: timestamptz
+  fail_base_amount: bigint
+  fail_market_acct: String
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+  pass_market_acct: String
+  pass_price: numeric
+  pass_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""aggregate sum on columns"""
+type proposal_bars_sum_fields {
+  fail_base_amount: bigint
+  fail_price: numeric
+  fail_quote_amount: bigint
+  pass_base_amount: bigint
+  pass_price: numeric
+  pass_quote_amount: bigint
+}
+
+"""
+update columns of table "proposal_bars"
+"""
+enum proposal_bars_update_column {
+  """column name"""
+  bar_size
+
+  """column name"""
+  bar_start_time
+
+  """column name"""
+  fail_base_amount
+
+  """column name"""
+  fail_market_acct
+
+  """column name"""
+  fail_price
+
+  """column name"""
+  fail_quote_amount
+
+  """column name"""
+  pass_base_amount
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
+  pass_price
+
+  """column name"""
+  pass_quote_amount
+
+  """column name"""
+  proposal_acct
+}
+
+input proposal_bars_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: proposal_bars_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: proposal_bars_set_input
+
+  """filter the rows which have to be updated"""
+  where: proposal_bars_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type proposal_bars_var_pop_fields {
+  fail_base_amount: Float
+  fail_price: Float
+  fail_quote_amount: Float
+  pass_base_amount: Float
+  pass_price: Float
+  pass_quote_amount: Float
+}
+
+"""aggregate var_samp on columns"""
+type proposal_bars_var_samp_fields {
+  fail_base_amount: Float
+  fail_price: Float
+  fail_quote_amount: Float
+  pass_base_amount: Float
+  pass_price: Float
+  pass_quote_amount: Float
+}
+
+"""aggregate variance on columns"""
+type proposal_bars_variance_fields {
+  fail_base_amount: Float
+  fail_price: Float
+  fail_quote_amount: Float
+  pass_base_amount: Float
+  pass_price: Float
+  pass_quote_amount: Float
+}
+
+"""
 columns and relationships of "proposal_details"
 """
 type proposal_details {
@@ -11571,6 +12050,49 @@ type query_root {
   """fetch data from the table: "programs" using primary key columns"""
   programs_by_pk(program_acct: String!): programs
 
+  """
+  fetch data from the table: "proposal_bars"
+  """
+  proposal_bars(
+    """distinct select on columns"""
+    distinct_on: [proposal_bars_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_bars_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_bars_bool_exp
+  ): [proposal_bars!]!
+
+  """
+  fetch aggregated fields from the table: "proposal_bars"
+  """
+  proposal_bars_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_bars_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_bars_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_bars_bool_exp
+  ): proposal_bars_aggregate!
+
+  """fetch data from the table: "proposal_bars" using primary key columns"""
+  proposal_bars_by_pk(bar_size: interval!, bar_start_time: timestamptz!, proposal_acct: String!): proposal_bars
+
   """An array relationship"""
   proposal_details(
     """distinct select on columns"""
@@ -13617,6 +14139,63 @@ type subscription_root {
     where: programs_bool_exp
   ): [programs!]!
 
+  """
+  fetch data from the table: "proposal_bars"
+  """
+  proposal_bars(
+    """distinct select on columns"""
+    distinct_on: [proposal_bars_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_bars_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_bars_bool_exp
+  ): [proposal_bars!]!
+
+  """
+  fetch aggregated fields from the table: "proposal_bars"
+  """
+  proposal_bars_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_bars_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_bars_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_bars_bool_exp
+  ): proposal_bars_aggregate!
+
+  """fetch data from the table: "proposal_bars" using primary key columns"""
+  proposal_bars_by_pk(bar_size: interval!, bar_start_time: timestamptz!, proposal_acct: String!): proposal_bars
+
+  """
+  fetch data from the table in a streaming manner: "proposal_bars"
+  """
+  proposal_bars_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [proposal_bars_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: proposal_bars_bool_exp
+  ): [proposal_bars!]!
+
   """An array relationship"""
   proposal_details(
     """distinct select on columns"""
@@ -15098,6 +15677,23 @@ input timestamp_comparison_exp {
   _lte: timestamp
   _neq: timestamp
   _nin: [timestamp!]
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
 }
 
 """

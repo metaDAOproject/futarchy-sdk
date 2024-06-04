@@ -23,7 +23,9 @@ import {
   generateSubscriptionOp,
   orders_bool_exp,
   orders_order_by,
-  orders_select_column
+  orders_select_column,
+  prices_chart_data_bool_exp,
+  proposal_prices_chart_data_bool_exp
 } from "./__generated__";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
@@ -129,13 +131,15 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   watchProposalMarketPricesAggregate(
-    proposalKey: PublicKey
+    proposalKey: PublicKey,
+    filters?: proposal_prices_chart_data_bool_exp
   ): Observable<ProposalMarketPricesAggregate[]> {
     const { query, variables } = generateSubscriptionOp({
       proposal_prices_chart_data: {
         __args: {
           where: {
-            proposal_acct: { _eq: proposalKey.toBase58() }
+            proposal_acct: { _eq: proposalKey.toBase58() },
+            ...filters
           },
           order_by: [
             {
@@ -204,32 +208,31 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            const proposalMarketPrices =
-              data.data?.proposal_prices_chart_data?.map<ProposalMarketPricesAggregate>(
-                (d) => ({
-                  failMarket: {
-                    acct: d.fail_market_acct,
-                    baseAmount: d.fail_market_base_amount,
-                    baseDecimals:
-                      d.proposalPriceFailMarket.tokenByBaseMintAcct.decimals,
-                    price: d.fail_market_price,
-                    quoteAmount: d.fail_market_quote_amount,
-                    quoteDecimals:
-                      d.proposalPriceFailMarket.tokenByQuoteMintAcct.decimals
-                  },
-                  passMarket: {
-                    acct: d.pass_market_acct,
-                    baseAmount: d.pass_market_base_amount,
-                    baseDecimals:
-                      d.proposalPricePassMarket.tokenByBaseMintAcct.decimals,
-                    price: d.pass_market_price,
-                    quoteAmount: d.pass_market_quote_amount,
-                    quoteDecimals:
-                      d.proposalPricePassMarket.tokenByQuoteMintAcct.decimals
-                  },
-                  createdAt: new Date(d.interv)
-                })
-              );
+            const proposalMarketPrices = data.data?.proposal_prices_chart_data
+              ?.map<ProposalMarketPricesAggregate>((d) => ({
+                failMarket: {
+                  acct: d.fail_market_acct,
+                  baseAmount: d.fail_market_base_amount,
+                  baseDecimals:
+                    d.proposalPriceFailMarket.tokenByBaseMintAcct.decimals,
+                  price: d.fail_market_price,
+                  quoteAmount: d.fail_market_quote_amount,
+                  quoteDecimals:
+                    d.proposalPriceFailMarket.tokenByQuoteMintAcct.decimals
+                },
+                passMarket: {
+                  acct: d.pass_market_acct,
+                  baseAmount: d.pass_market_base_amount,
+                  baseDecimals:
+                    d.proposalPricePassMarket.tokenByBaseMintAcct.decimals,
+                  price: d.pass_market_price,
+                  quoteAmount: d.pass_market_quote_amount,
+                  quoteDecimals:
+                    d.proposalPricePassMarket.tokenByQuoteMintAcct.decimals
+                },
+                createdAt: new Date(d.interv)
+              }))
+              .filter((d) => !!d.passMarket.price && !!d.failMarket.price);
             subscriber.next(proposalMarketPrices);
           },
           error: (error) => subscriber.error(error),
@@ -385,10 +388,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
-  watchAllUserOrders(owner: PublicKey): Observable<Order[]> {
+  watchAllUserOrders(
+    owner: PublicKey,
+    filters?: orders_bool_exp
+  ): Observable<Order[]> {
     return this.watchOrdersForArgs({
       where: {
-        actor_acct: { _eq: owner.toBase58() }
+        actor_acct: { _eq: owner.toBase58() },
+        ...filters
       },
       order_by: [
         {
@@ -427,7 +434,10 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
-  watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]> {
+  watchSpotPrices(
+    marketKey: PublicKey,
+    filters?: prices_chart_data_bool_exp
+  ): Observable<SpotObservation[]> {
     const { query, variables } = generateSubscriptionOp({
       prices_chart_data: {
         __args: {
@@ -435,7 +445,8 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             market_acct: { _eq: marketKey.toString() },
             prices_type: {
               _in: ["spot", "conditional"]
-            }
+            },
+            ...filters
           },
           order_by: [
             {

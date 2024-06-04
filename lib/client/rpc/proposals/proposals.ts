@@ -405,7 +405,32 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       user
     );
 
+    // NOTE: Create our underlying token accounts in case they don't exist
+    const createUnderlyingBaseIx = createAssociatedTokenAccountIdempotentInstruction(
+      user,
+      getAssociatedTokenAddressSync(
+        proposal.baseVaultAccount.underlyingTokenMint,
+        user,
+        true
+      ),
+      user,
+      proposal.baseVaultAccount.underlyingTokenMint,
+    )
+
+    const createUnderlyingQuoteIx = createAssociatedTokenAccountIdempotentInstruction(
+      user,
+      getAssociatedTokenAddressSync(
+        proposal.quoteVaultAccount.underlyingTokenMint,
+        user,
+        true
+      ),
+      user,
+      proposal.quoteVaultAccount.underlyingTokenMint
+    )
+
     const tx = new Transaction();
+    tx.add(createUnderlyingQuoteIx);
+    tx.add(createUnderlyingBaseIx);
     if (redeemBaseIx) tx.add(...redeemBaseIx);
     if (redeemQuoteIx) tx.add(...redeemQuoteIx);
 
@@ -416,7 +441,7 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       this.rpcProvider.connection,
       {
         customErrors: [vaultProgram.idl.errors],
-        CUs: 175_000
+        CUs: 220_000
       },
       { title: "Withdrawing" }
     );

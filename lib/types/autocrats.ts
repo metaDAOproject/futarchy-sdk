@@ -26,7 +26,7 @@ export type AutocratProgram =
   | AutocratV0
   | AutocratV0_1
   | AutocratV0_2
-  | AutocratV0_3
+  | AutocratV0_3;
 
 export type ConditionalVaultProgram =
   | ConditionalVaultV0_3
@@ -64,7 +64,6 @@ export type Dao = {
     | "treasury"
     | "tokenMint"
     | "usdcMint"
-    | "proposalCount"
     | "metaMint"
     | "slotsPerProposal"
     | "passThresholdBps"

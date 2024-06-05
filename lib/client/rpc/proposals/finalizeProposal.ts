@@ -131,10 +131,6 @@ export class FinalizeProposalClient implements FinalizeProposal {
       const proposalAccount = await this.autocratClient.getProposal(
         proposal.publicKey
       );
-      const crankFailIx = await InstructionUtils.getInstructions(this.autocratClient.ammClient.crankThatTwapIx(proposal.failMarket))
-      const crankPassIx = await InstructionUtils.getInstructions(this.autocratClient.ammClient.crankThatTwapIx(proposal.passMarket))
-
-      const crankTx = new Transaction().add(...crankFailIx, ...crankPassIx)
 
       const dao = await this.autocratClient.getDao(proposalAccount.dao);
       const finalizeProposalTx = await this.autocratClient
@@ -146,14 +142,18 @@ export class FinalizeProposalClient implements FinalizeProposal {
           dao.usdcMint,
           proposalAccount.proposer
         )
+        .preInstructions(
+          await InstructionUtils.getInstructions(
+            this.autocratClient.ammClient.crankThatTwapIx(proposal.failMarket),
+            this.autocratClient.ammClient.crankThatTwapIx(proposal.passMarket))
+        )
         .transaction();
 
       return await this.transactionSender?.send(
-        [crankTx, finalizeProposalTx],
+        [finalizeProposalTx],
         this.rpcProvider.connection,
         {
           customErrors: [
-            this.autocratClient.ammClient.program.idl.errors,
             this.autocratClient.autocrat.idl.errors
           ]
         },

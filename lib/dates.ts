@@ -30,3 +30,9 @@ export function roundToNearestSeconds(
 
   return newDate;
 }
+
+export function convertUTCToLocalDate(date: Date): Date {
+  const clientOffset = new Date().getTimezoneOffset();
+  const localDate = new Date(date.getTime() - clientOffset * 60000);
+  return localDate;
+}

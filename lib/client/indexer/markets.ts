@@ -31,6 +31,8 @@ import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
 import { PriceMath } from "@metadaoproject/futarchy";
 import { BN } from "@coral-xyz/anchor";
+import { convertUTCToLocalDate } from "@/dates";
+
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public openbook: FutarchyIndexerOpenbookMarketsClient;
   public amm: FutarchyIndexerAmmMarketsClient;
@@ -230,7 +232,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   quoteDecimals:
                     d.proposalPricePassMarket.tokenByQuoteMintAcct.decimals
                 },
-                createdAt: new Date(d.interv)
+                createdAt: convertUTCToLocalDate(new Date(d.interv))
               }))
               .filter((d) => !!d.passMarket.price && !!d.failMarket.price);
             subscriber.next(proposalMarketPrices);
@@ -492,7 +494,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             const spotObservations =
               data.data?.prices_chart_data?.map<SpotObservation>((d) => ({
                 priceUi: d.price,
-                createdAt: new Date(d.interv),
+                // prices_chart_data.interv is stored as a timestamp without timezone
+                // so we convert to the client's local alignment with other date columns in the indexer
+                createdAt: convertUTCToLocalDate(new Date(d.interv)),
                 quoteAmount: d.quote_amount,
                 baseAmount: d.base_amount
               }));
@@ -550,7 +554,12 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         __args: {
           where: {
             proposal_acct: { _eq: proposalAcct.toBase58() }
-          }
+          },
+          order_by: [
+            {
+              bar_start_time: "asc"
+            }
+          ]
         },
         bar_start_time: true,
         fail_base_amount: true,
@@ -614,7 +623,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            const proposalMarketPrices =
+            const proposalBarsPrices =
               data.data?.proposal_bars?.map<ProposalMarketPricesAggregate>(
                 (d) => ({
                   failMarket: {
@@ -636,7 +645,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   createdAt: new Date(d.bar_start_time)
                 })
               ) ?? [];
-            subscriber.next(proposalMarketPrices);
+            subscriber.next(proposalBarsPrices);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()

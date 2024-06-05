@@ -14,6 +14,7 @@ import { ConditionalVault } from "@/idl/conditional_vault_v0.2";
 import { TransactionSender } from "@/transactions";
 import {
   AutocratClient,
+  InstructionUtils,
   getAmmAddr,
   getAmmLpMintAddr,
   getDaoTreasuryAddr,
@@ -22,6 +23,7 @@ import {
   getVaultRevertMintAddr
 } from "@metadaoproject/futarchy";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
+import { Transaction } from "@solana/web3.js";
 
 export class FinalizeProposalClient implements FinalizeProposal {
   private proposalsClient: FutarchyProposalsClient;
@@ -129,6 +131,11 @@ export class FinalizeProposalClient implements FinalizeProposal {
       const proposalAccount = await this.autocratClient.getProposal(
         proposal.publicKey
       );
+      const crankFailIx = await InstructionUtils.getInstructions(this.autocratClient.ammClient.crankThatTwapIx(proposal.failMarket))
+      const crankPassIx = await InstructionUtils.getInstructions(this.autocratClient.ammClient.crankThatTwapIx(proposal.passMarket))
+
+      const crankTx = new Transaction().add(...crankFailIx, ...crankPassIx)
+
       const dao = await this.autocratClient.getDao(proposalAccount.dao);
       const finalizeProposalTx = await this.autocratClient
         .finalizeProposalIx(
@@ -142,10 +149,13 @@ export class FinalizeProposalClient implements FinalizeProposal {
         .transaction();
 
       return await this.transactionSender?.send(
-        [finalizeProposalTx],
+        [crankTx, finalizeProposalTx],
         this.rpcProvider.connection,
         {
-          customErrors: [this.autocratClient.autocrat.idl.errors]
+          customErrors: [
+            this.autocratClient.ammClient.program.idl.errors,
+            this.autocratClient.autocrat.idl.errors
+          ]
         },
         { title: "Finalizing Proposal" }
       );

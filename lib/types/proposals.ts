@@ -59,8 +59,8 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   };
   baseVaultAccount: VaultAccountWithProtocol;
   creationDate: Date;
-  endSlot: number | null;
-  endDate: Date;
+  endSlot: number;
+  endDate: Date | null;
   failMarket: PublicKey;
   finalizationDate: Date | null;
   participants: GovernanceParticipant[];

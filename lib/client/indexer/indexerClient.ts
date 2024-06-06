@@ -3,9 +3,10 @@ import { FutarchyIndexerDaoClient } from "./dao";
 import { FutarchyIndexerProposalsClient } from "./proposals";
 import { FutarchyIndexerBalancesClient } from "./balances";
 import { FutarchyIndexerMarketsClient } from "./markets";
-import { createClient } from "./__generated__";
+import { createClient, generateSubscriptionOp } from "./__generated__";
 import { ClientOptions, createClient as createWsClient } from "graphql-ws";
 import { FutarchyProtocol } from "@/types";
+import { Observable } from "rxjs";
 
 export class FutarchyIndexerClient implements FutarchyClient {
   public daos: FutarchyIndexerDaoClient;
@@ -13,6 +14,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
   public balances: FutarchyIndexerBalancesClient;
   public markets: FutarchyIndexerMarketsClient;
   private protocolMap: Map<string, FutarchyProtocol>;
+  private wsClient
 
   constructor(
     rpcClient: FutarchyRPCClient,
@@ -35,7 +37,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
       },
     };
 
-    const wsClient = createWsClient(wsOptions);
+   this.wsClient = createWsClient(wsOptions);
 
     this.protocolMap = rpcClient.futarchyProtocols.reduce((prev, curr) => {
       prev.set(curr.autocrat.programId.toString(), curr);
@@ -50,7 +52,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
     this.proposals = new FutarchyIndexerProposalsClient(
       rpcClient.proposals,
       graphqlClient,
-      wsClient,
+      this.wsClient,
       this.protocolMap
     );
     this.balances = new FutarchyIndexerBalancesClient(rpcClient.balances);
@@ -58,8 +60,47 @@ export class FutarchyIndexerClient implements FutarchyClient {
       rpcClient.markets.openbook,
       rpcClient.markets.amm,
       rpcClient.markets,
-      wsClient
+      this.wsClient
     );
+  }
+
+  watchSlot(){
+    const {query, variables } = generateSubscriptionOp({
+      prices: {
+        __args: {
+          where: {
+            updated_slot: {_is_null: false}
+          },
+          limit: 1,
+          
+          order_by: {
+            //@ts-ignore
+            updated_slot: 'desc'
+          }
+        },
+        updated_slot: true
+      }
+    })
+
+    return new Observable((subscriber) => {
+      const subscriptionCleanup: () => void = this.wsClient.subscribe<{
+        prices: {
+          updated_slot: number
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            console.log(data)
+
+            subscriber.next(data.data?.prices[0].updated_slot);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriptionCleanup()
+        }
+      );
+      return () => subscriptionCleanup();
+    });
   }
 
   static make(

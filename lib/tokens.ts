@@ -155,17 +155,14 @@ async function getMetaplexMetadataForToken(
       const decodedMetadata = deserializeMetadata(
         tokenMetaDataAccount as unknown as RpcAccount
       );
-      const uriRes = await fetch(decodedMetadata.uri);
-      const jsonMetadata = (await uriRes.json()) as JsonMetadata;
-      return !!jsonMetadata
-        ? {
-            symbol: jsonMetadata.symbol ?? "",
-            publicKey: tokenAddress.toString(),
-            url: jsonMetadata.image ?? null,
-            decimals: mint.decimals ?? 6,
-            name: jsonMetadata.name ?? null
-          }
-        : null;
+      return (
+        {
+          symbol: decodedMetadata.symbol ?? "",
+          publicKey: tokenAddress.toString(),
+          url: decodedMetadata.uri ?? null,
+          decimals: mint.decimals ?? 6,
+          name: decodedMetadata.name ?? null
+        })
     }
     return null;
   } catch (e) {

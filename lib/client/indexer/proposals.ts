@@ -244,11 +244,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           creationDate: new Date(p.created_at),
           endDate: p.ended_at
             ? new Date(p.ended_at)
-            : new Date(
-                new Date(p.created_at).setDate(
-                  new Date(p.created_at).getDate() + 3
-                )
-              ),
+            : null
+          ,
           // TODO figure this out by slot enqueued maybe
           finalizationDate: p.completed_at,
           participants: [],
@@ -438,7 +435,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             new BN(curr.filled_base_amount),
             new BN(proposal.dao.tokenByBaseAcct?.decimals ?? 6)
           ) *
-            curr.quote_price,
+          curr.quote_price,
         0
       ) ?? 0;
     const failVolume =
@@ -449,7 +446,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             new BN(curr.filled_base_amount),
             new BN(proposal.dao.tokenByBaseAcct?.decimals ?? 6)
           ) *
-            curr.quote_price,
+          curr.quote_price,
         0
       ) ?? 0;
     if (!relatedProtocol || !passMarket || !failMarket) return null;
@@ -519,11 +516,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       creationDate: new Date(proposal.created_at),
       endDate: proposal.ended_at
         ? new Date(proposal.ended_at)
-        : new Date(
-            new Date(proposal.created_at).setDate(
-              new Date(proposal.created_at).getDate() + 3
-            )
-          ),
+        : null,
       // TODO figure this out by slot enqueued maybe
       finalizationDate: proposal.completed_at,
       dao: {

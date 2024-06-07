@@ -18,7 +18,7 @@ import {
   SendTransactionOptions
 } from "./types/transactions";
 import { AnchorProvider } from "@coral-xyz/anchor";
-import { Observable, Subscriber } from "rxjs";
+import { Observable, Subscriber, shareReplay } from "rxjs";
 
 type SingleOrArray<T> = T | T[];
 
@@ -143,7 +143,6 @@ export class TransactionSender {
               signatureSubscriptionIds,
               subscriber
             );
-            subscriber.next(txUpdate);
             return;
           }
 
@@ -199,7 +198,7 @@ export class TransactionSender {
           };
         });
     });
-    return obs;
+    return obs.pipe(shareReplay());
   }
 
   private async handleSignatureResult(

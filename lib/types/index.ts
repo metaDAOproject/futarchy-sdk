@@ -8,7 +8,8 @@ export * from "./tokens";
 export * from "./openbook";
 export * from "./amm";
 export * from "./prices";
-export * from "./reactions"
+export * from "./reactions";
+export * from "./transactions";
 
 export type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];

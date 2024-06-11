@@ -24,14 +24,12 @@ import {
   orders_bool_exp,
   orders_order_by,
   orders_select_column,
-  prices_chart_data_bool_exp,
-  proposal_prices_chart_data_bool_exp
+  prices_chart_data_bool_exp
 } from "./__generated__";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
 import { PriceMath } from "@metadaoproject/futarchy";
 import { BN } from "@coral-xyz/anchor";
-import { convertUTCToLocalDate } from "@/dates";
 
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public openbook: FutarchyIndexerOpenbookMarketsClient;
@@ -380,9 +378,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             const spotObservations =
               data.data?.prices_chart_data?.map<SpotObservation>((d) => ({
                 priceUi: d.price,
-                // prices_chart_data.interv is stored as a timestamp without timezone
-                // so we convert to the client's local alignment with other date columns in the indexer
-                createdAt: convertUTCToLocalDate(new Date(d.interv)),
+                createdAt: new Date(d.interv),
                 quoteAmount: d.quote_amount,
                 baseAmount: d.base_amount
               }));

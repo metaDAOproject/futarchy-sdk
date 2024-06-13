@@ -10,12 +10,24 @@ import {
 import { FutarchyBalancesClient } from "@/client";
 import { Proposal } from "@/types/proposals";
 import { FutarchyRPCBalancesClient } from "../rpc";
-import { Observable } from "rxjs";
+import { Observable, catchError, of, switchMap } from "rxjs";
+import { Client as GQLWebSocketClient } from "graphql-ws";
+import {
+  generateSubscriptionOp,
+  token_accts_bool_exp,
+  token_accts_order_by,
+  token_accts_select_column
+} from "./__generated__";
 
 export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   private rpcBalancesClient: FutarchyRPCBalancesClient;
-  constructor(rpcBalancesClient: FutarchyRPCBalancesClient) {
+  private graphqlWSClient: GQLWebSocketClient;
+  constructor(
+    rpcBalancesClient: FutarchyRPCBalancesClient,
+    graphqlWSClient: GQLWebSocketClient
+  ) {
     this.rpcBalancesClient = rpcBalancesClient;
+    this.graphqlWSClient = graphqlWSClient;
   }
 
   /**
@@ -89,6 +101,107 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   }
 
   watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance> {
-    return this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
+    const indexerObservable = this.watchTokenAcctForArgs(
+      {
+        where: {
+          token_acct: { _eq: tokenWithPDA.pda.toBase58() }
+        }
+      },
+      tokenWithPDA.token
+    );
+
+    return indexerObservable.pipe(
+      catchError((_) => {
+        const rpcObservable =
+          this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
+        return rpcObservable;
+      }),
+      switchMap((value) => {
+        return of(value);
+      })
+    );
+  }
+
+  private watchTokenAcctForArgs(
+    args: {
+      distinct_on?: token_accts_select_column[] | null | undefined;
+      limit?: number | null | undefined;
+      offset?: number | null | undefined;
+      order_by?: token_accts_order_by[] | null | undefined;
+      where?: token_accts_bool_exp | null | undefined;
+    },
+    tokenPropsOverride?: Partial<TokenProps>
+  ): Observable<TokenWithBalance> {
+    const { query, variables } = generateSubscriptionOp({
+      token_accts: {
+        __args: {
+          ...args,
+          where: {
+            ...args.where
+          },
+          limit: 1
+        },
+        token_acct: true,
+        owner_acct: true,
+        amount: true,
+        mint_acct: true,
+        token: {
+          symbol: true,
+          image_url: true,
+          decimals: true
+        }
+      }
+    });
+
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        token_accts: {
+          token_acct: string;
+          owner_acct: string;
+          amount: number;
+          mint_acct: string;
+          token: {
+            symbol: string;
+            image_url: string;
+            decimals: number;
+          };
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const tokensWithBalances =
+              data.data?.token_accts
+                ?.map<TokenWithBalance | undefined>((tokenAcct) => {
+                  const token = tokenAcct.token;
+                  if (!token.symbol || !token.decimals || !token.image_url)
+                    return undefined;
+
+                  const balanceScaled =
+                    (tokenAcct.amount ?? 0) / 10 ** (token.decimals ?? 0);
+                  return {
+                    balance: balanceScaled,
+                    token: {
+                      decimals: token.decimals,
+                      name: token.symbol,
+                      symbol: token.symbol,
+                      publicKey: tokenAcct.mint_acct,
+                      url: token.image_url,
+                      ...tokenPropsOverride
+                    }
+                  };
+                })
+                .filter((t): t is TokenWithBalance => Boolean(t)) ?? [];
+            if (tokensWithBalances.length === 0) {
+              subscriber.error("token balance not found");
+            }
+            subscriber.next(tokensWithBalances[0]);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+      return () => subscriptionCleanup();
+    });
   }
 }

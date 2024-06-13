@@ -12,6 +12,7 @@ import { Proposal } from "@/types/proposals";
 import { FutarchyRPCBalancesClient } from "../rpc";
 import { Observable, catchError, of, switchMap } from "rxjs";
 import { Client as GQLWebSocketClient } from "graphql-ws";
+import { Client as IndexerGraphQLClient } from "./__generated__";
 import {
   generateSubscriptionOp,
   token_accts_bool_exp,
@@ -22,12 +23,15 @@ import {
 export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   private rpcBalancesClient: FutarchyRPCBalancesClient;
   private graphqlWSClient: GQLWebSocketClient;
+  private graphqlClient: IndexerGraphQLClient;
   constructor(
     rpcBalancesClient: FutarchyRPCBalancesClient,
-    graphqlWSClient: GQLWebSocketClient
+    graphqlWSClient: GQLWebSocketClient,
+    graphqlClient: IndexerGraphQLClient
   ) {
     this.rpcBalancesClient = rpcBalancesClient;
     this.graphqlWSClient = graphqlWSClient;
+    this.graphqlClient = graphqlClient;
   }
 
   /**
@@ -101,6 +105,7 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   }
 
   watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance> {
+    // how do we initially fetch from RPC and then
     const indexerObservable = this.watchTokenAcctForArgs(
       {
         where: {
@@ -122,22 +127,20 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     );
   }
 
-  private watchTokenAcctForArgs(
-    args: {
-      distinct_on?: token_accts_select_column[] | null | undefined;
-      limit?: number | null | undefined;
-      offset?: number | null | undefined;
-      order_by?: token_accts_order_by[] | null | undefined;
-      where?: token_accts_bool_exp | null | undefined;
-    },
-    tokenPropsOverride?: Partial<TokenProps>
-  ): Observable<TokenWithBalance> {
-    const { query, variables } = generateSubscriptionOp({
+  /**
+   * Compares the token acct we have indexed to the balance stored by the RPC. If there is a mismatch, an error is thrown
+   * @param args
+   * @param tokenPropsOverride
+   */
+  private async compareBalances(
+    pda: PublicKey | null,
+    token: TokenProps
+  ): Promise<void> {
+    const { token_accts } = await this.graphqlClient.query({
       token_accts: {
         __args: {
-          ...args,
           where: {
-            ...args.where
+            token_acct: { _eq: pda?.toBase58() }
           },
           limit: 1
         },
@@ -153,55 +156,103 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
       }
     });
 
-    return new Observable((subscriber) => {
-      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        token_accts: {
-          token_acct: string;
-          owner_acct: string;
-          amount: number;
-          mint_acct: string;
-          token: {
-            symbol: string;
-            image_url: string;
-            decimals: number;
-          };
-        }[];
-      }>(
-        { query, variables },
-        {
-          next: (data) => {
-            const tokensWithBalances =
-              data.data?.token_accts
-                ?.map<TokenWithBalance | undefined>((tokenAcct) => {
-                  const token = tokenAcct.token;
-                  if (!token.symbol || !token.decimals || !token.image_url)
-                    return undefined;
+    const tokenAcct = token_accts[0];
+    if (!tokenAcct) {
+      throw new Error("token account not found");
+    }
 
-                  const balanceScaled =
-                    (tokenAcct.amount ?? 0) / 10 ** (token.decimals ?? 0);
-                  return {
-                    balance: balanceScaled,
-                    token: {
-                      decimals: token.decimals,
-                      name: token.symbol,
-                      symbol: token.symbol,
-                      publicKey: tokenAcct.mint_acct,
-                      url: token.image_url,
-                      ...tokenPropsOverride
-                    }
-                  };
-                })
-                .filter((t): t is TokenWithBalance => Boolean(t)) ?? [];
-            if (tokensWithBalances.length === 0) {
-              subscriber.error("token balance not found");
+    const dbToken = tokenAcct.token;
+    if (!dbToken.symbol || !dbToken.decimals || !dbToken.image_url) {
+      throw new Error("token data incomplete");
+    }
+
+    const balanceScaled = (tokenAcct.amount ?? 0) / 10 ** (token.decimals ?? 0);
+    const rpcBalance = await this.rpcBalancesClient.fetchTokenBalance(
+      pda,
+      token
+    );
+
+    if (rpcBalance.balance !== balanceScaled) {
+      throw new Error("indexed token acct balance is not up to date with RPC");
+    }
+  }
+
+  private watchTokenAcctForArgs(
+    args: {
+      distinct_on?: token_accts_select_column[] | null | undefined;
+      limit?: number | null | undefined;
+      offset?: number | null | undefined;
+      order_by?: token_accts_order_by[] | null | undefined;
+      where?: token_accts_bool_exp | null | undefined;
+    },
+    token: TokenProps
+  ): Observable<TokenWithBalance> {
+    return new Observable((subscriber) => {
+      this.compareBalances(
+        args.where?.token_acct?._eq
+          ? new PublicKey(args.where.token_acct._eq)
+          : null,
+        token
+      )
+        .then(() => {
+          const { query, variables } = generateSubscriptionOp({
+            token_accts: {
+              __args: {
+                ...args,
+                where: {
+                  ...args.where
+                },
+                limit: 1
+              },
+              token_acct: true,
+              owner_acct: true,
+              amount: true,
+              mint_acct: true,
+              token: {
+                symbol: true,
+                image_url: true,
+                decimals: true
+              }
             }
-            subscriber.next(tokensWithBalances[0]);
-          },
-          error: (error) => subscriber.error(error),
-          complete: () => subscriber.complete()
-        }
-      );
-      return () => subscriptionCleanup();
+          });
+
+          const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+            token_accts: {
+              token_acct: string;
+              owner_acct: string;
+              amount: number;
+              mint_acct: string;
+            }[];
+          }>(
+            { query, variables },
+            {
+              next: (data) => {
+                const tokensWithBalances =
+                  data.data?.token_accts
+                    ?.map<TokenWithBalance | undefined>((tokenAcct) => {
+                      const balanceScaled =
+                        (tokenAcct.amount ?? 0) / 10 ** (token.decimals ?? 0);
+
+                      return {
+                        balance: balanceScaled,
+                        token
+                      };
+                    })
+                    .filter((t): t is TokenWithBalance => Boolean(t)) ?? [];
+                if (tokensWithBalances.length === 0) {
+                  subscriber.error("token balance not found");
+                }
+                subscriber.next(tokensWithBalances[0]);
+              },
+              error: (error) => subscriber.error(error),
+              complete: () => subscriber.complete()
+            }
+          );
+          return () => subscriptionCleanup();
+        })
+        .catch((error: Error) => {
+          subscriber.error(error);
+        });
     });
   }
 }

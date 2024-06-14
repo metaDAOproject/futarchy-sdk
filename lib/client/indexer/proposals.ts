@@ -680,13 +680,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   }
 
   async mergeConditionalTokensForUnderlyingTokens(
-    programVersion: ProgramVersionLabel,
     amount: BN,
     proposal: ProposalWithFullData,
     underlyingToken: "base" | "quote"
   ) {
     return this.rpcProposalsClient.mergeConditionalTokensForUnderlyingTokens(
-      programVersion,
       amount,
       proposal,
       underlyingToken

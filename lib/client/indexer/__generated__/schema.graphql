@@ -128,7 +128,7 @@ type candles {
   market: markets!
   market_acct: String!
   open: bigint
-  timestamp: timestamp!
+  timestamp: timestamptz!
   volume: bigint!
 }
 
@@ -237,7 +237,7 @@ input candles_bool_exp {
   market: markets_bool_exp
   market_acct: String_comparison_exp
   open: bigint_comparison_exp
-  timestamp: timestamp_comparison_exp
+  timestamp: timestamptz_comparison_exp
   volume: bigint_comparison_exp
 }
 
@@ -278,7 +278,7 @@ input candles_insert_input {
   market: markets_obj_rel_insert_input
   market_acct: String
   open: bigint
-  timestamp: timestamp
+  timestamp: timestamptz
   volume: bigint
 }
 
@@ -292,7 +292,7 @@ type candles_max_fields {
   low: bigint
   market_acct: String
   open: bigint
-  timestamp: timestamp
+  timestamp: timestamptz
   volume: bigint
 }
 
@@ -322,7 +322,7 @@ type candles_min_fields {
   low: bigint
   market_acct: String
   open: bigint
-  timestamp: timestamp
+  timestamp: timestamptz
   volume: bigint
 }
 
@@ -381,7 +381,7 @@ input candles_order_by {
 input candles_pk_columns_input {
   candle_duration: Int!
   market_acct: String!
-  timestamp: timestamp!
+  timestamp: timestamptz!
 }
 
 """
@@ -431,7 +431,7 @@ input candles_set_input {
   low: bigint
   market_acct: String
   open: bigint
-  timestamp: timestamp
+  timestamp: timestamptz
   volume: bigint
 }
 
@@ -534,7 +534,7 @@ input candles_stream_cursor_value_input {
   low: bigint
   market_acct: String
   open: bigint
-  timestamp: timestamp
+  timestamp: timestamptz
   volume: bigint
 }
 
@@ -2105,7 +2105,7 @@ columns and relationships of "daos"
 """
 type daos {
   base_acct: String!
-  created_at: timestamp!
+  created_at: timestamptz!
   dao_acct: String!
 
   """An object relationship"""
@@ -2164,7 +2164,7 @@ type daos {
   """An object relationship"""
   tokenByQuoteAcct: tokens
   treasury_acct: String
-  updated_at: timestamp!
+  updated_at: timestamptz!
 }
 
 """
@@ -2254,7 +2254,7 @@ input daos_bool_exp {
   _not: daos_bool_exp
   _or: [daos_bool_exp!]
   base_acct: String_comparison_exp
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   dao_acct: String_comparison_exp
   dao_detail: dao_details_bool_exp
   dao_id: bigint_comparison_exp
@@ -2269,7 +2269,7 @@ input daos_bool_exp {
   tokenByBaseAcct: tokens_bool_exp
   tokenByQuoteAcct: tokens_bool_exp
   treasury_acct: String_comparison_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -2306,7 +2306,7 @@ input type for inserting data into table "daos"
 """
 input daos_insert_input {
   base_acct: String
-  created_at: timestamp
+  created_at: timestamptz
   dao_acct: String
   dao_detail: dao_details_obj_rel_insert_input
   dao_id: bigint
@@ -2320,13 +2320,13 @@ input daos_insert_input {
   tokenByBaseAcct: tokens_obj_rel_insert_input
   tokenByQuoteAcct: tokens_obj_rel_insert_input
   treasury_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
 type daos_max_fields {
   base_acct: String
-  created_at: timestamp
+  created_at: timestamptz
   dao_acct: String
   dao_id: bigint
   pass_threshold_bps: bigint
@@ -2334,7 +2334,7 @@ type daos_max_fields {
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -2356,7 +2356,7 @@ input daos_max_order_by {
 """aggregate min on columns"""
 type daos_min_fields {
   base_acct: String
-  created_at: timestamp
+  created_at: timestamptz
   dao_acct: String
   dao_id: bigint
   pass_threshold_bps: bigint
@@ -2364,7 +2364,7 @@ type daos_min_fields {
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -2478,7 +2478,7 @@ input type for updating data in table "daos"
 """
 input daos_set_input {
   base_acct: String
-  created_at: timestamp
+  created_at: timestamptz
   dao_acct: String
   dao_id: bigint
   pass_threshold_bps: bigint
@@ -2486,7 +2486,7 @@ input daos_set_input {
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -2551,7 +2551,7 @@ input daos_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input daos_stream_cursor_value_input {
   base_acct: String
-  created_at: timestamp
+  created_at: timestamptz
   dao_acct: String
   dao_id: bigint
   pass_threshold_bps: bigint
@@ -2559,7 +2559,7 @@ input daos_stream_cursor_value_input {
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -2703,7 +2703,7 @@ type indexer_account_dependencies {
 
   """An object relationship"""
   transaction: transactions
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -2766,7 +2766,7 @@ input indexer_account_dependencies_bool_exp {
   name: String_comparison_exp
   status: String_comparison_exp
   transaction: transactions_bool_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -2789,7 +2789,7 @@ input indexer_account_dependencies_insert_input {
   name: String
   status: String
   transaction: transactions_obj_rel_insert_input
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
@@ -2798,7 +2798,7 @@ type indexer_account_dependencies_max_fields {
   latest_tx_sig_processed: String
   name: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -2818,7 +2818,7 @@ type indexer_account_dependencies_min_fields {
   latest_tx_sig_processed: String
   name: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -2899,7 +2899,7 @@ input indexer_account_dependencies_set_input {
   latest_tx_sig_processed: String
   name: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -2919,7 +2919,7 @@ input indexer_account_dependencies_stream_cursor_value_input {
   latest_tx_sig_processed: String
   name: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -3344,7 +3344,7 @@ type makes {
     where: takes_bool_exp
   ): takes_aggregate!
   unfilled_base_amount: bigint!
-  updated_at: timestamp!
+  updated_at: timestamptz!
 }
 
 """
@@ -3459,7 +3459,7 @@ input makes_bool_exp {
   takes: takes_bool_exp
   takes_aggregate: takes_aggregate_bool_exp
   unfilled_base_amount: bigint_comparison_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -3494,7 +3494,7 @@ input makes_insert_input {
   quote_price: numeric
   takes: takes_arr_rel_insert_input
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
@@ -3504,7 +3504,7 @@ type makes_max_fields {
   order_tx_sig: String
   quote_price: numeric
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -3526,7 +3526,7 @@ type makes_min_fields {
   order_tx_sig: String
   quote_price: numeric
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -3642,7 +3642,7 @@ input makes_set_input {
   order_tx_sig: String
   quote_price: numeric
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -3712,7 +3712,7 @@ input makes_stream_cursor_value_input {
   order_tx_sig: String
   quote_price: numeric
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -3864,7 +3864,7 @@ type markets {
     where: candles_bool_exp
   ): candles_aggregate!
   create_tx_sig: String!
-  created_at: timestamp!
+  created_at: timestamptz!
   inactive_slot: bigint
 
   """An array relationship"""
@@ -4185,7 +4185,7 @@ input markets_bool_exp {
   candles: candles_bool_exp
   candles_aggregate: candles_aggregate_bool_exp
   create_tx_sig: String_comparison_exp
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   inactive_slot: bigint_comparison_exp
   makes: makes_bool_exp
   makes_aggregate: makes_aggregate_bool_exp
@@ -4252,7 +4252,7 @@ input markets_insert_input {
   bids_token_acct: String
   candles: candles_arr_rel_insert_input
   create_tx_sig: String
-  created_at: timestamp
+  created_at: timestamptz
   inactive_slot: bigint
   makes: makes_arr_rel_insert_input
   market_acct: String
@@ -4286,7 +4286,7 @@ type markets_max_fields {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
-  created_at: timestamp
+  created_at: timestamptz
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4332,7 +4332,7 @@ type markets_min_fields {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
-  created_at: timestamp
+  created_at: timestamptz
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4509,7 +4509,7 @@ input markets_set_input {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
-  created_at: timestamp
+  created_at: timestamptz
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4626,7 +4626,7 @@ input markets_stream_cursor_value_input {
   base_taker_fee: smallint
   bids_token_acct: String
   create_tx_sig: String
-  created_at: timestamp
+  created_at: timestamptz
   inactive_slot: bigint
   market_acct: String
   market_type: String
@@ -4833,7 +4833,7 @@ type mutation_root {
   """
   delete single row from the table: "candles"
   """
-  delete_candles_by_pk(candle_duration: Int!, market_acct: String!, timestamp: timestamp!): candles
+  delete_candles_by_pk(candle_duration: Int!, market_acct: String!, timestamp: timestamptz!): candles
 
   """
   delete data from the table: "comments"
@@ -4963,7 +4963,7 @@ type mutation_root {
   """
   delete single row from the table: "prices"
   """
-  delete_prices_by_pk(created_at: timestamp!, market_acct: String!): prices
+  delete_prices_by_pk(created_at: timestamptz!, market_acct: String!): prices
 
   """
   delete data from the table: "program_system"
@@ -5080,7 +5080,7 @@ type mutation_root {
   """
   delete single row from the table: "token_acct_balances"
   """
-  delete_token_acct_balances_by_pk(amount: bigint!, created_at: timestamp!, mint_acct: String!, token_acct: String!): token_acct_balances
+  delete_token_acct_balances_by_pk(amount: bigint!, created_at: timestamptz!, mint_acct: String!, token_acct: String!): token_acct_balances
 
   """
   delete data from the table: "token_accts"
@@ -6790,7 +6790,7 @@ columns and relationships of "orders"
 type orders {
   actor_acct: String!
   cancel_block: bigint
-  cancel_time: timestamp
+  cancel_time: timestamptz
   cancel_tx_sig: String
   filled_base_amount: bigint!
   is_active: Boolean!
@@ -6802,7 +6802,7 @@ type orders {
   market: markets!
   market_acct: String!
   order_block: bigint!
-  order_time: timestamp!
+  order_time: timestamptz!
   order_tx_sig: String!
   quote_price: numeric!
   side: String!
@@ -6813,7 +6813,7 @@ type orders {
   """An object relationship"""
   transaction: transactions
   unfilled_base_amount: bigint!
-  updated_at: timestamp!
+  updated_at: timestamptz!
 }
 
 """
@@ -6924,7 +6924,7 @@ input orders_bool_exp {
   _or: [orders_bool_exp!]
   actor_acct: String_comparison_exp
   cancel_block: bigint_comparison_exp
-  cancel_time: timestamp_comparison_exp
+  cancel_time: timestamptz_comparison_exp
   cancel_tx_sig: String_comparison_exp
   filled_base_amount: bigint_comparison_exp
   is_active: Boolean_comparison_exp
@@ -6932,14 +6932,14 @@ input orders_bool_exp {
   market: markets_bool_exp
   market_acct: String_comparison_exp
   order_block: bigint_comparison_exp
-  order_time: timestamp_comparison_exp
+  order_time: timestamptz_comparison_exp
   order_tx_sig: String_comparison_exp
   quote_price: numeric_comparison_exp
   side: String_comparison_exp
   take: takes_bool_exp
   transaction: transactions_bool_exp
   unfilled_base_amount: bigint_comparison_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -6969,7 +6969,7 @@ input type for inserting data into table "orders"
 input orders_insert_input {
   actor_acct: String
   cancel_block: bigint
-  cancel_time: timestamp
+  cancel_time: timestamptz
   cancel_tx_sig: String
   filled_base_amount: bigint
   is_active: Boolean
@@ -6977,31 +6977,31 @@ input orders_insert_input {
   market: markets_obj_rel_insert_input
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   side: String
   take: takes_obj_rel_insert_input
   transaction: transactions_obj_rel_insert_input
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
 type orders_max_fields {
   actor_acct: String
   cancel_block: bigint
-  cancel_time: timestamp
+  cancel_time: timestamptz
   cancel_tx_sig: String
   filled_base_amount: bigint
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   side: String
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -7027,17 +7027,17 @@ input orders_max_order_by {
 type orders_min_fields {
   actor_acct: String
   cancel_block: bigint
-  cancel_time: timestamp
+  cancel_time: timestamptz
   cancel_tx_sig: String
   filled_base_amount: bigint
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   side: String
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -7185,18 +7185,18 @@ input type for updating data in table "orders"
 input orders_set_input {
   actor_acct: String
   cancel_block: bigint
-  cancel_time: timestamp
+  cancel_time: timestamptz
   cancel_tx_sig: String
   filled_base_amount: bigint
   is_active: Boolean
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   side: String
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -7274,18 +7274,18 @@ input orders_stream_cursor_input {
 input orders_stream_cursor_value_input {
   actor_acct: String
   cancel_block: bigint
-  cancel_time: timestamp
+  cancel_time: timestamptz
   cancel_tx_sig: String
   filled_base_amount: bigint
   is_active: Boolean
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   side: String
   unfilled_base_amount: bigint
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -7431,7 +7431,7 @@ columns and relationships of "prices"
 """
 type prices {
   base_amount: bigint
-  created_at: timestamp!
+  created_at: timestamptz!
   created_by: String
 
   """An object relationship"""
@@ -7532,7 +7532,7 @@ input prices_bool_exp {
   _not: prices_bool_exp
   _or: [prices_bool_exp!]
   base_amount: bigint_comparison_exp
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   created_by: String_comparison_exp
   market: markets_bool_exp
   market_acct: String_comparison_exp
@@ -7547,7 +7547,7 @@ columns and relationships of "prices_chart_data"
 """
 type prices_chart_data {
   base_amount: bigint
-  interv: timestamp
+  interv: timestamptz
 
   """An object relationship"""
   market: markets
@@ -7597,7 +7597,7 @@ input prices_chart_data_bool_exp {
   _not: prices_chart_data_bool_exp
   _or: [prices_chart_data_bool_exp!]
   base_amount: bigint_comparison_exp
-  interv: timestamp_comparison_exp
+  interv: timestamptz_comparison_exp
   market: markets_bool_exp
   market_acct: String_comparison_exp
   price: numeric_comparison_exp
@@ -7608,7 +7608,7 @@ input prices_chart_data_bool_exp {
 """aggregate max on columns"""
 type prices_chart_data_max_fields {
   base_amount: bigint
-  interv: timestamp
+  interv: timestamptz
   market_acct: String
   price: numeric
   prices_type: String
@@ -7618,7 +7618,7 @@ type prices_chart_data_max_fields {
 """aggregate min on columns"""
 type prices_chart_data_min_fields {
   base_amount: bigint
-  interv: timestamp
+  interv: timestamptz
   market_acct: String
   price: numeric
   prices_type: String
@@ -7694,7 +7694,7 @@ input prices_chart_data_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input prices_chart_data_stream_cursor_value_input {
   base_amount: bigint
-  interv: timestamp
+  interv: timestamptz
   market_acct: String
   price: numeric
   prices_type: String
@@ -7754,7 +7754,7 @@ input type for inserting data into table "prices"
 """
 input prices_insert_input {
   base_amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   created_by: String
   market: markets_obj_rel_insert_input
   market_acct: String
@@ -7767,7 +7767,7 @@ input prices_insert_input {
 """aggregate max on columns"""
 type prices_max_fields {
   base_amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   created_by: String
   market_acct: String
   price: numeric
@@ -7793,7 +7793,7 @@ input prices_max_order_by {
 """aggregate min on columns"""
 type prices_min_fields {
   base_amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   created_by: String
   market_acct: String
   price: numeric
@@ -7851,7 +7851,7 @@ input prices_order_by {
 
 """primary key columns input for table: prices"""
 input prices_pk_columns_input {
-  created_at: timestamp!
+  created_at: timestamptz!
   market_acct: String!
 }
 
@@ -7889,7 +7889,7 @@ input type for updating data in table "prices"
 """
 input prices_set_input {
   base_amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   created_by: String
   market_acct: String
   price: numeric
@@ -7966,7 +7966,7 @@ input prices_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input prices_stream_cursor_value_input {
   base_amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   created_by: String
   market_acct: String
   price: numeric
@@ -8621,7 +8621,7 @@ input program_system_variance_order_by {
 columns and relationships of "programs"
 """
 type programs {
-  created_at: timestamp!
+  created_at: timestamptz!
 
   """An array relationship"""
   daos(
@@ -8845,7 +8845,7 @@ input programs_bool_exp {
   _and: [programs_bool_exp!]
   _not: programs_bool_exp
   _or: [programs_bool_exp!]
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   daos: daos_bool_exp
   daos_aggregate: daos_aggregate_bool_exp
   deployed_at: timestamp_comparison_exp
@@ -8888,7 +8888,7 @@ input programs_inc_input {
 input type for inserting data into table "programs"
 """
 input programs_insert_input {
-  created_at: timestamp
+  created_at: timestamptz
   daos: daos_arr_rel_insert_input
   deployed_at: timestamp
   programSystemsByConditionalVaultAcct: program_system_arr_rel_insert_input
@@ -8902,7 +8902,7 @@ input programs_insert_input {
 
 """aggregate max on columns"""
 type programs_max_fields {
-  created_at: timestamp
+  created_at: timestamptz
   deployed_at: timestamp
   program_acct: String
   program_name: String
@@ -8911,7 +8911,7 @@ type programs_max_fields {
 
 """aggregate min on columns"""
 type programs_min_fields {
-  created_at: timestamp
+  created_at: timestamptz
   deployed_at: timestamp
   program_acct: String
   program_name: String
@@ -8991,7 +8991,7 @@ enum programs_select_column {
 input type for updating data in table "programs"
 """
 input programs_set_input {
-  created_at: timestamp
+  created_at: timestamptz
   deployed_at: timestamp
   program_acct: String
   program_name: String
@@ -9026,7 +9026,7 @@ input programs_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input programs_stream_cursor_value_input {
-  created_at: timestamp
+  created_at: timestamptz
   deployed_at: timestamp
   program_acct: String
   program_name: String
@@ -10020,278 +10020,6 @@ input proposal_details_variance_order_by {
 }
 
 """
-columns and relationships of "proposal_prices_chart_data"
-"""
-type proposal_prices_chart_data {
-  fail_market_acct: String
-  fail_market_base_amount: bigint
-  fail_market_price: numeric
-  fail_market_prices_type: String
-  fail_market_quote_amount: bigint
-  interv: timestamp
-  pass_market_acct: String
-  pass_market_base_amount: bigint
-  pass_market_price: numeric
-  pass_market_prices_type: String
-  pass_market_quote_amount: bigint
-
-  """An object relationship"""
-  proposalPriceFailMarket: markets
-
-  """An object relationship"""
-  proposalPricePassMarket: markets
-  proposal_acct: String
-}
-
-"""
-aggregated selection of "proposal_prices_chart_data"
-"""
-type proposal_prices_chart_data_aggregate {
-  aggregate: proposal_prices_chart_data_aggregate_fields
-  nodes: [proposal_prices_chart_data!]!
-}
-
-"""
-aggregate fields of "proposal_prices_chart_data"
-"""
-type proposal_prices_chart_data_aggregate_fields {
-  avg: proposal_prices_chart_data_avg_fields
-  count(columns: [proposal_prices_chart_data_select_column!], distinct: Boolean): Int!
-  max: proposal_prices_chart_data_max_fields
-  min: proposal_prices_chart_data_min_fields
-  stddev: proposal_prices_chart_data_stddev_fields
-  stddev_pop: proposal_prices_chart_data_stddev_pop_fields
-  stddev_samp: proposal_prices_chart_data_stddev_samp_fields
-  sum: proposal_prices_chart_data_sum_fields
-  var_pop: proposal_prices_chart_data_var_pop_fields
-  var_samp: proposal_prices_chart_data_var_samp_fields
-  variance: proposal_prices_chart_data_variance_fields
-}
-
-"""aggregate avg on columns"""
-type proposal_prices_chart_data_avg_fields {
-  fail_market_base_amount: Float
-  fail_market_price: Float
-  fail_market_quote_amount: Float
-  pass_market_base_amount: Float
-  pass_market_price: Float
-  pass_market_quote_amount: Float
-}
-
-"""
-Boolean expression to filter rows from the table "proposal_prices_chart_data". All fields are combined with a logical 'AND'.
-"""
-input proposal_prices_chart_data_bool_exp {
-  _and: [proposal_prices_chart_data_bool_exp!]
-  _not: proposal_prices_chart_data_bool_exp
-  _or: [proposal_prices_chart_data_bool_exp!]
-  fail_market_acct: String_comparison_exp
-  fail_market_base_amount: bigint_comparison_exp
-  fail_market_price: numeric_comparison_exp
-  fail_market_prices_type: String_comparison_exp
-  fail_market_quote_amount: bigint_comparison_exp
-  interv: timestamp_comparison_exp
-  pass_market_acct: String_comparison_exp
-  pass_market_base_amount: bigint_comparison_exp
-  pass_market_price: numeric_comparison_exp
-  pass_market_prices_type: String_comparison_exp
-  pass_market_quote_amount: bigint_comparison_exp
-  proposalPriceFailMarket: markets_bool_exp
-  proposalPricePassMarket: markets_bool_exp
-  proposal_acct: String_comparison_exp
-}
-
-"""aggregate max on columns"""
-type proposal_prices_chart_data_max_fields {
-  fail_market_acct: String
-  fail_market_base_amount: bigint
-  fail_market_price: numeric
-  fail_market_prices_type: String
-  fail_market_quote_amount: bigint
-  interv: timestamp
-  pass_market_acct: String
-  pass_market_base_amount: bigint
-  pass_market_price: numeric
-  pass_market_prices_type: String
-  pass_market_quote_amount: bigint
-  proposal_acct: String
-}
-
-"""aggregate min on columns"""
-type proposal_prices_chart_data_min_fields {
-  fail_market_acct: String
-  fail_market_base_amount: bigint
-  fail_market_price: numeric
-  fail_market_prices_type: String
-  fail_market_quote_amount: bigint
-  interv: timestamp
-  pass_market_acct: String
-  pass_market_base_amount: bigint
-  pass_market_price: numeric
-  pass_market_prices_type: String
-  pass_market_quote_amount: bigint
-  proposal_acct: String
-}
-
-"""
-Ordering options when selecting data from "proposal_prices_chart_data".
-"""
-input proposal_prices_chart_data_order_by {
-  fail_market_acct: order_by
-  fail_market_base_amount: order_by
-  fail_market_price: order_by
-  fail_market_prices_type: order_by
-  fail_market_quote_amount: order_by
-  interv: order_by
-  pass_market_acct: order_by
-  pass_market_base_amount: order_by
-  pass_market_price: order_by
-  pass_market_prices_type: order_by
-  pass_market_quote_amount: order_by
-  proposalPriceFailMarket: markets_order_by
-  proposalPricePassMarket: markets_order_by
-  proposal_acct: order_by
-}
-
-"""
-select columns of table "proposal_prices_chart_data"
-"""
-enum proposal_prices_chart_data_select_column {
-  """column name"""
-  fail_market_acct
-
-  """column name"""
-  fail_market_base_amount
-
-  """column name"""
-  fail_market_price
-
-  """column name"""
-  fail_market_prices_type
-
-  """column name"""
-  fail_market_quote_amount
-
-  """column name"""
-  interv
-
-  """column name"""
-  pass_market_acct
-
-  """column name"""
-  pass_market_base_amount
-
-  """column name"""
-  pass_market_price
-
-  """column name"""
-  pass_market_prices_type
-
-  """column name"""
-  pass_market_quote_amount
-
-  """column name"""
-  proposal_acct
-}
-
-"""aggregate stddev on columns"""
-type proposal_prices_chart_data_stddev_fields {
-  fail_market_base_amount: Float
-  fail_market_price: Float
-  fail_market_quote_amount: Float
-  pass_market_base_amount: Float
-  pass_market_price: Float
-  pass_market_quote_amount: Float
-}
-
-"""aggregate stddev_pop on columns"""
-type proposal_prices_chart_data_stddev_pop_fields {
-  fail_market_base_amount: Float
-  fail_market_price: Float
-  fail_market_quote_amount: Float
-  pass_market_base_amount: Float
-  pass_market_price: Float
-  pass_market_quote_amount: Float
-}
-
-"""aggregate stddev_samp on columns"""
-type proposal_prices_chart_data_stddev_samp_fields {
-  fail_market_base_amount: Float
-  fail_market_price: Float
-  fail_market_quote_amount: Float
-  pass_market_base_amount: Float
-  pass_market_price: Float
-  pass_market_quote_amount: Float
-}
-
-"""
-Streaming cursor of the table "proposal_prices_chart_data"
-"""
-input proposal_prices_chart_data_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: proposal_prices_chart_data_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input proposal_prices_chart_data_stream_cursor_value_input {
-  fail_market_acct: String
-  fail_market_base_amount: bigint
-  fail_market_price: numeric
-  fail_market_prices_type: String
-  fail_market_quote_amount: bigint
-  interv: timestamp
-  pass_market_acct: String
-  pass_market_base_amount: bigint
-  pass_market_price: numeric
-  pass_market_prices_type: String
-  pass_market_quote_amount: bigint
-  proposal_acct: String
-}
-
-"""aggregate sum on columns"""
-type proposal_prices_chart_data_sum_fields {
-  fail_market_base_amount: bigint
-  fail_market_price: numeric
-  fail_market_quote_amount: bigint
-  pass_market_base_amount: bigint
-  pass_market_price: numeric
-  pass_market_quote_amount: bigint
-}
-
-"""aggregate var_pop on columns"""
-type proposal_prices_chart_data_var_pop_fields {
-  fail_market_base_amount: Float
-  fail_market_price: Float
-  fail_market_quote_amount: Float
-  pass_market_base_amount: Float
-  pass_market_price: Float
-  pass_market_quote_amount: Float
-}
-
-"""aggregate var_samp on columns"""
-type proposal_prices_chart_data_var_samp_fields {
-  fail_market_base_amount: Float
-  fail_market_price: Float
-  fail_market_quote_amount: Float
-  pass_market_base_amount: Float
-  pass_market_price: Float
-  pass_market_quote_amount: Float
-}
-
-"""aggregate variance on columns"""
-type proposal_prices_chart_data_variance_fields {
-  fail_market_base_amount: Float
-  fail_market_price: Float
-  fail_market_quote_amount: Float
-  pass_market_base_amount: Float
-  pass_market_price: Float
-  pass_market_quote_amount: Float
-}
-
-"""
 columns and relationships of "proposal_total_trade_volume"
 """
 type proposal_total_trade_volume {
@@ -10515,21 +10243,21 @@ type proposals {
     """filter the rows returned"""
     where: comments_bool_exp
   ): comments_aggregate!
-  completed_at: timestamp
+  completed_at: timestamptz
 
   """An object relationship"""
   conditionalVaultByQuoteVault: conditional_vaults
 
   """An object relationship"""
   conditional_vault: conditional_vaults
-  created_at: timestamp!
+  created_at: timestamptz!
 
   """An object relationship"""
   dao: daos!
   dao_acct: String!
   description_url: String
   end_slot: bigint
-  ended_at: timestamp
+  ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint!
 
@@ -10684,7 +10412,7 @@ type proposals {
     """filter the rows returned"""
     where: twaps_bool_exp
   ): twaps_aggregate!
-  updated_at: timestamp!
+  updated_at: timestamptz!
 }
 
 """
@@ -10853,15 +10581,15 @@ input proposals_bool_exp {
   base_vault: String_comparison_exp
   comments: comments_bool_exp
   comments_aggregate: comments_aggregate_bool_exp
-  completed_at: timestamp_comparison_exp
+  completed_at: timestamptz_comparison_exp
   conditionalVaultByQuoteVault: conditional_vaults_bool_exp
   conditional_vault: conditional_vaults_bool_exp
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   dao: daos_bool_exp
   dao_acct: String_comparison_exp
   description_url: String_comparison_exp
   end_slot: bigint_comparison_exp
-  ended_at: timestamp_comparison_exp
+  ended_at: timestamptz_comparison_exp
   fail_market_acct: String_comparison_exp
   initial_slot: bigint_comparison_exp
   markets: markets_bool_exp
@@ -10880,7 +10608,7 @@ input proposals_bool_exp {
   status: String_comparison_exp
   twaps: twaps_bool_exp
   twaps_aggregate: twaps_aggregate_bool_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -10910,15 +10638,15 @@ input proposals_insert_input {
   autocrat_version: float8
   base_vault: String
   comments: comments_arr_rel_insert_input
-  completed_at: timestamp
+  completed_at: timestamptz
   conditionalVaultByQuoteVault: conditional_vaults_obj_rel_insert_input
   conditional_vault: conditional_vaults_obj_rel_insert_input
-  created_at: timestamp
+  created_at: timestamptz
   dao: daos_obj_rel_insert_input
   dao_acct: String
   description_url: String
   end_slot: bigint
-  ended_at: timestamp
+  ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
   markets: markets_arr_rel_insert_input
@@ -10933,19 +10661,19 @@ input proposals_insert_input {
   reactions: reactions_arr_rel_insert_input
   status: String
   twaps: twaps_arr_rel_insert_input
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
 type proposals_max_fields {
   autocrat_version: float8
   base_vault: String
-  completed_at: timestamp
-  created_at: timestamp
+  completed_at: timestamptz
+  created_at: timestamptz
   dao_acct: String
   description_url: String
   end_slot: bigint
-  ended_at: timestamp
+  ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -10956,7 +10684,7 @@ type proposals_max_fields {
   proposer_acct: String
   quote_vault: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -10988,12 +10716,12 @@ input proposals_max_order_by {
 type proposals_min_fields {
   autocrat_version: float8
   base_vault: String
-  completed_at: timestamp
-  created_at: timestamp
+  completed_at: timestamptz
+  created_at: timestamptz
   dao_acct: String
   description_url: String
   end_slot: bigint
-  ended_at: timestamp
+  ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -11004,7 +10732,7 @@ type proposals_min_fields {
   proposer_acct: String
   quote_vault: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -11230,12 +10958,12 @@ input type for updating data in table "proposals"
 input proposals_set_input {
   autocrat_version: float8
   base_vault: String
-  completed_at: timestamp
-  created_at: timestamp
+  completed_at: timestamptz
+  created_at: timestamptz
   dao_acct: String
   description_url: String
   end_slot: bigint
-  ended_at: timestamp
+  ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -11246,7 +10974,7 @@ input proposals_set_input {
   proposer_acct: String
   quote_vault: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -11318,12 +11046,12 @@ input proposals_stream_cursor_input {
 input proposals_stream_cursor_value_input {
   autocrat_version: float8
   base_vault: String
-  completed_at: timestamp
-  created_at: timestamp
+  completed_at: timestamptz
+  created_at: timestamptz
   dao_acct: String
   description_url: String
   end_slot: bigint
-  ended_at: timestamp
+  ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
   pass_market_acct: String
@@ -11334,7 +11062,7 @@ input proposals_stream_cursor_value_input {
   proposer_acct: String
   quote_vault: String
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -11520,7 +11248,7 @@ type query_root {
   ): candles_aggregate!
 
   """fetch data from the table: "candles" using primary key columns"""
-  candles_by_pk(candle_duration: Int!, market_acct: String!, timestamp: timestamp!): candles
+  candles_by_pk(candle_duration: Int!, market_acct: String!, timestamp: timestamptz!): candles
 
   """An array relationship"""
   comments(
@@ -11922,7 +11650,7 @@ type query_root {
   ): prices_aggregate!
 
   """fetch data from the table: "prices" using primary key columns"""
-  prices_by_pk(created_at: timestamp!, market_acct: String!): prices
+  prices_by_pk(created_at: timestamptz!, market_acct: String!): prices
 
   """
   fetch data from the table: "prices_chart_data"
@@ -12133,46 +11861,6 @@ type query_root {
   fetch data from the table: "proposal_details" using primary key columns
   """
   proposal_details_by_pk(proposal_id: bigint!): proposal_details
-
-  """
-  fetch data from the table: "proposal_prices_chart_data"
-  """
-  proposal_prices_chart_data(
-    """distinct select on columns"""
-    distinct_on: [proposal_prices_chart_data_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_prices_chart_data_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_prices_chart_data_bool_exp
-  ): [proposal_prices_chart_data!]!
-
-  """
-  fetch aggregated fields from the table: "proposal_prices_chart_data"
-  """
-  proposal_prices_chart_data_aggregate(
-    """distinct select on columns"""
-    distinct_on: [proposal_prices_chart_data_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_prices_chart_data_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_prices_chart_data_bool_exp
-  ): proposal_prices_chart_data_aggregate!
 
   """
   fetch data from the table: "proposal_total_trade_volume"
@@ -12409,7 +12097,7 @@ type query_root {
   """
   fetch data from the table: "token_acct_balances" using primary key columns
   """
-  token_acct_balances_by_pk(amount: bigint!, created_at: timestamp!, mint_acct: String!, token_acct: String!): token_acct_balances
+  token_acct_balances_by_pk(amount: bigint!, created_at: timestamptz!, mint_acct: String!, token_acct: String!): token_acct_balances
 
   """An array relationship"""
   token_accts(
@@ -12754,7 +12442,7 @@ type reactions {
   proposal_acct: String!
   reaction: String!
   reactor_acct: String!
-  updated_at: timestamp!
+  updated_at: timestamptz!
 }
 
 """
@@ -12845,7 +12533,7 @@ input reactions_bool_exp {
   proposal_acct: String_comparison_exp
   reaction: String_comparison_exp
   reactor_acct: String_comparison_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -12875,7 +12563,7 @@ input reactions_insert_input {
   proposal_acct: String
   reaction: String
   reactor_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
@@ -12884,7 +12572,7 @@ type reactions_max_fields {
   proposal_acct: String
   reaction: String
   reactor_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -12904,7 +12592,7 @@ type reactions_min_fields {
   proposal_acct: String
   reaction: String
   reactor_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -12984,7 +12672,7 @@ input reactions_set_input {
   proposal_acct: String
   reaction: String
   reactor_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -13040,7 +12728,7 @@ input reactions_stream_cursor_value_input {
   proposal_acct: String
   reaction: String
   reactor_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -13126,7 +12814,7 @@ input reactions_variance_order_by {
 columns and relationships of "sessions"
 """
 type sessions {
-  created_at: timestamp!
+  created_at: timestamptz!
   expires_at: timestamp
   id: uuid!
 
@@ -13189,7 +12877,7 @@ input sessions_bool_exp {
   _and: [sessions_bool_exp!]
   _not: sessions_bool_exp
   _or: [sessions_bool_exp!]
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   expires_at: timestamp_comparison_exp
   id: uuid_comparison_exp
   user: users_bool_exp
@@ -13210,7 +12898,7 @@ enum sessions_constraint {
 input type for inserting data into table "sessions"
 """
 input sessions_insert_input {
-  created_at: timestamp
+  created_at: timestamptz
   expires_at: timestamp
   id: uuid
   user: users_obj_rel_insert_input
@@ -13219,7 +12907,7 @@ input sessions_insert_input {
 
 """aggregate max on columns"""
 type sessions_max_fields {
-  created_at: timestamp
+  created_at: timestamptz
   expires_at: timestamp
   id: uuid
   user_acct: String
@@ -13237,7 +12925,7 @@ input sessions_max_order_by {
 
 """aggregate min on columns"""
 type sessions_min_fields {
-  created_at: timestamp
+  created_at: timestamptz
   expires_at: timestamp
   id: uuid
   user_acct: String
@@ -13308,7 +12996,7 @@ enum sessions_select_column {
 input type for updating data in table "sessions"
 """
 input sessions_set_input {
-  created_at: timestamp
+  created_at: timestamptz
   expires_at: timestamp
   id: uuid
   user_acct: String
@@ -13327,7 +13015,7 @@ input sessions_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input sessions_stream_cursor_value_input {
-  created_at: timestamp
+  created_at: timestamptz
   expires_at: timestamp
   id: uuid
   user_acct: String
@@ -13413,7 +13101,7 @@ type subscription_root {
   ): candles_aggregate!
 
   """fetch data from the table: "candles" using primary key columns"""
-  candles_by_pk(candle_duration: Int!, market_acct: String!, timestamp: timestamp!): candles
+  candles_by_pk(candle_duration: Int!, market_acct: String!, timestamp: timestamptz!): candles
 
   """
   fetch data from the table in a streaming manner: "candles"
@@ -13955,7 +13643,7 @@ type subscription_root {
   ): prices_aggregate!
 
   """fetch data from the table: "prices" using primary key columns"""
-  prices_by_pk(created_at: timestamp!, market_acct: String!): prices
+  prices_by_pk(created_at: timestamptz!, market_acct: String!): prices
 
   """
   fetch data from the table: "prices_chart_data"
@@ -14250,60 +13938,6 @@ type subscription_root {
     """filter the rows returned"""
     where: proposal_details_bool_exp
   ): [proposal_details!]!
-
-  """
-  fetch data from the table: "proposal_prices_chart_data"
-  """
-  proposal_prices_chart_data(
-    """distinct select on columns"""
-    distinct_on: [proposal_prices_chart_data_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_prices_chart_data_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_prices_chart_data_bool_exp
-  ): [proposal_prices_chart_data!]!
-
-  """
-  fetch aggregated fields from the table: "proposal_prices_chart_data"
-  """
-  proposal_prices_chart_data_aggregate(
-    """distinct select on columns"""
-    distinct_on: [proposal_prices_chart_data_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [proposal_prices_chart_data_order_by!]
-
-    """filter the rows returned"""
-    where: proposal_prices_chart_data_bool_exp
-  ): proposal_prices_chart_data_aggregate!
-
-  """
-  fetch data from the table in a streaming manner: "proposal_prices_chart_data"
-  """
-  proposal_prices_chart_data_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [proposal_prices_chart_data_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: proposal_prices_chart_data_bool_exp
-  ): [proposal_prices_chart_data!]!
 
   """
   fetch data from the table: "proposal_total_trade_volume"
@@ -14610,7 +14244,7 @@ type subscription_root {
   """
   fetch data from the table: "token_acct_balances" using primary key columns
   """
-  token_acct_balances_by_pk(amount: bigint!, created_at: timestamp!, mint_acct: String!, token_acct: String!): token_acct_balances
+  token_acct_balances_by_pk(amount: bigint!, created_at: timestamptz!, mint_acct: String!, token_acct: String!): token_acct_balances
 
   """
   fetch data from the table in a streaming manner: "token_acct_balances"
@@ -15087,7 +14721,7 @@ type takes {
   """An object relationship"""
   order: orders!
   order_block: bigint!
-  order_time: timestamp!
+  order_time: timestamptz!
   order_tx_sig: String!
   quote_price: numeric!
   taker_base_fee: bigint!
@@ -15197,7 +14831,7 @@ input takes_bool_exp {
   market_acct: String_comparison_exp
   order: orders_bool_exp
   order_block: bigint_comparison_exp
-  order_time: timestamp_comparison_exp
+  order_time: timestamptz_comparison_exp
   order_tx_sig: String_comparison_exp
   quote_price: numeric_comparison_exp
   taker_base_fee: bigint_comparison_exp
@@ -15240,7 +14874,7 @@ input takes_insert_input {
   market_acct: String
   order: orders_obj_rel_insert_input
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   taker_base_fee: bigint
@@ -15255,7 +14889,7 @@ type takes_max_fields {
   maker_quote_fee: bigint
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   taker_base_fee: bigint
@@ -15287,7 +14921,7 @@ type takes_min_fields {
   maker_quote_fee: bigint
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   taker_base_fee: bigint
@@ -15412,7 +15046,7 @@ input takes_set_input {
   maker_quote_fee: bigint
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   taker_base_fee: bigint
@@ -15510,7 +15144,7 @@ input takes_stream_cursor_value_input {
   maker_quote_fee: bigint
   market_acct: String
   order_block: bigint
-  order_time: timestamp
+  order_time: timestamptz
   order_tx_sig: String
   quote_price: numeric
   taker_base_fee: bigint
@@ -15701,7 +15335,7 @@ columns and relationships of "token_acct_balances"
 """
 type token_acct_balances {
   amount: bigint!
-  created_at: timestamp!
+  created_at: timestamptz!
   mint_acct: String!
   owner_acct: String!
 
@@ -15796,7 +15430,7 @@ input token_acct_balances_bool_exp {
   _not: token_acct_balances_bool_exp
   _or: [token_acct_balances_bool_exp!]
   amount: bigint_comparison_exp
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   mint_acct: String_comparison_exp
   owner_acct: String_comparison_exp
   token: tokens_bool_exp
@@ -15826,7 +15460,7 @@ input type for inserting data into table "token_acct_balances"
 """
 input token_acct_balances_insert_input {
   amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   mint_acct: String
   owner_acct: String
   token: tokens_obj_rel_insert_input
@@ -15837,7 +15471,7 @@ input token_acct_balances_insert_input {
 """aggregate max on columns"""
 type token_acct_balances_max_fields {
   amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   mint_acct: String
   owner_acct: String
   token_acct: String
@@ -15857,7 +15491,7 @@ input token_acct_balances_max_order_by {
 """aggregate min on columns"""
 type token_acct_balances_min_fields {
   amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   mint_acct: String
   owner_acct: String
   token_acct: String
@@ -15908,7 +15542,7 @@ input token_acct_balances_order_by {
 """primary key columns input for table: token_acct_balances"""
 input token_acct_balances_pk_columns_input {
   amount: bigint!
-  created_at: timestamp!
+  created_at: timestamptz!
   mint_acct: String!
   token_acct: String!
 }
@@ -15938,7 +15572,7 @@ input type for updating data in table "token_acct_balances"
 """
 input token_acct_balances_set_input {
   amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   mint_acct: String
   owner_acct: String
   token_acct: String
@@ -15994,7 +15628,7 @@ input token_acct_balances_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input token_acct_balances_stream_cursor_value_input {
   amount: bigint
-  created_at: timestamp
+  created_at: timestamptz
   mint_acct: String
   owner_acct: String
   token_acct: String
@@ -16079,6 +15713,23 @@ input token_acct_balances_variance_order_by {
   amount: order_by
 }
 
+scalar token_acct_status
+
+"""
+Boolean expression to compare columns of type "token_acct_status". All fields are combined with logical 'AND'.
+"""
+input token_acct_status_comparison_exp {
+  _eq: token_acct_status
+  _gt: token_acct_status
+  _gte: token_acct_status
+  _in: [token_acct_status!]
+  _is_null: Boolean
+  _lt: token_acct_status
+  _lte: token_acct_status
+  _neq: token_acct_status
+  _nin: [token_acct_status!]
+}
+
 """
 columns and relationships of "token_accts"
 """
@@ -16158,6 +15809,7 @@ type token_accts {
   ): markets_aggregate!
   mint_acct: String!
   owner_acct: String!
+  status: token_acct_status
 
   """An object relationship"""
   token: tokens!
@@ -16198,7 +15850,7 @@ type token_accts {
     """filter the rows returned"""
     where: token_acct_balances_bool_exp
   ): token_acct_balances_aggregate!
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -16290,11 +15942,12 @@ input token_accts_bool_exp {
   markets_aggregate: markets_aggregate_bool_exp
   mint_acct: String_comparison_exp
   owner_acct: String_comparison_exp
+  status: token_acct_status_comparison_exp
   token: tokens_bool_exp
   token_acct: String_comparison_exp
   token_acct_balances: token_acct_balances_bool_exp
   token_acct_balances_aggregate: token_acct_balances_aggregate_bool_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -16323,10 +15976,11 @@ input token_accts_insert_input {
   marketsByBidsTokenAcct: markets_arr_rel_insert_input
   mint_acct: String
   owner_acct: String
+  status: token_acct_status
   token: tokens_obj_rel_insert_input
   token_acct: String
   token_acct_balances: token_acct_balances_arr_rel_insert_input
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
@@ -16334,8 +15988,9 @@ type token_accts_max_fields {
   amount: bigint
   mint_acct: String
   owner_acct: String
+  status: token_acct_status
   token_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -16345,6 +16000,7 @@ input token_accts_max_order_by {
   amount: order_by
   mint_acct: order_by
   owner_acct: order_by
+  status: order_by
   token_acct: order_by
   updated_at: order_by
 }
@@ -16354,8 +16010,9 @@ type token_accts_min_fields {
   amount: bigint
   mint_acct: String
   owner_acct: String
+  status: token_acct_status
   token_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -16365,6 +16022,7 @@ input token_accts_min_order_by {
   amount: order_by
   mint_acct: order_by
   owner_acct: order_by
+  status: order_by
   token_acct: order_by
   updated_at: order_by
 }
@@ -16406,6 +16064,7 @@ input token_accts_order_by {
   markets_aggregate: markets_aggregate_order_by
   mint_acct: order_by
   owner_acct: order_by
+  status: order_by
   token: tokens_order_by
   token_acct: order_by
   token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
@@ -16431,6 +16090,9 @@ enum token_accts_select_column {
   owner_acct
 
   """column name"""
+  status
+
+  """column name"""
   token_acct
 
   """column name"""
@@ -16444,8 +16106,9 @@ input token_accts_set_input {
   amount: bigint
   mint_acct: String
   owner_acct: String
+  status: token_acct_status
   token_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -16500,8 +16163,9 @@ input token_accts_stream_cursor_value_input {
   amount: bigint
   mint_acct: String
   owner_acct: String
+  status: token_acct_status
   token_acct: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -16528,6 +16192,9 @@ enum token_accts_update_column {
 
   """column name"""
   owner_acct
+
+  """column name"""
+  status
 
   """column name"""
   token_acct
@@ -16844,7 +16511,13 @@ type tokens {
     """filter the rows returned"""
     where: token_accts_bool_exp
   ): token_accts_aggregate!
-  updated_at: timestamp!
+  updated_at: timestamptz!
+
+  """An object relationship"""
+  vault_by_finalize: conditional_vaults
+
+  """An object relationship"""
+  vault_by_revert: conditional_vaults
 }
 
 """
@@ -16905,7 +16578,9 @@ input tokens_bool_exp {
   token_acct_balances_aggregate: token_acct_balances_aggregate_bool_exp
   token_accts: token_accts_bool_exp
   token_accts_aggregate: token_accts_aggregate_bool_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  vault_by_finalize: conditional_vaults_bool_exp
+  vault_by_revert: conditional_vaults_bool_exp
 }
 
 """
@@ -16943,7 +16618,9 @@ input tokens_insert_input {
   symbol: String
   token_acct_balances: token_acct_balances_arr_rel_insert_input
   token_accts: token_accts_arr_rel_insert_input
-  updated_at: timestamp
+  updated_at: timestamptz
+  vault_by_finalize: conditional_vaults_obj_rel_insert_input
+  vault_by_revert: conditional_vaults_obj_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -16954,7 +16631,7 @@ type tokens_max_fields {
   name: String
   supply: bigint
   symbol: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate min on columns"""
@@ -16965,7 +16642,7 @@ type tokens_min_fields {
   name: String
   supply: bigint
   symbol: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -17014,6 +16691,8 @@ input tokens_order_by {
   token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
   token_accts_aggregate: token_accts_aggregate_order_by
   updated_at: order_by
+  vault_by_finalize: conditional_vaults_order_by
+  vault_by_revert: conditional_vaults_order_by
 }
 
 """primary key columns input for table: tokens"""
@@ -17057,7 +16736,7 @@ input tokens_set_input {
   name: String
   supply: bigint
   symbol: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -17097,7 +16776,7 @@ input tokens_stream_cursor_value_input {
   name: String
   supply: bigint
   symbol: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -17566,7 +17245,7 @@ type transaction_watchers {
     """filter the rows returned"""
     where: transaction_watcher_transactions_bool_exp
   ): transaction_watcher_transactions_aggregate!
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -17665,7 +17344,7 @@ input transaction_watchers_bool_exp {
   transactionByLatestTxSig: transactions_bool_exp
   transaction_watcher_transactions: transaction_watcher_transactions_bool_exp
   transaction_watcher_transactions_aggregate: transaction_watcher_transactions_aggregate_bool_exp
-  updated_at: timestamp_comparison_exp
+  updated_at: timestamptz_comparison_exp
 }
 
 """
@@ -17701,7 +17380,7 @@ input transaction_watchers_insert_input {
   transaction: transactions_obj_rel_insert_input
   transactionByLatestTxSig: transactions_obj_rel_insert_input
   transaction_watcher_transactions: transaction_watcher_transactions_arr_rel_insert_input
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate max on columns"""
@@ -17714,7 +17393,7 @@ type transaction_watchers_max_fields {
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -17742,7 +17421,7 @@ type transaction_watchers_min_fields {
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """
@@ -17855,7 +17534,7 @@ input transaction_watchers_set_input {
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
@@ -17921,7 +17600,7 @@ input transaction_watchers_stream_cursor_value_input {
   latest_tx_sig: String
   serializer_logic_version: smallint
   status: String
-  updated_at: timestamp
+  updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
@@ -18027,7 +17706,7 @@ input transaction_watchers_variance_order_by {
 columns and relationships of "transactions"
 """
 type transactions {
-  block_time: timestamp!
+  block_time: timestamptz!
   failed: Boolean!
 
   """An array relationship"""
@@ -18065,6 +17744,7 @@ type transactions {
     """filter the rows returned"""
     where: indexer_account_dependencies_bool_exp
   ): indexer_account_dependencies_aggregate!
+  main_ix_type: String
 
   """An object relationship"""
   order: orders
@@ -18220,10 +17900,11 @@ input transactions_bool_exp {
   _and: [transactions_bool_exp!]
   _not: transactions_bool_exp
   _or: [transactions_bool_exp!]
-  block_time: timestamp_comparison_exp
+  block_time: timestamptz_comparison_exp
   failed: Boolean_comparison_exp
   indexer_account_dependencies: indexer_account_dependencies_bool_exp
   indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_bool_exp
+  main_ix_type: String_comparison_exp
   order: orders_bool_exp
   payload: String_comparison_exp
   serializer_logic_version: smallint_comparison_exp
@@ -18259,9 +17940,10 @@ input transactions_inc_input {
 input type for inserting data into table "transactions"
 """
 input transactions_insert_input {
-  block_time: timestamp
+  block_time: timestamptz
   failed: Boolean
   indexer_account_dependencies: indexer_account_dependencies_arr_rel_insert_input
+  main_ix_type: String
   order: orders_obj_rel_insert_input
   payload: String
   serializer_logic_version: smallint
@@ -18274,7 +17956,8 @@ input transactions_insert_input {
 
 """aggregate max on columns"""
 type transactions_max_fields {
-  block_time: timestamp
+  block_time: timestamptz
+  main_ix_type: String
   payload: String
   serializer_logic_version: smallint
   slot: bigint
@@ -18283,7 +17966,8 @@ type transactions_max_fields {
 
 """aggregate min on columns"""
 type transactions_min_fields {
-  block_time: timestamp
+  block_time: timestamptz
+  main_ix_type: String
   payload: String
   serializer_logic_version: smallint
   slot: bigint
@@ -18325,6 +18009,7 @@ input transactions_order_by {
   block_time: order_by
   failed: order_by
   indexer_account_dependencies_aggregate: indexer_account_dependencies_aggregate_order_by
+  main_ix_type: order_by
   order: orders_order_by
   payload: order_by
   serializer_logic_version: order_by
@@ -18351,6 +18036,9 @@ enum transactions_select_column {
   failed
 
   """column name"""
+  main_ix_type
+
+  """column name"""
   payload
 
   """column name"""
@@ -18367,8 +18055,9 @@ enum transactions_select_column {
 input type for updating data in table "transactions"
 """
 input transactions_set_input {
-  block_time: timestamp
+  block_time: timestamptz
   failed: Boolean
+  main_ix_type: String
   payload: String
   serializer_logic_version: smallint
   slot: bigint
@@ -18406,8 +18095,9 @@ input transactions_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input transactions_stream_cursor_value_input {
-  block_time: timestamp
+  block_time: timestamptz
   failed: Boolean
+  main_ix_type: String
   payload: String
   serializer_logic_version: smallint
   slot: bigint
@@ -18429,6 +18119,9 @@ enum transactions_update_column {
 
   """column name"""
   failed
+
+  """column name"""
+  main_ix_type
 
   """column name"""
   payload
@@ -18476,7 +18169,7 @@ type transactions_variance_fields {
 columns and relationships of "twap_chart_data"
 """
 type twap_chart_data {
-  interv: timestamp
+  interv: timestamptz
 
   """An object relationship"""
   market: markets
@@ -18521,7 +18214,7 @@ input twap_chart_data_bool_exp {
   _and: [twap_chart_data_bool_exp!]
   _not: twap_chart_data_bool_exp
   _or: [twap_chart_data_bool_exp!]
-  interv: timestamp_comparison_exp
+  interv: timestamptz_comparison_exp
   market: markets_bool_exp
   market_acct: String_comparison_exp
   token_amount: bigint_comparison_exp
@@ -18529,14 +18222,14 @@ input twap_chart_data_bool_exp {
 
 """aggregate max on columns"""
 type twap_chart_data_max_fields {
-  interv: timestamp
+  interv: timestamptz
   market_acct: String
   token_amount: bigint
 }
 
 """aggregate min on columns"""
 type twap_chart_data_min_fields {
-  interv: timestamp
+  interv: timestamptz
   market_acct: String
   token_amount: bigint
 }
@@ -18591,7 +18284,7 @@ input twap_chart_data_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input twap_chart_data_stream_cursor_value_input {
-  interv: timestamp
+  interv: timestamptz
   market_acct: String
   token_amount: bigint
 }
@@ -18620,7 +18313,7 @@ type twap_chart_data_variance_fields {
 columns and relationships of "twaps"
 """
 type twaps {
-  created_at: timestamp!
+  created_at: timestamptz!
   last_observation: numeric
   last_price: numeric
 
@@ -18726,7 +18419,7 @@ input twaps_bool_exp {
   _and: [twaps_bool_exp!]
   _not: twaps_bool_exp
   _or: [twaps_bool_exp!]
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   last_observation: numeric_comparison_exp
   last_price: numeric_comparison_exp
   market: markets_bool_exp
@@ -18763,7 +18456,7 @@ input twaps_inc_input {
 input type for inserting data into table "twaps"
 """
 input twaps_insert_input {
-  created_at: timestamp
+  created_at: timestamptz
   last_observation: numeric
   last_price: numeric
   market: markets_obj_rel_insert_input
@@ -18777,7 +18470,7 @@ input twaps_insert_input {
 
 """aggregate max on columns"""
 type twaps_max_fields {
-  created_at: timestamp
+  created_at: timestamptz
   last_observation: numeric
   last_price: numeric
   market_acct: String
@@ -18803,7 +18496,7 @@ input twaps_max_order_by {
 
 """aggregate min on columns"""
 type twaps_min_fields {
-  created_at: timestamp
+  created_at: timestamptz
   last_observation: numeric
   last_price: numeric
   market_acct: String
@@ -18900,7 +18593,7 @@ enum twaps_select_column {
 input type for updating data in table "twaps"
 """
 input twaps_set_input {
-  created_at: timestamp
+  created_at: timestamptz
   last_observation: numeric
   last_price: numeric
   market_acct: String
@@ -18983,7 +18676,7 @@ input twaps_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input twaps_stream_cursor_value_input {
-  created_at: timestamp
+  created_at: timestamptz
   last_observation: numeric
   last_price: numeric
   market_acct: String
@@ -19117,7 +18810,7 @@ input twaps_variance_order_by {
 columns and relationships of "users"
 """
 type users {
-  created_at: timestamp!
+  created_at: timestamptz!
 
   """An array relationship"""
   sessions(
@@ -19181,7 +18874,7 @@ input users_bool_exp {
   _and: [users_bool_exp!]
   _not: users_bool_exp
   _or: [users_bool_exp!]
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   sessions: sessions_bool_exp
   sessions_aggregate: sessions_aggregate_bool_exp
   user_acct: String_comparison_exp
@@ -19201,20 +18894,20 @@ enum users_constraint {
 input type for inserting data into table "users"
 """
 input users_insert_input {
-  created_at: timestamp
+  created_at: timestamptz
   sessions: sessions_arr_rel_insert_input
   user_acct: String
 }
 
 """aggregate max on columns"""
 type users_max_fields {
-  created_at: timestamp
+  created_at: timestamptz
   user_acct: String
 }
 
 """aggregate min on columns"""
 type users_min_fields {
-  created_at: timestamp
+  created_at: timestamptz
   user_acct: String
 }
 
@@ -19275,7 +18968,7 @@ enum users_select_column {
 input type for updating data in table "users"
 """
 input users_set_input {
-  created_at: timestamp
+  created_at: timestamptz
   user_acct: String
 }
 
@@ -19292,7 +18985,7 @@ input users_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input users_stream_cursor_value_input {
-  created_at: timestamp
+  created_at: timestamptz
   user_acct: String
 }
 

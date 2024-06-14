@@ -8,7 +8,11 @@ import {
   TokenWithPDA
 } from "@/types";
 import { FutarchyBalancesClient } from "@/client";
-import { Proposal } from "@/types/proposals";
+import {
+  BalanceLockedInProposal,
+  Proposal,
+  ProposalState
+} from "@/types/proposals";
 import { FutarchyRPCBalancesClient } from "../rpc";
 import { Observable, catchError, of, switchMap } from "rxjs";
 import { Client as GQLWebSocketClient } from "graphql-ws";
@@ -19,6 +23,10 @@ import {
   token_accts_order_by,
   token_accts_select_column
 } from "./__generated__";
+import {
+  INDEXED_BALANCE_RPC_MISMATCH,
+  TOKEN_ACCOUNT_NOT_FOUND_ERROR
+} from "@/constants/balances";
 
 export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   private rpcBalancesClient: FutarchyRPCBalancesClient;
@@ -100,6 +108,119 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     );
   }
 
+  async fetchAllBalancesLockedInProposals(
+    ownerWallet: PublicKey | null
+  ): Promise<BalanceLockedInProposal[]> {
+    if (!ownerWallet) return [];
+    const vaultSubQuery = {
+      status: true,
+      proposals: {
+        ended_at: true,
+        proposal_acct: true,
+        proposal_details: {
+          title: true,
+          categories: true
+        },
+        proposal_num: true,
+        dao: {
+          dao_detail: {
+            name: true,
+            slug: true
+          }
+        },
+        status: true
+      }
+    };
+    const { token_accts } = await this.graphqlClient.query({
+      token_accts: {
+        __args: {
+          where: {
+            _and: [
+              { owner_acct: { _eq: ownerWallet?.toBase58() } },
+
+              {
+                _or: [
+                  {
+                    token: {
+                      vault_by_finalize: {
+                        proposals: { status: { _is_null: false } }
+                      }
+                    }
+                  },
+                  {
+                    token: {
+                      vault_by_revert: {
+                        proposals: { status: { _is_null: false } }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        amount: true,
+        token_acct: true,
+        token: {
+          symbol: true,
+          decimals: true,
+          name: true,
+          image_url: true,
+          mint_acct: true,
+          vault_by_finalize: vaultSubQuery,
+          vault_by_revert: vaultSubQuery
+        }
+      }
+    });
+
+    const balancesLocked = token_accts
+      .map<BalanceLockedInProposal | undefined>((t) => {
+        const relatedVault = t.token.vault_by_finalize
+          ? t.token.vault_by_finalize
+          : t.token.vault_by_revert;
+        const proposal = relatedVault?.proposals[0];
+        const proposalDetail = proposal?.proposal_details[0];
+        const daoDetail = proposal?.dao.dao_detail;
+        if (!proposal) return;
+        const balanceInProposal: BalanceLockedInProposal = {
+          userBalance: {
+            balance: t.amount,
+            token: {
+              decimals: t.token.decimals,
+              name: t.token.name,
+              publicKey: t.token.mint_acct,
+              symbol: t.token.symbol,
+              url: t.token.image_url
+            }
+          },
+          pda: new PublicKey(t.token_acct),
+          dao: {
+            name: daoDetail?.name ?? "",
+            slug: daoDetail?.slug ?? ""
+          },
+          endDate: proposal.ended_at,
+          market: t.token.vault_by_finalize ? "pass" : "fail",
+          proposalNumber: proposal.proposal_num,
+          publicKey: new PublicKey(proposal.proposal_acct),
+          state: proposal.status as ProposalState,
+          tags:
+            proposalDetail?.categories.map(
+              (c: { category: string }) => c.category
+            ) ?? [],
+          title: proposalDetail?.title ?? ""
+        };
+        return balanceInProposal;
+      })
+      .filter((b): b is BalanceLockedInProposal => !!b);
+
+    console.log(
+      "fetchAllBalancesLockedInProposals balancesLocked",
+      balancesLocked
+    );
+
+    return balancesLocked;
+  }
+
   async fetchTokenBalance(pda: PublicKey | null, token: TokenProps) {
     return this.rpcBalancesClient.fetchTokenBalance(pda, token);
   }
@@ -134,8 +255,16 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
    */
   private async compareBalances(
     pda: PublicKey | null,
-    token: TokenProps
+    token: TokenProps,
+    rpcBalanceCallback?: (balance: number) => void
   ): Promise<void> {
+    const rpcBalance = await this.rpcBalancesClient.fetchTokenBalance(
+      pda,
+      token
+    );
+
+    rpcBalanceCallback?.(rpcBalance.balance);
+
     const { token_accts } = await this.graphqlClient.query({
       token_accts: {
         __args: {
@@ -144,36 +273,19 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
           },
           limit: 1
         },
-        token_acct: true,
-        owner_acct: true,
-        amount: true,
-        mint_acct: true,
-        token: {
-          symbol: true,
-          image_url: true,
-          decimals: true
-        }
+        amount: true
       }
     });
 
     const tokenAcct = token_accts[0];
     if (!tokenAcct) {
-      throw new Error("token account not found");
-    }
-
-    const dbToken = tokenAcct.token;
-    if (!dbToken.symbol || !dbToken.decimals || !dbToken.image_url) {
-      throw new Error("token data incomplete");
+      throw TOKEN_ACCOUNT_NOT_FOUND_ERROR;
     }
 
     const balanceScaled = (tokenAcct.amount ?? 0) / 10 ** (token.decimals ?? 0);
-    const rpcBalance = await this.rpcBalancesClient.fetchTokenBalance(
-      pda,
-      token
-    );
 
     if (rpcBalance.balance !== balanceScaled) {
-      throw new Error("indexed token acct balance is not up to date with RPC");
+      throw INDEXED_BALANCE_RPC_MISMATCH;
     }
   }
 
@@ -192,7 +304,8 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
         args.where?.token_acct?._eq
           ? new PublicKey(args.where.token_acct._eq)
           : null,
-        token
+        token,
+        (balance) => subscriber.next({ token, balance })
       )
         .then(() => {
           const { query, variables } = generateSubscriptionOp({
@@ -251,6 +364,12 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
           return () => subscriptionCleanup();
         })
         .catch((error: Error) => {
+          if (error.message === TOKEN_ACCOUNT_NOT_FOUND_ERROR.message) {
+            // TODO here we need to insert the token_acct
+          }
+          if (error.message === INDEXED_BALANCE_RPC_MISMATCH.message) {
+            // TODO here we need to trigger the indexer to refetch
+          }
           subscriber.error(error);
         });
     });

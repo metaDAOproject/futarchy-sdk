@@ -85,8 +85,7 @@ export interface FutarchyProposalsClient {
   saveProposalDetails(proposalDetails: ProposalDetails): void;
   updateProposalAccounts(accounts: ProposalAccounts): void;
   mergeConditionalTokensForUnderlyingTokens(
-    programVersion: ProgramVersionLabel,
-    amoutn: BN,
+    amount: BN,
     proposal: Proposal,
     underlyingToken: "base" | "quote"
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;

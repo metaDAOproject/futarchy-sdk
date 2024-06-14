@@ -11,6 +11,7 @@ import {
 } from "@solana/spl-token";
 import numeral from "numeral";
 import {
+  ConditionalVaultProgram,
   Dao,
   DaoAggregate,
   FutarchyProtocol,
@@ -284,13 +285,17 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     };
   }
 
-  public async mergeConditionalTokensForUnderlyingTokens(
-    programVersion: ProgramVersionLabel,
+  private async createMergeConditionalTokensIxAndProgram(
     amount: BN,
     proposal: ProposalWithFullData,
     underlyingToken: "base" | "quote"
-  ) {
-    if (programVersion == "V0.3" || programVersion == "V0.2") {
+  ): Promise<
+    undefined | [TransactionInstruction, Program<ConditionalVaultProgram>]
+  > {
+    if (
+      proposal.protocol.deploymentVersion == "V0.3" ||
+      proposal.protocol.deploymentVersion == "V0.2"
+    ) {
       const vaultForVersion =
         autocratVersionToConditionalVaultMap[
           proposal.protocol.deploymentVersion
@@ -314,17 +319,36 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         vaultAccount,
         this.rpcProvider.publicKey
       );
-      const mergeTx = await vaultProgram.methods
+      const mergeIx = await vaultProgram.methods
         .mergeConditionalTokensForUnderlyingTokens(amount)
         .accounts({
           ...accounts,
           authority: this.rpcProvider.publicKey,
           vault: vaultAddress
         })
-        .transaction();
+        .instruction();
+
+      return [mergeIx, vaultProgram];
+    }
+  }
+
+  public async mergeConditionalTokensForUnderlyingTokens(
+    amount: BN,
+    proposal: ProposalWithFullData,
+    underlyingToken: "base" | "quote"
+  ) {
+    try {
+      const ixAndProgram = await this.createMergeConditionalTokensIxAndProgram(
+        amount,
+        proposal,
+        underlyingToken
+      );
+      if (!ixAndProgram) return;
+
+      const [mergeIx, vaultProgram] = ixAndProgram;
 
       const resp = await this.transactionSender?.send(
-        [mergeTx],
+        [new Transaction().add(mergeIx)],
         this.rpcProvider.connection,
         {
           customErrors: [vaultProgram.idl.errors],
@@ -333,7 +357,9 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
         { title: "Merging Conditional Tokens" }
       );
       return resp;
-    } else throw Error("Version not compatible");
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   private async createRedeemIx(
@@ -406,27 +432,29 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     );
 
     // NOTE: Create our underlying token accounts in case they don't exist
-    const createUnderlyingBaseIx = createAssociatedTokenAccountIdempotentInstruction(
-      user,
-      getAssociatedTokenAddressSync(
-        proposal.baseVaultAccount.underlyingTokenMint,
+    const createUnderlyingBaseIx =
+      createAssociatedTokenAccountIdempotentInstruction(
         user,
-        true
-      ),
-      user,
-      proposal.baseVaultAccount.underlyingTokenMint,
-    )
+        getAssociatedTokenAddressSync(
+          proposal.baseVaultAccount.underlyingTokenMint,
+          user,
+          true
+        ),
+        user,
+        proposal.baseVaultAccount.underlyingTokenMint
+      );
 
-    const createUnderlyingQuoteIx = createAssociatedTokenAccountIdempotentInstruction(
-      user,
-      getAssociatedTokenAddressSync(
-        proposal.quoteVaultAccount.underlyingTokenMint,
+    const createUnderlyingQuoteIx =
+      createAssociatedTokenAccountIdempotentInstruction(
         user,
-        true
-      ),
-      user,
-      proposal.quoteVaultAccount.underlyingTokenMint
-    )
+        getAssociatedTokenAddressSync(
+          proposal.quoteVaultAccount.underlyingTokenMint,
+          user,
+          true
+        ),
+        user,
+        proposal.quoteVaultAccount.underlyingTokenMint
+      );
 
     const tx = new Transaction();
     tx.add(createUnderlyingQuoteIx);

@@ -9,7 +9,9 @@ import {
   FutarchyProtocol,
   VaultAccountWithProtocol,
   Dao,
-  MarketType
+  MarketType,
+  TokenWithBalance,
+  ConditionalMarketType
 } from "@/types";
 import { PublicKey } from "@metaplex-foundation/js";
 import { TransactionInstruction } from "@solana/web3.js";
@@ -73,6 +75,16 @@ export type Proposal = ProposalAccountWithKeyNoState & {
   startSlot: number;
   tags: string[];
   title: string;
+};
+
+export type BalanceLockedInProposal = Pick<
+  Proposal,
+  "state" | "title" | "tags" | "publicKey" | "dao" | "endDate"
+> & {
+  proposalNumber: number;
+  userBalance: TokenWithBalance;
+  market: ConditionalMarketType;
+  pda: PublicKey;
 };
 
 // TODO we need to add way more here... this is the problem. This needs to sort of match what the UI needs for the most part

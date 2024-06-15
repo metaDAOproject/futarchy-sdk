@@ -82,7 +82,7 @@ export type BalanceLockedInProposal = Pick<
   "state" | "title" | "tags" | "publicKey" | "dao" | "endDate"
 > & {
   proposalNumber: number;
-  userBalance: TokenWithBalance;
+  userBalance: TokenWithBalance & { tokenType: "base" | "quote" };
   market: ConditionalMarketType;
   pda: PublicKey;
 };

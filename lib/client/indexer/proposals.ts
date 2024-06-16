@@ -124,7 +124,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         },
         proposal_details: {
           title: true,
-          slug: true
+          slug: true,
+          categories: true,
         },
         dao: {
           dao_detail: {
@@ -274,7 +275,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           slug: proposalDetails.slug || p.proposal_acct,
           // TODO we need our beatufiul tags
           title: proposalDetails.title ?? "",
-          tags: []
+          tags: proposalDetails.categories ?? []
         };
       }
     });
@@ -414,6 +415,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     if (!proposals[0]) return null;
 
     const proposal = proposals[0];
+
     const relatedProtocol = this.protocolMap.get(
       proposal.dao.program.program_acct
     );
@@ -595,8 +597,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       state: proposal.status as ProposalState,
       reactions: proposal.reactions.map((r) => r.reaction),
       protocol: relatedProtocol,
-      // TODO we need our beatufiul tags
-      tags: proposalDetails.categories || [],
+      tags: proposalDetails.categories,
       title: proposalDetails.title ?? "",
       volume: passVolume + failVolume
     };

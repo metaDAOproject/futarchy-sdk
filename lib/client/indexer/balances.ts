@@ -113,10 +113,17 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   ): Promise<BalanceLockedInProposal[]> {
     if (!ownerWallet) return [];
     const vaultSubQuery = {
+      cond_vault_acct: true,
       status: true,
+      token: {
+        image_url: true,
+        symbol: true
+      },
       proposals: {
         ended_at: true,
         proposal_acct: true,
+        quote_vault: true,
+        base_vault: true,
         proposal_details: {
           title: true,
           categories: true
@@ -162,10 +169,8 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
         amount: true,
         token_acct: true,
         token: {
-          symbol: true,
           decimals: true,
           name: true,
-          image_url: true,
           mint_acct: true,
           vault_by_finalize: vaultSubQuery,
           vault_by_revert: vaultSubQuery
@@ -180,6 +185,10 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
           : t.token.vault_by_revert;
         const proposal = relatedVault?.proposals[0];
         const proposalDetail = proposal?.proposal_details[0];
+        const tokenType =
+          proposal?.base_vault === relatedVault?.cond_vault_acct
+            ? "base"
+            : "quote";
         const daoDetail = proposal?.dao.dao_detail;
         if (!proposal) return;
         const balanceInProposal: BalanceLockedInProposal = {
@@ -189,9 +198,10 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
               decimals: t.token.decimals,
               name: t.token.name,
               publicKey: t.token.mint_acct,
-              symbol: t.token.symbol,
-              url: t.token.image_url
-            }
+              symbol: relatedVault.token.symbol,
+              url: relatedVault.token.image_url
+            },
+            tokenType: tokenType
           },
           pda: new PublicKey(t.token_acct),
           dao: {

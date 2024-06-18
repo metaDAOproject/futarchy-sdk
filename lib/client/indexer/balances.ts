@@ -214,7 +214,7 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
           publicKey: new PublicKey(proposal.proposal_acct),
           state: proposal.status as ProposalState,
           tags:
-            proposalDetail?.categories.map(
+            proposalDetail?.categories?.map(
               (c: { category: string }) => c.category
             ) ?? [],
           title: proposalDetail?.title ?? ""

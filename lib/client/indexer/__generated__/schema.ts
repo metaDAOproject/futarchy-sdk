@@ -241,7 +241,7 @@ export interface comments {
     /** An aggregate relationship */
     comments_aggregate: comments_aggregate
     content: Scalars['String']
-    created_at: Scalars['timestamp']
+    created_at: Scalars['timestamptz']
     /** An object relationship */
     proposal: proposals
     proposal_acct: Scalars['String']
@@ -296,7 +296,7 @@ export interface comments_max_fields {
     comment_id: (Scalars['bigint'] | null)
     commentor_acct: (Scalars['String'] | null)
     content: (Scalars['String'] | null)
-    created_at: (Scalars['timestamp'] | null)
+    created_at: (Scalars['timestamptz'] | null)
     proposal_acct: (Scalars['String'] | null)
     responding_comment_id: (Scalars['bigint'] | null)
     __typename: 'comments_max_fields'
@@ -308,7 +308,7 @@ export interface comments_min_fields {
     comment_id: (Scalars['bigint'] | null)
     commentor_acct: (Scalars['String'] | null)
     content: (Scalars['String'] | null)
-    created_at: (Scalars['timestamp'] | null)
+    created_at: (Scalars['timestamptz'] | null)
     proposal_acct: (Scalars['String'] | null)
     responding_comment_id: (Scalars['bigint'] | null)
     __typename: 'comments_min_fields'
@@ -4317,11 +4317,13 @@ export interface token_acct_balances {
     created_at: Scalars['timestamptz']
     mint_acct: Scalars['String']
     owner_acct: Scalars['String']
+    slot: (Scalars['bigint'] | null)
     /** An object relationship */
     token: tokens
     /** An object relationship */
     tokenAcctByTokenAcct: token_accts
     token_acct: Scalars['String']
+    tx_sig: (Scalars['String'] | null)
     __typename: 'token_acct_balances'
 }
 
@@ -4354,6 +4356,7 @@ export interface token_acct_balances_aggregate_fields {
 /** aggregate avg on columns */
 export interface token_acct_balances_avg_fields {
     amount: (Scalars['Float'] | null)
+    slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_avg_fields'
 }
 
@@ -4368,7 +4371,9 @@ export interface token_acct_balances_max_fields {
     created_at: (Scalars['timestamptz'] | null)
     mint_acct: (Scalars['String'] | null)
     owner_acct: (Scalars['String'] | null)
+    slot: (Scalars['bigint'] | null)
     token_acct: (Scalars['String'] | null)
+    tx_sig: (Scalars['String'] | null)
     __typename: 'token_acct_balances_max_fields'
 }
 
@@ -4379,7 +4384,9 @@ export interface token_acct_balances_min_fields {
     created_at: (Scalars['timestamptz'] | null)
     mint_acct: (Scalars['String'] | null)
     owner_acct: (Scalars['String'] | null)
+    slot: (Scalars['bigint'] | null)
     token_acct: (Scalars['String'] | null)
+    tx_sig: (Scalars['String'] | null)
     __typename: 'token_acct_balances_min_fields'
 }
 
@@ -4395,12 +4402,13 @@ export interface token_acct_balances_mutation_response {
 
 
 /** select columns of table "token_acct_balances" */
-export type token_acct_balances_select_column = 'amount' | 'created_at' | 'mint_acct' | 'owner_acct' | 'token_acct'
+export type token_acct_balances_select_column = 'amount' | 'created_at' | 'mint_acct' | 'owner_acct' | 'slot' | 'token_acct' | 'tx_sig'
 
 
 /** aggregate stddev on columns */
 export interface token_acct_balances_stddev_fields {
     amount: (Scalars['Float'] | null)
+    slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_stddev_fields'
 }
 
@@ -4408,6 +4416,7 @@ export interface token_acct_balances_stddev_fields {
 /** aggregate stddev_pop on columns */
 export interface token_acct_balances_stddev_pop_fields {
     amount: (Scalars['Float'] | null)
+    slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_stddev_pop_fields'
 }
 
@@ -4415,6 +4424,7 @@ export interface token_acct_balances_stddev_pop_fields {
 /** aggregate stddev_samp on columns */
 export interface token_acct_balances_stddev_samp_fields {
     amount: (Scalars['Float'] | null)
+    slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_stddev_samp_fields'
 }
 
@@ -4422,17 +4432,19 @@ export interface token_acct_balances_stddev_samp_fields {
 /** aggregate sum on columns */
 export interface token_acct_balances_sum_fields {
     amount: (Scalars['bigint'] | null)
+    slot: (Scalars['bigint'] | null)
     __typename: 'token_acct_balances_sum_fields'
 }
 
 
 /** update columns of table "token_acct_balances" */
-export type token_acct_balances_update_column = 'amount' | 'created_at' | 'mint_acct' | 'owner_acct' | 'token_acct'
+export type token_acct_balances_update_column = 'amount' | 'created_at' | 'mint_acct' | 'owner_acct' | 'slot' | 'token_acct' | 'tx_sig'
 
 
 /** aggregate var_pop on columns */
 export interface token_acct_balances_var_pop_fields {
     amount: (Scalars['Float'] | null)
+    slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_var_pop_fields'
 }
 
@@ -4440,6 +4452,7 @@ export interface token_acct_balances_var_pop_fields {
 /** aggregate var_samp on columns */
 export interface token_acct_balances_var_samp_fields {
     amount: (Scalars['Float'] | null)
+    slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_var_samp_fields'
 }
 
@@ -4447,6 +4460,7 @@ export interface token_acct_balances_var_samp_fields {
 /** aggregate variance on columns */
 export interface token_acct_balances_variance_fields {
     amount: (Scalars['Float'] | null)
+    slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_variance_fields'
 }
 
@@ -6085,7 +6099,7 @@ export interface comments_avg_order_by {comment_id?: (order_by | null),respondin
 
 
 /** Boolean expression to filter rows from the table "comments". All fields are combined with a logical 'AND'. */
-export interface comments_bool_exp {_and?: (comments_bool_exp[] | null),_not?: (comments_bool_exp | null),_or?: (comments_bool_exp[] | null),comment?: (comments_bool_exp | null),comment_id?: (bigint_comparison_exp | null),commentor_acct?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),content?: (String_comparison_exp | null),created_at?: (timestamp_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),responding_comment_id?: (bigint_comparison_exp | null)}
+export interface comments_bool_exp {_and?: (comments_bool_exp[] | null),_not?: (comments_bool_exp | null),_or?: (comments_bool_exp[] | null),comment?: (comments_bool_exp | null),comment_id?: (bigint_comparison_exp | null),commentor_acct?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),content?: (String_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),responding_comment_id?: (bigint_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "comments" */
@@ -6093,7 +6107,7 @@ export interface comments_inc_input {comment_id?: (Scalars['bigint'] | null),res
 
 
 /** input type for inserting data into table "comments" */
-export interface comments_insert_input {comment?: (comments_obj_rel_insert_input | null),comment_id?: (Scalars['bigint'] | null),commentor_acct?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),content?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),responding_comment_id?: (Scalars['bigint'] | null)}
+export interface comments_insert_input {comment?: (comments_obj_rel_insert_input | null),comment_id?: (Scalars['bigint'] | null),commentor_acct?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),content?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),responding_comment_id?: (Scalars['bigint'] | null)}
 
 
 /** aggregate max on columns */
@@ -6160,7 +6174,7 @@ export interface comments_pk_columns_input {comment_id: Scalars['bigint']}
 
 
 /** input type for updating data in table "comments" */
-export interface comments_set_input {comment_id?: (Scalars['bigint'] | null),commentor_acct?: (Scalars['String'] | null),content?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),proposal_acct?: (Scalars['String'] | null),responding_comment_id?: (Scalars['bigint'] | null)}
+export interface comments_set_input {comment_id?: (Scalars['bigint'] | null),commentor_acct?: (Scalars['String'] | null),content?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),responding_comment_id?: (Scalars['bigint'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -6211,7 +6225,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface comments_stream_cursor_value_input {comment_id?: (Scalars['bigint'] | null),commentor_acct?: (Scalars['String'] | null),content?: (Scalars['String'] | null),created_at?: (Scalars['timestamp'] | null),proposal_acct?: (Scalars['String'] | null),responding_comment_id?: (Scalars['bigint'] | null)}
+export interface comments_stream_cursor_value_input {comment_id?: (Scalars['bigint'] | null),commentor_acct?: (Scalars['String'] | null),content?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),responding_comment_id?: (Scalars['bigint'] | null)}
 
 
 /** aggregate sum on columns */
@@ -14239,11 +14253,13 @@ export interface token_acct_balancesGenqlSelection{
     created_at?: boolean | number
     mint_acct?: boolean | number
     owner_acct?: boolean | number
+    slot?: boolean | number
     /** An object relationship */
     token?: tokensGenqlSelection
     /** An object relationship */
     tokenAcctByTokenAcct?: token_acctsGenqlSelection
     token_acct?: boolean | number
+    tx_sig?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -14293,25 +14309,26 @@ on_conflict?: (token_acct_balances_on_conflict | null)}
 /** aggregate avg on columns */
 export interface token_acct_balances_avg_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by avg() on columns of table "token_acct_balances" */
-export interface token_acct_balances_avg_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_avg_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "token_acct_balances". All fields are combined with a logical 'AND'. */
-export interface token_acct_balances_bool_exp {_and?: (token_acct_balances_bool_exp[] | null),_not?: (token_acct_balances_bool_exp | null),_or?: (token_acct_balances_bool_exp[] | null),amount?: (bigint_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),mint_acct?: (String_comparison_exp | null),owner_acct?: (String_comparison_exp | null),token?: (tokens_bool_exp | null),tokenAcctByTokenAcct?: (token_accts_bool_exp | null),token_acct?: (String_comparison_exp | null)}
+export interface token_acct_balances_bool_exp {_and?: (token_acct_balances_bool_exp[] | null),_not?: (token_acct_balances_bool_exp | null),_or?: (token_acct_balances_bool_exp[] | null),amount?: (bigint_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),mint_acct?: (String_comparison_exp | null),owner_acct?: (String_comparison_exp | null),slot?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenAcctByTokenAcct?: (token_accts_bool_exp | null),token_acct?: (String_comparison_exp | null),tx_sig?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "token_acct_balances" */
-export interface token_acct_balances_inc_input {amount?: (Scalars['bigint'] | null)}
+export interface token_acct_balances_inc_input {amount?: (Scalars['bigint'] | null),slot?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "token_acct_balances" */
-export interface token_acct_balances_insert_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByTokenAcct?: (token_accts_obj_rel_insert_input | null),token_acct?: (Scalars['String'] | null)}
+export interface token_acct_balances_insert_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByTokenAcct?: (token_accts_obj_rel_insert_input | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -14320,14 +14337,16 @@ export interface token_acct_balances_max_fieldsGenqlSelection{
     created_at?: boolean | number
     mint_acct?: boolean | number
     owner_acct?: boolean | number
+    slot?: boolean | number
     token_acct?: boolean | number
+    tx_sig?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by max() on columns of table "token_acct_balances" */
-export interface token_acct_balances_max_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),token_acct?: (order_by | null)}
+export interface token_acct_balances_max_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -14336,14 +14355,16 @@ export interface token_acct_balances_min_fieldsGenqlSelection{
     created_at?: boolean | number
     mint_acct?: boolean | number
     owner_acct?: boolean | number
+    slot?: boolean | number
     token_acct?: boolean | number
+    tx_sig?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by min() on columns of table "token_acct_balances" */
-export interface token_acct_balances_min_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),token_acct?: (order_by | null)}
+export interface token_acct_balances_min_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
 
 
 /** response of any mutation on the table "token_acct_balances" */
@@ -14362,7 +14383,7 @@ export interface token_acct_balances_on_conflict {constraint: token_acct_balance
 
 
 /** Ordering options when selecting data from "token_acct_balances". */
-export interface token_acct_balances_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),token?: (tokens_order_by | null),tokenAcctByTokenAcct?: (token_accts_order_by | null),token_acct?: (order_by | null)}
+export interface token_acct_balances_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token?: (tokens_order_by | null),tokenAcctByTokenAcct?: (token_accts_order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
 
 
 /** primary key columns input for table: token_acct_balances */
@@ -14370,43 +14391,46 @@ export interface token_acct_balances_pk_columns_input {amount: Scalars['bigint']
 
 
 /** input type for updating data in table "token_acct_balances" */
-export interface token_acct_balances_set_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),token_acct?: (Scalars['String'] | null)}
+export interface token_acct_balances_set_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate stddev on columns */
 export interface token_acct_balances_stddev_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev() on columns of table "token_acct_balances" */
-export interface token_acct_balances_stddev_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_stddev_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface token_acct_balances_stddev_pop_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_pop() on columns of table "token_acct_balances" */
-export interface token_acct_balances_stddev_pop_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_stddev_pop_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface token_acct_balances_stddev_samp_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_samp() on columns of table "token_acct_balances" */
-export interface token_acct_balances_stddev_samp_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_stddev_samp_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 
 /** Streaming cursor of the table "token_acct_balances" */
@@ -14418,19 +14442,20 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface token_acct_balances_stream_cursor_value_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),token_acct?: (Scalars['String'] | null)}
+export interface token_acct_balances_stream_cursor_value_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate sum on columns */
 export interface token_acct_balances_sum_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by sum() on columns of table "token_acct_balances" */
-export interface token_acct_balances_sum_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_sum_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 export interface token_acct_balances_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -14444,37 +14469,40 @@ where: token_acct_balances_bool_exp}
 /** aggregate var_pop on columns */
 export interface token_acct_balances_var_pop_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_pop() on columns of table "token_acct_balances" */
-export interface token_acct_balances_var_pop_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_var_pop_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface token_acct_balances_var_samp_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_samp() on columns of table "token_acct_balances" */
-export interface token_acct_balances_var_samp_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_var_samp_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface token_acct_balances_variance_fieldsGenqlSelection{
     amount?: boolean | number
+    slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by variance() on columns of table "token_acct_balances" */
-export interface token_acct_balances_variance_order_by {amount?: (order_by | null)}
+export interface token_acct_balances_variance_order_by {amount?: (order_by | null),slot?: (order_by | null)}
 
 
 /** Boolean expression to compare columns of type "token_acct_status". All fields are combined with logical 'AND'. */
@@ -20356,7 +20384,9 @@ export const enumTokenAcctBalancesSelectColumn = {
    created_at: 'created_at' as const,
    mint_acct: 'mint_acct' as const,
    owner_acct: 'owner_acct' as const,
-   token_acct: 'token_acct' as const
+   slot: 'slot' as const,
+   token_acct: 'token_acct' as const,
+   tx_sig: 'tx_sig' as const
 }
 
 export const enumTokenAcctBalancesUpdateColumn = {
@@ -20364,7 +20394,9 @@ export const enumTokenAcctBalancesUpdateColumn = {
    created_at: 'created_at' as const,
    mint_acct: 'mint_acct' as const,
    owner_acct: 'owner_acct' as const,
-   token_acct: 'token_acct' as const
+   slot: 'slot' as const,
+   token_acct: 'token_acct' as const,
+   tx_sig: 'tx_sig' as const
 }
 
 export const enumTokenAcctsConstraint = {

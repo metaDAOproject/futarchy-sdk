@@ -733,7 +733,7 @@ type comments {
     where: comments_bool_exp
   ): comments_aggregate!
   content: String!
-  created_at: timestamp!
+  created_at: timestamptz!
 
   """An object relationship"""
   proposal: proposals!
@@ -867,7 +867,7 @@ input comments_bool_exp {
   comments: comments_bool_exp
   comments_aggregate: comments_aggregate_bool_exp
   content: String_comparison_exp
-  created_at: timestamp_comparison_exp
+  created_at: timestamptz_comparison_exp
   proposal: proposals_bool_exp
   proposal_acct: String_comparison_exp
   reactions: reactions_bool_exp
@@ -902,7 +902,7 @@ input comments_insert_input {
   commentor_acct: String
   comments: comments_arr_rel_insert_input
   content: String
-  created_at: timestamp
+  created_at: timestamptz
   proposal: proposals_obj_rel_insert_input
   proposal_acct: String
   reactions: reactions_arr_rel_insert_input
@@ -914,7 +914,7 @@ type comments_max_fields {
   comment_id: bigint
   commentor_acct: String
   content: String
-  created_at: timestamp
+  created_at: timestamptz
   proposal_acct: String
   responding_comment_id: bigint
 }
@@ -936,7 +936,7 @@ type comments_min_fields {
   comment_id: bigint
   commentor_acct: String
   content: String
-  created_at: timestamp
+  created_at: timestamptz
   proposal_acct: String
   responding_comment_id: bigint
 }
@@ -1032,7 +1032,7 @@ input comments_set_input {
   comment_id: bigint
   commentor_acct: String
   content: String
-  created_at: timestamp
+  created_at: timestamptz
   proposal_acct: String
   responding_comment_id: bigint
 }
@@ -1095,7 +1095,7 @@ input comments_stream_cursor_value_input {
   comment_id: bigint
   commentor_acct: String
   content: String
-  created_at: timestamp
+  created_at: timestamptz
   proposal_acct: String
   responding_comment_id: bigint
 }
@@ -15338,6 +15338,7 @@ type token_acct_balances {
   created_at: timestamptz!
   mint_acct: String!
   owner_acct: String!
+  slot: bigint
 
   """An object relationship"""
   token: tokens!
@@ -15345,6 +15346,7 @@ type token_acct_balances {
   """An object relationship"""
   tokenAcctByTokenAcct: token_accts!
   token_acct: String!
+  tx_sig: String
 }
 
 """
@@ -15413,6 +15415,7 @@ input token_acct_balances_arr_rel_insert_input {
 """aggregate avg on columns"""
 type token_acct_balances_avg_fields {
   amount: Float
+  slot: Float
 }
 
 """
@@ -15420,6 +15423,7 @@ order by avg() on columns of table "token_acct_balances"
 """
 input token_acct_balances_avg_order_by {
   amount: order_by
+  slot: order_by
 }
 
 """
@@ -15433,9 +15437,11 @@ input token_acct_balances_bool_exp {
   created_at: timestamptz_comparison_exp
   mint_acct: String_comparison_exp
   owner_acct: String_comparison_exp
+  slot: bigint_comparison_exp
   token: tokens_bool_exp
   tokenAcctByTokenAcct: token_accts_bool_exp
   token_acct: String_comparison_exp
+  tx_sig: String_comparison_exp
 }
 
 """
@@ -15453,6 +15459,7 @@ input type for incrementing numeric columns in table "token_acct_balances"
 """
 input token_acct_balances_inc_input {
   amount: bigint
+  slot: bigint
 }
 
 """
@@ -15463,9 +15470,11 @@ input token_acct_balances_insert_input {
   created_at: timestamptz
   mint_acct: String
   owner_acct: String
+  slot: bigint
   token: tokens_obj_rel_insert_input
   tokenAcctByTokenAcct: token_accts_obj_rel_insert_input
   token_acct: String
+  tx_sig: String
 }
 
 """aggregate max on columns"""
@@ -15474,7 +15483,9 @@ type token_acct_balances_max_fields {
   created_at: timestamptz
   mint_acct: String
   owner_acct: String
+  slot: bigint
   token_acct: String
+  tx_sig: String
 }
 
 """
@@ -15485,7 +15496,9 @@ input token_acct_balances_max_order_by {
   created_at: order_by
   mint_acct: order_by
   owner_acct: order_by
+  slot: order_by
   token_acct: order_by
+  tx_sig: order_by
 }
 
 """aggregate min on columns"""
@@ -15494,7 +15507,9 @@ type token_acct_balances_min_fields {
   created_at: timestamptz
   mint_acct: String
   owner_acct: String
+  slot: bigint
   token_acct: String
+  tx_sig: String
 }
 
 """
@@ -15505,7 +15520,9 @@ input token_acct_balances_min_order_by {
   created_at: order_by
   mint_acct: order_by
   owner_acct: order_by
+  slot: order_by
   token_acct: order_by
+  tx_sig: order_by
 }
 
 """
@@ -15534,9 +15551,11 @@ input token_acct_balances_order_by {
   created_at: order_by
   mint_acct: order_by
   owner_acct: order_by
+  slot: order_by
   token: tokens_order_by
   tokenAcctByTokenAcct: token_accts_order_by
   token_acct: order_by
+  tx_sig: order_by
 }
 
 """primary key columns input for table: token_acct_balances"""
@@ -15564,7 +15583,13 @@ enum token_acct_balances_select_column {
   owner_acct
 
   """column name"""
+  slot
+
+  """column name"""
   token_acct
+
+  """column name"""
+  tx_sig
 }
 
 """
@@ -15575,12 +15600,15 @@ input token_acct_balances_set_input {
   created_at: timestamptz
   mint_acct: String
   owner_acct: String
+  slot: bigint
   token_acct: String
+  tx_sig: String
 }
 
 """aggregate stddev on columns"""
 type token_acct_balances_stddev_fields {
   amount: Float
+  slot: Float
 }
 
 """
@@ -15588,11 +15616,13 @@ order by stddev() on columns of table "token_acct_balances"
 """
 input token_acct_balances_stddev_order_by {
   amount: order_by
+  slot: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type token_acct_balances_stddev_pop_fields {
   amount: Float
+  slot: Float
 }
 
 """
@@ -15600,11 +15630,13 @@ order by stddev_pop() on columns of table "token_acct_balances"
 """
 input token_acct_balances_stddev_pop_order_by {
   amount: order_by
+  slot: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type token_acct_balances_stddev_samp_fields {
   amount: Float
+  slot: Float
 }
 
 """
@@ -15612,6 +15644,7 @@ order by stddev_samp() on columns of table "token_acct_balances"
 """
 input token_acct_balances_stddev_samp_order_by {
   amount: order_by
+  slot: order_by
 }
 
 """
@@ -15631,12 +15664,15 @@ input token_acct_balances_stream_cursor_value_input {
   created_at: timestamptz
   mint_acct: String
   owner_acct: String
+  slot: bigint
   token_acct: String
+  tx_sig: String
 }
 
 """aggregate sum on columns"""
 type token_acct_balances_sum_fields {
   amount: bigint
+  slot: bigint
 }
 
 """
@@ -15644,6 +15680,7 @@ order by sum() on columns of table "token_acct_balances"
 """
 input token_acct_balances_sum_order_by {
   amount: order_by
+  slot: order_by
 }
 
 """
@@ -15663,7 +15700,13 @@ enum token_acct_balances_update_column {
   owner_acct
 
   """column name"""
+  slot
+
+  """column name"""
   token_acct
+
+  """column name"""
+  tx_sig
 }
 
 input token_acct_balances_updates {
@@ -15680,6 +15723,7 @@ input token_acct_balances_updates {
 """aggregate var_pop on columns"""
 type token_acct_balances_var_pop_fields {
   amount: Float
+  slot: Float
 }
 
 """
@@ -15687,11 +15731,13 @@ order by var_pop() on columns of table "token_acct_balances"
 """
 input token_acct_balances_var_pop_order_by {
   amount: order_by
+  slot: order_by
 }
 
 """aggregate var_samp on columns"""
 type token_acct_balances_var_samp_fields {
   amount: Float
+  slot: Float
 }
 
 """
@@ -15699,11 +15745,13 @@ order by var_samp() on columns of table "token_acct_balances"
 """
 input token_acct_balances_var_samp_order_by {
   amount: order_by
+  slot: order_by
 }
 
 """aggregate variance on columns"""
 type token_acct_balances_variance_fields {
   amount: Float
+  slot: Float
 }
 
 """
@@ -15711,6 +15759,7 @@ order by variance() on columns of table "token_acct_balances"
 """
 input token_acct_balances_variance_order_by {
   amount: order_by
+  slot: order_by
 }
 
 scalar token_acct_status

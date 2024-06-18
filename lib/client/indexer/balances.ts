@@ -223,11 +223,6 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
       })
       .filter((b): b is BalanceLockedInProposal => !!b);
 
-    console.log(
-      "fetchAllBalancesLockedInProposals balancesLocked",
-      balancesLocked
-    );
-
     return balancesLocked;
   }
 

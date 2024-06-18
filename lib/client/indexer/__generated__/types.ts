@@ -1406,7 +1406,7 @@ export default {
                 5
             ],
             "created_at": [
-                795
+                797
             ],
             "proposal": [
                 626
@@ -1648,7 +1648,7 @@ export default {
                 6
             ],
             "created_at": [
-                796
+                798
             ],
             "proposal": [
                 645
@@ -1698,7 +1698,7 @@ export default {
                 5
             ],
             "created_at": [
-                795
+                797
             ],
             "proposal": [
                 654
@@ -1727,7 +1727,7 @@ export default {
                 5
             ],
             "created_at": [
-                795
+                797
             ],
             "proposal_acct": [
                 5
@@ -1773,7 +1773,7 @@ export default {
                 5
             ],
             "created_at": [
-                795
+                797
             ],
             "proposal_acct": [
                 5
@@ -1899,7 +1899,7 @@ export default {
                 5
             ],
             "created_at": [
-                795
+                797
             ],
             "proposal_acct": [
                 5
@@ -1999,7 +1999,7 @@ export default {
                 5
             ],
             "created_at": [
-                795
+                797
             ],
             "proposal_acct": [
                 5
@@ -16992,6 +16992,9 @@ export default {
             "owner_acct": [
                 5
             ],
+            "slot": [
+                7
+            ],
             "token": [
                 884
             ],
@@ -16999,6 +17002,9 @@ export default {
                 842
             ],
             "token_acct": [
+                5
+            ],
+            "tx_sig": [
                 5
             ],
             "__typename": [
@@ -17141,12 +17147,18 @@ export default {
             "amount": [
                 2
             ],
+            "slot": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_avg_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [
@@ -17175,6 +17187,9 @@ export default {
             "owner_acct": [
                 6
             ],
+            "slot": [
+                8
+            ],
             "token": [
                 888
             ],
@@ -17184,6 +17199,9 @@ export default {
             "token_acct": [
                 6
             ],
+            "tx_sig": [
+                6
+            ],
             "__typename": [
                 5
             ]
@@ -17191,6 +17209,9 @@ export default {
         "token_acct_balances_constraint": {},
         "token_acct_balances_inc_input": {
             "amount": [
+                7
+            ],
+            "slot": [
                 7
             ],
             "__typename": [
@@ -17210,6 +17231,9 @@ export default {
             "owner_acct": [
                 5
             ],
+            "slot": [
+                7
+            ],
             "token": [
                 895
             ],
@@ -17217,6 +17241,9 @@ export default {
                 860
             ],
             "token_acct": [
+                5
+            ],
+            "tx_sig": [
                 5
             ],
             "__typename": [
@@ -17236,7 +17263,13 @@ export default {
             "owner_acct": [
                 5
             ],
+            "slot": [
+                7
+            ],
             "token_acct": [
+                5
+            ],
+            "tx_sig": [
                 5
             ],
             "__typename": [
@@ -17256,7 +17289,13 @@ export default {
             "owner_acct": [
                 342
             ],
+            "slot": [
+                342
+            ],
             "token_acct": [
+                342
+            ],
+            "tx_sig": [
                 342
             ],
             "__typename": [
@@ -17276,7 +17315,13 @@ export default {
             "owner_acct": [
                 5
             ],
+            "slot": [
+                7
+            ],
             "token_acct": [
+                5
+            ],
+            "tx_sig": [
                 5
             ],
             "__typename": [
@@ -17296,7 +17341,13 @@ export default {
             "owner_acct": [
                 342
             ],
+            "slot": [
+                342
+            ],
             "token_acct": [
+                342
+            ],
+            "tx_sig": [
                 342
             ],
             "__typename": [
@@ -17341,6 +17392,9 @@ export default {
             "owner_acct": [
                 342
             ],
+            "slot": [
+                342
+            ],
             "token": [
                 897
             ],
@@ -17348,6 +17402,9 @@ export default {
                 862
             ],
             "token_acct": [
+                342
+            ],
+            "tx_sig": [
                 342
             ],
             "__typename": [
@@ -17385,7 +17442,13 @@ export default {
             "owner_acct": [
                 5
             ],
+            "slot": [
+                7
+            ],
             "token_acct": [
+                5
+            ],
+            "tx_sig": [
                 5
             ],
             "__typename": [
@@ -17396,12 +17459,18 @@ export default {
             "amount": [
                 2
             ],
+            "slot": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_stddev_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [
@@ -17412,12 +17481,18 @@ export default {
             "amount": [
                 2
             ],
+            "slot": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_stddev_pop_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [
@@ -17428,12 +17503,18 @@ export default {
             "amount": [
                 2
             ],
+            "slot": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_stddev_samp_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [
@@ -17464,7 +17545,13 @@ export default {
             "owner_acct": [
                 5
             ],
+            "slot": [
+                7
+            ],
             "token_acct": [
+                5
+            ],
+            "tx_sig": [
                 5
             ],
             "__typename": [
@@ -17475,12 +17562,18 @@ export default {
             "amount": [
                 7
             ],
+            "slot": [
+                7
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_sum_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [
@@ -17506,12 +17599,18 @@ export default {
             "amount": [
                 2
             ],
+            "slot": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_var_pop_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [
@@ -17522,12 +17621,18 @@ export default {
             "amount": [
                 2
             ],
+            "slot": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_var_samp_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [
@@ -17538,12 +17643,18 @@ export default {
             "amount": [
                 2
             ],
+            "slot": [
+                2
+            ],
             "__typename": [
                 5
             ]
         },
         "token_acct_balances_variance_order_by": {
             "amount": [
+                342
+            ],
+            "slot": [
                 342
             ],
             "__typename": [

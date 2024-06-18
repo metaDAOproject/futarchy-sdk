@@ -9,7 +9,8 @@ import {
   ProposalAccounts,
   ProgramVersionLabel,
   ProposalCounts,
-  ProposalWithFullData
+  ProposalWithFullData,
+  BalanceLockedInProposal
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -125,7 +126,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         proposal_details: {
           title: true,
           slug: true,
-          categories: true,
+          categories: true
         },
         dao: {
           dao_detail: {
@@ -275,7 +276,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           slug: proposalDetails.slug || p.proposal_acct,
           // TODO we need our beatufiul tags
           title: proposalDetails.title ?? "",
-          tags: proposalDetails.categories ?? []
+          tags:
+            proposalDetails.categories?.map(
+              (c: { category: string }) => c.category
+            ) ?? []
         };
       }
     });
@@ -597,7 +601,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       state: proposal.status as ProposalState,
       reactions: proposal.reactions.map((r) => r.reaction),
       protocol: relatedProtocol,
-      tags: proposalDetails.categories,
+      tags:
+        proposalDetails.categories?.map(
+          (c: { category: string }) => c.category
+        ) ?? [],
       title: proposalDetails.title ?? "",
       volume: passVolume + failVolume
     };
@@ -690,6 +697,14 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       proposal,
       underlyingToken
     );
+  }
+
+  public async reclaimFromManyProposals(
+    proposalBalances: (BalanceLockedInProposal & {
+      proposal: ProposalWithFullData;
+    })[]
+  ) {
+    return this.rpcProposalsClient.reclaimFromManyProposals(proposalBalances);
   }
 
   watchReactions(

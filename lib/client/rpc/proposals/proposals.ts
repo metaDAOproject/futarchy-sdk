@@ -18,7 +18,7 @@ import {
   ProgramVersionLabel
 } from "@/types";
 import {
-  Proposal,
+  BalanceLockedInProposal,
   ProposalAccounts,
   ProposalWithFullData
 } from "@/types/proposals";
@@ -399,15 +399,66 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return redeem && (await redeem.transaction()).instructions;
   }
 
-  public async withdraw(proposal: ProposalWithFullData) {
-    const user = this.rpcProvider.publicKey;
-    const vaultForVersion =
-      autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion];
-    const vaultProgram = new Program(
-      vaultForVersion.idl,
-      vaultForVersion.programId,
-      this.rpcProvider
+  public async reclaimFromManyProposals(
+    proposalBalances: (BalanceLockedInProposal & {
+      proposal: ProposalWithFullData;
+    })[]
+  ) {
+    const transactions: Transaction[] = [];
+    for (const proposalBalance of proposalBalances) {
+      if (proposalBalance.proposal.state === "Pending") {
+        const createRes = await this.createMergeConditionalTokensIxAndProgram(
+          new BN(proposalBalance.userBalance.balance),
+          proposalBalance.proposal,
+          proposalBalance.userBalance.token.symbol
+            .toLowerCase()
+            .includes("usdc")
+            ? "quote"
+            : "base"
+        );
+        if (!createRes) {
+          continue;
+        }
+        const [ix] = createRes;
+        if (ix) {
+          transactions.push(new Transaction().add(ix));
+        }
+      } else {
+        const vaultForVersion =
+          autocratVersionToConditionalVaultMap[
+            proposalBalance.proposal.protocol.deploymentVersion
+          ];
+        const vaultProgram = new Program(
+          vaultForVersion.idl,
+          vaultForVersion.programId,
+          this.rpcProvider
+        );
+
+        const tx = await this.createWithdrawTx(
+          proposalBalance.proposal,
+          vaultProgram
+        );
+        if (tx) transactions.push(tx);
+      }
+    }
+
+    const resp = await this.transactionSender?.send(
+      transactions,
+      this.rpcProvider.connection,
+      {
+        customErrors: [], // Add appropriate custom errors
+        CUs: 220_000
+      },
+      { title: "Claiming Funds from All Proposals" }
     );
+    return resp;
+  }
+
+  async createWithdrawTx(
+    proposal: ProposalWithFullData,
+    vaultProgram: Program<ConditionalVaultProgram>
+  ) {
+    const user = this.rpcProvider.publicKey;
 
     const baseAccounts = await this.getUserVaultAccounts(
       proposal.baseVaultAccount,
@@ -463,6 +514,19 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     if (redeemQuoteIx) tx.add(...redeemQuoteIx);
 
     if (!redeemBaseIx && !redeemQuoteIx) throw new Error("No account");
+
+    return tx;
+  }
+
+  public async withdraw(proposal: ProposalWithFullData) {
+    const vaultForVersion =
+      autocratVersionToConditionalVaultMap[proposal.protocol.deploymentVersion];
+    const vaultProgram = new Program(
+      vaultForVersion.idl,
+      vaultForVersion.programId,
+      this.rpcProvider
+    );
+    const tx = await this.createWithdrawTx(proposal, vaultProgram);
 
     const resp = this.transactionSender?.send(
       [tx],

@@ -14,7 +14,7 @@ import {
   ProposalState
 } from "@/types/proposals";
 import { FutarchyRPCBalancesClient } from "../rpc";
-import { Observable, catchError, of, switchMap } from "rxjs";
+import { Observable, catchError, from, of, switchMap } from "rxjs";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { Client as IndexerGraphQLClient } from "./__generated__";
 import {
@@ -32,14 +32,17 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
   private rpcBalancesClient: FutarchyRPCBalancesClient;
   private graphqlWSClient: GQLWebSocketClient;
   private graphqlClient: IndexerGraphQLClient;
+  private balancesApiURL: string;
   constructor(
     rpcBalancesClient: FutarchyRPCBalancesClient,
     graphqlWSClient: GQLWebSocketClient,
-    graphqlClient: IndexerGraphQLClient
+    graphqlClient: IndexerGraphQLClient,
+    balancesApiURL: string
   ) {
     this.rpcBalancesClient = rpcBalancesClient;
     this.graphqlWSClient = graphqlWSClient;
     this.graphqlClient = graphqlClient;
+    this.balancesApiURL = balancesApiURL;
   }
 
   /**
@@ -230,25 +233,68 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     return this.rpcBalancesClient.fetchTokenBalance(pda, token);
   }
 
-  watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance> {
-    // how do we initially fetch from RPC and then
-    const indexerObservable = this.watchTokenAcctForArgs(
-      {
-        where: {
-          token_acct: { _eq: tokenWithPDA.pda.toBase58() }
+  watchTokenBalance(
+    tokenWithPDA: TokenWithPDA,
+    authToken: string
+  ): Observable<TokenWithBalance> {
+    const url = `${this.balancesApiURL}/watch-token-balance`;
+
+    const postData = {
+      tokenAcct: tokenWithPDA.pda.toBase58()
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`
+    };
+
+    // Make the POST request using fetch and convert the promise to an observable
+    const apiCall$ = from(
+      fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(postData)
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "balances API (asset-watcher) returned an error for trying to watch this balance... " +
+              response.text() +
+              " " +
+              response.statusText
+          );
         }
-      },
-      tokenWithPDA.token
+        return response.json();
+      })
     );
 
-    return indexerObservable.pipe(
-      catchError((_) => {
-        const rpcObservable =
-          this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
-        return rpcObservable;
+    // Call the initial API to trigger watching on account
+    return apiCall$.pipe(
+      catchError((error) => {
+        console.error("Error triggering watch on account:", error);
+        // Fallback to RPC observable in case of an error
+        return this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
       }),
-      switchMap((value) => {
-        return of(value);
+      switchMap(() => {
+        // After triggering the watch, fetch from RPC
+        const indexerObservable = this.watchTokenAcctForArgs(
+          {
+            where: {
+              token_acct: { _eq: tokenWithPDA.pda.toBase58() }
+            }
+          },
+          tokenWithPDA.token
+        );
+
+        return indexerObservable.pipe(
+          catchError((_) => {
+            const rpcObservable =
+              this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
+            return rpcObservable;
+          }),
+          switchMap((value) => {
+            return of(value);
+          })
+        );
       })
     );
   }

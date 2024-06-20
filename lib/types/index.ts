@@ -6,6 +6,7 @@ export * from "./createProp";
 export * from "./proposals";
 export * from "./markets";
 export * from "./autocrats";
+export * from "./instructions"
 export * from "./tokens";
 export * from "./openbook";
 export * from "./amm";

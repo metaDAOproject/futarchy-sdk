@@ -12,6 +12,7 @@ import { enrichTokenMetadata } from "@/tokens";
 import { PublicKey } from "@solana/web3.js";
 import { createSlug } from "@/utils";
 import { Autocrat, IDL as AUTOCRAT_V0_3_IDL } from "@/idl/autocrat_v0.3";
+import { AUTOCRAT_PROGRAM_ID } from "@metadaoproject/futarchy";
 
 export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   private futarchyProtocols: FutarchyProtocol[];
@@ -138,7 +139,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   ): Promise<{ base: BN; quote: BN } | undefined> {
     const autocrat = new Program<Autocrat>(
       AUTOCRAT_V0_3_IDL,
-      "autoQP9RmUNkzzKRXsMkWicDVZ3h29vvyMDcAYjCxxg    ",
+      AUTOCRAT_PROGRAM_ID,
       this.rpcProvider
     );
     const currentDao = daoAggregate.daos
@@ -173,17 +174,21 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
       );
 
     const tokens = await Promise.all(
-      tokenAccounts.value.map(async (accountInfo) => {
-        const tokenAmount = accountInfo.account.data.parsed.info.tokenAmount;
-        const token = await enrichTokenMetadata(
-          accountInfo.account.data.parsed.info.mint,
-          this.rpcProvider
-        );
-        return {
-          token: token,
-          balance: tokenAmount.uiAmount
-        };
-      })
+      tokenAccounts.value
+        .filter((accountInfo) =>
+          PublicKey.isOnCurve(accountInfo.account.data.parsed.info.mint)
+        )
+        .map(async (accountInfo) => {
+          const tokenAmount = accountInfo.account.data.parsed.info.tokenAmount;
+          const token = await enrichTokenMetadata(
+            new PublicKey(accountInfo.account.data.parsed.info.mint),
+            this.rpcProvider
+          );
+          return {
+            token: token,
+            balance: tokenAmount.uiAmount
+          };
+        })
     );
 
     return {

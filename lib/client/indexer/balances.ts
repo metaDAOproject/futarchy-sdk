@@ -256,10 +256,14 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
         body: JSON.stringify(postData)
       }).then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(
+            "balances API (asset-watcher) returned an error for trying to watch this balance... " +
+              response.text() +
+              " " +
+              response.statusText
+          );
         }
-        // API returns text not json :)
-        return response.text();
+        return response.json();
       })
     );
 

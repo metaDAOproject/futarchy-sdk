@@ -8,7 +8,6 @@ import {
   takerFee,
   twapMarketBuffer
 } from "@/constants";
-import { buildMemoInstruction, buildTransferInstruction } from "@/instructions";
 import { TransactionSender, createVersionedTransaction } from "@/transactions";
 import {
   Dao,
@@ -52,6 +51,8 @@ import {
 } from "@/idl/openbook_twap_v0.2";
 import { CreateProposal, FutarchyProposalsClient } from "@/client";
 import { ConditionalVault as Conditional_vault_v0_2 } from "@/idl/conditional_vault_v0.2";
+import { buildMemoInstruction } from "@/instructions/builder/memo";
+import { buildTransferInstruction } from "@/instructions/builder/transfer";
 
 export class CreateProposalClient implements CreateProposal {
   private proposalsClient: FutarchyProposalsClient;

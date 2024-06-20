@@ -8,3 +8,12 @@ export * from "./tokens";
 export * from "./types/";
 export * from "./utils";
 export * from "./dates";
+export * from "./instructions/finalized"
+export * from "./instructions/formatter"
+export * from "./instructions/index"
+export * from "./instructions/token"
+export * from "./instructions/builder/memo"
+export * from "./instructions/builder/transfer"
+export * from "./instructions/coder/index"
+export * from "./instructions/coder/memoInstructionDecoder"
+export * from "./instructions/coder/nativeInstructionDecoder"

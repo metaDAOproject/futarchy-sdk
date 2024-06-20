@@ -122,7 +122,10 @@ export interface FutarchyBalancesClient {
     passTokenUrl?: string,
     failTokenUrl?: string
   ): Promise<TokenWithBalancePDAAndProposal[]>;
-  watchTokenBalance(tokenWithPDA: TokenWithPDA): Observable<TokenWithBalance>;
+  watchTokenBalance(
+    tokenWithPDA: TokenWithPDA,
+    authToken?: string
+  ): Observable<TokenWithBalance>;
 }
 
 export interface FutarchyMarketsClient {

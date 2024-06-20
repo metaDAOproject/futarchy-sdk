@@ -19,7 +19,8 @@ export class FutarchyIndexerClient implements FutarchyClient {
   constructor(
     rpcClient: FutarchyRPCClient,
     indexerURL: string,
-    indexerWSURL: string
+    indexerWSURL: string,
+    balancesApiURL: string
   ) {
     // TODO how can we batch these queries??
     const options = {
@@ -58,7 +59,8 @@ export class FutarchyIndexerClient implements FutarchyClient {
     this.balances = new FutarchyIndexerBalancesClient(
       rpcClient.balances,
       this.wsClient,
-      graphqlClient
+      graphqlClient,
+      balancesApiURL
     );
     this.markets = new FutarchyIndexerMarketsClient(
       rpcClient.markets.openbook,
@@ -110,8 +112,14 @@ export class FutarchyIndexerClient implements FutarchyClient {
   static make(
     rpcClient: FutarchyRPCClient,
     indexerURL: string,
-    indexerWSURL: string
+    indexerWSURL: string,
+    balancesApiURL: string
   ) {
-    return new FutarchyIndexerClient(rpcClient, indexerURL, indexerWSURL);
+    return new FutarchyIndexerClient(
+      rpcClient,
+      indexerURL,
+      indexerWSURL,
+      balancesApiURL
+    );
   }
 }

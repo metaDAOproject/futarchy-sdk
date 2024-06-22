@@ -115,32 +115,6 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
     ownerWallet: PublicKey | null
   ): Promise<BalanceLockedInProposal[]> {
     if (!ownerWallet) return [];
-    const vaultSubQuery = {
-      cond_vault_acct: true,
-      status: true,
-      token: {
-        image_url: true,
-        symbol: true
-      },
-      proposals: {
-        ended_at: true,
-        proposal_acct: true,
-        quote_vault: true,
-        base_vault: true,
-        proposal_details: {
-          title: true,
-          categories: true
-        },
-        proposal_num: true,
-        dao: {
-          dao_detail: {
-            name: true,
-            slug: true
-          }
-        },
-        status: true
-      }
-    };
     const { token_accts } = await this.graphqlClient.query({
       token_accts: {
         __args: {
@@ -153,30 +127,140 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
                   {
                     token: {
                       vault_by_finalize: {
-                        proposals: { status: { _is_null: false } }
+                        _or: [
+                          {
+                            proposals: { status: { _is_null: false } }
+                          },
+                          {
+                            proposalsByQuoteVault: {
+                              status: { _is_null: false }
+                            }
+                          }
+                        ]
                       }
                     }
                   },
                   {
                     token: {
                       vault_by_revert: {
-                        proposals: { status: { _is_null: false } }
+                        _or: [
+                          {
+                            proposals: { status: { _is_null: false } }
+                          },
+                          {
+                            proposalsByQuoteVault: {
+                              status: { _is_null: false }
+                            }
+                          }
+                        ]
                       }
                     }
                   }
                 ]
               }
             ]
-          }
+          },
+          order_by: [
+            {
+              amount: "desc"
+            }
+          ]
         },
         amount: true,
         token_acct: true,
         token: {
+          symbol: true,
           decimals: true,
           name: true,
           mint_acct: true,
-          vault_by_finalize: vaultSubQuery,
-          vault_by_revert: vaultSubQuery
+          vault_by_finalize: {
+            cond_vault_acct: true,
+            status: true,
+            token: {
+              image_url: true,
+              symbol: true
+            },
+            proposals: {
+              ended_at: true,
+              proposal_acct: true,
+              quote_vault: true,
+              base_vault: true,
+              proposal_details: {
+                title: true,
+                categories: true
+              },
+              proposal_num: true,
+              dao: {
+                dao_detail: {
+                  name: true,
+                  slug: true
+                }
+              },
+              status: true
+            },
+            proposalsByQuoteVault: {
+              ended_at: true,
+              proposal_acct: true,
+              quote_vault: true,
+              base_vault: true,
+              proposal_details: {
+                title: true,
+                categories: true
+              },
+              proposal_num: true,
+              dao: {
+                dao_detail: {
+                  name: true,
+                  slug: true
+                }
+              },
+              status: true
+            }
+          },
+          vault_by_revert: {
+            cond_vault_acct: true,
+            status: true,
+            token: {
+              image_url: true,
+              symbol: true
+            },
+            proposals: {
+              ended_at: true,
+              proposal_acct: true,
+              quote_vault: true,
+              base_vault: true,
+              proposal_details: {
+                title: true,
+                categories: true
+              },
+              proposal_num: true,
+              dao: {
+                dao_detail: {
+                  name: true,
+                  slug: true
+                }
+              },
+              status: true
+            },
+            proposalsByQuoteVault: {
+              ended_at: true,
+              proposal_acct: true,
+              quote_vault: true,
+              base_vault: true,
+              proposal_details: {
+                title: true,
+                categories: true
+              },
+              proposal_num: true,
+              dao: {
+                dao_detail: {
+                  name: true,
+                  slug: true
+                }
+              },
+              status: true
+            }
+          }
         }
       }
     });
@@ -186,7 +270,11 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
         const relatedVault = t.token.vault_by_finalize
           ? t.token.vault_by_finalize
           : t.token.vault_by_revert;
-        const proposal = relatedVault?.proposals[0];
+
+        const proposal = !!relatedVault?.proposals[0]
+          ? relatedVault?.proposals[0]
+          : relatedVault?.proposalsByQuoteVault[0];
+
         const proposalDetail = proposal?.proposal_details[0];
         const tokenType =
           proposal?.base_vault === relatedVault?.cond_vault_acct
@@ -194,6 +282,7 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
             : "quote";
         const daoDetail = proposal?.dao.dao_detail;
         if (!proposal) return;
+
         const balanceInProposal: BalanceLockedInProposal = {
           userBalance: {
             balance: t.amount,
@@ -201,8 +290,8 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
               decimals: t.token.decimals,
               name: t.token.name,
               publicKey: t.token.mint_acct,
-              symbol: relatedVault.token.symbol,
-              url: relatedVault.token.image_url
+              symbol: relatedVault?.token.symbol ?? "",
+              url: relatedVault?.token.image_url ?? ""
             },
             tokenType: tokenType
           },

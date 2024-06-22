@@ -515,8 +515,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       passMarket: new PublicKey(passMarket.market_acct),
       passThreshold: proposal.dao.pass_threshold_bps ?? 0,
       failMarket: new PublicKey(failMarket.market_acct),
-      content: proposalDetails.content ?? "",
-      description: proposalDetails.description ?? "",
+      content: proposalDetails?.content ?? "",
+      description: proposalDetails?.description ?? "",
       // both markets should have the same type... but maybe this could be cleaned up
       marketType: proposal.markets[0].market_type as MarketType,
       startSlot: proposal.initial_slot,
@@ -602,10 +602,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       reactions: proposal.reactions.map((r) => r.reaction),
       protocol: relatedProtocol,
       tags:
-        proposalDetails.categories?.map(
+        proposalDetails?.categories?.map(
           (c: { category: string }) => c.category
         ) ?? [],
-      title: proposalDetails.title ?? "",
+      title: proposalDetails?.title ?? "",
       volume: passVolume + failVolume
     };
   }

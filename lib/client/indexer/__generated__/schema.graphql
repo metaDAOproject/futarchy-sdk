@@ -1639,6 +1639,7 @@ type dao_details {
   fail_token_image_url: String
   github: String
   image_url: String
+  is_hide: Boolean
   lp_token_image_url: String
   name: String
   pass_token_image_url: String
@@ -1699,6 +1700,7 @@ input dao_details_bool_exp {
   fail_token_image_url: String_comparison_exp
   github: String_comparison_exp
   image_url: String_comparison_exp
+  is_hide: Boolean_comparison_exp
   lp_token_image_url: String_comparison_exp
   name: String_comparison_exp
   pass_token_image_url: String_comparison_exp
@@ -1788,6 +1790,7 @@ input dao_details_insert_input {
   fail_token_image_url: String
   github: String
   image_url: String
+  is_hide: Boolean
   lp_token_image_url: String
   name: String
   pass_token_image_url: String
@@ -1871,6 +1874,7 @@ input dao_details_order_by {
   fail_token_image_url: order_by
   github: order_by
   image_url: order_by
+  is_hide: order_by
   lp_token_image_url: order_by
   name: order_by
   pass_token_image_url: order_by
@@ -1916,6 +1920,9 @@ enum dao_details_select_column {
   image_url
 
   """column name"""
+  is_hide
+
+  """column name"""
   lp_token_image_url
 
   """column name"""
@@ -1948,6 +1955,7 @@ input dao_details_set_input {
   fail_token_image_url: String
   github: String
   image_url: String
+  is_hide: Boolean
   lp_token_image_url: String
   name: String
   pass_token_image_url: String
@@ -1992,6 +2000,7 @@ input dao_details_stream_cursor_value_input {
   fail_token_image_url: String
   github: String
   image_url: String
+  is_hide: Boolean
   lp_token_image_url: String
   name: String
   pass_token_image_url: String
@@ -2030,6 +2039,9 @@ enum dao_details_update_column {
 
   """column name"""
   image_url
+
+  """column name"""
+  is_hide
 
   """column name"""
   lp_token_image_url
@@ -15336,6 +15348,7 @@ columns and relationships of "token_acct_balances"
 type token_acct_balances {
   amount: bigint!
   created_at: timestamptz!
+  delta: bigint!
   mint_acct: String!
   owner_acct: String!
   slot: bigint
@@ -15415,6 +15428,7 @@ input token_acct_balances_arr_rel_insert_input {
 """aggregate avg on columns"""
 type token_acct_balances_avg_fields {
   amount: Float
+  delta: Float
   slot: Float
 }
 
@@ -15423,6 +15437,7 @@ order by avg() on columns of table "token_acct_balances"
 """
 input token_acct_balances_avg_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 
@@ -15435,6 +15450,7 @@ input token_acct_balances_bool_exp {
   _or: [token_acct_balances_bool_exp!]
   amount: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
+  delta: bigint_comparison_exp
   mint_acct: String_comparison_exp
   owner_acct: String_comparison_exp
   slot: bigint_comparison_exp
@@ -15459,6 +15475,7 @@ input type for incrementing numeric columns in table "token_acct_balances"
 """
 input token_acct_balances_inc_input {
   amount: bigint
+  delta: bigint
   slot: bigint
 }
 
@@ -15468,6 +15485,7 @@ input type for inserting data into table "token_acct_balances"
 input token_acct_balances_insert_input {
   amount: bigint
   created_at: timestamptz
+  delta: bigint
   mint_acct: String
   owner_acct: String
   slot: bigint
@@ -15481,6 +15499,7 @@ input token_acct_balances_insert_input {
 type token_acct_balances_max_fields {
   amount: bigint
   created_at: timestamptz
+  delta: bigint
   mint_acct: String
   owner_acct: String
   slot: bigint
@@ -15494,6 +15513,7 @@ order by max() on columns of table "token_acct_balances"
 input token_acct_balances_max_order_by {
   amount: order_by
   created_at: order_by
+  delta: order_by
   mint_acct: order_by
   owner_acct: order_by
   slot: order_by
@@ -15505,6 +15525,7 @@ input token_acct_balances_max_order_by {
 type token_acct_balances_min_fields {
   amount: bigint
   created_at: timestamptz
+  delta: bigint
   mint_acct: String
   owner_acct: String
   slot: bigint
@@ -15518,6 +15539,7 @@ order by min() on columns of table "token_acct_balances"
 input token_acct_balances_min_order_by {
   amount: order_by
   created_at: order_by
+  delta: order_by
   mint_acct: order_by
   owner_acct: order_by
   slot: order_by
@@ -15549,6 +15571,7 @@ input token_acct_balances_on_conflict {
 input token_acct_balances_order_by {
   amount: order_by
   created_at: order_by
+  delta: order_by
   mint_acct: order_by
   owner_acct: order_by
   slot: order_by
@@ -15577,6 +15600,9 @@ enum token_acct_balances_select_column {
   created_at
 
   """column name"""
+  delta
+
+  """column name"""
   mint_acct
 
   """column name"""
@@ -15598,6 +15624,7 @@ input type for updating data in table "token_acct_balances"
 input token_acct_balances_set_input {
   amount: bigint
   created_at: timestamptz
+  delta: bigint
   mint_acct: String
   owner_acct: String
   slot: bigint
@@ -15608,6 +15635,7 @@ input token_acct_balances_set_input {
 """aggregate stddev on columns"""
 type token_acct_balances_stddev_fields {
   amount: Float
+  delta: Float
   slot: Float
 }
 
@@ -15616,12 +15644,14 @@ order by stddev() on columns of table "token_acct_balances"
 """
 input token_acct_balances_stddev_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type token_acct_balances_stddev_pop_fields {
   amount: Float
+  delta: Float
   slot: Float
 }
 
@@ -15630,12 +15660,14 @@ order by stddev_pop() on columns of table "token_acct_balances"
 """
 input token_acct_balances_stddev_pop_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type token_acct_balances_stddev_samp_fields {
   amount: Float
+  delta: Float
   slot: Float
 }
 
@@ -15644,6 +15676,7 @@ order by stddev_samp() on columns of table "token_acct_balances"
 """
 input token_acct_balances_stddev_samp_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 
@@ -15662,6 +15695,7 @@ input token_acct_balances_stream_cursor_input {
 input token_acct_balances_stream_cursor_value_input {
   amount: bigint
   created_at: timestamptz
+  delta: bigint
   mint_acct: String
   owner_acct: String
   slot: bigint
@@ -15672,6 +15706,7 @@ input token_acct_balances_stream_cursor_value_input {
 """aggregate sum on columns"""
 type token_acct_balances_sum_fields {
   amount: bigint
+  delta: bigint
   slot: bigint
 }
 
@@ -15680,6 +15715,7 @@ order by sum() on columns of table "token_acct_balances"
 """
 input token_acct_balances_sum_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 
@@ -15692,6 +15728,9 @@ enum token_acct_balances_update_column {
 
   """column name"""
   created_at
+
+  """column name"""
+  delta
 
   """column name"""
   mint_acct
@@ -15723,6 +15762,7 @@ input token_acct_balances_updates {
 """aggregate var_pop on columns"""
 type token_acct_balances_var_pop_fields {
   amount: Float
+  delta: Float
   slot: Float
 }
 
@@ -15731,12 +15771,14 @@ order by var_pop() on columns of table "token_acct_balances"
 """
 input token_acct_balances_var_pop_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 
 """aggregate var_samp on columns"""
 type token_acct_balances_var_samp_fields {
   amount: Float
+  delta: Float
   slot: Float
 }
 
@@ -15745,12 +15787,14 @@ order by var_samp() on columns of table "token_acct_balances"
 """
 input token_acct_balances_var_samp_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 
 """aggregate variance on columns"""
 type token_acct_balances_variance_fields {
   amount: Float
+  delta: Float
   slot: Float
 }
 
@@ -15759,6 +15803,7 @@ order by variance() on columns of table "token_acct_balances"
 """
 input token_acct_balances_variance_order_by {
   amount: order_by
+  delta: order_by
   slot: order_by
 }
 

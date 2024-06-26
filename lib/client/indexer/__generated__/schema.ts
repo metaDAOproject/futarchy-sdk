@@ -497,6 +497,7 @@ export interface dao_details {
     fail_token_image_url: (Scalars['String'] | null)
     github: (Scalars['String'] | null)
     image_url: (Scalars['String'] | null)
+    is_hide: (Scalars['Boolean'] | null)
     lp_token_image_url: (Scalars['String'] | null)
     name: (Scalars['String'] | null)
     pass_token_image_url: (Scalars['String'] | null)
@@ -593,7 +594,7 @@ export interface dao_details_mutation_response {
 
 
 /** select columns of table "dao_details" */
-export type dao_details_select_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'token_image_url' | 'url' | 'x_account'
+export type dao_details_select_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'is_hide' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'token_image_url' | 'url' | 'x_account'
 
 
 /** aggregate stddev on columns */
@@ -625,7 +626,7 @@ export interface dao_details_sum_fields {
 
 
 /** update columns of table "dao_details" */
-export type dao_details_update_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'token_image_url' | 'url' | 'x_account'
+export type dao_details_update_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'is_hide' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'token_image_url' | 'url' | 'x_account'
 
 
 /** aggregate var_pop on columns */
@@ -4315,6 +4316,7 @@ export interface takes_variance_fields {
 export interface token_acct_balances {
     amount: Scalars['bigint']
     created_at: Scalars['timestamptz']
+    delta: Scalars['bigint']
     mint_acct: Scalars['String']
     owner_acct: Scalars['String']
     slot: (Scalars['bigint'] | null)
@@ -4356,6 +4358,7 @@ export interface token_acct_balances_aggregate_fields {
 /** aggregate avg on columns */
 export interface token_acct_balances_avg_fields {
     amount: (Scalars['Float'] | null)
+    delta: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_avg_fields'
 }
@@ -4369,6 +4372,7 @@ export type token_acct_balances_constraint = 'token_acct_balances_token_acct_min
 export interface token_acct_balances_max_fields {
     amount: (Scalars['bigint'] | null)
     created_at: (Scalars['timestamptz'] | null)
+    delta: (Scalars['bigint'] | null)
     mint_acct: (Scalars['String'] | null)
     owner_acct: (Scalars['String'] | null)
     slot: (Scalars['bigint'] | null)
@@ -4382,6 +4386,7 @@ export interface token_acct_balances_max_fields {
 export interface token_acct_balances_min_fields {
     amount: (Scalars['bigint'] | null)
     created_at: (Scalars['timestamptz'] | null)
+    delta: (Scalars['bigint'] | null)
     mint_acct: (Scalars['String'] | null)
     owner_acct: (Scalars['String'] | null)
     slot: (Scalars['bigint'] | null)
@@ -4402,12 +4407,13 @@ export interface token_acct_balances_mutation_response {
 
 
 /** select columns of table "token_acct_balances" */
-export type token_acct_balances_select_column = 'amount' | 'created_at' | 'mint_acct' | 'owner_acct' | 'slot' | 'token_acct' | 'tx_sig'
+export type token_acct_balances_select_column = 'amount' | 'created_at' | 'delta' | 'mint_acct' | 'owner_acct' | 'slot' | 'token_acct' | 'tx_sig'
 
 
 /** aggregate stddev on columns */
 export interface token_acct_balances_stddev_fields {
     amount: (Scalars['Float'] | null)
+    delta: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_stddev_fields'
 }
@@ -4416,6 +4422,7 @@ export interface token_acct_balances_stddev_fields {
 /** aggregate stddev_pop on columns */
 export interface token_acct_balances_stddev_pop_fields {
     amount: (Scalars['Float'] | null)
+    delta: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_stddev_pop_fields'
 }
@@ -4424,6 +4431,7 @@ export interface token_acct_balances_stddev_pop_fields {
 /** aggregate stddev_samp on columns */
 export interface token_acct_balances_stddev_samp_fields {
     amount: (Scalars['Float'] | null)
+    delta: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_stddev_samp_fields'
 }
@@ -4432,18 +4440,20 @@ export interface token_acct_balances_stddev_samp_fields {
 /** aggregate sum on columns */
 export interface token_acct_balances_sum_fields {
     amount: (Scalars['bigint'] | null)
+    delta: (Scalars['bigint'] | null)
     slot: (Scalars['bigint'] | null)
     __typename: 'token_acct_balances_sum_fields'
 }
 
 
 /** update columns of table "token_acct_balances" */
-export type token_acct_balances_update_column = 'amount' | 'created_at' | 'mint_acct' | 'owner_acct' | 'slot' | 'token_acct' | 'tx_sig'
+export type token_acct_balances_update_column = 'amount' | 'created_at' | 'delta' | 'mint_acct' | 'owner_acct' | 'slot' | 'token_acct' | 'tx_sig'
 
 
 /** aggregate var_pop on columns */
 export interface token_acct_balances_var_pop_fields {
     amount: (Scalars['Float'] | null)
+    delta: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_var_pop_fields'
 }
@@ -4452,6 +4462,7 @@ export interface token_acct_balances_var_pop_fields {
 /** aggregate var_samp on columns */
 export interface token_acct_balances_var_samp_fields {
     amount: (Scalars['Float'] | null)
+    delta: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_var_samp_fields'
 }
@@ -4460,6 +4471,7 @@ export interface token_acct_balances_var_samp_fields {
 /** aggregate variance on columns */
 export interface token_acct_balances_variance_fields {
     amount: (Scalars['Float'] | null)
+    delta: (Scalars['Float'] | null)
     slot: (Scalars['Float'] | null)
     __typename: 'token_acct_balances_variance_fields'
 }
@@ -6518,6 +6530,7 @@ export interface dao_detailsGenqlSelection{
     fail_token_image_url?: boolean | number
     github?: boolean | number
     image_url?: boolean | number
+    is_hide?: boolean | number
     lp_token_image_url?: boolean | number
     name?: boolean | number
     pass_token_image_url?: boolean | number
@@ -6570,7 +6583,7 @@ export interface dao_details_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "dao_details". All fields are combined with a logical 'AND'. */
-export interface dao_details_bool_exp {_and?: (dao_details_bool_exp[] | null),_not?: (dao_details_bool_exp | null),_or?: (dao_details_bool_exp[] | null),admin_accts?: (jsonb_comparison_exp | null),creator_acct?: (String_comparison_exp | null),dao_id?: (bigint_comparison_exp | null),daos?: (daos_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),description?: (String_comparison_exp | null),fail_token_image_url?: (String_comparison_exp | null),github?: (String_comparison_exp | null),image_url?: (String_comparison_exp | null),lp_token_image_url?: (String_comparison_exp | null),name?: (String_comparison_exp | null),pass_token_image_url?: (String_comparison_exp | null),slug?: (String_comparison_exp | null),token_image_url?: (String_comparison_exp | null),url?: (String_comparison_exp | null),x_account?: (String_comparison_exp | null)}
+export interface dao_details_bool_exp {_and?: (dao_details_bool_exp[] | null),_not?: (dao_details_bool_exp | null),_or?: (dao_details_bool_exp[] | null),admin_accts?: (jsonb_comparison_exp | null),creator_acct?: (String_comparison_exp | null),dao_id?: (bigint_comparison_exp | null),daos?: (daos_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),description?: (String_comparison_exp | null),fail_token_image_url?: (String_comparison_exp | null),github?: (String_comparison_exp | null),image_url?: (String_comparison_exp | null),is_hide?: (Boolean_comparison_exp | null),lp_token_image_url?: (String_comparison_exp | null),name?: (String_comparison_exp | null),pass_token_image_url?: (String_comparison_exp | null),slug?: (String_comparison_exp | null),token_image_url?: (String_comparison_exp | null),url?: (String_comparison_exp | null),x_account?: (String_comparison_exp | null)}
 
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -6590,7 +6603,7 @@ export interface dao_details_inc_input {dao_id?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "dao_details" */
-export interface dao_details_insert_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),daos?: (daos_arr_rel_insert_input | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_insert_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),daos?: (daos_arr_rel_insert_input | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -6655,7 +6668,7 @@ export interface dao_details_on_conflict {constraint: dao_details_constraint,upd
 
 
 /** Ordering options when selecting data from "dao_details". */
-export interface dao_details_order_by {admin_accts?: (order_by | null),creator_acct?: (order_by | null),dao_id?: (order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),description?: (order_by | null),fail_token_image_url?: (order_by | null),github?: (order_by | null),image_url?: (order_by | null),lp_token_image_url?: (order_by | null),name?: (order_by | null),pass_token_image_url?: (order_by | null),slug?: (order_by | null),token_image_url?: (order_by | null),url?: (order_by | null),x_account?: (order_by | null)}
+export interface dao_details_order_by {admin_accts?: (order_by | null),creator_acct?: (order_by | null),dao_id?: (order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),description?: (order_by | null),fail_token_image_url?: (order_by | null),github?: (order_by | null),image_url?: (order_by | null),is_hide?: (order_by | null),lp_token_image_url?: (order_by | null),name?: (order_by | null),pass_token_image_url?: (order_by | null),slug?: (order_by | null),token_image_url?: (order_by | null),url?: (order_by | null),x_account?: (order_by | null)}
 
 
 /** primary key columns input for table: dao_details */
@@ -6667,7 +6680,7 @@ export interface dao_details_prepend_input {admin_accts?: (Scalars['jsonb'] | nu
 
 
 /** input type for updating data in table "dao_details" */
-export interface dao_details_set_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_set_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -6703,7 +6716,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface dao_details_stream_cursor_value_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_stream_cursor_value_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate sum on columns */
@@ -14251,6 +14264,7 @@ export interface timestamptz_comparison_exp {_eq?: (Scalars['timestamptz'] | nul
 export interface token_acct_balancesGenqlSelection{
     amount?: boolean | number
     created_at?: boolean | number
+    delta?: boolean | number
     mint_acct?: boolean | number
     owner_acct?: boolean | number
     slot?: boolean | number
@@ -14309,6 +14323,7 @@ on_conflict?: (token_acct_balances_on_conflict | null)}
 /** aggregate avg on columns */
 export interface token_acct_balances_avg_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14316,25 +14331,26 @@ export interface token_acct_balances_avg_fieldsGenqlSelection{
 
 
 /** order by avg() on columns of table "token_acct_balances" */
-export interface token_acct_balances_avg_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_avg_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "token_acct_balances". All fields are combined with a logical 'AND'. */
-export interface token_acct_balances_bool_exp {_and?: (token_acct_balances_bool_exp[] | null),_not?: (token_acct_balances_bool_exp | null),_or?: (token_acct_balances_bool_exp[] | null),amount?: (bigint_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),mint_acct?: (String_comparison_exp | null),owner_acct?: (String_comparison_exp | null),slot?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenAcctByTokenAcct?: (token_accts_bool_exp | null),token_acct?: (String_comparison_exp | null),tx_sig?: (String_comparison_exp | null)}
+export interface token_acct_balances_bool_exp {_and?: (token_acct_balances_bool_exp[] | null),_not?: (token_acct_balances_bool_exp | null),_or?: (token_acct_balances_bool_exp[] | null),amount?: (bigint_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),delta?: (bigint_comparison_exp | null),mint_acct?: (String_comparison_exp | null),owner_acct?: (String_comparison_exp | null),slot?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenAcctByTokenAcct?: (token_accts_bool_exp | null),token_acct?: (String_comparison_exp | null),tx_sig?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "token_acct_balances" */
-export interface token_acct_balances_inc_input {amount?: (Scalars['bigint'] | null),slot?: (Scalars['bigint'] | null)}
+export interface token_acct_balances_inc_input {amount?: (Scalars['bigint'] | null),delta?: (Scalars['bigint'] | null),slot?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "token_acct_balances" */
-export interface token_acct_balances_insert_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByTokenAcct?: (token_accts_obj_rel_insert_input | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
+export interface token_acct_balances_insert_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),delta?: (Scalars['bigint'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByTokenAcct?: (token_accts_obj_rel_insert_input | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
 export interface token_acct_balances_max_fieldsGenqlSelection{
     amount?: boolean | number
     created_at?: boolean | number
+    delta?: boolean | number
     mint_acct?: boolean | number
     owner_acct?: boolean | number
     slot?: boolean | number
@@ -14346,13 +14362,14 @@ export interface token_acct_balances_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "token_acct_balances" */
-export interface token_acct_balances_max_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
+export interface token_acct_balances_max_order_by {amount?: (order_by | null),created_at?: (order_by | null),delta?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
 
 
 /** aggregate min on columns */
 export interface token_acct_balances_min_fieldsGenqlSelection{
     amount?: boolean | number
     created_at?: boolean | number
+    delta?: boolean | number
     mint_acct?: boolean | number
     owner_acct?: boolean | number
     slot?: boolean | number
@@ -14364,7 +14381,7 @@ export interface token_acct_balances_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "token_acct_balances" */
-export interface token_acct_balances_min_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
+export interface token_acct_balances_min_order_by {amount?: (order_by | null),created_at?: (order_by | null),delta?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
 
 
 /** response of any mutation on the table "token_acct_balances" */
@@ -14383,7 +14400,7 @@ export interface token_acct_balances_on_conflict {constraint: token_acct_balance
 
 
 /** Ordering options when selecting data from "token_acct_balances". */
-export interface token_acct_balances_order_by {amount?: (order_by | null),created_at?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token?: (tokens_order_by | null),tokenAcctByTokenAcct?: (token_accts_order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
+export interface token_acct_balances_order_by {amount?: (order_by | null),created_at?: (order_by | null),delta?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token?: (tokens_order_by | null),tokenAcctByTokenAcct?: (token_accts_order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
 
 
 /** primary key columns input for table: token_acct_balances */
@@ -14391,12 +14408,13 @@ export interface token_acct_balances_pk_columns_input {amount: Scalars['bigint']
 
 
 /** input type for updating data in table "token_acct_balances" */
-export interface token_acct_balances_set_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
+export interface token_acct_balances_set_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),delta?: (Scalars['bigint'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate stddev on columns */
 export interface token_acct_balances_stddev_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14404,12 +14422,13 @@ export interface token_acct_balances_stddev_fieldsGenqlSelection{
 
 
 /** order by stddev() on columns of table "token_acct_balances" */
-export interface token_acct_balances_stddev_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_stddev_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface token_acct_balances_stddev_pop_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14417,12 +14436,13 @@ export interface token_acct_balances_stddev_pop_fieldsGenqlSelection{
 
 
 /** order by stddev_pop() on columns of table "token_acct_balances" */
-export interface token_acct_balances_stddev_pop_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_stddev_pop_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface token_acct_balances_stddev_samp_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14430,7 +14450,7 @@ export interface token_acct_balances_stddev_samp_fieldsGenqlSelection{
 
 
 /** order by stddev_samp() on columns of table "token_acct_balances" */
-export interface token_acct_balances_stddev_samp_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_stddev_samp_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 
 /** Streaming cursor of the table "token_acct_balances" */
@@ -14442,12 +14462,13 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface token_acct_balances_stream_cursor_value_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
+export interface token_acct_balances_stream_cursor_value_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),delta?: (Scalars['bigint'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate sum on columns */
 export interface token_acct_balances_sum_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14455,7 +14476,7 @@ export interface token_acct_balances_sum_fieldsGenqlSelection{
 
 
 /** order by sum() on columns of table "token_acct_balances" */
-export interface token_acct_balances_sum_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_sum_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 export interface token_acct_balances_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -14469,6 +14490,7 @@ where: token_acct_balances_bool_exp}
 /** aggregate var_pop on columns */
 export interface token_acct_balances_var_pop_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14476,12 +14498,13 @@ export interface token_acct_balances_var_pop_fieldsGenqlSelection{
 
 
 /** order by var_pop() on columns of table "token_acct_balances" */
-export interface token_acct_balances_var_pop_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_var_pop_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface token_acct_balances_var_samp_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14489,12 +14512,13 @@ export interface token_acct_balances_var_samp_fieldsGenqlSelection{
 
 
 /** order by var_samp() on columns of table "token_acct_balances" */
-export interface token_acct_balances_var_samp_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_var_samp_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface token_acct_balances_variance_fieldsGenqlSelection{
     amount?: boolean | number
+    delta?: boolean | number
     slot?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14502,7 +14526,7 @@ export interface token_acct_balances_variance_fieldsGenqlSelection{
 
 
 /** order by variance() on columns of table "token_acct_balances" */
-export interface token_acct_balances_variance_order_by {amount?: (order_by | null),slot?: (order_by | null)}
+export interface token_acct_balances_variance_order_by {amount?: (order_by | null),delta?: (order_by | null),slot?: (order_by | null)}
 
 
 /** Boolean expression to compare columns of type "token_acct_status". All fields are combined with logical 'AND'. */
@@ -19813,6 +19837,7 @@ export const enumDaoDetailsSelectColumn = {
    fail_token_image_url: 'fail_token_image_url' as const,
    github: 'github' as const,
    image_url: 'image_url' as const,
+   is_hide: 'is_hide' as const,
    lp_token_image_url: 'lp_token_image_url' as const,
    name: 'name' as const,
    pass_token_image_url: 'pass_token_image_url' as const,
@@ -19830,6 +19855,7 @@ export const enumDaoDetailsUpdateColumn = {
    fail_token_image_url: 'fail_token_image_url' as const,
    github: 'github' as const,
    image_url: 'image_url' as const,
+   is_hide: 'is_hide' as const,
    lp_token_image_url: 'lp_token_image_url' as const,
    name: 'name' as const,
    pass_token_image_url: 'pass_token_image_url' as const,
@@ -20382,6 +20408,7 @@ export const enumTokenAcctBalancesConstraint = {
 export const enumTokenAcctBalancesSelectColumn = {
    amount: 'amount' as const,
    created_at: 'created_at' as const,
+   delta: 'delta' as const,
    mint_acct: 'mint_acct' as const,
    owner_acct: 'owner_acct' as const,
    slot: 'slot' as const,
@@ -20392,6 +20419,7 @@ export const enumTokenAcctBalancesSelectColumn = {
 export const enumTokenAcctBalancesUpdateColumn = {
    amount: 'amount' as const,
    created_at: 'created_at' as const,
+   delta: 'delta' as const,
    mint_acct: 'mint_acct' as const,
    owner_acct: 'owner_acct' as const,
    slot: 'slot' as const,

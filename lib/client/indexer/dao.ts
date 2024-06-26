@@ -23,11 +23,25 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
     this.rpcDaoClient = rpcDaoClient;
     this.graphqlClient = graphqlClient;
   }
-  async fetchAllDaos(): Promise<DaoAggregate[]> {
+  async fetchAllDaos(showHidden?: boolean): Promise<DaoAggregate[]> {
     try {
+      const whereArgs = showHidden
+        ? {}
+        : {
+            _or: [
+              {
+                is_hide: { _eq: false }
+              },
+              {
+                is_hide: { _eq: null }
+              }
+            ]
+          };
       const { dao_details } = await this.graphqlClient.query?.({
         dao_details: {
-          // pass arguments to the query
+          __args: {
+            where: whereArgs
+          },
           name: true,
           slug: true,
           url: true,

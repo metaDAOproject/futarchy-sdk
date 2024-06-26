@@ -2762,6 +2762,9 @@ export default {
             "image_url": [
                 5
             ],
+            "is_hide": [
+                0
+            ],
             "lp_token_image_url": [
                 5
             ],
@@ -2898,6 +2901,9 @@ export default {
             "image_url": [
                 6
             ],
+            "is_hide": [
+                1
+            ],
             "lp_token_image_url": [
                 6
             ],
@@ -2980,6 +2986,9 @@ export default {
             ],
             "image_url": [
                 5
+            ],
+            "is_hide": [
+                0
             ],
             "lp_token_image_url": [
                 5
@@ -3155,6 +3164,9 @@ export default {
             "image_url": [
                 342
             ],
+            "is_hide": [
+                342
+            ],
             "lp_token_image_url": [
                 342
             ],
@@ -3218,6 +3230,9 @@ export default {
             ],
             "image_url": [
                 5
+            ],
+            "is_hide": [
+                0
             ],
             "lp_token_image_url": [
                 5
@@ -3300,6 +3315,9 @@ export default {
             ],
             "image_url": [
                 5
+            ],
+            "is_hide": [
+                0
             ],
             "lp_token_image_url": [
                 5
@@ -16986,6 +17004,9 @@ export default {
             "created_at": [
                 797
             ],
+            "delta": [
+                7
+            ],
             "mint_acct": [
                 5
             ],
@@ -17147,6 +17168,9 @@ export default {
             "amount": [
                 2
             ],
+            "delta": [
+                2
+            ],
             "slot": [
                 2
             ],
@@ -17156,6 +17180,9 @@ export default {
         },
         "token_acct_balances_avg_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [
@@ -17180,6 +17207,9 @@ export default {
             ],
             "created_at": [
                 798
+            ],
+            "delta": [
+                8
             ],
             "mint_acct": [
                 6
@@ -17211,6 +17241,9 @@ export default {
             "amount": [
                 7
             ],
+            "delta": [
+                7
+            ],
             "slot": [
                 7
             ],
@@ -17224,6 +17257,9 @@ export default {
             ],
             "created_at": [
                 797
+            ],
+            "delta": [
+                7
             ],
             "mint_acct": [
                 5
@@ -17257,6 +17293,9 @@ export default {
             "created_at": [
                 797
             ],
+            "delta": [
+                7
+            ],
             "mint_acct": [
                 5
             ],
@@ -17281,6 +17320,9 @@ export default {
                 342
             ],
             "created_at": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "mint_acct": [
@@ -17309,6 +17351,9 @@ export default {
             "created_at": [
                 797
             ],
+            "delta": [
+                7
+            ],
             "mint_acct": [
                 5
             ],
@@ -17333,6 +17378,9 @@ export default {
                 342
             ],
             "created_at": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "mint_acct": [
@@ -17386,6 +17434,9 @@ export default {
             "created_at": [
                 342
             ],
+            "delta": [
+                342
+            ],
             "mint_acct": [
                 342
             ],
@@ -17436,6 +17487,9 @@ export default {
             "created_at": [
                 797
             ],
+            "delta": [
+                7
+            ],
             "mint_acct": [
                 5
             ],
@@ -17459,6 +17513,9 @@ export default {
             "amount": [
                 2
             ],
+            "delta": [
+                2
+            ],
             "slot": [
                 2
             ],
@@ -17468,6 +17525,9 @@ export default {
         },
         "token_acct_balances_stddev_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [
@@ -17481,6 +17541,9 @@ export default {
             "amount": [
                 2
             ],
+            "delta": [
+                2
+            ],
             "slot": [
                 2
             ],
@@ -17490,6 +17553,9 @@ export default {
         },
         "token_acct_balances_stddev_pop_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [
@@ -17503,6 +17569,9 @@ export default {
             "amount": [
                 2
             ],
+            "delta": [
+                2
+            ],
             "slot": [
                 2
             ],
@@ -17512,6 +17581,9 @@ export default {
         },
         "token_acct_balances_stddev_samp_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [
@@ -17539,6 +17611,9 @@ export default {
             "created_at": [
                 797
             ],
+            "delta": [
+                7
+            ],
             "mint_acct": [
                 5
             ],
@@ -17562,6 +17637,9 @@ export default {
             "amount": [
                 7
             ],
+            "delta": [
+                7
+            ],
             "slot": [
                 7
             ],
@@ -17571,6 +17649,9 @@ export default {
         },
         "token_acct_balances_sum_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [
@@ -17599,6 +17680,9 @@ export default {
             "amount": [
                 2
             ],
+            "delta": [
+                2
+            ],
             "slot": [
                 2
             ],
@@ -17608,6 +17692,9 @@ export default {
         },
         "token_acct_balances_var_pop_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [
@@ -17621,6 +17708,9 @@ export default {
             "amount": [
                 2
             ],
+            "delta": [
+                2
+            ],
             "slot": [
                 2
             ],
@@ -17630,6 +17720,9 @@ export default {
         },
         "token_acct_balances_var_samp_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [
@@ -17643,6 +17736,9 @@ export default {
             "amount": [
                 2
             ],
+            "delta": [
+                2
+            ],
             "slot": [
                 2
             ],
@@ -17652,6 +17748,9 @@ export default {
         },
         "token_acct_balances_variance_order_by": {
             "amount": [
+                342
+            ],
+            "delta": [
                 342
             ],
             "slot": [

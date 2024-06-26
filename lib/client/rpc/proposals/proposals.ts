@@ -34,10 +34,8 @@ import {
   AMM_PROGRAM_ID,
   AUTOCRAT_PROGRAM_ID,
   AutocratClient,
-  CONDITIONAL_VAULT_PROGRAM_ID,
-  InstructionUtils
+  CONDITIONAL_VAULT_PROGRAM_ID
 } from "@metadaoproject/futarchy";
-import { SendTransactionResponse } from "@/types/transactions";
 
 import {
   CreateProposalInstruction,
@@ -47,12 +45,11 @@ import {
 import { FinalizeProposalClient } from "./finalizeProposal";
 import { CreateProposalClient } from "./createProposal";
 import { autocratVersionToConditionalVaultMap } from "@/constants";
-import { throwError } from "rxjs";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   private rpcProvider: AnchorProvider;
   private futarchyProtocols: FutarchyProtocol[];
-  private transactionSender: TransactionSender | undefined;
+  public transactionSender: TransactionSender | undefined;
   private finalizeProposalClient: FinalizeProposalClient;
   private createProposalClient: CreateProposalClient;
   public autocratClient: AutocratClient;
@@ -130,6 +127,27 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     ).flat();
   }
 
+  public async fetchProposal(
+    dao: Dao,
+    proposalAcct: PublicKey
+  ): Promise<ProposalWithFullData> {
+    const proposal = await dao.protocol.autocrat.account.proposal.fetch(
+      proposalAcct
+    );
+    const vaultsByAddress: Record<string, VaultAccount> =
+      await this.getVaultsByAddressFromDao(dao);
+    const baseVaultAccount = vaultsByAddress[proposal.baseVault.toBase58()];
+    const quoteVaultAccount = vaultsByAddress[proposal.quoteVault.toBase58()];
+    return {
+      ...getProposalFromAccount(
+        { account: proposal, publicKey: new PublicKey(proposalAcct) },
+        dao,
+        baseVaultAccount,
+        quoteVaultAccount
+      )
+    };
+  }
+
   public async getVaultsByAddressFromDao(
     dao: Dao
   ): Promise<Record<string, VaultAccount>> {
@@ -157,69 +175,18 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
       vaultAccount.conditionalOnFinalizeTokenMint,
       this.rpcProvider
     );
-    const accounts = {
-      vault: vaultAccountAddress,
-      userConditionalOnFinalizeTokenAccount: getAssociatedTokenAddressSync(
-        vaultAccount.conditionalOnFinalizeTokenMint,
-        this.rpcProvider.publicKey,
-        true
-      ),
-      userConditionalOnRevertTokenAccount: getAssociatedTokenAddressSync(
-        vaultAccount.conditionalOnRevertTokenMint,
-        this.rpcProvider.publicKey,
-        true
-      ),
-      userUnderlyingTokenAccount: getAssociatedTokenAddressSync(
+
+    const tx = await this.autocratClient.vaultClient
+      .mintConditionalTokensIx(
+        vaultAccountAddress,
         vaultAccount.underlyingTokenMint,
-        this.rpcProvider.publicKey,
-        true
-      ),
-      vaultUnderlyingTokenAccount: vaultAccount.underlyingTokenAccount,
-      conditionalOnFinalizeTokenMint:
-        vaultAccount.conditionalOnFinalizeTokenMint,
-      conditionalOnRevertTokenMint: vaultAccount.conditionalOnRevertTokenMint,
-      // we used to not need to pass this in, but since we changed some things on the frontend now we do ¯\_(ツ)_/¯
-      authority: this.transactionSender.owner
-    };
-    const finalizeTokenPDACreateIx =
-      createAssociatedTokenAccountIdempotentInstruction(
-        this.rpcProvider.publicKey,
-        getAssociatedTokenAddressSync(
-          vaultAccount.conditionalOnFinalizeTokenMint,
-          this.rpcProvider.publicKey,
-          true
-        ),
-        this.rpcProvider.publicKey,
-        vaultAccount.conditionalOnFinalizeTokenMint
-      );
-    const revertTokenPDACreateIx =
-      createAssociatedTokenAccountIdempotentInstruction(
-        this.rpcProvider.publicKey,
-        getAssociatedTokenAddressSync(
-          vaultAccount.conditionalOnRevertTokenMint,
-          this.rpcProvider.publicKey,
-          true
-        ),
-        this.rpcProvider.publicKey,
-        vaultAccount.conditionalOnRevertTokenMint
-      );
-    const mintConditionalsIx = await vaultAccount.protocol.vault.methods
-      .mintConditionalTokens(
         new BN(
           numeral(amount)
             .multiply(10 ** (decimals || 0))
             .format("0")
         )
       )
-      .accounts(accounts)
-      .instruction();
-
-    const ixs = [
-      finalizeTokenPDACreateIx,
-      revertTokenPDACreateIx,
-      mintConditionalsIx
-    ];
-    const tx = new Transaction().add(...ixs);
+      .transaction();
     return this.transactionSender.send(
       [tx],
       this.rpcProvider.connection,
@@ -235,15 +202,13 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     daoAggregate: DaoAggregate,
     version: ProgramVersionLabel = "V0.3",
     instructionParams: CreateProposalInstruction,
-    marketParams: MarketParams,
-    proposalDetails: ProposalDetails
+    marketParams: MarketParams
   ) {
     return this.createProposalClient.createProposal(
       daoAggregate,
       version,
       instructionParams,
-      marketParams,
-      proposalDetails
+      marketParams
     );
   }
 

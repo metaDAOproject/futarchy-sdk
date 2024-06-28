@@ -27,7 +27,7 @@ import {
   VaultAccount,
   VaultAccountWithProtocol
 } from "@/types/conditionalVault";
-import { TransactionSender } from "@/transactions";
+import { TransactionSender } from "@/transactions/sender";
 import { enrichTokenMetadata } from "@/tokens";
 import { getProposalFromAccount } from "@/proposal";
 import {

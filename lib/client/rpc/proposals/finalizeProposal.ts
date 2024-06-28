@@ -11,7 +11,7 @@ import {
   IDL as AutocratV0_2_IDL
 } from "@/idl/autocrat_v0.2";
 import { ConditionalVault } from "@/idl/conditional_vault_v0.2";
-import { TransactionSender } from "@/transactions";
+import { TransactionSender } from "@/transactions/sender";
 import {
   AutocratClient,
   InstructionUtils,
@@ -145,7 +145,8 @@ export class FinalizeProposalClient implements FinalizeProposal {
         .preInstructions(
           await InstructionUtils.getInstructions(
             this.autocratClient.ammClient.crankThatTwapIx(proposal.failMarket),
-            this.autocratClient.ammClient.crankThatTwapIx(proposal.passMarket))
+            this.autocratClient.ammClient.crankThatTwapIx(proposal.passMarket)
+          )
         )
         .transaction();
 
@@ -153,9 +154,7 @@ export class FinalizeProposalClient implements FinalizeProposal {
         [finalizeProposalTx],
         this.rpcProvider.connection,
         {
-          customErrors: [
-            this.autocratClient.autocrat.idl.errors
-          ]
+          customErrors: [this.autocratClient.autocrat.idl.errors]
         },
         { title: "Finalizing Proposal" }
       );

@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.1-beta.2",
-    "@metadaoproject/futarchy": "^0.3.0-alpha.6",
+    "@metadaoproject/futarchy": "0.3.0-alpha.9",
     "@metadaoproject/futarchy-ts": "2.1.0",
     "@metaplex-foundation/js": "^0.20.1",
     "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
@@ -23,6 +23,7 @@
     "@metaplex-foundation/umi-bundle-defaults": "^0.9.1",
     "@metaplex-foundation/umi-uploader-bundlr": "^0.9.1",
     "@openbook-dex/openbook-v2": "^0.2.6",
+    "@solana/spl-memo": "^0.2.5",
     "@solana/spl-token": "^0.3.11",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.91.7",

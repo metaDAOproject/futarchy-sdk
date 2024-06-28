@@ -9,7 +9,10 @@ import {
   twapMarketBuffer
 } from "@/constants";
 import { buildMemoInstruction, buildTransferInstruction } from "@/instructions";
-import { TransactionSender, createVersionedTransaction } from "@/transactions";
+import {
+  TransactionSender,
+  createVersionedTransaction
+} from "@/transactions/sender";
 import {
   Dao,
   DaoAggregate,

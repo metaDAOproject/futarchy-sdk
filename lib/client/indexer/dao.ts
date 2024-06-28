@@ -29,26 +29,14 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
   async fetchAllDaos(showHidden?: boolean): Promise<DaoAggregate[]> {
     try {
       const whereClause: dao_details_bool_exp = showHidden
-        ? {
-            _or: [
-              {
-                is_hide: { _eq: false }
-              },
-              {
-                is_hide: { _eq: true }
-              },
-              {
-                is_hide: { _eq: null }
-              }
-            ]
-          }
+        ? {}
         : {
             _or: [
               {
                 is_hide: { _eq: false }
               },
               {
-                is_hide: { _eq: null }
+                is_hide: { _is_null: true }
               }
             ]
           };

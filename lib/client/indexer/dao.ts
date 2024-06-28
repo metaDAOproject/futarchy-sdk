@@ -7,7 +7,10 @@ import {
 } from "@/types";
 import { FutarchyDaoClient } from "@/client";
 import { FutarchyRPCDaoClient } from "../rpc";
-import { Client as IndexerGraphQLClient } from "./__generated__";
+import {
+  Client as IndexerGraphQLClient,
+  dao_details_bool_exp
+} from "./__generated__";
 import { PublicKey } from "@solana/web3.js";
 
 export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
@@ -23,10 +26,38 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
     this.rpcDaoClient = rpcDaoClient;
     this.graphqlClient = graphqlClient;
   }
-  async fetchAllDaos(): Promise<DaoAggregate[]> {
+  async fetchAllDaos(showHidden?: boolean): Promise<DaoAggregate[]> {
     try {
+      const whereClause: dao_details_bool_exp = showHidden
+        ? {
+            _or: [
+              {
+                is_hide: { _eq: false }
+              },
+              {
+                is_hide: { _eq: true }
+              },
+              {
+                is_hide: { _eq: null }
+              }
+            ]
+          }
+        : {
+            _or: [
+              {
+                is_hide: { _eq: false }
+              },
+              {
+                is_hide: { _eq: null }
+              }
+            ]
+          };
+
       const { dao_details } = await this.graphqlClient.query?.({
         dao_details: {
+          __args: {
+            where: whereClause
+          },
           // pass arguments to the query
           name: true,
           slug: true,

@@ -1,16 +1,16 @@
+import { ProposalInstruction } from "@/types";
 import { AnchorProvider } from "@coral-xyz/anchor";
+import { PublicKey } from "@metaplex-foundation/js";
 import { TOKEN_PROGRAM_ID, createAssociatedTokenAccountIdempotentInstruction, createTransferInstruction, getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
-import { PublicKey, TransactionInstruction } from "@solana/web3.js";
-import { ProposalInstruction } from ".";
+import { TransactionInstruction } from "@solana/web3.js";
 
-// Transfer
 export async function buildTransferInstruction(
     daoTreasury: PublicKey,
     destination: PublicKey,
     tokenMint: PublicKey,
     amount: number,
     rpcProvider: AnchorProvider
-) : Promise<{preInstructions: (TransactionInstruction [] | undefined), instruction: ProposalInstruction }>{
+): Promise<{ preInstructions: (TransactionInstruction[] | undefined), instruction: ProposalInstruction }> {
 
     const tokenMintAddress = await getAssociatedTokenAddress(tokenMint, daoTreasury, true)
     const originAcc = await getAccount(rpcProvider.connection, tokenMintAddress, "confirmed", TOKEN_PROGRAM_ID)
@@ -31,17 +31,5 @@ export async function buildTransferInstruction(
         transferAmount
     )
 
-    return { preInstructions: [preInstructions], instruction: {...transferIx, accounts: transferIx.keys}};
+    return { preInstructions: [preInstructions], instruction: { ...transferIx, accounts: transferIx.keys } };
 };
-
-//memo
-export function buildMemoInstruction(message: string) {
-    return {
-        preInstructions: undefined,
-        instruction: {
-            programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
-            accounts: [],
-            data: Buffer.from(message, "utf8")
-        }
-    }
-}

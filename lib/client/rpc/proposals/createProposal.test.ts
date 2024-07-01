@@ -2,6 +2,7 @@ import { JitoBundler, TransactionSender } from "@/transactions";
 import { AnchorProvider, BN, setProvider, utils } from "@coral-xyz/anchor";
 import {
   ComputeBudgetProgram,
+  Connection,
   PublicKey,
   SystemProgram,
   Transaction
@@ -15,17 +16,24 @@ import {
   AUTOCRAT_PROGRAM_ID,
   AutocratClient,
   CONDITIONAL_VAULT_PROGRAM_ID,
-  DEFAULT_CU_PRICE,
-  InstructionUtils,
-  MaxCUs
+  InstructionUtils
 } from "@metadaoproject/futarchy";
+import { createMockWallet } from "tests/test-utils";
 
-export const provider = AnchorProvider.env();
-setProvider(provider);
+// export const provider = AnchorProvider.env();
+// setProvider(provider);
 
+let provider: AnchorProvider;
 describe("rpc proposal Integration Test", () => {
   let rpcClient: FutarchyRPCClient;
-  let wallet = provider.wallet;
+  const connection = new Connection("https://test.xyz");
+
+  let wallet = createMockWallet();
+  if (wallet.publicKey === null) return;
+
+  provider = new AnchorProvider(connection, wallet, {
+    commitment: "processed"
+  });
 
   beforeAll(() => {
     // Setup TransactionSender - assumed to be available or mock as needed

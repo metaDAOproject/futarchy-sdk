@@ -16,9 +16,10 @@ import {
   TransactionDisplayMetadata,
   TransactionProcessingUpdate,
   SendTransactionOptions
-} from "./types/transactions";
+} from "../types/transactions";
 import { AnchorProvider } from "@coral-xyz/anchor";
 import { Observable, Subscriber, shareReplay } from "rxjs";
+import { Bundler } from "./bundles";
 
 type SingleOrArray<T> = T | T[];
 
@@ -32,6 +33,7 @@ export class TransactionSender {
 
   public priorityFee: number;
   public onTransactionUpdate?: (update: TransactionProcessingUpdate) => void;
+  private bundler?: Bundler;
   constructor(
     owner: PublicKey,
     signAllTransactions: <T extends Transaction | VersionedTransaction>(
@@ -39,12 +41,14 @@ export class TransactionSender {
     ) => Promise<T[]>,
 
     priorityFee: number,
-    onTransactionUpdate?: (update: TransactionProcessingUpdate) => void
+    onTransactionUpdate?: (update: TransactionProcessingUpdate) => void,
+    bundler?: Bundler
   ) {
     this.owner = owner;
     this.signAllTransactions = signAllTransactions;
     this.priorityFee = priorityFee;
     this.onTransactionUpdate = onTransactionUpdate;
+    this.bundler = bundler;
   }
 
   static make(
@@ -53,13 +57,15 @@ export class TransactionSender {
       transactions: T[]
     ) => Promise<T[]>,
     priorityFee: number,
-    onTransactionUpdate?: (update: TransactionProcessingUpdate) => void
+    onTransactionUpdate?: (update: TransactionProcessingUpdate) => void,
+    bundler?: Bundler
   ): TransactionSender {
     return new TransactionSender(
       owner,
       signAllTransactions,
       priorityFee,
-      onTransactionUpdate
+      onTransactionUpdate,
+      bundler
     );
   }
 
@@ -85,11 +91,16 @@ export class TransactionSender {
     tx: T[],
     connection: Connection,
     opts?: SendTransactionOptions,
-    displayMetadata?: TransactionDisplayMetadata
+    displayMetadata?: TransactionDisplayMetadata,
+    useBundler?: boolean
   ): Observable<TransactionProcessingUpdate> {
     const obs = new Observable<TransactionProcessingUpdate>((subscriber) => {
       let signatureSubscriptionIds: number[] = [];
-      this.sendInner(tx, connection, opts)
+      const innerSendPromise =
+        useBundler && this.bundler
+          ? this.sendInnerAsBundle(tx, connection, opts)
+          : this.sendInner(tx, connection, opts);
+      innerSendPromise
         .then((sendRes) => {
           if ((sendRes?.errors?.length ?? 0) > 0) {
             if (
@@ -255,6 +266,40 @@ export class TransactionSender {
     }
   }
 
+  async signTransactions<T extends Transaction | VersionedTransaction>(
+    txSequence: T[][],
+    connection: Connection,
+    opts?: SendTransactionOptions
+  ): Promise<T[]> {
+    const latestBlockhash = await connection.getLatestBlockhash();
+    const timedTxs = txSequence.map((set) =>
+      set.map((e: T, i: number) => {
+        const tx = e;
+        if (!(tx instanceof VersionedTransaction)) {
+          tx.recentBlockhash = latestBlockhash.blockhash;
+          tx.feePayer = this.owner!;
+          // Compute limit ix & priority fee ix
+          const units = Array.isArray(opts?.CUs)
+            ? (opts.CUs[i] as number)
+            : opts?.CUs;
+          tx.instructions = [
+            //MAX 1M
+            ComputeBudgetProgram.setComputeUnitLimit({
+              units: units ?? 200_000
+            }),
+            ComputeBudgetProgram.setComputeUnitPrice({
+              microLamports: this.priorityFee
+            }),
+            ...tx.instructions
+          ];
+        }
+        return tx;
+      })
+    );
+
+    return await this.signAllTransactions(timedTxs.flat());
+  }
+
   /**
    * Sends transactions.
    * @param txs A sequence of sets of transactions. Sets are executed simultaneously.
@@ -287,34 +332,7 @@ export class TransactionSender {
     try {
       const sequence =
         txs[0] instanceof Array ? (txs as T[][]) : ([txs] as T[][]);
-
-      const latestBlockhash = await connection.getLatestBlockhash();
-      const timedTxs = sequence.map((set) =>
-        set.map((e: T, i: number) => {
-          const tx = e;
-          if (!(tx instanceof VersionedTransaction)) {
-            tx.recentBlockhash = latestBlockhash.blockhash;
-            tx.feePayer = this.owner!;
-            // Compute limit ix & priority fee ix
-            const units = Array.isArray(opts?.CUs)
-              ? (opts.CUs[i] as number)
-              : opts?.CUs;
-            tx.instructions = [
-              //MAX 1M
-              ComputeBudgetProgram.setComputeUnitLimit({
-                units: units ?? 200_000
-              }),
-              ComputeBudgetProgram.setComputeUnitPrice({
-                microLamports: this.priorityFee
-              }),
-              ...tx.instructions
-            ];
-          }
-          return tx;
-        })
-      );
-
-      const signedTxs = await this.signAllTransactions(timedTxs.flat());
+      const signedTxs = await this.signTransactions(sequence, connection, opts);
 
       // Reconstruct signed sequence
       let i = 0;
@@ -336,6 +354,7 @@ export class TransactionSender {
                     txSignature,
                     opts?.commitment ?? "confirmed"
                   );
+                  console.log("confirmation", confirmation);
                   if (confirmation.value.err) {
                     //@ts-ignore
                     confirmation.value.err.InstructionError.forEach((error) => {
@@ -345,6 +364,7 @@ export class TransactionSender {
                           | undefined = opts?.customErrors?.[index]?.find(
                           (e) => e.code == error.Custom
                         );
+                        console.log("pushing error:", error, _error);
                         errors.push({
                           message:
                             _error?.msg ||
@@ -354,6 +374,7 @@ export class TransactionSender {
                       }
                     });
                   }
+                  console.log("pushing signature", txSignature);
                   signatures.push(txSignature);
                 })
               )
@@ -371,6 +392,7 @@ export class TransactionSender {
                 txSignature,
                 opts?.commitment ?? "confirmed"
               );
+              console.log("confirmation", confirmation);
               if (confirmation.value.err) {
                 //@ts-ignore
                 confirmation.value.err.InstructionError.forEach((error) => {
@@ -380,6 +402,7 @@ export class TransactionSender {
                       | undefined = opts?.customErrors?.[index]?.find(
                       (e) => e.code == error.Custom
                     );
+                    console.log("pushing error:", error, _error);
                     errors.push({
                       message:
                         _error?.msg ||
@@ -389,12 +412,57 @@ export class TransactionSender {
                   }
                 });
               }
+              console.log("pushing signature", txSignature);
               signatures.push(txSignature);
             }
           });
         }
       }
     } catch (e: any) {
+      console.log("pushing error:", e);
+      errors.push({ message: e.message, name: e.name ?? "Transaction Error" });
+    }
+
+    console.log("final errors", errors);
+    return {
+      signatures: signatures,
+      errors: errors
+    };
+  }
+
+  async sendInnerAsBundle<T extends Transaction | VersionedTransaction>(
+    txs: T[],
+    connection: Connection,
+    opts?: SendTransactionOptions
+  ): SendTransactionResponse {
+    console.log("send inner as bundle called");
+    if (!connection || !this.owner || !this.signAllTransactions) {
+      throw new Error("Bad wallet connection");
+    }
+
+    if (txs.length === 0 || (txs[0] instanceof Array && txs[0].length === 0)) {
+      throw new Error("No transactions passed");
+    }
+
+    if (!this.bundler) {
+      throw new Error("trying to send bundler but no bundler impl included");
+    }
+
+    const errors: TransactionError[] = [];
+    const signatures: string[] = [];
+    try {
+      // send with bundler
+      const [_, txSignatures] = await this.bundler?.sendBundle(
+        txs,
+        (txs) => this.signTransactions([txs], connection, opts) as Promise<T[]>,
+        this.owner,
+        undefined
+      );
+
+      // might just need to return signatures properly
+      signatures.push(...txSignatures.toReversed());
+    } catch (e: any) {
+      console.log("pushing error:", e);
       errors.push({ message: e.message, name: e.name ?? "Transaction Error" });
     }
     return {

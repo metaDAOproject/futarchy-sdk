@@ -175,8 +175,8 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
 
     const tokens = await Promise.all(
       tokenAccounts.value
-        .filter((accountInfo) =>
-          PublicKey.isOnCurve(accountInfo.account.data.parsed.info.mint)
+        .filter(
+          (accountInfo) => accountInfo.account.data.parsed.info.mint !== ""
         )
         .map(async (accountInfo) => {
           const tokenAmount = accountInfo.account.data.parsed.info.tokenAmount;

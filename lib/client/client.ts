@@ -19,22 +19,17 @@ import {
   LiquidityAddError,
   ProposalAccounts,
   ProgramVersionLabel,
-  ProposalWithFullData
+  ProposalWithFullData,
+  Dao
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
-import {
-  ProposalMarketPricesAggregate,
-  SpotObservation,
-  TwapObservation
-} from "@/types/prices";
-import {
-  SendTransactionResponse,
-  TransactionProcessingUpdate
-} from "@/types/transactions";
+import { SpotObservation, TwapObservation } from "@/types/prices";
+import { TransactionProcessingUpdate } from "@/types/transactions";
 import { BN } from "@coral-xyz/anchor";
 import {
   CreateProposalInstruction,
+  ProposalOnChainFields,
   MarketParams,
   ProposalDetails
 } from "@/types/createProp";
@@ -78,11 +73,17 @@ export interface FutarchyProposalsClient {
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
     proposalDetails: ProposalDetails
-  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
+  ): Promise<
+    [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
+  >;
   finalizeProposal(
     proposal: ProposalWithFullData
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
-  saveProposalDetails(proposalDetails: ProposalDetails): void;
+  saveProposalDetails(
+    proposalDetails: ProposalDetails,
+    dao: Dao,
+    version: ProgramVersionLabel
+  ): void;
   updateProposalAccounts(accounts: ProposalAccounts): void;
   mergeConditionalTokensForUnderlyingTokens(
     amount: BN,

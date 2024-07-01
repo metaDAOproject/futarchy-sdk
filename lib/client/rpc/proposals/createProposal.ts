@@ -9,7 +9,10 @@ import {
   twapMarketBuffer
 } from "@/constants";
 import { buildMemoInstruction, buildTransferInstruction } from "@/instructions";
-import { TransactionSender, createVersionedTransaction } from "@/transactions";
+import {
+  TransactionSender,
+  createVersionedTransaction
+} from "@/transactions/sender";
 import {
   Dao,
   DaoAggregate,
@@ -19,16 +22,17 @@ import {
 import {
   AmmMarketParams,
   CreateProposalInstruction,
+  ProposalOnChainFields,
   MarketParams,
-  OpenbookMarketParams,
-  ProposalDetails
+  OpenbookMarketParams
 } from "@/types/createProp";
-import { SendTransactionResponse } from "@/types/transactions";
-import { AnchorProvider, Program, BN } from "@coral-xyz/anchor";
+import { TransactionProcessingUpdate } from "@/types/transactions";
+import { AnchorProvider, Program, BN, utils } from "@coral-xyz/anchor";
 import {
   AutocratClient,
   InstructionUtils,
-  MaxCUs
+  MaxCUs,
+  ProposalInstruction
 } from "@metadaoproject/futarchy";
 import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import {
@@ -40,18 +44,17 @@ import {
   Keypair,
   PublicKey,
   SystemProgram,
-  Transaction
+  Transaction,
+  VersionedTransaction
 } from "@solana/web3.js";
 import {
   AutocratV0 as AutocratV0_2,
   IDL as AutocratV0_2_IDL
 } from "@/idl/autocrat_v0.2";
-import {
-  OpenbookTwapV0_2,
-  IDL as OPENBOOK_TWAP_IDLV0_2
-} from "@/idl/openbook_twap_v0.2";
+import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
 import { CreateProposal, FutarchyProposalsClient } from "@/client";
 import { ConditionalVault as Conditional_vault_v0_2 } from "@/idl/conditional_vault_v0.2";
+import { Observable } from "rxjs";
 
 export class CreateProposalClient implements CreateProposal {
   private proposalsClient: FutarchyProposalsClient;
@@ -78,7 +81,7 @@ export class CreateProposalClient implements CreateProposal {
     vaultProgram: Program<Conditional_vault_v0_2>,
     conditionalOnFinalizeKP: Keypair,
     conditionalOnRevertKP: Keypair
-  ): Promise<any> {
+  ): Promise<[PublicKey, VersionedTransaction | undefined]> {
     const [vault] = PublicKey.findProgramAddressSync(
       [
         Buffer.from("conditional_vault", "utf8"),
@@ -129,7 +132,9 @@ export class CreateProposalClient implements CreateProposal {
     dao: Dao,
     onPassIx: ProposalInstructionWithPreinstructions,
     marketParams: OpenbookMarketParams
-  ) {
+  ): Promise<
+    [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
+  > {
     const proposalKP = Keypair.generate();
 
     const basePassMint = Keypair.generate();
@@ -180,6 +185,7 @@ export class CreateProposalClient implements CreateProposal {
       basePassMint,
       baseFailMint
     );
+    if (!initializeBaseVaultTx) return;
     const [quoteVault, initializeQuoteVaultTx] = await this.initializeVaultTx(
       daoTreasury,
       usdcMint,
@@ -188,6 +194,7 @@ export class CreateProposalClient implements CreateProposal {
       quotePassMint,
       quoteFailMint
     );
+    if (!initializeQuoteVaultTx) return;
 
     const currentTimeInSeconds = Math.floor(Date.now() / 1000);
     const elevenDaysInSeconds = 11 * 24 * 60 * 60;
@@ -348,201 +355,216 @@ export class CreateProposalClient implements CreateProposal {
       { title: "Creating Proposal" }
     );
 
-    // TODO commenting out since this does nothing right now, address later
-    // const accounts = {
-    //   proposer_acct: this.rpcProvider.publicKey,
-    //   base_cond_vault_acct: txResp?.signatures.length == 1 ? baseVault : null,
-    //   quote_cond_vault_acct: txResp?.signatures.length == 2 ? quoteVault : null,
-    //   pass_market_acct:
-    //     txResp?.signatures.length == 3 ? passMarketKP.publicKey : null,
-    //   fail_market_acct:
-    //     txResp?.signatures.length == 4 ? failMarketKP.publicKey : null,
-    //   proposal_acct:
-    //     txResp?.signatures.length == allTxs.length ? proposalKP.publicKey : null
-    // };
-    // await this.proposalsClient.updateProposalAccounts(accounts);
-
-    return txResp;
+    if (txResp) {
+      return [
+        txResp,
+        {
+          baseCondVaultAcct: baseVault,
+          quoteCondVaultAcct: quoteVault,
+          failMarketAcct: passMarketKP.publicKey,
+          passMarketAcct: failMarketKP.publicKey,
+          proposalAcct: proposalKP.publicKey
+        }
+      ];
+    }
   }
 
-  private async createProposalV0_3(
-    dao: Dao,
-    onPassIx: ProposalInstructionWithPreinstructions,
-    marketParams: AmmMarketParams
-  ) {
-    if (!this.transactionSender) return;
-
-    const nonce = new BN(Math.random() * 2 ** 50);
-    const proposal = PublicKey.findProgramAddressSync(
+  getProposalAddr = (
+    programId: PublicKey,
+    proposer: PublicKey,
+    nonce: BN
+  ): [PublicKey, number] => {
+    return PublicKey.findProgramAddressSync(
       [
-        Buffer.from("proposal"),
-        this.rpcProvider.publicKey.toBuffer(),
+        utils.bytes.utf8.encode("proposal"),
+        proposer.toBuffer(),
         nonce.toArrayLike(Buffer, "le", 8)
       ],
-      this.autocratClient.autocrat.programId
-    )[0];
-
-    const accountInfo = await this.rpcProvider.connection.getAccountInfo(
-      proposal
+      programId
     );
-    if (accountInfo !== null) {
-      this.createProposalV0_3(dao, onPassIx, marketParams);
-    }
-    const autocrat = this.autocratClient.autocrat;
+  };
 
-    const daoAccount = await autocrat.account.dao.fetch(dao.publicKey);
+  private async createProposalTxsAndPDAs(
+    dao: PublicKey,
+    descriptionUrl: string,
+    ix: ProposalInstruction,
+    baseTokensToLP: BN,
+    quoteTokensToLP: BN
+  ): Promise<
+    [
+      Transaction[],
+      {
+        proposalAcct: PublicKey;
+        baseCondVaultAcct: PublicKey;
+        quoteCondVaultAcct: PublicKey;
+        passMarketAcct: PublicKey;
+        failMarketAcct: PublicKey;
+      }
+    ]
+  > {
+    const autocratClient = this.autocratClient;
+    const storedDao = await autocratClient.getDao(dao);
 
-    const baseTokensToLP = new BN(marketParams.baseLiquidity);
-    const quoteTokensToLP = new BN(marketParams.quoteLiquidity);
+    const nonce = new BN(Math.random() * 2 ** 50);
+
+    let [proposal] = this.getProposalAddr(
+      autocratClient.autocrat.programId,
+      autocratClient.provider.publicKey,
+      nonce
+    );
 
     const {
-      failAmm,
+      baseVault,
+      quoteVault,
       passAmm,
-      failBaseMint,
-      failQuoteMint,
-      failLp,
+      failAmm,
       passBaseMint,
       passQuoteMint,
-      passLp,
-      baseVault,
-      quoteVault
-    } = this.autocratClient.getProposalPdas(
+      failBaseMint,
+      failQuoteMint
+    } = autocratClient.getProposalPdas(
       proposal,
-      daoAccount.tokenMint,
-      daoAccount.usdcMint,
-      dao.publicKey
+      storedDao.tokenMint,
+      storedDao.usdcMint,
+      dao
     );
 
-    const initializeVaultsAndCreateAmmsTx =
-      await this.autocratClient.vaultClient
-        .initializeVaultIx(proposal, daoAccount.tokenMint)
-        .postInstructions(
-          await InstructionUtils.getInstructions(
-            this.autocratClient.vaultClient.initializeVaultIx(
-              proposal,
-              daoAccount.usdcMint
-            ),
-            this.autocratClient.ammClient.createAmmIx(
-              passBaseMint,
-              passQuoteMint,
-              daoAccount.twapInitialObservation,
-              daoAccount.twapMaxObservationChangePerUpdate
-            ),
-            this.autocratClient.ammClient.createAmmIx(
-              failBaseMint,
-              failQuoteMint,
-              daoAccount.twapInitialObservation,
-              daoAccount.twapMaxObservationChangePerUpdate
-            )
-          )
-        )
-        .transaction();
-
-    const mintTx = await this.autocratClient.vaultClient
-      .mintConditionalTokensIx(baseVault, daoAccount.tokenMint, baseTokensToLP)
+    const initializeVaultTx = await autocratClient.vaultClient
+      .initializeVaultIx(proposal, storedDao.tokenMint)
       .postInstructions(
         await InstructionUtils.getInstructions(
-          this.autocratClient.vaultClient.mintConditionalTokensIx(
+          autocratClient.vaultClient.initializeVaultIx(
+            proposal,
+            storedDao.usdcMint
+          ),
+          autocratClient.ammClient.createAmmIx(
+            passBaseMint,
+            passQuoteMint,
+            storedDao.twapInitialObservation,
+            storedDao.twapMaxObservationChangePerUpdate
+          ),
+          autocratClient.ammClient.createAmmIx(
+            failBaseMint,
+            failQuoteMint,
+            storedDao.twapInitialObservation,
+            storedDao.twapMaxObservationChangePerUpdate
+          )
+        )
+      )
+      .transaction();
+    const mintTx = await autocratClient.vaultClient
+      .mintConditionalTokensIx(baseVault, storedDao.tokenMint, baseTokensToLP)
+      .postInstructions(
+        await InstructionUtils.getInstructions(
+          autocratClient.vaultClient.mintConditionalTokensIx(
             quoteVault,
-            daoAccount.usdcMint,
+            storedDao.usdcMint,
             quoteTokensToLP
           )
         )
       )
       .transaction();
 
-    const liquidityTx = await this.autocratClient.ammClient
+    const ammTx = await autocratClient.ammClient
       .addLiquidityIx(
-        failAmm,
-        failBaseMint,
-        failQuoteMint,
+        passAmm,
+        passBaseMint,
+        passQuoteMint,
         quoteTokensToLP,
         baseTokensToLP,
-        new BN(0)
+        new BN(0),
+        this.transactionSender?.owner
       )
       .postInstructions(
         await InstructionUtils.getInstructions(
-          this.autocratClient.ammClient.addLiquidityIx(
-            passAmm,
-            passBaseMint,
-            passQuoteMint,
+          autocratClient.ammClient.addLiquidityIx(
+            failAmm,
+            failBaseMint,
+            failQuoteMint,
             quoteTokensToLP,
             baseTokensToLP,
-            new BN(0)
+            new BN(0),
+            this.transactionSender?.owner
           )
         )
       )
       .transaction();
 
-    const initializeProposalTx = await this.autocratClient
+    const proposalTx = await autocratClient
       .initializeProposalIx(
-        "www.google.com",
-        onPassIx.instruction,
-        dao.publicKey,
-        daoAccount.tokenMint,
-        daoAccount.usdcMint,
+        descriptionUrl,
+        ix,
+        dao,
+        storedDao.tokenMint,
+        storedDao.usdcMint,
         quoteTokensToLP,
         quoteTokensToLP,
         nonce
       )
-      .preInstructions([...(onPassIx.preInstructions || [])])
       .transaction();
 
-    const allTxs = [
-      initializeVaultsAndCreateAmmsTx,
-      mintTx,
-      liquidityTx,
-      initializeProposalTx
+    return [
+      [initializeVaultTx, mintTx, ammTx, proposalTx],
+      {
+        baseCondVaultAcct: baseVault,
+        quoteCondVaultAcct: quoteVault,
+        failMarketAcct: failAmm,
+        passMarketAcct: passAmm,
+        proposalAcct: proposal
+      }
     ];
+  }
 
-    //TO DO : recalculate compute units
-    const initializeVaultsAndAmmCus =
-      MaxCUs.createIdempotent * 2 +
-      MaxCUs.initializeConditionalVault * 2 +
-      MaxCUs.initializeAmm * 2;
-    const mintCus =
-      MaxCUs.createIdempotent * 4 + MaxCUs.mintConditionalTokens * 2 + 50000;
-    const addLiquidityCus = +MaxCUs.addLiquidity * 2;
+  private async createProposalV0_3(
+    dao: Dao,
+    onPassIx: ProposalInstructionWithPreinstructions,
+    marketParams: AmmMarketParams
+  ): Promise<
+    [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
+  > {
+    if (!this.transactionSender) return;
     const initializeProposalCus =
       MaxCUs.createIdempotent + MaxCUs.initializeProposal + 50000;
 
-    const txResp = await this.transactionSender?.send(
-      allTxs,
+    const [txs, pdas] = await this.createProposalTxsAndPDAs(
+      dao.publicKey,
+      "https://metadao.fi", // TODO: what to put here??
+      onPassIx.instruction,
+      marketParams.baseLiquidity,
+      marketParams.quoteLiquidity
+    );
+
+    console.log(JSON.stringify(txs));
+
+    const txResp = this.transactionSender?.send(
+      txs,
       this.rpcProvider.connection,
       {
         commitment: "confirmed",
-        sequential: true,
+        // TODO sequential true seems to not return the signatures..
         CUs: [
-          initializeVaultsAndAmmCus,
-          mintCus,
-          addLiquidityCus,
-          initializeProposalCus
+          // MaxCUs.initializeConditionalVault + 100000,
+          // MaxCUs.mintConditionalTokens + 100000,
+          // MaxCUs.addLiquidity + 100000,
+          // initializeProposalCus
+          360_000, 190_000, 145_000, 115_000
         ]
       },
-      { title: "Creating Proposal" }
+      { title: "Creating Proposal" },
+      true // sending with bundler
     );
 
-    // TODO commenting out since this does nothing right now, address later
-    // const accounts = {
-    //   proposer_acct: this.rpcProvider.publicKey,
-    //   base_cond_vault_acct: txResp?.signatures.length == 1 ? baseVault : null,
-    //   quote_cond_vault_acct: txResp?.signatures.length == 1 ? quoteVault : null,
-    //   pass_market_acct: txResp?.signatures.length == 2 ? passAmm : null,
-    //   fail_market_acct: txResp?.signatures.length == 2 ? failAmm : null,
-    //   proposal_acct:
-    //     txResp?.signatures.length == allTxs.length ? proposal : null
-    // };
-    // this.proposalsClient.updateProposalAccounts(accounts);
-    return txResp;
+    return [txResp, pdas];
   }
 
   public async createProposal(
     daoAggregate: DaoAggregate,
     version: ProgramVersionLabel = "V0.3",
     instructionParams: CreateProposalInstruction,
-    marketParams: MarketParams,
-    proposalDetails: ProposalDetails
-  ) {
+    marketParams: MarketParams
+  ): Promise<
+    [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
+  > {
     const currentDao = daoAggregate.daos
       .filter((dao) => dao.protocol.deploymentVersion === version)
       .slice(-1)[0];
@@ -563,22 +585,19 @@ export class CreateProposalClient implements CreateProposal {
         );
         break;
     }
-
-    this.proposalsClient.saveProposalDetails(proposalDetails);
-    let resp;
     switch (version) {
       case "V0.2":
-        return (resp = await this.createProposalV0_2(
+        return this.createProposalV0_2(
           currentDao,
           onPassIxs,
           marketParams as OpenbookMarketParams
-        ));
+        );
       case "V0.3":
-        return (resp = await this.createProposalV0_3(
+        return this.createProposalV0_3(
           currentDao,
           onPassIxs,
           marketParams as AmmMarketParams
-        ));
+        );
       default:
         throw Error("Program version not supported.");
     }

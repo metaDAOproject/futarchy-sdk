@@ -1,6 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 
 export * from "./conditionalVault";
+export * from "./createProp";
 export * from "./proposals";
 export * from "./markets";
 export * from "./autocrats";

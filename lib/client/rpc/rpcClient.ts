@@ -9,7 +9,7 @@ import { FutarchyClient } from "@/client";
 import { FutarchyRPCDaoClient } from "@/client/rpc/dao";
 import { FutarchyRPCProposalsClient } from "./proposals/proposals";
 import { FutarchyRPCBalancesClient } from "./balances";
-import { TransactionSender } from "@/transactions";
+import { TransactionSender } from "@/transactions/sender";
 import { getFutarchyProtocols } from "@/utils";
 import { FutarchyProtocol } from "@/types";
 import {

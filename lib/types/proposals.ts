@@ -24,11 +24,6 @@ export type ProposalInstruction = MergeWithOptionalFields<
   >
 >;
 
-export type ProposalInstructionWithPreinstructions = {
-  preInstructions: TransactionInstruction[] | undefined;
-  instruction: ProposalInstruction;
-};
-
 export type ProposalAccount = MergeWithOptionalFields<
   IdlAccounts<AutocratV0_2>["Proposal"],
   MergeWithOptionalFields<

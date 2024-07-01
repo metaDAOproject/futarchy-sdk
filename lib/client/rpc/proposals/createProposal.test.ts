@@ -1,7 +1,6 @@
 import { JitoBundler, TransactionSender } from "@/transactions";
-import { AnchorProvider, BN, setProvider, utils } from "@coral-xyz/anchor";
+import { AnchorProvider, BN, utils } from "@coral-xyz/anchor";
 import {
-  ComputeBudgetProgram,
   Connection,
   PublicKey,
   SystemProgram,

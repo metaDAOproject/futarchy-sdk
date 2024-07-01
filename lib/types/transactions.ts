@@ -8,7 +8,7 @@ export type TransactionError = { message: string; name: string };
 export type TransactionProcessingStatus =
   | TransactionConfirmationStatus
   | ("sent" | "failed" | "timed-out" | "unsigned");
-type SingleOrArray<T> = T | T[];
+export type SingleOrArray<T> = T | T[];
 export type TransactionDisplayMetadata = {
   title: string;
   description?: string;

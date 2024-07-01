@@ -387,7 +387,7 @@ export class CreateProposalClient implements CreateProposal {
   private async createProposalTxsAndPDAs(
     dao: PublicKey,
     descriptionUrl: string,
-    instruction: ProposalInstruction,
+    ix: ProposalInstruction,
     baseTokensToLP: BN,
     quoteTokensToLP: BN
   ): Promise<
@@ -429,8 +429,7 @@ export class CreateProposalClient implements CreateProposal {
       dao
     );
 
-    // it's important that these happen in a single atomic transaction
-    const initVaultTx = await autocratClient.vaultClient
+    const initializeVaultTx = await autocratClient.vaultClient
       .initializeVaultIx(proposal, storedDao.tokenMint)
       .postInstructions(
         await InstructionUtils.getInstructions(
@@ -453,8 +452,7 @@ export class CreateProposalClient implements CreateProposal {
         )
       )
       .transaction();
-
-    const mintConditionalTokensTx = await autocratClient.vaultClient
+    const mintTx = await autocratClient.vaultClient
       .mintConditionalTokensIx(baseVault, storedDao.tokenMint, baseTokensToLP)
       .postInstructions(
         await InstructionUtils.getInstructions(
@@ -467,14 +465,15 @@ export class CreateProposalClient implements CreateProposal {
       )
       .transaction();
 
-    const addLiquidityTx = await autocratClient.ammClient
+    const ammTx = await autocratClient.ammClient
       .addLiquidityIx(
         passAmm,
         passBaseMint,
         passQuoteMint,
         quoteTokensToLP,
         baseTokensToLP,
-        new BN(0)
+        new BN(0),
+        this.transactionSender?.owner
       )
       .postInstructions(
         await InstructionUtils.getInstructions(
@@ -484,30 +483,28 @@ export class CreateProposalClient implements CreateProposal {
             failQuoteMint,
             quoteTokensToLP,
             baseTokensToLP,
-            new BN(0)
+            new BN(0),
+            this.transactionSender?.owner
           )
         )
       )
       .transaction();
 
-    // this is how many original tokens are created
-    const lpTokens = quoteTokensToLP;
-
-    const initTx = await autocratClient
+    const proposalTx = await autocratClient
       .initializeProposalIx(
         descriptionUrl,
-        instruction,
+        ix,
         dao,
         storedDao.tokenMint,
         storedDao.usdcMint,
-        lpTokens,
-        lpTokens,
+        quoteTokensToLP,
+        quoteTokensToLP,
         nonce
       )
       .transaction();
 
     return [
-      [initVaultTx, mintConditionalTokensTx, addLiquidityTx, initTx],
+      [initializeVaultTx, mintTx, ammTx, proposalTx],
       {
         baseCondVaultAcct: baseVault,
         quoteCondVaultAcct: quoteVault,
@@ -537,17 +534,20 @@ export class CreateProposalClient implements CreateProposal {
       marketParams.quoteLiquidity
     );
 
-    const txResp = await this.transactionSender?.send(
+    console.log(JSON.stringify(txs));
+
+    const txResp = this.transactionSender?.send(
       txs,
       this.rpcProvider.connection,
       {
         commitment: "confirmed",
         // TODO sequential true seems to not return the signatures..
         CUs: [
-          initializeProposalCus,
-          initializeProposalCus,
-          initializeProposalCus,
-          initializeProposalCus
+          // MaxCUs.initializeConditionalVault + 100000,
+          // MaxCUs.mintConditionalTokens + 100000,
+          // MaxCUs.addLiquidity + 100000,
+          // initializeProposalCus
+          360_000, 190_000, 145_000, 115_000
         ]
       },
       { title: "Creating Proposal" },

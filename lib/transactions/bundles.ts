@@ -4,6 +4,7 @@ export interface Bundler {
   sendBundle<T extends Transaction | VersionedTransaction>(
     txs: T[],
     signAllTransactions: (txs: T[]) => Promise<T[]>,
-    tipSender: PublicKey
+    tipSender: PublicKey,
+    tipAmount?: number
   ): Promise<[string, string[]]>;
 }

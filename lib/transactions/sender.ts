@@ -452,15 +452,15 @@ export class TransactionSender {
     const signatures: string[] = [];
     try {
       // send with bundler
-      const [bundleRes, txSignatures] = await this.bundler?.sendBundle(
+      const [_, txSignatures] = await this.bundler?.sendBundle(
         txs,
         (txs) => this.signTransactions([txs], connection, opts) as Promise<T[]>,
-        this.owner
+        this.owner,
+        undefined
       );
-      console.log("bundleRes", bundleRes);
 
       // might just need to return signatures properly
-      signatures.push(...txSignatures);
+      signatures.push(...txSignatures.toReversed());
     } catch (e: any) {
       console.log("pushing error:", e);
       errors.push({ message: e.message, name: e.name ?? "Transaction Error" });

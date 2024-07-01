@@ -10,7 +10,9 @@ import {
   ProgramVersionLabel,
   ProposalCounts,
   ProposalWithFullData,
-  BalanceLockedInProposal
+  BalanceLockedInProposal,
+  TransactionProcessingUpdate,
+  Dao
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -20,8 +22,10 @@ import {
 } from "./__generated__";
 import {
   CreateProposalInstruction,
+  ProposalOnChainFields,
   MarketParams,
-  ProposalDetails
+  ProposalDetails,
+  ProposalInputs
 } from "@/types/createProp";
 import { BN } from "@coral-xyz/anchor";
 import { PriceMath } from "@metadaoproject/futarchy";
@@ -30,6 +34,7 @@ import { Client as GQLWebSocketClient } from "graphql-ws";
 import { SUPPORTED_EMOJIS } from "@/constants/reactions";
 import { ReactionType } from "@/types/reactions";
 import dayjs from "dayjs";
+import { createSlug } from "@/utils";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -620,6 +625,9 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                   _eq: daoSlug
                 }
               }
+            },
+            proposal_details: {
+              proposal_acct: { _is_null: false }
             }
           },
           order_by: [
@@ -664,25 +672,210 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
-    proposalDetails: ProposalDetails
-  ) {
-    return this.rpcProposalsClient.createProposal(
-      daoAggregate,
-      version,
-      instructionParams,
-      marketParams,
-      proposalDetails
-    );
+    proposalInputs: ProposalInputs
+  ): Promise<
+    [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
+  > {
+    if (!this.rpcProposalsClient.transactionSender?.owner) return;
+
+    try {
+      const createProposalRes = await this.rpcProposalsClient.createProposal(
+        daoAggregate,
+        version,
+        instructionParams,
+        marketParams
+      );
+      if (!createProposalRes) return;
+
+      const [txUpdates, proposalAccts] = createProposalRes;
+
+      const propDetails: ProposalDetails = {
+        ...proposalInputs,
+        ...proposalAccts,
+        proposerAcct: this.rpcProposalsClient.transactionSender.owner,
+        slug: createSlug(proposalInputs.title)
+      };
+
+      txUpdates.subscribe({
+        next: (update) => {
+          if (update.status === "confirmed") {
+            // save details to DB here
+            const currentDao = daoAggregate.daos
+              .filter((dao) => dao.protocol.deploymentVersion === version)
+              .slice(-1)[0];
+
+            this.saveProposalDetails(propDetails, currentDao, version);
+          }
+        }
+      });
+
+      return [txUpdates, proposalAccts];
+    } catch (e) {
+      console.error("error creating proposal:", e);
+    }
   }
 
   async finalizeProposal(proposal: ProposalWithFullData) {
     return this.rpcProposalsClient.finalizeProposal(proposal);
   }
 
-  async saveProposalDetails(proposalDetails: ProposalDetails) {
-    this.rpcProposalsClient.saveProposalDetails(proposalDetails);
+  // we should really probably change this column to a sequence so we don't have to manually fetch this OR we should just get rid of the column
+  async getProposalIdAndEndSlot(): Promise<[number, number]> {
+    const result = await this.graphqlClient.query({
+      proposal_details: {
+        __args: {
+          order_by: [{ proposal_id: "desc" }],
+          limit: 1
+        },
+        proposal: {
+          dao: {
+            slots_per_proposal: true
+          }
+        },
+        proposal_id: true
+      }
+    });
+
+    const latestProposal = result.proposal_details[0];
+    const proposalId = latestProposal ? latestProposal.proposal_id + 1 : 0;
+    const slotsPerProposal =
+      latestProposal.proposal?.dao.slots_per_proposal ?? 0;
+
+    return [proposalId, slotsPerProposal];
   }
 
+  async saveProposalDetails(
+    proposalDetails: ProposalDetails,
+    dao: Dao,
+    version: ProgramVersionLabel
+  ) {
+    const {
+      proposalAcct,
+      title,
+      content,
+      description,
+      categories,
+      slug,
+      proposerAcct,
+      baseCondVaultAcct,
+      quoteCondVaultAcct,
+      passMarketAcct,
+      failMarketAcct
+    } = proposalDetails;
+
+    try {
+      const [latestPropID, slotsPerProposal] =
+        await this.getProposalIdAndEndSlot();
+
+      const proposalOnChain = await this.rpcProposalsClient.fetchProposal(
+        dao,
+        proposalAcct
+      );
+
+      // Insert conditional vaults
+      const conditionalVaultsResult = await this.graphqlClient.mutation({
+        insert_conditional_vaults: {
+          __args: {
+            objects: [
+              {
+                cond_finalize_token_mint_acct:
+                  proposalOnChain.baseVaultAccount.conditionalOnFinalizeTokenMint.toBase58(),
+                cond_revert_token_mint_acct:
+                  proposalOnChain.baseVaultAccount.conditionalOnRevertTokenMint.toBase58(),
+                cond_vault_acct: baseCondVaultAcct.toBase58(),
+                settlement_authority:
+                  proposalOnChain.baseVaultAccount.settlementAuthority.toBase58(),
+                status: proposalOnChain.state,
+                underlying_mint_acct:
+                  proposalOnChain.baseVaultAccount.underlyingTokenMint.toBase58(),
+                underlying_token_acct:
+                  proposalOnChain.baseVaultAccount.underlyingTokenAccount.toBase58()
+              },
+              {
+                cond_finalize_token_mint_acct:
+                  proposalOnChain.quoteVaultAccount.conditionalOnFinalizeTokenMint.toBase58(),
+                cond_revert_token_mint_acct:
+                  proposalOnChain.quoteVaultAccount.conditionalOnRevertTokenMint.toBase58(),
+                cond_vault_acct: quoteCondVaultAcct.toBase58(),
+                settlement_authority:
+                  proposalOnChain.quoteVaultAccount.settlementAuthority.toBase58(),
+                status: proposalOnChain.state,
+                underlying_mint_acct:
+                  proposalOnChain.quoteVaultAccount.underlyingTokenMint.toBase58(),
+                underlying_token_acct:
+                  proposalOnChain.quoteVaultAccount.underlyingTokenAccount.toBase58()
+              }
+            ]
+          },
+          returning: {
+            cond_vault_acct: true // Fields you want to return after insertion
+          }
+        }
+      });
+
+      if (
+        (conditionalVaultsResult.insert_conditional_vaults?.returning.length ??
+          0) === 0
+      )
+        return;
+
+      // Insert into proposals table
+      const proposalsResult = await this.graphqlClient.mutation({
+        insert_proposals_one: {
+          __args: {
+            object: {
+              autocrat_version: parseFloat(version.split("V")[1]),
+              dao_acct: dao.publicKey.toBase58(),
+              proposal_acct: proposalAcct.toBase58(),
+              proposal_num: proposalOnChain.account.number,
+              proposer_acct: proposerAcct.toBase58(),
+              status: "Pending",
+              pass_market_acct: passMarketAcct.toBase58(),
+              fail_market_acct: failMarketAcct.toBase58(),
+              base_vault: baseCondVaultAcct.toBase58(),
+              quote_vault: quoteCondVaultAcct.toBase58(),
+              created_at: new Date(),
+              updated_at: new Date(),
+              initial_slot: proposalOnChain.account.slotEnqueued.toNumber(),
+              end_slot: proposalOnChain.account.slotEnqueued
+                .add(new BN(slotsPerProposal))
+                .toNumber()
+            }
+          },
+          proposal_acct: true // Fields you want to return after insertion
+        }
+      });
+
+      if (!proposalsResult.insert_proposals_one?.proposal_acct) return;
+
+      const result = await this.graphqlClient.mutation({
+        insert_proposal_details_one: {
+          __args: {
+            object: {
+              proposal_id: latestPropID,
+              proposal_acct:
+                proposalsResult.insert_proposals_one?.proposal_acct,
+              title: title,
+              description: description,
+              categories: categories,
+              content: content,
+              slug: slug,
+              proposer_acct: proposerAcct.toBase58(),
+              base_cond_vault_acct: baseCondVaultAcct.toBase58(),
+              quote_cond_vault_acct: quoteCondVaultAcct.toBase58(),
+              pass_market_acct: passMarketAcct.toBase58(),
+              fail_market_acct: failMarketAcct.toBase58()
+            }
+          },
+          proposal_acct: true // Fields you want to return after insertion
+        }
+      });
+
+      console.log("Proposal details saved:", result);
+    } catch (error) {
+      console.error("Error saving proposal details:", error);
+    }
+  }
   async updateProposalAccounts(accounts: ProposalAccounts) {
     this.rpcProposalsClient.updateProposalAccounts(accounts);
   }

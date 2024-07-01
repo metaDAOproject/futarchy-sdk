@@ -10,7 +10,7 @@ import {
   ProposalVolume
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
-import { TransactionSender } from "@/transactions";
+import { TransactionSender } from "@/transactions/sender";
 import { AmmClient, PriceMath } from "@metadaoproject/futarchy";
 import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
 import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";

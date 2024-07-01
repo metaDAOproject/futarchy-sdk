@@ -1,7 +1,7 @@
 import { FutarchyAmmMarketsClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
 import { calculateMaxWithSlippage, calculateMinWithSlippage } from "@/trading";
-import { TransactionSender } from "@/transactions";
+import { TransactionSender } from "@/transactions/sender";
 import { TokenWithBalance } from "@/types";
 import {
   AddLiquiditySimulationResponse,

@@ -31,7 +31,7 @@ import {
   TwapPlaceOrderArgs
 } from "@/types";
 import { FutarchyOrderbookMarketsClient } from "@/client";
-import { TransactionSender } from "@/transactions";
+import { TransactionSender } from "@/transactions/sender";
 import { enrichTokenMetadata } from "@/tokens";
 import { getTwapMarketKey } from "@/openbookTwap";
 import { BASE_FORMAT, MAX_MARKET_PRICE, NUMERAL_FORMAT } from "@/constants";

@@ -27,8 +27,13 @@ import {
   OpenbookMarketParams
 } from "@/types/createProp";
 import { TransactionProcessingUpdate } from "@/types/transactions";
-import { AnchorProvider, Program, BN } from "@coral-xyz/anchor";
-import { AutocratClient, MaxCUs } from "@metadaoproject/futarchy";
+import { AnchorProvider, Program, BN, utils } from "@coral-xyz/anchor";
+import {
+  AutocratClient,
+  InstructionUtils,
+  MaxCUs,
+  ProposalInstruction
+} from "@metadaoproject/futarchy";
 import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -364,6 +369,155 @@ export class CreateProposalClient implements CreateProposal {
     }
   }
 
+  getProposalAddr = (
+    programId: PublicKey,
+    proposer: PublicKey,
+    nonce: BN
+  ): [PublicKey, number] => {
+    return PublicKey.findProgramAddressSync(
+      [
+        utils.bytes.utf8.encode("proposal"),
+        proposer.toBuffer(),
+        nonce.toArrayLike(Buffer, "le", 8)
+      ],
+      programId
+    );
+  };
+
+  private async createProposalTxsAndPDAs(
+    dao: PublicKey,
+    descriptionUrl: string,
+    instruction: ProposalInstruction,
+    baseTokensToLP: BN,
+    quoteTokensToLP: BN
+  ): Promise<
+    [
+      Transaction[],
+      {
+        proposalAcct: PublicKey;
+        baseCondVaultAcct: PublicKey;
+        quoteCondVaultAcct: PublicKey;
+        passMarketAcct: PublicKey;
+        failMarketAcct: PublicKey;
+      }
+    ]
+  > {
+    const autocratClient = this.autocratClient;
+    const storedDao = await autocratClient.getDao(dao);
+
+    const nonce = new BN(Math.random() * 2 ** 50);
+
+    let [proposal] = this.getProposalAddr(
+      autocratClient.autocrat.programId,
+      autocratClient.provider.publicKey,
+      nonce
+    );
+
+    const {
+      baseVault,
+      quoteVault,
+      passAmm,
+      failAmm,
+      passBaseMint,
+      passQuoteMint,
+      failBaseMint,
+      failQuoteMint
+    } = autocratClient.getProposalPdas(
+      proposal,
+      storedDao.tokenMint,
+      storedDao.usdcMint,
+      dao
+    );
+
+    // it's important that these happen in a single atomic transaction
+    const initVaultTx = await autocratClient.vaultClient
+      .initializeVaultIx(proposal, storedDao.tokenMint)
+      .postInstructions(
+        await InstructionUtils.getInstructions(
+          autocratClient.vaultClient.initializeVaultIx(
+            proposal,
+            storedDao.usdcMint
+          ),
+          autocratClient.ammClient.createAmmIx(
+            passBaseMint,
+            passQuoteMint,
+            storedDao.twapInitialObservation,
+            storedDao.twapMaxObservationChangePerUpdate
+          ),
+          autocratClient.ammClient.createAmmIx(
+            failBaseMint,
+            failQuoteMint,
+            storedDao.twapInitialObservation,
+            storedDao.twapMaxObservationChangePerUpdate
+          )
+        )
+      )
+      .transaction();
+
+    const mintConditionalTokensTx = await autocratClient.vaultClient
+      .mintConditionalTokensIx(baseVault, storedDao.tokenMint, baseTokensToLP)
+      .postInstructions(
+        await InstructionUtils.getInstructions(
+          autocratClient.vaultClient.mintConditionalTokensIx(
+            quoteVault,
+            storedDao.usdcMint,
+            quoteTokensToLP
+          )
+        )
+      )
+      .transaction();
+
+    const addLiquidityTx = await autocratClient.ammClient
+      .addLiquidityIx(
+        passAmm,
+        passBaseMint,
+        passQuoteMint,
+        quoteTokensToLP,
+        baseTokensToLP,
+        new BN(0)
+      )
+      .postInstructions(
+        await InstructionUtils.getInstructions(
+          autocratClient.ammClient.addLiquidityIx(
+            failAmm,
+            failBaseMint,
+            failQuoteMint,
+            quoteTokensToLP,
+            baseTokensToLP,
+            new BN(0)
+          )
+        )
+      )
+      .transaction();
+
+    // this is how many original tokens are created
+    const lpTokens = quoteTokensToLP;
+
+    const initTx = await autocratClient
+      .initializeProposalIx(
+        descriptionUrl,
+        instruction,
+        dao,
+        storedDao.tokenMint,
+        storedDao.usdcMint,
+        lpTokens,
+        lpTokens,
+        nonce
+      )
+      .transaction();
+
+    return [
+      [initVaultTx, mintConditionalTokensTx, addLiquidityTx, initTx],
+      {
+        baseCondVaultAcct: baseVault,
+        quoteCondVaultAcct: quoteVault,
+        failMarketAcct: failAmm,
+        passMarketAcct: passAmm,
+        proposalAcct: proposal
+      }
+    ];
+  }
+
   private async createProposalV0_3(
     dao: Dao,
     onPassIx: ProposalInstructionWithPreinstructions,
@@ -375,7 +529,7 @@ export class CreateProposalClient implements CreateProposal {
     const initializeProposalCus =
       MaxCUs.createIdempotent + MaxCUs.initializeProposal + 50000;
 
-    const [tx, pdas] = await this.autocratClient.createProposalTxAndPDAs(
+    const [txs, pdas] = await this.createProposalTxsAndPDAs(
       dao.publicKey,
       "https://metadao.fi", // TODO: what to put here??
       onPassIx.instruction,
@@ -384,14 +538,20 @@ export class CreateProposalClient implements CreateProposal {
     );
 
     const txResp = await this.transactionSender?.send(
-      [tx],
+      txs,
       this.rpcProvider.connection,
       {
         commitment: "confirmed",
         // TODO sequential true seems to not return the signatures..
-        CUs: [initializeProposalCus]
+        CUs: [
+          initializeProposalCus,
+          initializeProposalCus,
+          initializeProposalCus,
+          initializeProposalCus
+        ]
       },
-      { title: "Creating Proposal" }
+      { title: "Creating Proposal" },
+      true // sending with bundler
     );
 
     return [txResp, pdas];

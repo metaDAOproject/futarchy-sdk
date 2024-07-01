@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.28.1-beta.2
     version: 0.28.1-beta.2
   '@metadaoproject/futarchy':
-    specifier: 0.3.0-alpha.9
-    version: 0.3.0-alpha.9(fastestsmallesttextencoderdecoder@1.0.22)
+    specifier: 0.3.0-alpha.10
+    version: 0.3.0-alpha.10(fastestsmallesttextencoderdecoder@1.0.22)
   '@metadaoproject/futarchy-ts':
     specifier: 2.1.0
     version: 2.1.0(fastestsmallesttextencoderdecoder@1.0.22)
@@ -789,8 +789,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@metadaoproject/futarchy@0.3.0-alpha.9(fastestsmallesttextencoderdecoder@1.0.22):
-    resolution: {integrity: sha512-Hk8r5fQDDRXZfkBKRn6g0qImHLzHilEOjFQALmOP3qdlXwtt/SQuvgO2LA+ymK6pCJ1xhz3BcjpyrqW8r8iTHA==}
+  /@metadaoproject/futarchy@0.3.0-alpha.10(fastestsmallesttextencoderdecoder@1.0.22):
+    resolution: {integrity: sha512-nhxIKnFc/anhto3OPDbufhOo9KlVJdXRfH2nP3xfDwMHUYDtODisw7o/e1hMkM7u45TuIPFHIGm8YBkoht6zVg==}
     dependencies:
       '@coral-xyz/anchor': 0.29.0
       '@solana/spl-token': 0.3.11(@solana/web3.js@1.91.7)(fastestsmallesttextencoderdecoder@1.0.22)

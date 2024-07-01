@@ -96,12 +96,12 @@ export class TransactionSender {
   ): Observable<TransactionProcessingUpdate> {
     const obs = new Observable<TransactionProcessingUpdate>((subscriber) => {
       let signatureSubscriptionIds: number[] = [];
-      const innerSendPromise = useBundler
-        ? this.sendInnerAsBundle(tx, connection, opts)
-        : this.sendInner(tx, connection, opts);
+      const innerSendPromise =
+        useBundler && this.bundler
+          ? this.sendInnerAsBundle(tx, connection, opts)
+          : this.sendInner(tx, connection, opts);
       innerSendPromise
         .then((sendRes) => {
-          console.log("txn send res", sendRes);
           if ((sendRes?.errors?.length ?? 0) > 0) {
             if (
               sendRes?.errors?.some(
@@ -431,10 +431,11 @@ export class TransactionSender {
   }
 
   async sendInnerAsBundle<T extends Transaction | VersionedTransaction>(
-    txs: SingleOrArray<T>[],
+    txs: T[],
     connection: Connection,
     opts?: SendTransactionOptions
   ): SendTransactionResponse {
+    console.log("send inner as bundle called");
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
     }
@@ -443,120 +444,27 @@ export class TransactionSender {
       throw new Error("No transactions passed");
     }
 
-    if (opts?.CUs) {
-      if (
-        (!Array.isArray(opts.CUs) && Array.isArray(txs.length)) ||
-        (Array.isArray(opts.CUs) && opts.CUs.length !== txs.length)
-      ) {
-        throw new Error("CUs length must match transactions length");
-      }
+    if (!this.bundler) {
+      throw new Error("trying to send bundler but no bundler impl included");
     }
 
     const errors: TransactionError[] = [];
     const signatures: string[] = [];
     try {
-      const sequence =
-        txs[0] instanceof Array ? (txs as T[][]) : ([txs] as T[][]);
-      const signedTxs = await this.signTransactions(sequence, connection, opts);
-
-      // Reconstruct signed sequence
-      let i = 0;
-      const signedSequence: T[][] = sequence.map((set) =>
-        Array.from({ length: set.length }).map(() => signedTxs[i++])
-      );
-
       // send with bundler
-      const bundleRes = await this.bundler?.sendBundle(signedTxs);
+      const [bundleRes, txSignatures] = await this.bundler?.sendBundle(
+        txs,
+        (txs) => this.signTransactions([txs], connection, opts) as Promise<T[]>,
+        this.owner
+      );
+      console.log("bundleRes", bundleRes);
 
       // might just need to return signatures properly
-      signatures.push(
-        ...signedTxs.map((tx) => Buffer.from(tx.serialize()).toString("base64"))
-      );
-
-      // if (!opts?.sequential) {
-      //   await Promise.all(
-      //     signedSequence.map(
-      //       async (set) =>
-      //         await Promise.all(
-      //           set.map(async (tx, index) => {
-      //             const txSignature = await connection.sendRawTransaction(
-      //               tx.serialize(),
-      //               { skipPreflight: true }
-      //             );
-      //             const confirmation = await connection.confirmTransaction(
-      //               txSignature,
-      //               opts?.commitment ?? "confirmed"
-      //             );
-      //             console.log("confirmation", confirmation);
-      //             if (confirmation.value.err) {
-      //               //@ts-ignore
-      //               confirmation.value.err.InstructionError.forEach((error) => {
-      //                 if (error.Custom) {
-      //                   const _error:
-      //                     | { code: number; msg: string; name: string }
-      //                     | undefined = opts?.customErrors?.[index]?.find(
-      //                     (e) => e.code == error.Custom
-      //                   );
-      //                   console.log("pushing error:", error, _error);
-      //                   errors.push({
-      //                     message:
-      //                       _error?.msg ||
-      //                       "Custom program Error, check on explorer.",
-      //                     name: _error?.name || "Anchor Error"
-      //                   });
-      //                 }
-      //               });
-      //             }
-      //             console.log("pushing signature", txSignature);
-      //             signatures.push(txSignature);
-      //           })
-      //         )
-      //     )
-      //   );
-      // } else {
-      //   for (const set of signedSequence) {
-      //     set.forEach(async (tx, index) => {
-      //       const txSignature = await connection.sendRawTransaction(
-      //         tx.serialize(),
-      //         { skipPreflight: true }
-      //       );
-      //       if (txSignature) {
-      //         const confirmation = await connection.confirmTransaction(
-      //           txSignature,
-      //           opts?.commitment ?? "confirmed"
-      //         );
-      //         console.log("confirmation", confirmation);
-      //         if (confirmation.value.err) {
-      //           //@ts-ignore
-      //           confirmation.value.err.InstructionError.forEach((error) => {
-      //             if (error.Custom) {
-      //               const _error:
-      //                 | { code: number; msg: string; name: string }
-      //                 | undefined = opts?.customErrors?.[index]?.find(
-      //                 (e) => e.code == error.Custom
-      //               );
-      //               console.log("pushing error:", error, _error);
-      //               errors.push({
-      //                 message:
-      //                   _error?.msg ||
-      //                   "Custom program Error, check on explorer.",
-      //                 name: _error?.name || "Anchor Error"
-      //               });
-      //             }
-      //           });
-      //         }
-      //         console.log("pushing signature", txSignature);
-      //         signatures.push(txSignature);
-      //       }
-      //     });
-      //   }
-      // }
+      signatures.push(...txSignatures);
     } catch (e: any) {
       console.log("pushing error:", e);
       errors.push({ message: e.message, name: e.name ?? "Transaction Error" });
     }
-
-    console.log("final errors", errors);
     return {
       signatures: signatures,
       errors: errors

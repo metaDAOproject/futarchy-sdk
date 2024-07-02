@@ -7,7 +7,6 @@ import {
   Transaction
 } from "@solana/web3.js";
 import { describe, test, beforeAll } from "bun:test";
-import { FutarchyRPCClient } from "../rpcClient";
 import { ProposalInstruction } from "@/types";
 import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 import {
@@ -18,6 +17,7 @@ import {
   InstructionUtils
 } from "@metadaoproject/futarchy";
 import { createMockWallet } from "tests/test-utils";
+import { FutarchyRPCClient } from "@/client/rpc";
 
 // export const provider = AnchorProvider.env();
 // setProvider(provider);

@@ -534,8 +534,6 @@ export class CreateProposalClient implements CreateProposal {
       marketParams.quoteLiquidity
     );
 
-    console.log(JSON.stringify(txs));
-
     const txResp = this.transactionSender?.send(
       txs,
       this.rpcProvider.connection,
@@ -548,10 +546,11 @@ export class CreateProposalClient implements CreateProposal {
           // MaxCUs.addLiquidity + 100000,
           // initializeProposalCus
           360_000, 190_000, 145_000, 115_000
-        ]
+        ],
+        useBundler: true,
+        signSeparately: true
       },
-      { title: "Creating Proposal" },
-      true // sending with bundler
+      { title: "Creating Proposal" }
     );
 
     return [txResp, pdas];

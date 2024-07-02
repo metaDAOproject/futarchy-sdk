@@ -28,4 +28,6 @@ export type SendTransactionOptions = {
   commitment?: Commitment;
   CUs?: SingleOrArray<number>;
   customErrors?: { code: number; name: string; msg: string }[][];
+  useBundler?: boolean;
+  signSeparately?: boolean;
 };

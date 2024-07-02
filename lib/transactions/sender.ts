@@ -91,13 +91,12 @@ export class TransactionSender {
     tx: T[],
     connection: Connection,
     opts?: SendTransactionOptions,
-    displayMetadata?: TransactionDisplayMetadata,
-    useBundler?: boolean
+    displayMetadata?: TransactionDisplayMetadata
   ): Observable<TransactionProcessingUpdate> {
     const obs = new Observable<TransactionProcessingUpdate>((subscriber) => {
       let signatureSubscriptionIds: number[] = [];
       const innerSendPromise =
-        useBundler && this.bundler
+        opts?.useBundler && this.bundler
           ? this.sendInnerAsBundle(tx, connection, opts)
           : this.sendInner(tx, connection, opts);
       innerSendPromise
@@ -297,6 +296,14 @@ export class TransactionSender {
       })
     );
 
+    if (opts?.signSeparately) {
+      return (
+        await Promise.all(
+          timedTxs.flat().map(async (t) => this.signAllTransactions([t]))
+        )
+      ).flat();
+    }
+
     return await this.signAllTransactions(timedTxs.flat());
   }
 
@@ -354,7 +361,6 @@ export class TransactionSender {
                     txSignature,
                     opts?.commitment ?? "confirmed"
                   );
-                  console.log("confirmation", confirmation);
                   if (confirmation.value.err) {
                     //@ts-ignore
                     confirmation.value.err.InstructionError.forEach((error) => {
@@ -364,7 +370,6 @@ export class TransactionSender {
                           | undefined = opts?.customErrors?.[index]?.find(
                           (e) => e.code == error.Custom
                         );
-                        console.log("pushing error:", error, _error);
                         errors.push({
                           message:
                             _error?.msg ||
@@ -374,7 +379,6 @@ export class TransactionSender {
                       }
                     });
                   }
-                  console.log("pushing signature", txSignature);
                   signatures.push(txSignature);
                 })
               )
@@ -392,7 +396,6 @@ export class TransactionSender {
                 txSignature,
                 opts?.commitment ?? "confirmed"
               );
-              console.log("confirmation", confirmation);
               if (confirmation.value.err) {
                 //@ts-ignore
                 confirmation.value.err.InstructionError.forEach((error) => {
@@ -402,7 +405,6 @@ export class TransactionSender {
                       | undefined = opts?.customErrors?.[index]?.find(
                       (e) => e.code == error.Custom
                     );
-                    console.log("pushing error:", error, _error);
                     errors.push({
                       message:
                         _error?.msg ||
@@ -412,18 +414,15 @@ export class TransactionSender {
                   }
                 });
               }
-              console.log("pushing signature", txSignature);
               signatures.push(txSignature);
             }
           });
         }
       }
     } catch (e: any) {
-      console.log("pushing error:", e);
       errors.push({ message: e.message, name: e.name ?? "Transaction Error" });
     }
 
-    console.log("final errors", errors);
     return {
       signatures: signatures,
       errors: errors
@@ -435,7 +434,6 @@ export class TransactionSender {
     connection: Connection,
     opts?: SendTransactionOptions
   ): SendTransactionResponse {
-    console.log("send inner as bundle called");
     if (!connection || !this.owner || !this.signAllTransactions) {
       throw new Error("Bad wallet connection");
     }
@@ -462,7 +460,6 @@ export class TransactionSender {
       // might just need to return signatures properly
       signatures.push(...txSignatures.toReversed());
     } catch (e: any) {
-      console.log("pushing error:", e);
       errors.push({ message: e.message, name: e.name ?? "Transaction Error" });
     }
     return {

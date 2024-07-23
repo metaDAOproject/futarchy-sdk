@@ -34,6 +34,7 @@ import {
   ProposalDetails
 } from "@/types/createProp";
 import { ReactionResponse } from "@/types/reactions";
+import { UserPerformance, UserPerformanceFetchRequest } from "@/types/user";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -198,6 +199,10 @@ export interface FutarchyAmmMarketsClient {
     maxBaseAmount: number,
     slippage: number
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
+}
+
+export interface FutarchyUserClient {
+  fetchUserPerformance(request: UserPerformanceFetchRequest) : Promise<UserPerformance[] | undefined>;
 }
 
 export interface FinalizeProposal {

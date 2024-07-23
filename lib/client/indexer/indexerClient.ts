@@ -66,7 +66,8 @@ export class FutarchyIndexerClient implements FutarchyClient {
       rpcClient.markets.openbook,
       rpcClient.markets.amm,
       rpcClient.markets,
-      this.wsClient
+      this.wsClient,
+      graphqlClient
     );
   }
 

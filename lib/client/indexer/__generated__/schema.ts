@@ -1248,7 +1248,23 @@ export interface markets {
     prices_aggregate: prices_aggregate
     /** An object relationship */
     proposal: (proposals | null)
+    /** An array relationship */
+    proposalConditionalLiquidityDataByPassMarketAcct: proposal_conditional_liquidity_data[]
+    /** An aggregate relationship */
+    proposalConditionalLiquidityDataByPassMarketAcct_aggregate: proposal_conditional_liquidity_data_aggregate
+    /** An array relationship */
+    proposalConditionalPriceDataByPassMarketAcct: proposal_conditional_price_data[]
+    /** An aggregate relationship */
+    proposalConditionalPriceDataByPassMarketAcct_aggregate: proposal_conditional_price_data_aggregate
     proposal_acct: (Scalars['String'] | null)
+    /** An array relationship */
+    proposal_conditional_liquidity_data: proposal_conditional_liquidity_data[]
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate
+    /** An array relationship */
+    proposal_conditional_price_data: proposal_conditional_price_data[]
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate
     quote_lot_size: Scalars['bigint']
     quote_maker_fee: Scalars['smallint']
     quote_mint_acct: Scalars['String']
@@ -1551,6 +1567,10 @@ export interface mutation_root {
     delete_proposal_bars: (proposal_bars_mutation_response | null)
     /** delete single row from the table: "proposal_bars" */
     delete_proposal_bars_by_pk: (proposal_bars | null)
+    /** delete data from the table: "proposal_conditional_liquidity_data" */
+    delete_proposal_conditional_liquidity_data: (proposal_conditional_liquidity_data_mutation_response | null)
+    /** delete data from the table: "proposal_conditional_price_data" */
+    delete_proposal_conditional_price_data: (proposal_conditional_price_data_mutation_response | null)
     /** delete data from the table: "proposal_details" */
     delete_proposal_details: (proposal_details_mutation_response | null)
     /** delete single row from the table: "proposal_details" */
@@ -1567,6 +1587,8 @@ export interface mutation_root {
     delete_sessions: (sessions_mutation_response | null)
     /** delete single row from the table: "sessions" */
     delete_sessions_by_pk: (sessions | null)
+    /** delete data from the table: "spot_price_data" */
+    delete_spot_price_data: (spot_price_data_mutation_response | null)
     /** delete data from the table: "takes" */
     delete_takes: (takes_mutation_response | null)
     /** delete single row from the table: "takes" */
@@ -1599,6 +1621,10 @@ export interface mutation_root {
     delete_twaps: (twaps_mutation_response | null)
     /** delete single row from the table: "twaps" */
     delete_twaps_by_pk: (twaps | null)
+    /** delete data from the table: "user_performance" */
+    delete_user_performance: (user_performance_mutation_response | null)
+    /** delete single row from the table: "user_performance" */
+    delete_user_performance_by_pk: (user_performance | null)
     /** delete data from the table: "users" */
     delete_users: (users_mutation_response | null)
     /** delete single row from the table: "users" */
@@ -1659,6 +1685,14 @@ export interface mutation_root {
     insert_proposal_bars: (proposal_bars_mutation_response | null)
     /** insert a single row into the table: "proposal_bars" */
     insert_proposal_bars_one: (proposal_bars | null)
+    /** insert data into the table: "proposal_conditional_liquidity_data" */
+    insert_proposal_conditional_liquidity_data: (proposal_conditional_liquidity_data_mutation_response | null)
+    /** insert a single row into the table: "proposal_conditional_liquidity_data" */
+    insert_proposal_conditional_liquidity_data_one: (proposal_conditional_liquidity_data | null)
+    /** insert data into the table: "proposal_conditional_price_data" */
+    insert_proposal_conditional_price_data: (proposal_conditional_price_data_mutation_response | null)
+    /** insert a single row into the table: "proposal_conditional_price_data" */
+    insert_proposal_conditional_price_data_one: (proposal_conditional_price_data | null)
     /** insert data into the table: "proposal_details" */
     insert_proposal_details: (proposal_details_mutation_response | null)
     /** insert a single row into the table: "proposal_details" */
@@ -1675,6 +1709,10 @@ export interface mutation_root {
     insert_sessions: (sessions_mutation_response | null)
     /** insert a single row into the table: "sessions" */
     insert_sessions_one: (sessions | null)
+    /** insert data into the table: "spot_price_data" */
+    insert_spot_price_data: (spot_price_data_mutation_response | null)
+    /** insert a single row into the table: "spot_price_data" */
+    insert_spot_price_data_one: (spot_price_data | null)
     /** insert data into the table: "takes" */
     insert_takes: (takes_mutation_response | null)
     /** insert a single row into the table: "takes" */
@@ -1707,6 +1745,10 @@ export interface mutation_root {
     insert_twaps: (twaps_mutation_response | null)
     /** insert a single row into the table: "twaps" */
     insert_twaps_one: (twaps | null)
+    /** insert data into the table: "user_performance" */
+    insert_user_performance: (user_performance_mutation_response | null)
+    /** insert a single row into the table: "user_performance" */
+    insert_user_performance_one: (user_performance | null)
     /** insert data into the table: "users" */
     insert_users: (users_mutation_response | null)
     /** insert a single row into the table: "users" */
@@ -1795,6 +1837,14 @@ export interface mutation_root {
     update_proposal_bars_by_pk: (proposal_bars | null)
     /** update multiples rows of table: "proposal_bars" */
     update_proposal_bars_many: ((proposal_bars_mutation_response | null)[] | null)
+    /** update data of the table: "proposal_conditional_liquidity_data" */
+    update_proposal_conditional_liquidity_data: (proposal_conditional_liquidity_data_mutation_response | null)
+    /** update multiples rows of table: "proposal_conditional_liquidity_data" */
+    update_proposal_conditional_liquidity_data_many: ((proposal_conditional_liquidity_data_mutation_response | null)[] | null)
+    /** update data of the table: "proposal_conditional_price_data" */
+    update_proposal_conditional_price_data: (proposal_conditional_price_data_mutation_response | null)
+    /** update multiples rows of table: "proposal_conditional_price_data" */
+    update_proposal_conditional_price_data_many: ((proposal_conditional_price_data_mutation_response | null)[] | null)
     /** update data of the table: "proposal_details" */
     update_proposal_details: (proposal_details_mutation_response | null)
     /** update single row of the table: "proposal_details" */
@@ -1819,6 +1869,10 @@ export interface mutation_root {
     update_sessions_by_pk: (sessions | null)
     /** update multiples rows of table: "sessions" */
     update_sessions_many: ((sessions_mutation_response | null)[] | null)
+    /** update data of the table: "spot_price_data" */
+    update_spot_price_data: (spot_price_data_mutation_response | null)
+    /** update multiples rows of table: "spot_price_data" */
+    update_spot_price_data_many: ((spot_price_data_mutation_response | null)[] | null)
     /** update data of the table: "takes" */
     update_takes: (takes_mutation_response | null)
     /** update single row of the table: "takes" */
@@ -1867,6 +1921,12 @@ export interface mutation_root {
     update_twaps_by_pk: (twaps | null)
     /** update multiples rows of table: "twaps" */
     update_twaps_many: ((twaps_mutation_response | null)[] | null)
+    /** update data of the table: "user_performance" */
+    update_user_performance: (user_performance_mutation_response | null)
+    /** update single row of the table: "user_performance" */
+    update_user_performance_by_pk: (user_performance | null)
+    /** update multiples rows of table: "user_performance" */
+    update_user_performance_many: ((user_performance_mutation_response | null)[] | null)
     /** update data of the table: "users" */
     update_users: (users_mutation_response | null)
     /** update single row of the table: "users" */
@@ -2928,6 +2988,326 @@ export interface proposal_bars_variance_fields {
 }
 
 
+/** columns and relationships of "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data {
+    created_at: (Scalars['timestamptz'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    /** An object relationship */
+    market: (markets | null)
+    /** An object relationship */
+    marketByPassMarketAcct: (markets | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    /** An object relationship */
+    proposal: (proposals | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_conditional_liquidity_data'
+}
+
+
+/** aggregated selection of "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_aggregate {
+    aggregate: (proposal_conditional_liquidity_data_aggregate_fields | null)
+    nodes: proposal_conditional_liquidity_data[]
+    __typename: 'proposal_conditional_liquidity_data_aggregate'
+}
+
+
+/** aggregate fields of "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_aggregate_fields {
+    avg: (proposal_conditional_liquidity_data_avg_fields | null)
+    count: Scalars['Int']
+    max: (proposal_conditional_liquidity_data_max_fields | null)
+    min: (proposal_conditional_liquidity_data_min_fields | null)
+    stddev: (proposal_conditional_liquidity_data_stddev_fields | null)
+    stddev_pop: (proposal_conditional_liquidity_data_stddev_pop_fields | null)
+    stddev_samp: (proposal_conditional_liquidity_data_stddev_samp_fields | null)
+    sum: (proposal_conditional_liquidity_data_sum_fields | null)
+    var_pop: (proposal_conditional_liquidity_data_var_pop_fields | null)
+    var_samp: (proposal_conditional_liquidity_data_var_samp_fields | null)
+    variance: (proposal_conditional_liquidity_data_variance_fields | null)
+    __typename: 'proposal_conditional_liquidity_data_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_conditional_liquidity_data_avg_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_liquidity_data_avg_fields'
+}
+
+
+/** aggregate max on columns */
+export interface proposal_conditional_liquidity_data_max_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_conditional_liquidity_data_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface proposal_conditional_liquidity_data_min_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_conditional_liquidity_data_min_fields'
+}
+
+
+/** response of any mutation on the table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: proposal_conditional_liquidity_data[]
+    __typename: 'proposal_conditional_liquidity_data_mutation_response'
+}
+
+
+/** select columns of table "proposal_conditional_liquidity_data" */
+export type proposal_conditional_liquidity_data_select_column = 'created_at' | 'fail_market_acct' | 'fail_market_base_amount' | 'fail_market_quote_amount' | 'pass_market_acct' | 'pass_market_base_amount' | 'pass_market_quote_amount' | 'proposal_acct'
+
+
+/** aggregate stddev on columns */
+export interface proposal_conditional_liquidity_data_stddev_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_liquidity_data_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_conditional_liquidity_data_stddev_pop_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_liquidity_data_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_conditional_liquidity_data_stddev_samp_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_liquidity_data_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface proposal_conditional_liquidity_data_sum_fields {
+    fail_market_base_amount: (Scalars['bigint'] | null)
+    fail_market_quote_amount: (Scalars['bigint'] | null)
+    pass_market_base_amount: (Scalars['bigint'] | null)
+    pass_market_quote_amount: (Scalars['bigint'] | null)
+    __typename: 'proposal_conditional_liquidity_data_sum_fields'
+}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_conditional_liquidity_data_var_pop_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_liquidity_data_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_conditional_liquidity_data_var_samp_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_liquidity_data_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_conditional_liquidity_data_variance_fields {
+    fail_market_base_amount: (Scalars['Float'] | null)
+    fail_market_quote_amount: (Scalars['Float'] | null)
+    pass_market_base_amount: (Scalars['Float'] | null)
+    pass_market_quote_amount: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_liquidity_data_variance_fields'
+}
+
+
+/** columns and relationships of "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data {
+    created_at: (Scalars['timestamptz'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_price: Scalars['numeric']
+    /** An object relationship */
+    market: (markets | null)
+    /** An object relationship */
+    marketByPassMarketAcct: (markets | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_price: Scalars['numeric']
+    /** An object relationship */
+    proposal: (proposals | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_conditional_price_data'
+}
+
+
+/** aggregated selection of "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_aggregate {
+    aggregate: (proposal_conditional_price_data_aggregate_fields | null)
+    nodes: proposal_conditional_price_data[]
+    __typename: 'proposal_conditional_price_data_aggregate'
+}
+
+
+/** aggregate fields of "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_aggregate_fields {
+    avg: (proposal_conditional_price_data_avg_fields | null)
+    count: Scalars['Int']
+    max: (proposal_conditional_price_data_max_fields | null)
+    min: (proposal_conditional_price_data_min_fields | null)
+    stddev: (proposal_conditional_price_data_stddev_fields | null)
+    stddev_pop: (proposal_conditional_price_data_stddev_pop_fields | null)
+    stddev_samp: (proposal_conditional_price_data_stddev_samp_fields | null)
+    sum: (proposal_conditional_price_data_sum_fields | null)
+    var_pop: (proposal_conditional_price_data_var_pop_fields | null)
+    var_samp: (proposal_conditional_price_data_var_samp_fields | null)
+    variance: (proposal_conditional_price_data_variance_fields | null)
+    __typename: 'proposal_conditional_price_data_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface proposal_conditional_price_data_avg_fields {
+    fail_market_price: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_price_data_avg_fields'
+}
+
+
+/** unique or primary key constraints on table "proposal_conditional_price_data" */
+export type proposal_conditional_price_data_constraint = 'unique_values'
+
+
+/** aggregate max on columns */
+export interface proposal_conditional_price_data_max_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_price: (Scalars['numeric'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_price: (Scalars['numeric'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_conditional_price_data_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface proposal_conditional_price_data_min_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    fail_market_acct: (Scalars['String'] | null)
+    fail_market_price: (Scalars['numeric'] | null)
+    pass_market_acct: (Scalars['String'] | null)
+    pass_market_price: (Scalars['numeric'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    __typename: 'proposal_conditional_price_data_min_fields'
+}
+
+
+/** response of any mutation on the table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: proposal_conditional_price_data[]
+    __typename: 'proposal_conditional_price_data_mutation_response'
+}
+
+
+/** select columns of table "proposal_conditional_price_data" */
+export type proposal_conditional_price_data_select_column = 'created_at' | 'fail_market_acct' | 'fail_market_price' | 'pass_market_acct' | 'pass_market_price' | 'proposal_acct'
+
+
+/** aggregate stddev on columns */
+export interface proposal_conditional_price_data_stddev_fields {
+    fail_market_price: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_price_data_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_conditional_price_data_stddev_pop_fields {
+    fail_market_price: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_price_data_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_conditional_price_data_stddev_samp_fields {
+    fail_market_price: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_price_data_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface proposal_conditional_price_data_sum_fields {
+    fail_market_price: (Scalars['numeric'] | null)
+    pass_market_price: (Scalars['numeric'] | null)
+    __typename: 'proposal_conditional_price_data_sum_fields'
+}
+
+
+/** update columns of table "proposal_conditional_price_data" */
+export type proposal_conditional_price_data_update_column = 'created_at' | 'fail_market_acct' | 'fail_market_price' | 'pass_market_acct' | 'pass_market_price' | 'proposal_acct'
+
+
+/** aggregate var_pop on columns */
+export interface proposal_conditional_price_data_var_pop_fields {
+    fail_market_price: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_price_data_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_conditional_price_data_var_samp_fields {
+    fail_market_price: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_price_data_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface proposal_conditional_price_data_variance_fields {
+    fail_market_price: (Scalars['Float'] | null)
+    pass_market_price: (Scalars['Float'] | null)
+    __typename: 'proposal_conditional_price_data_variance_fields'
+}
+
+
 /** columns and relationships of "proposal_details" */
 export interface proposal_details {
     base_cond_vault_acct: (Scalars['String'] | null)
@@ -3248,6 +3628,14 @@ export interface proposals {
     pricing_model_pass_acct: (Scalars['String'] | null)
     proposal_acct: Scalars['String']
     /** An array relationship */
+    proposal_conditional_liquidity_data: proposal_conditional_liquidity_data[]
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate
+    /** An array relationship */
+    proposal_conditional_price_data: proposal_conditional_price_data[]
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate
+    /** An array relationship */
     proposal_details: proposal_details[]
     /** An aggregate relationship */
     proposal_details_aggregate: proposal_details_aggregate
@@ -3264,6 +3652,10 @@ export interface proposals {
     /** An aggregate relationship */
     twaps_aggregate: twaps_aggregate
     updated_at: Scalars['timestamptz']
+    /** An array relationship */
+    user_performances: user_performance[]
+    /** An aggregate relationship */
+    user_performances_aggregate: user_performance_aggregate
     __typename: 'proposals'
 }
 
@@ -3566,6 +3958,14 @@ export interface query_root {
     /** fetch data from the table: "proposal_bars" using primary key columns */
     proposal_bars_by_pk: (proposal_bars | null)
     /** An array relationship */
+    proposal_conditional_liquidity_data: proposal_conditional_liquidity_data[]
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate
+    /** An array relationship */
+    proposal_conditional_price_data: proposal_conditional_price_data[]
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate
+    /** An array relationship */
     proposal_details: proposal_details[]
     /** An aggregate relationship */
     proposal_details_aggregate: proposal_details_aggregate
@@ -3593,6 +3993,10 @@ export interface query_root {
     sessions_aggregate: sessions_aggregate
     /** fetch data from the table: "sessions" using primary key columns */
     sessions_by_pk: (sessions | null)
+    /** An array relationship */
+    spot_price_data: spot_price_data[]
+    /** An aggregate relationship */
+    spot_price_data_aggregate: spot_price_data_aggregate
     /** An array relationship */
     takes: takes[]
     /** An aggregate relationship */
@@ -3645,6 +4049,12 @@ export interface query_root {
     twaps_aggregate: twaps_aggregate
     /** fetch data from the table: "twaps" using primary key columns */
     twaps_by_pk: (twaps | null)
+    /** fetch data from the table: "user_performance" */
+    user_performance: user_performance[]
+    /** fetch aggregated fields from the table: "user_performance" */
+    user_performance_aggregate: user_performance_aggregate
+    /** fetch data from the table: "user_performance" using primary key columns */
+    user_performance_by_pk: (user_performance | null)
     /** fetch data from the table: "users" */
     users: users[]
     /** fetch aggregated fields from the table: "users" */
@@ -3865,6 +4275,130 @@ export type sessions_select_column = 'created_at' | 'expires_at' | 'id' | 'user_
 /** update columns of table "sessions" */
 export type sessions_update_column = 'created_at' | 'expires_at' | 'id' | 'user_acct'
 
+
+/** columns and relationships of "spot_price_data" */
+export interface spot_price_data {
+    created_at: (Scalars['timestamptz'] | null)
+    mint_acct: (Scalars['String'] | null)
+    spot_price: Scalars['numeric']
+    /** An object relationship */
+    token: (tokens | null)
+    __typename: 'spot_price_data'
+}
+
+
+/** aggregated selection of "spot_price_data" */
+export interface spot_price_data_aggregate {
+    aggregate: (spot_price_data_aggregate_fields | null)
+    nodes: spot_price_data[]
+    __typename: 'spot_price_data_aggregate'
+}
+
+
+/** aggregate fields of "spot_price_data" */
+export interface spot_price_data_aggregate_fields {
+    avg: (spot_price_data_avg_fields | null)
+    count: Scalars['Int']
+    max: (spot_price_data_max_fields | null)
+    min: (spot_price_data_min_fields | null)
+    stddev: (spot_price_data_stddev_fields | null)
+    stddev_pop: (spot_price_data_stddev_pop_fields | null)
+    stddev_samp: (spot_price_data_stddev_samp_fields | null)
+    sum: (spot_price_data_sum_fields | null)
+    var_pop: (spot_price_data_var_pop_fields | null)
+    var_samp: (spot_price_data_var_samp_fields | null)
+    variance: (spot_price_data_variance_fields | null)
+    __typename: 'spot_price_data_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface spot_price_data_avg_fields {
+    spot_price: (Scalars['Float'] | null)
+    __typename: 'spot_price_data_avg_fields'
+}
+
+
+/** aggregate max on columns */
+export interface spot_price_data_max_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    mint_acct: (Scalars['String'] | null)
+    spot_price: (Scalars['numeric'] | null)
+    __typename: 'spot_price_data_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface spot_price_data_min_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    mint_acct: (Scalars['String'] | null)
+    spot_price: (Scalars['numeric'] | null)
+    __typename: 'spot_price_data_min_fields'
+}
+
+
+/** response of any mutation on the table "spot_price_data" */
+export interface spot_price_data_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: spot_price_data[]
+    __typename: 'spot_price_data_mutation_response'
+}
+
+
+/** select columns of table "spot_price_data" */
+export type spot_price_data_select_column = 'created_at' | 'mint_acct' | 'spot_price'
+
+
+/** aggregate stddev on columns */
+export interface spot_price_data_stddev_fields {
+    spot_price: (Scalars['Float'] | null)
+    __typename: 'spot_price_data_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface spot_price_data_stddev_pop_fields {
+    spot_price: (Scalars['Float'] | null)
+    __typename: 'spot_price_data_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface spot_price_data_stddev_samp_fields {
+    spot_price: (Scalars['Float'] | null)
+    __typename: 'spot_price_data_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface spot_price_data_sum_fields {
+    spot_price: (Scalars['numeric'] | null)
+    __typename: 'spot_price_data_sum_fields'
+}
+
+
+/** aggregate var_pop on columns */
+export interface spot_price_data_var_pop_fields {
+    spot_price: (Scalars['Float'] | null)
+    __typename: 'spot_price_data_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface spot_price_data_var_samp_fields {
+    spot_price: (Scalars['Float'] | null)
+    __typename: 'spot_price_data_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface spot_price_data_variance_fields {
+    spot_price: (Scalars['Float'] | null)
+    __typename: 'spot_price_data_variance_fields'
+}
+
 export interface subscription_root {
     /** An array relationship */
     candles: candles[]
@@ -3985,6 +4519,18 @@ export interface subscription_root {
     /** fetch data from the table in a streaming manner: "proposal_bars" */
     proposal_bars_stream: proposal_bars[]
     /** An array relationship */
+    proposal_conditional_liquidity_data: proposal_conditional_liquidity_data[]
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate
+    /** fetch data from the table in a streaming manner: "proposal_conditional_liquidity_data" */
+    proposal_conditional_liquidity_data_stream: proposal_conditional_liquidity_data[]
+    /** An array relationship */
+    proposal_conditional_price_data: proposal_conditional_price_data[]
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate
+    /** fetch data from the table in a streaming manner: "proposal_conditional_price_data" */
+    proposal_conditional_price_data_stream: proposal_conditional_price_data[]
+    /** An array relationship */
     proposal_details: proposal_details[]
     /** An aggregate relationship */
     proposal_details_aggregate: proposal_details_aggregate
@@ -4022,6 +4568,12 @@ export interface subscription_root {
     sessions_by_pk: (sessions | null)
     /** fetch data from the table in a streaming manner: "sessions" */
     sessions_stream: sessions[]
+    /** An array relationship */
+    spot_price_data: spot_price_data[]
+    /** An aggregate relationship */
+    spot_price_data_aggregate: spot_price_data_aggregate
+    /** fetch data from the table in a streaming manner: "spot_price_data" */
+    spot_price_data_stream: spot_price_data[]
     /** An array relationship */
     takes: takes[]
     /** An aggregate relationship */
@@ -4092,6 +4644,14 @@ export interface subscription_root {
     twaps_by_pk: (twaps | null)
     /** fetch data from the table in a streaming manner: "twaps" */
     twaps_stream: twaps[]
+    /** fetch data from the table: "user_performance" */
+    user_performance: user_performance[]
+    /** fetch aggregated fields from the table: "user_performance" */
+    user_performance_aggregate: user_performance_aggregate
+    /** fetch data from the table: "user_performance" using primary key columns */
+    user_performance_by_pk: (user_performance | null)
+    /** fetch data from the table in a streaming manner: "user_performance" */
+    user_performance_stream: user_performance[]
     /** fetch data from the table: "users" */
     users: users[]
     /** fetch aggregated fields from the table: "users" */
@@ -4325,6 +4885,8 @@ export interface token_acct_balances {
     /** An object relationship */
     tokenAcctByTokenAcct: token_accts
     token_acct: Scalars['String']
+    /** An object relationship */
+    transaction: (transactions | null)
     tx_sig: (Scalars['String'] | null)
     __typename: 'token_acct_balances'
 }
@@ -4656,6 +5218,10 @@ export interface tokens {
     markets_aggregate: markets_aggregate
     mint_acct: Scalars['String']
     name: Scalars['String']
+    /** An array relationship */
+    spot_price_data: spot_price_data[]
+    /** An aggregate relationship */
+    spot_price_data_aggregate: spot_price_data_aggregate
     supply: Scalars['bigint']
     symbol: Scalars['String']
     /** An array relationship */
@@ -5125,6 +5691,10 @@ export interface transactions {
     serializer_logic_version: Scalars['smallint']
     slot: Scalars['bigint']
     /** An array relationship */
+    token_acct_balances: token_acct_balances[]
+    /** An aggregate relationship */
+    token_acct_balances_aggregate: token_acct_balances_aggregate
+    /** An array relationship */
     transactionWatchersByLatestTxSig: transaction_watchers[]
     /** An aggregate relationship */
     transactionWatchersByLatestTxSig_aggregate: transaction_watchers_aggregate
@@ -5571,6 +6141,176 @@ export interface twaps_variance_fields {
 }
 
 
+/** columns and relationships of "user_performance" */
+export interface user_performance {
+    created_at: Scalars['timestamptz']
+    /** An object relationship */
+    proposal: proposals
+    proposal_acct: Scalars['String']
+    tokens_bought: Scalars['numeric']
+    tokens_sold: Scalars['numeric']
+    /** An object relationship */
+    user: users
+    user_acct: Scalars['String']
+    volume_bought: Scalars['numeric']
+    volume_sold: Scalars['numeric']
+    __typename: 'user_performance'
+}
+
+
+/** aggregated selection of "user_performance" */
+export interface user_performance_aggregate {
+    aggregate: (user_performance_aggregate_fields | null)
+    nodes: user_performance[]
+    __typename: 'user_performance_aggregate'
+}
+
+
+/** aggregate fields of "user_performance" */
+export interface user_performance_aggregate_fields {
+    avg: (user_performance_avg_fields | null)
+    count: Scalars['Int']
+    max: (user_performance_max_fields | null)
+    min: (user_performance_min_fields | null)
+    stddev: (user_performance_stddev_fields | null)
+    stddev_pop: (user_performance_stddev_pop_fields | null)
+    stddev_samp: (user_performance_stddev_samp_fields | null)
+    sum: (user_performance_sum_fields | null)
+    var_pop: (user_performance_var_pop_fields | null)
+    var_samp: (user_performance_var_samp_fields | null)
+    variance: (user_performance_variance_fields | null)
+    __typename: 'user_performance_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface user_performance_avg_fields {
+    tokens_bought: (Scalars['Float'] | null)
+    tokens_sold: (Scalars['Float'] | null)
+    volume_bought: (Scalars['Float'] | null)
+    volume_sold: (Scalars['Float'] | null)
+    __typename: 'user_performance_avg_fields'
+}
+
+
+/** unique or primary key constraints on table "user_performance" */
+export type user_performance_constraint = 'user_performance_proposal_acct_user_acct_pk'
+
+
+/** aggregate max on columns */
+export interface user_performance_max_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    tokens_bought: (Scalars['numeric'] | null)
+    tokens_sold: (Scalars['numeric'] | null)
+    user_acct: (Scalars['String'] | null)
+    volume_bought: (Scalars['numeric'] | null)
+    volume_sold: (Scalars['numeric'] | null)
+    __typename: 'user_performance_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface user_performance_min_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    proposal_acct: (Scalars['String'] | null)
+    tokens_bought: (Scalars['numeric'] | null)
+    tokens_sold: (Scalars['numeric'] | null)
+    user_acct: (Scalars['String'] | null)
+    volume_bought: (Scalars['numeric'] | null)
+    volume_sold: (Scalars['numeric'] | null)
+    __typename: 'user_performance_min_fields'
+}
+
+
+/** response of any mutation on the table "user_performance" */
+export interface user_performance_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: user_performance[]
+    __typename: 'user_performance_mutation_response'
+}
+
+
+/** select columns of table "user_performance" */
+export type user_performance_select_column = 'created_at' | 'proposal_acct' | 'tokens_bought' | 'tokens_sold' | 'user_acct' | 'volume_bought' | 'volume_sold'
+
+
+/** aggregate stddev on columns */
+export interface user_performance_stddev_fields {
+    tokens_bought: (Scalars['Float'] | null)
+    tokens_sold: (Scalars['Float'] | null)
+    volume_bought: (Scalars['Float'] | null)
+    volume_sold: (Scalars['Float'] | null)
+    __typename: 'user_performance_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface user_performance_stddev_pop_fields {
+    tokens_bought: (Scalars['Float'] | null)
+    tokens_sold: (Scalars['Float'] | null)
+    volume_bought: (Scalars['Float'] | null)
+    volume_sold: (Scalars['Float'] | null)
+    __typename: 'user_performance_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface user_performance_stddev_samp_fields {
+    tokens_bought: (Scalars['Float'] | null)
+    tokens_sold: (Scalars['Float'] | null)
+    volume_bought: (Scalars['Float'] | null)
+    volume_sold: (Scalars['Float'] | null)
+    __typename: 'user_performance_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface user_performance_sum_fields {
+    tokens_bought: (Scalars['numeric'] | null)
+    tokens_sold: (Scalars['numeric'] | null)
+    volume_bought: (Scalars['numeric'] | null)
+    volume_sold: (Scalars['numeric'] | null)
+    __typename: 'user_performance_sum_fields'
+}
+
+
+/** update columns of table "user_performance" */
+export type user_performance_update_column = 'created_at' | 'proposal_acct' | 'tokens_bought' | 'tokens_sold' | 'user_acct' | 'volume_bought' | 'volume_sold'
+
+
+/** aggregate var_pop on columns */
+export interface user_performance_var_pop_fields {
+    tokens_bought: (Scalars['Float'] | null)
+    tokens_sold: (Scalars['Float'] | null)
+    volume_bought: (Scalars['Float'] | null)
+    volume_sold: (Scalars['Float'] | null)
+    __typename: 'user_performance_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface user_performance_var_samp_fields {
+    tokens_bought: (Scalars['Float'] | null)
+    tokens_sold: (Scalars['Float'] | null)
+    volume_bought: (Scalars['Float'] | null)
+    volume_sold: (Scalars['Float'] | null)
+    __typename: 'user_performance_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface user_performance_variance_fields {
+    tokens_bought: (Scalars['Float'] | null)
+    tokens_sold: (Scalars['Float'] | null)
+    volume_bought: (Scalars['Float'] | null)
+    volume_sold: (Scalars['Float'] | null)
+    __typename: 'user_performance_variance_fields'
+}
+
+
 /** columns and relationships of "users" */
 export interface users {
     created_at: Scalars['timestamptz']
@@ -5579,6 +6319,10 @@ export interface users {
     /** An aggregate relationship */
     sessions_aggregate: sessions_aggregate
     user_acct: Scalars['String']
+    /** An array relationship */
+    user_performances: user_performance[]
+    /** An aggregate relationship */
+    user_performances_aggregate: user_performance_aggregate
     __typename: 'users'
 }
 
@@ -7861,7 +8605,103 @@ export interface marketsGenqlSelection{
     where?: (prices_bool_exp | null)} })
     /** An object relationship */
     proposal?: proposalsGenqlSelection
+    /** An array relationship */
+    proposalConditionalLiquidityDataByPassMarketAcct?: (proposal_conditional_liquidity_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposalConditionalLiquidityDataByPassMarketAcct_aggregate?: (proposal_conditional_liquidity_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An array relationship */
+    proposalConditionalPriceDataByPassMarketAcct?: (proposal_conditional_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposalConditionalPriceDataByPassMarketAcct_aggregate?: (proposal_conditional_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
     proposal_acct?: boolean | number
+    /** An array relationship */
+    proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An array relationship */
+    proposal_conditional_price_data?: (proposal_conditional_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
     quote_lot_size?: boolean | number
     quote_maker_fee?: boolean | number
     quote_mint_acct?: boolean | number
@@ -7994,7 +8834,7 @@ export interface markets_avg_order_by {active_slot?: (order_by | null),base_lot_
 
 
 /** Boolean expression to filter rows from the table "markets". All fields are combined with a logical 'AND'. */
-export interface markets_bool_exp {_and?: (markets_bool_exp[] | null),_not?: (markets_bool_exp | null),_or?: (markets_bool_exp[] | null),active_slot?: (bigint_comparison_exp | null),asks_token_acct?: (String_comparison_exp | null),base_lot_size?: (bigint_comparison_exp | null),base_maker_fee?: (smallint_comparison_exp | null),base_mint_acct?: (String_comparison_exp | null),base_taker_fee?: (smallint_comparison_exp | null),bids_token_acct?: (String_comparison_exp | null),candles?: (candles_bool_exp | null),candles_aggregate?: (candles_aggregate_bool_exp | null),create_tx_sig?: (String_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),inactive_slot?: (bigint_comparison_exp | null),makes?: (makes_bool_exp | null),makes_aggregate?: (makes_aggregate_bool_exp | null),market_acct?: (String_comparison_exp | null),market_type?: (String_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),prices?: (prices_bool_exp | null),prices_aggregate?: (prices_aggregate_bool_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),quote_lot_size?: (bigint_comparison_exp | null),quote_maker_fee?: (smallint_comparison_exp | null),quote_mint_acct?: (String_comparison_exp | null),quote_taker_fee?: (smallint_comparison_exp | null),quote_tick_size?: (bigint_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),token?: (tokens_bool_exp | null),tokenAcctByAsksTokenAcct?: (token_accts_bool_exp | null),tokenAcctByBidsTokenAcct?: (token_accts_bool_exp | null),tokenByBaseMintAcct?: (tokens_bool_exp | null),tokenByQuoteMintAcct?: (tokens_bool_exp | null),token_acct?: (token_accts_bool_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null)}
+export interface markets_bool_exp {_and?: (markets_bool_exp[] | null),_not?: (markets_bool_exp | null),_or?: (markets_bool_exp[] | null),active_slot?: (bigint_comparison_exp | null),asks_token_acct?: (String_comparison_exp | null),base_lot_size?: (bigint_comparison_exp | null),base_maker_fee?: (smallint_comparison_exp | null),base_mint_acct?: (String_comparison_exp | null),base_taker_fee?: (smallint_comparison_exp | null),bids_token_acct?: (String_comparison_exp | null),candles?: (candles_bool_exp | null),candles_aggregate?: (candles_aggregate_bool_exp | null),create_tx_sig?: (String_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),inactive_slot?: (bigint_comparison_exp | null),makes?: (makes_bool_exp | null),makes_aggregate?: (makes_aggregate_bool_exp | null),market_acct?: (String_comparison_exp | null),market_type?: (String_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),prices?: (prices_bool_exp | null),prices_aggregate?: (prices_aggregate_bool_exp | null),proposal?: (proposals_bool_exp | null),proposalConditionalLiquidityDataByPassMarketAcct?: (proposal_conditional_liquidity_data_bool_exp | null),proposalConditionalLiquidityDataByPassMarketAcct_aggregate?: (proposal_conditional_liquidity_data_aggregate_bool_exp | null),proposalConditionalPriceDataByPassMarketAcct?: (proposal_conditional_price_data_bool_exp | null),proposalConditionalPriceDataByPassMarketAcct_aggregate?: (proposal_conditional_price_data_aggregate_bool_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_data_bool_exp | null),proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregate_bool_exp | null),proposal_conditional_price_data?: (proposal_conditional_price_data_bool_exp | null),proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregate_bool_exp | null),quote_lot_size?: (bigint_comparison_exp | null),quote_maker_fee?: (smallint_comparison_exp | null),quote_mint_acct?: (String_comparison_exp | null),quote_taker_fee?: (smallint_comparison_exp | null),quote_tick_size?: (bigint_comparison_exp | null),takes?: (takes_bool_exp | null),takes_aggregate?: (takes_aggregate_bool_exp | null),token?: (tokens_bool_exp | null),tokenAcctByAsksTokenAcct?: (token_accts_bool_exp | null),tokenAcctByBidsTokenAcct?: (token_accts_bool_exp | null),tokenByBaseMintAcct?: (tokens_bool_exp | null),tokenByQuoteMintAcct?: (tokens_bool_exp | null),token_acct?: (token_accts_bool_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "markets" */
@@ -8002,7 +8842,7 @@ export interface markets_inc_input {active_slot?: (Scalars['bigint'] | null),bas
 
 
 /** input type for inserting data into table "markets" */
-export interface markets_insert_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),candles?: (candles_arr_rel_insert_input | null),create_tx_sig?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),inactive_slot?: (Scalars['bigint'] | null),makes?: (makes_arr_rel_insert_input | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),orders?: (orders_arr_rel_insert_input | null),prices?: (prices_arr_rel_insert_input | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null),takes?: (takes_arr_rel_insert_input | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByAsksTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenAcctByBidsTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenByBaseMintAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteMintAcct?: (tokens_obj_rel_insert_input | null),token_acct?: (token_accts_obj_rel_insert_input | null),twaps?: (twaps_arr_rel_insert_input | null)}
+export interface markets_insert_input {active_slot?: (Scalars['bigint'] | null),asks_token_acct?: (Scalars['String'] | null),base_lot_size?: (Scalars['bigint'] | null),base_maker_fee?: (Scalars['smallint'] | null),base_mint_acct?: (Scalars['String'] | null),base_taker_fee?: (Scalars['smallint'] | null),bids_token_acct?: (Scalars['String'] | null),candles?: (candles_arr_rel_insert_input | null),create_tx_sig?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),inactive_slot?: (Scalars['bigint'] | null),makes?: (makes_arr_rel_insert_input | null),market_acct?: (Scalars['String'] | null),market_type?: (Scalars['String'] | null),orders?: (orders_arr_rel_insert_input | null),prices?: (prices_arr_rel_insert_input | null),proposal?: (proposals_obj_rel_insert_input | null),proposalConditionalLiquidityDataByPassMarketAcct?: (proposal_conditional_liquidity_data_arr_rel_insert_input | null),proposalConditionalPriceDataByPassMarketAcct?: (proposal_conditional_price_data_arr_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_data_arr_rel_insert_input | null),proposal_conditional_price_data?: (proposal_conditional_price_data_arr_rel_insert_input | null),quote_lot_size?: (Scalars['bigint'] | null),quote_maker_fee?: (Scalars['smallint'] | null),quote_mint_acct?: (Scalars['String'] | null),quote_taker_fee?: (Scalars['smallint'] | null),quote_tick_size?: (Scalars['bigint'] | null),takes?: (takes_arr_rel_insert_input | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByAsksTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenAcctByBidsTokenAcct?: (token_accts_obj_rel_insert_input | null),tokenByBaseMintAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteMintAcct?: (tokens_obj_rel_insert_input | null),token_acct?: (token_accts_obj_rel_insert_input | null),twaps?: (twaps_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -8085,7 +8925,7 @@ export interface markets_on_conflict {constraint: markets_constraint,update_colu
 
 
 /** Ordering options when selecting data from "markets". */
-export interface markets_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),candles_aggregate?: (candles_aggregate_order_by | null),create_tx_sig?: (order_by | null),created_at?: (order_by | null),inactive_slot?: (order_by | null),makes_aggregate?: (makes_aggregate_order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),prices_aggregate?: (prices_aggregate_order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null),takes_aggregate?: (takes_aggregate_order_by | null),token?: (tokens_order_by | null),tokenAcctByAsksTokenAcct?: (token_accts_order_by | null),tokenAcctByBidsTokenAcct?: (token_accts_order_by | null),tokenByBaseMintAcct?: (tokens_order_by | null),tokenByQuoteMintAcct?: (tokens_order_by | null),token_acct?: (token_accts_order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null)}
+export interface markets_order_by {active_slot?: (order_by | null),asks_token_acct?: (order_by | null),base_lot_size?: (order_by | null),base_maker_fee?: (order_by | null),base_mint_acct?: (order_by | null),base_taker_fee?: (order_by | null),bids_token_acct?: (order_by | null),candles_aggregate?: (candles_aggregate_order_by | null),create_tx_sig?: (order_by | null),created_at?: (order_by | null),inactive_slot?: (order_by | null),makes_aggregate?: (makes_aggregate_order_by | null),market_acct?: (order_by | null),market_type?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),prices_aggregate?: (prices_aggregate_order_by | null),proposal?: (proposals_order_by | null),proposalConditionalLiquidityDataByPassMarketAcct_aggregate?: (proposal_conditional_liquidity_data_aggregate_order_by | null),proposalConditionalPriceDataByPassMarketAcct_aggregate?: (proposal_conditional_price_data_aggregate_order_by | null),proposal_acct?: (order_by | null),proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregate_order_by | null),proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregate_order_by | null),quote_lot_size?: (order_by | null),quote_maker_fee?: (order_by | null),quote_mint_acct?: (order_by | null),quote_taker_fee?: (order_by | null),quote_tick_size?: (order_by | null),takes_aggregate?: (takes_aggregate_order_by | null),token?: (tokens_order_by | null),tokenAcctByAsksTokenAcct?: (token_accts_order_by | null),tokenAcctByBidsTokenAcct?: (token_accts_order_by | null),tokenByBaseMintAcct?: (tokens_order_by | null),tokenByQuoteMintAcct?: (tokens_order_by | null),token_acct?: (token_accts_order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: markets */
@@ -8342,6 +9182,14 @@ export interface mutation_rootGenqlSelection{
     where: proposal_bars_bool_exp} })
     /** delete single row from the table: "proposal_bars" */
     delete_proposal_bars_by_pk?: (proposal_barsGenqlSelection & { __args: {bar_size: Scalars['interval'], bar_start_time: Scalars['timestamptz'], proposal_acct: Scalars['String']} })
+    /** delete data from the table: "proposal_conditional_liquidity_data" */
+    delete_proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_data_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: proposal_conditional_liquidity_data_bool_exp} })
+    /** delete data from the table: "proposal_conditional_price_data" */
+    delete_proposal_conditional_price_data?: (proposal_conditional_price_data_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: proposal_conditional_price_data_bool_exp} })
     /** delete data from the table: "proposal_details" */
     delete_proposal_details?: (proposal_details_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -8366,6 +9214,10 @@ export interface mutation_rootGenqlSelection{
     where: sessions_bool_exp} })
     /** delete single row from the table: "sessions" */
     delete_sessions_by_pk?: (sessionsGenqlSelection & { __args: {id: Scalars['uuid']} })
+    /** delete data from the table: "spot_price_data" */
+    delete_spot_price_data?: (spot_price_data_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: spot_price_data_bool_exp} })
     /** delete data from the table: "takes" */
     delete_takes?: (takes_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -8414,6 +9266,12 @@ export interface mutation_rootGenqlSelection{
     where: twaps_bool_exp} })
     /** delete single row from the table: "twaps" */
     delete_twaps_by_pk?: (twapsGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
+    /** delete data from the table: "user_performance" */
+    delete_user_performance?: (user_performance_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: user_performance_bool_exp} })
+    /** delete single row from the table: "user_performance" */
+    delete_user_performance_by_pk?: (user_performanceGenqlSelection & { __args: {proposal_acct: Scalars['String'], user_acct: Scalars['String']} })
     /** delete data from the table: "users" */
     delete_users?: (users_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -8588,6 +9446,26 @@ export interface mutation_rootGenqlSelection{
     object: proposal_bars_insert_input, 
     /** upsert condition */
     on_conflict?: (proposal_bars_on_conflict | null)} })
+    /** insert data into the table: "proposal_conditional_liquidity_data" */
+    insert_proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_data_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: proposal_conditional_liquidity_data_insert_input[]} })
+    /** insert a single row into the table: "proposal_conditional_liquidity_data" */
+    insert_proposal_conditional_liquidity_data_one?: (proposal_conditional_liquidity_dataGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: proposal_conditional_liquidity_data_insert_input} })
+    /** insert data into the table: "proposal_conditional_price_data" */
+    insert_proposal_conditional_price_data?: (proposal_conditional_price_data_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: proposal_conditional_price_data_insert_input[], 
+    /** upsert condition */
+    on_conflict?: (proposal_conditional_price_data_on_conflict | null)} })
+    /** insert a single row into the table: "proposal_conditional_price_data" */
+    insert_proposal_conditional_price_data_one?: (proposal_conditional_price_dataGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: proposal_conditional_price_data_insert_input, 
+    /** upsert condition */
+    on_conflict?: (proposal_conditional_price_data_on_conflict | null)} })
     /** insert data into the table: "proposal_details" */
     insert_proposal_details?: (proposal_details_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -8636,6 +9514,14 @@ export interface mutation_rootGenqlSelection{
     object: sessions_insert_input, 
     /** upsert condition */
     on_conflict?: (sessions_on_conflict | null)} })
+    /** insert data into the table: "spot_price_data" */
+    insert_spot_price_data?: (spot_price_data_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: spot_price_data_insert_input[]} })
+    /** insert a single row into the table: "spot_price_data" */
+    insert_spot_price_data_one?: (spot_price_dataGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: spot_price_data_insert_input} })
     /** insert data into the table: "takes" */
     insert_takes?: (takes_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -8732,6 +9618,18 @@ export interface mutation_rootGenqlSelection{
     object: twaps_insert_input, 
     /** upsert condition */
     on_conflict?: (twaps_on_conflict | null)} })
+    /** insert data into the table: "user_performance" */
+    insert_user_performance?: (user_performance_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: user_performance_insert_input[], 
+    /** upsert condition */
+    on_conflict?: (user_performance_on_conflict | null)} })
+    /** insert a single row into the table: "user_performance" */
+    insert_user_performance_one?: (user_performanceGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: user_performance_insert_input, 
+    /** upsert condition */
+    on_conflict?: (user_performance_on_conflict | null)} })
     /** insert data into the table: "users" */
     insert_users?: (users_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -9008,6 +9906,30 @@ export interface mutation_rootGenqlSelection{
     update_proposal_bars_many?: (proposal_bars_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: proposal_bars_updates[]} })
+    /** update data of the table: "proposal_conditional_liquidity_data" */
+    update_proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_data_mutation_responseGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (proposal_conditional_liquidity_data_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (proposal_conditional_liquidity_data_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: proposal_conditional_liquidity_data_bool_exp} })
+    /** update multiples rows of table: "proposal_conditional_liquidity_data" */
+    update_proposal_conditional_liquidity_data_many?: (proposal_conditional_liquidity_data_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: proposal_conditional_liquidity_data_updates[]} })
+    /** update data of the table: "proposal_conditional_price_data" */
+    update_proposal_conditional_price_data?: (proposal_conditional_price_data_mutation_responseGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (proposal_conditional_price_data_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (proposal_conditional_price_data_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: proposal_conditional_price_data_bool_exp} })
+    /** update multiples rows of table: "proposal_conditional_price_data" */
+    update_proposal_conditional_price_data_many?: (proposal_conditional_price_data_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: proposal_conditional_price_data_updates[]} })
     /** update data of the table: "proposal_details" */
     update_proposal_details?: (proposal_details_mutation_responseGenqlSelection & { __args: {
     /** append existing jsonb value of filtered columns with new jsonb value */
@@ -9096,6 +10018,18 @@ export interface mutation_rootGenqlSelection{
     update_sessions_many?: (sessions_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: sessions_updates[]} })
+    /** update data of the table: "spot_price_data" */
+    update_spot_price_data?: (spot_price_data_mutation_responseGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (spot_price_data_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (spot_price_data_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: spot_price_data_bool_exp} })
+    /** update multiples rows of table: "spot_price_data" */
+    update_spot_price_data_many?: (spot_price_data_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: spot_price_data_updates[]} })
     /** update data of the table: "takes" */
     update_takes?: (takes_mutation_responseGenqlSelection & { __args: {
     /** increments the numeric columns with given value of the filtered values */
@@ -9240,6 +10174,24 @@ export interface mutation_rootGenqlSelection{
     update_twaps_many?: (twaps_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: twaps_updates[]} })
+    /** update data of the table: "user_performance" */
+    update_user_performance?: (user_performance_mutation_responseGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (user_performance_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (user_performance_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: user_performance_bool_exp} })
+    /** update single row of the table: "user_performance" */
+    update_user_performance_by_pk?: (user_performanceGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (user_performance_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (user_performance_set_input | null), pk_columns: user_performance_pk_columns_input} })
+    /** update multiples rows of table: "user_performance" */
+    update_user_performance_many?: (user_performance_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: user_performance_updates[]} })
     /** update data of the table: "users" */
     update_users?: (users_mutation_responseGenqlSelection & { __args: {
     /** sets the columns of the filtered rows to the given values */
@@ -10847,6 +11799,528 @@ export interface proposal_bars_variance_fieldsGenqlSelection{
 }
 
 
+/** columns and relationships of "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_dataGenqlSelection{
+    created_at?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    /** An object relationship */
+    market?: marketsGenqlSelection
+    /** An object relationship */
+    marketByPassMarketAcct?: marketsGenqlSelection
+    pass_market_acct?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    /** An object relationship */
+    proposal?: proposalsGenqlSelection
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_aggregateGenqlSelection{
+    aggregate?: proposal_conditional_liquidity_data_aggregate_fieldsGenqlSelection
+    nodes?: proposal_conditional_liquidity_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface proposal_conditional_liquidity_data_aggregate_bool_exp {count?: (proposal_conditional_liquidity_data_aggregate_bool_exp_count | null)}
+
+export interface proposal_conditional_liquidity_data_aggregate_bool_exp_count {arguments?: (proposal_conditional_liquidity_data_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (proposal_conditional_liquidity_data_bool_exp | null),predicate: Int_comparison_exp}
+
+
+/** aggregate fields of "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_aggregate_fieldsGenqlSelection{
+    avg?: proposal_conditional_liquidity_data_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (proposal_conditional_liquidity_data_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: proposal_conditional_liquidity_data_max_fieldsGenqlSelection
+    min?: proposal_conditional_liquidity_data_min_fieldsGenqlSelection
+    stddev?: proposal_conditional_liquidity_data_stddev_fieldsGenqlSelection
+    stddev_pop?: proposal_conditional_liquidity_data_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: proposal_conditional_liquidity_data_stddev_samp_fieldsGenqlSelection
+    sum?: proposal_conditional_liquidity_data_sum_fieldsGenqlSelection
+    var_pop?: proposal_conditional_liquidity_data_var_pop_fieldsGenqlSelection
+    var_samp?: proposal_conditional_liquidity_data_var_samp_fieldsGenqlSelection
+    variance?: proposal_conditional_liquidity_data_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by aggregate values of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_aggregate_order_by {avg?: (proposal_conditional_liquidity_data_avg_order_by | null),count?: (order_by | null),max?: (proposal_conditional_liquidity_data_max_order_by | null),min?: (proposal_conditional_liquidity_data_min_order_by | null),stddev?: (proposal_conditional_liquidity_data_stddev_order_by | null),stddev_pop?: (proposal_conditional_liquidity_data_stddev_pop_order_by | null),stddev_samp?: (proposal_conditional_liquidity_data_stddev_samp_order_by | null),sum?: (proposal_conditional_liquidity_data_sum_order_by | null),var_pop?: (proposal_conditional_liquidity_data_var_pop_order_by | null),var_samp?: (proposal_conditional_liquidity_data_var_samp_order_by | null),variance?: (proposal_conditional_liquidity_data_variance_order_by | null)}
+
+
+/** input type for inserting array relation for remote table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_arr_rel_insert_input {data: proposal_conditional_liquidity_data_insert_input[]}
+
+
+/** aggregate avg on columns */
+export interface proposal_conditional_liquidity_data_avg_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by avg() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_avg_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+
+/** Boolean expression to filter rows from the table "proposal_conditional_liquidity_data". All fields are combined with a logical 'AND'. */
+export interface proposal_conditional_liquidity_data_bool_exp {_and?: (proposal_conditional_liquidity_data_bool_exp[] | null),_not?: (proposal_conditional_liquidity_data_bool_exp | null),_or?: (proposal_conditional_liquidity_data_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),fail_market_base_amount?: (bigint_comparison_exp | null),fail_market_quote_amount?: (bigint_comparison_exp | null),market?: (markets_bool_exp | null),marketByPassMarketAcct?: (markets_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pass_market_base_amount?: (bigint_comparison_exp | null),pass_market_quote_amount?: (bigint_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null)}
+
+
+/** input type for incrementing numeric columns in table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_inc_input {fail_market_base_amount?: (Scalars['bigint'] | null),fail_market_quote_amount?: (Scalars['bigint'] | null),pass_market_base_amount?: (Scalars['bigint'] | null),pass_market_quote_amount?: (Scalars['bigint'] | null)}
+
+
+/** input type for inserting data into table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_insert_input {created_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),fail_market_base_amount?: (Scalars['bigint'] | null),fail_market_quote_amount?: (Scalars['bigint'] | null),market?: (markets_obj_rel_insert_input | null),marketByPassMarketAcct?: (markets_obj_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pass_market_base_amount?: (Scalars['bigint'] | null),pass_market_quote_amount?: (Scalars['bigint'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate max on columns */
+export interface proposal_conditional_liquidity_data_max_fieldsGenqlSelection{
+    created_at?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by max() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_max_order_by {created_at?: (order_by | null),fail_market_acct?: (order_by | null),fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_acct?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** aggregate min on columns */
+export interface proposal_conditional_liquidity_data_min_fieldsGenqlSelection{
+    created_at?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by min() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_min_order_by {created_at?: (order_by | null),fail_market_acct?: (order_by | null),fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_acct?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** response of any mutation on the table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: proposal_conditional_liquidity_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Ordering options when selecting data from "proposal_conditional_liquidity_data". */
+export interface proposal_conditional_liquidity_data_order_by {created_at?: (order_by | null),fail_market_acct?: (order_by | null),fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),market?: (markets_order_by | null),marketByPassMarketAcct?: (markets_order_by | null),pass_market_acct?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** input type for updating data in table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_set_input {created_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),fail_market_base_amount?: (Scalars['bigint'] | null),fail_market_quote_amount?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pass_market_base_amount?: (Scalars['bigint'] | null),pass_market_quote_amount?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate stddev on columns */
+export interface proposal_conditional_liquidity_data_stddev_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_stddev_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_conditional_liquidity_data_stddev_pop_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_pop() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_stddev_pop_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_conditional_liquidity_data_stddev_samp_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_samp() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_stddev_samp_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+
+/** Streaming cursor of the table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: proposal_conditional_liquidity_data_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface proposal_conditional_liquidity_data_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),fail_market_base_amount?: (Scalars['bigint'] | null),fail_market_quote_amount?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pass_market_base_amount?: (Scalars['bigint'] | null),pass_market_quote_amount?: (Scalars['bigint'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate sum on columns */
+export interface proposal_conditional_liquidity_data_sum_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by sum() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_sum_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+export interface proposal_conditional_liquidity_data_updates {
+/** increments the numeric columns with given value of the filtered values */
+_inc?: (proposal_conditional_liquidity_data_inc_input | null),
+/** sets the columns of the filtered rows to the given values */
+_set?: (proposal_conditional_liquidity_data_set_input | null),
+/** filter the rows which have to be updated */
+where: proposal_conditional_liquidity_data_bool_exp}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_conditional_liquidity_data_var_pop_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_pop() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_var_pop_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_conditional_liquidity_data_var_samp_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_samp() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_var_samp_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+
+/** aggregate variance on columns */
+export interface proposal_conditional_liquidity_data_variance_fieldsGenqlSelection{
+    fail_market_base_amount?: boolean | number
+    fail_market_quote_amount?: boolean | number
+    pass_market_base_amount?: boolean | number
+    pass_market_quote_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by variance() on columns of table "proposal_conditional_liquidity_data" */
+export interface proposal_conditional_liquidity_data_variance_order_by {fail_market_base_amount?: (order_by | null),fail_market_quote_amount?: (order_by | null),pass_market_base_amount?: (order_by | null),pass_market_quote_amount?: (order_by | null)}
+
+
+/** columns and relationships of "proposal_conditional_price_data" */
+export interface proposal_conditional_price_dataGenqlSelection{
+    created_at?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_market_price?: boolean | number
+    /** An object relationship */
+    market?: marketsGenqlSelection
+    /** An object relationship */
+    marketByPassMarketAcct?: marketsGenqlSelection
+    pass_market_acct?: boolean | number
+    pass_market_price?: boolean | number
+    /** An object relationship */
+    proposal?: proposalsGenqlSelection
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_aggregateGenqlSelection{
+    aggregate?: proposal_conditional_price_data_aggregate_fieldsGenqlSelection
+    nodes?: proposal_conditional_price_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface proposal_conditional_price_data_aggregate_bool_exp {count?: (proposal_conditional_price_data_aggregate_bool_exp_count | null)}
+
+export interface proposal_conditional_price_data_aggregate_bool_exp_count {arguments?: (proposal_conditional_price_data_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (proposal_conditional_price_data_bool_exp | null),predicate: Int_comparison_exp}
+
+
+/** aggregate fields of "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_aggregate_fieldsGenqlSelection{
+    avg?: proposal_conditional_price_data_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (proposal_conditional_price_data_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: proposal_conditional_price_data_max_fieldsGenqlSelection
+    min?: proposal_conditional_price_data_min_fieldsGenqlSelection
+    stddev?: proposal_conditional_price_data_stddev_fieldsGenqlSelection
+    stddev_pop?: proposal_conditional_price_data_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: proposal_conditional_price_data_stddev_samp_fieldsGenqlSelection
+    sum?: proposal_conditional_price_data_sum_fieldsGenqlSelection
+    var_pop?: proposal_conditional_price_data_var_pop_fieldsGenqlSelection
+    var_samp?: proposal_conditional_price_data_var_samp_fieldsGenqlSelection
+    variance?: proposal_conditional_price_data_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by aggregate values of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_aggregate_order_by {avg?: (proposal_conditional_price_data_avg_order_by | null),count?: (order_by | null),max?: (proposal_conditional_price_data_max_order_by | null),min?: (proposal_conditional_price_data_min_order_by | null),stddev?: (proposal_conditional_price_data_stddev_order_by | null),stddev_pop?: (proposal_conditional_price_data_stddev_pop_order_by | null),stddev_samp?: (proposal_conditional_price_data_stddev_samp_order_by | null),sum?: (proposal_conditional_price_data_sum_order_by | null),var_pop?: (proposal_conditional_price_data_var_pop_order_by | null),var_samp?: (proposal_conditional_price_data_var_samp_order_by | null),variance?: (proposal_conditional_price_data_variance_order_by | null)}
+
+
+/** input type for inserting array relation for remote table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_arr_rel_insert_input {data: proposal_conditional_price_data_insert_input[],
+/** upsert condition */
+on_conflict?: (proposal_conditional_price_data_on_conflict | null)}
+
+
+/** aggregate avg on columns */
+export interface proposal_conditional_price_data_avg_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by avg() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_avg_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+
+/** Boolean expression to filter rows from the table "proposal_conditional_price_data". All fields are combined with a logical 'AND'. */
+export interface proposal_conditional_price_data_bool_exp {_and?: (proposal_conditional_price_data_bool_exp[] | null),_not?: (proposal_conditional_price_data_bool_exp | null),_or?: (proposal_conditional_price_data_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),fail_market_price?: (numeric_comparison_exp | null),market?: (markets_bool_exp | null),marketByPassMarketAcct?: (markets_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pass_market_price?: (numeric_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null)}
+
+
+/** input type for incrementing numeric columns in table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_inc_input {fail_market_price?: (Scalars['numeric'] | null),pass_market_price?: (Scalars['numeric'] | null)}
+
+
+/** input type for inserting data into table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_insert_input {created_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),fail_market_price?: (Scalars['numeric'] | null),market?: (markets_obj_rel_insert_input | null),marketByPassMarketAcct?: (markets_obj_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pass_market_price?: (Scalars['numeric'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate max on columns */
+export interface proposal_conditional_price_data_max_fieldsGenqlSelection{
+    created_at?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_market_price?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_market_price?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by max() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_max_order_by {created_at?: (order_by | null),fail_market_acct?: (order_by | null),fail_market_price?: (order_by | null),pass_market_acct?: (order_by | null),pass_market_price?: (order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** aggregate min on columns */
+export interface proposal_conditional_price_data_min_fieldsGenqlSelection{
+    created_at?: boolean | number
+    fail_market_acct?: boolean | number
+    fail_market_price?: boolean | number
+    pass_market_acct?: boolean | number
+    pass_market_price?: boolean | number
+    proposal_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by min() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_min_order_by {created_at?: (order_by | null),fail_market_acct?: (order_by | null),fail_market_price?: (order_by | null),pass_market_acct?: (order_by | null),pass_market_price?: (order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** response of any mutation on the table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: proposal_conditional_price_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** on_conflict condition type for table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_on_conflict {constraint: proposal_conditional_price_data_constraint,update_columns?: proposal_conditional_price_data_update_column[],where?: (proposal_conditional_price_data_bool_exp | null)}
+
+
+/** Ordering options when selecting data from "proposal_conditional_price_data". */
+export interface proposal_conditional_price_data_order_by {created_at?: (order_by | null),fail_market_acct?: (order_by | null),fail_market_price?: (order_by | null),market?: (markets_order_by | null),marketByPassMarketAcct?: (markets_order_by | null),pass_market_acct?: (order_by | null),pass_market_price?: (order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null)}
+
+
+/** input type for updating data in table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_set_input {created_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),fail_market_price?: (Scalars['numeric'] | null),pass_market_acct?: (Scalars['String'] | null),pass_market_price?: (Scalars['numeric'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate stddev on columns */
+export interface proposal_conditional_price_data_stddev_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_stddev_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+
+/** aggregate stddev_pop on columns */
+export interface proposal_conditional_price_data_stddev_pop_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_pop() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_stddev_pop_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+
+/** aggregate stddev_samp on columns */
+export interface proposal_conditional_price_data_stddev_samp_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_samp() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_stddev_samp_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+
+/** Streaming cursor of the table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: proposal_conditional_price_data_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface proposal_conditional_price_data_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),fail_market_price?: (Scalars['numeric'] | null),pass_market_acct?: (Scalars['String'] | null),pass_market_price?: (Scalars['numeric'] | null),proposal_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate sum on columns */
+export interface proposal_conditional_price_data_sum_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by sum() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_sum_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+export interface proposal_conditional_price_data_updates {
+/** increments the numeric columns with given value of the filtered values */
+_inc?: (proposal_conditional_price_data_inc_input | null),
+/** sets the columns of the filtered rows to the given values */
+_set?: (proposal_conditional_price_data_set_input | null),
+/** filter the rows which have to be updated */
+where: proposal_conditional_price_data_bool_exp}
+
+
+/** aggregate var_pop on columns */
+export interface proposal_conditional_price_data_var_pop_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_pop() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_var_pop_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+
+/** aggregate var_samp on columns */
+export interface proposal_conditional_price_data_var_samp_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_samp() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_var_samp_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+
+/** aggregate variance on columns */
+export interface proposal_conditional_price_data_variance_fieldsGenqlSelection{
+    fail_market_price?: boolean | number
+    pass_market_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by variance() on columns of table "proposal_conditional_price_data" */
+export interface proposal_conditional_price_data_variance_order_by {fail_market_price?: (order_by | null),pass_market_price?: (order_by | null)}
+
+
 /** columns and relationships of "proposal_details" */
 export interface proposal_detailsGenqlSelection{
     base_cond_vault_acct?: boolean | number
@@ -11372,6 +12846,54 @@ export interface proposalsGenqlSelection{
     pricing_model_pass_acct?: boolean | number
     proposal_acct?: boolean | number
     /** An array relationship */
+    proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An array relationship */
+    proposal_conditional_price_data?: (proposal_conditional_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An array relationship */
     proposal_details?: (proposal_detailsGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (proposal_details_select_column[] | null), 
@@ -11448,6 +12970,30 @@ export interface proposalsGenqlSelection{
     /** filter the rows returned */
     where?: (twaps_bool_exp | null)} })
     updated_at?: boolean | number
+    /** An array relationship */
+    user_performances?: (user_performanceGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
+    /** An aggregate relationship */
+    user_performances_aggregate?: (user_performance_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -11530,7 +13076,7 @@ export interface proposals_avg_order_by {autocrat_version?: (order_by | null),en
 
 
 /** Boolean expression to filter rows from the table "proposals". All fields are combined with a logical 'AND'. */
-export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),completed_at?: (timestamptz_comparison_exp | null),conditionalVaultByQuoteVault?: (conditional_vaults_bool_exp | null),conditional_vault?: (conditional_vaults_bool_exp | null),created_at?: (timestamptz_comparison_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),end_slot?: (bigint_comparison_exp | null),ended_at?: (timestamptz_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null)}
+export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),completed_at?: (timestamptz_comparison_exp | null),conditionalVaultByQuoteVault?: (conditional_vaults_bool_exp | null),conditional_vault?: (conditional_vaults_bool_exp | null),created_at?: (timestamptz_comparison_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),end_slot?: (bigint_comparison_exp | null),ended_at?: (timestamptz_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_data_bool_exp | null),proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregate_bool_exp | null),proposal_conditional_price_data?: (proposal_conditional_price_data_bool_exp | null),proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregate_bool_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "proposals" */
@@ -11538,7 +13084,7 @@ export interface proposals_inc_input {autocrat_version?: (Scalars['float8'] | nu
 
 
 /** input type for inserting data into table "proposals" */
-export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),completed_at?: (Scalars['timestamptz'] | null),conditionalVaultByQuoteVault?: (conditional_vaults_obj_rel_insert_input | null),conditional_vault?: (conditional_vaults_obj_rel_insert_input | null),created_at?: (Scalars['timestamptz'] | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null)}
+export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),completed_at?: (Scalars['timestamptz'] | null),conditionalVaultByQuoteVault?: (conditional_vaults_obj_rel_insert_input | null),conditional_vault?: (conditional_vaults_obj_rel_insert_input | null),created_at?: (Scalars['timestamptz'] | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_data_arr_rel_insert_input | null),proposal_conditional_price_data?: (proposal_conditional_price_data_arr_rel_insert_input | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -11623,7 +13169,7 @@ export interface proposals_on_conflict {constraint: proposals_constraint,update_
 
 
 /** Ordering options when selecting data from "proposals". */
-export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),completed_at?: (order_by | null),conditionalVaultByQuoteVault?: (conditional_vaults_order_by | null),conditional_vault?: (conditional_vaults_order_by | null),created_at?: (order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null)}
+export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),completed_at?: (order_by | null),conditionalVaultByQuoteVault?: (conditional_vaults_order_by | null),conditional_vault?: (conditional_vaults_order_by | null),created_at?: (order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregate_order_by | null),proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregate_order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: proposals */
@@ -12148,6 +13694,54 @@ export interface query_rootGenqlSelection{
     /** fetch data from the table: "proposal_bars" using primary key columns */
     proposal_bars_by_pk?: (proposal_barsGenqlSelection & { __args: {bar_size: Scalars['interval'], bar_start_time: Scalars['timestamptz'], proposal_acct: Scalars['String']} })
     /** An array relationship */
+    proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An array relationship */
+    proposal_conditional_price_data?: (proposal_conditional_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An array relationship */
     proposal_details?: (proposal_detailsGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (proposal_details_select_column[] | null), 
@@ -12275,6 +13869,30 @@ export interface query_rootGenqlSelection{
     where?: (sessions_bool_exp | null)} })
     /** fetch data from the table: "sessions" using primary key columns */
     sessions_by_pk?: (sessionsGenqlSelection & { __args: {id: Scalars['uuid']} })
+    /** An array relationship */
+    spot_price_data?: (spot_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (spot_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (spot_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (spot_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    spot_price_data_aggregate?: (spot_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (spot_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (spot_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (spot_price_data_bool_exp | null)} })
     /** An array relationship */
     takes?: (takesGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -12507,6 +14125,32 @@ export interface query_rootGenqlSelection{
     where?: (twaps_bool_exp | null)} })
     /** fetch data from the table: "twaps" using primary key columns */
     twaps_by_pk?: (twapsGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
+    /** fetch data from the table: "user_performance" */
+    user_performance?: (user_performanceGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "user_performance" */
+    user_performance_aggregate?: (user_performance_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
+    /** fetch data from the table: "user_performance" using primary key columns */
+    user_performance_by_pk?: (user_performanceGenqlSelection & { __args: {proposal_acct: Scalars['String'], user_acct: Scalars['String']} })
     /** fetch data from the table: "users" */
     users?: (usersGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -12913,6 +14557,232 @@ where: sessions_bool_exp}
 
 /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
 export interface smallint_comparison_exp {_eq?: (Scalars['smallint'] | null),_gt?: (Scalars['smallint'] | null),_gte?: (Scalars['smallint'] | null),_in?: (Scalars['smallint'][] | null),_is_null?: (Scalars['Boolean'] | null),_lt?: (Scalars['smallint'] | null),_lte?: (Scalars['smallint'] | null),_neq?: (Scalars['smallint'] | null),_nin?: (Scalars['smallint'][] | null)}
+
+
+/** columns and relationships of "spot_price_data" */
+export interface spot_price_dataGenqlSelection{
+    created_at?: boolean | number
+    mint_acct?: boolean | number
+    spot_price?: boolean | number
+    /** An object relationship */
+    token?: tokensGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "spot_price_data" */
+export interface spot_price_data_aggregateGenqlSelection{
+    aggregate?: spot_price_data_aggregate_fieldsGenqlSelection
+    nodes?: spot_price_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface spot_price_data_aggregate_bool_exp {count?: (spot_price_data_aggregate_bool_exp_count | null)}
+
+export interface spot_price_data_aggregate_bool_exp_count {arguments?: (spot_price_data_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (spot_price_data_bool_exp | null),predicate: Int_comparison_exp}
+
+
+/** aggregate fields of "spot_price_data" */
+export interface spot_price_data_aggregate_fieldsGenqlSelection{
+    avg?: spot_price_data_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (spot_price_data_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: spot_price_data_max_fieldsGenqlSelection
+    min?: spot_price_data_min_fieldsGenqlSelection
+    stddev?: spot_price_data_stddev_fieldsGenqlSelection
+    stddev_pop?: spot_price_data_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: spot_price_data_stddev_samp_fieldsGenqlSelection
+    sum?: spot_price_data_sum_fieldsGenqlSelection
+    var_pop?: spot_price_data_var_pop_fieldsGenqlSelection
+    var_samp?: spot_price_data_var_samp_fieldsGenqlSelection
+    variance?: spot_price_data_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by aggregate values of table "spot_price_data" */
+export interface spot_price_data_aggregate_order_by {avg?: (spot_price_data_avg_order_by | null),count?: (order_by | null),max?: (spot_price_data_max_order_by | null),min?: (spot_price_data_min_order_by | null),stddev?: (spot_price_data_stddev_order_by | null),stddev_pop?: (spot_price_data_stddev_pop_order_by | null),stddev_samp?: (spot_price_data_stddev_samp_order_by | null),sum?: (spot_price_data_sum_order_by | null),var_pop?: (spot_price_data_var_pop_order_by | null),var_samp?: (spot_price_data_var_samp_order_by | null),variance?: (spot_price_data_variance_order_by | null)}
+
+
+/** input type for inserting array relation for remote table "spot_price_data" */
+export interface spot_price_data_arr_rel_insert_input {data: spot_price_data_insert_input[]}
+
+
+/** aggregate avg on columns */
+export interface spot_price_data_avg_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by avg() on columns of table "spot_price_data" */
+export interface spot_price_data_avg_order_by {spot_price?: (order_by | null)}
+
+
+/** Boolean expression to filter rows from the table "spot_price_data". All fields are combined with a logical 'AND'. */
+export interface spot_price_data_bool_exp {_and?: (spot_price_data_bool_exp[] | null),_not?: (spot_price_data_bool_exp | null),_or?: (spot_price_data_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),mint_acct?: (String_comparison_exp | null),spot_price?: (numeric_comparison_exp | null),token?: (tokens_bool_exp | null)}
+
+
+/** input type for incrementing numeric columns in table "spot_price_data" */
+export interface spot_price_data_inc_input {spot_price?: (Scalars['numeric'] | null)}
+
+
+/** input type for inserting data into table "spot_price_data" */
+export interface spot_price_data_insert_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),spot_price?: (Scalars['numeric'] | null),token?: (tokens_obj_rel_insert_input | null)}
+
+
+/** aggregate max on columns */
+export interface spot_price_data_max_fieldsGenqlSelection{
+    created_at?: boolean | number
+    mint_acct?: boolean | number
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by max() on columns of table "spot_price_data" */
+export interface spot_price_data_max_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),spot_price?: (order_by | null)}
+
+
+/** aggregate min on columns */
+export interface spot_price_data_min_fieldsGenqlSelection{
+    created_at?: boolean | number
+    mint_acct?: boolean | number
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by min() on columns of table "spot_price_data" */
+export interface spot_price_data_min_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),spot_price?: (order_by | null)}
+
+
+/** response of any mutation on the table "spot_price_data" */
+export interface spot_price_data_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: spot_price_dataGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Ordering options when selecting data from "spot_price_data". */
+export interface spot_price_data_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),spot_price?: (order_by | null),token?: (tokens_order_by | null)}
+
+
+/** input type for updating data in table "spot_price_data" */
+export interface spot_price_data_set_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),spot_price?: (Scalars['numeric'] | null)}
+
+
+/** aggregate stddev on columns */
+export interface spot_price_data_stddev_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev() on columns of table "spot_price_data" */
+export interface spot_price_data_stddev_order_by {spot_price?: (order_by | null)}
+
+
+/** aggregate stddev_pop on columns */
+export interface spot_price_data_stddev_pop_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_pop() on columns of table "spot_price_data" */
+export interface spot_price_data_stddev_pop_order_by {spot_price?: (order_by | null)}
+
+
+/** aggregate stddev_samp on columns */
+export interface spot_price_data_stddev_samp_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_samp() on columns of table "spot_price_data" */
+export interface spot_price_data_stddev_samp_order_by {spot_price?: (order_by | null)}
+
+
+/** Streaming cursor of the table "spot_price_data" */
+export interface spot_price_data_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: spot_price_data_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface spot_price_data_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),spot_price?: (Scalars['numeric'] | null)}
+
+
+/** aggregate sum on columns */
+export interface spot_price_data_sum_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by sum() on columns of table "spot_price_data" */
+export interface spot_price_data_sum_order_by {spot_price?: (order_by | null)}
+
+export interface spot_price_data_updates {
+/** increments the numeric columns with given value of the filtered values */
+_inc?: (spot_price_data_inc_input | null),
+/** sets the columns of the filtered rows to the given values */
+_set?: (spot_price_data_set_input | null),
+/** filter the rows which have to be updated */
+where: spot_price_data_bool_exp}
+
+
+/** aggregate var_pop on columns */
+export interface spot_price_data_var_pop_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_pop() on columns of table "spot_price_data" */
+export interface spot_price_data_var_pop_order_by {spot_price?: (order_by | null)}
+
+
+/** aggregate var_samp on columns */
+export interface spot_price_data_var_samp_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_samp() on columns of table "spot_price_data" */
+export interface spot_price_data_var_samp_order_by {spot_price?: (order_by | null)}
+
+
+/** aggregate variance on columns */
+export interface spot_price_data_variance_fieldsGenqlSelection{
+    spot_price?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by variance() on columns of table "spot_price_data" */
+export interface spot_price_data_variance_order_by {spot_price?: (order_by | null)}
 
 export interface subscription_rootGenqlSelection{
     /** An array relationship */
@@ -13424,6 +15294,70 @@ export interface subscription_rootGenqlSelection{
     /** filter the rows returned */
     where?: (proposal_bars_bool_exp | null)} })
     /** An array relationship */
+    proposal_conditional_liquidity_data?: (proposal_conditional_liquidity_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_liquidity_data_aggregate?: (proposal_conditional_liquidity_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_liquidity_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_liquidity_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "proposal_conditional_liquidity_data" */
+    proposal_conditional_liquidity_data_stream?: (proposal_conditional_liquidity_dataGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (proposal_conditional_liquidity_data_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (proposal_conditional_liquidity_data_bool_exp | null)} })
+    /** An array relationship */
+    proposal_conditional_price_data?: (proposal_conditional_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    proposal_conditional_price_data_aggregate?: (proposal_conditional_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (proposal_conditional_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (proposal_conditional_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "proposal_conditional_price_data" */
+    proposal_conditional_price_data_stream?: (proposal_conditional_price_dataGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (proposal_conditional_price_data_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (proposal_conditional_price_data_bool_exp | null)} })
+    /** An array relationship */
     proposal_details?: (proposal_detailsGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (proposal_details_select_column[] | null), 
@@ -13591,6 +15525,38 @@ export interface subscription_rootGenqlSelection{
     cursor: (sessions_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (sessions_bool_exp | null)} })
+    /** An array relationship */
+    spot_price_data?: (spot_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (spot_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (spot_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (spot_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    spot_price_data_aggregate?: (spot_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (spot_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (spot_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (spot_price_data_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "spot_price_data" */
+    spot_price_data_stream?: (spot_price_dataGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (spot_price_data_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (spot_price_data_bool_exp | null)} })
     /** An array relationship */
     takes?: (takesGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -13895,6 +15861,40 @@ export interface subscription_rootGenqlSelection{
     cursor: (twaps_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (twaps_bool_exp | null)} })
+    /** fetch data from the table: "user_performance" */
+    user_performance?: (user_performanceGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
+    /** fetch aggregated fields from the table: "user_performance" */
+    user_performance_aggregate?: (user_performance_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
+    /** fetch data from the table: "user_performance" using primary key columns */
+    user_performance_by_pk?: (user_performanceGenqlSelection & { __args: {proposal_acct: Scalars['String'], user_acct: Scalars['String']} })
+    /** fetch data from the table in a streaming manner: "user_performance" */
+    user_performance_stream?: (user_performanceGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (user_performance_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
     /** fetch data from the table: "users" */
     users?: (usersGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -14273,6 +16273,8 @@ export interface token_acct_balancesGenqlSelection{
     /** An object relationship */
     tokenAcctByTokenAcct?: token_acctsGenqlSelection
     token_acct?: boolean | number
+    /** An object relationship */
+    transaction?: transactionsGenqlSelection
     tx_sig?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -14335,7 +16337,7 @@ export interface token_acct_balances_avg_order_by {amount?: (order_by | null),de
 
 
 /** Boolean expression to filter rows from the table "token_acct_balances". All fields are combined with a logical 'AND'. */
-export interface token_acct_balances_bool_exp {_and?: (token_acct_balances_bool_exp[] | null),_not?: (token_acct_balances_bool_exp | null),_or?: (token_acct_balances_bool_exp[] | null),amount?: (bigint_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),delta?: (bigint_comparison_exp | null),mint_acct?: (String_comparison_exp | null),owner_acct?: (String_comparison_exp | null),slot?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenAcctByTokenAcct?: (token_accts_bool_exp | null),token_acct?: (String_comparison_exp | null),tx_sig?: (String_comparison_exp | null)}
+export interface token_acct_balances_bool_exp {_and?: (token_acct_balances_bool_exp[] | null),_not?: (token_acct_balances_bool_exp | null),_or?: (token_acct_balances_bool_exp[] | null),amount?: (bigint_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),delta?: (bigint_comparison_exp | null),mint_acct?: (String_comparison_exp | null),owner_acct?: (String_comparison_exp | null),slot?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenAcctByTokenAcct?: (token_accts_bool_exp | null),token_acct?: (String_comparison_exp | null),transaction?: (transactions_bool_exp | null),tx_sig?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "token_acct_balances" */
@@ -14343,7 +16345,7 @@ export interface token_acct_balances_inc_input {amount?: (Scalars['bigint'] | nu
 
 
 /** input type for inserting data into table "token_acct_balances" */
-export interface token_acct_balances_insert_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),delta?: (Scalars['bigint'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByTokenAcct?: (token_accts_obj_rel_insert_input | null),token_acct?: (Scalars['String'] | null),tx_sig?: (Scalars['String'] | null)}
+export interface token_acct_balances_insert_input {amount?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),delta?: (Scalars['bigint'] | null),mint_acct?: (Scalars['String'] | null),owner_acct?: (Scalars['String'] | null),slot?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenAcctByTokenAcct?: (token_accts_obj_rel_insert_input | null),token_acct?: (Scalars['String'] | null),transaction?: (transactions_obj_rel_insert_input | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -14400,7 +16402,7 @@ export interface token_acct_balances_on_conflict {constraint: token_acct_balance
 
 
 /** Ordering options when selecting data from "token_acct_balances". */
-export interface token_acct_balances_order_by {amount?: (order_by | null),created_at?: (order_by | null),delta?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token?: (tokens_order_by | null),tokenAcctByTokenAcct?: (token_accts_order_by | null),token_acct?: (order_by | null),tx_sig?: (order_by | null)}
+export interface token_acct_balances_order_by {amount?: (order_by | null),created_at?: (order_by | null),delta?: (order_by | null),mint_acct?: (order_by | null),owner_acct?: (order_by | null),slot?: (order_by | null),token?: (tokens_order_by | null),tokenAcctByTokenAcct?: (token_accts_order_by | null),token_acct?: (order_by | null),transaction?: (transactions_order_by | null),tx_sig?: (order_by | null)}
 
 
 /** primary key columns input for table: token_acct_balances */
@@ -14982,6 +16984,30 @@ export interface tokensGenqlSelection{
     where?: (markets_bool_exp | null)} })
     mint_acct?: boolean | number
     name?: boolean | number
+    /** An array relationship */
+    spot_price_data?: (spot_price_dataGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (spot_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (spot_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (spot_price_data_bool_exp | null)} })
+    /** An aggregate relationship */
+    spot_price_data_aggregate?: (spot_price_data_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (spot_price_data_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (spot_price_data_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (spot_price_data_bool_exp | null)} })
     supply?: boolean | number
     symbol?: boolean | number
     /** An array relationship */
@@ -15079,7 +17105,7 @@ export interface tokens_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "tokens". All fields are combined with a logical 'AND'. */
-export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),daos?: (daos_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),image_url?: (String_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),vault_by_finalize?: (conditional_vaults_bool_exp | null),vault_by_revert?: (conditional_vaults_bool_exp | null)}
+export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),daos?: (daos_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),image_url?: (String_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),spot_price_data?: (spot_price_data_bool_exp | null),spot_price_data_aggregate?: (spot_price_data_aggregate_bool_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),vault_by_finalize?: (conditional_vaults_bool_exp | null),vault_by_revert?: (conditional_vaults_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "tokens" */
@@ -15087,7 +17113,7 @@ export interface tokens_inc_input {decimals?: (Scalars['smallint'] | null),suppl
 
 
 /** input type for inserting data into table "tokens" */
-export interface tokens_insert_input {conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),daos?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),vault_by_finalize?: (conditional_vaults_obj_rel_insert_input | null),vault_by_revert?: (conditional_vaults_obj_rel_insert_input | null)}
+export interface tokens_insert_input {conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),daos?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),spot_price_data?: (spot_price_data_arr_rel_insert_input | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),vault_by_finalize?: (conditional_vaults_obj_rel_insert_input | null),vault_by_revert?: (conditional_vaults_obj_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -15140,7 +17166,7 @@ export interface tokens_on_conflict {constraint: tokens_constraint,update_column
 
 
 /** Ordering options when selecting data from "tokens". */
-export interface tokens_order_by {conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),image_url?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null),vault_by_finalize?: (conditional_vaults_order_by | null),vault_by_revert?: (conditional_vaults_order_by | null)}
+export interface tokens_order_by {conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),image_url?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),spot_price_data_aggregate?: (spot_price_data_aggregate_order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null),vault_by_finalize?: (conditional_vaults_order_by | null),vault_by_revert?: (conditional_vaults_order_by | null)}
 
 
 /** primary key columns input for table: tokens */
@@ -15801,6 +17827,30 @@ export interface transactionsGenqlSelection{
     serializer_logic_version?: boolean | number
     slot?: boolean | number
     /** An array relationship */
+    token_acct_balances?: (token_acct_balancesGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (token_acct_balances_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (token_acct_balances_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (token_acct_balances_bool_exp | null)} })
+    /** An aggregate relationship */
+    token_acct_balances_aggregate?: (token_acct_balances_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (token_acct_balances_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (token_acct_balances_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (token_acct_balances_bool_exp | null)} })
+    /** An array relationship */
     transactionWatchersByLatestTxSig?: (transaction_watchersGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (transaction_watchers_select_column[] | null), 
@@ -15915,7 +17965,7 @@ export interface transactions_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
-export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamptz_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),main_ix_type?: (String_comparison_exp | null),order?: (orders_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null)}
+export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamptz_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),main_ix_type?: (String_comparison_exp | null),order?: (orders_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "transactions" */
@@ -15923,7 +17973,7 @@ export interface transactions_inc_input {serializer_logic_version?: (Scalars['sm
 
 
 /** input type for inserting data into table "transactions" */
-export interface transactions_insert_input {block_time?: (Scalars['timestamptz'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),main_ix_type?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null)}
+export interface transactions_insert_input {block_time?: (Scalars['timestamptz'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),main_ix_type?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -15974,7 +18024,7 @@ export interface transactions_on_conflict {constraint: transactions_constraint,u
 
 
 /** Ordering options when selecting data from "transactions". */
-export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),main_ix_type?: (order_by | null),order?: (orders_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null)}
+export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),main_ix_type?: (order_by | null),order?: (orders_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null)}
 
 
 /** primary key columns input for table: transactions */
@@ -16496,6 +18546,280 @@ export interface twaps_variance_fieldsGenqlSelection{
 export interface twaps_variance_order_by {last_observation?: (order_by | null),last_price?: (order_by | null),observation_agg?: (order_by | null),token_amount?: (order_by | null),updated_slot?: (order_by | null)}
 
 
+/** columns and relationships of "user_performance" */
+export interface user_performanceGenqlSelection{
+    created_at?: boolean | number
+    /** An object relationship */
+    proposal?: proposalsGenqlSelection
+    proposal_acct?: boolean | number
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    /** An object relationship */
+    user?: usersGenqlSelection
+    user_acct?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "user_performance" */
+export interface user_performance_aggregateGenqlSelection{
+    aggregate?: user_performance_aggregate_fieldsGenqlSelection
+    nodes?: user_performanceGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface user_performance_aggregate_bool_exp {count?: (user_performance_aggregate_bool_exp_count | null)}
+
+export interface user_performance_aggregate_bool_exp_count {arguments?: (user_performance_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (user_performance_bool_exp | null),predicate: Int_comparison_exp}
+
+
+/** aggregate fields of "user_performance" */
+export interface user_performance_aggregate_fieldsGenqlSelection{
+    avg?: user_performance_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (user_performance_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: user_performance_max_fieldsGenqlSelection
+    min?: user_performance_min_fieldsGenqlSelection
+    stddev?: user_performance_stddev_fieldsGenqlSelection
+    stddev_pop?: user_performance_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: user_performance_stddev_samp_fieldsGenqlSelection
+    sum?: user_performance_sum_fieldsGenqlSelection
+    var_pop?: user_performance_var_pop_fieldsGenqlSelection
+    var_samp?: user_performance_var_samp_fieldsGenqlSelection
+    variance?: user_performance_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by aggregate values of table "user_performance" */
+export interface user_performance_aggregate_order_by {avg?: (user_performance_avg_order_by | null),count?: (order_by | null),max?: (user_performance_max_order_by | null),min?: (user_performance_min_order_by | null),stddev?: (user_performance_stddev_order_by | null),stddev_pop?: (user_performance_stddev_pop_order_by | null),stddev_samp?: (user_performance_stddev_samp_order_by | null),sum?: (user_performance_sum_order_by | null),var_pop?: (user_performance_var_pop_order_by | null),var_samp?: (user_performance_var_samp_order_by | null),variance?: (user_performance_variance_order_by | null)}
+
+
+/** input type for inserting array relation for remote table "user_performance" */
+export interface user_performance_arr_rel_insert_input {data: user_performance_insert_input[],
+/** upsert condition */
+on_conflict?: (user_performance_on_conflict | null)}
+
+
+/** aggregate avg on columns */
+export interface user_performance_avg_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by avg() on columns of table "user_performance" */
+export interface user_performance_avg_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** Boolean expression to filter rows from the table "user_performance". All fields are combined with a logical 'AND'. */
+export interface user_performance_bool_exp {_and?: (user_performance_bool_exp[] | null),_not?: (user_performance_bool_exp | null),_or?: (user_performance_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),tokens_bought?: (numeric_comparison_exp | null),tokens_sold?: (numeric_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null),volume_bought?: (numeric_comparison_exp | null),volume_sold?: (numeric_comparison_exp | null)}
+
+
+/** input type for incrementing numeric columns in table "user_performance" */
+export interface user_performance_inc_input {tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+
+
+/** input type for inserting data into table "user_performance" */
+export interface user_performance_insert_input {created_at?: (Scalars['timestamptz'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+
+
+/** aggregate max on columns */
+export interface user_performance_max_fieldsGenqlSelection{
+    created_at?: boolean | number
+    proposal_acct?: boolean | number
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    user_acct?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by max() on columns of table "user_performance" */
+export interface user_performance_max_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** aggregate min on columns */
+export interface user_performance_min_fieldsGenqlSelection{
+    created_at?: boolean | number
+    proposal_acct?: boolean | number
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    user_acct?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by min() on columns of table "user_performance" */
+export interface user_performance_min_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** response of any mutation on the table "user_performance" */
+export interface user_performance_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: user_performanceGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** on_conflict condition type for table "user_performance" */
+export interface user_performance_on_conflict {constraint: user_performance_constraint,update_columns?: user_performance_update_column[],where?: (user_performance_bool_exp | null)}
+
+
+/** Ordering options when selecting data from "user_performance". */
+export interface user_performance_order_by {created_at?: (order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),user?: (users_order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** primary key columns input for table: user_performance */
+export interface user_performance_pk_columns_input {proposal_acct: Scalars['String'],user_acct: Scalars['String']}
+
+
+/** input type for updating data in table "user_performance" */
+export interface user_performance_set_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+
+
+/** aggregate stddev on columns */
+export interface user_performance_stddev_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev() on columns of table "user_performance" */
+export interface user_performance_stddev_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** aggregate stddev_pop on columns */
+export interface user_performance_stddev_pop_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_pop() on columns of table "user_performance" */
+export interface user_performance_stddev_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** aggregate stddev_samp on columns */
+export interface user_performance_stddev_samp_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_samp() on columns of table "user_performance" */
+export interface user_performance_stddev_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** Streaming cursor of the table "user_performance" */
+export interface user_performance_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: user_performance_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface user_performance_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+
+
+/** aggregate sum on columns */
+export interface user_performance_sum_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by sum() on columns of table "user_performance" */
+export interface user_performance_sum_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+export interface user_performance_updates {
+/** increments the numeric columns with given value of the filtered values */
+_inc?: (user_performance_inc_input | null),
+/** sets the columns of the filtered rows to the given values */
+_set?: (user_performance_set_input | null),
+/** filter the rows which have to be updated */
+where: user_performance_bool_exp}
+
+
+/** aggregate var_pop on columns */
+export interface user_performance_var_pop_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_pop() on columns of table "user_performance" */
+export interface user_performance_var_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** aggregate var_samp on columns */
+export interface user_performance_var_samp_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_samp() on columns of table "user_performance" */
+export interface user_performance_var_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
+/** aggregate variance on columns */
+export interface user_performance_variance_fieldsGenqlSelection{
+    tokens_bought?: boolean | number
+    tokens_sold?: boolean | number
+    volume_bought?: boolean | number
+    volume_sold?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by variance() on columns of table "user_performance" */
+export interface user_performance_variance_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+
+
 /** columns and relationships of "users" */
 export interface usersGenqlSelection{
     created_at?: boolean | number
@@ -16524,6 +18848,30 @@ export interface usersGenqlSelection{
     /** filter the rows returned */
     where?: (sessions_bool_exp | null)} })
     user_acct?: boolean | number
+    /** An array relationship */
+    user_performances?: (user_performanceGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
+    /** An aggregate relationship */
+    user_performances_aggregate?: (user_performance_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_performance_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_performance_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_performance_bool_exp | null)} })
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -16549,11 +18897,11 @@ export interface users_aggregate_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
-export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null)}
+export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
 
 
 /** input type for inserting data into table "users" */
-export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null)}
+export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -16596,7 +18944,7 @@ export interface users_on_conflict {constraint: users_constraint,update_columns?
 
 
 /** Ordering options when selecting data from "users". */
-export interface users_order_by {created_at?: (order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null)}
+export interface users_order_by {created_at?: (order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: users */
@@ -18185,6 +20533,230 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const proposal_conditional_liquidity_data_possibleTypes: string[] = ['proposal_conditional_liquidity_data']
+    export const isproposal_conditional_liquidity_data = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data"')
+      return proposal_conditional_liquidity_data_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_aggregate_possibleTypes: string[] = ['proposal_conditional_liquidity_data_aggregate']
+    export const isproposal_conditional_liquidity_data_aggregate = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_aggregate"')
+      return proposal_conditional_liquidity_data_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_aggregate_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_aggregate_fields']
+    export const isproposal_conditional_liquidity_data_aggregate_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_aggregate_fields"')
+      return proposal_conditional_liquidity_data_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_avg_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_avg_fields']
+    export const isproposal_conditional_liquidity_data_avg_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_avg_fields"')
+      return proposal_conditional_liquidity_data_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_max_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_max_fields']
+    export const isproposal_conditional_liquidity_data_max_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_max_fields"')
+      return proposal_conditional_liquidity_data_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_min_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_min_fields']
+    export const isproposal_conditional_liquidity_data_min_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_min_fields"')
+      return proposal_conditional_liquidity_data_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_mutation_response_possibleTypes: string[] = ['proposal_conditional_liquidity_data_mutation_response']
+    export const isproposal_conditional_liquidity_data_mutation_response = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_mutation_response"')
+      return proposal_conditional_liquidity_data_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_stddev_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_stddev_fields']
+    export const isproposal_conditional_liquidity_data_stddev_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_stddev_fields"')
+      return proposal_conditional_liquidity_data_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_stddev_pop_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_stddev_pop_fields']
+    export const isproposal_conditional_liquidity_data_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_stddev_pop_fields"')
+      return proposal_conditional_liquidity_data_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_stddev_samp_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_stddev_samp_fields']
+    export const isproposal_conditional_liquidity_data_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_stddev_samp_fields"')
+      return proposal_conditional_liquidity_data_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_sum_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_sum_fields']
+    export const isproposal_conditional_liquidity_data_sum_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_sum_fields"')
+      return proposal_conditional_liquidity_data_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_var_pop_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_var_pop_fields']
+    export const isproposal_conditional_liquidity_data_var_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_var_pop_fields"')
+      return proposal_conditional_liquidity_data_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_var_samp_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_var_samp_fields']
+    export const isproposal_conditional_liquidity_data_var_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_var_samp_fields"')
+      return proposal_conditional_liquidity_data_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_liquidity_data_variance_fields_possibleTypes: string[] = ['proposal_conditional_liquidity_data_variance_fields']
+    export const isproposal_conditional_liquidity_data_variance_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_liquidity_data_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_liquidity_data_variance_fields"')
+      return proposal_conditional_liquidity_data_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_possibleTypes: string[] = ['proposal_conditional_price_data']
+    export const isproposal_conditional_price_data = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data"')
+      return proposal_conditional_price_data_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_aggregate_possibleTypes: string[] = ['proposal_conditional_price_data_aggregate']
+    export const isproposal_conditional_price_data_aggregate = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_aggregate"')
+      return proposal_conditional_price_data_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_aggregate_fields_possibleTypes: string[] = ['proposal_conditional_price_data_aggregate_fields']
+    export const isproposal_conditional_price_data_aggregate_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_aggregate_fields"')
+      return proposal_conditional_price_data_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_avg_fields_possibleTypes: string[] = ['proposal_conditional_price_data_avg_fields']
+    export const isproposal_conditional_price_data_avg_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_avg_fields"')
+      return proposal_conditional_price_data_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_max_fields_possibleTypes: string[] = ['proposal_conditional_price_data_max_fields']
+    export const isproposal_conditional_price_data_max_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_max_fields"')
+      return proposal_conditional_price_data_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_min_fields_possibleTypes: string[] = ['proposal_conditional_price_data_min_fields']
+    export const isproposal_conditional_price_data_min_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_min_fields"')
+      return proposal_conditional_price_data_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_mutation_response_possibleTypes: string[] = ['proposal_conditional_price_data_mutation_response']
+    export const isproposal_conditional_price_data_mutation_response = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_mutation_response"')
+      return proposal_conditional_price_data_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_stddev_fields_possibleTypes: string[] = ['proposal_conditional_price_data_stddev_fields']
+    export const isproposal_conditional_price_data_stddev_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_stddev_fields"')
+      return proposal_conditional_price_data_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_stddev_pop_fields_possibleTypes: string[] = ['proposal_conditional_price_data_stddev_pop_fields']
+    export const isproposal_conditional_price_data_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_stddev_pop_fields"')
+      return proposal_conditional_price_data_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_stddev_samp_fields_possibleTypes: string[] = ['proposal_conditional_price_data_stddev_samp_fields']
+    export const isproposal_conditional_price_data_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_stddev_samp_fields"')
+      return proposal_conditional_price_data_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_sum_fields_possibleTypes: string[] = ['proposal_conditional_price_data_sum_fields']
+    export const isproposal_conditional_price_data_sum_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_sum_fields"')
+      return proposal_conditional_price_data_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_var_pop_fields_possibleTypes: string[] = ['proposal_conditional_price_data_var_pop_fields']
+    export const isproposal_conditional_price_data_var_pop_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_var_pop_fields"')
+      return proposal_conditional_price_data_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_var_samp_fields_possibleTypes: string[] = ['proposal_conditional_price_data_var_samp_fields']
+    export const isproposal_conditional_price_data_var_samp_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_var_samp_fields"')
+      return proposal_conditional_price_data_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const proposal_conditional_price_data_variance_fields_possibleTypes: string[] = ['proposal_conditional_price_data_variance_fields']
+    export const isproposal_conditional_price_data_variance_fields = (obj?: { __typename?: any } | null): obj is proposal_conditional_price_data_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_conditional_price_data_variance_fields"')
+      return proposal_conditional_price_data_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const proposal_details_possibleTypes: string[] = ['proposal_details']
     export const isproposal_details = (obj?: { __typename?: any } | null): obj is proposal_details => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isproposal_details"')
@@ -18677,6 +21249,118 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     export const issessions_mutation_response = (obj?: { __typename?: any } | null): obj is sessions_mutation_response => {
       if (!obj?.__typename) throw new Error('__typename is missing in "issessions_mutation_response"')
       return sessions_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_possibleTypes: string[] = ['spot_price_data']
+    export const isspot_price_data = (obj?: { __typename?: any } | null): obj is spot_price_data => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data"')
+      return spot_price_data_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_aggregate_possibleTypes: string[] = ['spot_price_data_aggregate']
+    export const isspot_price_data_aggregate = (obj?: { __typename?: any } | null): obj is spot_price_data_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_aggregate"')
+      return spot_price_data_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_aggregate_fields_possibleTypes: string[] = ['spot_price_data_aggregate_fields']
+    export const isspot_price_data_aggregate_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_aggregate_fields"')
+      return spot_price_data_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_avg_fields_possibleTypes: string[] = ['spot_price_data_avg_fields']
+    export const isspot_price_data_avg_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_avg_fields"')
+      return spot_price_data_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_max_fields_possibleTypes: string[] = ['spot_price_data_max_fields']
+    export const isspot_price_data_max_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_max_fields"')
+      return spot_price_data_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_min_fields_possibleTypes: string[] = ['spot_price_data_min_fields']
+    export const isspot_price_data_min_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_min_fields"')
+      return spot_price_data_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_mutation_response_possibleTypes: string[] = ['spot_price_data_mutation_response']
+    export const isspot_price_data_mutation_response = (obj?: { __typename?: any } | null): obj is spot_price_data_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_mutation_response"')
+      return spot_price_data_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_stddev_fields_possibleTypes: string[] = ['spot_price_data_stddev_fields']
+    export const isspot_price_data_stddev_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_stddev_fields"')
+      return spot_price_data_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_stddev_pop_fields_possibleTypes: string[] = ['spot_price_data_stddev_pop_fields']
+    export const isspot_price_data_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_stddev_pop_fields"')
+      return spot_price_data_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_stddev_samp_fields_possibleTypes: string[] = ['spot_price_data_stddev_samp_fields']
+    export const isspot_price_data_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_stddev_samp_fields"')
+      return spot_price_data_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_sum_fields_possibleTypes: string[] = ['spot_price_data_sum_fields']
+    export const isspot_price_data_sum_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_sum_fields"')
+      return spot_price_data_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_var_pop_fields_possibleTypes: string[] = ['spot_price_data_var_pop_fields']
+    export const isspot_price_data_var_pop_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_var_pop_fields"')
+      return spot_price_data_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_var_samp_fields_possibleTypes: string[] = ['spot_price_data_var_samp_fields']
+    export const isspot_price_data_var_samp_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_var_samp_fields"')
+      return spot_price_data_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const spot_price_data_variance_fields_possibleTypes: string[] = ['spot_price_data_variance_fields']
+    export const isspot_price_data_variance_fields = (obj?: { __typename?: any } | null): obj is spot_price_data_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isspot_price_data_variance_fields"')
+      return spot_price_data_variance_fields_possibleTypes.includes(obj.__typename)
     }
     
 
@@ -19689,6 +22373,118 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const user_performance_possibleTypes: string[] = ['user_performance']
+    export const isuser_performance = (obj?: { __typename?: any } | null): obj is user_performance => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance"')
+      return user_performance_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_aggregate_possibleTypes: string[] = ['user_performance_aggregate']
+    export const isuser_performance_aggregate = (obj?: { __typename?: any } | null): obj is user_performance_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_aggregate"')
+      return user_performance_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_aggregate_fields_possibleTypes: string[] = ['user_performance_aggregate_fields']
+    export const isuser_performance_aggregate_fields = (obj?: { __typename?: any } | null): obj is user_performance_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_aggregate_fields"')
+      return user_performance_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_avg_fields_possibleTypes: string[] = ['user_performance_avg_fields']
+    export const isuser_performance_avg_fields = (obj?: { __typename?: any } | null): obj is user_performance_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_avg_fields"')
+      return user_performance_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_max_fields_possibleTypes: string[] = ['user_performance_max_fields']
+    export const isuser_performance_max_fields = (obj?: { __typename?: any } | null): obj is user_performance_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_max_fields"')
+      return user_performance_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_min_fields_possibleTypes: string[] = ['user_performance_min_fields']
+    export const isuser_performance_min_fields = (obj?: { __typename?: any } | null): obj is user_performance_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_min_fields"')
+      return user_performance_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_mutation_response_possibleTypes: string[] = ['user_performance_mutation_response']
+    export const isuser_performance_mutation_response = (obj?: { __typename?: any } | null): obj is user_performance_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_mutation_response"')
+      return user_performance_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_stddev_fields_possibleTypes: string[] = ['user_performance_stddev_fields']
+    export const isuser_performance_stddev_fields = (obj?: { __typename?: any } | null): obj is user_performance_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_stddev_fields"')
+      return user_performance_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_stddev_pop_fields_possibleTypes: string[] = ['user_performance_stddev_pop_fields']
+    export const isuser_performance_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is user_performance_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_stddev_pop_fields"')
+      return user_performance_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_stddev_samp_fields_possibleTypes: string[] = ['user_performance_stddev_samp_fields']
+    export const isuser_performance_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is user_performance_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_stddev_samp_fields"')
+      return user_performance_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_sum_fields_possibleTypes: string[] = ['user_performance_sum_fields']
+    export const isuser_performance_sum_fields = (obj?: { __typename?: any } | null): obj is user_performance_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_sum_fields"')
+      return user_performance_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_var_pop_fields_possibleTypes: string[] = ['user_performance_var_pop_fields']
+    export const isuser_performance_var_pop_fields = (obj?: { __typename?: any } | null): obj is user_performance_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_var_pop_fields"')
+      return user_performance_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_var_samp_fields_possibleTypes: string[] = ['user_performance_var_samp_fields']
+    export const isuser_performance_var_samp_fields = (obj?: { __typename?: any } | null): obj is user_performance_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_var_samp_fields"')
+      return user_performance_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_performance_variance_fields_possibleTypes: string[] = ['user_performance_variance_fields']
+    export const isuser_performance_variance_fields = (obj?: { __typename?: any } | null): obj is user_performance_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance_variance_fields"')
+      return user_performance_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const users_possibleTypes: string[] = ['users']
     export const isusers = (obj?: { __typename?: any } | null): obj is users => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isusers"')
@@ -20208,6 +23004,39 @@ export const enumProposalBarsUpdateColumn = {
    proposal_acct: 'proposal_acct' as const
 }
 
+export const enumProposalConditionalLiquidityDataSelectColumn = {
+   created_at: 'created_at' as const,
+   fail_market_acct: 'fail_market_acct' as const,
+   fail_market_base_amount: 'fail_market_base_amount' as const,
+   fail_market_quote_amount: 'fail_market_quote_amount' as const,
+   pass_market_acct: 'pass_market_acct' as const,
+   pass_market_base_amount: 'pass_market_base_amount' as const,
+   pass_market_quote_amount: 'pass_market_quote_amount' as const,
+   proposal_acct: 'proposal_acct' as const
+}
+
+export const enumProposalConditionalPriceDataConstraint = {
+   unique_values: 'unique_values' as const
+}
+
+export const enumProposalConditionalPriceDataSelectColumn = {
+   created_at: 'created_at' as const,
+   fail_market_acct: 'fail_market_acct' as const,
+   fail_market_price: 'fail_market_price' as const,
+   pass_market_acct: 'pass_market_acct' as const,
+   pass_market_price: 'pass_market_price' as const,
+   proposal_acct: 'proposal_acct' as const
+}
+
+export const enumProposalConditionalPriceDataUpdateColumn = {
+   created_at: 'created_at' as const,
+   fail_market_acct: 'fail_market_acct' as const,
+   fail_market_price: 'fail_market_price' as const,
+   pass_market_acct: 'pass_market_acct' as const,
+   pass_market_price: 'pass_market_price' as const,
+   proposal_acct: 'proposal_acct' as const
+}
+
 export const enumProposalDetailsConstraint = {
    proposal_details_pkey: 'proposal_details_pkey' as const,
    proposal_details_slug_unique: 'proposal_details_slug_unique' as const
@@ -20367,6 +23196,12 @@ export const enumSessionsUpdateColumn = {
    expires_at: 'expires_at' as const,
    id: 'id' as const,
    user_acct: 'user_acct' as const
+}
+
+export const enumSpotPriceDataSelectColumn = {
+   created_at: 'created_at' as const,
+   mint_acct: 'mint_acct' as const,
+   spot_price: 'spot_price' as const
 }
 
 export const enumTakesConstraint = {
@@ -20571,6 +23406,30 @@ export const enumTwapsUpdateColumn = {
    proposal_acct: 'proposal_acct' as const,
    token_amount: 'token_amount' as const,
    updated_slot: 'updated_slot' as const
+}
+
+export const enumUserPerformanceConstraint = {
+   user_performance_proposal_acct_user_acct_pk: 'user_performance_proposal_acct_user_acct_pk' as const
+}
+
+export const enumUserPerformanceSelectColumn = {
+   created_at: 'created_at' as const,
+   proposal_acct: 'proposal_acct' as const,
+   tokens_bought: 'tokens_bought' as const,
+   tokens_sold: 'tokens_sold' as const,
+   user_acct: 'user_acct' as const,
+   volume_bought: 'volume_bought' as const,
+   volume_sold: 'volume_sold' as const
+}
+
+export const enumUserPerformanceUpdateColumn = {
+   created_at: 'created_at' as const,
+   proposal_acct: 'proposal_acct' as const,
+   tokens_bought: 'tokens_bought' as const,
+   tokens_sold: 'tokens_sold' as const,
+   user_acct: 'user_acct' as const,
+   volume_bought: 'volume_bought' as const,
+   volume_sold: 'volume_sold' as const
 }
 
 export const enumUsersConstraint = {

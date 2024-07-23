@@ -135,12 +135,16 @@ export interface FutarchyMarketsClient {
   fetchMarket(
     request: MarketFetchRequest
   ): Promise<OpenbookMarket | AmmMarket | undefined>;
-  watchAllUserOrders(owner: PublicKey): Observable<Array<Order>>;
+  watchAllUserOrders(
+    owner: PublicKey
+  ): Observable<{ orders: Order[]; totalOrders: number }>;
   watchUserOrdersForMarket(
     owner: PublicKey,
     marketAcct: PublicKey
-  ): Observable<Array<Order>>;
-  watchOrdersForMarket(marketAcct: PublicKey): Observable<Array<Order>>;
+  ): Observable<{ orders: Order[]; totalOrders: number }>;
+  watchOrdersForMarket(
+    marketAcct: PublicKey
+  ): Observable<{ orders: Order[]; totalOrders: number }>;
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
 }

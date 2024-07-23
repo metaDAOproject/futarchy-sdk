@@ -21,6 +21,7 @@ import {
 } from "@/types/prices";
 import {
   generateSubscriptionOp,
+  Client as IndexerGraphQLClient,
   orders_bool_exp,
   orders_order_by,
   orders_select_column,
@@ -36,12 +37,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public amm: FutarchyIndexerAmmMarketsClient;
   public rpcClient: FutarchyMarketsRPCClient;
   private graphqlWSClient: GQLWebSocketClient;
+  private graphqlClient: IndexerGraphQLClient;
 
   constructor(
     rpcOpenbookMarketsClient: FutarchyOpenbookMarketsRPCClient,
     rpcAmmMarketsClient: FutarchyAmmMarketsRPCClient,
     marketsClient: FutarchyMarketsRPCClient,
-    graphqlWSClient: GQLWebSocketClient
+    graphqlWSClient: GQLWebSocketClient,
+    graphqlClient: IndexerGraphQLClient
   ) {
     this.openbook = new FutarchyIndexerOpenbookMarketsClient(
       rpcOpenbookMarketsClient
@@ -49,6 +52,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     this.amm = new FutarchyIndexerAmmMarketsClient(rpcAmmMarketsClient);
     this.rpcClient = marketsClient;
     this.graphqlWSClient = graphqlWSClient;
+    this.graphqlClient = graphqlClient;
   }
 
   async fetchMarket(
@@ -136,7 +140,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     offset?: number | null | undefined;
     order_by?: orders_order_by[] | null | undefined;
     where?: orders_bool_exp | null | undefined;
-  }): Observable<Order[]> {
+  }): Observable<{ orders: Order[]; totalOrders: number }> {
     const { query, variables } = generateSubscriptionOp({
       orders: {
         __args: {
@@ -188,96 +192,122 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
 
     return new Observable((subscriber) => {
-      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        orders: {
-          order_time: string;
-          is_active: boolean;
-          filled_base_amount: number;
-          quote_price: number;
-          side: string;
-          market_acct: string;
-          order_tx_sig: string;
-          transaction: {
-            failed: boolean;
-          };
-          market: {
-            tokenAcctByBidsTokenAcct: {
-              token: {
-                decimals: string | null;
-                image_url: string | null;
-                symbol: string | null;
-                name: string | null;
-                mint_acct: string | null;
+      this.graphqlClient
+        .query({
+          orders_aggregate: {
+            __args: {
+              where: {
+                ...args.where,
+                transaction: {
+                  failed: { _eq: false }
+                }
+              }
+            },
+            aggregate: {
+              count: true
+            }
+          }
+        })
+        .then((res) => {
+          const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+            orders_aggregate: {
+              aggregate: {
+                count: number;
               };
             };
-            token: {
-              decimals: string | null;
-              image_url: string | null;
-              symbol: string | null;
-              name: string | null;
-              mint_acct: string | null;
-            };
-            tokenByQuoteMintAcct: {
-              decimals: string | null;
-              image_url: string | null;
-              symbol: string | null;
-              name: string | null;
-              mint_acct: string | null;
-            };
-          };
-          actor_acct: string | null;
-        }[];
-      }>(
-        { query, variables },
-        {
-          next: (data) => {
-            const orders = data.data?.orders
-              ?.map<Order | undefined>((order) => {
-                const token = order.market.token;
-                if (
-                  !token.mint_acct ||
-                  !token.decimals ||
-                  !order.actor_acct ||
-                  !order.market_acct
-                )
-                  return;
-                return {
-                  time: new Date(order.order_time),
-                  transactionStatus: order.transaction.failed
-                    ? "failed"
-                    : "succeeded",
-                  status: order.is_active ? "open" : "closed",
-                  size: order.filled_base_amount,
-                  filled: order.filled_base_amount,
-                  market: new PublicKey(order.market_acct),
-                  price: order.quote_price,
-                  side: order.side === "BID" ? "bid" : "ask",
+            orders: {
+              order_time: string;
+              is_active: boolean;
+              filled_base_amount: number;
+              quote_price: number;
+              side: string;
+              market_acct: string;
+              order_tx_sig: string;
+              transaction: {
+                failed: boolean;
+              };
+              market: {
+                tokenAcctByBidsTokenAcct: {
                   token: {
-                    decimals: Number(token.decimals),
-                    name: token.name ?? "",
-                    publicKey: token.mint_acct ?? "",
-                    symbol: token.symbol ?? "",
-                    url: token.image_url ?? ""
-                  },
-                  owner: new PublicKey(order.actor_acct),
-                  signature: order.order_tx_sig
+                    decimals: string | null;
+                    image_url: string | null;
+                    symbol: string | null;
+                    name: string | null;
+                    mint_acct: string | null;
+                  };
                 };
-              })
-              .filter((o): o is Order => Boolean(o));
-            subscriber.next(orders ?? []);
-          },
-          error: (error) => subscriber.error(error),
-          complete: () => subscriber.complete()
-        }
-      );
-      return () => subscriptionCleanup();
+                token: {
+                  decimals: string | null;
+                  image_url: string | null;
+                  symbol: string | null;
+                  name: string | null;
+                  mint_acct: string | null;
+                };
+                tokenByQuoteMintAcct: {
+                  decimals: string | null;
+                  image_url: string | null;
+                  symbol: string | null;
+                  name: string | null;
+                  mint_acct: string | null;
+                };
+              };
+              actor_acct: string | null;
+            }[];
+          }>(
+            { query, variables },
+            {
+              next: (data) => {
+                const orders = data.data?.orders
+                  ?.map<Order | undefined>((order) => {
+                    const token = order.market.token;
+                    if (
+                      !token.mint_acct ||
+                      !token.decimals ||
+                      !order.actor_acct ||
+                      !order.market_acct
+                    )
+                      return;
+                    return {
+                      time: new Date(order.order_time),
+                      transactionStatus: order.transaction.failed
+                        ? "failed"
+                        : "succeeded",
+                      status: order.is_active ? "open" : "closed",
+                      size: order.filled_base_amount,
+                      filled: order.filled_base_amount,
+                      market: new PublicKey(order.market_acct),
+                      price: order.quote_price,
+                      side: order.side === "BID" ? "bid" : "ask",
+                      token: {
+                        decimals: Number(token.decimals),
+                        name: token.name ?? "",
+                        publicKey: token.mint_acct ?? "",
+                        symbol: token.symbol ?? "",
+                        url: token.image_url ?? ""
+                      },
+                      owner: new PublicKey(order.actor_acct),
+                      signature: order.order_tx_sig
+                    };
+                  })
+                  .filter((o): o is Order => Boolean(o));
+                subscriber.next({
+                  orders: orders ?? [],
+                  totalOrders: res?.orders_aggregate.aggregate?.count ?? 0
+                });
+              },
+              error: (error) => subscriber.error(error),
+              complete: () => subscriber.complete()
+            }
+          );
+          return () => subscriptionCleanup();
+        });
     });
   }
 
   watchAllUserOrders(
     owner: PublicKey,
     filters?: orders_bool_exp
-  ): Observable<Order[]> {
+  ): Observable<{ orders: Order[]; totalOrders: number }> {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
@@ -294,7 +324,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   watchUserOrdersForMarket(
     owner: PublicKey,
     marketAcct: PublicKey
-  ): Observable<Order[]> {
+  ): Observable<{ orders: Order[]; totalOrders: number }> {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
@@ -307,7 +337,13 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       ]
     });
   }
-  watchOrdersForMarket(marketAcct: PublicKey): Observable<Order[]> {
+  watchOrdersForMarket(
+    marketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Observable<{ orders: Order[]; totalOrders: number }> {
+    const pageSizeValue = pageSize ?? 25;
+    const offset = ((page ?? 1) - 1) * pageSizeValue;
     return this.watchOrdersForArgs({
       where: {
         market_acct: { _eq: marketAcct.toBase58() }
@@ -316,7 +352,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         {
           order_time: "desc"
         }
-      ]
+      ],
+      offset,
+      limit: pageSizeValue
     });
   }
 

@@ -3991,7 +3991,151 @@ type markets {
 
   """An object relationship"""
   proposal: proposals
+
+  """An array relationship"""
+  proposalConditionalLiquidityDataByPassMarketAcct(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): [proposal_conditional_liquidity_data!]!
+
+  """An aggregate relationship"""
+  proposalConditionalLiquidityDataByPassMarketAcct_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): proposal_conditional_liquidity_data_aggregate!
+
+  """An array relationship"""
+  proposalConditionalPriceDataByPassMarketAcct(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): [proposal_conditional_price_data!]!
+
+  """An aggregate relationship"""
+  proposalConditionalPriceDataByPassMarketAcct_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): proposal_conditional_price_data_aggregate!
   proposal_acct: String
+
+  """An array relationship"""
+  proposal_conditional_liquidity_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): [proposal_conditional_liquidity_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_liquidity_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): proposal_conditional_liquidity_data_aggregate!
+
+  """An array relationship"""
+  proposal_conditional_price_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): [proposal_conditional_price_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_price_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): proposal_conditional_price_data_aggregate!
   quote_lot_size: bigint!
   quote_maker_fee: smallint!
   quote_mint_acct: String!
@@ -4208,7 +4352,15 @@ input markets_bool_exp {
   prices: prices_bool_exp
   prices_aggregate: prices_aggregate_bool_exp
   proposal: proposals_bool_exp
+  proposalConditionalLiquidityDataByPassMarketAcct: proposal_conditional_liquidity_data_bool_exp
+  proposalConditionalLiquidityDataByPassMarketAcct_aggregate: proposal_conditional_liquidity_data_aggregate_bool_exp
+  proposalConditionalPriceDataByPassMarketAcct: proposal_conditional_price_data_bool_exp
+  proposalConditionalPriceDataByPassMarketAcct_aggregate: proposal_conditional_price_data_aggregate_bool_exp
   proposal_acct: String_comparison_exp
+  proposal_conditional_liquidity_data: proposal_conditional_liquidity_data_bool_exp
+  proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate_bool_exp
+  proposal_conditional_price_data: proposal_conditional_price_data_bool_exp
+  proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate_bool_exp
   quote_lot_size: bigint_comparison_exp
   quote_maker_fee: smallint_comparison_exp
   quote_mint_acct: String_comparison_exp
@@ -4272,7 +4424,11 @@ input markets_insert_input {
   orders: orders_arr_rel_insert_input
   prices: prices_arr_rel_insert_input
   proposal: proposals_obj_rel_insert_input
+  proposalConditionalLiquidityDataByPassMarketAcct: proposal_conditional_liquidity_data_arr_rel_insert_input
+  proposalConditionalPriceDataByPassMarketAcct: proposal_conditional_price_data_arr_rel_insert_input
   proposal_acct: String
+  proposal_conditional_liquidity_data: proposal_conditional_liquidity_data_arr_rel_insert_input
+  proposal_conditional_price_data: proposal_conditional_price_data_arr_rel_insert_input
   quote_lot_size: bigint
   quote_maker_fee: smallint
   quote_mint_acct: String
@@ -4429,7 +4585,11 @@ input markets_order_by {
   orders_aggregate: orders_aggregate_order_by
   prices_aggregate: prices_aggregate_order_by
   proposal: proposals_order_by
+  proposalConditionalLiquidityDataByPassMarketAcct_aggregate: proposal_conditional_liquidity_data_aggregate_order_by
+  proposalConditionalPriceDataByPassMarketAcct_aggregate: proposal_conditional_price_data_aggregate_order_by
   proposal_acct: order_by
+  proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate_order_by
+  proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate_order_by
   quote_lot_size: order_by
   quote_maker_fee: order_by
   quote_mint_acct: order_by
@@ -5017,6 +5177,22 @@ type mutation_root {
   delete_proposal_bars_by_pk(bar_size: interval!, bar_start_time: timestamptz!, proposal_acct: String!): proposal_bars
 
   """
+  delete data from the table: "proposal_conditional_liquidity_data"
+  """
+  delete_proposal_conditional_liquidity_data(
+    """filter the rows which have to be deleted"""
+    where: proposal_conditional_liquidity_data_bool_exp!
+  ): proposal_conditional_liquidity_data_mutation_response
+
+  """
+  delete data from the table: "proposal_conditional_price_data"
+  """
+  delete_proposal_conditional_price_data(
+    """filter the rows which have to be deleted"""
+    where: proposal_conditional_price_data_bool_exp!
+  ): proposal_conditional_price_data_mutation_response
+
+  """
   delete data from the table: "proposal_details"
   """
   delete_proposal_details(
@@ -5067,6 +5243,14 @@ type mutation_root {
   delete single row from the table: "sessions"
   """
   delete_sessions_by_pk(id: uuid!): sessions
+
+  """
+  delete data from the table: "spot_price_data"
+  """
+  delete_spot_price_data(
+    """filter the rows which have to be deleted"""
+    where: spot_price_data_bool_exp!
+  ): spot_price_data_mutation_response
 
   """
   delete data from the table: "takes"
@@ -5171,6 +5355,19 @@ type mutation_root {
   delete single row from the table: "twaps"
   """
   delete_twaps_by_pk(market_acct: String!, updated_slot: bigint!): twaps
+
+  """
+  delete data from the table: "user_performance"
+  """
+  delete_user_performance(
+    """filter the rows which have to be deleted"""
+    where: user_performance_bool_exp!
+  ): user_performance_mutation_response
+
+  """
+  delete single row from the table: "user_performance"
+  """
+  delete_user_performance_by_pk(proposal_acct: String!, user_acct: String!): user_performance
 
   """
   delete data from the table: "users"
@@ -5494,6 +5691,44 @@ type mutation_root {
   ): proposal_bars
 
   """
+  insert data into the table: "proposal_conditional_liquidity_data"
+  """
+  insert_proposal_conditional_liquidity_data(
+    """the rows to be inserted"""
+    objects: [proposal_conditional_liquidity_data_insert_input!]!
+  ): proposal_conditional_liquidity_data_mutation_response
+
+  """
+  insert a single row into the table: "proposal_conditional_liquidity_data"
+  """
+  insert_proposal_conditional_liquidity_data_one(
+    """the row to be inserted"""
+    object: proposal_conditional_liquidity_data_insert_input!
+  ): proposal_conditional_liquidity_data
+
+  """
+  insert data into the table: "proposal_conditional_price_data"
+  """
+  insert_proposal_conditional_price_data(
+    """the rows to be inserted"""
+    objects: [proposal_conditional_price_data_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: proposal_conditional_price_data_on_conflict
+  ): proposal_conditional_price_data_mutation_response
+
+  """
+  insert a single row into the table: "proposal_conditional_price_data"
+  """
+  insert_proposal_conditional_price_data_one(
+    """the row to be inserted"""
+    object: proposal_conditional_price_data_insert_input!
+
+    """upsert condition"""
+    on_conflict: proposal_conditional_price_data_on_conflict
+  ): proposal_conditional_price_data
+
+  """
   insert data into the table: "proposal_details"
   """
   insert_proposal_details(
@@ -5580,6 +5815,22 @@ type mutation_root {
     """upsert condition"""
     on_conflict: sessions_on_conflict
   ): sessions
+
+  """
+  insert data into the table: "spot_price_data"
+  """
+  insert_spot_price_data(
+    """the rows to be inserted"""
+    objects: [spot_price_data_insert_input!]!
+  ): spot_price_data_mutation_response
+
+  """
+  insert a single row into the table: "spot_price_data"
+  """
+  insert_spot_price_data_one(
+    """the row to be inserted"""
+    object: spot_price_data_insert_input!
+  ): spot_price_data
 
   """
   insert data into the table: "takes"
@@ -5756,6 +6007,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: twaps_on_conflict
   ): twaps
+
+  """
+  insert data into the table: "user_performance"
+  """
+  insert_user_performance(
+    """the rows to be inserted"""
+    objects: [user_performance_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: user_performance_on_conflict
+  ): user_performance_mutation_response
+
+  """
+  insert a single row into the table: "user_performance"
+  """
+  insert_user_performance_one(
+    """the row to be inserted"""
+    object: user_performance_insert_input!
+
+    """upsert condition"""
+    on_conflict: user_performance_on_conflict
+  ): user_performance
 
   """
   insert data into the table: "users"
@@ -6286,6 +6559,50 @@ type mutation_root {
   ): [proposal_bars_mutation_response]
 
   """
+  update data of the table: "proposal_conditional_liquidity_data"
+  """
+  update_proposal_conditional_liquidity_data(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: proposal_conditional_liquidity_data_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: proposal_conditional_liquidity_data_set_input
+
+    """filter the rows which have to be updated"""
+    where: proposal_conditional_liquidity_data_bool_exp!
+  ): proposal_conditional_liquidity_data_mutation_response
+
+  """
+  update multiples rows of table: "proposal_conditional_liquidity_data"
+  """
+  update_proposal_conditional_liquidity_data_many(
+    """updates to execute, in order"""
+    updates: [proposal_conditional_liquidity_data_updates!]!
+  ): [proposal_conditional_liquidity_data_mutation_response]
+
+  """
+  update data of the table: "proposal_conditional_price_data"
+  """
+  update_proposal_conditional_price_data(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: proposal_conditional_price_data_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: proposal_conditional_price_data_set_input
+
+    """filter the rows which have to be updated"""
+    where: proposal_conditional_price_data_bool_exp!
+  ): proposal_conditional_price_data_mutation_response
+
+  """
+  update multiples rows of table: "proposal_conditional_price_data"
+  """
+  update_proposal_conditional_price_data_many(
+    """updates to execute, in order"""
+    updates: [proposal_conditional_price_data_updates!]!
+  ): [proposal_conditional_price_data_mutation_response]
+
+  """
   update data of the table: "proposal_details"
   """
   update_proposal_details(
@@ -6456,6 +6773,28 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [sessions_updates!]!
   ): [sessions_mutation_response]
+
+  """
+  update data of the table: "spot_price_data"
+  """
+  update_spot_price_data(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: spot_price_data_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: spot_price_data_set_input
+
+    """filter the rows which have to be updated"""
+    where: spot_price_data_bool_exp!
+  ): spot_price_data_mutation_response
+
+  """
+  update multiples rows of table: "spot_price_data"
+  """
+  update_spot_price_data_many(
+    """updates to execute, in order"""
+    updates: [spot_price_data_updates!]!
+  ): [spot_price_data_mutation_response]
 
   """
   update data of the table: "takes"
@@ -6728,6 +7067,40 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [twaps_updates!]!
   ): [twaps_mutation_response]
+
+  """
+  update data of the table: "user_performance"
+  """
+  update_user_performance(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: user_performance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: user_performance_set_input
+
+    """filter the rows which have to be updated"""
+    where: user_performance_bool_exp!
+  ): user_performance_mutation_response
+
+  """
+  update single row of the table: "user_performance"
+  """
+  update_user_performance_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: user_performance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: user_performance_set_input
+    pk_columns: user_performance_pk_columns_input!
+  ): user_performance
+
+  """
+  update multiples rows of table: "user_performance"
+  """
+  update_user_performance_many(
+    """updates to execute, in order"""
+    updates: [user_performance_updates!]!
+  ): [user_performance_mutation_response]
 
   """
   update data of the table: "users"
@@ -9490,6 +9863,853 @@ type proposal_bars_variance_fields {
 }
 
 """
+columns and relationships of "proposal_conditional_liquidity_data"
+"""
+type proposal_conditional_liquidity_data {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+
+  """An object relationship"""
+  market: markets
+
+  """An object relationship"""
+  marketByPassMarketAcct: markets
+  pass_market_acct: String
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+
+  """An object relationship"""
+  proposal: proposals
+  proposal_acct: String
+}
+
+"""
+aggregated selection of "proposal_conditional_liquidity_data"
+"""
+type proposal_conditional_liquidity_data_aggregate {
+  aggregate: proposal_conditional_liquidity_data_aggregate_fields
+  nodes: [proposal_conditional_liquidity_data!]!
+}
+
+input proposal_conditional_liquidity_data_aggregate_bool_exp {
+  count: proposal_conditional_liquidity_data_aggregate_bool_exp_count
+}
+
+input proposal_conditional_liquidity_data_aggregate_bool_exp_count {
+  arguments: [proposal_conditional_liquidity_data_select_column!]
+  distinct: Boolean
+  filter: proposal_conditional_liquidity_data_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "proposal_conditional_liquidity_data"
+"""
+type proposal_conditional_liquidity_data_aggregate_fields {
+  avg: proposal_conditional_liquidity_data_avg_fields
+  count(columns: [proposal_conditional_liquidity_data_select_column!], distinct: Boolean): Int!
+  max: proposal_conditional_liquidity_data_max_fields
+  min: proposal_conditional_liquidity_data_min_fields
+  stddev: proposal_conditional_liquidity_data_stddev_fields
+  stddev_pop: proposal_conditional_liquidity_data_stddev_pop_fields
+  stddev_samp: proposal_conditional_liquidity_data_stddev_samp_fields
+  sum: proposal_conditional_liquidity_data_sum_fields
+  var_pop: proposal_conditional_liquidity_data_var_pop_fields
+  var_samp: proposal_conditional_liquidity_data_var_samp_fields
+  variance: proposal_conditional_liquidity_data_variance_fields
+}
+
+"""
+order by aggregate values of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_aggregate_order_by {
+  avg: proposal_conditional_liquidity_data_avg_order_by
+  count: order_by
+  max: proposal_conditional_liquidity_data_max_order_by
+  min: proposal_conditional_liquidity_data_min_order_by
+  stddev: proposal_conditional_liquidity_data_stddev_order_by
+  stddev_pop: proposal_conditional_liquidity_data_stddev_pop_order_by
+  stddev_samp: proposal_conditional_liquidity_data_stddev_samp_order_by
+  sum: proposal_conditional_liquidity_data_sum_order_by
+  var_pop: proposal_conditional_liquidity_data_var_pop_order_by
+  var_samp: proposal_conditional_liquidity_data_var_samp_order_by
+  variance: proposal_conditional_liquidity_data_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_arr_rel_insert_input {
+  data: [proposal_conditional_liquidity_data_insert_input!]!
+}
+
+"""aggregate avg on columns"""
+type proposal_conditional_liquidity_data_avg_fields {
+  fail_market_base_amount: Float
+  fail_market_quote_amount: Float
+  pass_market_base_amount: Float
+  pass_market_quote_amount: Float
+}
+
+"""
+order by avg() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_avg_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "proposal_conditional_liquidity_data". All fields are combined with a logical 'AND'.
+"""
+input proposal_conditional_liquidity_data_bool_exp {
+  _and: [proposal_conditional_liquidity_data_bool_exp!]
+  _not: proposal_conditional_liquidity_data_bool_exp
+  _or: [proposal_conditional_liquidity_data_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  fail_market_acct: String_comparison_exp
+  fail_market_base_amount: bigint_comparison_exp
+  fail_market_quote_amount: bigint_comparison_exp
+  market: markets_bool_exp
+  marketByPassMarketAcct: markets_bool_exp
+  pass_market_acct: String_comparison_exp
+  pass_market_base_amount: bigint_comparison_exp
+  pass_market_quote_amount: bigint_comparison_exp
+  proposal: proposals_bool_exp
+  proposal_acct: String_comparison_exp
+}
+
+"""
+input type for incrementing numeric columns in table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_inc_input {
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+}
+
+"""
+input type for inserting data into table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_insert_input {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+  market: markets_obj_rel_insert_input
+  marketByPassMarketAcct: markets_obj_rel_insert_input
+  pass_market_acct: String
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+  proposal: proposals_obj_rel_insert_input
+  proposal_acct: String
+}
+
+"""aggregate max on columns"""
+type proposal_conditional_liquidity_data_max_fields {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+  pass_market_acct: String
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""
+order by max() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_max_order_by {
+  created_at: order_by
+  fail_market_acct: order_by
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_acct: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+  proposal_acct: order_by
+}
+
+"""aggregate min on columns"""
+type proposal_conditional_liquidity_data_min_fields {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+  pass_market_acct: String
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""
+order by min() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_min_order_by {
+  created_at: order_by
+  fail_market_acct: order_by
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_acct: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+  proposal_acct: order_by
+}
+
+"""
+response of any mutation on the table "proposal_conditional_liquidity_data"
+"""
+type proposal_conditional_liquidity_data_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [proposal_conditional_liquidity_data!]!
+}
+
+"""
+Ordering options when selecting data from "proposal_conditional_liquidity_data".
+"""
+input proposal_conditional_liquidity_data_order_by {
+  created_at: order_by
+  fail_market_acct: order_by
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  market: markets_order_by
+  marketByPassMarketAcct: markets_order_by
+  pass_market_acct: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+  proposal: proposals_order_by
+  proposal_acct: order_by
+}
+
+"""
+select columns of table "proposal_conditional_liquidity_data"
+"""
+enum proposal_conditional_liquidity_data_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  fail_market_acct
+
+  """column name"""
+  fail_market_base_amount
+
+  """column name"""
+  fail_market_quote_amount
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
+  pass_market_base_amount
+
+  """column name"""
+  pass_market_quote_amount
+
+  """column name"""
+  proposal_acct
+}
+
+"""
+input type for updating data in table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_set_input {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+  pass_market_acct: String
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""aggregate stddev on columns"""
+type proposal_conditional_liquidity_data_stddev_fields {
+  fail_market_base_amount: Float
+  fail_market_quote_amount: Float
+  pass_market_base_amount: Float
+  pass_market_quote_amount: Float
+}
+
+"""
+order by stddev() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_stddev_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type proposal_conditional_liquidity_data_stddev_pop_fields {
+  fail_market_base_amount: Float
+  fail_market_quote_amount: Float
+  pass_market_base_amount: Float
+  pass_market_quote_amount: Float
+}
+
+"""
+order by stddev_pop() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_stddev_pop_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type proposal_conditional_liquidity_data_stddev_samp_fields {
+  fail_market_base_amount: Float
+  fail_market_quote_amount: Float
+  pass_market_base_amount: Float
+  pass_market_quote_amount: Float
+}
+
+"""
+order by stddev_samp() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_stddev_samp_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+"""
+Streaming cursor of the table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: proposal_conditional_liquidity_data_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input proposal_conditional_liquidity_data_stream_cursor_value_input {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+  pass_market_acct: String
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+  proposal_acct: String
+}
+
+"""aggregate sum on columns"""
+type proposal_conditional_liquidity_data_sum_fields {
+  fail_market_base_amount: bigint
+  fail_market_quote_amount: bigint
+  pass_market_base_amount: bigint
+  pass_market_quote_amount: bigint
+}
+
+"""
+order by sum() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_sum_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+input proposal_conditional_liquidity_data_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: proposal_conditional_liquidity_data_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: proposal_conditional_liquidity_data_set_input
+
+  """filter the rows which have to be updated"""
+  where: proposal_conditional_liquidity_data_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type proposal_conditional_liquidity_data_var_pop_fields {
+  fail_market_base_amount: Float
+  fail_market_quote_amount: Float
+  pass_market_base_amount: Float
+  pass_market_quote_amount: Float
+}
+
+"""
+order by var_pop() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_var_pop_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+"""aggregate var_samp on columns"""
+type proposal_conditional_liquidity_data_var_samp_fields {
+  fail_market_base_amount: Float
+  fail_market_quote_amount: Float
+  pass_market_base_amount: Float
+  pass_market_quote_amount: Float
+}
+
+"""
+order by var_samp() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_var_samp_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+"""aggregate variance on columns"""
+type proposal_conditional_liquidity_data_variance_fields {
+  fail_market_base_amount: Float
+  fail_market_quote_amount: Float
+  pass_market_base_amount: Float
+  pass_market_quote_amount: Float
+}
+
+"""
+order by variance() on columns of table "proposal_conditional_liquidity_data"
+"""
+input proposal_conditional_liquidity_data_variance_order_by {
+  fail_market_base_amount: order_by
+  fail_market_quote_amount: order_by
+  pass_market_base_amount: order_by
+  pass_market_quote_amount: order_by
+}
+
+"""
+columns and relationships of "proposal_conditional_price_data"
+"""
+type proposal_conditional_price_data {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_price: numeric!
+
+  """An object relationship"""
+  market: markets
+
+  """An object relationship"""
+  marketByPassMarketAcct: markets
+  pass_market_acct: String
+  pass_market_price: numeric!
+
+  """An object relationship"""
+  proposal: proposals
+  proposal_acct: String
+}
+
+"""
+aggregated selection of "proposal_conditional_price_data"
+"""
+type proposal_conditional_price_data_aggregate {
+  aggregate: proposal_conditional_price_data_aggregate_fields
+  nodes: [proposal_conditional_price_data!]!
+}
+
+input proposal_conditional_price_data_aggregate_bool_exp {
+  count: proposal_conditional_price_data_aggregate_bool_exp_count
+}
+
+input proposal_conditional_price_data_aggregate_bool_exp_count {
+  arguments: [proposal_conditional_price_data_select_column!]
+  distinct: Boolean
+  filter: proposal_conditional_price_data_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "proposal_conditional_price_data"
+"""
+type proposal_conditional_price_data_aggregate_fields {
+  avg: proposal_conditional_price_data_avg_fields
+  count(columns: [proposal_conditional_price_data_select_column!], distinct: Boolean): Int!
+  max: proposal_conditional_price_data_max_fields
+  min: proposal_conditional_price_data_min_fields
+  stddev: proposal_conditional_price_data_stddev_fields
+  stddev_pop: proposal_conditional_price_data_stddev_pop_fields
+  stddev_samp: proposal_conditional_price_data_stddev_samp_fields
+  sum: proposal_conditional_price_data_sum_fields
+  var_pop: proposal_conditional_price_data_var_pop_fields
+  var_samp: proposal_conditional_price_data_var_samp_fields
+  variance: proposal_conditional_price_data_variance_fields
+}
+
+"""
+order by aggregate values of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_aggregate_order_by {
+  avg: proposal_conditional_price_data_avg_order_by
+  count: order_by
+  max: proposal_conditional_price_data_max_order_by
+  min: proposal_conditional_price_data_min_order_by
+  stddev: proposal_conditional_price_data_stddev_order_by
+  stddev_pop: proposal_conditional_price_data_stddev_pop_order_by
+  stddev_samp: proposal_conditional_price_data_stddev_samp_order_by
+  sum: proposal_conditional_price_data_sum_order_by
+  var_pop: proposal_conditional_price_data_var_pop_order_by
+  var_samp: proposal_conditional_price_data_var_samp_order_by
+  variance: proposal_conditional_price_data_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_arr_rel_insert_input {
+  data: [proposal_conditional_price_data_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: proposal_conditional_price_data_on_conflict
+}
+
+"""aggregate avg on columns"""
+type proposal_conditional_price_data_avg_fields {
+  fail_market_price: Float
+  pass_market_price: Float
+}
+
+"""
+order by avg() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_avg_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "proposal_conditional_price_data". All fields are combined with a logical 'AND'.
+"""
+input proposal_conditional_price_data_bool_exp {
+  _and: [proposal_conditional_price_data_bool_exp!]
+  _not: proposal_conditional_price_data_bool_exp
+  _or: [proposal_conditional_price_data_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  fail_market_acct: String_comparison_exp
+  fail_market_price: numeric_comparison_exp
+  market: markets_bool_exp
+  marketByPassMarketAcct: markets_bool_exp
+  pass_market_acct: String_comparison_exp
+  pass_market_price: numeric_comparison_exp
+  proposal: proposals_bool_exp
+  proposal_acct: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "proposal_conditional_price_data"
+"""
+enum proposal_conditional_price_data_constraint {
+  """
+  unique or primary key constraint on columns "fail_market_acct", "fail_market_price", "pass_market_acct", "pass_market_price", "created_at", "proposal_acct"
+  """
+  unique_values
+}
+
+"""
+input type for incrementing numeric columns in table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_inc_input {
+  fail_market_price: numeric
+  pass_market_price: numeric
+}
+
+"""
+input type for inserting data into table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_insert_input {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_price: numeric
+  market: markets_obj_rel_insert_input
+  marketByPassMarketAcct: markets_obj_rel_insert_input
+  pass_market_acct: String
+  pass_market_price: numeric
+  proposal: proposals_obj_rel_insert_input
+  proposal_acct: String
+}
+
+"""aggregate max on columns"""
+type proposal_conditional_price_data_max_fields {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_price: numeric
+  pass_market_acct: String
+  pass_market_price: numeric
+  proposal_acct: String
+}
+
+"""
+order by max() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_max_order_by {
+  created_at: order_by
+  fail_market_acct: order_by
+  fail_market_price: order_by
+  pass_market_acct: order_by
+  pass_market_price: order_by
+  proposal_acct: order_by
+}
+
+"""aggregate min on columns"""
+type proposal_conditional_price_data_min_fields {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_price: numeric
+  pass_market_acct: String
+  pass_market_price: numeric
+  proposal_acct: String
+}
+
+"""
+order by min() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_min_order_by {
+  created_at: order_by
+  fail_market_acct: order_by
+  fail_market_price: order_by
+  pass_market_acct: order_by
+  pass_market_price: order_by
+  proposal_acct: order_by
+}
+
+"""
+response of any mutation on the table "proposal_conditional_price_data"
+"""
+type proposal_conditional_price_data_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [proposal_conditional_price_data!]!
+}
+
+"""
+on_conflict condition type for table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_on_conflict {
+  constraint: proposal_conditional_price_data_constraint!
+  update_columns: [proposal_conditional_price_data_update_column!]! = []
+  where: proposal_conditional_price_data_bool_exp
+}
+
+"""
+Ordering options when selecting data from "proposal_conditional_price_data".
+"""
+input proposal_conditional_price_data_order_by {
+  created_at: order_by
+  fail_market_acct: order_by
+  fail_market_price: order_by
+  market: markets_order_by
+  marketByPassMarketAcct: markets_order_by
+  pass_market_acct: order_by
+  pass_market_price: order_by
+  proposal: proposals_order_by
+  proposal_acct: order_by
+}
+
+"""
+select columns of table "proposal_conditional_price_data"
+"""
+enum proposal_conditional_price_data_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  fail_market_acct
+
+  """column name"""
+  fail_market_price
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
+  pass_market_price
+
+  """column name"""
+  proposal_acct
+}
+
+"""
+input type for updating data in table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_set_input {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_price: numeric
+  pass_market_acct: String
+  pass_market_price: numeric
+  proposal_acct: String
+}
+
+"""aggregate stddev on columns"""
+type proposal_conditional_price_data_stddev_fields {
+  fail_market_price: Float
+  pass_market_price: Float
+}
+
+"""
+order by stddev() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_stddev_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type proposal_conditional_price_data_stddev_pop_fields {
+  fail_market_price: Float
+  pass_market_price: Float
+}
+
+"""
+order by stddev_pop() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_stddev_pop_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type proposal_conditional_price_data_stddev_samp_fields {
+  fail_market_price: Float
+  pass_market_price: Float
+}
+
+"""
+order by stddev_samp() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_stddev_samp_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""
+Streaming cursor of the table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: proposal_conditional_price_data_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input proposal_conditional_price_data_stream_cursor_value_input {
+  created_at: timestamptz
+  fail_market_acct: String
+  fail_market_price: numeric
+  pass_market_acct: String
+  pass_market_price: numeric
+  proposal_acct: String
+}
+
+"""aggregate sum on columns"""
+type proposal_conditional_price_data_sum_fields {
+  fail_market_price: numeric
+  pass_market_price: numeric
+}
+
+"""
+order by sum() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_sum_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""
+update columns of table "proposal_conditional_price_data"
+"""
+enum proposal_conditional_price_data_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  fail_market_acct
+
+  """column name"""
+  fail_market_price
+
+  """column name"""
+  pass_market_acct
+
+  """column name"""
+  pass_market_price
+
+  """column name"""
+  proposal_acct
+}
+
+input proposal_conditional_price_data_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: proposal_conditional_price_data_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: proposal_conditional_price_data_set_input
+
+  """filter the rows which have to be updated"""
+  where: proposal_conditional_price_data_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type proposal_conditional_price_data_var_pop_fields {
+  fail_market_price: Float
+  pass_market_price: Float
+}
+
+"""
+order by var_pop() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_var_pop_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""aggregate var_samp on columns"""
+type proposal_conditional_price_data_var_samp_fields {
+  fail_market_price: Float
+  pass_market_price: Float
+}
+
+"""
+order by var_samp() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_var_samp_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""aggregate variance on columns"""
+type proposal_conditional_price_data_variance_fields {
+  fail_market_price: Float
+  pass_market_price: Float
+}
+
+"""
+order by variance() on columns of table "proposal_conditional_price_data"
+"""
+input proposal_conditional_price_data_variance_order_by {
+  fail_market_price: order_by
+  pass_market_price: order_by
+}
+
+"""
 columns and relationships of "proposal_details"
 """
 type proposal_details {
@@ -10314,6 +11534,78 @@ type proposals {
   proposal_acct: String!
 
   """An array relationship"""
+  proposal_conditional_liquidity_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): [proposal_conditional_liquidity_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_liquidity_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): proposal_conditional_liquidity_data_aggregate!
+
+  """An array relationship"""
+  proposal_conditional_price_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): [proposal_conditional_price_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_price_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): proposal_conditional_price_data_aggregate!
+
+  """An array relationship"""
   proposal_details(
     """distinct select on columns"""
     distinct_on: [proposal_details_select_column!]
@@ -10425,6 +11717,42 @@ type proposals {
     where: twaps_bool_exp
   ): twaps_aggregate!
   updated_at: timestamptz!
+
+  """An array relationship"""
+  user_performances(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): [user_performance!]!
+
+  """An aggregate relationship"""
+  user_performances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): user_performance_aggregate!
 }
 
 """
@@ -10610,6 +11938,10 @@ input proposals_bool_exp {
   pricing_model_fail_acct: String_comparison_exp
   pricing_model_pass_acct: String_comparison_exp
   proposal_acct: String_comparison_exp
+  proposal_conditional_liquidity_data: proposal_conditional_liquidity_data_bool_exp
+  proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate_bool_exp
+  proposal_conditional_price_data: proposal_conditional_price_data_bool_exp
+  proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate_bool_exp
   proposal_details: proposal_details_bool_exp
   proposal_details_aggregate: proposal_details_aggregate_bool_exp
   proposal_num: bigint_comparison_exp
@@ -10621,6 +11953,8 @@ input proposals_bool_exp {
   twaps: twaps_bool_exp
   twaps_aggregate: twaps_aggregate_bool_exp
   updated_at: timestamptz_comparison_exp
+  user_performances: user_performance_bool_exp
+  user_performances_aggregate: user_performance_aggregate_bool_exp
 }
 
 """
@@ -10666,6 +12000,8 @@ input proposals_insert_input {
   pricing_model_fail_acct: String
   pricing_model_pass_acct: String
   proposal_acct: String
+  proposal_conditional_liquidity_data: proposal_conditional_liquidity_data_arr_rel_insert_input
+  proposal_conditional_price_data: proposal_conditional_price_data_arr_rel_insert_input
   proposal_details: proposal_details_arr_rel_insert_input
   proposal_num: bigint
   proposer_acct: String
@@ -10674,6 +12010,7 @@ input proposals_insert_input {
   status: String
   twaps: twaps_arr_rel_insert_input
   updated_at: timestamptz
+  user_performances: user_performance_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -10823,6 +12160,8 @@ input proposals_order_by {
   pricing_model_fail_acct: order_by
   pricing_model_pass_acct: order_by
   proposal_acct: order_by
+  proposal_conditional_liquidity_data_aggregate: proposal_conditional_liquidity_data_aggregate_order_by
+  proposal_conditional_price_data_aggregate: proposal_conditional_price_data_aggregate_order_by
   proposal_details_aggregate: proposal_details_aggregate_order_by
   proposal_num: order_by
   proposer_acct: order_by
@@ -10831,6 +12170,7 @@ input proposals_order_by {
   status: order_by
   twaps_aggregate: twaps_aggregate_order_by
   updated_at: order_by
+  user_performances_aggregate: user_performance_aggregate_order_by
 }
 
 """primary key columns input for table: proposals"""
@@ -11834,6 +13174,78 @@ type query_root {
   proposal_bars_by_pk(bar_size: interval!, bar_start_time: timestamptz!, proposal_acct: String!): proposal_bars
 
   """An array relationship"""
+  proposal_conditional_liquidity_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): [proposal_conditional_liquidity_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_liquidity_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): proposal_conditional_liquidity_data_aggregate!
+
+  """An array relationship"""
+  proposal_conditional_price_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): [proposal_conditional_price_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_price_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): proposal_conditional_price_data_aggregate!
+
+  """An array relationship"""
   proposal_details(
     """distinct select on columns"""
     distinct_on: [proposal_details_select_column!]
@@ -12030,6 +13442,42 @@ type query_root {
 
   """fetch data from the table: "sessions" using primary key columns"""
   sessions_by_pk(id: uuid!): sessions
+
+  """An array relationship"""
+  spot_price_data(
+    """distinct select on columns"""
+    distinct_on: [spot_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spot_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: spot_price_data_bool_exp
+  ): [spot_price_data!]!
+
+  """An aggregate relationship"""
+  spot_price_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [spot_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spot_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: spot_price_data_bool_exp
+  ): spot_price_data_aggregate!
 
   """An array relationship"""
   takes(
@@ -12396,6 +13844,51 @@ type query_root {
 
   """fetch data from the table: "twaps" using primary key columns"""
   twaps_by_pk(market_acct: String!, updated_slot: bigint!): twaps
+
+  """
+  fetch data from the table: "user_performance"
+  """
+  user_performance(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): [user_performance!]!
+
+  """
+  fetch aggregated fields from the table: "user_performance"
+  """
+  user_performance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): user_performance_aggregate!
+
+  """
+  fetch data from the table: "user_performance" using primary key columns
+  """
+  user_performance_by_pk(proposal_acct: String!, user_acct: String!): user_performance
 
   """
   fetch data from the table: "users"
@@ -13073,6 +14566,307 @@ input smallint_comparison_exp {
   _lte: smallint
   _neq: smallint
   _nin: [smallint!]
+}
+
+"""
+columns and relationships of "spot_price_data"
+"""
+type spot_price_data {
+  created_at: timestamptz
+  mint_acct: String
+  spot_price: numeric!
+
+  """An object relationship"""
+  token: tokens
+}
+
+"""
+aggregated selection of "spot_price_data"
+"""
+type spot_price_data_aggregate {
+  aggregate: spot_price_data_aggregate_fields
+  nodes: [spot_price_data!]!
+}
+
+input spot_price_data_aggregate_bool_exp {
+  count: spot_price_data_aggregate_bool_exp_count
+}
+
+input spot_price_data_aggregate_bool_exp_count {
+  arguments: [spot_price_data_select_column!]
+  distinct: Boolean
+  filter: spot_price_data_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "spot_price_data"
+"""
+type spot_price_data_aggregate_fields {
+  avg: spot_price_data_avg_fields
+  count(columns: [spot_price_data_select_column!], distinct: Boolean): Int!
+  max: spot_price_data_max_fields
+  min: spot_price_data_min_fields
+  stddev: spot_price_data_stddev_fields
+  stddev_pop: spot_price_data_stddev_pop_fields
+  stddev_samp: spot_price_data_stddev_samp_fields
+  sum: spot_price_data_sum_fields
+  var_pop: spot_price_data_var_pop_fields
+  var_samp: spot_price_data_var_samp_fields
+  variance: spot_price_data_variance_fields
+}
+
+"""
+order by aggregate values of table "spot_price_data"
+"""
+input spot_price_data_aggregate_order_by {
+  avg: spot_price_data_avg_order_by
+  count: order_by
+  max: spot_price_data_max_order_by
+  min: spot_price_data_min_order_by
+  stddev: spot_price_data_stddev_order_by
+  stddev_pop: spot_price_data_stddev_pop_order_by
+  stddev_samp: spot_price_data_stddev_samp_order_by
+  sum: spot_price_data_sum_order_by
+  var_pop: spot_price_data_var_pop_order_by
+  var_samp: spot_price_data_var_samp_order_by
+  variance: spot_price_data_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "spot_price_data"
+"""
+input spot_price_data_arr_rel_insert_input {
+  data: [spot_price_data_insert_input!]!
+}
+
+"""aggregate avg on columns"""
+type spot_price_data_avg_fields {
+  spot_price: Float
+}
+
+"""
+order by avg() on columns of table "spot_price_data"
+"""
+input spot_price_data_avg_order_by {
+  spot_price: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "spot_price_data". All fields are combined with a logical 'AND'.
+"""
+input spot_price_data_bool_exp {
+  _and: [spot_price_data_bool_exp!]
+  _not: spot_price_data_bool_exp
+  _or: [spot_price_data_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  mint_acct: String_comparison_exp
+  spot_price: numeric_comparison_exp
+  token: tokens_bool_exp
+}
+
+"""
+input type for incrementing numeric columns in table "spot_price_data"
+"""
+input spot_price_data_inc_input {
+  spot_price: numeric
+}
+
+"""
+input type for inserting data into table "spot_price_data"
+"""
+input spot_price_data_insert_input {
+  created_at: timestamptz
+  mint_acct: String
+  spot_price: numeric
+  token: tokens_obj_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type spot_price_data_max_fields {
+  created_at: timestamptz
+  mint_acct: String
+  spot_price: numeric
+}
+
+"""
+order by max() on columns of table "spot_price_data"
+"""
+input spot_price_data_max_order_by {
+  created_at: order_by
+  mint_acct: order_by
+  spot_price: order_by
+}
+
+"""aggregate min on columns"""
+type spot_price_data_min_fields {
+  created_at: timestamptz
+  mint_acct: String
+  spot_price: numeric
+}
+
+"""
+order by min() on columns of table "spot_price_data"
+"""
+input spot_price_data_min_order_by {
+  created_at: order_by
+  mint_acct: order_by
+  spot_price: order_by
+}
+
+"""
+response of any mutation on the table "spot_price_data"
+"""
+type spot_price_data_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [spot_price_data!]!
+}
+
+"""Ordering options when selecting data from "spot_price_data"."""
+input spot_price_data_order_by {
+  created_at: order_by
+  mint_acct: order_by
+  spot_price: order_by
+  token: tokens_order_by
+}
+
+"""
+select columns of table "spot_price_data"
+"""
+enum spot_price_data_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  mint_acct
+
+  """column name"""
+  spot_price
+}
+
+"""
+input type for updating data in table "spot_price_data"
+"""
+input spot_price_data_set_input {
+  created_at: timestamptz
+  mint_acct: String
+  spot_price: numeric
+}
+
+"""aggregate stddev on columns"""
+type spot_price_data_stddev_fields {
+  spot_price: Float
+}
+
+"""
+order by stddev() on columns of table "spot_price_data"
+"""
+input spot_price_data_stddev_order_by {
+  spot_price: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type spot_price_data_stddev_pop_fields {
+  spot_price: Float
+}
+
+"""
+order by stddev_pop() on columns of table "spot_price_data"
+"""
+input spot_price_data_stddev_pop_order_by {
+  spot_price: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type spot_price_data_stddev_samp_fields {
+  spot_price: Float
+}
+
+"""
+order by stddev_samp() on columns of table "spot_price_data"
+"""
+input spot_price_data_stddev_samp_order_by {
+  spot_price: order_by
+}
+
+"""
+Streaming cursor of the table "spot_price_data"
+"""
+input spot_price_data_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: spot_price_data_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input spot_price_data_stream_cursor_value_input {
+  created_at: timestamptz
+  mint_acct: String
+  spot_price: numeric
+}
+
+"""aggregate sum on columns"""
+type spot_price_data_sum_fields {
+  spot_price: numeric
+}
+
+"""
+order by sum() on columns of table "spot_price_data"
+"""
+input spot_price_data_sum_order_by {
+  spot_price: order_by
+}
+
+input spot_price_data_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: spot_price_data_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: spot_price_data_set_input
+
+  """filter the rows which have to be updated"""
+  where: spot_price_data_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type spot_price_data_var_pop_fields {
+  spot_price: Float
+}
+
+"""
+order by var_pop() on columns of table "spot_price_data"
+"""
+input spot_price_data_var_pop_order_by {
+  spot_price: order_by
+}
+
+"""aggregate var_samp on columns"""
+type spot_price_data_var_samp_fields {
+  spot_price: Float
+}
+
+"""
+order by var_samp() on columns of table "spot_price_data"
+"""
+input spot_price_data_var_samp_order_by {
+  spot_price: order_by
+}
+
+"""aggregate variance on columns"""
+type spot_price_data_variance_fields {
+  spot_price: Float
+}
+
+"""
+order by variance() on columns of table "spot_price_data"
+"""
+input spot_price_data_variance_order_by {
+  spot_price: order_by
 }
 
 type subscription_root {
@@ -13897,6 +15691,106 @@ type subscription_root {
   ): [proposal_bars!]!
 
   """An array relationship"""
+  proposal_conditional_liquidity_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): [proposal_conditional_liquidity_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_liquidity_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_liquidity_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_liquidity_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): proposal_conditional_liquidity_data_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "proposal_conditional_liquidity_data"
+  """
+  proposal_conditional_liquidity_data_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [proposal_conditional_liquidity_data_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: proposal_conditional_liquidity_data_bool_exp
+  ): [proposal_conditional_liquidity_data!]!
+
+  """An array relationship"""
+  proposal_conditional_price_data(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): [proposal_conditional_price_data!]!
+
+  """An aggregate relationship"""
+  proposal_conditional_price_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [proposal_conditional_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_conditional_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): proposal_conditional_price_data_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "proposal_conditional_price_data"
+  """
+  proposal_conditional_price_data_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [proposal_conditional_price_data_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: proposal_conditional_price_data_bool_exp
+  ): [proposal_conditional_price_data!]!
+
+  """An array relationship"""
   proposal_details(
     """distinct select on columns"""
     distinct_on: [proposal_details_select_column!]
@@ -14163,6 +16057,56 @@ type subscription_root {
     """filter the rows returned"""
     where: sessions_bool_exp
   ): [sessions!]!
+
+  """An array relationship"""
+  spot_price_data(
+    """distinct select on columns"""
+    distinct_on: [spot_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spot_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: spot_price_data_bool_exp
+  ): [spot_price_data!]!
+
+  """An aggregate relationship"""
+  spot_price_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [spot_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spot_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: spot_price_data_bool_exp
+  ): spot_price_data_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "spot_price_data"
+  """
+  spot_price_data_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [spot_price_data_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: spot_price_data_bool_exp
+  ): [spot_price_data!]!
 
   """An array relationship"""
   takes(
@@ -14655,6 +16599,65 @@ type subscription_root {
     """filter the rows returned"""
     where: twaps_bool_exp
   ): [twaps!]!
+
+  """
+  fetch data from the table: "user_performance"
+  """
+  user_performance(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): [user_performance!]!
+
+  """
+  fetch aggregated fields from the table: "user_performance"
+  """
+  user_performance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): user_performance_aggregate!
+
+  """
+  fetch data from the table: "user_performance" using primary key columns
+  """
+  user_performance_by_pk(proposal_acct: String!, user_acct: String!): user_performance
+
+  """
+  fetch data from the table in a streaming manner: "user_performance"
+  """
+  user_performance_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [user_performance_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): [user_performance!]!
 
   """
   fetch data from the table: "users"
@@ -15359,6 +17362,9 @@ type token_acct_balances {
   """An object relationship"""
   tokenAcctByTokenAcct: token_accts!
   token_acct: String!
+
+  """An object relationship"""
+  transaction: transactions
   tx_sig: String
 }
 
@@ -15457,6 +17463,7 @@ input token_acct_balances_bool_exp {
   token: tokens_bool_exp
   tokenAcctByTokenAcct: token_accts_bool_exp
   token_acct: String_comparison_exp
+  transaction: transactions_bool_exp
   tx_sig: String_comparison_exp
 }
 
@@ -15492,6 +17499,7 @@ input token_acct_balances_insert_input {
   token: tokens_obj_rel_insert_input
   tokenAcctByTokenAcct: token_accts_obj_rel_insert_input
   token_acct: String
+  transaction: transactions_obj_rel_insert_input
   tx_sig: String
 }
 
@@ -15578,6 +17586,7 @@ input token_acct_balances_order_by {
   token: tokens_order_by
   tokenAcctByTokenAcct: token_accts_order_by
   token_acct: order_by
+  transaction: transactions_order_by
   tx_sig: order_by
 }
 
@@ -16531,6 +18540,42 @@ type tokens {
   ): markets_aggregate!
   mint_acct: String!
   name: String!
+
+  """An array relationship"""
+  spot_price_data(
+    """distinct select on columns"""
+    distinct_on: [spot_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spot_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: spot_price_data_bool_exp
+  ): [spot_price_data!]!
+
+  """An aggregate relationship"""
+  spot_price_data_aggregate(
+    """distinct select on columns"""
+    distinct_on: [spot_price_data_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spot_price_data_order_by!]
+
+    """filter the rows returned"""
+    where: spot_price_data_bool_exp
+  ): spot_price_data_aggregate!
   supply: bigint!
   symbol: String!
 
@@ -16666,6 +18711,8 @@ input tokens_bool_exp {
   markets_aggregate: markets_aggregate_bool_exp
   mint_acct: String_comparison_exp
   name: String_comparison_exp
+  spot_price_data: spot_price_data_bool_exp
+  spot_price_data_aggregate: spot_price_data_aggregate_bool_exp
   supply: bigint_comparison_exp
   symbol: String_comparison_exp
   token_acct_balances: token_acct_balances_bool_exp
@@ -16708,6 +18755,7 @@ input tokens_insert_input {
   marketsByQuoteMintAcct: markets_arr_rel_insert_input
   mint_acct: String
   name: String
+  spot_price_data: spot_price_data_arr_rel_insert_input
   supply: bigint
   symbol: String
   token_acct_balances: token_acct_balances_arr_rel_insert_input
@@ -16780,6 +18828,7 @@ input tokens_order_by {
   markets_aggregate: markets_aggregate_order_by
   mint_acct: order_by
   name: order_by
+  spot_price_data_aggregate: spot_price_data_aggregate_order_by
   supply: order_by
   symbol: order_by
   token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
@@ -17847,6 +19896,42 @@ type transactions {
   slot: bigint!
 
   """An array relationship"""
+  token_acct_balances(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): [token_acct_balances!]!
+
+  """An aggregate relationship"""
+  token_acct_balances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [token_acct_balances_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_acct_balances_order_by!]
+
+    """filter the rows returned"""
+    where: token_acct_balances_bool_exp
+  ): token_acct_balances_aggregate!
+
+  """An array relationship"""
   transactionWatchersByLatestTxSig(
     """distinct select on columns"""
     distinct_on: [transaction_watchers_select_column!]
@@ -18003,6 +20088,8 @@ input transactions_bool_exp {
   payload: String_comparison_exp
   serializer_logic_version: smallint_comparison_exp
   slot: bigint_comparison_exp
+  token_acct_balances: token_acct_balances_bool_exp
+  token_acct_balances_aggregate: token_acct_balances_aggregate_bool_exp
   transactionWatchersByLatestTxSig: transaction_watchers_bool_exp
   transactionWatchersByLatestTxSig_aggregate: transaction_watchers_aggregate_bool_exp
   transaction_watcher_transactions: transaction_watcher_transactions_bool_exp
@@ -18042,6 +20129,7 @@ input transactions_insert_input {
   payload: String
   serializer_logic_version: smallint
   slot: bigint
+  token_acct_balances: token_acct_balances_arr_rel_insert_input
   transactionWatchersByLatestTxSig: transaction_watchers_arr_rel_insert_input
   transaction_watcher_transactions: transaction_watcher_transactions_arr_rel_insert_input
   transaction_watchers: transaction_watchers_arr_rel_insert_input
@@ -18108,6 +20196,7 @@ input transactions_order_by {
   payload: order_by
   serializer_logic_version: order_by
   slot: order_by
+  token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
   transactionWatchersByLatestTxSig_aggregate: transaction_watchers_aggregate_order_by
   transaction_watcher_transactions_aggregate: transaction_watcher_transactions_aggregate_order_by
   transaction_watchers_aggregate: transaction_watchers_aggregate_order_by
@@ -18901,6 +20990,470 @@ input twaps_variance_order_by {
 }
 
 """
+columns and relationships of "user_performance"
+"""
+type user_performance {
+  created_at: timestamptz!
+
+  """An object relationship"""
+  proposal: proposals!
+  proposal_acct: String!
+  tokens_bought: numeric!
+  tokens_sold: numeric!
+
+  """An object relationship"""
+  user: users!
+  user_acct: String!
+  volume_bought: numeric!
+  volume_sold: numeric!
+}
+
+"""
+aggregated selection of "user_performance"
+"""
+type user_performance_aggregate {
+  aggregate: user_performance_aggregate_fields
+  nodes: [user_performance!]!
+}
+
+input user_performance_aggregate_bool_exp {
+  count: user_performance_aggregate_bool_exp_count
+}
+
+input user_performance_aggregate_bool_exp_count {
+  arguments: [user_performance_select_column!]
+  distinct: Boolean
+  filter: user_performance_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "user_performance"
+"""
+type user_performance_aggregate_fields {
+  avg: user_performance_avg_fields
+  count(columns: [user_performance_select_column!], distinct: Boolean): Int!
+  max: user_performance_max_fields
+  min: user_performance_min_fields
+  stddev: user_performance_stddev_fields
+  stddev_pop: user_performance_stddev_pop_fields
+  stddev_samp: user_performance_stddev_samp_fields
+  sum: user_performance_sum_fields
+  var_pop: user_performance_var_pop_fields
+  var_samp: user_performance_var_samp_fields
+  variance: user_performance_variance_fields
+}
+
+"""
+order by aggregate values of table "user_performance"
+"""
+input user_performance_aggregate_order_by {
+  avg: user_performance_avg_order_by
+  count: order_by
+  max: user_performance_max_order_by
+  min: user_performance_min_order_by
+  stddev: user_performance_stddev_order_by
+  stddev_pop: user_performance_stddev_pop_order_by
+  stddev_samp: user_performance_stddev_samp_order_by
+  sum: user_performance_sum_order_by
+  var_pop: user_performance_var_pop_order_by
+  var_samp: user_performance_var_samp_order_by
+  variance: user_performance_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "user_performance"
+"""
+input user_performance_arr_rel_insert_input {
+  data: [user_performance_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: user_performance_on_conflict
+}
+
+"""aggregate avg on columns"""
+type user_performance_avg_fields {
+  tokens_bought: Float
+  tokens_sold: Float
+  volume_bought: Float
+  volume_sold: Float
+}
+
+"""
+order by avg() on columns of table "user_performance"
+"""
+input user_performance_avg_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "user_performance". All fields are combined with a logical 'AND'.
+"""
+input user_performance_bool_exp {
+  _and: [user_performance_bool_exp!]
+  _not: user_performance_bool_exp
+  _or: [user_performance_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  proposal: proposals_bool_exp
+  proposal_acct: String_comparison_exp
+  tokens_bought: numeric_comparison_exp
+  tokens_sold: numeric_comparison_exp
+  user: users_bool_exp
+  user_acct: String_comparison_exp
+  volume_bought: numeric_comparison_exp
+  volume_sold: numeric_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "user_performance"
+"""
+enum user_performance_constraint {
+  """
+  unique or primary key constraint on columns "user_acct", "proposal_acct"
+  """
+  user_performance_proposal_acct_user_acct_pk
+}
+
+"""
+input type for incrementing numeric columns in table "user_performance"
+"""
+input user_performance_inc_input {
+  tokens_bought: numeric
+  tokens_sold: numeric
+  volume_bought: numeric
+  volume_sold: numeric
+}
+
+"""
+input type for inserting data into table "user_performance"
+"""
+input user_performance_insert_input {
+  created_at: timestamptz
+  proposal: proposals_obj_rel_insert_input
+  proposal_acct: String
+  tokens_bought: numeric
+  tokens_sold: numeric
+  user: users_obj_rel_insert_input
+  user_acct: String
+  volume_bought: numeric
+  volume_sold: numeric
+}
+
+"""aggregate max on columns"""
+type user_performance_max_fields {
+  created_at: timestamptz
+  proposal_acct: String
+  tokens_bought: numeric
+  tokens_sold: numeric
+  user_acct: String
+  volume_bought: numeric
+  volume_sold: numeric
+}
+
+"""
+order by max() on columns of table "user_performance"
+"""
+input user_performance_max_order_by {
+  created_at: order_by
+  proposal_acct: order_by
+  tokens_bought: order_by
+  tokens_sold: order_by
+  user_acct: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""aggregate min on columns"""
+type user_performance_min_fields {
+  created_at: timestamptz
+  proposal_acct: String
+  tokens_bought: numeric
+  tokens_sold: numeric
+  user_acct: String
+  volume_bought: numeric
+  volume_sold: numeric
+}
+
+"""
+order by min() on columns of table "user_performance"
+"""
+input user_performance_min_order_by {
+  created_at: order_by
+  proposal_acct: order_by
+  tokens_bought: order_by
+  tokens_sold: order_by
+  user_acct: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""
+response of any mutation on the table "user_performance"
+"""
+type user_performance_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [user_performance!]!
+}
+
+"""
+on_conflict condition type for table "user_performance"
+"""
+input user_performance_on_conflict {
+  constraint: user_performance_constraint!
+  update_columns: [user_performance_update_column!]! = []
+  where: user_performance_bool_exp
+}
+
+"""Ordering options when selecting data from "user_performance"."""
+input user_performance_order_by {
+  created_at: order_by
+  proposal: proposals_order_by
+  proposal_acct: order_by
+  tokens_bought: order_by
+  tokens_sold: order_by
+  user: users_order_by
+  user_acct: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""primary key columns input for table: user_performance"""
+input user_performance_pk_columns_input {
+  proposal_acct: String!
+  user_acct: String!
+}
+
+"""
+select columns of table "user_performance"
+"""
+enum user_performance_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  proposal_acct
+
+  """column name"""
+  tokens_bought
+
+  """column name"""
+  tokens_sold
+
+  """column name"""
+  user_acct
+
+  """column name"""
+  volume_bought
+
+  """column name"""
+  volume_sold
+}
+
+"""
+input type for updating data in table "user_performance"
+"""
+input user_performance_set_input {
+  created_at: timestamptz
+  proposal_acct: String
+  tokens_bought: numeric
+  tokens_sold: numeric
+  user_acct: String
+  volume_bought: numeric
+  volume_sold: numeric
+}
+
+"""aggregate stddev on columns"""
+type user_performance_stddev_fields {
+  tokens_bought: Float
+  tokens_sold: Float
+  volume_bought: Float
+  volume_sold: Float
+}
+
+"""
+order by stddev() on columns of table "user_performance"
+"""
+input user_performance_stddev_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type user_performance_stddev_pop_fields {
+  tokens_bought: Float
+  tokens_sold: Float
+  volume_bought: Float
+  volume_sold: Float
+}
+
+"""
+order by stddev_pop() on columns of table "user_performance"
+"""
+input user_performance_stddev_pop_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type user_performance_stddev_samp_fields {
+  tokens_bought: Float
+  tokens_sold: Float
+  volume_bought: Float
+  volume_sold: Float
+}
+
+"""
+order by stddev_samp() on columns of table "user_performance"
+"""
+input user_performance_stddev_samp_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""
+Streaming cursor of the table "user_performance"
+"""
+input user_performance_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: user_performance_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input user_performance_stream_cursor_value_input {
+  created_at: timestamptz
+  proposal_acct: String
+  tokens_bought: numeric
+  tokens_sold: numeric
+  user_acct: String
+  volume_bought: numeric
+  volume_sold: numeric
+}
+
+"""aggregate sum on columns"""
+type user_performance_sum_fields {
+  tokens_bought: numeric
+  tokens_sold: numeric
+  volume_bought: numeric
+  volume_sold: numeric
+}
+
+"""
+order by sum() on columns of table "user_performance"
+"""
+input user_performance_sum_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""
+update columns of table "user_performance"
+"""
+enum user_performance_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  proposal_acct
+
+  """column name"""
+  tokens_bought
+
+  """column name"""
+  tokens_sold
+
+  """column name"""
+  user_acct
+
+  """column name"""
+  volume_bought
+
+  """column name"""
+  volume_sold
+}
+
+input user_performance_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: user_performance_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: user_performance_set_input
+
+  """filter the rows which have to be updated"""
+  where: user_performance_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type user_performance_var_pop_fields {
+  tokens_bought: Float
+  tokens_sold: Float
+  volume_bought: Float
+  volume_sold: Float
+}
+
+"""
+order by var_pop() on columns of table "user_performance"
+"""
+input user_performance_var_pop_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""aggregate var_samp on columns"""
+type user_performance_var_samp_fields {
+  tokens_bought: Float
+  tokens_sold: Float
+  volume_bought: Float
+  volume_sold: Float
+}
+
+"""
+order by var_samp() on columns of table "user_performance"
+"""
+input user_performance_var_samp_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""aggregate variance on columns"""
+type user_performance_variance_fields {
+  tokens_bought: Float
+  tokens_sold: Float
+  volume_bought: Float
+  volume_sold: Float
+}
+
+"""
+order by variance() on columns of table "user_performance"
+"""
+input user_performance_variance_order_by {
+  tokens_bought: order_by
+  tokens_sold: order_by
+  volume_bought: order_by
+  volume_sold: order_by
+}
+
+"""
 columns and relationships of "users"
 """
 type users {
@@ -18942,6 +21495,42 @@ type users {
     where: sessions_bool_exp
   ): sessions_aggregate!
   user_acct: String!
+
+  """An array relationship"""
+  user_performances(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): [user_performance!]!
+
+  """An aggregate relationship"""
+  user_performances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): user_performance_aggregate!
 }
 
 """
@@ -18972,6 +21561,8 @@ input users_bool_exp {
   sessions: sessions_bool_exp
   sessions_aggregate: sessions_aggregate_bool_exp
   user_acct: String_comparison_exp
+  user_performances: user_performance_bool_exp
+  user_performances_aggregate: user_performance_aggregate_bool_exp
 }
 
 """
@@ -18991,6 +21582,7 @@ input users_insert_input {
   created_at: timestamptz
   sessions: sessions_arr_rel_insert_input
   user_acct: String
+  user_performances: user_performance_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -19040,6 +21632,7 @@ input users_order_by {
   created_at: order_by
   sessions_aggregate: sessions_aggregate_order_by
   user_acct: order_by
+  user_performances_aggregate: user_performance_aggregate_order_by
 }
 
 """primary key columns input for table: users"""

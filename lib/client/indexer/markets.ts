@@ -381,15 +381,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         interv: true,
         price: true,
         quote_amount: true,
-        base_amount: true,
-        market: {
-          tokenByQuoteMintAcct: {
-            decimals: true
-          },
-          tokenByBaseMintAcct: {
-            decimals: true
-          }
-        }
+        base_amount: true
       }
     });
 
@@ -400,14 +392,6 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           price: number;
           quote_amount: number;
           base_amount: number;
-          market: {
-            tokenByQuoteMintAcct: {
-              decimals: number;
-            };
-            tokenByBaseMintAcct: {
-              decimals: number;
-            };
-          };
         }[];
       }>(
         { query, variables },
@@ -484,26 +468,10 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         bar_start_time: true,
         fail_base_amount: true,
         fail_market_acct: true,
-        fail_market: {
-          tokenByBaseMintAcct: {
-            decimals: true
-          },
-          tokenByQuoteMintAcct: {
-            decimals: true
-          }
-        },
         fail_price: true,
         fail_quote_amount: true,
         pass_base_amount: true,
         pass_market_acct: true,
-        pass_market: {
-          tokenByBaseMintAcct: {
-            decimals: true
-          },
-          tokenByQuoteMintAcct: {
-            decimals: true
-          }
-        },
         pass_price: true,
         pass_quote_amount: true,
         proposal_acct: true
@@ -515,26 +483,10 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           bar_start_time: string;
           fail_base_amount: number;
           fail_market_acct: string;
-          fail_market: {
-            tokenByBaseMintAcct: {
-              decimals: number;
-            };
-            tokenByQuoteMintAcct: {
-              decimals: number;
-            };
-          };
           fail_price: number;
           fail_quote_amount: number;
           pass_base_amount: number;
           pass_market_acct: string;
-          pass_market: {
-            tokenByBaseMintAcct: {
-              decimals: number;
-            };
-            tokenByQuoteMintAcct: {
-              decimals: number;
-            };
-          };
           pass_price: number;
           pass_quote_amount: number;
           proposal_acct: string;
@@ -549,18 +501,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   failMarket: {
                     acct: d.fail_market_acct,
                     baseAmount: d.fail_base_amount,
-                    baseDecimals: d.fail_market.tokenByBaseMintAcct.decimals,
                     price: d.fail_price,
-                    quoteAmount: d.fail_quote_amount,
-                    quoteDecimals: d.fail_market.tokenByQuoteMintAcct.decimals
+                    quoteAmount: d.fail_quote_amount
                   },
                   passMarket: {
                     acct: d.pass_market_acct,
                     baseAmount: d.pass_base_amount,
-                    baseDecimals: d.pass_market.tokenByBaseMintAcct.decimals,
                     price: d.pass_price,
-                    quoteAmount: d.pass_quote_amount,
-                    quoteDecimals: d.pass_market.tokenByQuoteMintAcct.decimals
+                    quoteAmount: d.pass_quote_amount
                   },
                   createdAt: new Date(d.bar_start_time)
                 })

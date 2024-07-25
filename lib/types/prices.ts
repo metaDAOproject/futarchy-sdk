@@ -19,8 +19,6 @@ export type SpotObservation = {
 };
 
 export type ProposalMarketPrices = {
-  baseDecimals: number;
-  quoteDecimals: number;
   price: number;
   acct: string;
   quoteAmount: number;

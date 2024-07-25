@@ -40,7 +40,7 @@ export type Order = {
   filled: number; // Amount of the order that is already filled
   price: number;
   side: OrderBookSideType;
-  token: TokenProps;
+  token?: TokenProps;
   owner: PublicKey;
   market: PublicKey;
   signature: string | null;

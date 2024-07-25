@@ -172,7 +172,7 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
     return obs.pipe<TokenWithBalance>(
       retry({
         count: 100,
-        delay: 5_000
+        delay: 20_000
       })
     );
   }

@@ -6,6 +6,12 @@ import {
 } from "@solana/web3.js";
 import { Bundler } from "./bundles";
 import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
+import { TransactionMessage } from "@solana/web3.js";
+import { Message } from "@solana/web3.js";
+import {
+  convertCompiledInstruction,
+  convertTransactionInstruction
+} from "./helpers";
 
 export class JitoBundler implements Bundler {
   private blockEngineAddress: string;
@@ -33,7 +39,34 @@ export class JitoBundler implements Bundler {
     const transactionsWithTip = await Promise.all(
       txs.map(async (tx, i) => {
         // Create a transfer instruction to the tip account for the final instruction
-        if (tx instanceof Transaction) {
+        if (tx instanceof VersionedTransaction) {
+          const msg = Message.from(tx.message.serialize());
+          if (i === txs.length - 1) {
+            const transferInstruction = SystemProgram.transfer({
+              fromPubkey: tipSender,
+              toPubkey: tipAccount,
+              lamports: tipAmount ?? 9000
+            });
+            msg.instructions.push(
+              convertTransactionInstruction(
+                transferInstruction,
+                msg.getAccountKeys().staticAccountKeys
+              )
+            );
+          }
+          const newMsg = new TransactionMessage({
+            instructions: msg.instructions.map((i) =>
+              convertCompiledInstruction(
+                i,
+                msg.programIds()[i.programIdIndex],
+                msg.accountKeys
+              )
+            ),
+            recentBlockhash: msg.recentBlockhash,
+            payerKey: tipSender
+          }).compileToV0Message();
+          tx.message = newMsg;
+        } else {
           if (i === txs.length - 1) {
             const transferInstruction = SystemProgram.transfer({
               fromPubkey: tipSender,
@@ -44,6 +77,7 @@ export class JitoBundler implements Bundler {
           }
           tx.feePayer = tipSender;
         }
+
         return tx;
       })
     );
@@ -71,11 +105,11 @@ export class JitoBundler implements Bundler {
 
     const res = (await response.json()) as { result: string };
     console.log("jito bundle res", res);
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       setTimeout(async () => {
         const { result } = await this.getBundleStatuses(res.result);
-        if (!result.value[0]) {
-          resolve([res.result, [signedTxsWithTip[0].signatures[0].toString()]]);
+        if (!result?.value?.[0]) {
+          reject("bundle status response empty");
         } else {
           resolve([res.result, result.value[0].transactions]);
         }

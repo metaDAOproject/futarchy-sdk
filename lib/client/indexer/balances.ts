@@ -364,7 +364,7 @@ export class FutarchyIndexerBalancesClient implements FutarchyBalancesClient {
         return this.rpcBalancesClient.watchTokenBalance(tokenWithPDA);
       }),
       switchMap(() => {
-        // After triggering the watch, fetch from RPC
+        // After triggering the watch, fetch from asset-watcher
         const indexerObservable = this.watchTokenAcctForArgs(
           {
             where: {

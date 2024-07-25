@@ -5,7 +5,8 @@ import {
   OpenbookMarket,
   OpenbookMarketFetchRequest,
   Order,
-  ProposalVolume
+  ProposalVolume,
+  TokenProps
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { FutarchyIndexerOpenbookMarketsClient } from "./market-clients/openbookMarkets";
@@ -58,13 +59,79 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   async fetchMarket(
     request: MarketFetchRequest
   ): Promise<OpenbookMarket | AmmMarket | undefined> {
+    // Fetch the market based on the request type
+    let market: OpenbookMarket | AmmMarket | undefined;
     if (request instanceof OpenbookMarketFetchRequest) {
-      return this.openbook.fetchMarket(request);
+      market = await this.openbook.fetchMarket(request);
+    } else if (request instanceof AmmMarketFetchRequest) {
+      market = await this.amm.fetchMarket(request);
     }
-    if (request instanceof AmmMarketFetchRequest) {
-      return this.amm.fetchMarket(request);
+
+    // If no market is fetched, return undefined
+    if (!market) {
+      return;
     }
-    return;
+
+    // Query the backend to get the token details
+    const response = await this.graphqlClient.query({
+      markets: {
+        __args: {
+          where: {
+            market_acct: { _eq: request.marketKey.toBase58() }
+          }
+        },
+        tokenAcctByBidsTokenAcct: {
+          token: {
+            decimals: true,
+            image_url: true,
+            symbol: true,
+            name: true,
+            mint_acct: true
+          }
+        },
+        token: {
+          decimals: true,
+          image_url: true,
+          symbol: true,
+          name: true,
+          mint_acct: true
+        },
+        tokenByQuoteMintAcct: {
+          decimals: true,
+          image_url: true,
+          symbol: true,
+          name: true,
+          mint_acct: true
+        }
+      }
+    });
+
+    if (!response.markets[0]) {
+      return;
+    }
+
+    // Populate baseToken and quoteToken
+    const baseToken: TokenProps = {
+      decimals: response.markets[0].token.decimals,
+      url: response.markets[0].token.image_url,
+      symbol: response.markets[0].token.symbol,
+      name: response.markets[0].token.name,
+      publicKey: response.markets[0].token.mint_acct
+    };
+
+    const quoteToken: TokenProps = {
+      decimals: response.markets[0].tokenByQuoteMintAcct.decimals,
+      url: response.markets[0].tokenByQuoteMintAcct.image_url,
+      symbol: response.markets[0].tokenByQuoteMintAcct.symbol,
+      name: response.markets[0].tokenByQuoteMintAcct.name,
+      publicKey: response.markets[0].tokenByQuoteMintAcct.mint_acct
+    };
+
+    // Update the market with the token details
+    market.baseToken = baseToken;
+    market.quoteToken = quoteToken;
+
+    return market;
   }
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
@@ -227,23 +294,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                 failed: boolean;
               };
               market: {
-                tokenAcctByBidsTokenAcct: {
-                  token: {
-                    decimals: string | null;
-                    image_url: string | null;
-                    symbol: string | null;
-                    name: string | null;
-                    mint_acct: string | null;
-                  };
-                };
                 token: {
-                  decimals: string | null;
-                  image_url: string | null;
-                  symbol: string | null;
-                  name: string | null;
-                  mint_acct: string | null;
-                };
-                tokenByQuoteMintAcct: {
                   decimals: string | null;
                   image_url: string | null;
                   symbol: string | null;

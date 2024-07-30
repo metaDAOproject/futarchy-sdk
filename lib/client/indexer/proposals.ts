@@ -880,6 +880,100 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     this.rpcProposalsClient.updateProposalAccounts(accounts);
   }
 
+  //TODO: we should probably move this and comments to a separate client class (i.e. SocialClient or something)
+  async addReaction(
+    authId: string,
+    reaction: string,
+    pubKey: string,
+    proposalAcct: string,
+    commentId: string | null
+  ) {
+    // TODO implement wallet login logic properly...
+    if (!authId) return;
+    try {
+      const result = await this.graphqlClient.mutation({
+        update_reactions: {
+          __args: {
+            where: {
+              proposal_acct: { _eq: proposalAcct },
+              reactor_acct: { _eq: pubKey }
+            },
+            _set: {
+              reaction,
+              updated_at: new Date()
+            }
+          },
+          returning: {
+            reaction: true // Fields you want to return after insertion
+          }
+        }
+      });
+
+      if (result.update_reactions?.returning.length === 0) {
+        // insert one since update found nothing
+        const result = await this.graphqlClient.mutation({
+          insert_reactions: {
+            __args: {
+              objects: [
+                {
+                  reaction,
+                  proposal_acct: proposalAcct,
+                  comment_id: commentId,
+                  reactor_acct: pubKey,
+                  updated_at: new Date()
+                }
+              ]
+            },
+            returning: {
+              reaction: true, // Fields you want to return after insertion
+              reactor_acct: true,
+              proposal_acct: true,
+              comment_id: true
+            }
+          }
+        });
+        return result
+      }
+
+      return result;
+    } catch (error) {
+      console.error("Error inserting reaction:", error);
+      throw error;
+    }
+  }
+
+  async removeReaction(
+    authId: string,
+    reaction: string,
+    pubKey: string,
+    proposalAcct: string
+  ) {
+    console.log("removing reaction bbbyy");
+    // TODO implement wallet login logic properly...
+    if (!authId) return;
+    try {
+      // TODO we should not be deleting a reaction
+      // we should more likely either update the existing reaction
+      const result = await this.graphqlClient.mutation({
+        delete_reactions_by_pk: {
+          __args: {
+            proposal_acct: proposalAcct,
+            reaction: reaction,
+            reactor_acct: pubKey
+          },
+          reaction: true,
+          reactor_acct: true,
+          proposal_acct: true
+        }
+      });
+
+      return result;
+    } catch (error) {
+      console.error("Error deleting reaction:", error);
+      throw error;
+    }
+  }
+
   async mergeConditionalTokensForUnderlyingTokens(
     amount: BN,
     proposal: ProposalWithFullData,

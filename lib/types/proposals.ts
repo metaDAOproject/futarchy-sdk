@@ -49,6 +49,13 @@ export type ProposalCounts = {
   past: number;
 };
 
+export type ProposalRanking = {
+  proposalAcct: PublicKey;
+  title: string;
+  state: ProposalState;
+  totalVolume: number;
+};
+
 export type Proposal = ProposalAccountWithKeyNoState & {
   dao: {
     name: string;

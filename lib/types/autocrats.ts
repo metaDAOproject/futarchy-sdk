@@ -88,7 +88,11 @@ export type DaoAggregate = {
   slug: string;
   daos: Dao[];
   logo?: string | null;
+  xAccount?: string | null;
+  github?: string | null;
+  discord?: string | null;
   description?: string | null;
+  url?: string | null;
   failTokenImageUrl?: string | null;
   passTokenImageUrl?: string | null;
   lpTokenImageUrl?: string | null;
@@ -102,6 +106,9 @@ export type DaoDetails__GQL = {
   slug: string | null;
   image_url: string | null;
   description: string | null;
+  url: string | null;
+  x_account: string | null;
+  github: string | null;
   fail_token_image_url: string | null;
   pass_token_image_url: string | null;
   lp_token_image_url: string | null;

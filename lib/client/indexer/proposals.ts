@@ -13,7 +13,8 @@ import {
   BalanceLockedInProposal,
   TransactionProcessingUpdate,
   Dao,
-  GovernanceParticipant
+  GovernanceParticipant,
+  ProposalRanking
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -317,6 +318,60 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       .flat()
       .filter((p): p is Proposal => !!p);
   }
+
+  async fetchTopProposals(daoSlug: string): Promise<ProposalRanking[]> {
+    try {
+      const { proposals } = await this.graphqlClient.query?.({
+        proposals: {
+          __args: {
+            order_by: [
+              {
+                user_performances_aggregate: {
+                  sum: {
+                    total_volume: "desc_nulls_last"
+                  }
+                }
+              }
+            ],
+            limit: 3,
+            where: {
+              dao: {
+                dao_detail: {
+                  slug: { _eq: daoSlug }
+                }
+              }
+            }
+          },
+          proposal_acct: true,
+          status: true,
+          proposal_details: {
+            title: true
+          },
+          user_performances_aggregate: {
+            aggregate: {
+              sum: {
+                total_volume: true
+              }
+            }
+          }
+        }
+      });
+
+      return proposals
+        .map((p) => ({
+          proposalAcct: new PublicKey(p.proposal_acct),
+          state: p.status as ProposalState,
+          title: p.proposal_details[0]?.title ?? "",
+          totalVolume:
+            p.user_performances_aggregate.aggregate?.sum?.total_volume ?? 0
+        }))
+        .filter((p) => p.totalVolume > 0 && p.title);
+    } catch (e) {
+      console.error("error fetching top proposals", e);
+      return [];
+    }
+  }
+
   async fetchProposal(
     proposalAcct: PublicKey
   ): Promise<ProposalWithFullData | null> {

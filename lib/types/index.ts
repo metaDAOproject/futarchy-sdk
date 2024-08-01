@@ -11,6 +11,7 @@ export * from "./amm";
 export * from "./prices";
 export * from "./reactions";
 export * from "./transactions";
+export * from "./user";
 
 export type MergeWithOptionalFields<T, U> = {
   [K in keyof (T | U)]: U[K];

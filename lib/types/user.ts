@@ -17,6 +17,7 @@ export type UserPerformance = {
   tokensSold: string;
   volumeBought: string;
   volumeSold: string;
+  totalVolume: number;
   proposal: ProposalWithFullData;
   createdAt: Date;
   pnl: number;

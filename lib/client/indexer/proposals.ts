@@ -35,7 +35,7 @@ import { Client as GQLWebSocketClient } from "graphql-ws";
 import { SUPPORTED_EMOJIS } from "@/constants/reactions";
 import { ReactionType } from "@/types/reactions";
 import dayjs from "dayjs";
-import { createSlug, isValidAddress } from "@/utils";
+import { createSlug } from "@/utils";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;

@@ -12,7 +12,8 @@ import {
   ProposalWithFullData,
   BalanceLockedInProposal,
   TransactionProcessingUpdate,
-  Dao
+  Dao,
+  GovernanceParticipant
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -34,7 +35,7 @@ import { Client as GQLWebSocketClient } from "graphql-ws";
 import { SUPPORTED_EMOJIS } from "@/constants/reactions";
 import { ReactionType } from "@/types/reactions";
 import dayjs from "dayjs";
-import { createSlug } from "@/utils";
+import { createSlug, isValidAddress } from "@/utils";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -126,6 +127,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             },
             price: true,
             created_at: true
+          },
+          orders: {
+            actor_acct: true,
+            quote_price: true,
+            filled_base_amount: true
           }
         },
         proposal_details: {
@@ -179,6 +185,23 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         const proposalDetails = p.proposal_details[0];
         const passPrice = passMarket?.prices ?? [];
         const failPrice = failMarket?.prices ?? [];
+
+        const passParticipants =
+          passMarket?.orders.reduce<string[]>(
+            (acc, order) => [...acc, order.actor_acct],
+            [] as string[]
+          ) ?? [];
+        const failParticipants =
+          failMarket?.orders.reduce<string[]>(
+            (acc, order) => [...acc, order.actor_acct],
+            [] as string[]
+          ) ?? [];
+
+        const participants = [
+          ...new Set([...passParticipants, ...failParticipants])
+        ].map<GovernanceParticipant>((p) => ({
+          publicKey: p
+        }));
 
         if (!proposalDetails || !passMarket || !failMarket) return;
         return {
@@ -258,7 +281,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               ),
           // TODO figure this out by slot enqueued maybe
           finalizationDate: p.completed_at,
-          participants: [],
+          participants,
           // TOKEN amount on twap is probably volume
           // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????
           prices: {
@@ -932,7 +955,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             }
           }
         });
-        return result
+        return result;
       }
 
       return result;

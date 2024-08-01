@@ -58,6 +58,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           pass_token_image_url: true,
           lp_token_image_url: true,
           daos: {
+            created_at: true,
             program_acct: true,
             dao_acct: true,
             tokenByBaseAcct: {
@@ -120,6 +121,13 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           pass_token_image_url: true,
           lp_token_image_url: true,
           daos: {
+            __args: {
+              order_by: [
+                {
+                  created_at: "desc_nulls_last"
+                }
+              ]
+            },
             program_acct: true,
             dao_acct: true,
             tokenByBaseAcct: {
@@ -145,7 +153,8 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               aggregate: {
                 count: true
               }
-            }
+            },
+            created_at: true
           }
         }
       });
@@ -166,9 +175,15 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
       name: daoDetails.name ?? "",
       slug: daoDetails.slug ?? "",
       logo: daoDetails.image_url,
+      description: daoDetails.description,
       failTokenImageUrl: daoDetails.fail_token_image_url,
       passTokenImageUrl: daoDetails.pass_token_image_url,
       lpTokenImageUrl: daoDetails.lp_token_image_url,
+      joinedAt: new Date(daoDetails.daos[0].created_at ?? ""),
+      proposalCount: daoDetails.daos.reduce(
+        (acc, d) => acc + (d.proposals_aggregate?.aggregate?.count ?? 0),
+        0
+      ),
       daos: daoDetails.daos
         .map((d) => {
           if (this.protocolMap.get(d.program_acct)) {

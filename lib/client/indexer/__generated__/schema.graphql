@@ -7199,6 +7199,9 @@ type orders {
   transaction: transactions
   unfilled_base_amount: bigint!
   updated_at: timestamptz!
+
+  """An object relationship"""
+  user: users
 }
 
 """
@@ -7325,6 +7328,7 @@ input orders_bool_exp {
   transaction: transactions_bool_exp
   unfilled_base_amount: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user: users_bool_exp
 }
 
 """
@@ -7370,6 +7374,7 @@ input orders_insert_input {
   transaction: transactions_obj_rel_insert_input
   unfilled_base_amount: bigint
   updated_at: timestamptz
+  user: users_obj_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -7494,6 +7499,7 @@ input orders_order_by {
   transaction: transactions_order_by
   unfilled_base_amount: order_by
   updated_at: order_by
+  user: users_order_by
 }
 
 """primary key columns input for table: orders"""
@@ -21000,6 +21006,7 @@ type user_performance {
   proposal_acct: String!
   tokens_bought: numeric!
   tokens_sold: numeric!
+  total_volume: bigint
 
   """An object relationship"""
   user: users!
@@ -21075,6 +21082,7 @@ input user_performance_arr_rel_insert_input {
 type user_performance_avg_fields {
   tokens_bought: Float
   tokens_sold: Float
+  total_volume: Float
   volume_bought: Float
   volume_sold: Float
 }
@@ -21085,6 +21093,7 @@ order by avg() on columns of table "user_performance"
 input user_performance_avg_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }
@@ -21101,6 +21110,7 @@ input user_performance_bool_exp {
   proposal_acct: String_comparison_exp
   tokens_bought: numeric_comparison_exp
   tokens_sold: numeric_comparison_exp
+  total_volume: bigint_comparison_exp
   user: users_bool_exp
   user_acct: String_comparison_exp
   volume_bought: numeric_comparison_exp
@@ -21148,6 +21158,7 @@ type user_performance_max_fields {
   proposal_acct: String
   tokens_bought: numeric
   tokens_sold: numeric
+  total_volume: bigint
   user_acct: String
   volume_bought: numeric
   volume_sold: numeric
@@ -21161,6 +21172,7 @@ input user_performance_max_order_by {
   proposal_acct: order_by
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   user_acct: order_by
   volume_bought: order_by
   volume_sold: order_by
@@ -21172,6 +21184,7 @@ type user_performance_min_fields {
   proposal_acct: String
   tokens_bought: numeric
   tokens_sold: numeric
+  total_volume: bigint
   user_acct: String
   volume_bought: numeric
   volume_sold: numeric
@@ -21185,6 +21198,7 @@ input user_performance_min_order_by {
   proposal_acct: order_by
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   user_acct: order_by
   volume_bought: order_by
   volume_sold: order_by
@@ -21217,6 +21231,7 @@ input user_performance_order_by {
   proposal_acct: order_by
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   user: users_order_by
   user_acct: order_by
   volume_bought: order_by
@@ -21246,6 +21261,9 @@ enum user_performance_select_column {
   tokens_sold
 
   """column name"""
+  total_volume
+
+  """column name"""
   user_acct
 
   """column name"""
@@ -21272,6 +21290,7 @@ input user_performance_set_input {
 type user_performance_stddev_fields {
   tokens_bought: Float
   tokens_sold: Float
+  total_volume: Float
   volume_bought: Float
   volume_sold: Float
 }
@@ -21282,6 +21301,7 @@ order by stddev() on columns of table "user_performance"
 input user_performance_stddev_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }
@@ -21290,6 +21310,7 @@ input user_performance_stddev_order_by {
 type user_performance_stddev_pop_fields {
   tokens_bought: Float
   tokens_sold: Float
+  total_volume: Float
   volume_bought: Float
   volume_sold: Float
 }
@@ -21300,6 +21321,7 @@ order by stddev_pop() on columns of table "user_performance"
 input user_performance_stddev_pop_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }
@@ -21308,6 +21330,7 @@ input user_performance_stddev_pop_order_by {
 type user_performance_stddev_samp_fields {
   tokens_bought: Float
   tokens_sold: Float
+  total_volume: Float
   volume_bought: Float
   volume_sold: Float
 }
@@ -21318,6 +21341,7 @@ order by stddev_samp() on columns of table "user_performance"
 input user_performance_stddev_samp_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }
@@ -21339,6 +21363,7 @@ input user_performance_stream_cursor_value_input {
   proposal_acct: String
   tokens_bought: numeric
   tokens_sold: numeric
+  total_volume: bigint
   user_acct: String
   volume_bought: numeric
   volume_sold: numeric
@@ -21348,6 +21373,7 @@ input user_performance_stream_cursor_value_input {
 type user_performance_sum_fields {
   tokens_bought: numeric
   tokens_sold: numeric
+  total_volume: bigint
   volume_bought: numeric
   volume_sold: numeric
 }
@@ -21358,6 +21384,7 @@ order by sum() on columns of table "user_performance"
 input user_performance_sum_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }
@@ -21403,6 +21430,7 @@ input user_performance_updates {
 type user_performance_var_pop_fields {
   tokens_bought: Float
   tokens_sold: Float
+  total_volume: Float
   volume_bought: Float
   volume_sold: Float
 }
@@ -21413,6 +21441,7 @@ order by var_pop() on columns of table "user_performance"
 input user_performance_var_pop_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }
@@ -21421,6 +21450,7 @@ input user_performance_var_pop_order_by {
 type user_performance_var_samp_fields {
   tokens_bought: Float
   tokens_sold: Float
+  total_volume: Float
   volume_bought: Float
   volume_sold: Float
 }
@@ -21431,6 +21461,7 @@ order by var_samp() on columns of table "user_performance"
 input user_performance_var_samp_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }
@@ -21439,6 +21470,7 @@ input user_performance_var_samp_order_by {
 type user_performance_variance_fields {
   tokens_bought: Float
   tokens_sold: Float
+  total_volume: Float
   volume_bought: Float
   volume_sold: Float
 }
@@ -21449,6 +21481,7 @@ order by variance() on columns of table "user_performance"
 input user_performance_variance_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
+  total_volume: order_by
   volume_bought: order_by
   volume_sold: order_by
 }

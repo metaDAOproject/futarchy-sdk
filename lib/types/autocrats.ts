@@ -88,9 +88,12 @@ export type DaoAggregate = {
   slug: string;
   daos: Dao[];
   logo?: string | null;
+  description?: string | null;
   failTokenImageUrl?: string | null;
   passTokenImageUrl?: string | null;
   lpTokenImageUrl?: string | null;
+  joinedAt: Date | null;
+  proposalCount?: number;
 };
 
 /** INDEXER GRAPHQL TYPES */
@@ -98,6 +101,7 @@ export type DaoDetails__GQL = {
   name: string | null;
   slug: string | null;
   image_url: string | null;
+  description: string | null;
   fail_token_image_url: string | null;
   pass_token_image_url: string | null;
   lp_token_image_url: string | null;
@@ -107,6 +111,7 @@ export type DaoDetails__GQL = {
     pass_threshold_bps: number;
     slots_per_proposal: number | null;
     treasury_acct: string | null;
+    created_at: string | null;
     tokenByBaseAcct: {
       symbol: string;
       decimals: number;

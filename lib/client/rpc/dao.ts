@@ -62,7 +62,8 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
       const daoAgg: DaoAggregate = {
         name: key,
         daos: daosByName[key],
-        slug: createSlug(key)
+        slug: createSlug(key),
+        joinedAt: null
       };
       doaAggregates.push(daoAgg);
     }
@@ -88,7 +89,8 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
           daos: [daoAccountWithKey],
           name: dao.baseToken.name,
           logo: dao.baseToken.url ?? "",
-          slug: createSlug(dao.baseToken?.name ?? "")
+          slug: createSlug(dao.baseToken?.name ?? ""),
+          joinedAt: null
         };
       }
       return null;

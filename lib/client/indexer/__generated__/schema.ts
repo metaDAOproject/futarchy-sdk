@@ -1965,6 +1965,8 @@ export interface orders {
     transaction: (transactions | null)
     unfilled_base_amount: Scalars['bigint']
     updated_at: Scalars['timestamptz']
+    /** An object relationship */
+    user: (users | null)
     __typename: 'orders'
 }
 
@@ -6149,6 +6151,7 @@ export interface user_performance {
     proposal_acct: Scalars['String']
     tokens_bought: Scalars['numeric']
     tokens_sold: Scalars['numeric']
+    total_volume: (Scalars['bigint'] | null)
     /** An object relationship */
     user: users
     user_acct: Scalars['String']
@@ -6187,6 +6190,7 @@ export interface user_performance_aggregate_fields {
 export interface user_performance_avg_fields {
     tokens_bought: (Scalars['Float'] | null)
     tokens_sold: (Scalars['Float'] | null)
+    total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
     volume_sold: (Scalars['Float'] | null)
     __typename: 'user_performance_avg_fields'
@@ -6203,6 +6207,7 @@ export interface user_performance_max_fields {
     proposal_acct: (Scalars['String'] | null)
     tokens_bought: (Scalars['numeric'] | null)
     tokens_sold: (Scalars['numeric'] | null)
+    total_volume: (Scalars['bigint'] | null)
     user_acct: (Scalars['String'] | null)
     volume_bought: (Scalars['numeric'] | null)
     volume_sold: (Scalars['numeric'] | null)
@@ -6216,6 +6221,7 @@ export interface user_performance_min_fields {
     proposal_acct: (Scalars['String'] | null)
     tokens_bought: (Scalars['numeric'] | null)
     tokens_sold: (Scalars['numeric'] | null)
+    total_volume: (Scalars['bigint'] | null)
     user_acct: (Scalars['String'] | null)
     volume_bought: (Scalars['numeric'] | null)
     volume_sold: (Scalars['numeric'] | null)
@@ -6234,13 +6240,14 @@ export interface user_performance_mutation_response {
 
 
 /** select columns of table "user_performance" */
-export type user_performance_select_column = 'created_at' | 'proposal_acct' | 'tokens_bought' | 'tokens_sold' | 'user_acct' | 'volume_bought' | 'volume_sold'
+export type user_performance_select_column = 'created_at' | 'proposal_acct' | 'tokens_bought' | 'tokens_sold' | 'total_volume' | 'user_acct' | 'volume_bought' | 'volume_sold'
 
 
 /** aggregate stddev on columns */
 export interface user_performance_stddev_fields {
     tokens_bought: (Scalars['Float'] | null)
     tokens_sold: (Scalars['Float'] | null)
+    total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
     volume_sold: (Scalars['Float'] | null)
     __typename: 'user_performance_stddev_fields'
@@ -6251,6 +6258,7 @@ export interface user_performance_stddev_fields {
 export interface user_performance_stddev_pop_fields {
     tokens_bought: (Scalars['Float'] | null)
     tokens_sold: (Scalars['Float'] | null)
+    total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
     volume_sold: (Scalars['Float'] | null)
     __typename: 'user_performance_stddev_pop_fields'
@@ -6261,6 +6269,7 @@ export interface user_performance_stddev_pop_fields {
 export interface user_performance_stddev_samp_fields {
     tokens_bought: (Scalars['Float'] | null)
     tokens_sold: (Scalars['Float'] | null)
+    total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
     volume_sold: (Scalars['Float'] | null)
     __typename: 'user_performance_stddev_samp_fields'
@@ -6271,6 +6280,7 @@ export interface user_performance_stddev_samp_fields {
 export interface user_performance_sum_fields {
     tokens_bought: (Scalars['numeric'] | null)
     tokens_sold: (Scalars['numeric'] | null)
+    total_volume: (Scalars['bigint'] | null)
     volume_bought: (Scalars['numeric'] | null)
     volume_sold: (Scalars['numeric'] | null)
     __typename: 'user_performance_sum_fields'
@@ -6285,6 +6295,7 @@ export type user_performance_update_column = 'created_at' | 'proposal_acct' | 't
 export interface user_performance_var_pop_fields {
     tokens_bought: (Scalars['Float'] | null)
     tokens_sold: (Scalars['Float'] | null)
+    total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
     volume_sold: (Scalars['Float'] | null)
     __typename: 'user_performance_var_pop_fields'
@@ -6295,6 +6306,7 @@ export interface user_performance_var_pop_fields {
 export interface user_performance_var_samp_fields {
     tokens_bought: (Scalars['Float'] | null)
     tokens_sold: (Scalars['Float'] | null)
+    total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
     volume_sold: (Scalars['Float'] | null)
     __typename: 'user_performance_var_samp_fields'
@@ -6305,6 +6317,7 @@ export interface user_performance_var_samp_fields {
 export interface user_performance_variance_fields {
     tokens_bought: (Scalars['Float'] | null)
     tokens_sold: (Scalars['Float'] | null)
+    total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
     volume_sold: (Scalars['Float'] | null)
     __typename: 'user_performance_variance_fields'
@@ -10239,6 +10252,8 @@ export interface ordersGenqlSelection{
     transaction?: transactionsGenqlSelection
     unfilled_base_amount?: boolean | number
     updated_at?: boolean | number
+    /** An object relationship */
+    user?: usersGenqlSelection
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -10306,7 +10321,7 @@ export interface orders_avg_order_by {cancel_block?: (order_by | null),filled_ba
 
 
 /** Boolean expression to filter rows from the table "orders". All fields are combined with a logical 'AND'. */
-export interface orders_bool_exp {_and?: (orders_bool_exp[] | null),_not?: (orders_bool_exp | null),_or?: (orders_bool_exp[] | null),actor_acct?: (String_comparison_exp | null),cancel_block?: (bigint_comparison_exp | null),cancel_time?: (timestamptz_comparison_exp | null),cancel_tx_sig?: (String_comparison_exp | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),make?: (makes_bool_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamptz_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (numeric_comparison_exp | null),side?: (String_comparison_exp | null),take?: (takes_bool_exp | null),transaction?: (transactions_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamptz_comparison_exp | null)}
+export interface orders_bool_exp {_and?: (orders_bool_exp[] | null),_not?: (orders_bool_exp | null),_or?: (orders_bool_exp[] | null),actor_acct?: (String_comparison_exp | null),cancel_block?: (bigint_comparison_exp | null),cancel_time?: (timestamptz_comparison_exp | null),cancel_tx_sig?: (String_comparison_exp | null),filled_base_amount?: (bigint_comparison_exp | null),is_active?: (Boolean_comparison_exp | null),make?: (makes_bool_exp | null),market?: (markets_bool_exp | null),market_acct?: (String_comparison_exp | null),order_block?: (bigint_comparison_exp | null),order_time?: (timestamptz_comparison_exp | null),order_tx_sig?: (String_comparison_exp | null),quote_price?: (numeric_comparison_exp | null),side?: (String_comparison_exp | null),take?: (takes_bool_exp | null),transaction?: (transactions_bool_exp | null),unfilled_base_amount?: (bigint_comparison_exp | null),updated_at?: (timestamptz_comparison_exp | null),user?: (users_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "orders" */
@@ -10314,7 +10329,7 @@ export interface orders_inc_input {cancel_block?: (Scalars['bigint'] | null),fil
 
 
 /** input type for inserting data into table "orders" */
-export interface orders_insert_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamptz'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),make?: (makes_obj_rel_insert_input | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamptz'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),side?: (Scalars['String'] | null),take?: (takes_obj_rel_insert_input | null),transaction?: (transactions_obj_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamptz'] | null)}
+export interface orders_insert_input {actor_acct?: (Scalars['String'] | null),cancel_block?: (Scalars['bigint'] | null),cancel_time?: (Scalars['timestamptz'] | null),cancel_tx_sig?: (Scalars['String'] | null),filled_base_amount?: (Scalars['bigint'] | null),is_active?: (Scalars['Boolean'] | null),make?: (makes_obj_rel_insert_input | null),market?: (markets_obj_rel_insert_input | null),market_acct?: (Scalars['String'] | null),order_block?: (Scalars['bigint'] | null),order_time?: (Scalars['timestamptz'] | null),order_tx_sig?: (Scalars['String'] | null),quote_price?: (Scalars['numeric'] | null),side?: (Scalars['String'] | null),take?: (takes_obj_rel_insert_input | null),transaction?: (transactions_obj_rel_insert_input | null),unfilled_base_amount?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamptz'] | null),user?: (users_obj_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -10387,7 +10402,7 @@ export interface orders_on_conflict {constraint: orders_constraint,update_column
 
 
 /** Ordering options when selecting data from "orders". */
-export interface orders_order_by {actor_acct?: (order_by | null),cancel_block?: (order_by | null),cancel_time?: (order_by | null),cancel_tx_sig?: (order_by | null),filled_base_amount?: (order_by | null),is_active?: (order_by | null),make?: (makes_order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),side?: (order_by | null),take?: (takes_order_by | null),transaction?: (transactions_order_by | null),unfilled_base_amount?: (order_by | null),updated_at?: (order_by | null)}
+export interface orders_order_by {actor_acct?: (order_by | null),cancel_block?: (order_by | null),cancel_time?: (order_by | null),cancel_tx_sig?: (order_by | null),filled_base_amount?: (order_by | null),is_active?: (order_by | null),make?: (makes_order_by | null),market?: (markets_order_by | null),market_acct?: (order_by | null),order_block?: (order_by | null),order_time?: (order_by | null),order_tx_sig?: (order_by | null),quote_price?: (order_by | null),side?: (order_by | null),take?: (takes_order_by | null),transaction?: (transactions_order_by | null),unfilled_base_amount?: (order_by | null),updated_at?: (order_by | null),user?: (users_order_by | null)}
 
 
 /** primary key columns input for table: orders */
@@ -18554,6 +18569,7 @@ export interface user_performanceGenqlSelection{
     proposal_acct?: boolean | number
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     /** An object relationship */
     user?: usersGenqlSelection
     user_acct?: boolean | number
@@ -18609,6 +18625,7 @@ on_conflict?: (user_performance_on_conflict | null)}
 export interface user_performance_avg_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18617,11 +18634,11 @@ export interface user_performance_avg_fieldsGenqlSelection{
 
 
 /** order by avg() on columns of table "user_performance" */
-export interface user_performance_avg_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_avg_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "user_performance". All fields are combined with a logical 'AND'. */
-export interface user_performance_bool_exp {_and?: (user_performance_bool_exp[] | null),_not?: (user_performance_bool_exp | null),_or?: (user_performance_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),tokens_bought?: (numeric_comparison_exp | null),tokens_sold?: (numeric_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null),volume_bought?: (numeric_comparison_exp | null),volume_sold?: (numeric_comparison_exp | null)}
+export interface user_performance_bool_exp {_and?: (user_performance_bool_exp[] | null),_not?: (user_performance_bool_exp | null),_or?: (user_performance_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),tokens_bought?: (numeric_comparison_exp | null),tokens_sold?: (numeric_comparison_exp | null),total_volume?: (bigint_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null),volume_bought?: (numeric_comparison_exp | null),volume_sold?: (numeric_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "user_performance" */
@@ -18638,6 +18655,7 @@ export interface user_performance_max_fieldsGenqlSelection{
     proposal_acct?: boolean | number
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     user_acct?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
@@ -18647,7 +18665,7 @@ export interface user_performance_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "user_performance" */
-export interface user_performance_max_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_max_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -18656,6 +18674,7 @@ export interface user_performance_min_fieldsGenqlSelection{
     proposal_acct?: boolean | number
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     user_acct?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
@@ -18665,7 +18684,7 @@ export interface user_performance_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "user_performance" */
-export interface user_performance_min_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_min_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** response of any mutation on the table "user_performance" */
@@ -18684,7 +18703,7 @@ export interface user_performance_on_conflict {constraint: user_performance_cons
 
 
 /** Ordering options when selecting data from "user_performance". */
-export interface user_performance_order_by {created_at?: (order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),user?: (users_order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_order_by {created_at?: (order_by | null),proposal?: (proposals_order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),user?: (users_order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** primary key columns input for table: user_performance */
@@ -18699,6 +18718,7 @@ export interface user_performance_set_input {created_at?: (Scalars['timestamptz'
 export interface user_performance_stddev_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18707,13 +18727,14 @@ export interface user_performance_stddev_fieldsGenqlSelection{
 
 
 /** order by stddev() on columns of table "user_performance" */
-export interface user_performance_stddev_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_stddev_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface user_performance_stddev_pop_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18722,13 +18743,14 @@ export interface user_performance_stddev_pop_fieldsGenqlSelection{
 
 
 /** order by stddev_pop() on columns of table "user_performance" */
-export interface user_performance_stddev_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_stddev_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface user_performance_stddev_samp_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18737,7 +18759,7 @@ export interface user_performance_stddev_samp_fieldsGenqlSelection{
 
 
 /** order by stddev_samp() on columns of table "user_performance" */
-export interface user_performance_stddev_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_stddev_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** Streaming cursor of the table "user_performance" */
@@ -18749,13 +18771,14 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface user_performance_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+export interface user_performance_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),total_volume?: (Scalars['bigint'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
 
 
 /** aggregate sum on columns */
 export interface user_performance_sum_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18764,7 +18787,7 @@ export interface user_performance_sum_fieldsGenqlSelection{
 
 
 /** order by sum() on columns of table "user_performance" */
-export interface user_performance_sum_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_sum_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 export interface user_performance_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -18779,6 +18802,7 @@ where: user_performance_bool_exp}
 export interface user_performance_var_pop_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18787,13 +18811,14 @@ export interface user_performance_var_pop_fieldsGenqlSelection{
 
 
 /** order by var_pop() on columns of table "user_performance" */
-export interface user_performance_var_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_var_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface user_performance_var_samp_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18802,13 +18827,14 @@ export interface user_performance_var_samp_fieldsGenqlSelection{
 
 
 /** order by var_samp() on columns of table "user_performance" */
-export interface user_performance_var_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_var_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface user_performance_variance_fieldsGenqlSelection{
     tokens_bought?: boolean | number
     tokens_sold?: boolean | number
+    total_volume?: boolean | number
     volume_bought?: boolean | number
     volume_sold?: boolean | number
     __typename?: boolean | number
@@ -18817,7 +18843,7 @@ export interface user_performance_variance_fieldsGenqlSelection{
 
 
 /** order by variance() on columns of table "user_performance" */
-export interface user_performance_variance_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_variance_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** columns and relationships of "users" */
@@ -23417,6 +23443,7 @@ export const enumUserPerformanceSelectColumn = {
    proposal_acct: 'proposal_acct' as const,
    tokens_bought: 'tokens_bought' as const,
    tokens_sold: 'tokens_sold' as const,
+   total_volume: 'total_volume' as const,
    user_acct: 'user_acct' as const,
    volume_bought: 'volume_bought' as const,
    volume_sold: 'volume_sold' as const

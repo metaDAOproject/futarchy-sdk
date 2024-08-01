@@ -66,6 +66,7 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
         tokens_sold: true,
         volume_bought: true,
         volume_sold: true,
+        total_volume: true,
         created_at: true,
         proposal: {
           dao: {
@@ -256,6 +257,7 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
           tokensSold: p.tokens_sold,
           volumeBought: p.volume_bought,
           volumeSold: p.volume_sold,
+          totalVolume: p.total_volume,
           createdAt: new Date(p.created_at),
           pnl: pnl,
           proposal: {

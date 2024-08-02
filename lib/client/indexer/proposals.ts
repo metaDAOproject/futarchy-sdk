@@ -105,18 +105,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           base_mint_acct: true,
           quote_mint_acct: true,
           market_type: true,
-          twaps: {
-            __args: {
-              limit: 1,
-              order_by: [
-                {
-                  created_at: "desc"
-                }
-              ]
-            },
-            last_observation: true,
-            last_price: true
-          },
           prices: {
             __args: {
               limit: 1,
@@ -141,27 +129,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           categories: true
         },
         dao: {
-          dao_detail: {
-            name: true,
-            slug: true
-          },
           pass_threshold_bps: true,
-          tokenByBaseAcct: {
-            mint_acct: true,
-            image_url: true,
-            decimals: true,
-            symbol: true,
-            name: true,
-            supply: true
-          },
-          tokenByQuoteAcct: {
-            mint_acct: true,
-            image_url: true,
-            decimals: true,
-            symbol: true,
-            name: true,
-            supply: true
-          },
           program: {
             program_acct: true,
             version: true,
@@ -261,8 +229,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             )
           },
           dao: {
-            name: p.dao.dao_detail?.name ?? "",
-            slug: p.dao.dao_detail?.slug ?? ""
+            name: dao.name ?? "",
+            slug: dao.slug ?? ""
           },
           passThreshold: p.dao.pass_threshold_bps ?? 0,
           passMarket: new PublicKey(passMarket.market_acct),

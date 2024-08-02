@@ -37,10 +37,10 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
       })
       .reduce((where, field) => {
         const [key, val] = field;
-        if (key === "userAcct" && val instanceof PublicKey) {
+        if (key === "userAcct" && val && typeof val === "object") {
           where.user_acct = { _eq: val.toBase58() };
         }
-        if (key === "proposalAcct" && val instanceof PublicKey) {
+        if (key === "proposalAcct" && val && typeof val === "object") {
           where.proposal_acct = { _eq: val.toBase58() };
         }
         if (key === "daoSlug" && typeof val === "string") {

@@ -416,10 +416,22 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
   }
 
   async fetchTopTraders(daoSlug: string | null): Promise<UserRanking[]> {
+    const userPerformanceWhere = daoSlug
+      ? {
+          proposal: {
+            dao: {
+              dao_detail: {
+                slug: { _eq: daoSlug }
+              }
+            }
+          }
+        }
+      : undefined;
+
     const { users } = await this.graphqlClient.query({
       users: {
         __args: {
-          limit: 5,
+          limit: 4,
           order_by: [
             {
               user_performances_aggregate: {
@@ -428,10 +440,16 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
                 }
               }
             }
-          ]
+          ],
+          where: {
+            user_performances: userPerformanceWhere
+          }
         },
         user_acct: true,
         user_performances_aggregate: {
+          __args: {
+            where: userPerformanceWhere
+          },
           aggregate: {
             sum: {
               total_volume: true

@@ -124,7 +124,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
             __args: {
               order_by: [
                 {
-                  created_at: "desc_nulls_last"
+                  created_at: "asc_nulls_last"
                 }
               ]
             },

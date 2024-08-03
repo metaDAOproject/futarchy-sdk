@@ -419,7 +419,7 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
     const { users } = await this.graphqlClient.query({
       users: {
         __args: {
-          limit: 5,
+          limit: 4,
           order_by: [
             {
               user_performances_aggregate: {

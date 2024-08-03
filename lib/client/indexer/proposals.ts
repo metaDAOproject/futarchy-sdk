@@ -301,7 +301,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 }
               }
             ],
-            limit: 3,
+            limit: 5,
             where: {
               dao: {
                 dao_detail: {

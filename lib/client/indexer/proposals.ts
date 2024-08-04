@@ -342,7 +342,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
 
   async fetchProposal(
     proposalAcct: PublicKey
-  ): Promise<ProposalWithFullData | null> {
+  ): Promise<ProposalWithFullData | undefined> {
     const { proposals } = await this.graphqlClient.query?.({
       proposals: {
         __args: {
@@ -468,7 +468,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         }
       }
     });
-    if (!proposals[0]) return null;
+    if (!proposals[0]) return undefined;
 
     const proposal = proposals[0];
 
@@ -510,7 +510,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             curr.quote_price,
         0
       ) ?? 0;
-    if (!relatedProtocol || !passMarket || !failMarket) return null;
+    if (!relatedProtocol || !passMarket || !failMarket) return undefined;
     return {
       account: {
         baseVault: new PublicKey(proposal.base_vault ?? 5),

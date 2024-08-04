@@ -401,6 +401,50 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       ]
     });
   }
+  watchOrdersForMarkets(
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Observable<{ orders: Order[]; totalOrders: number }> {
+    const pageSizeValue = pageSize ?? 25;
+    const offset = ((page ?? 1) - 1) * pageSizeValue;
+    return this.watchOrdersForArgs({
+      where: {
+        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ],
+      offset,
+      limit: pageSizeValue
+    });
+  }
+  watchUserOrdersForMarkets(
+    owner: PublicKey,
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Observable<{ orders: Order[]; totalOrders: number }> {
+    const pageSizeValue = pageSize ?? 25;
+    const offset = ((page ?? 1) - 1) * pageSizeValue;
+    return this.watchOrdersForArgs({
+      where: {
+        actor_acct: { _eq: owner.toBase58() },
+        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ],
+      offset,
+      limit: pageSizeValue
+    });
+  }
   watchOrdersForMarket(
     marketAcct: PublicKey,
     page?: number,

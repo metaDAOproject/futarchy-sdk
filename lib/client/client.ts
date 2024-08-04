@@ -20,7 +20,8 @@ import {
   ProposalAccounts,
   ProgramVersionLabel,
   ProposalWithFullData,
-  Dao
+  Dao,
+  TokenCache
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
@@ -219,4 +220,8 @@ export interface CreateProposal {
     marketParams: MarketParams,
     proposalDetails: ProposalDetails
   ): void;
+}
+
+export interface FutarchyTokenClient {
+  fetchFutarchyTokens(): Promise<TokenCache[] | undefined>;
 }

@@ -501,6 +501,79 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  watchProposalLiquidity(
+    proposalAcct: PublicKey
+  ): Observable<ProposalMarketPricesAggregate> {
+    const { query, variables } = generateSubscriptionOp({
+      proposal_bars: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposalAcct.toBase58() }
+          },
+          order_by: [
+            {
+              bar_start_time: "desc"
+            }
+          ],
+          limit: 1
+        },
+        bar_start_time: true,
+        fail_base_amount: true,
+        fail_market_acct: true,
+        fail_price: true,
+        fail_quote_amount: true,
+        pass_base_amount: true,
+        pass_market_acct: true,
+        pass_price: true,
+        pass_quote_amount: true,
+        proposal_acct: true
+      }
+    });
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        proposal_bars: {
+          bar_start_time: string;
+          fail_base_amount: number;
+          fail_market_acct: string;
+          fail_price: number;
+          fail_quote_amount: number;
+          pass_base_amount: number;
+          pass_market_acct: string;
+          pass_price: number;
+          pass_quote_amount: number;
+          proposal_acct: string;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const dataValue = data.data?.proposal_bars[0]
+            console.log(data.data)
+            //let proposalBarsPrices: ProposalMarketPricesAggregate = {} as ProposalMarketPricesAggregate
+            const proposalBarsPrices = dataValue ? ({
+                failMarket: {
+                  acct: dataValue.fail_market_acct,
+                  baseAmount: dataValue.fail_base_amount,
+                  price: dataValue.fail_price,
+                  quoteAmount: dataValue.fail_quote_amount
+                },
+                passMarket: {
+                  acct: dataValue.pass_market_acct,
+                  baseAmount: dataValue.pass_base_amount,
+                  price: dataValue.pass_price,
+                  quoteAmount: dataValue.pass_quote_amount
+                },
+                createdAt: new Date(dataValue.bar_start_time)
+              }) : {} as ProposalMarketPricesAggregate
+            subscriber.next(proposalBarsPrices);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+      return () => subscriptionCleanup();
+    });
+  }
   watchProposalBars(
     proposalAcct: PublicKey
   ): Observable<ProposalMarketPricesAggregate[]> {

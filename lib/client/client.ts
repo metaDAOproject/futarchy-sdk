@@ -149,6 +149,8 @@ export interface FutarchyMarketsClient {
   ): Observable<{ orders: Order[]; totalOrders: number }>;
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
+  // watchCurrentSpotPrice(marketKey: PublicKey): Observable<SpotObservation[]>;
+  // watchConditionalSpotPrice(marketKey: PublicKey): Observable<SpotObservation[]>;
 }
 
 export interface FutarchyOrderbookMarketsClient<

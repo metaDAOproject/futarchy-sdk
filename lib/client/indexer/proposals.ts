@@ -351,7 +351,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
             {
               created_at: "desc"
             }
-          ]
+          ],
+          limit: 1
         },
         dao: {
           dao_detail: {

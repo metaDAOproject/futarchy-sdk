@@ -409,6 +409,63 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  watchCurrentSpotPrice(
+    marketKey: PublicKey,
+    filters?: prices_chart_data_bool_exp
+  ): Observable<SpotObservation[]> {
+    const { query, variables } = generateSubscriptionOp({
+      prices_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() },
+            prices_type: {
+              _in: ["spot"]
+            },
+            ...filters
+          },
+          order_by: [
+            {
+              interv: "desc"
+            }
+          ],
+          limit: 1
+        },
+        interv: true,
+        price: true,
+        quote_amount: true,
+        base_amount: true
+      }
+    });
+
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        prices_chart_data: {
+          interv: string;
+          price: number;
+          quote_amount: number;
+          base_amount: number;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const spotObservations =
+              data.data?.prices_chart_data?.map<SpotObservation>((d) => ({
+                priceUi: d.price,
+                createdAt: new Date(d.interv),
+                quoteAmount: d.quote_amount,
+                baseAmount: d.base_amount
+              }));
+            subscriber.next(spotObservations);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+      return () => subscriptionCleanup();
+    });
+  }
+
   watchSpotPrices(
     marketKey: PublicKey,
     filters?: prices_chart_data_bool_exp

@@ -26,7 +26,7 @@ export class FutarchyIndexerAmmMarketsClient
   async fetchMarket(
     request: AmmMarketFetchRequest
   ): Promise<AmmMarket | undefined> {
-    return this.rpcMarketsClient.fetchMarket(request);
+    return this.rpcMarketsClient.fetchMarket(request, false);
   }
 
   validateAddLiquidity(

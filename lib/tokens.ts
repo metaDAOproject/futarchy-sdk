@@ -14,6 +14,7 @@ import {
 } from "@solana/spl-token";
 import { TokenMetadataSource, TokenProps } from "@/types";
 
+let tokenCache = new Map()
 /**
  * Starts with the jup.ag strict list to find token. jup.ag maintains a list of quality tokens
  * if that fails, use metaplex with RPC call and fetch metadata json
@@ -27,7 +28,16 @@ export async function enrichTokenMetadata(
     isFallback?: boolean;
     source: TokenMetadataSource;
   }
-> {
+  > {
+  
+  const tokenStr = tokenAddress.toBase58();
+  console.log(tokenStr);
+
+  if (tokenCache.has(tokenStr)) {
+    console.log("returning cached value")
+    return tokenCache.get(tokenStr);
+  }
+  
   // get the mint
   try {
     const mint = await getMint(rpcProvider.connection, tokenAddress);
@@ -35,7 +45,9 @@ export async function enrichTokenMetadata(
     // second check jup list
     const tokenPropsOnJup = await getTokenFromJupStrictList(tokenAddress);
     if (tokenPropsOnJup) {
-      return { ...tokenPropsOnJup, source: "jup-list" };
+      let data = { ...tokenPropsOnJup, source: "jup-list" as TokenMetadataSource };
+      tokenCache.set(tokenStr, data)
+      return data;
     }
 
     // next, try metaplex
@@ -45,7 +57,9 @@ export async function enrichTokenMetadata(
       mint
     );
     if (tokenPropsFromMetaplex) {
-      return { ...tokenPropsFromMetaplex, source: "metaplex" };
+      let data = { ...tokenPropsFromMetaplex, source: "metaplex" as TokenMetadataSource};
+      tokenCache.set(tokenStr, data)
+      return data;
     }
 
     // next, try token token 2022
@@ -55,19 +69,23 @@ export async function enrichTokenMetadata(
       mint
     );
     if (tokenProps) {
-      return { ...tokenProps, source: "token2022" };
+      let data = { ...tokenProps, source: "token2022" as TokenMetadataSource };
+      tokenCache.set(tokenStr, data)
+      return data;
     }
 
-    // finally just return truncated address for symbol and decimals from SPL
-    return {
+    let data = {
       symbol: tokenAddress.toString().slice(0, 5).toUpperCase(),
       publicKey: tokenAddress.toString(),
       decimals: mint?.decimals ?? 6,
       isFallback: true,
       name: tokenAddress.toString().slice(0, 5).toUpperCase(),
       url: null,
-      source: "fallback"
+      source: "fallback" as TokenMetadataSource
     };
+    
+    // finally just return truncated address for symbol and decimals from SPL
+    return data;
   } catch (e) {
     console.error(
       `error fetching tokenMetadata for mint [${tokenAddress.toString()}]`,
@@ -80,7 +98,7 @@ export async function enrichTokenMetadata(
       isFallback: true,
       url: null,
       name: tokenAddress.toString().slice(0, 5).toUpperCase(),
-      source: "fallback"
+      source: "fallback" as TokenMetadataSource
     };
   }
 }

@@ -55,23 +55,28 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
 
   async fetchMarket(
     // we may need to extend this to add the twapMarket address on here
-    request: AmmMarketFetchRequest
+    request: AmmMarketFetchRequest, withEnrichedTokens : boolean = true
   ): Promise<AmmMarket | undefined> {
     try {
       const ammAccount = await this.ammClient.getAmm(request.marketKey);
-      const baseToken = await enrichTokenMetadata(
-        ammAccount.baseMint,
-        this.rpcProvider
-      );
-      const quoteToken = await enrichTokenMetadata(
-        ammAccount.quoteMint,
-        this.rpcProvider
-      );
-      const lpToken = await enrichTokenMetadata(
-        ammAccount.lpMint,
-        this.rpcProvider
-      );
-
+      let baseToken: any;
+      let quoteToken: any;
+      let lpToken: any
+      if (withEnrichedTokens) {
+        baseToken = await enrichTokenMetadata(
+          ammAccount.baseMint,
+          this.rpcProvider
+        );
+        quoteToken = await enrichTokenMetadata(
+          ammAccount.quoteMint,
+          this.rpcProvider
+        );
+        lpToken = await enrichTokenMetadata(
+          ammAccount.lpMint,
+          this.rpcProvider
+        );
+      }
+      
       const ammMintAccountSupply =
         await this.rpcProvider.connection.getTokenSupply(ammAccount.lpMint);
 

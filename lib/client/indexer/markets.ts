@@ -39,6 +39,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public rpcClient: FutarchyMarketsRPCClient;
   private graphqlWSClient: GQLWebSocketClient;
   private graphqlClient: IndexerGraphQLClient;
+  private marketCache: Map<string,any> ;
 
   constructor(
     rpcOpenbookMarketsClient: FutarchyOpenbookMarketsRPCClient,
@@ -54,12 +55,23 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     this.rpcClient = marketsClient;
     this.graphqlWSClient = graphqlWSClient;
     this.graphqlClient = graphqlClient;
+    this.marketCache = new Map();
   }
+
+  
 
   async fetchMarket(
     request: MarketFetchRequest
-  ): Promise<OpenbookMarket | AmmMarket | undefined> {
-    // Fetch the market based on the request type
+): Promise < OpenbookMarket | AmmMarket | undefined > {
+    
+    let tokenStr = request.marketKey.toBase58()
+    console.log("looking up market " + tokenStr);
+    if (this.marketCache.has(tokenStr)) {
+      console.log("returning cached value for fetchMarket")
+      return this.marketCache.get(tokenStr);
+    }
+    
+    /// Fetch the market based on the request type
     let market: OpenbookMarket | AmmMarket | undefined;
     if (request instanceof OpenbookMarketFetchRequest) {
       market = await this.openbook.fetchMarket(request);
@@ -130,6 +142,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     // Update the market with the token details
     market.baseToken = baseToken;
     market.quoteToken = quoteToken;
+    this.marketCache.set(tokenStr,market)
 
     return market;
   }

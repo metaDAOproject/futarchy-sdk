@@ -82,6 +82,16 @@ export type Dao = {
   };
 };
 
+// Tokens Cache
+export type TokenCache = {
+  symbol: string;
+  decimals: number;
+  name: string | null;
+  mint_acct: string;
+  url: string;
+  supply: number | null;
+}
+
 // we might want to consider changing this to be DaoDetails as the main component and
 export type DaoAggregate = {
   name: string;
@@ -142,3 +152,12 @@ export type DaoDetails__GQL = {
     };
   }>;
 };
+
+export type Tokens__GQL = {
+  symbol: string;
+  decimals: number;
+  name: string | null;
+  mint_acct: string;
+  image_url: string | null;
+  supply: number | null;
+}[]

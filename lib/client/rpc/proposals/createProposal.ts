@@ -31,7 +31,6 @@ import { AnchorProvider, Program, BN, utils } from "@coral-xyz/anchor";
 import {
   AutocratClient,
   InstructionUtils,
-  MaxCUs,
   ProposalInstruction
 } from "@metadaoproject/futarchy";
 import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
@@ -518,17 +517,16 @@ export class CreateProposalClient implements CreateProposal {
   private async createProposalV0_3(
     dao: Dao,
     onPassIx: ProposalInstructionWithPreinstructions,
-    marketParams: AmmMarketParams
+    marketParams: AmmMarketParams,
+    url: string
   ): Promise<
     [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
   > {
     if (!this.transactionSender) return;
-    const initializeProposalCus =
-      MaxCUs.createIdempotent + MaxCUs.initializeProposal + 50000;
 
     const [txs, pdas] = await this.createProposalTxsAndPDAs(
       dao.publicKey,
-      "https://metadao.fi", // TODO: what to put here??
+      url,
       onPassIx.instruction,
       marketParams.baseLiquidity,
       marketParams.quoteLiquidity
@@ -560,7 +558,8 @@ export class CreateProposalClient implements CreateProposal {
     daoAggregate: DaoAggregate,
     version: ProgramVersionLabel = "V0.3",
     instructionParams: CreateProposalInstruction,
-    marketParams: MarketParams
+    marketParams: MarketParams,
+    url: string
   ): Promise<
     [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
   > {
@@ -595,7 +594,8 @@ export class CreateProposalClient implements CreateProposal {
         return this.createProposalV0_3(
           currentDao,
           onPassIxs,
-          marketParams as AmmMarketParams
+          marketParams as AmmMarketParams,
+          url
         );
       default:
         throw Error("Program version not supported.");

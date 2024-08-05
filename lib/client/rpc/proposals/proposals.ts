@@ -40,7 +40,8 @@ import {
 import {
   CreateProposalInstruction,
   MarketParams,
-  ProposalDetails
+  ProposalDetails,
+  ProposalInputs
 } from "@/types/createProp";
 import { FinalizeProposalClient } from "./finalizeProposal";
 import { CreateProposalClient } from "./createProposal";
@@ -202,13 +203,15 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     daoAggregate: DaoAggregate,
     version: ProgramVersionLabel = "V0.3",
     instructionParams: CreateProposalInstruction,
-    marketParams: MarketParams
+    marketParams: MarketParams,
+    proposalInputs: ProposalInputs
   ) {
     return this.createProposalClient.createProposal(
       daoAggregate,
       version,
       instructionParams,
-      marketParams
+      marketParams,
+      proposalInputs.url
     );
   }
 

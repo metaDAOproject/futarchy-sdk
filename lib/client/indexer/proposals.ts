@@ -730,7 +730,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         daoAggregate,
         version,
         instructionParams,
-        marketParams
+        marketParams,
+        proposalInputs
       );
       if (!createProposalRes) return;
 

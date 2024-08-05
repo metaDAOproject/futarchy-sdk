@@ -22,6 +22,7 @@ export type ProposalInputs = {
   title: string;
   content: string;
   description?: string;
+  url: string;
   categories?: { category: string }[];
 };
 

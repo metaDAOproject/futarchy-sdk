@@ -31,7 +31,8 @@ import {
   CreateProposalInstruction,
   ProposalOnChainFields,
   MarketParams,
-  ProposalDetails
+  ProposalDetails,
+  ProposalInputs
 } from "@/types/createProp";
 import { ReactionResponse } from "@/types/reactions";
 import { UserPerformance, UserPerformanceFetchRequest } from "@/types/user";
@@ -73,7 +74,7 @@ export interface FutarchyProposalsClient {
     version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
-    proposalDetails: ProposalDetails
+    proposalDetails: ProposalInputs
   ): Promise<
     [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
   >;
@@ -202,7 +203,9 @@ export interface FutarchyAmmMarketsClient {
 }
 
 export interface FutarchyUserClient {
-  fetchUserPerformance(request: UserPerformanceFetchRequest) : Promise<UserPerformance[] | undefined>;
+  fetchUserPerformance(
+    request: UserPerformanceFetchRequest
+  ): Promise<UserPerformance[] | undefined>;
 }
 
 export interface FinalizeProposal {
@@ -217,6 +220,6 @@ export interface CreateProposal {
     version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
-    proposalDetails: ProposalDetails
+    url: string
   ): void;
 }

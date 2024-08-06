@@ -459,7 +459,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   watchCurrentSpotPrice(
     marketKey: PublicKey,
     filters?: prices_chart_data_bool_exp
-  ): Observable<SpotObservation[]> {
+  ): Observable<SpotObservation> {
     const { query, variables } = generateSubscriptionOp({
       prices_chart_data: {
         __args: {
@@ -496,14 +496,17 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            const spotObservations =
-              data.data?.prices_chart_data?.map<SpotObservation>((d) => ({
-                priceUi: d.price,
-                createdAt: new Date(d.interv),
-                quoteAmount: d.quote_amount,
-                baseAmount: d.base_amount
-              }));
-            subscriber.next(spotObservations);
+            let d = data.data?.prices_chart_data[0];
+            if (d) {
+              const spotObservation =
+                {
+                  priceUi: d.price,
+                  createdAt: new Date(d.interv),
+                  quoteAmount: d.quote_amount,
+                  baseAmount: d.base_amount
+                };
+              subscriber.next(spotObservation);
+            }
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()
@@ -511,6 +514,39 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       );
       return () => subscriptionCleanup();
     });
+  }
+
+  async fetchCurrentSpotPrice(marketKey: PublicKey): Promise<SpotObservation> {
+    const { prices_chart_data } = await this.graphqlClient.query({
+      prices_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() },
+            prices_type: {
+              _in: ["spot"]
+            },
+          },
+          order_by: [
+            {
+              interv: "desc"
+            }
+          ],
+          limit: 1
+        },
+        interv: true,
+        price: true,
+        quote_amount: true,
+        base_amount: true
+      }
+    });
+
+    const observation: SpotObservation = {
+      priceUi: prices_chart_data[0]?.price,
+      createdAt: new Date(prices_chart_data[0]?.interv),
+      quoteAmount: prices_chart_data[0]?.quote_amount,
+      baseAmount: prices_chart_data[0]?.base_amount
+    };
+    return observation;
   }
 
   watchSpotPrices(

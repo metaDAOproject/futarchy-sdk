@@ -201,6 +201,47 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  async fetchTwapPrices(marketKey: PublicKey): Promise<TwapObservation[]> {
+
+    const { twap_chart_data } = await this.graphqlClient.query({
+      twap_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() }
+          },
+          order_by: [
+            {
+              interv: "asc"
+            }
+          ]
+        },
+        token_amount: true,
+        market: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        },
+        interv: true
+      }
+    });
+
+    const twapObservations =
+      twap_chart_data?.map<TwapObservation>((d) => ({
+        priceUi: PriceMath.getHumanPrice(
+          new BN(d.token_amount),
+          d.market?.tokenByBaseMintAcct?.decimals!!,
+          d.market?.tokenByQuoteMintAcct.decimals!!
+        ),
+        priceRaw: d.token_amount,
+        createdAt: new Date(d.interv)
+      }));
+    return twapObservations;
+
+  }
+
   private watchOrdersForArgs(args: {
     distinct_on?: orders_select_column[] | null | undefined;
     limit?: number | null | undefined;
@@ -355,6 +396,123 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  private async fetchOrdersForArgs(args: {
+    distinct_on?: orders_select_column[] | null | undefined;
+    limit?: number | null | undefined;
+    offset?: number | null | undefined;
+    order_by?: orders_order_by[] | null | undefined;
+    where?: orders_bool_exp | null | undefined;
+  }): Promise<{ orders: Order[]; totalOrders: number }> {
+    const query = {
+      orders_aggregate: {
+        __args: {
+          where: {
+            ...args.where,
+            transaction: {
+              failed: { _eq: false }
+            }
+          }
+        },
+        aggregate: {
+          count: true
+        }
+      },
+      orders: {
+        __args: {
+          ...args,
+          where: {
+            ...args.where,
+            transaction: {
+              failed: { _eq: false }
+            }
+          }
+        },
+        order_time: true,
+        is_active: true,
+        filled_base_amount: true,
+        quote_price: true,
+        side: true,
+        market_acct: true,
+        order_tx_sig: true,
+        transaction: {
+          failed: true
+        },
+        market: {
+          tokenAcctByBidsTokenAcct: {
+            token: {
+              decimals: true,
+              image_url: true,
+              symbol: true,
+              name: true,
+              mint_acct: true
+            }
+          },
+          token: {
+            decimals: true,
+            image_url: true,
+            symbol: true,
+            name: true,
+            mint_acct: true
+          },
+          tokenByQuoteMintAcct: {
+            decimals: true,
+            image_url: true,
+            symbol: true,
+            name: true,
+            mint_acct: true
+          }
+        },
+        actor_acct: true
+      }
+    };
+
+    try {
+      const res = await this.graphqlClient.query(query);
+
+      const orders =
+        res?.orders
+          ?.map<Order | undefined>((order) => {
+            const token = order.market.token;
+            if (
+              !token.mint_acct ||
+              !token.decimals ||
+              !order.actor_acct ||
+              !order.market_acct
+            )
+              return;
+            return {
+              time: new Date(order.order_time),
+              transactionStatus: order.transaction?.failed
+                ? "failed"
+                : "succeeded",
+              status: order.is_active ? "open" : "closed",
+              size: order.filled_base_amount,
+              filled: order.filled_base_amount,
+              market: new PublicKey(order.market_acct),
+              price: order.quote_price,
+              side: order.side === "BID" ? "bid" : "ask",
+              token: {
+                decimals: Number(token.decimals),
+                name: token.name ?? "",
+                publicKey: token.mint_acct ?? "",
+                symbol: token.symbol ?? "",
+                url: token.image_url ?? ""
+              },
+              owner: new PublicKey(order.actor_acct),
+              signature: order.order_tx_sig
+            };
+          })
+          .filter((o): o is Order => Boolean(o)) ?? [];
+
+      return {
+        orders,
+        totalOrders: res?.orders_aggregate?.aggregate?.count ?? 0
+      };
+    } catch (error: any) {
+      throw new Error(`Error fetching orders: ${error.message}`);
+    }
+  }
+
   watchAllUserOrders(
     owner: PublicKey,
     filters?: orders_bool_exp
@@ -384,7 +542,34 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ],
+      offset,
+      limit: 1
+    });
+  }
+  fetchUserOrdersForMarkets(
+    owner: PublicKey,
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Promise<{ orders: Order[]; totalOrders: number }> {
+    const pageSizeValue = pageSize ?? 25;
+    const offset = ((page ?? 1) - 1) * pageSizeValue;
+    return this.fetchOrdersForArgs({
+      where: {
+        actor_acct: { _eq: owner.toBase58() },
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
       },
       order_by: [
         {
@@ -413,6 +598,23 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  fetchUserOrdersForMarket(
+    owner: PublicKey,
+    marketAcct: PublicKey
+  ): Promise<{ orders: Order[]; totalOrders: number }> {
+    return this.fetchOrdersForArgs({
+      where: {
+        actor_acct: { _eq: owner.toBase58() },
+        market_acct: { _eq: marketAcct.toBase58() }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ]
+    });
+  }
+
   watchOrdersForMarkets(
     passMarketAcct: PublicKey,
     failMarketAcct: PublicKey,
@@ -423,7 +625,32 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     const offset = ((page ?? 1) - 1) * pageSizeValue;
     return this.watchOrdersForArgs({
       where: {
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ],
+      offset,
+      limit: 1
+    });
+  }
+  fetchOrdersForMarkets(
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Promise<{ orders: Order[]; totalOrders: number }> {
+    const pageSizeValue = pageSize ?? 25;
+    const offset = ((page ?? 1) - 1) * pageSizeValue;
+    return this.fetchOrdersForArgs({
+      where: {
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
       },
       order_by: [
         {
@@ -459,7 +686,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   watchCurrentSpotPrice(
     marketKey: PublicKey,
     filters?: prices_chart_data_bool_exp
-  ): Observable<SpotObservation[]> {
+  ): Observable<SpotObservation> {
     const { query, variables } = generateSubscriptionOp({
       prices_chart_data: {
         __args: {
@@ -496,14 +723,17 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
-            const spotObservations =
-              data.data?.prices_chart_data?.map<SpotObservation>((d) => ({
+            let d = data.data?.prices_chart_data[0];
+            if (d) {
+              const spotObservation =
+              {
                 priceUi: d.price,
                 createdAt: new Date(d.interv),
                 quoteAmount: d.quote_amount,
                 baseAmount: d.base_amount
-              }));
-            subscriber.next(spotObservations);
+              };
+              subscriber.next(spotObservation);
+            }
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()
@@ -511,6 +741,39 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       );
       return () => subscriptionCleanup();
     });
+  }
+
+  async fetchCurrentSpotPrice(marketKey: PublicKey): Promise<SpotObservation> {
+    const { prices_chart_data } = await this.graphqlClient.query({
+      prices_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() },
+            prices_type: {
+              _in: ["spot"]
+            },
+          },
+          order_by: [
+            {
+              interv: "desc"
+            }
+          ],
+          limit: 1
+        },
+        interv: true,
+        price: true,
+        quote_amount: true,
+        base_amount: true
+      }
+    });
+
+    const observation: SpotObservation = {
+      priceUi: prices_chart_data[0]?.price,
+      createdAt: new Date(prices_chart_data[0]?.interv),
+      quoteAmount: prices_chart_data[0]?.quote_amount,
+      baseAmount: prices_chart_data[0]?.base_amount
+    };
+    return observation;
   }
 
   watchSpotPrices(
@@ -676,5 +939,52 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       );
       return () => subscriptionCleanup();
     });
+  }
+
+  async fetchProposalBars(
+    proposalAcct: PublicKey
+  ): Promise<ProposalMarketPricesAggregate[]> {
+    const { proposal_bars } = await this.graphqlClient.query({
+      proposal_bars: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposalAcct.toBase58() }
+          },
+          order_by: [
+            {
+              bar_start_time: "asc"
+            }
+          ]
+        },
+        bar_start_time: true,
+        fail_base_amount: true,
+        fail_market_acct: true,
+        fail_price: true,
+        fail_quote_amount: true,
+        pass_base_amount: true,
+        pass_market_acct: true,
+        pass_price: true,
+        pass_quote_amount: true,
+        proposal_acct: true
+      }
+    });
+
+    const proposalBarsPrices =
+      proposal_bars?.map<ProposalMarketPricesAggregate>((d) => ({
+        failMarket: {
+          acct: d.fail_market_acct!,
+          baseAmount: d.fail_base_amount,
+          price: d.fail_price,
+          quoteAmount: d.fail_quote_amount
+        },
+        passMarket: {
+          acct: d.pass_market_acct!,
+          baseAmount: d.pass_base_amount,
+          price: d.pass_price,
+          quoteAmount: d.pass_quote_amount
+        },
+        createdAt: new Date(d.bar_start_time)
+      })) ?? [];
+    return proposalBarsPrices;
   }
 }

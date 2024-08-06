@@ -18,7 +18,16 @@ export type UserPerformance = {
   volumeBought: string;
   volumeSold: string;
   totalVolume: number;
-  proposal: ProposalWithFullData;
+  proposal: Pick<
+    ProposalWithFullData,
+    | "publicKey"
+    | "title"
+    | "state"
+    | "tags"
+    | "finalizationDate"
+    | "endDate"
+    | "volume"
+  > & { account: { number: number } } & { dao: { slug: string } };
   createdAt: Date;
   pnl: number;
 } & User;

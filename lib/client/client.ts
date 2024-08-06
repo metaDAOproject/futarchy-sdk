@@ -207,6 +207,22 @@ export interface FutarchyUserClient {
     request: UserPerformanceFetchRequest
   ): Promise<UserPerformance[] | undefined>;
 }
+export interface FutarchySocialsClient {
+  addReaction(
+    authId: string,
+    reaction: string,
+    pubKey: string,
+    proposalAcct: string,
+    commentId: string | null
+  ): Promise<any>;
+
+  removeReaction(
+    authId: string,
+    reaction: string,
+    pubKey: string,
+    proposalAcct: string
+  ): Promise<any>;
+}
 
 export interface FinalizeProposal {
   finalizeProposal(

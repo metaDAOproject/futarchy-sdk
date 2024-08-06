@@ -8,6 +8,7 @@ import { ClientOptions, createClient as createWsClient } from "graphql-ws";
 import { FutarchyProtocol } from "@/types";
 import { Observable } from "rxjs";
 import { FutarchyIndexerUserClient } from "./user";
+import { FutarchyIndexerSocialsClient } from "./socials";
 
 export class FutarchyIndexerClient implements FutarchyClient {
   public daos: FutarchyIndexerDaoClient;
@@ -15,6 +16,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
   public balances: FutarchyIndexerBalancesClient;
   public markets: FutarchyIndexerMarketsClient;
   public user: FutarchyIndexerUserClient;
+  public socials: FutarchyIndexerSocialsClient;
   private protocolMap: Map<string, FutarchyProtocol>;
   private wsClient;
 
@@ -71,10 +73,11 @@ export class FutarchyIndexerClient implements FutarchyClient {
       this.wsClient,
       graphqlClient
     );
-    this.user = new FutarchyIndexerUserClient(
+    this.user = new FutarchyIndexerUserClient(graphqlClient, this.protocolMap);
+    this.socials = new FutarchyIndexerSocialsClient(
       graphqlClient,
-      this.protocolMap,
-    )
+      this.wsClient
+    );
   }
 
   watchSlot() {

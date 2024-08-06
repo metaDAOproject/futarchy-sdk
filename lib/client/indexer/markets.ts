@@ -396,6 +396,123 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  private async fetchOrdersForArgs(args: {
+    distinct_on?: orders_select_column[] | null | undefined;
+    limit?: number | null | undefined;
+    offset?: number | null | undefined;
+    order_by?: orders_order_by[] | null | undefined;
+    where?: orders_bool_exp | null | undefined;
+  }): Promise<{ orders: Order[]; totalOrders: number }> {
+    const query = {
+      orders_aggregate: {
+        __args: {
+          where: {
+            ...args.where,
+            transaction: {
+              failed: { _eq: false }
+            }
+          }
+        },
+        aggregate: {
+          count: true
+        }
+      },
+      orders: {
+        __args: {
+          ...args,
+          where: {
+            ...args.where,
+            transaction: {
+              failed: { _eq: false }
+            }
+          }
+        },
+        order_time: true,
+        is_active: true,
+        filled_base_amount: true,
+        quote_price: true,
+        side: true,
+        market_acct: true,
+        order_tx_sig: true,
+        transaction: {
+          failed: true
+        },
+        market: {
+          tokenAcctByBidsTokenAcct: {
+            token: {
+              decimals: true,
+              image_url: true,
+              symbol: true,
+              name: true,
+              mint_acct: true
+            }
+          },
+          token: {
+            decimals: true,
+            image_url: true,
+            symbol: true,
+            name: true,
+            mint_acct: true
+          },
+          tokenByQuoteMintAcct: {
+            decimals: true,
+            image_url: true,
+            symbol: true,
+            name: true,
+            mint_acct: true
+          }
+        },
+        actor_acct: true
+      }
+    };
+
+    try {
+      const res = await this.graphqlClient.query(query);
+
+      const orders =
+        res?.orders
+          ?.map<Order | undefined>((order) => {
+            const token = order.market.token;
+            if (
+              !token.mint_acct ||
+              !token.decimals ||
+              !order.actor_acct ||
+              !order.market_acct
+            )
+              return;
+            return {
+              time: new Date(order.order_time),
+              transactionStatus: order.transaction?.failed
+                ? "failed"
+                : "succeeded",
+              status: order.is_active ? "open" : "closed",
+              size: order.filled_base_amount,
+              filled: order.filled_base_amount,
+              market: new PublicKey(order.market_acct),
+              price: order.quote_price,
+              side: order.side === "BID" ? "bid" : "ask",
+              token: {
+                decimals: Number(token.decimals),
+                name: token.name ?? "",
+                publicKey: token.mint_acct ?? "",
+                symbol: token.symbol ?? "",
+                url: token.image_url ?? ""
+              },
+              owner: new PublicKey(order.actor_acct),
+              signature: order.order_tx_sig
+            };
+          })
+          .filter((o): o is Order => Boolean(o)) ?? [];
+
+      return {
+        orders,
+        totalOrders: res?.orders_aggregate?.aggregate?.count ?? 0
+      };
+    } catch (error: any) {
+      throw new Error(`Error fetching orders: ${error.message}`);
+    }
+  }
+
   watchAllUserOrders(
     owner: PublicKey,
     filters?: orders_bool_exp
@@ -425,7 +542,34 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()] }
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ],
+      offset,
+      limit: 1
+    });
+  }
+  fetchUserOrdersForMarkets(
+    owner: PublicKey,
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Promise<{ orders: Order[]; totalOrders: number }> {
+    const pageSizeValue = pageSize ?? 25;
+    const offset = ((page ?? 1) - 1) * pageSizeValue;
+    return this.fetchOrdersForArgs({
+      where: {
+        actor_acct: { _eq: owner.toBase58() },
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
       },
       order_by: [
         {
@@ -454,6 +598,23 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  fetchUserOrdersForMarket(
+    owner: PublicKey,
+    marketAcct: PublicKey
+  ): Promise<{ orders: Order[]; totalOrders: number }> {
+    return this.fetchOrdersForArgs({
+      where: {
+        actor_acct: { _eq: owner.toBase58() },
+        market_acct: { _eq: marketAcct.toBase58() }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ]
+    });
+  }
+
   watchOrdersForMarkets(
     passMarketAcct: PublicKey,
     failMarketAcct: PublicKey,
@@ -464,7 +625,32 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     const offset = ((page ?? 1) - 1) * pageSizeValue;
     return this.watchOrdersForArgs({
       where: {
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()] }
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
+      },
+      order_by: [
+        {
+          order_time: "desc"
+        }
+      ],
+      offset,
+      limit: 1
+    });
+  }
+  fetchOrdersForMarkets(
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Promise<{ orders: Order[]; totalOrders: number }> {
+    const pageSizeValue = pageSize ?? 25;
+    const offset = ((page ?? 1) - 1) * pageSizeValue;
+    return this.fetchOrdersForArgs({
+      where: {
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
       },
       order_by: [
         {
@@ -755,7 +941,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
-  async fetchProposalBars(proposalAcct: PublicKey): Promise<ProposalMarketPricesAggregate[]> {
+  async fetchProposalBars(
+    proposalAcct: PublicKey
+  ): Promise<ProposalMarketPricesAggregate[]> {
     const { proposal_bars } = await this.graphqlClient.query({
       proposal_bars: {
         __args: {
@@ -782,23 +970,21 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
 
     const proposalBarsPrices =
-      proposal_bars?.map<ProposalMarketPricesAggregate>(
-        (d) => ({
-          failMarket: {
-            acct: d.fail_market_acct!,
-            baseAmount: d.fail_base_amount,
-            price: d.fail_price,
-            quoteAmount: d.fail_quote_amount
-          },
-          passMarket: {
-            acct: d.pass_market_acct!,
-            baseAmount: d.pass_base_amount,
-            price: d.pass_price,
-            quoteAmount: d.pass_quote_amount
-          },
-          createdAt: new Date(d.bar_start_time)
-        })
-      ) ?? [];
+      proposal_bars?.map<ProposalMarketPricesAggregate>((d) => ({
+        failMarket: {
+          acct: d.fail_market_acct!,
+          baseAmount: d.fail_base_amount,
+          price: d.fail_price,
+          quoteAmount: d.fail_quote_amount
+        },
+        passMarket: {
+          acct: d.pass_market_acct!,
+          baseAmount: d.pass_base_amount,
+          price: d.pass_price,
+          quoteAmount: d.pass_quote_amount
+        },
+        createdAt: new Date(d.bar_start_time)
+      })) ?? [];
     return proposalBarsPrices;
   }
 }

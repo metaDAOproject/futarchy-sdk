@@ -161,6 +161,46 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
 
     return new Observable((subscriber) => {
+      this.graphqlClient
+        .query({
+          twap_chart_data: {
+            __args: {
+              where: {
+                market_acct: { _eq: marketKey.toString() }
+              },
+              order_by: [
+                {
+                  interv: "asc"
+                }
+              ]
+            },
+            token_amount: true,
+            market: {
+              tokenByQuoteMintAcct: {
+                decimals: true
+              },
+              tokenByBaseMintAcct: {
+                decimals: true
+              }
+            },
+            interv: true
+          }
+        })
+        .then((data) => {
+          const twapObservations = data?.twap_chart_data?.map<TwapObservation>(
+            (d) => ({
+              priceUi: PriceMath.getHumanPrice(
+                new BN(d.token_amount),
+                d.market?.tokenByBaseMintAcct?.decimals!!,
+                d.market?.tokenByQuoteMintAcct?.decimals!!
+              ),
+              priceRaw: d.token_amount,
+              createdAt: new Date(d.interv)
+            })
+          );
+          subscriber.next(twapObservations);
+        });
+
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
         twap_chart_data: {
           token_amount: number;
@@ -190,6 +230,10 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                 priceRaw: d.token_amount,
                 createdAt: new Date(d.interv)
               }));
+            console.log(
+              "susbcription response next for Observables",
+              twapObservations
+            );
             subscriber.next(twapObservations);
           },
           error: (error) => subscriber.error(error),
@@ -384,7 +428,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
       },
       order_by: [
         {
@@ -423,7 +469,9 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     const offset = ((page ?? 1) - 1) * pageSizeValue;
     return this.watchOrdersForArgs({
       where: {
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: {
+          _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]
+        }
       },
       order_by: [
         {
@@ -633,26 +681,37 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       }
     });
     return new Observable((subscriber) => {
-      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        proposal_bars: {
-          bar_start_time: string;
-          fail_base_amount: number;
-          fail_market_acct: string;
-          fail_price: number;
-          fail_quote_amount: number;
-          pass_base_amount: number;
-          pass_market_acct: string;
-          pass_price: number;
-          pass_quote_amount: number;
-          proposal_acct: string;
-        }[];
-      }>(
-        { query, variables },
-        {
-          next: (data) => {
-            const proposalBarsPrices =
-              data.data?.proposal_bars?.map<ProposalMarketPricesAggregate>(
-                (d) => ({
+      this.graphqlClient
+        .query({
+          proposal_bars: {
+            __args: {
+              where: {
+                proposal_acct: { _eq: proposalAcct.toBase58() }
+              },
+              order_by: [
+                {
+                  bar_start_time: "asc"
+                }
+              ]
+            },
+            bar_start_time: true,
+            fail_base_amount: true,
+            fail_market_acct: true,
+            fail_price: true,
+            fail_quote_amount: true,
+            pass_base_amount: true,
+            pass_market_acct: true,
+            pass_price: true,
+            pass_quote_amount: true,
+            proposal_acct: true
+          }
+        })
+        .then((data) => {
+          const proposalBarsPrices =
+            data?.proposal_bars?.reduce<ProposalMarketPricesAggregate[]>(
+              (acc, d) => {
+                if (!d.fail_market_acct || !d.pass_market_acct) return acc;
+                const newBar = {
                   failMarket: {
                     acct: d.fail_market_acct,
                     baseAmount: d.fail_base_amount,
@@ -666,7 +725,54 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                     quoteAmount: d.pass_quote_amount
                   },
                   createdAt: new Date(d.bar_start_time)
-                })
+                };
+                return [...acc, newBar];
+              },
+              []
+            ) ?? [];
+          subscriber.next(proposalBarsPrices);
+        })
+        .catch((error) => subscriber.error(error));
+
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        proposal_bars: {
+          bar_start_time: string;
+          fail_base_amount: number;
+          fail_market_acct: string | null;
+          fail_price: number;
+          fail_quote_amount: number;
+          pass_base_amount: number;
+          pass_market_acct: string | null;
+          pass_price: number;
+          pass_quote_amount: number;
+          proposal_acct: string;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const proposalBarsPrices =
+              data.data?.proposal_bars?.reduce<ProposalMarketPricesAggregate[]>(
+                (acc, d) => {
+                  if (!d.fail_market_acct || !d.pass_market_acct) return acc;
+                  const newBar = {
+                    failMarket: {
+                      acct: d.fail_market_acct,
+                      baseAmount: d.fail_base_amount,
+                      price: d.fail_price,
+                      quoteAmount: d.fail_quote_amount
+                    },
+                    passMarket: {
+                      acct: d.pass_market_acct,
+                      baseAmount: d.pass_base_amount,
+                      price: d.pass_price,
+                      quoteAmount: d.pass_quote_amount
+                    },
+                    createdAt: new Date(d.bar_start_time)
+                  };
+                  return [...acc, newBar];
+                },
+                []
               ) ?? [];
             subscriber.next(proposalBarsPrices);
           },

@@ -24937,10 +24937,10 @@ export default {
                 5
             ],
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "total_volume": [
                 7
@@ -24952,10 +24952,10 @@ export default {
                 5
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25153,10 +25153,10 @@ export default {
                 6
             ],
             "tokens_bought": [
-                341
+                8
             ],
             "tokens_sold": [
-                341
+                8
             ],
             "total_volume": [
                 8
@@ -25168,10 +25168,10 @@ export default {
                 6
             ],
             "volume_bought": [
-                341
+                8
             ],
             "volume_sold": [
-                341
+                8
             ],
             "__typename": [
                 5
@@ -25180,16 +25180,16 @@ export default {
         "user_performance_constraint": {},
         "user_performance_inc_input": {
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25206,10 +25206,10 @@ export default {
                 5
             ],
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "user": [
                 1246
@@ -25218,10 +25218,10 @@ export default {
                 5
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25235,10 +25235,10 @@ export default {
                 5
             ],
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "total_volume": [
                 7
@@ -25247,10 +25247,10 @@ export default {
                 5
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25293,10 +25293,10 @@ export default {
                 5
             ],
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "total_volume": [
                 7
@@ -25305,10 +25305,10 @@ export default {
                 5
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25423,19 +25423,19 @@ export default {
                 5
             ],
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "user_acct": [
                 5
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25580,10 +25580,10 @@ export default {
                 5
             ],
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "total_volume": [
                 7
@@ -25592,10 +25592,10 @@ export default {
                 5
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25603,19 +25603,19 @@ export default {
         },
         "user_performance_sum_fields": {
             "tokens_bought": [
-                340
+                7
             ],
             "tokens_sold": [
-                340
+                7
             ],
             "total_volume": [
                 7
             ],
             "volume_bought": [
-                340
+                7
             ],
             "volume_sold": [
-                340
+                7
             ],
             "__typename": [
                 5
@@ -25780,6 +25780,50 @@ export default {
             "created_at": [
                 911
             ],
+            "orders": [
+                343,
+                {
+                    "distinct_on": [
+                        367,
+                        "[orders_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        365,
+                        "[orders_order_by!]"
+                    ],
+                    "where": [
+                        354
+                    ]
+                }
+            ],
+            "orders_aggregate": [
+                344,
+                {
+                    "distinct_on": [
+                        367,
+                        "[orders_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        365,
+                        "[orders_order_by!]"
+                    ],
+                    "where": [
+                        354
+                    ]
+                }
+            ],
             "sessions": [
                 804,
                 {
@@ -25922,6 +25966,12 @@ export default {
             "created_at": [
                 912
             ],
+            "orders": [
+                354
+            ],
+            "orders_aggregate": [
+                345
+            ],
             "sessions": [
                 811
             ],
@@ -25945,6 +25995,9 @@ export default {
         "users_insert_input": {
             "created_at": [
                 911
+            ],
+            "orders": [
+                351
             ],
             "sessions": [
                 810
@@ -26020,6 +26073,9 @@ export default {
         "users_order_by": {
             "created_at": [
                 342
+            ],
+            "orders_aggregate": [
+                350
             ],
             "sessions_aggregate": [
                 809

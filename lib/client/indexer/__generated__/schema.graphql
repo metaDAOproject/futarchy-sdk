@@ -9562,7 +9562,7 @@ enum proposal_bars_constraint {
   """
   unique or primary key constraint on columns "bar_size", "bar_start_time", "proposal_acct"
   """
-  proposal_bars_pkey
+  pg_table_pkey
 }
 
 """
@@ -17480,7 +17480,7 @@ enum token_acct_balances_constraint {
   """
   unique or primary key constraint on columns "mint_acct", "created_at", "amount", "token_acct"
   """
-  token_acct_balances_token_acct_mint_acct_amount_created_at_pk
+  new_token_acct_balances_pkey
 }
 
 """
@@ -21004,15 +21004,17 @@ type user_performance {
   """An object relationship"""
   proposal: proposals!
   proposal_acct: String!
-  tokens_bought: numeric!
-  tokens_sold: numeric!
+  tokens_bought: bigint!
+
+  """amount of tokens sold"""
+  tokens_sold: bigint!
   total_volume: bigint
 
   """An object relationship"""
   user: users!
   user_acct: String!
-  volume_bought: numeric!
-  volume_sold: numeric!
+  volume_bought: bigint!
+  volume_sold: bigint!
 }
 
 """
@@ -21081,6 +21083,8 @@ input user_performance_arr_rel_insert_input {
 """aggregate avg on columns"""
 type user_performance_avg_fields {
   tokens_bought: Float
+
+  """amount of tokens sold"""
   tokens_sold: Float
   total_volume: Float
   volume_bought: Float
@@ -21092,6 +21096,8 @@ order by avg() on columns of table "user_performance"
 """
 input user_performance_avg_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21108,13 +21114,13 @@ input user_performance_bool_exp {
   created_at: timestamptz_comparison_exp
   proposal: proposals_bool_exp
   proposal_acct: String_comparison_exp
-  tokens_bought: numeric_comparison_exp
-  tokens_sold: numeric_comparison_exp
+  tokens_bought: bigint_comparison_exp
+  tokens_sold: bigint_comparison_exp
   total_volume: bigint_comparison_exp
   user: users_bool_exp
   user_acct: String_comparison_exp
-  volume_bought: numeric_comparison_exp
-  volume_sold: numeric_comparison_exp
+  volume_bought: bigint_comparison_exp
+  volume_sold: bigint_comparison_exp
 }
 
 """
@@ -21131,10 +21137,12 @@ enum user_performance_constraint {
 input type for incrementing numeric columns in table "user_performance"
 """
 input user_performance_inc_input {
-  tokens_bought: numeric
-  tokens_sold: numeric
-  volume_bought: numeric
-  volume_sold: numeric
+  tokens_bought: bigint
+
+  """amount of tokens sold"""
+  tokens_sold: bigint
+  volume_bought: bigint
+  volume_sold: bigint
 }
 
 """
@@ -21144,24 +21152,28 @@ input user_performance_insert_input {
   created_at: timestamptz
   proposal: proposals_obj_rel_insert_input
   proposal_acct: String
-  tokens_bought: numeric
-  tokens_sold: numeric
+  tokens_bought: bigint
+
+  """amount of tokens sold"""
+  tokens_sold: bigint
   user: users_obj_rel_insert_input
   user_acct: String
-  volume_bought: numeric
-  volume_sold: numeric
+  volume_bought: bigint
+  volume_sold: bigint
 }
 
 """aggregate max on columns"""
 type user_performance_max_fields {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: numeric
-  tokens_sold: numeric
+  tokens_bought: bigint
+
+  """amount of tokens sold"""
+  tokens_sold: bigint
   total_volume: bigint
   user_acct: String
-  volume_bought: numeric
-  volume_sold: numeric
+  volume_bought: bigint
+  volume_sold: bigint
 }
 
 """
@@ -21171,6 +21183,8 @@ input user_performance_max_order_by {
   created_at: order_by
   proposal_acct: order_by
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   user_acct: order_by
@@ -21182,12 +21196,14 @@ input user_performance_max_order_by {
 type user_performance_min_fields {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: numeric
-  tokens_sold: numeric
+  tokens_bought: bigint
+
+  """amount of tokens sold"""
+  tokens_sold: bigint
   total_volume: bigint
   user_acct: String
-  volume_bought: numeric
-  volume_sold: numeric
+  volume_bought: bigint
+  volume_sold: bigint
 }
 
 """
@@ -21197,6 +21213,8 @@ input user_performance_min_order_by {
   created_at: order_by
   proposal_acct: order_by
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   user_acct: order_by
@@ -21279,16 +21297,20 @@ input type for updating data in table "user_performance"
 input user_performance_set_input {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: numeric
-  tokens_sold: numeric
+  tokens_bought: bigint
+
+  """amount of tokens sold"""
+  tokens_sold: bigint
   user_acct: String
-  volume_bought: numeric
-  volume_sold: numeric
+  volume_bought: bigint
+  volume_sold: bigint
 }
 
 """aggregate stddev on columns"""
 type user_performance_stddev_fields {
   tokens_bought: Float
+
+  """amount of tokens sold"""
   tokens_sold: Float
   total_volume: Float
   volume_bought: Float
@@ -21300,6 +21322,8 @@ order by stddev() on columns of table "user_performance"
 """
 input user_performance_stddev_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21309,6 +21333,8 @@ input user_performance_stddev_order_by {
 """aggregate stddev_pop on columns"""
 type user_performance_stddev_pop_fields {
   tokens_bought: Float
+
+  """amount of tokens sold"""
   tokens_sold: Float
   total_volume: Float
   volume_bought: Float
@@ -21320,6 +21346,8 @@ order by stddev_pop() on columns of table "user_performance"
 """
 input user_performance_stddev_pop_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21329,6 +21357,8 @@ input user_performance_stddev_pop_order_by {
 """aggregate stddev_samp on columns"""
 type user_performance_stddev_samp_fields {
   tokens_bought: Float
+
+  """amount of tokens sold"""
   tokens_sold: Float
   total_volume: Float
   volume_bought: Float
@@ -21340,6 +21370,8 @@ order by stddev_samp() on columns of table "user_performance"
 """
 input user_performance_stddev_samp_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21361,21 +21393,25 @@ input user_performance_stream_cursor_input {
 input user_performance_stream_cursor_value_input {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: numeric
-  tokens_sold: numeric
+  tokens_bought: bigint
+
+  """amount of tokens sold"""
+  tokens_sold: bigint
   total_volume: bigint
   user_acct: String
-  volume_bought: numeric
-  volume_sold: numeric
+  volume_bought: bigint
+  volume_sold: bigint
 }
 
 """aggregate sum on columns"""
 type user_performance_sum_fields {
-  tokens_bought: numeric
-  tokens_sold: numeric
+  tokens_bought: bigint
+
+  """amount of tokens sold"""
+  tokens_sold: bigint
   total_volume: bigint
-  volume_bought: numeric
-  volume_sold: numeric
+  volume_bought: bigint
+  volume_sold: bigint
 }
 
 """
@@ -21383,6 +21419,8 @@ order by sum() on columns of table "user_performance"
 """
 input user_performance_sum_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21429,6 +21467,8 @@ input user_performance_updates {
 """aggregate var_pop on columns"""
 type user_performance_var_pop_fields {
   tokens_bought: Float
+
+  """amount of tokens sold"""
   tokens_sold: Float
   total_volume: Float
   volume_bought: Float
@@ -21440,6 +21480,8 @@ order by var_pop() on columns of table "user_performance"
 """
 input user_performance_var_pop_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21449,6 +21491,8 @@ input user_performance_var_pop_order_by {
 """aggregate var_samp on columns"""
 type user_performance_var_samp_fields {
   tokens_bought: Float
+
+  """amount of tokens sold"""
   tokens_sold: Float
   total_volume: Float
   volume_bought: Float
@@ -21460,6 +21504,8 @@ order by var_samp() on columns of table "user_performance"
 """
 input user_performance_var_samp_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21469,6 +21515,8 @@ input user_performance_var_samp_order_by {
 """aggregate variance on columns"""
 type user_performance_variance_fields {
   tokens_bought: Float
+
+  """amount of tokens sold"""
   tokens_sold: Float
   total_volume: Float
   volume_bought: Float
@@ -21480,6 +21528,8 @@ order by variance() on columns of table "user_performance"
 """
 input user_performance_variance_order_by {
   tokens_bought: order_by
+
+  """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
   volume_bought: order_by
@@ -21491,6 +21541,42 @@ columns and relationships of "users"
 """
 type users {
   created_at: timestamptz!
+
+  """An array relationship"""
+  orders(
+    """distinct select on columns"""
+    distinct_on: [orders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [orders_order_by!]
+
+    """filter the rows returned"""
+    where: orders_bool_exp
+  ): [orders!]!
+
+  """An aggregate relationship"""
+  orders_aggregate(
+    """distinct select on columns"""
+    distinct_on: [orders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [orders_order_by!]
+
+    """filter the rows returned"""
+    where: orders_bool_exp
+  ): orders_aggregate!
 
   """An array relationship"""
   sessions(
@@ -21591,6 +21677,8 @@ input users_bool_exp {
   _not: users_bool_exp
   _or: [users_bool_exp!]
   created_at: timestamptz_comparison_exp
+  orders: orders_bool_exp
+  orders_aggregate: orders_aggregate_bool_exp
   sessions: sessions_bool_exp
   sessions_aggregate: sessions_aggregate_bool_exp
   user_acct: String_comparison_exp
@@ -21613,6 +21701,7 @@ input type for inserting data into table "users"
 """
 input users_insert_input {
   created_at: timestamptz
+  orders: orders_arr_rel_insert_input
   sessions: sessions_arr_rel_insert_input
   user_acct: String
   user_performances: user_performance_arr_rel_insert_input
@@ -21663,6 +21752,7 @@ input users_on_conflict {
 """Ordering options when selecting data from "users"."""
 input users_order_by {
   created_at: order_by
+  orders_aggregate: orders_aggregate_order_by
   sessions_aggregate: sessions_aggregate_order_by
   user_acct: order_by
   user_performances_aggregate: user_performance_aggregate_order_by

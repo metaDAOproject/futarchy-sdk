@@ -39,7 +39,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public rpcClient: FutarchyMarketsRPCClient;
   private graphqlWSClient: GQLWebSocketClient;
   private graphqlClient: IndexerGraphQLClient;
-  private marketCache: Map<string,any> ;
+  private marketCache: Map<string, any>;
 
   constructor(
     rpcOpenbookMarketsClient: FutarchyOpenbookMarketsRPCClient,
@@ -58,19 +58,19 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     this.marketCache = new Map();
   }
 
-  
+
 
   async fetchMarket(
     request: MarketFetchRequest
-): Promise < OpenbookMarket | AmmMarket | undefined > {
-    
+  ): Promise<OpenbookMarket | AmmMarket | undefined> {
+
     let tokenStr = request.marketKey.toBase58()
     console.log("looking up market " + tokenStr);
     if (this.marketCache.has(tokenStr)) {
       console.log("returning cached value for fetchMarket")
       return this.marketCache.get(tokenStr);
     }
-    
+
     /// Fetch the market based on the request type
     let market: OpenbookMarket | AmmMarket | undefined;
     if (request instanceof OpenbookMarketFetchRequest) {
@@ -142,7 +142,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     // Update the market with the token details
     market.baseToken = baseToken;
     market.quoteToken = quoteToken;
-    this.marketCache.set(tokenStr,market)
+    this.marketCache.set(tokenStr, market)
 
     return market;
   }
@@ -411,7 +411,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     const offset = ((page ?? 1) - 1) * pageSizeValue;
     return this.watchOrdersForArgs({
       where: {
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()] }
       },
       order_by: [
         {
@@ -434,7 +434,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()] }
       },
       order_by: [
         {
@@ -721,20 +721,20 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             console.log(data.data)
             //let proposalBarsPrices: ProposalMarketPricesAggregate = {} as ProposalMarketPricesAggregate
             const proposalBarsPrices = dataValue ? ({
-                failMarket: {
-                  acct: dataValue.fail_market_acct,
-                  baseAmount: dataValue.fail_base_amount,
-                  price: dataValue.fail_price,
-                  quoteAmount: dataValue.fail_quote_amount
-                },
-                passMarket: {
-                  acct: dataValue.pass_market_acct,
-                  baseAmount: dataValue.pass_base_amount,
-                  price: dataValue.pass_price,
-                  quoteAmount: dataValue.pass_quote_amount
-                },
-                createdAt: new Date(dataValue.bar_start_time)
-              }) : {} as ProposalMarketPricesAggregate
+              failMarket: {
+                acct: dataValue.fail_market_acct,
+                baseAmount: dataValue.fail_base_amount,
+                price: dataValue.fail_price,
+                quoteAmount: dataValue.fail_quote_amount
+              },
+              passMarket: {
+                acct: dataValue.pass_market_acct,
+                baseAmount: dataValue.pass_base_amount,
+                price: dataValue.pass_price,
+                quoteAmount: dataValue.pass_quote_amount
+              },
+              createdAt: new Date(dataValue.bar_start_time)
+            }) : {} as ProposalMarketPricesAggregate
             subscriber.next(proposalBarsPrices);
           },
           error: (error) => subscriber.error(error),
@@ -789,9 +789,11 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         { query, variables },
         {
           next: (data) => {
+            
             const proposalBarsPrices =
               data.data?.proposal_bars?.map<ProposalMarketPricesAggregate>(
                 (d) => ({
+                  
                   failMarket: {
                     acct: d.fail_market_acct,
                     baseAmount: d.fail_base_amount,
@@ -815,5 +817,52 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       );
       return () => subscriptionCleanup();
     });
+  }
+
+  async fetchProposalBars(proposalAcct: PublicKey): Promise<ProposalMarketPricesAggregate[]> {
+    const { proposal_bars } = await this.graphqlClient.query({
+      proposal_bars: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposalAcct.toBase58() }
+          },
+          order_by: [
+            {
+              bar_start_time: "asc"
+            }
+          ]
+        },
+        bar_start_time: true,
+        fail_base_amount: true,
+        fail_market_acct: true,
+        fail_price: true,
+        fail_quote_amount: true,
+        pass_base_amount: true,
+        pass_market_acct: true,
+        pass_price: true,
+        pass_quote_amount: true,
+        proposal_acct: true
+      }
+    });
+
+    const proposalBarsPrices =
+      proposal_bars?.map<ProposalMarketPricesAggregate>(
+        (d) => ({
+          failMarket: {
+            acct: d.fail_market_acct!,
+            baseAmount: d.fail_base_amount,
+            price: d.fail_price,
+            quoteAmount: d.fail_quote_amount
+          },
+          passMarket: {
+            acct: d.pass_market_acct!,
+            baseAmount: d.pass_base_amount,
+            price: d.pass_price,
+            quoteAmount: d.pass_quote_amount
+          },
+          createdAt: new Date(d.bar_start_time)
+        })
+      ) ?? [];
+    return proposalBarsPrices;
   }
 }

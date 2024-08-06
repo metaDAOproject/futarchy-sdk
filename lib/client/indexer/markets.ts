@@ -201,6 +201,47 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  async fetchTwapPrices(marketKey: PublicKey): Promise<TwapObservation[]> {
+
+    const { twap_chart_data } = await this.graphqlClient.query({
+      twap_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() }
+          },
+          order_by: [
+            {
+              interv: "asc"
+            }
+          ]
+        },
+        token_amount: true,
+        market: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        },
+        interv: true
+      }
+    });
+
+    const twapObservations =
+      twap_chart_data?.map<TwapObservation>((d) => ({
+        priceUi: PriceMath.getHumanPrice(
+          new BN(d.token_amount),
+          d.market?.tokenByBaseMintAcct?.decimals!!,
+          d.market?.tokenByQuoteMintAcct.decimals!!
+        ),
+        priceRaw: d.token_amount,
+        createdAt: new Date(d.interv)
+      }));
+    return twapObservations;
+
+  }
+
   private watchOrdersForArgs(args: {
     distinct_on?: orders_select_column[] | null | undefined;
     limit?: number | null | undefined;
@@ -499,12 +540,12 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             let d = data.data?.prices_chart_data[0];
             if (d) {
               const spotObservation =
-                {
-                  priceUi: d.price,
-                  createdAt: new Date(d.interv),
-                  quoteAmount: d.quote_amount,
-                  baseAmount: d.base_amount
-                };
+              {
+                priceUi: d.price,
+                createdAt: new Date(d.interv),
+                quoteAmount: d.quote_amount,
+                baseAmount: d.base_amount
+              };
               subscriber.next(spotObservation);
             }
           },

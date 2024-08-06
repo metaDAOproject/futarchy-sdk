@@ -202,7 +202,6 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   async fetchTwapPrices(marketKey: PublicKey): Promise<TwapObservation[]> {
-
     const { twap_chart_data } = await this.graphqlClient.query({
       twap_chart_data: {
         __args: {
@@ -228,18 +227,16 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       }
     });
 
-    const twapObservations =
-      twap_chart_data?.map<TwapObservation>((d) => ({
-        priceUi: PriceMath.getHumanPrice(
-          new BN(d.token_amount),
-          d.market?.tokenByBaseMintAcct?.decimals!!,
-          d.market?.tokenByQuoteMintAcct.decimals!!
-        ),
-        priceRaw: d.token_amount,
-        createdAt: new Date(d.interv)
-      }));
+    const twapObservations = twap_chart_data?.map<TwapObservation>((d) => ({
+      priceUi: PriceMath.getHumanPrice(
+        new BN(d.token_amount),
+        d.market?.tokenByBaseMintAcct?.decimals!!,
+        d.market?.tokenByQuoteMintAcct.decimals!!
+      ),
+      priceRaw: d.token_amount,
+      createdAt: new Date(d.interv)
+    }));
     return twapObservations;
-
   }
 
   private watchOrdersForArgs(args: {
@@ -725,8 +722,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           next: (data) => {
             let d = data.data?.prices_chart_data[0];
             if (d) {
-              const spotObservation =
-              {
+              const spotObservation = {
                 priceUi: d.price,
                 createdAt: new Date(d.interv),
                 quoteAmount: d.quote_amount,
@@ -751,7 +747,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             market_acct: { _eq: marketKey.toString() },
             prices_type: {
               _in: ["spot"]
-            },
+            }
           },
           order_by: [
             {
@@ -774,6 +770,40 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       baseAmount: prices_chart_data[0]?.base_amount
     };
     return observation;
+  }
+
+  async fetchSpotPrices(
+    marketKey: PublicKey,
+    filters?: any
+  ): Promise<SpotObservation[]> {
+    const { prices_chart_data } = await this.graphqlClient.query({
+      prices_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() },
+            prices_type: {
+              _in: ["spot", "conditional"]
+            },
+            ...filters
+          },
+          order_by: [
+            {
+              interv: "asc"
+            }
+          ]
+        },
+        interv: true,
+        price: true,
+        quote_amount: true,
+        base_amount: true
+      }
+    });
+    return prices_chart_data.map((d) => ({
+      priceUi: d.price,
+      createdAt: new Date(d.interv),
+      quoteAmount: d.quote_amount,
+      baseAmount: d.base_amount
+    }));
   }
 
   watchSpotPrices(

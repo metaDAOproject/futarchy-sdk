@@ -384,7 +384,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return this.watchOrdersForArgs({
       where: {
         actor_acct: { _eq: owner.toBase58() },
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()] }
       },
       order_by: [
         {
@@ -423,7 +423,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     const offset = ((page ?? 1) - 1) * pageSizeValue;
     return this.watchOrdersForArgs({
       where: {
-        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()]}
+        market_acct: { _in: [passMarketAcct.toBase58(), failMarketAcct.toBase58()] }
       },
       order_by: [
         {
@@ -676,5 +676,52 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       );
       return () => subscriptionCleanup();
     });
+  }
+
+  async fetchProposalBars(proposalAcct: PublicKey): Promise<ProposalMarketPricesAggregate[]> {
+    const { proposal_bars } = await this.graphqlClient.query({
+      proposal_bars: {
+        __args: {
+          where: {
+            proposal_acct: { _eq: proposalAcct.toBase58() }
+          },
+          order_by: [
+            {
+              bar_start_time: "asc"
+            }
+          ]
+        },
+        bar_start_time: true,
+        fail_base_amount: true,
+        fail_market_acct: true,
+        fail_price: true,
+        fail_quote_amount: true,
+        pass_base_amount: true,
+        pass_market_acct: true,
+        pass_price: true,
+        pass_quote_amount: true,
+        proposal_acct: true
+      }
+    });
+
+    const proposalBarsPrices =
+      proposal_bars?.map<ProposalMarketPricesAggregate>(
+        (d) => ({
+          failMarket: {
+            acct: d.fail_market_acct!,
+            baseAmount: d.fail_base_amount,
+            price: d.fail_price,
+            quoteAmount: d.fail_quote_amount
+          },
+          passMarket: {
+            acct: d.pass_market_acct!,
+            baseAmount: d.pass_base_amount,
+            price: d.pass_price,
+            quoteAmount: d.pass_quote_amount
+          },
+          createdAt: new Date(d.bar_start_time)
+        })
+      ) ?? [];
+    return proposalBarsPrices;
   }
 }

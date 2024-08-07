@@ -262,30 +262,21 @@ async function fetchJupTokenListFromJup(): Promise<Token[]> {
   }
 }
 
+const token2022Cache = new Map<string, TokenProps>();
 async function getMetadataFromToken2022(
   rpcProvider: Provider,
   tokenAddress: PublicKey,
   mint: Mint
 ): Promise<TokenProps | null> {
   try {
-    const token2022Metadata = await getTokenMetadata(
-      rpcProvider.connection,
-      tokenAddress,
-      undefined,
-      TOKEN_2022_PROGRAM_ID
-    );
-    if (token2022Metadata) {
-      const token2022UriRes = await fetch(token2022Metadata.uri);
-      const token2022UriJson: Partial<JsonMetadata> =
-        await token2022UriRes.json();
-      return {
-        symbol: token2022Metadata.symbol,
-        publicKey: tokenAddress.toString(),
-        url: token2022UriJson.image ?? null,
-        decimals: mint.decimals,
-        name: token2022UriJson.name ?? null
-      };
+    const cachedTokenProps = token2022Cache.get(tokenAddress.toBase58());
+    const data = cachedTokenProps
+      ? cachedTokenProps
+      : await fetchJsonMetadataFromToken2022(tokenAddress, rpcProvider, mint);
+    if (!cachedTokenProps && data) {
+      token2022Cache.set(tokenAddress.toBase58(), data);
     }
+    return data;
   } catch (e) {
     // this has created very noisy errors anytime the token metadata isn't in token 2022.
     // maybe the SDK needs like a debug flag or something so we can dynamically enable/disable
@@ -297,4 +288,31 @@ async function getMetadataFromToken2022(
   } finally {
     return null;
   }
+}
+
+async function fetchJsonMetadataFromToken2022(
+  tokenAddress: PublicKey,
+  rpcProvider: Provider,
+  mint: Mint
+): Promise<TokenProps | null> {
+  const token2022Metadata = await getTokenMetadata(
+    rpcProvider.connection,
+    tokenAddress,
+    undefined,
+    TOKEN_2022_PROGRAM_ID
+  );
+
+  if (token2022Metadata) {
+    const token2022UriRes = await fetch(token2022Metadata.uri);
+    const token2022UriJson: Partial<JsonMetadata> =
+      await token2022UriRes.json();
+    return {
+      symbol: token2022Metadata.symbol,
+      publicKey: tokenAddress.toString(),
+      url: token2022UriJson.image ?? null,
+      decimals: mint.decimals,
+      name: token2022UriJson.name ?? null
+    };
+  }
+  return null;
 }

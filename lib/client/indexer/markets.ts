@@ -797,7 +797,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           where: {
             market_acct: { _eq: marketKey.toString() },
             prices_type: {
-              _in: ["spot"]
+              _eq: "spot"
             },
             ...filters
           },
@@ -853,7 +853,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           where: {
             market_acct: { _eq: marketKey.toString() },
             prices_type: {
-              _in: ["spot"]
+              _eq: "spot"
             }
           },
           order_by: [

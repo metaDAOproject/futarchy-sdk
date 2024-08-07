@@ -134,6 +134,113 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return market;
   }
 
+  watchCurrentTwapPrice(marketKey: PublicKey): Observable<TwapObservation[]> {
+    const { query, variables } = generateSubscriptionOp({
+      twap_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() }
+          },
+          order_by: [
+            {
+              interv: "desc"
+            }
+          ],
+          limit: 1
+        },
+        token_amount: true,
+        market: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        },
+        interv: true
+      }
+    });
+
+    return new Observable((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        twap_chart_data: {
+          token_amount: number;
+          updated_slot: number;
+          interv: string;
+          // TODO this query might be a bit slow... hasura warned about caching directive, we need to watch for this
+          market: {
+            tokenByQuoteMintAcct: {
+              decimals: number;
+            };
+            tokenByBaseMintAcct: {
+              decimals: number;
+            };
+          };
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: (data) => {
+            const twapObservations =
+              data.data?.twap_chart_data?.map<TwapObservation>((d) => ({
+                priceUi: PriceMath.getHumanPrice(
+                  new BN(d.token_amount),
+                  d.market?.tokenByBaseMintAcct.decimals!!,
+                  d.market?.tokenByQuoteMintAcct.decimals!!
+                ),
+                priceRaw: d.token_amount,
+                createdAt: new Date(d.interv)
+              }));
+            subscriber.next(twapObservations);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+
+      return () => subscriptionCleanup();
+    });
+  }
+
+  async fetchCurrentTwapPrice(marketKey: PublicKey): Promise<TwapObservation[]> {
+    const { twap_chart_data } = await this.graphqlClient.query({
+      twap_chart_data: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() }
+          },
+          order_by: [
+            {
+              interv: "desc"
+            }
+          ],
+          limit: 1
+        },
+        token_amount: true,
+        market: {
+          tokenByQuoteMintAcct: {
+            decimals: true
+          },
+          tokenByBaseMintAcct: {
+            decimals: true
+          }
+        },
+        interv: true
+      }
+    });
+
+    const twapObservations = twap_chart_data?.map<TwapObservation>((d) => ({
+      priceUi: PriceMath.getHumanPrice(
+        new BN(d.token_amount),
+        d.market?.tokenByBaseMintAcct?.decimals!!,
+        d.market?.tokenByQuoteMintAcct.decimals!!
+      ),
+      priceRaw: d.token_amount,
+      createdAt: new Date(d.interv)
+    }));
+    return twapObservations;
+  }
+
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
     const { query, variables } = generateSubscriptionOp({
       twap_chart_data: {

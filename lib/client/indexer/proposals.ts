@@ -105,18 +105,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           base_mint_acct: true,
           quote_mint_acct: true,
           market_type: true,
-          prices: {
-            __args: {
-              limit: 1,
-              order_by: [
-                {
-                  created_at: "desc"
-                }
-              ]
-            },
-            price: true,
-            created_at: true
-          },
           orders: {
             actor_acct: true,
             quote_price: true,
@@ -152,8 +140,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         const baseVault = p.conditional_vault;
         const quoteVault = p.conditionalVaultByQuoteVault;
         const proposalDetails = p.proposal_details[0];
-        const passPrice = passMarket?.prices ?? [];
-        const failPrice = failMarket?.prices ?? [];
 
         const passParticipants =
           passMarket?.orders.reduce<string[]>(
@@ -254,15 +240,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           // TOKEN amount on twap is probably volume
           // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????
           prices: {
-            fail: {
-              // TODO: need to pull this data for twaps
-              spot: failPrice.length > 0 ? failPrice[0].price : 0
-              // TODO: Fix this... We're really trying to handle a few things with different twaps here......
-            },
-            pass: {
-              // TODO: need to pull this data for twaps as well
-              spot: passPrice.length > 0 ? passPrice[0].price : 0
-            }
+            fail: {},
+            pass: {}
           },
           proposer: {
             publicKey: p.proposer_acct
@@ -422,42 +401,10 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           base_mint_acct: true,
           quote_mint_acct: true,
           market_type: true,
-          twaps: {
-            __args: {
-              order_by: [
-                {
-                  created_at: "desc"
-                }
-              ],
-              limit: 1
-            },
-            token_amount: true,
-            created_at: true,
-            last_observation: true,
-            last_price: true,
-            observation_agg: true,
-            updated_slot: true
-          },
           orders: {
             quote_price: true,
             filled_base_amount: true
           },
-          prices: {
-            __args: {
-              order_by: [
-                {
-                  created_at: "desc"
-                }
-              ],
-              limit: 1
-            },
-            base_amount: true,
-            quote_amount: true,
-            price: true,
-            created_at: true,
-            updated_slot: true,
-            prices_type: true
-          }
         },
         proposal_details: {
           title: true,
@@ -484,10 +431,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     const baseVault = proposal.conditional_vault;
     const quoteVault = proposal.conditionalVaultByQuoteVault;
     const proposalDetails = proposal.proposal_details[0];
-    const passPrice = passMarket?.prices ?? [];
-    const failPrice = failMarket?.prices ?? [];
-    const passTwap = passMarket?.twaps ?? [];
-    const failTwap = failMarket?.twaps ?? [];
+
     const passVolume =
       passMarket?.orders?.reduce(
         (prev, curr) =>
@@ -623,27 +567,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????
       prices: {
         fail: {
-          // TODO: need to pull this data for twaps
-          spot: failPrice.length > 0 ? failPrice[0].price : 0,
-          // TODO: Fix this... We're really trying to handle a few things with different twaps here......
-          twap:
-            failTwap.length > 0
-              ? failTwap[0].last_price
-                ? failTwap[0].last_price
-                : failTwap[0].last_observation
-              : 0,
-          volume: failVolume
         },
         pass: {
-          // TODO: need to pull this data for twaps as well
-          spot: passPrice.length > 0 ? passPrice[0].price : 0,
-          twap:
-            passTwap.length > 0
-              ? passTwap[0].last_price
-                ? passTwap[0].last_price
-                : passTwap[0].last_observation
-              : 0,
-          volume: passVolume
         }
       },
       proposer: {

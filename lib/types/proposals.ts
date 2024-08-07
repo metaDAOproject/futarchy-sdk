@@ -117,7 +117,7 @@ export type ProposalVolume = {
 };
 
 export type MarketPrices = {
-  spot: number;
+  spot?: number;
   twap?: number;
   volume?: number;
 };

@@ -30,3 +30,8 @@ export type TokenMetadataSource =
   | "metaplex"
   | "token2022"
   | "fallback";
+
+export type TokenMetadataResponse = TokenProps & {
+  isFallback?: boolean;
+  source: TokenMetadataSource;
+};

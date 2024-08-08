@@ -221,6 +221,6 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
         6 // USDC is always 6...
       ),
       userAcct: new PublicKey(u.user_acct)
-    }));
+    })).sort((a, b) => b.totalVolume - a.totalVolume);
   }
 }

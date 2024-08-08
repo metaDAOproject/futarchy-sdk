@@ -2853,7 +2853,7 @@ export interface proposal_bars_avg_fields {
 
 
 /** unique or primary key constraints on table "proposal_bars" */
-export type proposal_bars_constraint = 'proposal_bars_pkey'
+export type proposal_bars_constraint = 'pg_table_pkey'
 
 
 /** aggregate max on columns */
@@ -4929,7 +4929,7 @@ export interface token_acct_balances_avg_fields {
 
 
 /** unique or primary key constraints on table "token_acct_balances" */
-export type token_acct_balances_constraint = 'token_acct_balances_token_acct_mint_acct_amount_created_at_pk'
+export type token_acct_balances_constraint = 'new_token_acct_balances_pkey'
 
 
 /** aggregate max on columns */
@@ -6149,14 +6149,15 @@ export interface user_performance {
     /** An object relationship */
     proposal: proposals
     proposal_acct: Scalars['String']
-    tokens_bought: Scalars['numeric']
-    tokens_sold: Scalars['numeric']
+    tokens_bought: Scalars['bigint']
+    /** amount of tokens sold */
+    tokens_sold: Scalars['bigint']
     total_volume: (Scalars['bigint'] | null)
     /** An object relationship */
     user: users
     user_acct: Scalars['String']
-    volume_bought: Scalars['numeric']
-    volume_sold: Scalars['numeric']
+    volume_bought: Scalars['bigint']
+    volume_sold: Scalars['bigint']
     __typename: 'user_performance'
 }
 
@@ -6189,6 +6190,7 @@ export interface user_performance_aggregate_fields {
 /** aggregate avg on columns */
 export interface user_performance_avg_fields {
     tokens_bought: (Scalars['Float'] | null)
+    /** amount of tokens sold */
     tokens_sold: (Scalars['Float'] | null)
     total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
@@ -6205,12 +6207,13 @@ export type user_performance_constraint = 'user_performance_proposal_acct_user_a
 export interface user_performance_max_fields {
     created_at: (Scalars['timestamptz'] | null)
     proposal_acct: (Scalars['String'] | null)
-    tokens_bought: (Scalars['numeric'] | null)
-    tokens_sold: (Scalars['numeric'] | null)
+    tokens_bought: (Scalars['bigint'] | null)
+    /** amount of tokens sold */
+    tokens_sold: (Scalars['bigint'] | null)
     total_volume: (Scalars['bigint'] | null)
     user_acct: (Scalars['String'] | null)
-    volume_bought: (Scalars['numeric'] | null)
-    volume_sold: (Scalars['numeric'] | null)
+    volume_bought: (Scalars['bigint'] | null)
+    volume_sold: (Scalars['bigint'] | null)
     __typename: 'user_performance_max_fields'
 }
 
@@ -6219,12 +6222,13 @@ export interface user_performance_max_fields {
 export interface user_performance_min_fields {
     created_at: (Scalars['timestamptz'] | null)
     proposal_acct: (Scalars['String'] | null)
-    tokens_bought: (Scalars['numeric'] | null)
-    tokens_sold: (Scalars['numeric'] | null)
+    tokens_bought: (Scalars['bigint'] | null)
+    /** amount of tokens sold */
+    tokens_sold: (Scalars['bigint'] | null)
     total_volume: (Scalars['bigint'] | null)
     user_acct: (Scalars['String'] | null)
-    volume_bought: (Scalars['numeric'] | null)
-    volume_sold: (Scalars['numeric'] | null)
+    volume_bought: (Scalars['bigint'] | null)
+    volume_sold: (Scalars['bigint'] | null)
     __typename: 'user_performance_min_fields'
 }
 
@@ -6246,6 +6250,7 @@ export type user_performance_select_column = 'created_at' | 'proposal_acct' | 't
 /** aggregate stddev on columns */
 export interface user_performance_stddev_fields {
     tokens_bought: (Scalars['Float'] | null)
+    /** amount of tokens sold */
     tokens_sold: (Scalars['Float'] | null)
     total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
@@ -6257,6 +6262,7 @@ export interface user_performance_stddev_fields {
 /** aggregate stddev_pop on columns */
 export interface user_performance_stddev_pop_fields {
     tokens_bought: (Scalars['Float'] | null)
+    /** amount of tokens sold */
     tokens_sold: (Scalars['Float'] | null)
     total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
@@ -6268,6 +6274,7 @@ export interface user_performance_stddev_pop_fields {
 /** aggregate stddev_samp on columns */
 export interface user_performance_stddev_samp_fields {
     tokens_bought: (Scalars['Float'] | null)
+    /** amount of tokens sold */
     tokens_sold: (Scalars['Float'] | null)
     total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
@@ -6278,11 +6285,12 @@ export interface user_performance_stddev_samp_fields {
 
 /** aggregate sum on columns */
 export interface user_performance_sum_fields {
-    tokens_bought: (Scalars['numeric'] | null)
-    tokens_sold: (Scalars['numeric'] | null)
+    tokens_bought: (Scalars['bigint'] | null)
+    /** amount of tokens sold */
+    tokens_sold: (Scalars['bigint'] | null)
     total_volume: (Scalars['bigint'] | null)
-    volume_bought: (Scalars['numeric'] | null)
-    volume_sold: (Scalars['numeric'] | null)
+    volume_bought: (Scalars['bigint'] | null)
+    volume_sold: (Scalars['bigint'] | null)
     __typename: 'user_performance_sum_fields'
 }
 
@@ -6294,6 +6302,7 @@ export type user_performance_update_column = 'created_at' | 'proposal_acct' | 't
 /** aggregate var_pop on columns */
 export interface user_performance_var_pop_fields {
     tokens_bought: (Scalars['Float'] | null)
+    /** amount of tokens sold */
     tokens_sold: (Scalars['Float'] | null)
     total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
@@ -6305,6 +6314,7 @@ export interface user_performance_var_pop_fields {
 /** aggregate var_samp on columns */
 export interface user_performance_var_samp_fields {
     tokens_bought: (Scalars['Float'] | null)
+    /** amount of tokens sold */
     tokens_sold: (Scalars['Float'] | null)
     total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
@@ -6316,6 +6326,7 @@ export interface user_performance_var_samp_fields {
 /** aggregate variance on columns */
 export interface user_performance_variance_fields {
     tokens_bought: (Scalars['Float'] | null)
+    /** amount of tokens sold */
     tokens_sold: (Scalars['Float'] | null)
     total_volume: (Scalars['Float'] | null)
     volume_bought: (Scalars['Float'] | null)
@@ -6327,6 +6338,10 @@ export interface user_performance_variance_fields {
 /** columns and relationships of "users" */
 export interface users {
     created_at: Scalars['timestamptz']
+    /** An array relationship */
+    orders: orders[]
+    /** An aggregate relationship */
+    orders_aggregate: orders_aggregate
     /** An array relationship */
     sessions: sessions[]
     /** An aggregate relationship */
@@ -18568,6 +18583,7 @@ export interface user_performanceGenqlSelection{
     proposal?: proposalsGenqlSelection
     proposal_acct?: boolean | number
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     /** An object relationship */
@@ -18624,6 +18640,7 @@ on_conflict?: (user_performance_on_conflict | null)}
 /** aggregate avg on columns */
 export interface user_performance_avg_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18634,19 +18651,25 @@ export interface user_performance_avg_fieldsGenqlSelection{
 
 
 /** order by avg() on columns of table "user_performance" */
-export interface user_performance_avg_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_avg_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "user_performance". All fields are combined with a logical 'AND'. */
-export interface user_performance_bool_exp {_and?: (user_performance_bool_exp[] | null),_not?: (user_performance_bool_exp | null),_or?: (user_performance_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),tokens_bought?: (numeric_comparison_exp | null),tokens_sold?: (numeric_comparison_exp | null),total_volume?: (bigint_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null),volume_bought?: (numeric_comparison_exp | null),volume_sold?: (numeric_comparison_exp | null)}
+export interface user_performance_bool_exp {_and?: (user_performance_bool_exp[] | null),_not?: (user_performance_bool_exp | null),_or?: (user_performance_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),proposal?: (proposals_bool_exp | null),proposal_acct?: (String_comparison_exp | null),tokens_bought?: (bigint_comparison_exp | null),tokens_sold?: (bigint_comparison_exp | null),total_volume?: (bigint_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null),volume_bought?: (bigint_comparison_exp | null),volume_sold?: (bigint_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "user_performance" */
-export interface user_performance_inc_input {tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+export interface user_performance_inc_input {tokens_bought?: (Scalars['bigint'] | null),
+/** amount of tokens sold */
+tokens_sold?: (Scalars['bigint'] | null),volume_bought?: (Scalars['bigint'] | null),volume_sold?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "user_performance" */
-export interface user_performance_insert_input {created_at?: (Scalars['timestamptz'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+export interface user_performance_insert_input {created_at?: (Scalars['timestamptz'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['bigint'] | null),
+/** amount of tokens sold */
+tokens_sold?: (Scalars['bigint'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['bigint'] | null),volume_sold?: (Scalars['bigint'] | null)}
 
 
 /** aggregate max on columns */
@@ -18654,6 +18677,7 @@ export interface user_performance_max_fieldsGenqlSelection{
     created_at?: boolean | number
     proposal_acct?: boolean | number
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     user_acct?: boolean | number
@@ -18665,7 +18689,9 @@ export interface user_performance_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "user_performance" */
-export interface user_performance_max_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_max_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -18673,6 +18699,7 @@ export interface user_performance_min_fieldsGenqlSelection{
     created_at?: boolean | number
     proposal_acct?: boolean | number
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     user_acct?: boolean | number
@@ -18684,7 +18711,9 @@ export interface user_performance_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "user_performance" */
-export interface user_performance_min_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_min_order_by {created_at?: (order_by | null),proposal_acct?: (order_by | null),tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),user_acct?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** response of any mutation on the table "user_performance" */
@@ -18711,12 +18740,15 @@ export interface user_performance_pk_columns_input {proposal_acct: Scalars['Stri
 
 
 /** input type for updating data in table "user_performance" */
-export interface user_performance_set_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+export interface user_performance_set_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['bigint'] | null),
+/** amount of tokens sold */
+tokens_sold?: (Scalars['bigint'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['bigint'] | null),volume_sold?: (Scalars['bigint'] | null)}
 
 
 /** aggregate stddev on columns */
 export interface user_performance_stddev_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18727,12 +18759,15 @@ export interface user_performance_stddev_fieldsGenqlSelection{
 
 
 /** order by stddev() on columns of table "user_performance" */
-export interface user_performance_stddev_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_stddev_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface user_performance_stddev_pop_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18743,12 +18778,15 @@ export interface user_performance_stddev_pop_fieldsGenqlSelection{
 
 
 /** order by stddev_pop() on columns of table "user_performance" */
-export interface user_performance_stddev_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_stddev_pop_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface user_performance_stddev_samp_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18759,7 +18797,9 @@ export interface user_performance_stddev_samp_fieldsGenqlSelection{
 
 
 /** order by stddev_samp() on columns of table "user_performance" */
-export interface user_performance_stddev_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_stddev_samp_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** Streaming cursor of the table "user_performance" */
@@ -18771,12 +18811,15 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface user_performance_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_sold?: (Scalars['numeric'] | null),total_volume?: (Scalars['bigint'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null)}
+export interface user_performance_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),proposal_acct?: (Scalars['String'] | null),tokens_bought?: (Scalars['bigint'] | null),
+/** amount of tokens sold */
+tokens_sold?: (Scalars['bigint'] | null),total_volume?: (Scalars['bigint'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['bigint'] | null),volume_sold?: (Scalars['bigint'] | null)}
 
 
 /** aggregate sum on columns */
 export interface user_performance_sum_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18787,7 +18830,9 @@ export interface user_performance_sum_fieldsGenqlSelection{
 
 
 /** order by sum() on columns of table "user_performance" */
-export interface user_performance_sum_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_sum_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 export interface user_performance_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -18801,6 +18846,7 @@ where: user_performance_bool_exp}
 /** aggregate var_pop on columns */
 export interface user_performance_var_pop_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18811,12 +18857,15 @@ export interface user_performance_var_pop_fieldsGenqlSelection{
 
 
 /** order by var_pop() on columns of table "user_performance" */
-export interface user_performance_var_pop_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_var_pop_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface user_performance_var_samp_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18827,12 +18876,15 @@ export interface user_performance_var_samp_fieldsGenqlSelection{
 
 
 /** order by var_samp() on columns of table "user_performance" */
-export interface user_performance_var_samp_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_var_samp_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface user_performance_variance_fieldsGenqlSelection{
     tokens_bought?: boolean | number
+    /** amount of tokens sold */
     tokens_sold?: boolean | number
     total_volume?: boolean | number
     volume_bought?: boolean | number
@@ -18843,12 +18895,38 @@ export interface user_performance_variance_fieldsGenqlSelection{
 
 
 /** order by variance() on columns of table "user_performance" */
-export interface user_performance_variance_order_by {tokens_bought?: (order_by | null),tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
+export interface user_performance_variance_order_by {tokens_bought?: (order_by | null),
+/** amount of tokens sold */
+tokens_sold?: (order_by | null),total_volume?: (order_by | null),volume_bought?: (order_by | null),volume_sold?: (order_by | null)}
 
 
 /** columns and relationships of "users" */
 export interface usersGenqlSelection{
     created_at?: boolean | number
+    /** An array relationship */
+    orders?: (ordersGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (orders_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (orders_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (orders_bool_exp | null)} })
+    /** An aggregate relationship */
+    orders_aggregate?: (orders_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (orders_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (orders_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (orders_bool_exp | null)} })
     /** An array relationship */
     sessions?: (sessionsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -18923,11 +19001,11 @@ export interface users_aggregate_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
-export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
+export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
 
 
 /** input type for inserting data into table "users" */
-export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
+export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),orders?: (orders_arr_rel_insert_input | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -18970,7 +19048,7 @@ export interface users_on_conflict {constraint: users_constraint,update_columns?
 
 
 /** Ordering options when selecting data from "users". */
-export interface users_order_by {created_at?: (order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
+export interface users_order_by {created_at?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: users */
@@ -22999,7 +23077,7 @@ export const enumProgramsUpdateColumn = {
 }
 
 export const enumProposalBarsConstraint = {
-   proposal_bars_pkey: 'proposal_bars_pkey' as const
+   pg_table_pkey: 'pg_table_pkey' as const
 }
 
 export const enumProposalBarsSelectColumn = {
@@ -23263,7 +23341,7 @@ export const enumTakesUpdateColumn = {
 }
 
 export const enumTokenAcctBalancesConstraint = {
-   token_acct_balances_token_acct_mint_acct_amount_created_at_pk: 'token_acct_balances_token_acct_mint_acct_amount_created_at_pk' as const
+   new_token_acct_balances_pkey: 'new_token_acct_balances_pkey' as const
 }
 
 export const enumTokenAcctBalancesSelectColumn = {

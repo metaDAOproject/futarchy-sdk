@@ -85,7 +85,8 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                 count: true
               }
             }
-          }
+          },
+          socials: true
         }
       });
 
@@ -120,6 +121,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
           fail_token_image_url: true,
           pass_token_image_url: true,
           lp_token_image_url: true,
+          socials: true,
           daos: {
             __args: {
               order_by: [
@@ -187,6 +189,7 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
         (acc, d) => acc + (d.proposals_aggregate?.aggregate?.count ?? 0),
         0
       ),
+      socials: daoDetails.socials,
       daos: daoDetails.daos
         .map((d) => {
           if (this.protocolMap.get(d.program_acct)) {

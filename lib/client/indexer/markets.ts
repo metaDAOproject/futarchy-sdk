@@ -242,17 +242,19 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {
+
     const { query, variables } = generateSubscriptionOp({
-      twap_chart_data: {
+      twap_chart_data_stream: {
         __args: {
+          batch_size: 1,
+          cursor: [{
+            initial_value: {
+              interv: getUTCTime(),
+            }
+          }],
           where: {
             market_acct: { _eq: marketKey.toString() }
-          },
-          order_by: [
-            {
-              interv: "asc"
-            }
-          ]
+          }
         },
         token_amount: true,
         market: {
@@ -269,7 +271,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        twap_chart_data: {
+        twap_chart_data_stream: {
           token_amount: number;
           updated_slot: number;
           interv: string;
@@ -288,7 +290,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         {
           next: (data) => {
             const twapObservations =
-              data.data?.twap_chart_data?.map<TwapObservation>((d) => ({
+              data.data?.twap_chart_data_stream?.map<TwapObservation>((d) => ({
                 priceUi: PriceMath.getHumanPrice(
                   new BN(d.token_amount),
                   d.market?.tokenByBaseMintAcct.decimals!!,
@@ -917,14 +919,13 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     marketKey: PublicKey
   ): Observable<SpotObservation[]> {
 
-    let nowUTC = getUTCTime();
     const { query, variables } = generateSubscriptionOp({
       prices_chart_data_stream: {
         __args: {
           batch_size: 1,
           cursor: [{
             initial_value: {
-              interv: nowUTC,
+              interv: getUTCTime(),
             }
           }],
           where: {

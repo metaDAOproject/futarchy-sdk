@@ -42,7 +42,8 @@ describe("FutarchyIndexerClient Integration Test", () => {
     indexerClient = FutarchyIndexerClient.make(
       rpcClient,
       indexerUrl,
-      indexerWSUrl
+      indexerWSUrl,
+      ""
     );
   });
 

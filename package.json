@@ -1,10 +1,13 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "4.0.0-alpha.24",
-  "main": "dist",
+  "version": "4.0.0-alpha.38",
+  "type": "module",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "module": "dist/lib/index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",
+    "build": "tsc",
     "build:tests": "tsc && tscpaths -p tsconfig.json -s ./tests -o ./dist"
   },
   "keywords": [

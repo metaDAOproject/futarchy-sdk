@@ -98,6 +98,7 @@ export type DaoAggregate = {
   lpTokenImageUrl?: string | null;
   joinedAt: Date | null;
   proposalCount?: number;
+  socials: DaoDetailsSocial[];
 };
 
 /** INDEXER GRAPHQL TYPES */
@@ -112,6 +113,7 @@ export type DaoDetails__GQL = {
   fail_token_image_url: string | null;
   pass_token_image_url: string | null;
   lp_token_image_url: string | null;
+  socials: DaoDetailsSocial[];
   daos: Array<{
     program_acct: string;
     dao_acct: string;
@@ -142,3 +144,8 @@ export type DaoDetails__GQL = {
     };
   }>;
 };
+
+export type DaoDetailsSocial = {
+  id: string; // do we want this to be enum? possible values can be github, x, docs, discord, ...
+  value: string;
+}

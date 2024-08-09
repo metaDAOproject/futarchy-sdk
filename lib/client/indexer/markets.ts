@@ -1008,17 +1008,25 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   watchProposalBars(
     proposalAcct: PublicKey
   ): Observable<ProposalMarketPricesAggregate[]> {
+
+    var date = new Date();
+    var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+      date.getUTCDate(), date.getUTCHours(),
+      date.getUTCMinutes(), date.getUTCSeconds());
+    let nowUTC = new Date(now_utc).toISOString();
     const { query, variables } = generateSubscriptionOp({
-      proposal_bars: {
+
+      proposal_bars_stream: {
         __args: {
+          batch_size: 1,
+          cursor: [{
+            initial_value: {
+              bar_start_time: nowUTC,
+            }
+          }],
           where: {
             proposal_acct: { _eq: proposalAcct.toBase58() }
           },
-          order_by: [
-            {
-              bar_start_time: "asc"
-            }
-          ]
         },
         bar_start_time: true,
         fail_base_amount: true,
@@ -1032,9 +1040,10 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         proposal_acct: true
       }
     });
+
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        proposal_bars: {
+        proposal_bars_stream: {
           bar_start_time: string;
           fail_base_amount: number;
           fail_market_acct: string;
@@ -1051,7 +1060,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         {
           next: (data) => {
             const proposalBarsPrices =
-              data.data?.proposal_bars?.map<ProposalMarketPricesAggregate>(
+              data.data?.proposal_bars_stream?.map<ProposalMarketPricesAggregate>(
                 (d) => ({
                   failMarket: {
                     acct: d.fail_market_acct,

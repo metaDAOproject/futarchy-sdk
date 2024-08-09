@@ -914,35 +914,38 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   watchSpotPrices(
-    marketKey: PublicKey,
-    filters?: prices_chart_data_bool_exp
+    marketKey: PublicKey
   ): Observable<SpotObservation[]> {
+
+    let nowUTC = getUTCTime();
     const { query, variables } = generateSubscriptionOp({
-      prices_chart_data: {
+      prices_chart_data_stream: {
         __args: {
+          batch_size: 1,
+          cursor: [{
+            initial_value: {
+              interv: nowUTC,
+            }
+          }],
           where: {
             market_acct: { _eq: marketKey.toString() },
             prices_type: {
               _in: ["spot", "conditional"]
             },
-            ...filters
           },
-          order_by: [
-            {
-              interv: "asc"
-            }
-          ]
         },
         interv: true,
         price: true,
         quote_amount: true,
         base_amount: true
       }
+    
+    
     });
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
-        prices_chart_data: {
+        prices_chart_data_stream: {
           interv: string;
           price: number;
           quote_amount: number;
@@ -953,7 +956,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
         {
           next: (data) => {
             const spotObservations =
-              data.data?.prices_chart_data?.map<SpotObservation>((d) => ({
+              data.data?.prices_chart_data_stream?.map<SpotObservation>((d) => ({
                 priceUi: d.price,
                 createdAt: new Date(d.interv),
                 quoteAmount: d.quote_amount,
@@ -964,7 +967,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           error: (error) => subscriber.error(error),
           complete: () => subscriber.complete()
         }
-      );
+      );      
       return () => subscriptionCleanup();
     });
   }
@@ -1009,11 +1012,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     proposalAcct: PublicKey
   ): Observable<ProposalMarketPricesAggregate[]> {
 
-    var date = new Date();
-    var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-      date.getUTCDate(), date.getUTCHours(),
-      date.getUTCMinutes(), date.getUTCSeconds());
-    let nowUTC = new Date(now_utc).toISOString();
+    let nowUTC = getUTCTime();
     const { query, variables } = generateSubscriptionOp({
 
       proposal_bars_stream: {
@@ -1133,4 +1132,18 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       })) ?? [];
     return proposalBarsPrices;
   }
+}
+
+
+/**
+ * Simple helper to get time in UTC format 
+ * @returns 
+ */
+function getUTCTime() {
+  var date = new Date();
+  var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+    date.getUTCDate(), date.getUTCHours(),
+    date.getUTCMinutes(), date.getUTCSeconds());
+  let nowUTC = new Date(now_utc).toISOString();
+  return nowUTC;
 }

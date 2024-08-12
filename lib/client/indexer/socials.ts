@@ -429,6 +429,12 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
           },
           reaction: { reaction: ReactionType; reactor_acct: string }
         ) => {
+          if (!acc[reaction.reaction]) {
+            acc[reaction.reaction] = {
+              count: 1,
+              userReacted: false
+            };
+          }
           acc[reaction.reaction].count += 1;
           if (userAcct && reaction.reactor_acct === userAcct.toBase58()) {
             acc[reaction.reaction].userReacted = true;

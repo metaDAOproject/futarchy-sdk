@@ -105,7 +105,6 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
     [key in ReactionType]: { count: number; userReacted: boolean };
   }> {
     ///// needs to handle null comment properlyy
-    console.log("commentId in SDK", commentId);
     const where =
       commentId !== undefined
         ? {

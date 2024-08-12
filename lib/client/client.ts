@@ -213,7 +213,7 @@ export interface FutarchySocialsClient {
     reaction: string,
     pubKey: string,
     proposalAcct: string,
-    commentId: string | null
+    commentId: number | null
   ): Promise<any>;
 
   removeReaction(

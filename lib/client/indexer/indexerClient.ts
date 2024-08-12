@@ -4,11 +4,15 @@ import { FutarchyIndexerProposalsClient } from "./proposals";
 import { FutarchyIndexerBalancesClient } from "./balances";
 import { FutarchyIndexerMarketsClient } from "./markets";
 import { createClient, generateSubscriptionOp } from "./__generated__";
-import { ClientOptions, createClient as createWsClient } from "graphql-ws";
+import {
+  ClientOptions as WSClientOptions,
+  createClient as createWsClient
+} from "graphql-ws";
 import { FutarchyProtocol } from "@/types";
 import { Observable } from "rxjs";
 import { FutarchyIndexerUserClient } from "./user";
 import { FutarchyIndexerSocialsClient } from "./socials";
+import { ClientOptions } from "./__generated__/runtime";
 
 export class FutarchyIndexerClient implements FutarchyClient {
   public daos: FutarchyIndexerDaoClient;
@@ -32,8 +36,15 @@ export class FutarchyIndexerClient implements FutarchyClient {
     };
     const graphqlClient = createClient(options);
 
+    function getClient(newClientOptions?: ClientOptions) {
+      if (newClientOptions) {
+        return createClient({ ...options, ...newClientOptions });
+      }
+      return graphqlClient;
+    }
+
     // add the secrets
-    const wsOptions: ClientOptions<any> = {
+    const wsOptions: WSClientOptions<any> = {
       url: indexerWSURL,
       connectionParams: {
         headers: {
@@ -42,7 +53,15 @@ export class FutarchyIndexerClient implements FutarchyClient {
       }
     };
 
-    this.wsClient = createWsClient(wsOptions);
+    const wsClient = createWsClient(wsOptions);
+    this.wsClient = wsClient;
+
+    function getWSClient(newWSClientOptions?: WSClientOptions) {
+      if (newWSClientOptions) {
+        return createWsClient({ ...wsOptions, ...newWSClientOptions });
+      }
+      return wsClient;
+    }
 
     this.protocolMap = rpcClient.futarchyProtocols.reduce((prev, curr) => {
       prev.set(curr.autocrat.programId.toString(), curr);
@@ -74,10 +93,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
       graphqlClient
     );
     this.user = new FutarchyIndexerUserClient(graphqlClient, this.protocolMap);
-    this.socials = new FutarchyIndexerSocialsClient(
-      graphqlClient,
-      this.wsClient
-    );
+    this.socials = new FutarchyIndexerSocialsClient(getClient, getWSClient);
   }
 
   watchSlot() {

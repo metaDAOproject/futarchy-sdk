@@ -20,7 +20,8 @@ import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
 import {
   Client as IndexerGraphQLClient,
-  generateSubscriptionOp
+  generateSubscriptionOp,
+  proposals_order_by
 } from "./__generated__";
 import {
   CreateProposalInstruction,
@@ -55,17 +56,26 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     this.graphqlWSClient = graphqlWSClient;
     this.protocolMap = protocolMap;
   }
-  async fetchProposals(dao: DaoAggregate): Promise<Proposal[]> {
+  async fetchProposals(
+    dao: DaoAggregate,
+    offset?: number,
+    pageSize?: number,
+    orderBy?: proposals_order_by
+  ): Promise<Proposal[]> {
     const { proposals } = await this.graphqlClient.query?.({
       proposals: {
         __args: {
           where: {
             dao: { dao_detail: { slug: { _eq: dao.slug } } }
           },
+          offset: offset ? offset : 0,
+          limit: pageSize ? pageSize : 500,
           order_by: [
-            {
-              created_at: "desc"
-            }
+            orderBy
+              ? orderBy
+              : {
+                  created_at: "desc"
+                }
           ]
         },
         proposal_num: true,
@@ -404,7 +414,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           orders: {
             quote_price: true,
             filled_base_amount: true
-          },
+          }
         },
         proposal_details: {
           title: true,
@@ -566,10 +576,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       // TOKEN amount on twap is probably volume
       // DO WE WANT TO PASS ALL DATA IN HERE FOR PRICES?????
       prices: {
-        fail: {
-        },
-        pass: {
-        }
+        fail: {},
+        pass: {}
       },
       proposer: {
         publicKey: proposal.proposer_acct

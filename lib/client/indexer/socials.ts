@@ -46,7 +46,8 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
             where: {
               proposal_acct: { _eq: proposalAcct },
               reactor_acct: { _eq: pubKey },
-              comment_id: { _eq: commentId }
+              comment_id:
+                commentId === null ? { _is_null: true } : { _eq: commentId }
             },
             _set: {
               reaction,
@@ -103,14 +104,18 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
   ): Observable<{
     [key in ReactionType]: { count: number; userReacted: boolean };
   }> {
-    const where = commentId
-      ? {
-          proposal_acct: { _eq: proposal },
-          comment_id: { _eq: commentId }
-        }
-      : {
-          proposal_acct: { _eq: proposal }
-        };
+    ///// needs to handle null comment properlyy
+    console.log("commentId in SDK", commentId);
+    const where =
+      commentId !== undefined
+        ? {
+            proposal_acct: { _eq: proposal },
+            comment_id: { _eq: commentId }
+          }
+        : {
+            proposal_acct: { _eq: proposal },
+            comment_id: { _is_null: true }
+          };
 
     const { query, variables } = generateSubscriptionOp({
       reactions: {

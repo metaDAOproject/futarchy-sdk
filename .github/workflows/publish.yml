@@ -2,32 +2,41 @@ name: Publish to npm
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
+      - uses: MontyD/package-json-updated-action
+        id: version-updated
+        with:
+          path: package.json
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Node.js
+        if: steps.version-updated.outputs.has-updated
         uses: actions/setup-node@v2
         with:
           node-version: "21"
           registry-url: "https://registry.npmjs.org"
 
       - name: Install pnpm
+        if: steps.version-updated.outputs.has-updated
         run: npm install -g pnpm
 
       - name: Install dependencies
+        if: steps.version-updated.outputs.has-updated
         run: pnpm install
 
       - name: Build
+        if: steps.version-updated.outputs.has-updated
         run: pnpm run build # Update or remove this line depending on your build process
 
       - name: Publish to npm
+        if: steps.version-updated.outputs.has-updated
         run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_KEY }}

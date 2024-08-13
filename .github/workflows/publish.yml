@@ -9,10 +9,12 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: MontyD/package-json-updated-action
+      - name: package version check
+        uses: MontyD/package-json-updated-action
         id: version-updated
         with:
           path: package.json
+
       - name: Checkout code
         uses: actions/checkout@v2
 

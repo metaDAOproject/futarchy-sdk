@@ -8,7 +8,7 @@ import {
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchySocialsClient } from "../client";
 import { Observable } from "rxjs";
-import { ReactionType, Comment } from "@/types";
+import { ReactionType, Comment, Reaction } from "@/types";
 import { SUPPORTED_EMOJIS } from "@/constants";
 import { ClientOptions } from "./__generated__/runtime";
 import { ClientOptions as WSClientOptions } from "graphql-ws";
@@ -101,10 +101,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
     proposal: string,
     user?: string,
     commentId?: number
-  ): Observable<{
-    [key in ReactionType]: { count: number; userReacted: boolean };
-  }> {
-    ///// needs to handle null comment properlyy
+  ): Observable<Reaction[]> {
     const where =
       commentId !== undefined
         ? {
@@ -124,6 +121,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
         reactor_acct: true,
         updated_at: true,
         reaction: true,
+        reaction_id: true,
         proposal_acct: true
       }
     });
@@ -134,30 +132,36 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
           reactor_acct: string;
           updated_at: string;
           reaction: string;
+          reaction_id: string;
           proposal_acct: string;
         }[];
       }>(
         { query, variables },
         {
           next: (data) => {
-            const reactions = data.data;
+            const reactions =
+              data?.data?.reactions.map<Reaction>((r) => ({
+                reaction: r.reaction,
+                reactorAcct: r.reactor_acct,
+                reactionId: r.reaction_id
+              })) ?? [];
 
-            const reactionCounts: {
-              [key in ReactionType]: { count: number; userReacted: boolean };
-            } = {};
-            // Initialize each reaction type
-            SUPPORTED_EMOJIS.forEach((reactionType) => {
-              reactionCounts[reactionType] = { count: 0, userReacted: false };
-            });
+            // const reactionCounts: {
+            //   [key in ReactionType]: { count: number; userReacted: boolean };
+            // } = {};
+            // // Initialize each reaction type
+            // SUPPORTED_EMOJIS.forEach((reactionType) => {
+            //   reactionCounts[reactionType] = { count: 0, userReacted: false };
+            // });
 
-            // Might need some optimization later
-            reactions?.reactions.forEach((reaction) => {
-              reactionCounts[reaction.reaction]!!.count += 1;
-              if (user && reaction.reactor_acct === user)
-                reactionCounts[reaction.reaction]!!.userReacted = true;
-            });
+            // // Might need some optimization later
+            // reactions?.reactions.forEach((reaction) => {
+            //   reactionCounts[reaction.reaction]!!.count += 1;
+            //   if (user && reaction.reactor_acct === user)
+            //     reactionCounts[reaction.reaction]!!.userReacted = true;
+            // });
 
-            subscriber.next(reactionCounts);
+            subscriber.next(reactions);
           },
           error: (error) => subscriber.error(error),
           complete: () => subscriptionCleanup()
@@ -167,12 +171,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
     });
   }
 
-  async removeReaction(
-    authId: string,
-    reaction: string,
-    pubKey: string,
-    proposalAcct: string
-  ) {
+  async removeReaction(authId: string, reactionId: string) {
     if (!authId) return;
     try {
       // TODO we should not be deleting a reaction
@@ -180,9 +179,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
       const result = await this.getGQLClient().mutation({
         delete_reactions_by_pk: {
           __args: {
-            proposal_acct: proposalAcct,
-            reaction: reaction,
-            reactor_acct: pubKey
+            reaction_id: reactionId
           },
           reaction: true,
           reactor_acct: true,
@@ -270,6 +267,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
         proposal_acct: true,
         responding_comment_id: true,
         reactions: {
+          reaction_id: true,
           reaction: true,
           reactor_acct: true
         }
@@ -286,6 +284,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
           proposal_acct: string;
           responding_comment_id?: string;
           reactions: {
+            reaction_id: string;
             reaction: string;
             reactor_acct: string;
           }[];
@@ -295,19 +294,11 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
         {
           next: (data) => {
             const comments = data?.data?.comments.map<Comment>((comment) => {
-              const reactionCounts: {
-                [key in ReactionType]: { count: number; userReacted: boolean };
-              } = {};
-              // Initialize each reaction type
-              SUPPORTED_EMOJIS.forEach((reactionType) => {
-                reactionCounts[reactionType] = { count: 0, userReacted: false };
-              });
-
-              comment.reactions.forEach((reaction) => {
-                reactionCounts[reaction.reaction]!!.count += 1;
-                if (userAcct && reaction.reactor_acct === userAcct.toBase58())
-                  reactionCounts[reaction.reaction]!!.userReacted = true;
-              });
+              const reactions = comment.reactions.map<Reaction>((r) => ({
+                reaction: r.reaction as ReactionType,
+                reactionId: r.reaction_id,
+                reactorAcct: r.reactor_acct
+              }));
 
               return {
                 commentId: comment.comment_id,
@@ -318,7 +309,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
                 respondingCommentId: comment.responding_comment_id
                   ? Number(comment.responding_comment_id)
                   : undefined,
-                reactions: reactionCounts
+                reactions: reactions
                 // we don't need to include replies because a new reply or comment won't have any replies
               };
             });
@@ -361,6 +352,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
           proposal_acct: true,
           responding_comment_id: true,
           reactions: {
+            reaction_id: true,
             reaction: true,
             reactor_acct: true
           }
@@ -372,6 +364,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
         proposal_acct: true,
         responding_comment_id: true,
         reactions: {
+          reaction_id: true,
           reaction: true,
           reactor_acct: true
         }
@@ -412,36 +405,11 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
     userAcct?: PublicKey
   ): Comment[] {
     return comments.map<Comment>((comment) => {
-      // Initialize reaction counts with default values
-      const reactionCounts = SUPPORTED_EMOJIS.reduce<{
-        [key in ReactionType]: { count: number; userReacted: boolean };
-      }>((acc, reactionType) => {
-        acc[reactionType] = { count: 0, userReacted: false };
-        return acc;
-      }, {});
-
-      // Accumulate reactions using reduce
-      comment.reactions.reduce(
-        (
-          acc: {
-            [key in ReactionType]: { count: number; userReacted: boolean };
-          },
-          reaction: { reaction: ReactionType; reactor_acct: string }
-        ) => {
-          if (!acc[reaction.reaction]) {
-            acc[reaction.reaction] = {
-              count: 1,
-              userReacted: false
-            };
-          }
-          acc[reaction.reaction].count += 1;
-          if (userAcct && reaction.reactor_acct === userAcct.toBase58()) {
-            acc[reaction.reaction].userReacted = true;
-          }
-          return acc;
-        },
-        reactionCounts
-      );
+      const reactions = comment.reactions.map<Reaction>((r) => ({
+        reaction: r.reaction as ReactionType,
+        reactionId: r.reaction_id,
+        reactorAcct: r.reactor_acct
+      }));
 
       return {
         commentId: comment.comment_id,
@@ -451,7 +419,7 @@ export class FutarchyIndexerSocialsClient implements FutarchySocialsClient {
         proposalAcct: comment.proposal_acct
           ? new PublicKey(comment.proposal_acct)
           : null,
-        reactions: reactionCounts,
+        reactions: reactions,
         respondingCommentId: comment.responding_comment_id,
         // Build replies recursively
         replies: comment.comments
@@ -469,6 +437,6 @@ type gqlCommentsRes = {
   comments: gqlCommentsRes[];
   created_at: Scalars["timestamptz"];
   proposal_acct: string | null;
-  reactions: Pick<reactions, "reaction" | "reactor_acct">[];
+  reactions: Pick<reactions, "reaction" | "reactor_acct" | "reaction_id">[];
   responding_comment_id: Scalars["bigint"] | null;
 };

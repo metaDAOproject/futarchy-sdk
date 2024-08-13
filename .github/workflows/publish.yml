@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: "21"
           registry-url: "https://registry.npmjs.org"
+          always-auth: true
 
       - name: Check if version has been updated
         id: check
@@ -28,7 +29,7 @@ jobs:
         run: npm install -g pnpm
       - name: print file to debug
         run: ls
-      - run: cat ~.npmrc
+      - run: cat .npmrc
 
       - name: Install dependencies
         if: steps.check.outputs.changed

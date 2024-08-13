@@ -14,14 +14,14 @@ import {
   TransactionProcessingUpdate,
   Dao,
   GovernanceParticipant,
-  ProposalRanking
+  ProposalRanking,
+  ProposalRequestConfig
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
 import {
   Client as IndexerGraphQLClient,
-  generateSubscriptionOp,
-  proposals_order_by
+  generateSubscriptionOp
 } from "./__generated__";
 import {
   CreateProposalInstruction,
@@ -58,24 +58,25 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   }
   async fetchProposals(
     dao: DaoAggregate,
-    offset?: number,
-    pageSize?: number,
-    orderBy?: proposals_order_by
+    config: ProposalRequestConfig = {
+      offset: 0,
+      pageSize: 500,
+      orderBy: {
+        created_at: "desc"
+      }
+    }
   ): Promise<Proposal[]> {
+    const { offset, orderBy, pageSize } = config;
     const { proposals } = await this.graphqlClient.query?.({
       proposals: {
         __args: {
           where: {
             dao: { dao_detail: { slug: { _eq: dao.slug } } }
           },
-          offset: offset ? offset : 0,
-          limit: pageSize ? pageSize : 500,
+          offset,
+          limit: pageSize,
           order_by: [
             orderBy
-              ? orderBy
-              : {
-                  created_at: "desc"
-                }
           ]
         },
         proposal_num: true,

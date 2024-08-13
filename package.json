@@ -35,6 +35,7 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "semantic-release": "^24.0.0",
     "tsconfig-paths": "^4.2.0",
     "tscpaths": "^0.0.9",
     "typescript": "^5.4.5"

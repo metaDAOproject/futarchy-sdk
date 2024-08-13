@@ -15,6 +15,7 @@ import {
 } from "@/types";
 import { PublicKey } from "@metaplex-foundation/js";
 import { TransactionInstruction } from "@solana/web3.js";
+import { proposals_order_by } from "@/client/indexer/__generated__";
 
 export type ProposalInstruction = MergeWithOptionalFields<
   IdlTypes<AutocratV0_2>["ProposalInstruction"],
@@ -130,3 +131,9 @@ export type ProposalAccounts = {
   fail_market_acct: PublicKey | null;
   proposal_acct: PublicKey | null;
 };
+
+export type ProposalRequestConfig = {
+  offset: number,
+  pageSize: number,
+  orderBy: proposals_order_by
+}

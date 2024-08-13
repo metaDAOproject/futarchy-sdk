@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/more-dao-fields
 
 jobs:
   build-and-publish:

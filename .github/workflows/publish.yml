@@ -10,19 +10,18 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if version has been updated
-        id: check
-        uses: EndBug/version-check@v2
-
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Node.js
-        if: steps.check.outputs.changed
         uses: actions/setup-node@v2
         with:
           node-version: "21"
           registry-url: "https://registry.npmjs.org"
+
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
 
       - name: Install pnpm
         if: steps.check.outputs.changed

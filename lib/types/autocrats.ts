@@ -67,6 +67,10 @@ export type Dao = {
     | "metaMint"
     | "slotsPerProposal"
     | "passThresholdBps"
+    | "minBaseFutarchicLiquidity"
+    | "minQuoteFutarchicLiquidity"
+    | "twapInitialObservation"
+    | "twapMaxObservationChangePerUpdate"
   >;
   baseToken: Omit<TokenProps, "name" | "publicKey" | "url"> & {
     name: string | null;

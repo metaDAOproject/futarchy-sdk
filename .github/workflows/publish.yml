@@ -2,33 +2,42 @@ name: Publish to npm
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: "21"
           registry-url: "https://registry.npmjs.org"
+          always-auth: true
+
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
 
       - name: Install pnpm
+        if: steps.check.outputs.changed
         run: npm install -g pnpm
 
       - name: Install dependencies
+        if: steps.check.outputs.changed
         run: pnpm install
 
       - name: Build
+        if: steps.check.outputs.changed
         run: pnpm run build # Update or remove this line depending on your build process
 
       - name: Publish to npm
+        if: steps.check.outputs.changed
         run: npm publish --access=public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_KEY }}
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_KEY }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -63,7 +63,8 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
         name: key,
         daos: daosByName[key],
         slug: createSlug(key),
-        joinedAt: null
+        joinedAt: null,
+        socials: []
       };
       doaAggregates.push(daoAgg);
     }
@@ -90,7 +91,8 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
           name: dao.baseToken.name,
           logo: dao.baseToken.url ?? "",
           slug: createSlug(dao.baseToken?.name ?? ""),
-          joinedAt: null
+          joinedAt: null,
+          socials: []
         };
       }
       return null;

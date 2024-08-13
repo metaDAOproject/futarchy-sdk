@@ -87,6 +87,7 @@ export type DaoAggregate = {
   name: string;
   slug: string;
   daos: Dao[];
+  socials: DaoSocialLink[];
   logo?: string | null;
   xAccount?: string | null;
   github?: string | null;
@@ -100,12 +101,18 @@ export type DaoAggregate = {
   proposalCount?: number;
 };
 
+export type DaoSocialLink = {
+  id: string;
+  value: string;
+};
+
 /** INDEXER GRAPHQL TYPES */
 export type DaoDetails__GQL = {
   name: string | null;
   slug: string | null;
   image_url: string | null;
   description: string | null;
+  socials?: any | null;
   url: string | null;
   x_account: string | null;
   github: string | null;

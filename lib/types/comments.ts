@@ -1,5 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { ReactionType } from "./reactions";
+import { Reaction } from "./reactions";
 
 export type Comment = {
   commentId: number;
@@ -9,7 +9,5 @@ export type Comment = {
   proposalAcct: PublicKey | null;
   respondingCommentId?: number;
   replies?: Comment[];
-  reactions: {
-    [key in ReactionType]: { count: number; userReacted: boolean };
-  };
+  reactions: Reaction[];
 };

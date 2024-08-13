@@ -7,5 +7,6 @@ export type ReactionResponse = {
 
 export type Reaction = {
   reaction: ReactionType;
-  reactor_acct: string;
+  reactorAcct: string;
+  reactionId: string;
 };

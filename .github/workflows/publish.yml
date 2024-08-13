@@ -26,6 +26,9 @@ jobs:
       - name: Install pnpm
         if: steps.check.outputs.changed
         run: npm install -g pnpm
+      - name: print file to debug
+        run: ls
+      - run: cat ~.npmrc
 
       - name: Install dependencies
         if: steps.check.outputs.changed

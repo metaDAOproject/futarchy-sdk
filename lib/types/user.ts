@@ -1,5 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { ProposalWithFullData } from ".";
+import { ProposalWithFullData, TokenProps } from ".";
 
 export type UserPerformanceFetchRequest = {
   userAcct: PublicKey | null;
@@ -36,3 +36,12 @@ export type UserRanking = {
   totalVolume: number;
   userAcct: PublicKey;
 };
+
+export type UserDeposit = {
+  userAcct: PublicKey;
+  tokenAmount: number;
+  mintAcct: PublicKey;
+  txSig: string;
+  createdAt: Date;
+  token: Pick<TokenProps, "decimals" | "name">;
+}

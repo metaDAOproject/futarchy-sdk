@@ -2784,6 +2784,14 @@ export default {
             "slug": [
                 5
             ],
+            "socials": [
+                249,
+                {
+                    "path": [
+                        5
+                    ]
+                }
+            ],
             "token_image_url": [
                 5
             ],
@@ -2859,6 +2867,9 @@ export default {
             "admin_accts": [
                 249
             ],
+            "socials": [
+                249
+            ],
             "__typename": [
                 5
             ]
@@ -2923,6 +2934,9 @@ export default {
             "slug": [
                 6
             ],
+            "socials": [
+                251
+            ],
             "token_image_url": [
                 6
             ],
@@ -2941,6 +2955,9 @@ export default {
             "admin_accts": [
                 5
             ],
+            "socials": [
+                5
+            ],
             "__typename": [
                 5
             ]
@@ -2949,12 +2966,18 @@ export default {
             "admin_accts": [
                 3
             ],
+            "socials": [
+                3
+            ],
             "__typename": [
                 5
             ]
         },
         "dao_details_delete_key_input": {
             "admin_accts": [
+                5
+            ],
+            "socials": [
                 5
             ],
             "__typename": [
@@ -3008,6 +3031,9 @@ export default {
             ],
             "slug": [
                 5
+            ],
+            "socials": [
+                249
             ],
             "token_image_url": [
                 5
@@ -3186,6 +3212,9 @@ export default {
             "slug": [
                 342
             ],
+            "socials": [
+                342
+            ],
             "token_image_url": [
                 342
             ],
@@ -3209,6 +3238,9 @@ export default {
         },
         "dao_details_prepend_input": {
             "admin_accts": [
+                249
+            ],
+            "socials": [
                 249
             ],
             "__typename": [
@@ -3252,6 +3284,9 @@ export default {
             ],
             "slug": [
                 5
+            ],
+            "socials": [
+                249
             ],
             "token_image_url": [
                 5
@@ -3337,6 +3372,9 @@ export default {
             ],
             "slug": [
                 5
+            ],
+            "socials": [
+                249
             ],
             "token_image_url": [
                 5
@@ -3429,6 +3467,12 @@ export default {
             "dao_id": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_threshold_bps": [
                 7
             ],
@@ -3499,6 +3543,12 @@ export default {
             ],
             "treasury_acct": [
                 5
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
             ],
             "updated_at": [
                 805
@@ -3643,10 +3693,22 @@ export default {
             "dao_id": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
             "pass_threshold_bps": [
                 2
             ],
             "slots_per_proposal": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -3657,10 +3719,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -3690,6 +3764,12 @@ export default {
                 123
             ],
             "dao_id": [
+                8
+            ],
+            "min_base_futarchic_liquidity": [
+                8
+            ],
+            "min_quote_futarchic_liquidity": [
                 8
             ],
             "pass_threshold_bps": [
@@ -3725,6 +3805,12 @@ export default {
             "treasury_acct": [
                 6
             ],
+            "twap_initial_observation": [
+                8
+            ],
+            "twap_max_observation_change_per_update": [
+                8
+            ],
             "updated_at": [
                 806
             ],
@@ -3737,10 +3823,22 @@ export default {
             "dao_id": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_threshold_bps": [
                 7
             ],
             "slots_per_proposal": [
+                7
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
                 7
             ],
             "__typename": [
@@ -3761,6 +3859,12 @@ export default {
                 133
             ],
             "dao_id": [
+                7
+            ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
                 7
             ],
             "pass_threshold_bps": [
@@ -3793,6 +3897,12 @@ export default {
             "treasury_acct": [
                 5
             ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
+            ],
             "updated_at": [
                 805
             ],
@@ -3813,6 +3923,12 @@ export default {
             "dao_id": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_threshold_bps": [
                 7
             ],
@@ -3827,6 +3943,12 @@ export default {
             ],
             "treasury_acct": [
                 5
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
             ],
             "updated_at": [
                 805
@@ -3848,6 +3970,12 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
@@ -3861,6 +3989,12 @@ export default {
                 342
             ],
             "treasury_acct": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "updated_at": [
@@ -3883,6 +4017,12 @@ export default {
             "dao_id": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_threshold_bps": [
                 7
             ],
@@ -3897,6 +4037,12 @@ export default {
             ],
             "treasury_acct": [
                 5
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
             ],
             "updated_at": [
                 805
@@ -3918,6 +4064,12 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
@@ -3931,6 +4083,12 @@ export default {
                 342
             ],
             "treasury_acct": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "updated_at": [
@@ -3992,6 +4150,12 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
@@ -4020,6 +4184,12 @@ export default {
                 905
             ],
             "treasury_acct": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "updated_at": [
@@ -4051,6 +4221,12 @@ export default {
             "dao_id": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_threshold_bps": [
                 7
             ],
@@ -4066,6 +4242,12 @@ export default {
             "treasury_acct": [
                 5
             ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
+            ],
             "updated_at": [
                 805
             ],
@@ -4077,10 +4259,22 @@ export default {
             "dao_id": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
             "pass_threshold_bps": [
                 2
             ],
             "slots_per_proposal": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -4091,10 +4285,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -4105,10 +4311,22 @@ export default {
             "dao_id": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
             "pass_threshold_bps": [
                 2
             ],
             "slots_per_proposal": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -4119,10 +4337,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -4133,10 +4363,22 @@ export default {
             "dao_id": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
             "pass_threshold_bps": [
                 2
             ],
             "slots_per_proposal": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -4147,10 +4389,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -4181,6 +4435,12 @@ export default {
             "dao_id": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_threshold_bps": [
                 7
             ],
@@ -4196,6 +4456,12 @@ export default {
             "treasury_acct": [
                 5
             ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
+            ],
             "updated_at": [
                 805
             ],
@@ -4207,10 +4473,22 @@ export default {
             "dao_id": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_threshold_bps": [
                 7
             ],
             "slots_per_proposal": [
+                7
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
                 7
             ],
             "__typename": [
@@ -4221,10 +4499,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -4250,10 +4540,22 @@ export default {
             "dao_id": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
             "pass_threshold_bps": [
                 2
             ],
             "slots_per_proposal": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -4264,10 +4566,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -4278,10 +4592,22 @@ export default {
             "dao_id": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
             "pass_threshold_bps": [
                 2
             ],
             "slots_per_proposal": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -4292,10 +4618,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -4306,10 +4644,22 @@ export default {
             "dao_id": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
             "pass_threshold_bps": [
                 2
             ],
             "slots_per_proposal": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -4320,10 +4670,22 @@ export default {
             "dao_id": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_threshold_bps": [
                 342
             ],
             "slots_per_proposal": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -13493,6 +13855,9 @@ export default {
             "description_url": [
                 5
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
@@ -13549,8 +13914,17 @@ export default {
                     ]
                 }
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_market_acct": [
                 5
+            ],
+            "pass_threshold_bps": [
+                7
             ],
             "pricing_model_fail_acct": [
                 5
@@ -13660,6 +14034,12 @@ export default {
             ],
             "status": [
                 5
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
             ],
             "twaps": [
                 1057,
@@ -14074,13 +14454,31 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "duration_in_slots": [
+                2
+            ],
             "end_slot": [
                 2
             ],
             "initial_slot": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
+            "pass_threshold_bps": [
+                2
+            ],
             "proposal_num": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -14091,13 +14489,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -14147,6 +14563,9 @@ export default {
             "description_url": [
                 6
             ],
+            "duration_in_slots": [
+                8
+            ],
             "end_slot": [
                 8
             ],
@@ -14165,8 +14584,17 @@ export default {
             "markets_aggregate": [
                 300
             ],
+            "min_base_futarchic_liquidity": [
+                8
+            ],
+            "min_quote_futarchic_liquidity": [
+                8
+            ],
             "pass_market_acct": [
                 6
+            ],
+            "pass_threshold_bps": [
+                8
             ],
             "pricing_model_fail_acct": [
                 6
@@ -14201,6 +14629,12 @@ export default {
             "status": [
                 6
             ],
+            "twap_initial_observation": [
+                8
+            ],
+            "twap_max_observation_change_per_update": [
+                8
+            ],
             "twaps": [
                 1066
             ],
@@ -14225,13 +14659,31 @@ export default {
             "autocrat_version": [
                 193
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
             "initial_slot": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
+            "pass_threshold_bps": [
+                7
+            ],
             "proposal_num": [
+                7
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
                 7
             ],
             "__typename": [
@@ -14269,6 +14721,9 @@ export default {
             "description_url": [
                 5
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
@@ -14284,8 +14739,17 @@ export default {
             "markets": [
                 304
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_market_acct": [
                 5
+            ],
+            "pass_threshold_bps": [
+                7
             ],
             "pricing_model_fail_acct": [
                 5
@@ -14313,6 +14777,12 @@ export default {
             ],
             "status": [
                 5
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
             ],
             "twaps": [
                 1063
@@ -14346,6 +14816,9 @@ export default {
             "description_url": [
                 5
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
@@ -14358,8 +14831,17 @@ export default {
             "initial_slot": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_market_acct": [
                 5
+            ],
+            "pass_threshold_bps": [
+                7
             ],
             "pricing_model_fail_acct": [
                 5
@@ -14381,6 +14863,12 @@ export default {
             ],
             "status": [
                 5
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
             ],
             "updated_at": [
                 805
@@ -14408,6 +14896,9 @@ export default {
             "description_url": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
@@ -14420,7 +14911,16 @@ export default {
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_market_acct": [
+                342
+            ],
+            "pass_threshold_bps": [
                 342
             ],
             "pricing_model_fail_acct": [
@@ -14442,6 +14942,12 @@ export default {
                 342
             ],
             "status": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "updated_at": [
@@ -14470,6 +14976,9 @@ export default {
             "description_url": [
                 5
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
@@ -14482,8 +14991,17 @@ export default {
             "initial_slot": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_market_acct": [
                 5
+            ],
+            "pass_threshold_bps": [
+                7
             ],
             "pricing_model_fail_acct": [
                 5
@@ -14505,6 +15023,12 @@ export default {
             ],
             "status": [
                 5
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
             ],
             "updated_at": [
                 805
@@ -14532,6 +15056,9 @@ export default {
             "description_url": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
@@ -14544,7 +15071,16 @@ export default {
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_market_acct": [
+                342
+            ],
+            "pass_threshold_bps": [
                 342
             ],
             "pricing_model_fail_acct": [
@@ -14566,6 +15102,12 @@ export default {
                 342
             ],
             "status": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "updated_at": [
@@ -14642,6 +15184,9 @@ export default {
             "description_url": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
@@ -14657,7 +15202,16 @@ export default {
             "markets_aggregate": [
                 303
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
             "pass_market_acct": [
+                342
+            ],
+            "pass_threshold_bps": [
                 342
             ],
             "pricing_model_fail_acct": [
@@ -14685,6 +15239,12 @@ export default {
                 699
             ],
             "status": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "twaps_aggregate": [
@@ -14736,6 +15296,9 @@ export default {
             "description_url": [
                 5
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
@@ -14748,8 +15311,17 @@ export default {
             "initial_slot": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_market_acct": [
                 5
+            ],
+            "pass_threshold_bps": [
+                7
             ],
             "pricing_model_fail_acct": [
                 5
@@ -14772,6 +15344,12 @@ export default {
             "status": [
                 5
             ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
+            ],
             "updated_at": [
                 805
             ],
@@ -14783,13 +15361,31 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "duration_in_slots": [
+                2
+            ],
             "end_slot": [
                 2
             ],
             "initial_slot": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
+            "pass_threshold_bps": [
+                2
+            ],
             "proposal_num": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -14800,13 +15396,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -14817,13 +15431,31 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "duration_in_slots": [
+                2
+            ],
             "end_slot": [
                 2
             ],
             "initial_slot": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
+            "pass_threshold_bps": [
+                2
+            ],
             "proposal_num": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -14834,13 +15466,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -14851,13 +15501,31 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "duration_in_slots": [
+                2
+            ],
             "end_slot": [
                 2
             ],
             "initial_slot": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
+            "pass_threshold_bps": [
+                2
+            ],
             "proposal_num": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -14868,13 +15536,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -14911,6 +15597,9 @@ export default {
             "description_url": [
                 5
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
@@ -14923,8 +15612,17 @@ export default {
             "initial_slot": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
             "pass_market_acct": [
                 5
+            ],
+            "pass_threshold_bps": [
+                7
             ],
             "pricing_model_fail_acct": [
                 5
@@ -14947,6 +15645,12 @@ export default {
             "status": [
                 5
             ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
+                7
+            ],
             "updated_at": [
                 805
             ],
@@ -14958,13 +15662,31 @@ export default {
             "autocrat_version": [
                 193
             ],
+            "duration_in_slots": [
+                7
+            ],
             "end_slot": [
                 7
             ],
             "initial_slot": [
                 7
             ],
+            "min_base_futarchic_liquidity": [
+                7
+            ],
+            "min_quote_futarchic_liquidity": [
+                7
+            ],
+            "pass_threshold_bps": [
+                7
+            ],
             "proposal_num": [
+                7
+            ],
+            "twap_initial_observation": [
+                7
+            ],
+            "twap_max_observation_change_per_update": [
                 7
             ],
             "__typename": [
@@ -14975,13 +15697,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -15007,13 +15747,31 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "duration_in_slots": [
+                2
+            ],
             "end_slot": [
                 2
             ],
             "initial_slot": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
+            "pass_threshold_bps": [
+                2
+            ],
             "proposal_num": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -15024,13 +15782,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -15041,13 +15817,31 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "duration_in_slots": [
+                2
+            ],
             "end_slot": [
                 2
             ],
             "initial_slot": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
+            "pass_threshold_bps": [
+                2
+            ],
             "proposal_num": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -15058,13 +15852,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [
@@ -15075,13 +15887,31 @@ export default {
             "autocrat_version": [
                 2
             ],
+            "duration_in_slots": [
+                2
+            ],
             "end_slot": [
                 2
             ],
             "initial_slot": [
                 2
             ],
+            "min_base_futarchic_liquidity": [
+                2
+            ],
+            "min_quote_futarchic_liquidity": [
+                2
+            ],
+            "pass_threshold_bps": [
+                2
+            ],
             "proposal_num": [
+                2
+            ],
+            "twap_initial_observation": [
+                2
+            ],
+            "twap_max_observation_change_per_update": [
                 2
             ],
             "__typename": [
@@ -15092,13 +15922,31 @@ export default {
             "autocrat_version": [
                 342
             ],
+            "duration_in_slots": [
+                342
+            ],
             "end_slot": [
                 342
             ],
             "initial_slot": [
                 342
             ],
+            "min_base_futarchic_liquidity": [
+                342
+            ],
+            "min_quote_futarchic_liquidity": [
+                342
+            ],
+            "pass_threshold_bps": [
+                342
+            ],
             "proposal_num": [
+                342
+            ],
+            "twap_initial_observation": [
+                342
+            ],
+            "twap_max_observation_change_per_update": [
                 342
             ],
             "__typename": [

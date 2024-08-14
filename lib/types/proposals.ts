@@ -102,6 +102,15 @@ export type ProposalWithFullData = Proposal & {
   tags: string[];
 };
 
+export type ProposalDaoConfiguration = {
+  durationInSlots: number;
+  passThresholdBps: number;
+  twapInitialObservation: number;
+  twapMaxObservationChangePerUpdate: number;
+  minQuoteFutarchicLiquidity: number;
+  minBaseFutarchicLiquidity: number;
+};
+
 export type GovernanceParticipant = {
   publicKey: string;
   name?: string;
@@ -133,7 +142,7 @@ export type ProposalAccounts = {
 };
 
 export type ProposalRequestConfig = {
-  offset: number,
-  pageSize: number,
-  orderBy: proposals_order_by
-}
+  offset: number;
+  pageSize: number;
+  orderBy: proposals_order_by;
+};

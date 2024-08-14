@@ -502,6 +502,7 @@ export interface dao_details {
     name: (Scalars['String'] | null)
     pass_token_image_url: (Scalars['String'] | null)
     slug: (Scalars['String'] | null)
+    socials: (Scalars['jsonb'] | null)
     token_image_url: (Scalars['String'] | null)
     url: (Scalars['String'] | null)
     x_account: (Scalars['String'] | null)
@@ -594,7 +595,7 @@ export interface dao_details_mutation_response {
 
 
 /** select columns of table "dao_details" */
-export type dao_details_select_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'is_hide' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'token_image_url' | 'url' | 'x_account'
+export type dao_details_select_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'is_hide' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'socials' | 'token_image_url' | 'url' | 'x_account'
 
 
 /** aggregate stddev on columns */
@@ -626,7 +627,7 @@ export interface dao_details_sum_fields {
 
 
 /** update columns of table "dao_details" */
-export type dao_details_update_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'is_hide' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'token_image_url' | 'url' | 'x_account'
+export type dao_details_update_column = 'admin_accts' | 'creator_acct' | 'dao_id' | 'description' | 'fail_token_image_url' | 'github' | 'image_url' | 'is_hide' | 'lp_token_image_url' | 'name' | 'pass_token_image_url' | 'slug' | 'socials' | 'token_image_url' | 'url' | 'x_account'
 
 
 /** aggregate var_pop on columns */
@@ -658,6 +659,8 @@ export interface daos {
     /** An object relationship */
     dao_detail: (dao_details | null)
     dao_id: (Scalars['bigint'] | null)
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
     pass_threshold_bps: (Scalars['bigint'] | null)
     /** An object relationship */
     program: programs
@@ -675,6 +678,8 @@ export interface daos {
     /** An object relationship */
     tokenByQuoteAcct: (tokens | null)
     treasury_acct: (Scalars['String'] | null)
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     updated_at: Scalars['timestamptz']
     __typename: 'daos'
 }
@@ -708,8 +713,12 @@ export interface daos_aggregate_fields {
 /** aggregate avg on columns */
 export interface daos_avg_fields {
     dao_id: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
     pass_threshold_bps: (Scalars['Float'] | null)
     slots_per_proposal: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'daos_avg_fields'
 }
 
@@ -724,11 +733,15 @@ export interface daos_max_fields {
     created_at: (Scalars['timestamptz'] | null)
     dao_acct: (Scalars['String'] | null)
     dao_id: (Scalars['bigint'] | null)
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
     pass_threshold_bps: (Scalars['bigint'] | null)
     program_acct: (Scalars['String'] | null)
     quote_acct: (Scalars['String'] | null)
     slots_per_proposal: (Scalars['bigint'] | null)
     treasury_acct: (Scalars['String'] | null)
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamptz'] | null)
     __typename: 'daos_max_fields'
 }
@@ -740,11 +753,15 @@ export interface daos_min_fields {
     created_at: (Scalars['timestamptz'] | null)
     dao_acct: (Scalars['String'] | null)
     dao_id: (Scalars['bigint'] | null)
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
     pass_threshold_bps: (Scalars['bigint'] | null)
     program_acct: (Scalars['String'] | null)
     quote_acct: (Scalars['String'] | null)
     slots_per_proposal: (Scalars['bigint'] | null)
     treasury_acct: (Scalars['String'] | null)
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamptz'] | null)
     __typename: 'daos_min_fields'
 }
@@ -761,14 +778,18 @@ export interface daos_mutation_response {
 
 
 /** select columns of table "daos" */
-export type daos_select_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'pass_threshold_bps' | 'program_acct' | 'quote_acct' | 'slots_per_proposal' | 'treasury_acct' | 'updated_at'
+export type daos_select_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'min_base_futarchic_liquidity' | 'min_quote_futarchic_liquidity' | 'pass_threshold_bps' | 'program_acct' | 'quote_acct' | 'slots_per_proposal' | 'treasury_acct' | 'twap_initial_observation' | 'twap_max_observation_change_per_update' | 'updated_at'
 
 
 /** aggregate stddev on columns */
 export interface daos_stddev_fields {
     dao_id: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
     pass_threshold_bps: (Scalars['Float'] | null)
     slots_per_proposal: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'daos_stddev_fields'
 }
 
@@ -776,8 +797,12 @@ export interface daos_stddev_fields {
 /** aggregate stddev_pop on columns */
 export interface daos_stddev_pop_fields {
     dao_id: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
     pass_threshold_bps: (Scalars['Float'] | null)
     slots_per_proposal: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'daos_stddev_pop_fields'
 }
 
@@ -785,8 +810,12 @@ export interface daos_stddev_pop_fields {
 /** aggregate stddev_samp on columns */
 export interface daos_stddev_samp_fields {
     dao_id: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
     pass_threshold_bps: (Scalars['Float'] | null)
     slots_per_proposal: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'daos_stddev_samp_fields'
 }
 
@@ -794,21 +823,29 @@ export interface daos_stddev_samp_fields {
 /** aggregate sum on columns */
 export interface daos_sum_fields {
     dao_id: (Scalars['bigint'] | null)
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
     pass_threshold_bps: (Scalars['bigint'] | null)
     slots_per_proposal: (Scalars['bigint'] | null)
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     __typename: 'daos_sum_fields'
 }
 
 
 /** update columns of table "daos" */
-export type daos_update_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'pass_threshold_bps' | 'program_acct' | 'quote_acct' | 'slots_per_proposal' | 'treasury_acct' | 'updated_at'
+export type daos_update_column = 'base_acct' | 'created_at' | 'dao_acct' | 'dao_id' | 'min_base_futarchic_liquidity' | 'min_quote_futarchic_liquidity' | 'pass_threshold_bps' | 'program_acct' | 'quote_acct' | 'slots_per_proposal' | 'treasury_acct' | 'twap_initial_observation' | 'twap_max_observation_change_per_update' | 'updated_at'
 
 
 /** aggregate var_pop on columns */
 export interface daos_var_pop_fields {
     dao_id: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
     pass_threshold_bps: (Scalars['Float'] | null)
     slots_per_proposal: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'daos_var_pop_fields'
 }
 
@@ -816,8 +853,12 @@ export interface daos_var_pop_fields {
 /** aggregate var_samp on columns */
 export interface daos_var_samp_fields {
     dao_id: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
     pass_threshold_bps: (Scalars['Float'] | null)
     slots_per_proposal: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'daos_var_samp_fields'
 }
 
@@ -825,8 +866,12 @@ export interface daos_var_samp_fields {
 /** aggregate variance on columns */
 export interface daos_variance_fields {
     dao_id: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
     pass_threshold_bps: (Scalars['Float'] | null)
     slots_per_proposal: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'daos_variance_fields'
 }
 
@@ -3289,6 +3334,7 @@ export interface proposals {
     dao: daos
     dao_acct: Scalars['String']
     description_url: (Scalars['String'] | null)
+    duration_in_slots: (Scalars['bigint'] | null)
     end_slot: (Scalars['bigint'] | null)
     ended_at: (Scalars['timestamptz'] | null)
     fail_market_acct: (Scalars['String'] | null)
@@ -3297,7 +3343,10 @@ export interface proposals {
     markets: markets[]
     /** An aggregate relationship */
     markets_aggregate: markets_aggregate
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
     pass_market_acct: (Scalars['String'] | null)
+    pass_threshold_bps: (Scalars['bigint'] | null)
     pricing_model_fail_acct: (Scalars['String'] | null)
     pricing_model_pass_acct: (Scalars['String'] | null)
     proposal_acct: Scalars['String']
@@ -3313,6 +3362,8 @@ export interface proposals {
     /** An aggregate relationship */
     reactions_aggregate: reactions_aggregate
     status: Scalars['String']
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     /** An array relationship */
     twaps: twaps[]
     /** An aggregate relationship */
@@ -3354,9 +3405,15 @@ export interface proposals_aggregate_fields {
 /** aggregate avg on columns */
 export interface proposals_avg_fields {
     autocrat_version: (Scalars['Float'] | null)
+    duration_in_slots: (Scalars['Float'] | null)
     end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
+    pass_threshold_bps: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'proposals_avg_fields'
 }
 
@@ -3373,11 +3430,15 @@ export interface proposals_max_fields {
     created_at: (Scalars['timestamptz'] | null)
     dao_acct: (Scalars['String'] | null)
     description_url: (Scalars['String'] | null)
+    duration_in_slots: (Scalars['bigint'] | null)
     end_slot: (Scalars['bigint'] | null)
     ended_at: (Scalars['timestamptz'] | null)
     fail_market_acct: (Scalars['String'] | null)
     initial_slot: (Scalars['bigint'] | null)
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
     pass_market_acct: (Scalars['String'] | null)
+    pass_threshold_bps: (Scalars['bigint'] | null)
     pricing_model_fail_acct: (Scalars['String'] | null)
     pricing_model_pass_acct: (Scalars['String'] | null)
     proposal_acct: (Scalars['String'] | null)
@@ -3385,6 +3446,8 @@ export interface proposals_max_fields {
     proposer_acct: (Scalars['String'] | null)
     quote_vault: (Scalars['String'] | null)
     status: (Scalars['String'] | null)
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamptz'] | null)
     __typename: 'proposals_max_fields'
 }
@@ -3398,11 +3461,15 @@ export interface proposals_min_fields {
     created_at: (Scalars['timestamptz'] | null)
     dao_acct: (Scalars['String'] | null)
     description_url: (Scalars['String'] | null)
+    duration_in_slots: (Scalars['bigint'] | null)
     end_slot: (Scalars['bigint'] | null)
     ended_at: (Scalars['timestamptz'] | null)
     fail_market_acct: (Scalars['String'] | null)
     initial_slot: (Scalars['bigint'] | null)
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
     pass_market_acct: (Scalars['String'] | null)
+    pass_threshold_bps: (Scalars['bigint'] | null)
     pricing_model_fail_acct: (Scalars['String'] | null)
     pricing_model_pass_acct: (Scalars['String'] | null)
     proposal_acct: (Scalars['String'] | null)
@@ -3410,6 +3477,8 @@ export interface proposals_min_fields {
     proposer_acct: (Scalars['String'] | null)
     quote_vault: (Scalars['String'] | null)
     status: (Scalars['String'] | null)
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     updated_at: (Scalars['timestamptz'] | null)
     __typename: 'proposals_min_fields'
 }
@@ -3426,7 +3495,7 @@ export interface proposals_mutation_response {
 
 
 /** select columns of table "proposals" */
-export type proposals_select_column = 'autocrat_version' | 'base_vault' | 'completed_at' | 'created_at' | 'dao_acct' | 'description_url' | 'end_slot' | 'ended_at' | 'fail_market_acct' | 'initial_slot' | 'pass_market_acct' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'updated_at'
+export type proposals_select_column = 'autocrat_version' | 'base_vault' | 'completed_at' | 'created_at' | 'dao_acct' | 'description_url' | 'duration_in_slots' | 'end_slot' | 'ended_at' | 'fail_market_acct' | 'initial_slot' | 'min_base_futarchic_liquidity' | 'min_quote_futarchic_liquidity' | 'pass_market_acct' | 'pass_threshold_bps' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'twap_initial_observation' | 'twap_max_observation_change_per_update' | 'updated_at'
 
 
 /** select "proposals_aggregate_bool_exp_avg_arguments_columns" columns of table "proposals" */
@@ -3464,9 +3533,15 @@ export type proposals_select_column_proposals_aggregate_bool_exp_var_samp_argume
 /** aggregate stddev on columns */
 export interface proposals_stddev_fields {
     autocrat_version: (Scalars['Float'] | null)
+    duration_in_slots: (Scalars['Float'] | null)
     end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
+    pass_threshold_bps: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'proposals_stddev_fields'
 }
 
@@ -3474,9 +3549,15 @@ export interface proposals_stddev_fields {
 /** aggregate stddev_pop on columns */
 export interface proposals_stddev_pop_fields {
     autocrat_version: (Scalars['Float'] | null)
+    duration_in_slots: (Scalars['Float'] | null)
     end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
+    pass_threshold_bps: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'proposals_stddev_pop_fields'
 }
 
@@ -3484,9 +3565,15 @@ export interface proposals_stddev_pop_fields {
 /** aggregate stddev_samp on columns */
 export interface proposals_stddev_samp_fields {
     autocrat_version: (Scalars['Float'] | null)
+    duration_in_slots: (Scalars['Float'] | null)
     end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
+    pass_threshold_bps: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'proposals_stddev_samp_fields'
 }
 
@@ -3494,23 +3581,35 @@ export interface proposals_stddev_samp_fields {
 /** aggregate sum on columns */
 export interface proposals_sum_fields {
     autocrat_version: (Scalars['float8'] | null)
+    duration_in_slots: (Scalars['bigint'] | null)
     end_slot: (Scalars['bigint'] | null)
     initial_slot: (Scalars['bigint'] | null)
+    min_base_futarchic_liquidity: (Scalars['bigint'] | null)
+    min_quote_futarchic_liquidity: (Scalars['bigint'] | null)
+    pass_threshold_bps: (Scalars['bigint'] | null)
     proposal_num: (Scalars['bigint'] | null)
+    twap_initial_observation: (Scalars['bigint'] | null)
+    twap_max_observation_change_per_update: (Scalars['bigint'] | null)
     __typename: 'proposals_sum_fields'
 }
 
 
 /** update columns of table "proposals" */
-export type proposals_update_column = 'autocrat_version' | 'base_vault' | 'completed_at' | 'created_at' | 'dao_acct' | 'description_url' | 'end_slot' | 'ended_at' | 'fail_market_acct' | 'initial_slot' | 'pass_market_acct' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'updated_at'
+export type proposals_update_column = 'autocrat_version' | 'base_vault' | 'completed_at' | 'created_at' | 'dao_acct' | 'description_url' | 'duration_in_slots' | 'end_slot' | 'ended_at' | 'fail_market_acct' | 'initial_slot' | 'min_base_futarchic_liquidity' | 'min_quote_futarchic_liquidity' | 'pass_market_acct' | 'pass_threshold_bps' | 'pricing_model_fail_acct' | 'pricing_model_pass_acct' | 'proposal_acct' | 'proposal_num' | 'proposer_acct' | 'quote_vault' | 'status' | 'twap_initial_observation' | 'twap_max_observation_change_per_update' | 'updated_at'
 
 
 /** aggregate var_pop on columns */
 export interface proposals_var_pop_fields {
     autocrat_version: (Scalars['Float'] | null)
+    duration_in_slots: (Scalars['Float'] | null)
     end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
+    pass_threshold_bps: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'proposals_var_pop_fields'
 }
 
@@ -3518,9 +3617,15 @@ export interface proposals_var_pop_fields {
 /** aggregate var_samp on columns */
 export interface proposals_var_samp_fields {
     autocrat_version: (Scalars['Float'] | null)
+    duration_in_slots: (Scalars['Float'] | null)
     end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
+    pass_threshold_bps: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'proposals_var_samp_fields'
 }
 
@@ -3528,9 +3633,15 @@ export interface proposals_var_samp_fields {
 /** aggregate variance on columns */
 export interface proposals_variance_fields {
     autocrat_version: (Scalars['Float'] | null)
+    duration_in_slots: (Scalars['Float'] | null)
     end_slot: (Scalars['Float'] | null)
     initial_slot: (Scalars['Float'] | null)
+    min_base_futarchic_liquidity: (Scalars['Float'] | null)
+    min_quote_futarchic_liquidity: (Scalars['Float'] | null)
+    pass_threshold_bps: (Scalars['Float'] | null)
     proposal_num: (Scalars['Float'] | null)
+    twap_initial_observation: (Scalars['Float'] | null)
+    twap_max_observation_change_per_update: (Scalars['Float'] | null)
     __typename: 'proposals_variance_fields'
 }
 
@@ -6834,6 +6945,9 @@ export interface dao_detailsGenqlSelection{
     name?: boolean | number
     pass_token_image_url?: boolean | number
     slug?: boolean | number
+    socials?: { __args: {
+    /** JSON select path */
+    path?: (Scalars['String'] | null)} } | boolean | number
     token_image_url?: boolean | number
     url?: boolean | number
     x_account?: boolean | number
@@ -6870,7 +6984,7 @@ export interface dao_details_aggregate_fieldsGenqlSelection{
 
 
 /** append existing jsonb value of filtered columns with new jsonb value */
-export interface dao_details_append_input {admin_accts?: (Scalars['jsonb'] | null)}
+export interface dao_details_append_input {admin_accts?: (Scalars['jsonb'] | null),socials?: (Scalars['jsonb'] | null)}
 
 
 /** aggregate avg on columns */
@@ -6882,19 +6996,19 @@ export interface dao_details_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "dao_details". All fields are combined with a logical 'AND'. */
-export interface dao_details_bool_exp {_and?: (dao_details_bool_exp[] | null),_not?: (dao_details_bool_exp | null),_or?: (dao_details_bool_exp[] | null),admin_accts?: (jsonb_comparison_exp | null),creator_acct?: (String_comparison_exp | null),dao_id?: (bigint_comparison_exp | null),daos?: (daos_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),description?: (String_comparison_exp | null),fail_token_image_url?: (String_comparison_exp | null),github?: (String_comparison_exp | null),image_url?: (String_comparison_exp | null),is_hide?: (Boolean_comparison_exp | null),lp_token_image_url?: (String_comparison_exp | null),name?: (String_comparison_exp | null),pass_token_image_url?: (String_comparison_exp | null),slug?: (String_comparison_exp | null),token_image_url?: (String_comparison_exp | null),url?: (String_comparison_exp | null),x_account?: (String_comparison_exp | null)}
+export interface dao_details_bool_exp {_and?: (dao_details_bool_exp[] | null),_not?: (dao_details_bool_exp | null),_or?: (dao_details_bool_exp[] | null),admin_accts?: (jsonb_comparison_exp | null),creator_acct?: (String_comparison_exp | null),dao_id?: (bigint_comparison_exp | null),daos?: (daos_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),description?: (String_comparison_exp | null),fail_token_image_url?: (String_comparison_exp | null),github?: (String_comparison_exp | null),image_url?: (String_comparison_exp | null),is_hide?: (Boolean_comparison_exp | null),lp_token_image_url?: (String_comparison_exp | null),name?: (String_comparison_exp | null),pass_token_image_url?: (String_comparison_exp | null),slug?: (String_comparison_exp | null),socials?: (jsonb_comparison_exp | null),token_image_url?: (String_comparison_exp | null),url?: (String_comparison_exp | null),x_account?: (String_comparison_exp | null)}
 
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-export interface dao_details_delete_at_path_input {admin_accts?: (Scalars['String'][] | null)}
+export interface dao_details_delete_at_path_input {admin_accts?: (Scalars['String'][] | null),socials?: (Scalars['String'][] | null)}
 
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-export interface dao_details_delete_elem_input {admin_accts?: (Scalars['Int'] | null)}
+export interface dao_details_delete_elem_input {admin_accts?: (Scalars['Int'] | null),socials?: (Scalars['Int'] | null)}
 
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
-export interface dao_details_delete_key_input {admin_accts?: (Scalars['String'] | null)}
+export interface dao_details_delete_key_input {admin_accts?: (Scalars['String'] | null),socials?: (Scalars['String'] | null)}
 
 
 /** input type for incrementing numeric columns in table "dao_details" */
@@ -6902,7 +7016,7 @@ export interface dao_details_inc_input {dao_id?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "dao_details" */
-export interface dao_details_insert_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),daos?: (daos_arr_rel_insert_input | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_insert_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),daos?: (daos_arr_rel_insert_input | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),socials?: (Scalars['jsonb'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -6967,7 +7081,7 @@ export interface dao_details_on_conflict {constraint: dao_details_constraint,upd
 
 
 /** Ordering options when selecting data from "dao_details". */
-export interface dao_details_order_by {admin_accts?: (order_by | null),creator_acct?: (order_by | null),dao_id?: (order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),description?: (order_by | null),fail_token_image_url?: (order_by | null),github?: (order_by | null),image_url?: (order_by | null),is_hide?: (order_by | null),lp_token_image_url?: (order_by | null),name?: (order_by | null),pass_token_image_url?: (order_by | null),slug?: (order_by | null),token_image_url?: (order_by | null),url?: (order_by | null),x_account?: (order_by | null)}
+export interface dao_details_order_by {admin_accts?: (order_by | null),creator_acct?: (order_by | null),dao_id?: (order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),description?: (order_by | null),fail_token_image_url?: (order_by | null),github?: (order_by | null),image_url?: (order_by | null),is_hide?: (order_by | null),lp_token_image_url?: (order_by | null),name?: (order_by | null),pass_token_image_url?: (order_by | null),slug?: (order_by | null),socials?: (order_by | null),token_image_url?: (order_by | null),url?: (order_by | null),x_account?: (order_by | null)}
 
 
 /** primary key columns input for table: dao_details */
@@ -6975,11 +7089,11 @@ export interface dao_details_pk_columns_input {dao_id: Scalars['bigint']}
 
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
-export interface dao_details_prepend_input {admin_accts?: (Scalars['jsonb'] | null)}
+export interface dao_details_prepend_input {admin_accts?: (Scalars['jsonb'] | null),socials?: (Scalars['jsonb'] | null)}
 
 
 /** input type for updating data in table "dao_details" */
-export interface dao_details_set_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_set_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),socials?: (Scalars['jsonb'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -7015,7 +7129,7 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface dao_details_stream_cursor_value_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
+export interface dao_details_stream_cursor_value_input {admin_accts?: (Scalars['jsonb'] | null),creator_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),description?: (Scalars['String'] | null),fail_token_image_url?: (Scalars['String'] | null),github?: (Scalars['String'] | null),image_url?: (Scalars['String'] | null),is_hide?: (Scalars['Boolean'] | null),lp_token_image_url?: (Scalars['String'] | null),name?: (Scalars['String'] | null),pass_token_image_url?: (Scalars['String'] | null),slug?: (Scalars['String'] | null),socials?: (Scalars['jsonb'] | null),token_image_url?: (Scalars['String'] | null),url?: (Scalars['String'] | null),x_account?: (Scalars['String'] | null)}
 
 
 /** aggregate sum on columns */
@@ -7076,6 +7190,8 @@ export interface daosGenqlSelection{
     /** An object relationship */
     dao_detail?: dao_detailsGenqlSelection
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     /** An object relationship */
     program?: programsGenqlSelection
@@ -7113,6 +7229,8 @@ export interface daosGenqlSelection{
     /** An object relationship */
     tokenByQuoteAcct?: tokensGenqlSelection
     treasury_acct?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -7163,27 +7281,31 @@ on_conflict?: (daos_on_conflict | null)}
 /** aggregate avg on columns */
 export interface daos_avg_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by avg() on columns of table "daos" */
-export interface daos_avg_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_avg_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "daos". All fields are combined with a logical 'AND'. */
-export interface daos_bool_exp {_and?: (daos_bool_exp[] | null),_not?: (daos_bool_exp | null),_or?: (daos_bool_exp[] | null),base_acct?: (String_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),dao_acct?: (String_comparison_exp | null),dao_detail?: (dao_details_bool_exp | null),dao_id?: (bigint_comparison_exp | null),pass_threshold_bps?: (bigint_comparison_exp | null),program?: (programs_bool_exp | null),program_acct?: (String_comparison_exp | null),proposals?: (proposals_bool_exp | null),proposals_aggregate?: (proposals_aggregate_bool_exp | null),quote_acct?: (String_comparison_exp | null),slots_per_proposal?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenByBaseAcct?: (tokens_bool_exp | null),tokenByQuoteAcct?: (tokens_bool_exp | null),treasury_acct?: (String_comparison_exp | null),updated_at?: (timestamptz_comparison_exp | null)}
+export interface daos_bool_exp {_and?: (daos_bool_exp[] | null),_not?: (daos_bool_exp | null),_or?: (daos_bool_exp[] | null),base_acct?: (String_comparison_exp | null),created_at?: (timestamptz_comparison_exp | null),dao_acct?: (String_comparison_exp | null),dao_detail?: (dao_details_bool_exp | null),dao_id?: (bigint_comparison_exp | null),min_base_futarchic_liquidity?: (bigint_comparison_exp | null),min_quote_futarchic_liquidity?: (bigint_comparison_exp | null),pass_threshold_bps?: (bigint_comparison_exp | null),program?: (programs_bool_exp | null),program_acct?: (String_comparison_exp | null),proposals?: (proposals_bool_exp | null),proposals_aggregate?: (proposals_aggregate_bool_exp | null),quote_acct?: (String_comparison_exp | null),slots_per_proposal?: (bigint_comparison_exp | null),token?: (tokens_bool_exp | null),tokenByBaseAcct?: (tokens_bool_exp | null),tokenByQuoteAcct?: (tokens_bool_exp | null),treasury_acct?: (String_comparison_exp | null),twap_initial_observation?: (bigint_comparison_exp | null),twap_max_observation_change_per_update?: (bigint_comparison_exp | null),updated_at?: (timestamptz_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "daos" */
-export interface daos_inc_input {dao_id?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),slots_per_proposal?: (Scalars['bigint'] | null)}
+export interface daos_inc_input {dao_id?: (Scalars['bigint'] | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),slots_per_proposal?: (Scalars['bigint'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "daos" */
-export interface daos_insert_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),dao_detail?: (dao_details_obj_rel_insert_input | null),dao_id?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),program?: (programs_obj_rel_insert_input | null),program_acct?: (Scalars['String'] | null),proposals?: (proposals_arr_rel_insert_input | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenByBaseAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteAcct?: (tokens_obj_rel_insert_input | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamptz'] | null)}
+export interface daos_insert_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),dao_detail?: (dao_details_obj_rel_insert_input | null),dao_id?: (Scalars['bigint'] | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),program?: (programs_obj_rel_insert_input | null),program_acct?: (Scalars['String'] | null),proposals?: (proposals_arr_rel_insert_input | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),token?: (tokens_obj_rel_insert_input | null),tokenByBaseAcct?: (tokens_obj_rel_insert_input | null),tokenByQuoteAcct?: (tokens_obj_rel_insert_input | null),treasury_acct?: (Scalars['String'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamptz'] | null)}
 
 
 /** aggregate max on columns */
@@ -7192,11 +7314,15 @@ export interface daos_max_fieldsGenqlSelection{
     created_at?: boolean | number
     dao_acct?: boolean | number
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     program_acct?: boolean | number
     quote_acct?: boolean | number
     slots_per_proposal?: boolean | number
     treasury_acct?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -7204,7 +7330,7 @@ export interface daos_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "daos" */
-export interface daos_max_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
+export interface daos_max_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),treasury_acct?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -7213,11 +7339,15 @@ export interface daos_min_fieldsGenqlSelection{
     created_at?: boolean | number
     dao_acct?: boolean | number
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     program_acct?: boolean | number
     quote_acct?: boolean | number
     slots_per_proposal?: boolean | number
     treasury_acct?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -7225,7 +7355,7 @@ export interface daos_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "daos" */
-export interface daos_min_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
+export interface daos_min_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),program_acct?: (order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),treasury_acct?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** response of any mutation on the table "daos" */
@@ -7250,7 +7380,7 @@ export interface daos_on_conflict {constraint: daos_constraint,update_columns?: 
 
 
 /** Ordering options when selecting data from "daos". */
-export interface daos_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_detail?: (dao_details_order_by | null),dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),program?: (programs_order_by | null),program_acct?: (order_by | null),proposals_aggregate?: (proposals_aggregate_order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),token?: (tokens_order_by | null),tokenByBaseAcct?: (tokens_order_by | null),tokenByQuoteAcct?: (tokens_order_by | null),treasury_acct?: (order_by | null),updated_at?: (order_by | null)}
+export interface daos_order_by {base_acct?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),dao_detail?: (dao_details_order_by | null),dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),program?: (programs_order_by | null),program_acct?: (order_by | null),proposals_aggregate?: (proposals_aggregate_order_by | null),quote_acct?: (order_by | null),slots_per_proposal?: (order_by | null),token?: (tokens_order_by | null),tokenByBaseAcct?: (tokens_order_by | null),tokenByQuoteAcct?: (tokens_order_by | null),treasury_acct?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** primary key columns input for table: daos */
@@ -7258,49 +7388,61 @@ export interface daos_pk_columns_input {dao_acct: Scalars['String']}
 
 
 /** input type for updating data in table "daos" */
-export interface daos_set_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamptz'] | null)}
+export interface daos_set_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),treasury_acct?: (Scalars['String'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamptz'] | null)}
 
 
 /** aggregate stddev on columns */
 export interface daos_stddev_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev() on columns of table "daos" */
-export interface daos_stddev_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_stddev_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface daos_stddev_pop_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_pop() on columns of table "daos" */
-export interface daos_stddev_pop_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_stddev_pop_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface daos_stddev_samp_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_samp() on columns of table "daos" */
-export interface daos_stddev_samp_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_stddev_samp_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** Streaming cursor of the table "daos" */
@@ -7312,21 +7454,25 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface daos_stream_cursor_value_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),treasury_acct?: (Scalars['String'] | null),updated_at?: (Scalars['timestamptz'] | null)}
+export interface daos_stream_cursor_value_input {base_acct?: (Scalars['String'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),dao_id?: (Scalars['bigint'] | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),program_acct?: (Scalars['String'] | null),quote_acct?: (Scalars['String'] | null),slots_per_proposal?: (Scalars['bigint'] | null),treasury_acct?: (Scalars['String'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamptz'] | null)}
 
 
 /** aggregate sum on columns */
 export interface daos_sum_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by sum() on columns of table "daos" */
-export interface daos_sum_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_sum_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 export interface daos_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -7340,43 +7486,55 @@ where: daos_bool_exp}
 /** aggregate var_pop on columns */
 export interface daos_var_pop_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_pop() on columns of table "daos" */
-export interface daos_var_pop_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_var_pop_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface daos_var_samp_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_samp() on columns of table "daos" */
-export interface daos_var_samp_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_var_samp_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface daos_variance_fieldsGenqlSelection{
     dao_id?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_threshold_bps?: boolean | number
     slots_per_proposal?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by variance() on columns of table "daos" */
-export interface daos_variance_order_by {dao_id?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null)}
+export interface daos_variance_order_by {dao_id?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),slots_per_proposal?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -11767,6 +11925,7 @@ export interface proposalsGenqlSelection{
     dao?: daosGenqlSelection
     dao_acct?: boolean | number
     description_url?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     ended_at?: boolean | number
     fail_market_acct?: boolean | number
@@ -11795,7 +11954,10 @@ export interface proposalsGenqlSelection{
     order_by?: (markets_order_by[] | null), 
     /** filter the rows returned */
     where?: (markets_bool_exp | null)} })
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_market_acct?: boolean | number
+    pass_threshold_bps?: boolean | number
     pricing_model_fail_acct?: boolean | number
     pricing_model_pass_acct?: boolean | number
     proposal_acct?: boolean | number
@@ -11851,6 +12013,8 @@ export interface proposalsGenqlSelection{
     /** filter the rows returned */
     where?: (reactions_bool_exp | null)} })
     status?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     /** An array relationship */
     twaps?: (twapsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -11969,28 +12133,34 @@ on_conflict?: (proposals_on_conflict | null)}
 /** aggregate avg on columns */
 export interface proposals_avg_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by avg() on columns of table "proposals" */
-export interface proposals_avg_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_avg_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** Boolean expression to filter rows from the table "proposals". All fields are combined with a logical 'AND'. */
-export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),completed_at?: (timestamptz_comparison_exp | null),conditionalVaultByQuoteVault?: (conditional_vaults_bool_exp | null),conditional_vault?: (conditional_vaults_bool_exp | null),created_at?: (timestamptz_comparison_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),end_slot?: (bigint_comparison_exp | null),ended_at?: (timestamptz_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),pass_market_acct?: (String_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
+export interface proposals_bool_exp {_and?: (proposals_bool_exp[] | null),_not?: (proposals_bool_exp | null),_or?: (proposals_bool_exp[] | null),autocrat_version?: (float8_comparison_exp | null),base_vault?: (String_comparison_exp | null),comments?: (comments_bool_exp | null),comments_aggregate?: (comments_aggregate_bool_exp | null),completed_at?: (timestamptz_comparison_exp | null),conditionalVaultByQuoteVault?: (conditional_vaults_bool_exp | null),conditional_vault?: (conditional_vaults_bool_exp | null),created_at?: (timestamptz_comparison_exp | null),dao?: (daos_bool_exp | null),dao_acct?: (String_comparison_exp | null),description_url?: (String_comparison_exp | null),duration_in_slots?: (bigint_comparison_exp | null),end_slot?: (bigint_comparison_exp | null),ended_at?: (timestamptz_comparison_exp | null),fail_market_acct?: (String_comparison_exp | null),initial_slot?: (bigint_comparison_exp | null),markets?: (markets_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),min_base_futarchic_liquidity?: (bigint_comparison_exp | null),min_quote_futarchic_liquidity?: (bigint_comparison_exp | null),pass_market_acct?: (String_comparison_exp | null),pass_threshold_bps?: (bigint_comparison_exp | null),pricing_model_fail_acct?: (String_comparison_exp | null),pricing_model_pass_acct?: (String_comparison_exp | null),proposal_acct?: (String_comparison_exp | null),proposal_details?: (proposal_details_bool_exp | null),proposal_details_aggregate?: (proposal_details_aggregate_bool_exp | null),proposal_num?: (bigint_comparison_exp | null),proposer_acct?: (String_comparison_exp | null),quote_vault?: (String_comparison_exp | null),reactions?: (reactions_bool_exp | null),reactions_aggregate?: (reactions_aggregate_bool_exp | null),status?: (String_comparison_exp | null),twap_initial_observation?: (bigint_comparison_exp | null),twap_max_observation_change_per_update?: (bigint_comparison_exp | null),twaps?: (twaps_bool_exp | null),twaps_aggregate?: (twaps_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "proposals" */
-export interface proposals_inc_input {autocrat_version?: (Scalars['float8'] | null),end_slot?: (Scalars['bigint'] | null),initial_slot?: (Scalars['bigint'] | null),proposal_num?: (Scalars['bigint'] | null)}
+export interface proposals_inc_input {autocrat_version?: (Scalars['float8'] | null),duration_in_slots?: (Scalars['bigint'] | null),end_slot?: (Scalars['bigint'] | null),initial_slot?: (Scalars['bigint'] | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),proposal_num?: (Scalars['bigint'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null)}
 
 
 /** input type for inserting data into table "proposals" */
-export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),completed_at?: (Scalars['timestamptz'] | null),conditionalVaultByQuoteVault?: (conditional_vaults_obj_rel_insert_input | null),conditional_vault?: (conditional_vaults_obj_rel_insert_input | null),created_at?: (Scalars['timestamptz'] | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
+export interface proposals_insert_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),comments?: (comments_arr_rel_insert_input | null),completed_at?: (Scalars['timestamptz'] | null),conditionalVaultByQuoteVault?: (conditional_vaults_obj_rel_insert_input | null),conditional_vault?: (conditional_vaults_obj_rel_insert_input | null),created_at?: (Scalars['timestamptz'] | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),duration_in_slots?: (Scalars['bigint'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),markets?: (markets_arr_rel_insert_input | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_details?: (proposal_details_arr_rel_insert_input | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),reactions?: (reactions_arr_rel_insert_input | null),status?: (Scalars['String'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null),twaps?: (twaps_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -12001,11 +12171,15 @@ export interface proposals_max_fieldsGenqlSelection{
     created_at?: boolean | number
     dao_acct?: boolean | number
     description_url?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     ended_at?: boolean | number
     fail_market_acct?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_market_acct?: boolean | number
+    pass_threshold_bps?: boolean | number
     pricing_model_fail_acct?: boolean | number
     pricing_model_pass_acct?: boolean | number
     proposal_acct?: boolean | number
@@ -12013,6 +12187,8 @@ export interface proposals_max_fieldsGenqlSelection{
     proposer_acct?: boolean | number
     quote_vault?: boolean | number
     status?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -12020,7 +12196,7 @@ export interface proposals_max_fieldsGenqlSelection{
 
 
 /** order by max() on columns of table "proposals" */
-export interface proposals_max_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),completed_at?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
+export interface proposals_max_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),completed_at?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_market_acct?: (order_by | null),pass_threshold_bps?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** aggregate min on columns */
@@ -12031,11 +12207,15 @@ export interface proposals_min_fieldsGenqlSelection{
     created_at?: boolean | number
     dao_acct?: boolean | number
     description_url?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     ended_at?: boolean | number
     fail_market_acct?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
     pass_market_acct?: boolean | number
+    pass_threshold_bps?: boolean | number
     pricing_model_fail_acct?: boolean | number
     pricing_model_pass_acct?: boolean | number
     proposal_acct?: boolean | number
@@ -12043,6 +12223,8 @@ export interface proposals_min_fieldsGenqlSelection{
     proposer_acct?: boolean | number
     quote_vault?: boolean | number
     status?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     updated_at?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -12050,7 +12232,7 @@ export interface proposals_min_fieldsGenqlSelection{
 
 
 /** order by min() on columns of table "proposals" */
-export interface proposals_min_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),completed_at?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),updated_at?: (order_by | null)}
+export interface proposals_min_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),completed_at?: (order_by | null),created_at?: (order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_market_acct?: (order_by | null),pass_threshold_bps?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),status?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null),updated_at?: (order_by | null)}
 
 
 /** response of any mutation on the table "proposals" */
@@ -12075,7 +12257,7 @@ export interface proposals_on_conflict {constraint: proposals_constraint,update_
 
 
 /** Ordering options when selecting data from "proposals". */
-export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),completed_at?: (order_by | null),conditionalVaultByQuoteVault?: (conditional_vaults_order_by | null),conditional_vault?: (conditional_vaults_order_by | null),created_at?: (order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),pass_market_acct?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
+export interface proposals_order_by {autocrat_version?: (order_by | null),base_vault?: (order_by | null),comments_aggregate?: (comments_aggregate_order_by | null),completed_at?: (order_by | null),conditionalVaultByQuoteVault?: (conditional_vaults_order_by | null),conditional_vault?: (conditional_vaults_order_by | null),created_at?: (order_by | null),dao?: (daos_order_by | null),dao_acct?: (order_by | null),description_url?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),ended_at?: (order_by | null),fail_market_acct?: (order_by | null),initial_slot?: (order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_market_acct?: (order_by | null),pass_threshold_bps?: (order_by | null),pricing_model_fail_acct?: (order_by | null),pricing_model_pass_acct?: (order_by | null),proposal_acct?: (order_by | null),proposal_details_aggregate?: (proposal_details_aggregate_order_by | null),proposal_num?: (order_by | null),proposer_acct?: (order_by | null),quote_vault?: (order_by | null),reactions_aggregate?: (reactions_aggregate_order_by | null),status?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null),twaps_aggregate?: (twaps_aggregate_order_by | null),updated_at?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: proposals */
@@ -12083,52 +12265,70 @@ export interface proposals_pk_columns_input {proposal_acct: Scalars['String']}
 
 
 /** input type for updating data in table "proposals" */
-export interface proposals_set_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),completed_at?: (Scalars['timestamptz'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamptz'] | null)}
+export interface proposals_set_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),completed_at?: (Scalars['timestamptz'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),duration_in_slots?: (Scalars['bigint'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamptz'] | null)}
 
 
 /** aggregate stddev on columns */
 export interface proposals_stddev_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev() on columns of table "proposals" */
-export interface proposals_stddev_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_stddev_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate stddev_pop on columns */
 export interface proposals_stddev_pop_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_pop() on columns of table "proposals" */
-export interface proposals_stddev_pop_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_stddev_pop_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate stddev_samp on columns */
 export interface proposals_stddev_samp_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by stddev_samp() on columns of table "proposals" */
-export interface proposals_stddev_samp_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_stddev_samp_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** Streaming cursor of the table "proposals" */
@@ -12140,22 +12340,28 @@ ordering?: (cursor_ordering | null)}
 
 
 /** Initial value of the column from where the streaming should start */
-export interface proposals_stream_cursor_value_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),completed_at?: (Scalars['timestamptz'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),updated_at?: (Scalars['timestamptz'] | null)}
+export interface proposals_stream_cursor_value_input {autocrat_version?: (Scalars['float8'] | null),base_vault?: (Scalars['String'] | null),completed_at?: (Scalars['timestamptz'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),description_url?: (Scalars['String'] | null),duration_in_slots?: (Scalars['bigint'] | null),end_slot?: (Scalars['bigint'] | null),ended_at?: (Scalars['timestamptz'] | null),fail_market_acct?: (Scalars['String'] | null),initial_slot?: (Scalars['bigint'] | null),min_base_futarchic_liquidity?: (Scalars['bigint'] | null),min_quote_futarchic_liquidity?: (Scalars['bigint'] | null),pass_market_acct?: (Scalars['String'] | null),pass_threshold_bps?: (Scalars['bigint'] | null),pricing_model_fail_acct?: (Scalars['String'] | null),pricing_model_pass_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),proposal_num?: (Scalars['bigint'] | null),proposer_acct?: (Scalars['String'] | null),quote_vault?: (Scalars['String'] | null),status?: (Scalars['String'] | null),twap_initial_observation?: (Scalars['bigint'] | null),twap_max_observation_change_per_update?: (Scalars['bigint'] | null),updated_at?: (Scalars['timestamptz'] | null)}
 
 
 /** aggregate sum on columns */
 export interface proposals_sum_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by sum() on columns of table "proposals" */
-export interface proposals_sum_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_sum_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 export interface proposals_updates {
 /** increments the numeric columns with given value of the filtered values */
@@ -12169,46 +12375,64 @@ where: proposals_bool_exp}
 /** aggregate var_pop on columns */
 export interface proposals_var_pop_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_pop() on columns of table "proposals" */
-export interface proposals_var_pop_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_var_pop_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate var_samp on columns */
 export interface proposals_var_samp_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by var_samp() on columns of table "proposals" */
-export interface proposals_var_samp_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_var_samp_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 
 /** aggregate variance on columns */
 export interface proposals_variance_fieldsGenqlSelection{
     autocrat_version?: boolean | number
+    duration_in_slots?: boolean | number
     end_slot?: boolean | number
     initial_slot?: boolean | number
+    min_base_futarchic_liquidity?: boolean | number
+    min_quote_futarchic_liquidity?: boolean | number
+    pass_threshold_bps?: boolean | number
     proposal_num?: boolean | number
+    twap_initial_observation?: boolean | number
+    twap_max_observation_change_per_update?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 
 /** order by variance() on columns of table "proposals" */
-export interface proposals_variance_order_by {autocrat_version?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),proposal_num?: (order_by | null)}
+export interface proposals_variance_order_by {autocrat_version?: (order_by | null),duration_in_slots?: (order_by | null),end_slot?: (order_by | null),initial_slot?: (order_by | null),min_base_futarchic_liquidity?: (order_by | null),min_quote_futarchic_liquidity?: (order_by | null),pass_threshold_bps?: (order_by | null),proposal_num?: (order_by | null),twap_initial_observation?: (order_by | null),twap_max_observation_change_per_update?: (order_by | null)}
 
 export interface query_rootGenqlSelection{
     /** An array relationship */
@@ -20918,6 +21142,7 @@ export const enumDaoDetailsSelectColumn = {
    name: 'name' as const,
    pass_token_image_url: 'pass_token_image_url' as const,
    slug: 'slug' as const,
+   socials: 'socials' as const,
    token_image_url: 'token_image_url' as const,
    url: 'url' as const,
    x_account: 'x_account' as const
@@ -20936,6 +21161,7 @@ export const enumDaoDetailsUpdateColumn = {
    name: 'name' as const,
    pass_token_image_url: 'pass_token_image_url' as const,
    slug: 'slug' as const,
+   socials: 'socials' as const,
    token_image_url: 'token_image_url' as const,
    url: 'url' as const,
    x_account: 'x_account' as const
@@ -20952,11 +21178,15 @@ export const enumDaosSelectColumn = {
    created_at: 'created_at' as const,
    dao_acct: 'dao_acct' as const,
    dao_id: 'dao_id' as const,
+   min_base_futarchic_liquidity: 'min_base_futarchic_liquidity' as const,
+   min_quote_futarchic_liquidity: 'min_quote_futarchic_liquidity' as const,
    pass_threshold_bps: 'pass_threshold_bps' as const,
    program_acct: 'program_acct' as const,
    quote_acct: 'quote_acct' as const,
    slots_per_proposal: 'slots_per_proposal' as const,
    treasury_acct: 'treasury_acct' as const,
+   twap_initial_observation: 'twap_initial_observation' as const,
+   twap_max_observation_change_per_update: 'twap_max_observation_change_per_update' as const,
    updated_at: 'updated_at' as const
 }
 
@@ -20965,11 +21195,15 @@ export const enumDaosUpdateColumn = {
    created_at: 'created_at' as const,
    dao_acct: 'dao_acct' as const,
    dao_id: 'dao_id' as const,
+   min_base_futarchic_liquidity: 'min_base_futarchic_liquidity' as const,
+   min_quote_futarchic_liquidity: 'min_quote_futarchic_liquidity' as const,
    pass_threshold_bps: 'pass_threshold_bps' as const,
    program_acct: 'program_acct' as const,
    quote_acct: 'quote_acct' as const,
    slots_per_proposal: 'slots_per_proposal' as const,
    treasury_acct: 'treasury_acct' as const,
+   twap_initial_observation: 'twap_initial_observation' as const,
+   twap_max_observation_change_per_update: 'twap_max_observation_change_per_update' as const,
    updated_at: 'updated_at' as const
 }
 
@@ -21351,11 +21585,15 @@ export const enumProposalsSelectColumn = {
    created_at: 'created_at' as const,
    dao_acct: 'dao_acct' as const,
    description_url: 'description_url' as const,
+   duration_in_slots: 'duration_in_slots' as const,
    end_slot: 'end_slot' as const,
    ended_at: 'ended_at' as const,
    fail_market_acct: 'fail_market_acct' as const,
    initial_slot: 'initial_slot' as const,
+   min_base_futarchic_liquidity: 'min_base_futarchic_liquidity' as const,
+   min_quote_futarchic_liquidity: 'min_quote_futarchic_liquidity' as const,
    pass_market_acct: 'pass_market_acct' as const,
+   pass_threshold_bps: 'pass_threshold_bps' as const,
    pricing_model_fail_acct: 'pricing_model_fail_acct' as const,
    pricing_model_pass_acct: 'pricing_model_pass_acct' as const,
    proposal_acct: 'proposal_acct' as const,
@@ -21363,6 +21601,8 @@ export const enumProposalsSelectColumn = {
    proposer_acct: 'proposer_acct' as const,
    quote_vault: 'quote_vault' as const,
    status: 'status' as const,
+   twap_initial_observation: 'twap_initial_observation' as const,
+   twap_max_observation_change_per_update: 'twap_max_observation_change_per_update' as const,
    updated_at: 'updated_at' as const
 }
 
@@ -21405,11 +21645,15 @@ export const enumProposalsUpdateColumn = {
    created_at: 'created_at' as const,
    dao_acct: 'dao_acct' as const,
    description_url: 'description_url' as const,
+   duration_in_slots: 'duration_in_slots' as const,
    end_slot: 'end_slot' as const,
    ended_at: 'ended_at' as const,
    fail_market_acct: 'fail_market_acct' as const,
    initial_slot: 'initial_slot' as const,
+   min_base_futarchic_liquidity: 'min_base_futarchic_liquidity' as const,
+   min_quote_futarchic_liquidity: 'min_quote_futarchic_liquidity' as const,
    pass_market_acct: 'pass_market_acct' as const,
+   pass_threshold_bps: 'pass_threshold_bps' as const,
    pricing_model_fail_acct: 'pricing_model_fail_acct' as const,
    pricing_model_pass_acct: 'pricing_model_pass_acct' as const,
    proposal_acct: 'proposal_acct' as const,
@@ -21417,6 +21661,8 @@ export const enumProposalsUpdateColumn = {
    proposer_acct: 'proposer_acct' as const,
    quote_vault: 'quote_vault' as const,
    status: 'status' as const,
+   twap_initial_observation: 'twap_initial_observation' as const,
+   twap_max_observation_change_per_update: 'twap_max_observation_change_per_update' as const,
    updated_at: 'updated_at' as const
 }
 

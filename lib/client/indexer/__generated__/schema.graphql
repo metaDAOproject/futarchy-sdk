@@ -1644,6 +1644,10 @@ type dao_details {
   name: String
   pass_token_image_url: String
   slug: String
+  socials(
+    """JSON select path"""
+    path: String
+  ): jsonb
   token_image_url: String
   url: String
   x_account: String
@@ -1677,6 +1681,7 @@ type dao_details_aggregate_fields {
 """append existing jsonb value of filtered columns with new jsonb value"""
 input dao_details_append_input {
   admin_accts: jsonb
+  socials: jsonb
 }
 
 """aggregate avg on columns"""
@@ -1705,6 +1710,7 @@ input dao_details_bool_exp {
   name: String_comparison_exp
   pass_token_image_url: String_comparison_exp
   slug: String_comparison_exp
+  socials: jsonb_comparison_exp
   token_image_url: String_comparison_exp
   url: String_comparison_exp
   x_account: String_comparison_exp
@@ -1755,6 +1761,7 @@ delete the field or element with specified path (for JSON arrays, negative integ
 """
 input dao_details_delete_at_path_input {
   admin_accts: [String!]
+  socials: [String!]
 }
 
 """
@@ -1762,6 +1769,7 @@ delete the array element with specified index (negative integers count from the 
 """
 input dao_details_delete_elem_input {
   admin_accts: Int
+  socials: Int
 }
 
 """
@@ -1769,6 +1777,7 @@ delete key/value pair or string element. key/value pairs are matched based on th
 """
 input dao_details_delete_key_input {
   admin_accts: String
+  socials: String
 }
 
 """
@@ -1795,6 +1804,7 @@ input dao_details_insert_input {
   name: String
   pass_token_image_url: String
   slug: String
+  socials: jsonb
   token_image_url: String
   url: String
   x_account: String
@@ -1879,6 +1889,7 @@ input dao_details_order_by {
   name: order_by
   pass_token_image_url: order_by
   slug: order_by
+  socials: order_by
   token_image_url: order_by
   url: order_by
   x_account: order_by
@@ -1892,6 +1903,7 @@ input dao_details_pk_columns_input {
 """prepend existing jsonb value of filtered columns with new jsonb value"""
 input dao_details_prepend_input {
   admin_accts: jsonb
+  socials: jsonb
 }
 
 """
@@ -1935,6 +1947,9 @@ enum dao_details_select_column {
   slug
 
   """column name"""
+  socials
+
+  """column name"""
   token_image_url
 
   """column name"""
@@ -1960,6 +1975,7 @@ input dao_details_set_input {
   name: String
   pass_token_image_url: String
   slug: String
+  socials: jsonb
   token_image_url: String
   url: String
   x_account: String
@@ -2005,6 +2021,7 @@ input dao_details_stream_cursor_value_input {
   name: String
   pass_token_image_url: String
   slug: String
+  socials: jsonb
   token_image_url: String
   url: String
   x_account: String
@@ -2054,6 +2071,9 @@ enum dao_details_update_column {
 
   """column name"""
   slug
+
+  """column name"""
+  socials
 
   """column name"""
   token_image_url
@@ -2123,6 +2143,8 @@ type daos {
   """An object relationship"""
   dao_detail: dao_details
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
 
   """An object relationship"""
@@ -2176,6 +2198,8 @@ type daos {
   """An object relationship"""
   tokenByQuoteAcct: tokens
   treasury_acct: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz!
 }
 
@@ -2245,8 +2269,12 @@ input daos_arr_rel_insert_input {
 """aggregate avg on columns"""
 type daos_avg_fields {
   dao_id: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
   pass_threshold_bps: Float
   slots_per_proposal: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -2254,8 +2282,12 @@ order by avg() on columns of table "daos"
 """
 input daos_avg_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """
@@ -2270,6 +2302,8 @@ input daos_bool_exp {
   dao_acct: String_comparison_exp
   dao_detail: dao_details_bool_exp
   dao_id: bigint_comparison_exp
+  min_base_futarchic_liquidity: bigint_comparison_exp
+  min_quote_futarchic_liquidity: bigint_comparison_exp
   pass_threshold_bps: bigint_comparison_exp
   program: programs_bool_exp
   program_acct: String_comparison_exp
@@ -2281,6 +2315,8 @@ input daos_bool_exp {
   tokenByBaseAcct: tokens_bool_exp
   tokenByQuoteAcct: tokens_bool_exp
   treasury_acct: String_comparison_exp
+  twap_initial_observation: bigint_comparison_exp
+  twap_max_observation_change_per_update: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -2309,8 +2345,12 @@ input type for incrementing numeric columns in table "daos"
 """
 input daos_inc_input {
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
   slots_per_proposal: bigint
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
 }
 
 """
@@ -2322,6 +2362,8 @@ input daos_insert_input {
   dao_acct: String
   dao_detail: dao_details_obj_rel_insert_input
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
   program: programs_obj_rel_insert_input
   program_acct: String
@@ -2332,6 +2374,8 @@ input daos_insert_input {
   tokenByBaseAcct: tokens_obj_rel_insert_input
   tokenByQuoteAcct: tokens_obj_rel_insert_input
   treasury_acct: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
@@ -2341,11 +2385,15 @@ type daos_max_fields {
   created_at: timestamptz
   dao_acct: String
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
@@ -2357,11 +2405,15 @@ input daos_max_order_by {
   created_at: order_by
   dao_acct: order_by
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   program_acct: order_by
   quote_acct: order_by
   slots_per_proposal: order_by
   treasury_acct: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
   updated_at: order_by
 }
 
@@ -2371,11 +2423,15 @@ type daos_min_fields {
   created_at: timestamptz
   dao_acct: String
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
@@ -2387,11 +2443,15 @@ input daos_min_order_by {
   created_at: order_by
   dao_acct: order_by
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   program_acct: order_by
   quote_acct: order_by
   slots_per_proposal: order_by
   treasury_acct: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
   updated_at: order_by
 }
 
@@ -2432,6 +2492,8 @@ input daos_order_by {
   dao_acct: order_by
   dao_detail: dao_details_order_by
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   program: programs_order_by
   program_acct: order_by
@@ -2442,6 +2504,8 @@ input daos_order_by {
   tokenByBaseAcct: tokens_order_by
   tokenByQuoteAcct: tokens_order_by
   treasury_acct: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
   updated_at: order_by
 }
 
@@ -2467,6 +2531,12 @@ enum daos_select_column {
   dao_id
 
   """column name"""
+  min_base_futarchic_liquidity
+
+  """column name"""
+  min_quote_futarchic_liquidity
+
+  """column name"""
   pass_threshold_bps
 
   """column name"""
@@ -2482,6 +2552,12 @@ enum daos_select_column {
   treasury_acct
 
   """column name"""
+  twap_initial_observation
+
+  """column name"""
+  twap_max_observation_change_per_update
+
+  """column name"""
   updated_at
 }
 
@@ -2493,19 +2569,27 @@ input daos_set_input {
   created_at: timestamptz
   dao_acct: String
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
 type daos_stddev_fields {
   dao_id: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
   pass_threshold_bps: Float
   slots_per_proposal: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -2513,15 +2597,23 @@ order by stddev() on columns of table "daos"
 """
 input daos_stddev_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type daos_stddev_pop_fields {
   dao_id: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
   pass_threshold_bps: Float
   slots_per_proposal: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -2529,15 +2621,23 @@ order by stddev_pop() on columns of table "daos"
 """
 input daos_stddev_pop_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type daos_stddev_samp_fields {
   dao_id: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
   pass_threshold_bps: Float
   slots_per_proposal: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -2545,8 +2645,12 @@ order by stddev_samp() on columns of table "daos"
 """
 input daos_stddev_samp_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """
@@ -2566,19 +2670,27 @@ input daos_stream_cursor_value_input {
   created_at: timestamptz
   dao_acct: String
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
   program_acct: String
   quote_acct: String
   slots_per_proposal: bigint
   treasury_acct: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
 type daos_sum_fields {
   dao_id: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_threshold_bps: bigint
   slots_per_proposal: bigint
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
 }
 
 """
@@ -2586,8 +2698,12 @@ order by sum() on columns of table "daos"
 """
 input daos_sum_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """
@@ -2607,6 +2723,12 @@ enum daos_update_column {
   dao_id
 
   """column name"""
+  min_base_futarchic_liquidity
+
+  """column name"""
+  min_quote_futarchic_liquidity
+
+  """column name"""
   pass_threshold_bps
 
   """column name"""
@@ -2620,6 +2742,12 @@ enum daos_update_column {
 
   """column name"""
   treasury_acct
+
+  """column name"""
+  twap_initial_observation
+
+  """column name"""
+  twap_max_observation_change_per_update
 
   """column name"""
   updated_at
@@ -2639,8 +2767,12 @@ input daos_updates {
 """aggregate var_pop on columns"""
 type daos_var_pop_fields {
   dao_id: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
   pass_threshold_bps: Float
   slots_per_proposal: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -2648,15 +2780,23 @@ order by var_pop() on columns of table "daos"
 """
 input daos_var_pop_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate var_samp on columns"""
 type daos_var_samp_fields {
   dao_id: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
   pass_threshold_bps: Float
   slots_per_proposal: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -2664,15 +2804,23 @@ order by var_samp() on columns of table "daos"
 """
 input daos_var_samp_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate variance on columns"""
 type daos_variance_fields {
   dao_id: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
   pass_threshold_bps: Float
   slots_per_proposal: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -2680,8 +2828,12 @@ order by variance() on columns of table "daos"
 """
 input daos_variance_order_by {
   dao_id: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_threshold_bps: order_by
   slots_per_proposal: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 scalar float8
@@ -10545,6 +10697,7 @@ type proposals {
   dao: daos!
   dao_acct: String!
   description_url: String
+  duration_in_slots: bigint
   end_slot: bigint
   ended_at: timestamptz
   fail_market_acct: String
@@ -10585,7 +10738,10 @@ type proposals {
     """filter the rows returned"""
     where: markets_bool_exp
   ): markets_aggregate!
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_market_acct: String
+  pass_threshold_bps: bigint
   pricing_model_fail_acct: String
   pricing_model_pass_acct: String
   proposal_acct: String!
@@ -10665,6 +10821,8 @@ type proposals {
     where: reactions_bool_exp
   ): reactions_aggregate!
   status: String!
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
 
   """An array relationship"""
   twaps(
@@ -10880,9 +11038,15 @@ input proposals_arr_rel_insert_input {
 """aggregate avg on columns"""
 type proposals_avg_fields {
   autocrat_version: Float
+  duration_in_slots: Float
   end_slot: Float
   initial_slot: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
+  pass_threshold_bps: Float
   proposal_num: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -10890,9 +11054,15 @@ order by avg() on columns of table "proposals"
 """
 input proposals_avg_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """
@@ -10913,13 +11083,17 @@ input proposals_bool_exp {
   dao: daos_bool_exp
   dao_acct: String_comparison_exp
   description_url: String_comparison_exp
+  duration_in_slots: bigint_comparison_exp
   end_slot: bigint_comparison_exp
   ended_at: timestamptz_comparison_exp
   fail_market_acct: String_comparison_exp
   initial_slot: bigint_comparison_exp
   markets: markets_bool_exp
   markets_aggregate: markets_aggregate_bool_exp
+  min_base_futarchic_liquidity: bigint_comparison_exp
+  min_quote_futarchic_liquidity: bigint_comparison_exp
   pass_market_acct: String_comparison_exp
+  pass_threshold_bps: bigint_comparison_exp
   pricing_model_fail_acct: String_comparison_exp
   pricing_model_pass_acct: String_comparison_exp
   proposal_acct: String_comparison_exp
@@ -10931,6 +11105,8 @@ input proposals_bool_exp {
   reactions: reactions_bool_exp
   reactions_aggregate: reactions_aggregate_bool_exp
   status: String_comparison_exp
+  twap_initial_observation: bigint_comparison_exp
+  twap_max_observation_change_per_update: bigint_comparison_exp
   twaps: twaps_bool_exp
   twaps_aggregate: twaps_aggregate_bool_exp
   updated_at: timestamptz_comparison_exp
@@ -10953,9 +11129,15 @@ input type for incrementing numeric columns in table "proposals"
 """
 input proposals_inc_input {
   autocrat_version: float8
+  duration_in_slots: bigint
   end_slot: bigint
   initial_slot: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
+  pass_threshold_bps: bigint
   proposal_num: bigint
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
 }
 
 """
@@ -10972,12 +11154,16 @@ input proposals_insert_input {
   dao: daos_obj_rel_insert_input
   dao_acct: String
   description_url: String
+  duration_in_slots: bigint
   end_slot: bigint
   ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
   markets: markets_arr_rel_insert_input
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_market_acct: String
+  pass_threshold_bps: bigint
   pricing_model_fail_acct: String
   pricing_model_pass_acct: String
   proposal_acct: String
@@ -10987,6 +11173,8 @@ input proposals_insert_input {
   quote_vault: String
   reactions: reactions_arr_rel_insert_input
   status: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   twaps: twaps_arr_rel_insert_input
   updated_at: timestamptz
   user_performances: user_performance_arr_rel_insert_input
@@ -11000,11 +11188,15 @@ type proposals_max_fields {
   created_at: timestamptz
   dao_acct: String
   description_url: String
+  duration_in_slots: bigint
   end_slot: bigint
   ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_market_acct: String
+  pass_threshold_bps: bigint
   pricing_model_fail_acct: String
   pricing_model_pass_acct: String
   proposal_acct: String
@@ -11012,6 +11204,8 @@ type proposals_max_fields {
   proposer_acct: String
   quote_vault: String
   status: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
@@ -11025,11 +11219,15 @@ input proposals_max_order_by {
   created_at: order_by
   dao_acct: order_by
   description_url: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   ended_at: order_by
   fail_market_acct: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_market_acct: order_by
+  pass_threshold_bps: order_by
   pricing_model_fail_acct: order_by
   pricing_model_pass_acct: order_by
   proposal_acct: order_by
@@ -11037,6 +11235,8 @@ input proposals_max_order_by {
   proposer_acct: order_by
   quote_vault: order_by
   status: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
   updated_at: order_by
 }
 
@@ -11048,11 +11248,15 @@ type proposals_min_fields {
   created_at: timestamptz
   dao_acct: String
   description_url: String
+  duration_in_slots: bigint
   end_slot: bigint
   ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_market_acct: String
+  pass_threshold_bps: bigint
   pricing_model_fail_acct: String
   pricing_model_pass_acct: String
   proposal_acct: String
@@ -11060,6 +11264,8 @@ type proposals_min_fields {
   proposer_acct: String
   quote_vault: String
   status: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
@@ -11073,11 +11279,15 @@ input proposals_min_order_by {
   created_at: order_by
   dao_acct: order_by
   description_url: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   ended_at: order_by
   fail_market_acct: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_market_acct: order_by
+  pass_threshold_bps: order_by
   pricing_model_fail_acct: order_by
   pricing_model_pass_acct: order_by
   proposal_acct: order_by
@@ -11085,6 +11295,8 @@ input proposals_min_order_by {
   proposer_acct: order_by
   quote_vault: order_by
   status: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
   updated_at: order_by
 }
 
@@ -11130,12 +11342,16 @@ input proposals_order_by {
   dao: daos_order_by
   dao_acct: order_by
   description_url: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   ended_at: order_by
   fail_market_acct: order_by
   initial_slot: order_by
   markets_aggregate: markets_aggregate_order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
   pass_market_acct: order_by
+  pass_threshold_bps: order_by
   pricing_model_fail_acct: order_by
   pricing_model_pass_acct: order_by
   proposal_acct: order_by
@@ -11145,6 +11361,8 @@ input proposals_order_by {
   quote_vault: order_by
   reactions_aggregate: reactions_aggregate_order_by
   status: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
   twaps_aggregate: twaps_aggregate_order_by
   updated_at: order_by
   user_performances_aggregate: user_performance_aggregate_order_by
@@ -11178,6 +11396,9 @@ enum proposals_select_column {
   description_url
 
   """column name"""
+  duration_in_slots
+
+  """column name"""
   end_slot
 
   """column name"""
@@ -11190,7 +11411,16 @@ enum proposals_select_column {
   initial_slot
 
   """column name"""
+  min_base_futarchic_liquidity
+
+  """column name"""
+  min_quote_futarchic_liquidity
+
+  """column name"""
   pass_market_acct
+
+  """column name"""
+  pass_threshold_bps
 
   """column name"""
   pricing_model_fail_acct
@@ -11212,6 +11442,12 @@ enum proposals_select_column {
 
   """column name"""
   status
+
+  """column name"""
+  twap_initial_observation
+
+  """column name"""
+  twap_max_observation_change_per_update
 
   """column name"""
   updated_at
@@ -11291,11 +11527,15 @@ input proposals_set_input {
   created_at: timestamptz
   dao_acct: String
   description_url: String
+  duration_in_slots: bigint
   end_slot: bigint
   ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_market_acct: String
+  pass_threshold_bps: bigint
   pricing_model_fail_acct: String
   pricing_model_pass_acct: String
   proposal_acct: String
@@ -11303,15 +11543,23 @@ input proposals_set_input {
   proposer_acct: String
   quote_vault: String
   status: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
 type proposals_stddev_fields {
   autocrat_version: Float
+  duration_in_slots: Float
   end_slot: Float
   initial_slot: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
+  pass_threshold_bps: Float
   proposal_num: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -11319,17 +11567,29 @@ order by stddev() on columns of table "proposals"
 """
 input proposals_stddev_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type proposals_stddev_pop_fields {
   autocrat_version: Float
+  duration_in_slots: Float
   end_slot: Float
   initial_slot: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
+  pass_threshold_bps: Float
   proposal_num: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -11337,17 +11597,29 @@ order by stddev_pop() on columns of table "proposals"
 """
 input proposals_stddev_pop_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type proposals_stddev_samp_fields {
   autocrat_version: Float
+  duration_in_slots: Float
   end_slot: Float
   initial_slot: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
+  pass_threshold_bps: Float
   proposal_num: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -11355,9 +11627,15 @@ order by stddev_samp() on columns of table "proposals"
 """
 input proposals_stddev_samp_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """
@@ -11379,11 +11657,15 @@ input proposals_stream_cursor_value_input {
   created_at: timestamptz
   dao_acct: String
   description_url: String
+  duration_in_slots: bigint
   end_slot: bigint
   ended_at: timestamptz
   fail_market_acct: String
   initial_slot: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
   pass_market_acct: String
+  pass_threshold_bps: bigint
   pricing_model_fail_acct: String
   pricing_model_pass_acct: String
   proposal_acct: String
@@ -11391,15 +11673,23 @@ input proposals_stream_cursor_value_input {
   proposer_acct: String
   quote_vault: String
   status: String
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
 type proposals_sum_fields {
   autocrat_version: float8
+  duration_in_slots: bigint
   end_slot: bigint
   initial_slot: bigint
+  min_base_futarchic_liquidity: bigint
+  min_quote_futarchic_liquidity: bigint
+  pass_threshold_bps: bigint
   proposal_num: bigint
+  twap_initial_observation: bigint
+  twap_max_observation_change_per_update: bigint
 }
 
 """
@@ -11407,9 +11697,15 @@ order by sum() on columns of table "proposals"
 """
 input proposals_sum_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """
@@ -11435,6 +11731,9 @@ enum proposals_update_column {
   description_url
 
   """column name"""
+  duration_in_slots
+
+  """column name"""
   end_slot
 
   """column name"""
@@ -11447,7 +11746,16 @@ enum proposals_update_column {
   initial_slot
 
   """column name"""
+  min_base_futarchic_liquidity
+
+  """column name"""
+  min_quote_futarchic_liquidity
+
+  """column name"""
   pass_market_acct
+
+  """column name"""
+  pass_threshold_bps
 
   """column name"""
   pricing_model_fail_acct
@@ -11471,6 +11779,12 @@ enum proposals_update_column {
   status
 
   """column name"""
+  twap_initial_observation
+
+  """column name"""
+  twap_max_observation_change_per_update
+
+  """column name"""
   updated_at
 }
 
@@ -11488,9 +11802,15 @@ input proposals_updates {
 """aggregate var_pop on columns"""
 type proposals_var_pop_fields {
   autocrat_version: Float
+  duration_in_slots: Float
   end_slot: Float
   initial_slot: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
+  pass_threshold_bps: Float
   proposal_num: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -11498,17 +11818,29 @@ order by var_pop() on columns of table "proposals"
 """
 input proposals_var_pop_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate var_samp on columns"""
 type proposals_var_samp_fields {
   autocrat_version: Float
+  duration_in_slots: Float
   end_slot: Float
   initial_slot: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
+  pass_threshold_bps: Float
   proposal_num: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -11516,17 +11848,29 @@ order by var_samp() on columns of table "proposals"
 """
 input proposals_var_samp_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 """aggregate variance on columns"""
 type proposals_variance_fields {
   autocrat_version: Float
+  duration_in_slots: Float
   end_slot: Float
   initial_slot: Float
+  min_base_futarchic_liquidity: Float
+  min_quote_futarchic_liquidity: Float
+  pass_threshold_bps: Float
   proposal_num: Float
+  twap_initial_observation: Float
+  twap_max_observation_change_per_update: Float
 }
 
 """
@@ -11534,9 +11878,15 @@ order by variance() on columns of table "proposals"
 """
 input proposals_variance_order_by {
   autocrat_version: order_by
+  duration_in_slots: order_by
   end_slot: order_by
   initial_slot: order_by
+  min_base_futarchic_liquidity: order_by
+  min_quote_futarchic_liquidity: order_by
+  pass_threshold_bps: order_by
   proposal_num: order_by
+  twap_initial_observation: order_by
+  twap_max_observation_change_per_update: order_by
 }
 
 type query_root {

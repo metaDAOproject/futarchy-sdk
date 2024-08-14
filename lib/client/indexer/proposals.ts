@@ -15,7 +15,8 @@ import {
   Dao,
   GovernanceParticipant,
   ProposalRanking,
-  ProposalRequestConfig
+  ProposalRequestConfig,
+  ProposalDaoConfiguration
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -75,9 +76,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           },
           offset,
           limit: pageSize,
-          order_by: [
-            orderBy
-          ]
+          order_by: [orderBy]
         },
         proposal_num: true,
         proposal_acct: true,
@@ -332,7 +331,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
 
   async fetchProposal(
     proposalAcct: PublicKey
-  ): Promise<ProposalWithFullData | undefined> {
+  ): Promise<(ProposalWithFullData & ProposalDaoConfiguration) | undefined> {
     const { proposals } = await this.graphqlClient.query?.({
       proposals: {
         __args: {
@@ -423,7 +422,13 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           description: true,
           categories: true,
           content: true
-        }
+        },
+        pass_threshold_bps: true,
+        duration_in_slots: true,
+        min_base_futarchic_liquidity: true,
+        min_quote_futarchic_liquidity: true,
+        twap_initial_observation: true,
+        twap_max_observation_change_per_update: true
       }
     });
     if (!proposals[0]) return undefined;
@@ -520,7 +525,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         )
       },
       passMarket: new PublicKey(passMarket.market_acct),
-      passThreshold: proposal.dao.pass_threshold_bps ?? 0,
+      passThreshold: 300,
       failMarket: new PublicKey(failMarket.market_acct),
       content: proposalDetails?.content ?? "",
       description: proposalDetails?.description ?? "",
@@ -592,7 +597,14 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           (c: { category: string }) => c.category
         ) ?? [],
       title: proposalDetails?.title ?? "",
-      volume: passVolume + failVolume
+      volume: passVolume + failVolume,
+      durationInSlots: proposal.duration_in_slots,
+      minBaseFutarchicLiquidity: proposal.min_base_futarchic_liquidity,
+      minQuoteFutarchicLiquidity: proposal.min_quote_futarchic_liquidity,
+      passThresholdBps: proposal.pass_threshold_bps,
+      twapInitialObservation: proposal.twap_initial_observation,
+      twapMaxObservationChangePerUpdate:
+        proposal.twap_max_observation_change_per_update
     };
   }
   async fetchProposalCounts(daoSlug: string): Promise<ProposalCounts> {

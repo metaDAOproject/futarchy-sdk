@@ -126,7 +126,7 @@ export type DaoDetails__GQL = {
   daos: Array<{
     program_acct: string;
     dao_acct: string;
-    pass_threshold_bps: number;
+    pass_threshold_bps: number | null;
     slots_per_proposal: number | null;
     treasury_acct: string | null;
     created_at: string | null;

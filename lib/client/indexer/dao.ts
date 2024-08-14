@@ -77,8 +77,6 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
               image_url: true,
               supply: true
             },
-            pass_threshold_bps: true,
-            slots_per_proposal: true,
             treasury_acct: true,
             proposals_aggregate: {
               aggregate: {
@@ -89,9 +87,19 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
         }
       });
 
-      const daoAggregates = dao_details.map<DaoAggregate>((daoDetails) =>
-        this.getDaoAggregateFromDaoDetailsQuery(daoDetails)
-      );
+      const daoAggregates = dao_details.map<DaoAggregate>((daoDetails) => {
+        const daos = daoDetails.daos.map((d) => ({
+          ...d,
+          // TODO this is a lie to the
+          pass_threshold_bps: null,
+          slots_per_proposal: null
+        }));
+
+        return this.getDaoAggregateFromDaoDetailsQuery({
+          ...daoDetails,
+          daos
+        });
+      });
 
       return daoAggregates;
     } catch (e) {
@@ -149,6 +157,10 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
             },
             pass_threshold_bps: true,
             slots_per_proposal: true,
+            min_base_futarchic_liquidity: true,
+            min_quote_futarchic_liquidity: true,
+            twap_initial_observation: true,
+            twap_max_observation_change_per_update: true,
             treasury_acct: true,
             proposals_aggregate: {
               aggregate: {

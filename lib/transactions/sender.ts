@@ -95,6 +95,8 @@ export class TransactionSender {
   ): Observable<TransactionProcessingUpdate> {
     const obs = new Observable<TransactionProcessingUpdate>((subscriber) => {
       let signatureSubscriptionIds: number[] = [];
+      let txnFinalizationTimeout: Timer | null;
+
       const innerSendPromise =
         opts?.useBundler && this.bundler
           ? this.sendInnerAsBundle(tx, connection, opts)
@@ -168,10 +170,25 @@ export class TransactionSender {
             signatureSubscriptionIds,
             subscriber
           );
+
           signatureSubscriptionIds = COMMITMENTS_TO_WATCH.map((s) => {
             return connection.onSignature(
               txSignature,
-              (signatureResult: SignatureResult, _context: Context) =>
+              (signatureResult: SignatureResult, _context: Context) => {
+                // check for confirmed status
+                if (s === "confirmed") {
+                  // setting a timeout to emit "finalized" if subscription fails
+                  txnFinalizationTimeout = setTimeout(() => {
+                    this.handleSuccessfulSignature(
+                      connection,
+                      txSignature,
+                      displayMetadata,
+                      signatureSubscriptionIds,
+                      subscriber
+                    );
+                  }, 18_000);
+                }
+
                 this.handleSignatureResult(
                   txSignature,
                   signatureResult,
@@ -179,7 +196,17 @@ export class TransactionSender {
                   signatureSubscriptionIds,
                   subscriber,
                   displayMetadata
-                ),
+                ).then((txUpdate) => {
+                  if (
+                    txUpdate &&
+                    txUpdate.status === "finalized" &&
+                    txnFinalizationTimeout
+                  ) {
+                    // if we got a finalized txn from subscription, we can clear out the timeout
+                    clearTimeout(txnFinalizationTimeout);
+                  }
+                });
+              },
               s
             );
           });
@@ -202,6 +229,9 @@ export class TransactionSender {
             signatureSubscriptionIds,
             subscriber
           );
+          if (txnFinalizationTimeout) {
+            clearTimeout(txnFinalizationTimeout);
+          }
           return {
             signatures: [],
             errors: [error]
@@ -244,8 +274,25 @@ export class TransactionSender {
       return;
     }
 
+    return await this.handleSuccessfulSignature(
+      connection,
+      txSignature,
+      displayMetadata,
+      signatureSubscriptionIds,
+      txObserverSubscriber
+    );
+  }
+
+  private async handleSuccessfulSignature(
+    connection: Connection,
+    txSignature: string,
+    displayMetadata: TransactionDisplayMetadata | undefined,
+    signatureSubscriptionIds: number[],
+    txObserverSubscriber: Subscriber<TransactionProcessingUpdate>
+  ) {
     const statusRes = await connection.getSignatureStatus(txSignature);
     const status = statusRes.value;
+    console.log("signature status", status, txSignature);
     if (status?.confirmationStatus) {
       const txUpdate: TransactionProcessingUpdate = {
         signature: txSignature,
@@ -259,6 +306,7 @@ export class TransactionSender {
         signatureSubscriptionIds,
         txObserverSubscriber
       );
+      return txUpdate;
     } else {
       // error
       console.warn("tx signature update is missing status");

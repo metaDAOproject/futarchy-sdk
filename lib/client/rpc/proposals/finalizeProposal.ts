@@ -159,7 +159,7 @@ export class FinalizeProposalClient implements FinalizeProposal {
         { title: "Finalizing Proposal" }
       );
     } catch (e) {
-      console.log("error", e);
+      console.error("error", e);
     }
   }
 

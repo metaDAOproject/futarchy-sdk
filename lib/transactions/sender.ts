@@ -292,7 +292,6 @@ export class TransactionSender {
   ) {
     const statusRes = await connection.getSignatureStatus(txSignature);
     const status = statusRes.value;
-    console.log("signature status", status, txSignature);
     if (status?.confirmationStatus) {
       const txUpdate: TransactionProcessingUpdate = {
         signature: txSignature,

@@ -88,8 +88,6 @@ export class JitoBundler implements Bundler {
       bs58.encode(tx.serialize())
     );
 
-    console.log("serializedTransactions", serializedTransactions);
-
     const response = await fetch(`${this.blockEngineAddress}/api/v1/bundles`, {
       method: "POST",
       headers: {
@@ -104,7 +102,6 @@ export class JitoBundler implements Bundler {
     });
 
     const res = (await response.json()) as { result: string };
-    console.log("jito bundle res", res);
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         const { result } = await this.getBundleStatuses(res.result);

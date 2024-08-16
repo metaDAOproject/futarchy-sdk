@@ -11,7 +11,6 @@ const NONCE_ACCOUNT_LENGTH = 5;
 
 export async function createNonce(connection: Connection): BN {
   const nonceAuthKeypair = new Keypair();
-  console.log("---Step 2---Creating nonce account");
   const newNonceTx = new Transaction();
   const rent = await connection.getMinimumBalanceForRentExemption(
     NONCE_ACCOUNT_LENGTH

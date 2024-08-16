@@ -864,8 +864,6 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           proposal_acct: true // Fields you want to return after insertion
         }
       });
-
-      console.log("Proposal details saved:", result);
     } catch (error) {
       console.error("Error saving proposal details:", error);
     }

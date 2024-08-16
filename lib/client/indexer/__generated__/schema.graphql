@@ -2132,6 +2132,36 @@ type dao_details_variance_fields {
   dao_id: Float
 }
 
+type dao_trader {
+  total_volume: bigint
+  user_acct: String!
+}
+
+"""
+Boolean expression to filter rows from the logical model for "dao_trader". All fields are combined with a logical 'AND'.
+"""
+input dao_trader_bool_exp_bool_exp {
+  _and: [dao_trader_bool_exp_bool_exp!]
+  _not: dao_trader_bool_exp_bool_exp
+  _or: [dao_trader_bool_exp_bool_exp!]
+  total_volume: bigint_comparison_exp
+  user_acct: String_comparison_exp
+}
+
+enum dao_trader_enum_name {
+  """column name"""
+  total_volume
+
+  """column name"""
+  user_acct
+}
+
+"""Ordering options when selecting data from "dao_trader"."""
+input dao_trader_order_by {
+  total_volume: order_by
+  user_acct: order_by
+}
+
 """
 columns and relationships of "daos"
 """
@@ -12905,6 +12935,25 @@ type query_root {
 
   """fetch data from the table: "tokens" using primary key columns"""
   tokens_by_pk(mint_acct: String!): tokens
+  top_dao_traders(
+    """top_dao_tradersNative Query Arguments"""
+    args: top_dao_traders_arguments!
+
+    """distinct select on columns"""
+    distinct_on: [dao_trader_enum_name!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_trader_order_by!]
+
+    """filter the rows returned"""
+    where: dao_trader_bool_exp_bool_exp
+  ): [dao_trader!]!
 
   """An array relationship"""
   transaction_watcher_transactions(
@@ -13110,7 +13159,9 @@ type query_root {
   """fetch data from the table: "twaps" using primary key columns"""
   twaps_by_pk(market_acct: String!, updated_slot: bigint!): twaps
 
-  """An array relationship"""
+  """
+  fetch data from the table: "user_deposits"
+  """
   user_deposits(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -13128,7 +13179,9 @@ type query_root {
     where: user_deposits_bool_exp
   ): [user_deposits!]!
 
-  """An aggregate relationship"""
+  """
+  fetch aggregated fields from the table: "user_deposits"
+  """
   user_deposits_aggregate(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -15189,6 +15242,25 @@ type subscription_root {
     """filter the rows returned"""
     where: tokens_bool_exp
   ): [tokens!]!
+  top_dao_traders(
+    """top_dao_tradersNative Query Arguments"""
+    args: top_dao_traders_arguments!
+
+    """distinct select on columns"""
+    distinct_on: [dao_trader_enum_name!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_trader_order_by!]
+
+    """filter the rows returned"""
+    where: dao_trader_bool_exp_bool_exp
+  ): [dao_trader!]!
 
   """An array relationship"""
   transaction_watcher_transactions(
@@ -15464,7 +15536,9 @@ type subscription_root {
     where: twaps_bool_exp
   ): [twaps!]!
 
-  """An array relationship"""
+  """
+  fetch data from the table: "user_deposits"
+  """
   user_deposits(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -15482,7 +15556,9 @@ type subscription_root {
     where: user_deposits_bool_exp
   ): [user_deposits!]!
 
-  """An aggregate relationship"""
+  """
+  fetch aggregated fields from the table: "user_deposits"
+  """
   user_deposits_aggregate(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -17530,42 +17606,6 @@ type tokens {
   ): token_accts_aggregate!
   updated_at: timestamptz!
 
-  """An array relationship"""
-  user_deposits(
-    """distinct select on columns"""
-    distinct_on: [user_deposits_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [user_deposits_order_by!]
-
-    """filter the rows returned"""
-    where: user_deposits_bool_exp
-  ): [user_deposits!]!
-
-  """An aggregate relationship"""
-  user_deposits_aggregate(
-    """distinct select on columns"""
-    distinct_on: [user_deposits_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [user_deposits_order_by!]
-
-    """filter the rows returned"""
-    where: user_deposits_bool_exp
-  ): user_deposits_aggregate!
-
   """An object relationship"""
   vault_by_finalize: conditional_vaults
 
@@ -17632,8 +17672,6 @@ input tokens_bool_exp {
   token_accts: token_accts_bool_exp
   token_accts_aggregate: token_accts_aggregate_bool_exp
   updated_at: timestamptz_comparison_exp
-  user_deposits: user_deposits_bool_exp
-  user_deposits_aggregate: user_deposits_aggregate_bool_exp
   vault_by_finalize: conditional_vaults_bool_exp
   vault_by_revert: conditional_vaults_bool_exp
 }
@@ -17674,7 +17712,6 @@ input tokens_insert_input {
   token_acct_balances: token_acct_balances_arr_rel_insert_input
   token_accts: token_accts_arr_rel_insert_input
   updated_at: timestamptz
-  user_deposits: user_deposits_arr_rel_insert_input
   vault_by_finalize: conditional_vaults_obj_rel_insert_input
   vault_by_revert: conditional_vaults_obj_rel_insert_input
 }
@@ -17747,7 +17784,6 @@ input tokens_order_by {
   token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
   token_accts_aggregate: token_accts_aggregate_order_by
   updated_at: order_by
-  user_deposits_aggregate: user_deposits_aggregate_order_by
   vault_by_finalize: conditional_vaults_order_by
   vault_by_revert: conditional_vaults_order_by
 }
@@ -17895,6 +17931,12 @@ type tokens_var_samp_fields {
 type tokens_variance_fields {
   decimals: Float
   supply: Float
+}
+
+"""top_dao_tradersNative Query Arguments"""
+input top_dao_traders_arguments {
+  """Slug of the DAO"""
+  dao_slug: String!
 }
 
 """
@@ -18953,42 +18995,6 @@ type transactions {
     where: transaction_watchers_bool_exp
   ): transaction_watchers_aggregate!
   tx_sig: String!
-
-  """An array relationship"""
-  user_deposits(
-    """distinct select on columns"""
-    distinct_on: [user_deposits_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [user_deposits_order_by!]
-
-    """filter the rows returned"""
-    where: user_deposits_bool_exp
-  ): [user_deposits!]!
-
-  """An aggregate relationship"""
-  user_deposits_aggregate(
-    """distinct select on columns"""
-    distinct_on: [user_deposits_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [user_deposits_order_by!]
-
-    """filter the rows returned"""
-    where: user_deposits_bool_exp
-  ): user_deposits_aggregate!
 }
 
 """
@@ -19047,8 +19053,6 @@ input transactions_bool_exp {
   transaction_watchers: transaction_watchers_bool_exp
   transaction_watchers_aggregate: transaction_watchers_aggregate_bool_exp
   tx_sig: String_comparison_exp
-  user_deposits: user_deposits_bool_exp
-  user_deposits_aggregate: user_deposits_aggregate_bool_exp
 }
 
 """
@@ -19086,7 +19090,6 @@ input transactions_insert_input {
   transaction_watcher_transactions: transaction_watcher_transactions_arr_rel_insert_input
   transaction_watchers: transaction_watchers_arr_rel_insert_input
   tx_sig: String
-  user_deposits: user_deposits_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -19154,7 +19157,6 @@ input transactions_order_by {
   transaction_watcher_transactions_aggregate: transaction_watcher_transactions_aggregate_order_by
   transaction_watchers_aggregate: transaction_watchers_aggregate_order_by
   tx_sig: order_by
-  user_deposits_aggregate: user_deposits_aggregate_order_by
 }
 
 """primary key columns input for table: transactions"""
@@ -20034,13 +20036,7 @@ type user_deposits {
   """An object relationship"""
   token: tokens!
   token_amount: bigint!
-
-  """An object relationship"""
-  transaction: transactions!
   tx_sig: String!
-
-  """An object relationship"""
-  user: users!
   user_acct: String!
 }
 
@@ -20050,17 +20046,6 @@ aggregated selection of "user_deposits"
 type user_deposits_aggregate {
   aggregate: user_deposits_aggregate_fields
   nodes: [user_deposits!]!
-}
-
-input user_deposits_aggregate_bool_exp {
-  count: user_deposits_aggregate_bool_exp_count
-}
-
-input user_deposits_aggregate_bool_exp_count {
-  arguments: [user_deposits_select_column!]
-  distinct: Boolean
-  filter: user_deposits_bool_exp
-  predicate: Int_comparison_exp!
 }
 
 """
@@ -20080,40 +20065,9 @@ type user_deposits_aggregate_fields {
   variance: user_deposits_variance_fields
 }
 
-"""
-order by aggregate values of table "user_deposits"
-"""
-input user_deposits_aggregate_order_by {
-  avg: user_deposits_avg_order_by
-  count: order_by
-  max: user_deposits_max_order_by
-  min: user_deposits_min_order_by
-  stddev: user_deposits_stddev_order_by
-  stddev_pop: user_deposits_stddev_pop_order_by
-  stddev_samp: user_deposits_stddev_samp_order_by
-  sum: user_deposits_sum_order_by
-  var_pop: user_deposits_var_pop_order_by
-  var_samp: user_deposits_var_samp_order_by
-  variance: user_deposits_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "user_deposits"
-"""
-input user_deposits_arr_rel_insert_input {
-  data: [user_deposits_insert_input!]!
-}
-
 """aggregate avg on columns"""
 type user_deposits_avg_fields {
   token_amount: Float
-}
-
-"""
-order by avg() on columns of table "user_deposits"
-"""
-input user_deposits_avg_order_by {
-  token_amount: order_by
 }
 
 """
@@ -20127,9 +20081,7 @@ input user_deposits_bool_exp {
   mint_acct: String_comparison_exp
   token: tokens_bool_exp
   token_amount: bigint_comparison_exp
-  transaction: transactions_bool_exp
   tx_sig: String_comparison_exp
-  user: users_bool_exp
   user_acct: String_comparison_exp
 }
 
@@ -20148,9 +20100,7 @@ input user_deposits_insert_input {
   mint_acct: String
   token: tokens_obj_rel_insert_input
   token_amount: bigint
-  transaction: transactions_obj_rel_insert_input
   tx_sig: String
-  user: users_obj_rel_insert_input
   user_acct: String
 }
 
@@ -20163,17 +20113,6 @@ type user_deposits_max_fields {
   user_acct: String
 }
 
-"""
-order by max() on columns of table "user_deposits"
-"""
-input user_deposits_max_order_by {
-  created_at: order_by
-  mint_acct: order_by
-  token_amount: order_by
-  tx_sig: order_by
-  user_acct: order_by
-}
-
 """aggregate min on columns"""
 type user_deposits_min_fields {
   created_at: timestamptz
@@ -20181,17 +20120,6 @@ type user_deposits_min_fields {
   token_amount: bigint
   tx_sig: String
   user_acct: String
-}
-
-"""
-order by min() on columns of table "user_deposits"
-"""
-input user_deposits_min_order_by {
-  created_at: order_by
-  mint_acct: order_by
-  token_amount: order_by
-  tx_sig: order_by
-  user_acct: order_by
 }
 
 """
@@ -20211,9 +20139,7 @@ input user_deposits_order_by {
   mint_acct: order_by
   token: tokens_order_by
   token_amount: order_by
-  transaction: transactions_order_by
   tx_sig: order_by
-  user: users_order_by
   user_acct: order_by
 }
 
@@ -20253,35 +20179,14 @@ type user_deposits_stddev_fields {
   token_amount: Float
 }
 
-"""
-order by stddev() on columns of table "user_deposits"
-"""
-input user_deposits_stddev_order_by {
-  token_amount: order_by
-}
-
 """aggregate stddev_pop on columns"""
 type user_deposits_stddev_pop_fields {
   token_amount: Float
 }
 
-"""
-order by stddev_pop() on columns of table "user_deposits"
-"""
-input user_deposits_stddev_pop_order_by {
-  token_amount: order_by
-}
-
 """aggregate stddev_samp on columns"""
 type user_deposits_stddev_samp_fields {
   token_amount: Float
-}
-
-"""
-order by stddev_samp() on columns of table "user_deposits"
-"""
-input user_deposits_stddev_samp_order_by {
-  token_amount: order_by
 }
 
 """
@@ -20309,13 +20214,6 @@ type user_deposits_sum_fields {
   token_amount: bigint
 }
 
-"""
-order by sum() on columns of table "user_deposits"
-"""
-input user_deposits_sum_order_by {
-  token_amount: order_by
-}
-
 input user_deposits_updates {
   """increments the numeric columns with given value of the filtered values"""
   _inc: user_deposits_inc_input
@@ -20332,35 +20230,14 @@ type user_deposits_var_pop_fields {
   token_amount: Float
 }
 
-"""
-order by var_pop() on columns of table "user_deposits"
-"""
-input user_deposits_var_pop_order_by {
-  token_amount: order_by
-}
-
 """aggregate var_samp on columns"""
 type user_deposits_var_samp_fields {
   token_amount: Float
 }
 
-"""
-order by var_samp() on columns of table "user_deposits"
-"""
-input user_deposits_var_samp_order_by {
-  token_amount: order_by
-}
-
 """aggregate variance on columns"""
 type user_deposits_variance_fields {
   token_amount: Float
-}
-
-"""
-order by variance() on columns of table "user_deposits"
-"""
-input user_deposits_variance_order_by {
-  token_amount: order_by
 }
 
 """
@@ -20984,42 +20861,6 @@ type users {
   user_acct: String!
 
   """An array relationship"""
-  user_deposits(
-    """distinct select on columns"""
-    distinct_on: [user_deposits_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [user_deposits_order_by!]
-
-    """filter the rows returned"""
-    where: user_deposits_bool_exp
-  ): [user_deposits!]!
-
-  """An aggregate relationship"""
-  user_deposits_aggregate(
-    """distinct select on columns"""
-    distinct_on: [user_deposits_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [user_deposits_order_by!]
-
-    """filter the rows returned"""
-    where: user_deposits_bool_exp
-  ): user_deposits_aggregate!
-
-  """An array relationship"""
   user_performances(
     """distinct select on columns"""
     distinct_on: [user_performance_select_column!]
@@ -21086,8 +20927,6 @@ input users_bool_exp {
   sessions: sessions_bool_exp
   sessions_aggregate: sessions_aggregate_bool_exp
   user_acct: String_comparison_exp
-  user_deposits: user_deposits_bool_exp
-  user_deposits_aggregate: user_deposits_aggregate_bool_exp
   user_performances: user_performance_bool_exp
   user_performances_aggregate: user_performance_aggregate_bool_exp
 }
@@ -21110,7 +20949,6 @@ input users_insert_input {
   orders: orders_arr_rel_insert_input
   sessions: sessions_arr_rel_insert_input
   user_acct: String
-  user_deposits: user_deposits_arr_rel_insert_input
   user_performances: user_performance_arr_rel_insert_input
 }
 
@@ -21162,7 +21000,6 @@ input users_order_by {
   orders_aggregate: orders_aggregate_order_by
   sessions_aggregate: sessions_aggregate_order_by
   user_acct: order_by
-  user_deposits_aggregate: user_deposits_aggregate_order_by
   user_performances_aggregate: user_performance_aggregate_order_by
 }
 

@@ -172,57 +172,25 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
       .filter((p): p is UserPerformance => !!p);
   }
 
-  async fetchTopTraders(daoSlug: string | null): Promise<UserRanking[]> {
-    const userPerformanceWhere = daoSlug
-      ? {
-          proposal: {
-            dao: {
-              dao_detail: {
-                slug: { _eq: daoSlug }
-              }
-            }
-          }
-        }
-      : undefined;
-
-    const { users } = await this.graphqlClient.query({
-      users: {
-        __args: {
-          limit: 4,
-          order_by: [
-            {
-              user_performances_aggregate: {
-                sum: {
-                  total_volume: "desc_nulls_last"
-                }
-              }
-            }
-          ],
-          where: {
-            user_performances: userPerformanceWhere
-          }
-        },
-        user_acct: true,
-        user_performances_aggregate: {
-          __args: {
-            where: userPerformanceWhere
-          },
-          aggregate: {
-            sum: {
-              total_volume: true
-            }
-          }
-        }
+  async fetchTopTradersByDao(daoSlug: string): Promise<UserRanking[]> {
+    const { top_dao_traders } = await this.graphqlClient.query({
+      top_dao_traders: {
+        __args: { args: { dao_slug: daoSlug } },
+        total_volume: true,
+        user_acct: true
       }
     });
 
-    return users.map<UserRanking>((u) => ({
-      totalVolume: PriceMath.getHumanAmount(
-        new BN(u.user_performances_aggregate.aggregate?.sum?.total_volume),
-        6 // USDC is always 6...
-      ),
-      userAcct: new PublicKey(u.user_acct)
-    })).sort((a, b) => b.totalVolume - a.totalVolume);
+    return top_dao_traders
+      .map<UserRanking>((u) => ({
+        totalVolume: PriceMath.getHumanAmount(
+          new BN(u.total_volume ?? 0),
+          6 // USDC is always 6...
+        ),
+        userAcct: new PublicKey(u.user_acct)
+      }))
+      .sort((a, b) => b.totalVolume - a.totalVolume)
+      .slice(0, 4);
   }
 
   async fetchUserDeposits(userAcct: string): Promise<UserDeposit[]> {

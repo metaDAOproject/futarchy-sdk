@@ -650,6 +650,14 @@ export interface dao_details_variance_fields {
     __typename: 'dao_details_variance_fields'
 }
 
+export interface dao_trader {
+    total_volume: (Scalars['bigint'] | null)
+    user_acct: Scalars['String']
+    __typename: 'dao_trader'
+}
+
+export type dao_trader_enum_name = 'total_volume' | 'user_acct'
+
 
 /** columns and relationships of "daos" */
 export interface daos {
@@ -3796,6 +3804,7 @@ export interface query_root {
     tokens_aggregate: tokens_aggregate
     /** fetch data from the table: "tokens" using primary key columns */
     tokens_by_pk: (tokens | null)
+    top_dao_traders: dao_trader[]
     /** An array relationship */
     transaction_watcher_transactions: transaction_watcher_transactions[]
     /** An aggregate relationship */
@@ -3824,9 +3833,9 @@ export interface query_root {
     twaps_aggregate: twaps_aggregate
     /** fetch data from the table: "twaps" using primary key columns */
     twaps_by_pk: (twaps | null)
-    /** An array relationship */
+    /** fetch data from the table: "user_deposits" */
     user_deposits: user_deposits[]
-    /** An aggregate relationship */
+    /** fetch aggregated fields from the table: "user_deposits" */
     user_deposits_aggregate: user_deposits_aggregate
     /** fetch data from the table: "user_performance" */
     user_performance: user_performance[]
@@ -4246,6 +4255,7 @@ export interface subscription_root {
     tokens_by_pk: (tokens | null)
     /** fetch data from the table in a streaming manner: "tokens" */
     tokens_stream: tokens[]
+    top_dao_traders: dao_trader[]
     /** An array relationship */
     transaction_watcher_transactions: transaction_watcher_transactions[]
     /** An aggregate relationship */
@@ -4284,9 +4294,9 @@ export interface subscription_root {
     twaps_by_pk: (twaps | null)
     /** fetch data from the table in a streaming manner: "twaps" */
     twaps_stream: twaps[]
-    /** An array relationship */
+    /** fetch data from the table: "user_deposits" */
     user_deposits: user_deposits[]
-    /** An aggregate relationship */
+    /** fetch aggregated fields from the table: "user_deposits" */
     user_deposits_aggregate: user_deposits_aggregate
     /** fetch data from the table in a streaming manner: "user_deposits" */
     user_deposits_stream: user_deposits[]
@@ -4875,10 +4885,6 @@ export interface tokens {
     /** An aggregate relationship */
     token_accts_aggregate: token_accts_aggregate
     updated_at: Scalars['timestamptz']
-    /** An array relationship */
-    user_deposits: user_deposits[]
-    /** An aggregate relationship */
-    user_deposits_aggregate: user_deposits_aggregate
     /** An object relationship */
     vault_by_finalize: (conditional_vaults | null)
     /** An object relationship */
@@ -5353,10 +5359,6 @@ export interface transactions {
     /** An aggregate relationship */
     transaction_watchers_aggregate: transaction_watchers_aggregate
     tx_sig: Scalars['String']
-    /** An array relationship */
-    user_deposits: user_deposits[]
-    /** An aggregate relationship */
-    user_deposits_aggregate: user_deposits_aggregate
     __typename: 'transactions'
 }
 
@@ -5816,11 +5818,7 @@ export interface user_deposits {
     /** An object relationship */
     token: tokens
     token_amount: Scalars['bigint']
-    /** An object relationship */
-    transaction: transactions
     tx_sig: Scalars['String']
-    /** An object relationship */
-    user: users
     user_acct: Scalars['String']
     __typename: 'user_deposits'
 }
@@ -6147,10 +6145,6 @@ export interface users {
     /** An aggregate relationship */
     sessions_aggregate: sessions_aggregate
     user_acct: Scalars['String']
-    /** An array relationship */
-    user_deposits: user_deposits[]
-    /** An aggregate relationship */
-    user_deposits_aggregate: user_deposits_aggregate
     /** An array relationship */
     user_performances: user_performance[]
     /** An aggregate relationship */
@@ -7346,6 +7340,21 @@ export interface dao_details_variance_fieldsGenqlSelection{
     __typename?: boolean | number
     __scalar?: boolean | number
 }
+
+export interface dao_traderGenqlSelection{
+    total_volume?: boolean | number
+    user_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Boolean expression to filter rows from the logical model for "dao_trader". All fields are combined with a logical 'AND'. */
+export interface dao_trader_bool_exp_bool_exp {_and?: (dao_trader_bool_exp_bool_exp[] | null),_not?: (dao_trader_bool_exp_bool_exp | null),_or?: (dao_trader_bool_exp_bool_exp[] | null),total_volume?: (bigint_comparison_exp | null),user_acct?: (String_comparison_exp | null)}
+
+
+/** Ordering options when selecting data from "dao_trader". */
+export interface dao_trader_order_by {total_volume?: (order_by | null),user_acct?: (order_by | null)}
 
 
 /** columns and relationships of "daos" */
@@ -13245,6 +13254,19 @@ export interface query_rootGenqlSelection{
     where?: (tokens_bool_exp | null)} })
     /** fetch data from the table: "tokens" using primary key columns */
     tokens_by_pk?: (tokensGenqlSelection & { __args: {mint_acct: Scalars['String']} })
+    top_dao_traders?: (dao_traderGenqlSelection & { __args: {
+    /** top_dao_tradersNative Query Arguments */
+    args: top_dao_traders_arguments, 
+    /** distinct select on columns */
+    distinct_on?: (dao_trader_enum_name[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (dao_trader_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (dao_trader_bool_exp_bool_exp | null)} })
     /** An array relationship */
     transaction_watcher_transactions?: (transaction_watcher_transactionsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -13373,7 +13395,7 @@ export interface query_rootGenqlSelection{
     where?: (twaps_bool_exp | null)} })
     /** fetch data from the table: "twaps" using primary key columns */
     twaps_by_pk?: (twapsGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
-    /** An array relationship */
+    /** fetch data from the table: "user_deposits" */
     user_deposits?: (user_depositsGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (user_deposits_select_column[] | null), 
@@ -13385,7 +13407,7 @@ export interface query_rootGenqlSelection{
     order_by?: (user_deposits_order_by[] | null), 
     /** filter the rows returned */
     where?: (user_deposits_bool_exp | null)} })
-    /** An aggregate relationship */
+    /** fetch aggregated fields from the table: "user_deposits" */
     user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (user_deposits_select_column[] | null), 
@@ -14646,6 +14668,19 @@ export interface subscription_rootGenqlSelection{
     cursor: (tokens_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (tokens_bool_exp | null)} })
+    top_dao_traders?: (dao_traderGenqlSelection & { __args: {
+    /** top_dao_tradersNative Query Arguments */
+    args: top_dao_traders_arguments, 
+    /** distinct select on columns */
+    distinct_on?: (dao_trader_enum_name[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (dao_trader_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (dao_trader_bool_exp_bool_exp | null)} })
     /** An array relationship */
     transaction_watcher_transactions?: (transaction_watcher_transactionsGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -14814,7 +14849,7 @@ export interface subscription_rootGenqlSelection{
     cursor: (twaps_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (twaps_bool_exp | null)} })
-    /** An array relationship */
+    /** fetch data from the table: "user_deposits" */
     user_deposits?: (user_depositsGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (user_deposits_select_column[] | null), 
@@ -14826,7 +14861,7 @@ export interface subscription_rootGenqlSelection{
     order_by?: (user_deposits_order_by[] | null), 
     /** filter the rows returned */
     where?: (user_deposits_bool_exp | null)} })
-    /** An aggregate relationship */
+    /** fetch aggregated fields from the table: "user_deposits" */
     user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (user_deposits_select_column[] | null), 
@@ -16020,30 +16055,6 @@ export interface tokensGenqlSelection{
     /** filter the rows returned */
     where?: (token_accts_bool_exp | null)} })
     updated_at?: boolean | number
-    /** An array relationship */
-    user_deposits?: (user_depositsGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (user_deposits_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (user_deposits_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (user_deposits_bool_exp | null)} })
-    /** An aggregate relationship */
-    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (user_deposits_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (user_deposits_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (user_deposits_bool_exp | null)} })
     /** An object relationship */
     vault_by_finalize?: conditional_vaultsGenqlSelection
     /** An object relationship */
@@ -16090,7 +16101,7 @@ export interface tokens_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "tokens". All fields are combined with a logical 'AND'. */
-export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),daos?: (daos_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),image_url?: (String_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),user_deposits?: (user_deposits_bool_exp | null),user_deposits_aggregate?: (user_deposits_aggregate_bool_exp | null),vault_by_finalize?: (conditional_vaults_bool_exp | null),vault_by_revert?: (conditional_vaults_bool_exp | null)}
+export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),daos?: (daos_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),image_url?: (String_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),vault_by_finalize?: (conditional_vaults_bool_exp | null),vault_by_revert?: (conditional_vaults_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "tokens" */
@@ -16098,7 +16109,7 @@ export interface tokens_inc_input {decimals?: (Scalars['smallint'] | null),suppl
 
 
 /** input type for inserting data into table "tokens" */
-export interface tokens_insert_input {conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),daos?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),user_deposits?: (user_deposits_arr_rel_insert_input | null),vault_by_finalize?: (conditional_vaults_obj_rel_insert_input | null),vault_by_revert?: (conditional_vaults_obj_rel_insert_input | null)}
+export interface tokens_insert_input {conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),daos?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),vault_by_finalize?: (conditional_vaults_obj_rel_insert_input | null),vault_by_revert?: (conditional_vaults_obj_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -16151,7 +16162,7 @@ export interface tokens_on_conflict {constraint: tokens_constraint,update_column
 
 
 /** Ordering options when selecting data from "tokens". */
-export interface tokens_order_by {conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),image_url?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null),user_deposits_aggregate?: (user_deposits_aggregate_order_by | null),vault_by_finalize?: (conditional_vaults_order_by | null),vault_by_revert?: (conditional_vaults_order_by | null)}
+export interface tokens_order_by {conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),image_url?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null),vault_by_finalize?: (conditional_vaults_order_by | null),vault_by_revert?: (conditional_vaults_order_by | null)}
 
 
 /** primary key columns input for table: tokens */
@@ -16243,6 +16254,12 @@ export interface tokens_variance_fieldsGenqlSelection{
     __typename?: boolean | number
     __scalar?: boolean | number
 }
+
+
+/** top_dao_tradersNative Query Arguments */
+export interface top_dao_traders_arguments {
+/** Slug of the DAO */
+dao_slug: Scalars['String']}
 
 
 /** columns and relationships of "transaction_watcher_transactions" */
@@ -16908,30 +16925,6 @@ export interface transactionsGenqlSelection{
     /** filter the rows returned */
     where?: (transaction_watchers_bool_exp | null)} })
     tx_sig?: boolean | number
-    /** An array relationship */
-    user_deposits?: (user_depositsGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (user_deposits_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (user_deposits_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (user_deposits_bool_exp | null)} })
-    /** An aggregate relationship */
-    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (user_deposits_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (user_deposits_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (user_deposits_bool_exp | null)} })
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -16974,7 +16967,7 @@ export interface transactions_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
-export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamptz_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),main_ix_type?: (String_comparison_exp | null),order?: (orders_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null),user_deposits?: (user_deposits_bool_exp | null),user_deposits_aggregate?: (user_deposits_aggregate_bool_exp | null)}
+export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamptz_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),main_ix_type?: (String_comparison_exp | null),order?: (orders_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "transactions" */
@@ -16982,7 +16975,7 @@ export interface transactions_inc_input {serializer_logic_version?: (Scalars['sm
 
 
 /** input type for inserting data into table "transactions" */
-export interface transactions_insert_input {block_time?: (Scalars['timestamptz'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),main_ix_type?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null),user_deposits?: (user_deposits_arr_rel_insert_input | null)}
+export interface transactions_insert_input {block_time?: (Scalars['timestamptz'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),main_ix_type?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -17033,7 +17026,7 @@ export interface transactions_on_conflict {constraint: transactions_constraint,u
 
 
 /** Ordering options when selecting data from "transactions". */
-export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),main_ix_type?: (order_by | null),order?: (orders_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null),user_deposits_aggregate?: (user_deposits_aggregate_order_by | null)}
+export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),main_ix_type?: (order_by | null),order?: (orders_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null)}
 
 
 /** primary key columns input for table: transactions */
@@ -17597,11 +17590,7 @@ export interface user_depositsGenqlSelection{
     /** An object relationship */
     token?: tokensGenqlSelection
     token_amount?: boolean | number
-    /** An object relationship */
-    transaction?: transactionsGenqlSelection
     tx_sig?: boolean | number
-    /** An object relationship */
-    user?: usersGenqlSelection
     user_acct?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -17615,10 +17604,6 @@ export interface user_deposits_aggregateGenqlSelection{
     __typename?: boolean | number
     __scalar?: boolean | number
 }
-
-export interface user_deposits_aggregate_bool_exp {count?: (user_deposits_aggregate_bool_exp_count | null)}
-
-export interface user_deposits_aggregate_bool_exp_count {arguments?: (user_deposits_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (user_deposits_bool_exp | null),predicate: Int_comparison_exp}
 
 
 /** aggregate fields of "user_deposits" */
@@ -17639,14 +17624,6 @@ export interface user_deposits_aggregate_fieldsGenqlSelection{
 }
 
 
-/** order by aggregate values of table "user_deposits" */
-export interface user_deposits_aggregate_order_by {avg?: (user_deposits_avg_order_by | null),count?: (order_by | null),max?: (user_deposits_max_order_by | null),min?: (user_deposits_min_order_by | null),stddev?: (user_deposits_stddev_order_by | null),stddev_pop?: (user_deposits_stddev_pop_order_by | null),stddev_samp?: (user_deposits_stddev_samp_order_by | null),sum?: (user_deposits_sum_order_by | null),var_pop?: (user_deposits_var_pop_order_by | null),var_samp?: (user_deposits_var_samp_order_by | null),variance?: (user_deposits_variance_order_by | null)}
-
-
-/** input type for inserting array relation for remote table "user_deposits" */
-export interface user_deposits_arr_rel_insert_input {data: user_deposits_insert_input[]}
-
-
 /** aggregate avg on columns */
 export interface user_deposits_avg_fieldsGenqlSelection{
     token_amount?: boolean | number
@@ -17655,12 +17632,8 @@ export interface user_deposits_avg_fieldsGenqlSelection{
 }
 
 
-/** order by avg() on columns of table "user_deposits" */
-export interface user_deposits_avg_order_by {token_amount?: (order_by | null)}
-
-
 /** Boolean expression to filter rows from the table "user_deposits". All fields are combined with a logical 'AND'. */
-export interface user_deposits_bool_exp {_and?: (user_deposits_bool_exp[] | null),_not?: (user_deposits_bool_exp | null),_or?: (user_deposits_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),mint_acct?: (String_comparison_exp | null),token?: (tokens_bool_exp | null),token_amount?: (bigint_comparison_exp | null),transaction?: (transactions_bool_exp | null),tx_sig?: (String_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null)}
+export interface user_deposits_bool_exp {_and?: (user_deposits_bool_exp[] | null),_not?: (user_deposits_bool_exp | null),_or?: (user_deposits_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),mint_acct?: (String_comparison_exp | null),token?: (tokens_bool_exp | null),token_amount?: (bigint_comparison_exp | null),tx_sig?: (String_comparison_exp | null),user_acct?: (String_comparison_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "user_deposits" */
@@ -17668,7 +17641,7 @@ export interface user_deposits_inc_input {token_amount?: (Scalars['bigint'] | nu
 
 
 /** input type for inserting data into table "user_deposits" */
-export interface user_deposits_insert_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),token?: (tokens_obj_rel_insert_input | null),token_amount?: (Scalars['bigint'] | null),transaction?: (transactions_obj_rel_insert_input | null),tx_sig?: (Scalars['String'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null)}
+export interface user_deposits_insert_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),token?: (tokens_obj_rel_insert_input | null),token_amount?: (Scalars['bigint'] | null),tx_sig?: (Scalars['String'] | null),user_acct?: (Scalars['String'] | null)}
 
 
 /** aggregate max on columns */
@@ -17683,10 +17656,6 @@ export interface user_deposits_max_fieldsGenqlSelection{
 }
 
 
-/** order by max() on columns of table "user_deposits" */
-export interface user_deposits_max_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),token_amount?: (order_by | null),tx_sig?: (order_by | null),user_acct?: (order_by | null)}
-
-
 /** aggregate min on columns */
 export interface user_deposits_min_fieldsGenqlSelection{
     created_at?: boolean | number
@@ -17697,10 +17666,6 @@ export interface user_deposits_min_fieldsGenqlSelection{
     __typename?: boolean | number
     __scalar?: boolean | number
 }
-
-
-/** order by min() on columns of table "user_deposits" */
-export interface user_deposits_min_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),token_amount?: (order_by | null),tx_sig?: (order_by | null),user_acct?: (order_by | null)}
 
 
 /** response of any mutation on the table "user_deposits" */
@@ -17715,7 +17680,7 @@ export interface user_deposits_mutation_responseGenqlSelection{
 
 
 /** Ordering options when selecting data from "user_deposits". */
-export interface user_deposits_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),token?: (tokens_order_by | null),token_amount?: (order_by | null),transaction?: (transactions_order_by | null),tx_sig?: (order_by | null),user?: (users_order_by | null),user_acct?: (order_by | null)}
+export interface user_deposits_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),token?: (tokens_order_by | null),token_amount?: (order_by | null),tx_sig?: (order_by | null),user_acct?: (order_by | null)}
 
 
 /** input type for updating data in table "user_deposits" */
@@ -17730,10 +17695,6 @@ export interface user_deposits_stddev_fieldsGenqlSelection{
 }
 
 
-/** order by stddev() on columns of table "user_deposits" */
-export interface user_deposits_stddev_order_by {token_amount?: (order_by | null)}
-
-
 /** aggregate stddev_pop on columns */
 export interface user_deposits_stddev_pop_fieldsGenqlSelection{
     token_amount?: boolean | number
@@ -17742,20 +17703,12 @@ export interface user_deposits_stddev_pop_fieldsGenqlSelection{
 }
 
 
-/** order by stddev_pop() on columns of table "user_deposits" */
-export interface user_deposits_stddev_pop_order_by {token_amount?: (order_by | null)}
-
-
 /** aggregate stddev_samp on columns */
 export interface user_deposits_stddev_samp_fieldsGenqlSelection{
     token_amount?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
-
-
-/** order by stddev_samp() on columns of table "user_deposits" */
-export interface user_deposits_stddev_samp_order_by {token_amount?: (order_by | null)}
 
 
 /** Streaming cursor of the table "user_deposits" */
@@ -17777,10 +17730,6 @@ export interface user_deposits_sum_fieldsGenqlSelection{
     __scalar?: boolean | number
 }
 
-
-/** order by sum() on columns of table "user_deposits" */
-export interface user_deposits_sum_order_by {token_amount?: (order_by | null)}
-
 export interface user_deposits_updates {
 /** increments the numeric columns with given value of the filtered values */
 _inc?: (user_deposits_inc_input | null),
@@ -17798,10 +17747,6 @@ export interface user_deposits_var_pop_fieldsGenqlSelection{
 }
 
 
-/** order by var_pop() on columns of table "user_deposits" */
-export interface user_deposits_var_pop_order_by {token_amount?: (order_by | null)}
-
-
 /** aggregate var_samp on columns */
 export interface user_deposits_var_samp_fieldsGenqlSelection{
     token_amount?: boolean | number
@@ -17810,20 +17755,12 @@ export interface user_deposits_var_samp_fieldsGenqlSelection{
 }
 
 
-/** order by var_samp() on columns of table "user_deposits" */
-export interface user_deposits_var_samp_order_by {token_amount?: (order_by | null)}
-
-
 /** aggregate variance on columns */
 export interface user_deposits_variance_fieldsGenqlSelection{
     token_amount?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
-
-
-/** order by variance() on columns of table "user_deposits" */
-export interface user_deposits_variance_order_by {token_amount?: (order_by | null)}
 
 
 /** columns and relationships of "user_performance" */
@@ -18203,30 +18140,6 @@ export interface usersGenqlSelection{
     where?: (sessions_bool_exp | null)} })
     user_acct?: boolean | number
     /** An array relationship */
-    user_deposits?: (user_depositsGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (user_deposits_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (user_deposits_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (user_deposits_bool_exp | null)} })
-    /** An aggregate relationship */
-    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
-    /** distinct select on columns */
-    distinct_on?: (user_deposits_select_column[] | null), 
-    /** limit the number of rows returned */
-    limit?: (Scalars['Int'] | null), 
-    /** skip the first n rows. Use only with order_by */
-    offset?: (Scalars['Int'] | null), 
-    /** sort the rows by one or more columns */
-    order_by?: (user_deposits_order_by[] | null), 
-    /** filter the rows returned */
-    where?: (user_deposits_bool_exp | null)} })
-    /** An array relationship */
     user_performances?: (user_performanceGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (user_performance_select_column[] | null), 
@@ -18275,11 +18188,11 @@ export interface users_aggregate_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
-export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null),user_deposits?: (user_deposits_bool_exp | null),user_deposits_aggregate?: (user_deposits_aggregate_bool_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
+export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
 
 
 /** input type for inserting data into table "users" */
-export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),orders?: (orders_arr_rel_insert_input | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null),user_deposits?: (user_deposits_arr_rel_insert_input | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
+export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),orders?: (orders_arr_rel_insert_input | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -18322,7 +18235,7 @@ export interface users_on_conflict {constraint: users_constraint,update_columns?
 
 
 /** Ordering options when selecting data from "users". */
-export interface users_order_by {created_at?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null),user_deposits_aggregate?: (user_deposits_aggregate_order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
+export interface users_order_by {created_at?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: users */
@@ -18739,6 +18652,14 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     export const isdao_details_variance_fields = (obj?: { __typename?: any } | null): obj is dao_details_variance_fields => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isdao_details_variance_fields"')
       return dao_details_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const dao_trader_possibleTypes: string[] = ['dao_trader']
+    export const isdao_trader = (obj?: { __typename?: any } | null): obj is dao_trader => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isdao_trader"')
+      return dao_trader_possibleTypes.includes(obj.__typename)
     }
     
 
@@ -21831,6 +21752,11 @@ export const enumDaoDetailsUpdateColumn = {
    token_image_url: 'token_image_url' as const,
    url: 'url' as const,
    x_account: 'x_account' as const
+}
+
+export const enumDaoTraderEnumName = {
+   total_volume: 'total_volume' as const,
+   user_acct: 'user_acct' as const
 }
 
 export const enumDaosConstraint = {

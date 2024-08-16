@@ -1648,6 +1648,8 @@ export interface mutation_root {
     delete_twaps: (twaps_mutation_response | null)
     /** delete single row from the table: "twaps" */
     delete_twaps_by_pk: (twaps | null)
+    /** delete data from the table: "user_deposits" */
+    delete_user_deposits: (user_deposits_mutation_response | null)
     /** delete data from the table: "user_performance" */
     delete_user_performance: (user_performance_mutation_response | null)
     /** delete single row from the table: "user_performance" */
@@ -1768,6 +1770,10 @@ export interface mutation_root {
     insert_twaps: (twaps_mutation_response | null)
     /** insert a single row into the table: "twaps" */
     insert_twaps_one: (twaps | null)
+    /** insert data into the table: "user_deposits" */
+    insert_user_deposits: (user_deposits_mutation_response | null)
+    /** insert a single row into the table: "user_deposits" */
+    insert_user_deposits_one: (user_deposits | null)
     /** insert data into the table: "user_performance" */
     insert_user_performance: (user_performance_mutation_response | null)
     /** insert a single row into the table: "user_performance" */
@@ -1940,6 +1946,10 @@ export interface mutation_root {
     update_twaps_by_pk: (twaps | null)
     /** update multiples rows of table: "twaps" */
     update_twaps_many: ((twaps_mutation_response | null)[] | null)
+    /** update data of the table: "user_deposits" */
+    update_user_deposits: (user_deposits_mutation_response | null)
+    /** update multiples rows of table: "user_deposits" */
+    update_user_deposits_many: ((user_deposits_mutation_response | null)[] | null)
     /** update data of the table: "user_performance" */
     update_user_performance: (user_performance_mutation_response | null)
     /** update single row of the table: "user_performance" */
@@ -3814,6 +3824,10 @@ export interface query_root {
     twaps_aggregate: twaps_aggregate
     /** fetch data from the table: "twaps" using primary key columns */
     twaps_by_pk: (twaps | null)
+    /** An array relationship */
+    user_deposits: user_deposits[]
+    /** An aggregate relationship */
+    user_deposits_aggregate: user_deposits_aggregate
     /** fetch data from the table: "user_performance" */
     user_performance: user_performance[]
     /** fetch aggregated fields from the table: "user_performance" */
@@ -4270,6 +4284,12 @@ export interface subscription_root {
     twaps_by_pk: (twaps | null)
     /** fetch data from the table in a streaming manner: "twaps" */
     twaps_stream: twaps[]
+    /** An array relationship */
+    user_deposits: user_deposits[]
+    /** An aggregate relationship */
+    user_deposits_aggregate: user_deposits_aggregate
+    /** fetch data from the table in a streaming manner: "user_deposits" */
+    user_deposits_stream: user_deposits[]
     /** fetch data from the table: "user_performance" */
     user_performance: user_performance[]
     /** fetch aggregated fields from the table: "user_performance" */
@@ -4855,6 +4875,10 @@ export interface tokens {
     /** An aggregate relationship */
     token_accts_aggregate: token_accts_aggregate
     updated_at: Scalars['timestamptz']
+    /** An array relationship */
+    user_deposits: user_deposits[]
+    /** An aggregate relationship */
+    user_deposits_aggregate: user_deposits_aggregate
     /** An object relationship */
     vault_by_finalize: (conditional_vaults | null)
     /** An object relationship */
@@ -5329,6 +5353,10 @@ export interface transactions {
     /** An aggregate relationship */
     transaction_watchers_aggregate: transaction_watchers_aggregate
     tx_sig: Scalars['String']
+    /** An array relationship */
+    user_deposits: user_deposits[]
+    /** An aggregate relationship */
+    user_deposits_aggregate: user_deposits_aggregate
     __typename: 'transactions'
 }
 
@@ -5781,6 +5809,140 @@ export interface twaps_variance_fields {
 }
 
 
+/** columns and relationships of "user_deposits" */
+export interface user_deposits {
+    created_at: Scalars['timestamptz']
+    mint_acct: Scalars['String']
+    /** An object relationship */
+    token: tokens
+    token_amount: Scalars['bigint']
+    /** An object relationship */
+    transaction: transactions
+    tx_sig: Scalars['String']
+    /** An object relationship */
+    user: users
+    user_acct: Scalars['String']
+    __typename: 'user_deposits'
+}
+
+
+/** aggregated selection of "user_deposits" */
+export interface user_deposits_aggregate {
+    aggregate: (user_deposits_aggregate_fields | null)
+    nodes: user_deposits[]
+    __typename: 'user_deposits_aggregate'
+}
+
+
+/** aggregate fields of "user_deposits" */
+export interface user_deposits_aggregate_fields {
+    avg: (user_deposits_avg_fields | null)
+    count: Scalars['Int']
+    max: (user_deposits_max_fields | null)
+    min: (user_deposits_min_fields | null)
+    stddev: (user_deposits_stddev_fields | null)
+    stddev_pop: (user_deposits_stddev_pop_fields | null)
+    stddev_samp: (user_deposits_stddev_samp_fields | null)
+    sum: (user_deposits_sum_fields | null)
+    var_pop: (user_deposits_var_pop_fields | null)
+    var_samp: (user_deposits_var_samp_fields | null)
+    variance: (user_deposits_variance_fields | null)
+    __typename: 'user_deposits_aggregate_fields'
+}
+
+
+/** aggregate avg on columns */
+export interface user_deposits_avg_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'user_deposits_avg_fields'
+}
+
+
+/** aggregate max on columns */
+export interface user_deposits_max_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    mint_acct: (Scalars['String'] | null)
+    token_amount: (Scalars['bigint'] | null)
+    tx_sig: (Scalars['String'] | null)
+    user_acct: (Scalars['String'] | null)
+    __typename: 'user_deposits_max_fields'
+}
+
+
+/** aggregate min on columns */
+export interface user_deposits_min_fields {
+    created_at: (Scalars['timestamptz'] | null)
+    mint_acct: (Scalars['String'] | null)
+    token_amount: (Scalars['bigint'] | null)
+    tx_sig: (Scalars['String'] | null)
+    user_acct: (Scalars['String'] | null)
+    __typename: 'user_deposits_min_fields'
+}
+
+
+/** response of any mutation on the table "user_deposits" */
+export interface user_deposits_mutation_response {
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars['Int']
+    /** data from the rows affected by the mutation */
+    returning: user_deposits[]
+    __typename: 'user_deposits_mutation_response'
+}
+
+
+/** select columns of table "user_deposits" */
+export type user_deposits_select_column = 'created_at' | 'mint_acct' | 'token_amount' | 'tx_sig' | 'user_acct'
+
+
+/** aggregate stddev on columns */
+export interface user_deposits_stddev_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'user_deposits_stddev_fields'
+}
+
+
+/** aggregate stddev_pop on columns */
+export interface user_deposits_stddev_pop_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'user_deposits_stddev_pop_fields'
+}
+
+
+/** aggregate stddev_samp on columns */
+export interface user_deposits_stddev_samp_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'user_deposits_stddev_samp_fields'
+}
+
+
+/** aggregate sum on columns */
+export interface user_deposits_sum_fields {
+    token_amount: (Scalars['bigint'] | null)
+    __typename: 'user_deposits_sum_fields'
+}
+
+
+/** aggregate var_pop on columns */
+export interface user_deposits_var_pop_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'user_deposits_var_pop_fields'
+}
+
+
+/** aggregate var_samp on columns */
+export interface user_deposits_var_samp_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'user_deposits_var_samp_fields'
+}
+
+
+/** aggregate variance on columns */
+export interface user_deposits_variance_fields {
+    token_amount: (Scalars['Float'] | null)
+    __typename: 'user_deposits_variance_fields'
+}
+
+
 /** columns and relationships of "user_performance" */
 export interface user_performance {
     created_at: Scalars['timestamptz']
@@ -5985,6 +6147,10 @@ export interface users {
     /** An aggregate relationship */
     sessions_aggregate: sessions_aggregate
     user_acct: Scalars['String']
+    /** An array relationship */
+    user_deposits: user_deposits[]
+    /** An aggregate relationship */
+    user_deposits_aggregate: user_deposits_aggregate
     /** An array relationship */
     user_performances: user_performance[]
     /** An aggregate relationship */
@@ -8879,6 +9045,10 @@ export interface mutation_rootGenqlSelection{
     where: twaps_bool_exp} })
     /** delete single row from the table: "twaps" */
     delete_twaps_by_pk?: (twapsGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
+    /** delete data from the table: "user_deposits" */
+    delete_user_deposits?: (user_deposits_mutation_responseGenqlSelection & { __args: {
+    /** filter the rows which have to be deleted */
+    where: user_deposits_bool_exp} })
     /** delete data from the table: "user_performance" */
     delete_user_performance?: (user_performance_mutation_responseGenqlSelection & { __args: {
     /** filter the rows which have to be deleted */
@@ -9227,6 +9397,14 @@ export interface mutation_rootGenqlSelection{
     object: twaps_insert_input, 
     /** upsert condition */
     on_conflict?: (twaps_on_conflict | null)} })
+    /** insert data into the table: "user_deposits" */
+    insert_user_deposits?: (user_deposits_mutation_responseGenqlSelection & { __args: {
+    /** the rows to be inserted */
+    objects: user_deposits_insert_input[]} })
+    /** insert a single row into the table: "user_deposits" */
+    insert_user_deposits_one?: (user_depositsGenqlSelection & { __args: {
+    /** the row to be inserted */
+    object: user_deposits_insert_input} })
     /** insert data into the table: "user_performance" */
     insert_user_performance?: (user_performance_mutation_responseGenqlSelection & { __args: {
     /** the rows to be inserted */
@@ -9771,6 +9949,18 @@ export interface mutation_rootGenqlSelection{
     update_twaps_many?: (twaps_mutation_responseGenqlSelection & { __args: {
     /** updates to execute, in order */
     updates: twaps_updates[]} })
+    /** update data of the table: "user_deposits" */
+    update_user_deposits?: (user_deposits_mutation_responseGenqlSelection & { __args: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: (user_deposits_inc_input | null), 
+    /** sets the columns of the filtered rows to the given values */
+    _set?: (user_deposits_set_input | null), 
+    /** filter the rows which have to be updated */
+    where: user_deposits_bool_exp} })
+    /** update multiples rows of table: "user_deposits" */
+    update_user_deposits_many?: (user_deposits_mutation_responseGenqlSelection & { __args: {
+    /** updates to execute, in order */
+    updates: user_deposits_updates[]} })
     /** update data of the table: "user_performance" */
     update_user_performance?: (user_performance_mutation_responseGenqlSelection & { __args: {
     /** increments the numeric columns with given value of the filtered values */
@@ -13183,6 +13373,30 @@ export interface query_rootGenqlSelection{
     where?: (twaps_bool_exp | null)} })
     /** fetch data from the table: "twaps" using primary key columns */
     twaps_by_pk?: (twapsGenqlSelection & { __args: {market_acct: Scalars['String'], updated_slot: Scalars['bigint']} })
+    /** An array relationship */
+    user_deposits?: (user_depositsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
+    /** An aggregate relationship */
+    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
     /** fetch data from the table: "user_performance" */
     user_performance?: (user_performanceGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -14600,6 +14814,38 @@ export interface subscription_rootGenqlSelection{
     cursor: (twaps_stream_cursor_input | null)[], 
     /** filter the rows returned */
     where?: (twaps_bool_exp | null)} })
+    /** An array relationship */
+    user_deposits?: (user_depositsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
+    /** An aggregate relationship */
+    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
+    /** fetch data from the table in a streaming manner: "user_deposits" */
+    user_deposits_stream?: (user_depositsGenqlSelection & { __args: {
+    /** maximum number of rows returned in a single batch */
+    batch_size: Scalars['Int'], 
+    /** cursor to stream the results returned by the query */
+    cursor: (user_deposits_stream_cursor_input | null)[], 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
     /** fetch data from the table: "user_performance" */
     user_performance?: (user_performanceGenqlSelection & { __args?: {
     /** distinct select on columns */
@@ -15774,6 +16020,30 @@ export interface tokensGenqlSelection{
     /** filter the rows returned */
     where?: (token_accts_bool_exp | null)} })
     updated_at?: boolean | number
+    /** An array relationship */
+    user_deposits?: (user_depositsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
+    /** An aggregate relationship */
+    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
     /** An object relationship */
     vault_by_finalize?: conditional_vaultsGenqlSelection
     /** An object relationship */
@@ -15820,7 +16090,7 @@ export interface tokens_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "tokens". All fields are combined with a logical 'AND'. */
-export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),daos?: (daos_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),image_url?: (String_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),vault_by_finalize?: (conditional_vaults_bool_exp | null),vault_by_revert?: (conditional_vaults_bool_exp | null)}
+export interface tokens_bool_exp {_and?: (tokens_bool_exp[] | null),_not?: (tokens_bool_exp | null),_or?: (tokens_bool_exp[] | null),conditional_vaults?: (conditional_vaults_bool_exp | null),conditional_vaults_aggregate?: (conditional_vaults_aggregate_bool_exp | null),daos?: (daos_bool_exp | null),daosByQuoteAcct?: (daos_bool_exp | null),daosByQuoteAcct_aggregate?: (daos_aggregate_bool_exp | null),daos_aggregate?: (daos_aggregate_bool_exp | null),decimals?: (smallint_comparison_exp | null),image_url?: (String_comparison_exp | null),markets?: (markets_bool_exp | null),marketsByQuoteMintAcct?: (markets_bool_exp | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_bool_exp | null),markets_aggregate?: (markets_aggregate_bool_exp | null),mint_acct?: (String_comparison_exp | null),name?: (String_comparison_exp | null),supply?: (bigint_comparison_exp | null),symbol?: (String_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),token_accts?: (token_accts_bool_exp | null),token_accts_aggregate?: (token_accts_aggregate_bool_exp | null),updated_at?: (timestamptz_comparison_exp | null),user_deposits?: (user_deposits_bool_exp | null),user_deposits_aggregate?: (user_deposits_aggregate_bool_exp | null),vault_by_finalize?: (conditional_vaults_bool_exp | null),vault_by_revert?: (conditional_vaults_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "tokens" */
@@ -15828,7 +16098,7 @@ export interface tokens_inc_input {decimals?: (Scalars['smallint'] | null),suppl
 
 
 /** input type for inserting data into table "tokens" */
-export interface tokens_insert_input {conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),daos?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),vault_by_finalize?: (conditional_vaults_obj_rel_insert_input | null),vault_by_revert?: (conditional_vaults_obj_rel_insert_input | null)}
+export interface tokens_insert_input {conditional_vaults?: (conditional_vaults_arr_rel_insert_input | null),daos?: (daos_arr_rel_insert_input | null),daosByQuoteAcct?: (daos_arr_rel_insert_input | null),decimals?: (Scalars['smallint'] | null),image_url?: (Scalars['String'] | null),markets?: (markets_arr_rel_insert_input | null),marketsByQuoteMintAcct?: (markets_arr_rel_insert_input | null),mint_acct?: (Scalars['String'] | null),name?: (Scalars['String'] | null),supply?: (Scalars['bigint'] | null),symbol?: (Scalars['String'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),token_accts?: (token_accts_arr_rel_insert_input | null),updated_at?: (Scalars['timestamptz'] | null),user_deposits?: (user_deposits_arr_rel_insert_input | null),vault_by_finalize?: (conditional_vaults_obj_rel_insert_input | null),vault_by_revert?: (conditional_vaults_obj_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -15881,7 +16151,7 @@ export interface tokens_on_conflict {constraint: tokens_constraint,update_column
 
 
 /** Ordering options when selecting data from "tokens". */
-export interface tokens_order_by {conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),image_url?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null),vault_by_finalize?: (conditional_vaults_order_by | null),vault_by_revert?: (conditional_vaults_order_by | null)}
+export interface tokens_order_by {conditional_vaults_aggregate?: (conditional_vaults_aggregate_order_by | null),daosByQuoteAcct_aggregate?: (daos_aggregate_order_by | null),daos_aggregate?: (daos_aggregate_order_by | null),decimals?: (order_by | null),image_url?: (order_by | null),marketsByQuoteMintAcct_aggregate?: (markets_aggregate_order_by | null),markets_aggregate?: (markets_aggregate_order_by | null),mint_acct?: (order_by | null),name?: (order_by | null),supply?: (order_by | null),symbol?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),token_accts_aggregate?: (token_accts_aggregate_order_by | null),updated_at?: (order_by | null),user_deposits_aggregate?: (user_deposits_aggregate_order_by | null),vault_by_finalize?: (conditional_vaults_order_by | null),vault_by_revert?: (conditional_vaults_order_by | null)}
 
 
 /** primary key columns input for table: tokens */
@@ -16638,6 +16908,30 @@ export interface transactionsGenqlSelection{
     /** filter the rows returned */
     where?: (transaction_watchers_bool_exp | null)} })
     tx_sig?: boolean | number
+    /** An array relationship */
+    user_deposits?: (user_depositsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
+    /** An aggregate relationship */
+    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -16680,7 +16974,7 @@ export interface transactions_avg_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
-export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamptz_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),main_ix_type?: (String_comparison_exp | null),order?: (orders_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null)}
+export interface transactions_bool_exp {_and?: (transactions_bool_exp[] | null),_not?: (transactions_bool_exp | null),_or?: (transactions_bool_exp[] | null),block_time?: (timestamptz_comparison_exp | null),failed?: (Boolean_comparison_exp | null),indexer_account_dependencies?: (indexer_account_dependencies_bool_exp | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_bool_exp | null),main_ix_type?: (String_comparison_exp | null),order?: (orders_bool_exp | null),payload?: (String_comparison_exp | null),serializer_logic_version?: (smallint_comparison_exp | null),slot?: (bigint_comparison_exp | null),token_acct_balances?: (token_acct_balances_bool_exp | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_bool_exp | null),transactionWatchersByLatestTxSig?: (transaction_watchers_bool_exp | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_bool_exp | null),transaction_watcher_transactions?: (transaction_watcher_transactions_bool_exp | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_bool_exp | null),transaction_watchers?: (transaction_watchers_bool_exp | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_bool_exp | null),tx_sig?: (String_comparison_exp | null),user_deposits?: (user_deposits_bool_exp | null),user_deposits_aggregate?: (user_deposits_aggregate_bool_exp | null)}
 
 
 /** input type for incrementing numeric columns in table "transactions" */
@@ -16688,7 +16982,7 @@ export interface transactions_inc_input {serializer_logic_version?: (Scalars['sm
 
 
 /** input type for inserting data into table "transactions" */
-export interface transactions_insert_input {block_time?: (Scalars['timestamptz'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),main_ix_type?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null)}
+export interface transactions_insert_input {block_time?: (Scalars['timestamptz'] | null),failed?: (Scalars['Boolean'] | null),indexer_account_dependencies?: (indexer_account_dependencies_arr_rel_insert_input | null),main_ix_type?: (Scalars['String'] | null),order?: (orders_obj_rel_insert_input | null),payload?: (Scalars['String'] | null),serializer_logic_version?: (Scalars['smallint'] | null),slot?: (Scalars['bigint'] | null),token_acct_balances?: (token_acct_balances_arr_rel_insert_input | null),transactionWatchersByLatestTxSig?: (transaction_watchers_arr_rel_insert_input | null),transaction_watcher_transactions?: (transaction_watcher_transactions_arr_rel_insert_input | null),transaction_watchers?: (transaction_watchers_arr_rel_insert_input | null),tx_sig?: (Scalars['String'] | null),user_deposits?: (user_deposits_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -16739,7 +17033,7 @@ export interface transactions_on_conflict {constraint: transactions_constraint,u
 
 
 /** Ordering options when selecting data from "transactions". */
-export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),main_ix_type?: (order_by | null),order?: (orders_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null)}
+export interface transactions_order_by {block_time?: (order_by | null),failed?: (order_by | null),indexer_account_dependencies_aggregate?: (indexer_account_dependencies_aggregate_order_by | null),main_ix_type?: (order_by | null),order?: (orders_order_by | null),payload?: (order_by | null),serializer_logic_version?: (order_by | null),slot?: (order_by | null),token_acct_balances_aggregate?: (token_acct_balances_aggregate_order_by | null),transactionWatchersByLatestTxSig_aggregate?: (transaction_watchers_aggregate_order_by | null),transaction_watcher_transactions_aggregate?: (transaction_watcher_transactions_aggregate_order_by | null),transaction_watchers_aggregate?: (transaction_watchers_aggregate_order_by | null),tx_sig?: (order_by | null),user_deposits_aggregate?: (user_deposits_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: transactions */
@@ -17296,6 +17590,242 @@ export interface twaps_variance_fieldsGenqlSelection{
 export interface twaps_variance_order_by {last_observation?: (order_by | null),last_price?: (order_by | null),observation_agg?: (order_by | null),token_amount?: (order_by | null),updated_slot?: (order_by | null)}
 
 
+/** columns and relationships of "user_deposits" */
+export interface user_depositsGenqlSelection{
+    created_at?: boolean | number
+    mint_acct?: boolean | number
+    /** An object relationship */
+    token?: tokensGenqlSelection
+    token_amount?: boolean | number
+    /** An object relationship */
+    transaction?: transactionsGenqlSelection
+    tx_sig?: boolean | number
+    /** An object relationship */
+    user?: usersGenqlSelection
+    user_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** aggregated selection of "user_deposits" */
+export interface user_deposits_aggregateGenqlSelection{
+    aggregate?: user_deposits_aggregate_fieldsGenqlSelection
+    nodes?: user_depositsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface user_deposits_aggregate_bool_exp {count?: (user_deposits_aggregate_bool_exp_count | null)}
+
+export interface user_deposits_aggregate_bool_exp_count {arguments?: (user_deposits_select_column[] | null),distinct?: (Scalars['Boolean'] | null),filter?: (user_deposits_bool_exp | null),predicate: Int_comparison_exp}
+
+
+/** aggregate fields of "user_deposits" */
+export interface user_deposits_aggregate_fieldsGenqlSelection{
+    avg?: user_deposits_avg_fieldsGenqlSelection
+    count?: { __args: {columns?: (user_deposits_select_column[] | null), distinct?: (Scalars['Boolean'] | null)} } | boolean | number
+    max?: user_deposits_max_fieldsGenqlSelection
+    min?: user_deposits_min_fieldsGenqlSelection
+    stddev?: user_deposits_stddev_fieldsGenqlSelection
+    stddev_pop?: user_deposits_stddev_pop_fieldsGenqlSelection
+    stddev_samp?: user_deposits_stddev_samp_fieldsGenqlSelection
+    sum?: user_deposits_sum_fieldsGenqlSelection
+    var_pop?: user_deposits_var_pop_fieldsGenqlSelection
+    var_samp?: user_deposits_var_samp_fieldsGenqlSelection
+    variance?: user_deposits_variance_fieldsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by aggregate values of table "user_deposits" */
+export interface user_deposits_aggregate_order_by {avg?: (user_deposits_avg_order_by | null),count?: (order_by | null),max?: (user_deposits_max_order_by | null),min?: (user_deposits_min_order_by | null),stddev?: (user_deposits_stddev_order_by | null),stddev_pop?: (user_deposits_stddev_pop_order_by | null),stddev_samp?: (user_deposits_stddev_samp_order_by | null),sum?: (user_deposits_sum_order_by | null),var_pop?: (user_deposits_var_pop_order_by | null),var_samp?: (user_deposits_var_samp_order_by | null),variance?: (user_deposits_variance_order_by | null)}
+
+
+/** input type for inserting array relation for remote table "user_deposits" */
+export interface user_deposits_arr_rel_insert_input {data: user_deposits_insert_input[]}
+
+
+/** aggregate avg on columns */
+export interface user_deposits_avg_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by avg() on columns of table "user_deposits" */
+export interface user_deposits_avg_order_by {token_amount?: (order_by | null)}
+
+
+/** Boolean expression to filter rows from the table "user_deposits". All fields are combined with a logical 'AND'. */
+export interface user_deposits_bool_exp {_and?: (user_deposits_bool_exp[] | null),_not?: (user_deposits_bool_exp | null),_or?: (user_deposits_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),mint_acct?: (String_comparison_exp | null),token?: (tokens_bool_exp | null),token_amount?: (bigint_comparison_exp | null),transaction?: (transactions_bool_exp | null),tx_sig?: (String_comparison_exp | null),user?: (users_bool_exp | null),user_acct?: (String_comparison_exp | null)}
+
+
+/** input type for incrementing numeric columns in table "user_deposits" */
+export interface user_deposits_inc_input {token_amount?: (Scalars['bigint'] | null)}
+
+
+/** input type for inserting data into table "user_deposits" */
+export interface user_deposits_insert_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),token?: (tokens_obj_rel_insert_input | null),token_amount?: (Scalars['bigint'] | null),transaction?: (transactions_obj_rel_insert_input | null),tx_sig?: (Scalars['String'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate max on columns */
+export interface user_deposits_max_fieldsGenqlSelection{
+    created_at?: boolean | number
+    mint_acct?: boolean | number
+    token_amount?: boolean | number
+    tx_sig?: boolean | number
+    user_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by max() on columns of table "user_deposits" */
+export interface user_deposits_max_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),token_amount?: (order_by | null),tx_sig?: (order_by | null),user_acct?: (order_by | null)}
+
+
+/** aggregate min on columns */
+export interface user_deposits_min_fieldsGenqlSelection{
+    created_at?: boolean | number
+    mint_acct?: boolean | number
+    token_amount?: boolean | number
+    tx_sig?: boolean | number
+    user_acct?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by min() on columns of table "user_deposits" */
+export interface user_deposits_min_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),token_amount?: (order_by | null),tx_sig?: (order_by | null),user_acct?: (order_by | null)}
+
+
+/** response of any mutation on the table "user_deposits" */
+export interface user_deposits_mutation_responseGenqlSelection{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | number
+    /** data from the rows affected by the mutation */
+    returning?: user_depositsGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** Ordering options when selecting data from "user_deposits". */
+export interface user_deposits_order_by {created_at?: (order_by | null),mint_acct?: (order_by | null),token?: (tokens_order_by | null),token_amount?: (order_by | null),transaction?: (transactions_order_by | null),tx_sig?: (order_by | null),user?: (users_order_by | null),user_acct?: (order_by | null)}
+
+
+/** input type for updating data in table "user_deposits" */
+export interface user_deposits_set_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),token_amount?: (Scalars['bigint'] | null),tx_sig?: (Scalars['String'] | null),user_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate stddev on columns */
+export interface user_deposits_stddev_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev() on columns of table "user_deposits" */
+export interface user_deposits_stddev_order_by {token_amount?: (order_by | null)}
+
+
+/** aggregate stddev_pop on columns */
+export interface user_deposits_stddev_pop_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_pop() on columns of table "user_deposits" */
+export interface user_deposits_stddev_pop_order_by {token_amount?: (order_by | null)}
+
+
+/** aggregate stddev_samp on columns */
+export interface user_deposits_stddev_samp_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by stddev_samp() on columns of table "user_deposits" */
+export interface user_deposits_stddev_samp_order_by {token_amount?: (order_by | null)}
+
+
+/** Streaming cursor of the table "user_deposits" */
+export interface user_deposits_stream_cursor_input {
+/** Stream column input with initial value */
+initial_value: user_deposits_stream_cursor_value_input,
+/** cursor ordering */
+ordering?: (cursor_ordering | null)}
+
+
+/** Initial value of the column from where the streaming should start */
+export interface user_deposits_stream_cursor_value_input {created_at?: (Scalars['timestamptz'] | null),mint_acct?: (Scalars['String'] | null),token_amount?: (Scalars['bigint'] | null),tx_sig?: (Scalars['String'] | null),user_acct?: (Scalars['String'] | null)}
+
+
+/** aggregate sum on columns */
+export interface user_deposits_sum_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by sum() on columns of table "user_deposits" */
+export interface user_deposits_sum_order_by {token_amount?: (order_by | null)}
+
+export interface user_deposits_updates {
+/** increments the numeric columns with given value of the filtered values */
+_inc?: (user_deposits_inc_input | null),
+/** sets the columns of the filtered rows to the given values */
+_set?: (user_deposits_set_input | null),
+/** filter the rows which have to be updated */
+where: user_deposits_bool_exp}
+
+
+/** aggregate var_pop on columns */
+export interface user_deposits_var_pop_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_pop() on columns of table "user_deposits" */
+export interface user_deposits_var_pop_order_by {token_amount?: (order_by | null)}
+
+
+/** aggregate var_samp on columns */
+export interface user_deposits_var_samp_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by var_samp() on columns of table "user_deposits" */
+export interface user_deposits_var_samp_order_by {token_amount?: (order_by | null)}
+
+
+/** aggregate variance on columns */
+export interface user_deposits_variance_fieldsGenqlSelection{
+    token_amount?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
+/** order by variance() on columns of table "user_deposits" */
+export interface user_deposits_variance_order_by {token_amount?: (order_by | null)}
+
+
 /** columns and relationships of "user_performance" */
 export interface user_performanceGenqlSelection{
     created_at?: boolean | number
@@ -17673,6 +18203,30 @@ export interface usersGenqlSelection{
     where?: (sessions_bool_exp | null)} })
     user_acct?: boolean | number
     /** An array relationship */
+    user_deposits?: (user_depositsGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
+    /** An aggregate relationship */
+    user_deposits_aggregate?: (user_deposits_aggregateGenqlSelection & { __args?: {
+    /** distinct select on columns */
+    distinct_on?: (user_deposits_select_column[] | null), 
+    /** limit the number of rows returned */
+    limit?: (Scalars['Int'] | null), 
+    /** skip the first n rows. Use only with order_by */
+    offset?: (Scalars['Int'] | null), 
+    /** sort the rows by one or more columns */
+    order_by?: (user_deposits_order_by[] | null), 
+    /** filter the rows returned */
+    where?: (user_deposits_bool_exp | null)} })
+    /** An array relationship */
     user_performances?: (user_performanceGenqlSelection & { __args?: {
     /** distinct select on columns */
     distinct_on?: (user_performance_select_column[] | null), 
@@ -17721,11 +18275,11 @@ export interface users_aggregate_fieldsGenqlSelection{
 
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
-export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
+export interface users_bool_exp {_and?: (users_bool_exp[] | null),_not?: (users_bool_exp | null),_or?: (users_bool_exp[] | null),created_at?: (timestamptz_comparison_exp | null),orders?: (orders_bool_exp | null),orders_aggregate?: (orders_aggregate_bool_exp | null),sessions?: (sessions_bool_exp | null),sessions_aggregate?: (sessions_aggregate_bool_exp | null),user_acct?: (String_comparison_exp | null),user_deposits?: (user_deposits_bool_exp | null),user_deposits_aggregate?: (user_deposits_aggregate_bool_exp | null),user_performances?: (user_performance_bool_exp | null),user_performances_aggregate?: (user_performance_aggregate_bool_exp | null)}
 
 
 /** input type for inserting data into table "users" */
-export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),orders?: (orders_arr_rel_insert_input | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
+export interface users_insert_input {created_at?: (Scalars['timestamptz'] | null),orders?: (orders_arr_rel_insert_input | null),sessions?: (sessions_arr_rel_insert_input | null),user_acct?: (Scalars['String'] | null),user_deposits?: (user_deposits_arr_rel_insert_input | null),user_performances?: (user_performance_arr_rel_insert_input | null)}
 
 
 /** aggregate max on columns */
@@ -17768,7 +18322,7 @@ export interface users_on_conflict {constraint: users_constraint,update_columns?
 
 
 /** Ordering options when selecting data from "users". */
-export interface users_order_by {created_at?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
+export interface users_order_by {created_at?: (order_by | null),orders_aggregate?: (orders_aggregate_order_by | null),sessions_aggregate?: (sessions_aggregate_order_by | null),user_acct?: (order_by | null),user_deposits_aggregate?: (user_deposits_aggregate_order_by | null),user_performances_aggregate?: (user_performance_aggregate_order_by | null)}
 
 
 /** primary key columns input for table: users */
@@ -20877,6 +21431,118 @@ export type SubscriptionGenqlSelection = subscription_rootGenqlSelection
     
 
 
+    const user_deposits_possibleTypes: string[] = ['user_deposits']
+    export const isuser_deposits = (obj?: { __typename?: any } | null): obj is user_deposits => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits"')
+      return user_deposits_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_aggregate_possibleTypes: string[] = ['user_deposits_aggregate']
+    export const isuser_deposits_aggregate = (obj?: { __typename?: any } | null): obj is user_deposits_aggregate => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_aggregate"')
+      return user_deposits_aggregate_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_aggregate_fields_possibleTypes: string[] = ['user_deposits_aggregate_fields']
+    export const isuser_deposits_aggregate_fields = (obj?: { __typename?: any } | null): obj is user_deposits_aggregate_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_aggregate_fields"')
+      return user_deposits_aggregate_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_avg_fields_possibleTypes: string[] = ['user_deposits_avg_fields']
+    export const isuser_deposits_avg_fields = (obj?: { __typename?: any } | null): obj is user_deposits_avg_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_avg_fields"')
+      return user_deposits_avg_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_max_fields_possibleTypes: string[] = ['user_deposits_max_fields']
+    export const isuser_deposits_max_fields = (obj?: { __typename?: any } | null): obj is user_deposits_max_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_max_fields"')
+      return user_deposits_max_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_min_fields_possibleTypes: string[] = ['user_deposits_min_fields']
+    export const isuser_deposits_min_fields = (obj?: { __typename?: any } | null): obj is user_deposits_min_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_min_fields"')
+      return user_deposits_min_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_mutation_response_possibleTypes: string[] = ['user_deposits_mutation_response']
+    export const isuser_deposits_mutation_response = (obj?: { __typename?: any } | null): obj is user_deposits_mutation_response => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_mutation_response"')
+      return user_deposits_mutation_response_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_stddev_fields_possibleTypes: string[] = ['user_deposits_stddev_fields']
+    export const isuser_deposits_stddev_fields = (obj?: { __typename?: any } | null): obj is user_deposits_stddev_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_stddev_fields"')
+      return user_deposits_stddev_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_stddev_pop_fields_possibleTypes: string[] = ['user_deposits_stddev_pop_fields']
+    export const isuser_deposits_stddev_pop_fields = (obj?: { __typename?: any } | null): obj is user_deposits_stddev_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_stddev_pop_fields"')
+      return user_deposits_stddev_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_stddev_samp_fields_possibleTypes: string[] = ['user_deposits_stddev_samp_fields']
+    export const isuser_deposits_stddev_samp_fields = (obj?: { __typename?: any } | null): obj is user_deposits_stddev_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_stddev_samp_fields"')
+      return user_deposits_stddev_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_sum_fields_possibleTypes: string[] = ['user_deposits_sum_fields']
+    export const isuser_deposits_sum_fields = (obj?: { __typename?: any } | null): obj is user_deposits_sum_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_sum_fields"')
+      return user_deposits_sum_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_var_pop_fields_possibleTypes: string[] = ['user_deposits_var_pop_fields']
+    export const isuser_deposits_var_pop_fields = (obj?: { __typename?: any } | null): obj is user_deposits_var_pop_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_var_pop_fields"')
+      return user_deposits_var_pop_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_var_samp_fields_possibleTypes: string[] = ['user_deposits_var_samp_fields']
+    export const isuser_deposits_var_samp_fields = (obj?: { __typename?: any } | null): obj is user_deposits_var_samp_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_var_samp_fields"')
+      return user_deposits_var_samp_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const user_deposits_variance_fields_possibleTypes: string[] = ['user_deposits_variance_fields']
+    export const isuser_deposits_variance_fields = (obj?: { __typename?: any } | null): obj is user_deposits_variance_fields => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isuser_deposits_variance_fields"')
+      return user_deposits_variance_fields_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const user_performance_possibleTypes: string[] = ['user_performance']
     export const isuser_performance = (obj?: { __typename?: any } | null): obj is user_performance => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isuser_performance"')
@@ -21918,6 +22584,14 @@ export const enumTwapsUpdateColumn = {
    proposal_acct: 'proposal_acct' as const,
    token_amount: 'token_amount' as const,
    updated_slot: 'updated_slot' as const
+}
+
+export const enumUserDepositsSelectColumn = {
+   created_at: 'created_at' as const,
+   mint_acct: 'mint_acct' as const,
+   token_amount: 'token_amount' as const,
+   tx_sig: 'tx_sig' as const,
+   user_acct: 'user_acct' as const
 }
 
 export const enumUserPerformanceConstraint = {

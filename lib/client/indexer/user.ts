@@ -6,10 +6,11 @@ import {
 import {
   UserPerformance,
   UserPerformanceFetchRequest,
-  UserRanking
+  UserRanking,
+  UserDeposit,
 } from "@/types/user";
 import { PublicKey } from "@solana/web3.js";
-import { FutarchyProtocol, MarketType, ProposalState } from "@/types";
+import { FutarchyProtocol, ProposalState } from "@/types";
 import { PriceMath } from "@metadaoproject/futarchy";
 import { BN } from "@coral-xyz/anchor";
 
@@ -223,4 +224,42 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
       userAcct: new PublicKey(u.user_acct)
     })).sort((a, b) => b.totalVolume - a.totalVolume);
   }
+
+  async fetchUserDeposits(userAcct: string): Promise<UserDeposit[]> {
+    const { user_deposits } = await this.graphqlClient.query({
+      user_deposits: {
+        __args: {
+          where: {
+            user_acct: {
+              _eq: userAcct
+            }
+          }
+        },
+        user_acct: true,
+        token_amount: true,
+        mint_acct: true,
+        tx_sig: true,
+        token: {
+          decimals: true,
+          name: true
+        },
+        created_at: true
+      }
+    })
+
+    return user_deposits.map<UserDeposit>(d => {
+      return {
+        txSig: d.tx_sig,
+        userAcct: new PublicKey(d.user_acct),
+        tokenAmount: d.token_amount,
+        mintAcct: new PublicKey(d.mint_acct),
+        token: {
+          name: d.token.name,
+          decimals: d.token.decimals,
+        },
+        createdAt: d.created_at,
+      }
+    })
+  }
+
 }

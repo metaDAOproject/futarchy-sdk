@@ -120,13 +120,14 @@ export default {
         1067,
         1078,
         1090,
-        1108,
-        1119,
-        1131,
-        1143,
-        1152,
+        1116,
+        1145,
         1156,
-        1158
+        1168,
+        1180,
+        1189,
+        1193,
+        1195
     ],
     "types": {
         "Boolean": {},
@@ -8276,7 +8277,7 @@ export default {
                 805
             ],
             "user": [
-                1139
+                1176
             ],
             "__typename": [
                 5
@@ -8559,7 +8560,7 @@ export default {
                 806
             ],
             "user": [
-                1142
+                1179
             ],
             "__typename": [
                 5
@@ -8642,7 +8643,7 @@ export default {
                 805
             ],
             "user": [
-                1148
+                1185
             ],
             "__typename": [
                 5
@@ -8916,7 +8917,7 @@ export default {
                 342
             ],
             "user": [
-                1150
+                1187
             ],
             "__typename": [
                 5
@@ -14089,10 +14090,10 @@ export default {
                 805
             ],
             "user_performances": [
-                1098,
+                1135,
                 {
                     "distinct_on": [
-                        1119,
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "limit": [
@@ -14102,19 +14103,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
+                        1154,
                         "[user_performance_order_by!]"
                     ],
                     "where": [
-                        1107
+                        1144
                     ]
                 }
             ],
             "user_performances_aggregate": [
-                1099,
+                1136,
                 {
                     "distinct_on": [
-                        1119,
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "limit": [
@@ -14124,11 +14125,11 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
+                        1154,
                         "[user_performance_order_by!]"
                     ],
                     "where": [
-                        1107
+                        1144
                     ]
                 }
             ],
@@ -14645,10 +14646,10 @@ export default {
                 806
             ],
             "user_performances": [
-                1107
+                1144
             ],
             "user_performances_aggregate": [
-                1100
+                1137
             ],
             "__typename": [
                 5
@@ -14791,7 +14792,7 @@ export default {
                 805
             ],
             "user_performances": [
-                1104
+                1141
             ],
             "__typename": [
                 5
@@ -15254,7 +15255,7 @@ export default {
                 342
             ],
             "user_performances_aggregate": [
-                1103
+                1140
             ],
             "__typename": [
                 5
@@ -15970,7 +15971,7 @@ export default {
                 5
             ],
             "reaction_id": [
-                1158
+                1195
             ],
             "reactor_acct": [
                 5
@@ -16156,7 +16157,7 @@ export default {
                 6
             ],
             "reaction_id": [
-                1159
+                1196
             ],
             "reactor_acct": [
                 6
@@ -16194,7 +16195,7 @@ export default {
                 5
             ],
             "reaction_id": [
-                1158
+                1195
             ],
             "reactor_acct": [
                 5
@@ -16217,7 +16218,7 @@ export default {
                 5
             ],
             "reaction_id": [
-                1158
+                1195
             ],
             "reactor_acct": [
                 5
@@ -16263,7 +16264,7 @@ export default {
                 5
             ],
             "reaction_id": [
-                1158
+                1195
             ],
             "reactor_acct": [
                 5
@@ -16354,7 +16355,7 @@ export default {
         },
         "reactions_pk_columns_input": {
             "reaction_id": [
-                1158
+                1195
             ],
             "__typename": [
                 5
@@ -16372,7 +16373,7 @@ export default {
                 5
             ],
             "reaction_id": [
-                1158
+                1195
             ],
             "reactor_acct": [
                 5
@@ -16454,7 +16455,7 @@ export default {
                 5
             ],
             "reaction_id": [
-                1158
+                1195
             ],
             "reactor_acct": [
                 5
@@ -16553,10 +16554,10 @@ export default {
                 803
             ],
             "id": [
-                1158
+                1195
             ],
             "user": [
-                1139
+                1176
             ],
             "user_acct": [
                 5
@@ -16666,10 +16667,10 @@ export default {
                 804
             ],
             "id": [
-                1159
+                1196
             ],
             "user": [
-                1142
+                1179
             ],
             "user_acct": [
                 6
@@ -16687,10 +16688,10 @@ export default {
                 803
             ],
             "id": [
-                1158
+                1195
             ],
             "user": [
-                1148
+                1185
             ],
             "user_acct": [
                 5
@@ -16707,7 +16708,7 @@ export default {
                 803
             ],
             "id": [
-                1158
+                1195
             ],
             "user_acct": [
                 5
@@ -16741,7 +16742,7 @@ export default {
                 803
             ],
             "id": [
-                1158
+                1195
             ],
             "user_acct": [
                 5
@@ -16803,7 +16804,7 @@ export default {
                 342
             ],
             "user": [
-                1150
+                1187
             ],
             "user_acct": [
                 342
@@ -16814,7 +16815,7 @@ export default {
         },
         "sessions_pk_columns_input": {
             "id": [
-                1158
+                1195
             ],
             "__typename": [
                 5
@@ -16829,7 +16830,7 @@ export default {
                 803
             ],
             "id": [
-                1158
+                1195
             ],
             "user_acct": [
                 5
@@ -16857,7 +16858,7 @@ export default {
                 803
             ],
             "id": [
-                1158
+                1195
             ],
             "user_acct": [
                 5
@@ -19945,6 +19946,50 @@ export default {
             "updated_at": [
                 805
             ],
+            "user_deposits": [
+                1098,
+                {
+                    "distinct_on": [
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_deposits_aggregate": [
+                1099,
+                {
+                    "distinct_on": [
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
             "vault_by_finalize": [
                 92
             ],
@@ -20097,6 +20142,12 @@ export default {
             "updated_at": [
                 806
             ],
+            "user_deposits": [
+                1107
+            ],
+            "user_deposits_aggregate": [
+                1100
+            ],
             "vault_by_finalize": [
                 99
             ],
@@ -20161,6 +20212,9 @@ export default {
             ],
             "updated_at": [
                 805
+            ],
+            "user_deposits": [
+                1104
             ],
             "vault_by_finalize": [
                 107
@@ -20302,6 +20356,9 @@ export default {
             ],
             "updated_at": [
                 342
+            ],
+            "user_deposits_aggregate": [
+                1103
             ],
             "vault_by_finalize": [
                 109
@@ -22027,6 +22084,50 @@ export default {
             "tx_sig": [
                 5
             ],
+            "user_deposits": [
+                1098,
+                {
+                    "distinct_on": [
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_deposits_aggregate": [
+                1099,
+                {
+                    "distinct_on": [
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
             "__typename": [
                 5
             ]
@@ -22164,6 +22265,12 @@ export default {
             "tx_sig": [
                 6
             ],
+            "user_deposits": [
+                1107
+            ],
+            "user_deposits_aggregate": [
+                1100
+            ],
             "__typename": [
                 5
             ]
@@ -22219,6 +22326,9 @@ export default {
             ],
             "tx_sig": [
                 5
+            ],
+            "user_deposits": [
+                1104
             ],
             "__typename": [
                 5
@@ -22345,6 +22455,9 @@ export default {
             ],
             "tx_sig": [
                 342
+            ],
+            "user_deposits_aggregate": [
+                1103
             ],
             "__typename": [
                 5
@@ -23689,6 +23802,553 @@ export default {
                 5
             ]
         },
+        "user_deposits": {
+            "created_at": [
+                805
+            ],
+            "mint_acct": [
+                5
+            ],
+            "token": [
+                892
+            ],
+            "token_amount": [
+                7
+            ],
+            "transaction": [
+                1003
+            ],
+            "tx_sig": [
+                5
+            ],
+            "user": [
+                1176
+            ],
+            "user_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_aggregate": {
+            "aggregate": [
+                1102
+            ],
+            "nodes": [
+                1098
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_aggregate_bool_exp": {
+            "count": [
+                1101
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_aggregate_bool_exp_count": {
+            "arguments": [
+                1116
+            ],
+            "distinct": [
+                0
+            ],
+            "filter": [
+                1107
+            ],
+            "predicate": [
+                4
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_aggregate_fields": {
+            "avg": [
+                1105
+            ],
+            "count": [
+                3,
+                {
+                    "columns": [
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "distinct": [
+                        0
+                    ]
+                }
+            ],
+            "max": [
+                1110
+            ],
+            "min": [
+                1112
+            ],
+            "stddev": [
+                1118
+            ],
+            "stddev_pop": [
+                1120
+            ],
+            "stddev_samp": [
+                1122
+            ],
+            "sum": [
+                1126
+            ],
+            "var_pop": [
+                1129
+            ],
+            "var_samp": [
+                1131
+            ],
+            "variance": [
+                1133
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_aggregate_order_by": {
+            "avg": [
+                1106
+            ],
+            "count": [
+                342
+            ],
+            "max": [
+                1111
+            ],
+            "min": [
+                1113
+            ],
+            "stddev": [
+                1119
+            ],
+            "stddev_pop": [
+                1121
+            ],
+            "stddev_samp": [
+                1123
+            ],
+            "sum": [
+                1127
+            ],
+            "var_pop": [
+                1130
+            ],
+            "var_samp": [
+                1132
+            ],
+            "variance": [
+                1134
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_arr_rel_insert_input": {
+            "data": [
+                1109
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_avg_fields": {
+            "token_amount": [
+                2
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_avg_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_bool_exp": {
+            "_and": [
+                1107
+            ],
+            "_not": [
+                1107
+            ],
+            "_or": [
+                1107
+            ],
+            "created_at": [
+                806
+            ],
+            "mint_acct": [
+                6
+            ],
+            "token": [
+                896
+            ],
+            "token_amount": [
+                8
+            ],
+            "transaction": [
+                1007
+            ],
+            "tx_sig": [
+                6
+            ],
+            "user": [
+                1179
+            ],
+            "user_acct": [
+                6
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_inc_input": {
+            "token_amount": [
+                7
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_insert_input": {
+            "created_at": [
+                805
+            ],
+            "mint_acct": [
+                5
+            ],
+            "token": [
+                903
+            ],
+            "token_amount": [
+                7
+            ],
+            "transaction": [
+                1014
+            ],
+            "tx_sig": [
+                5
+            ],
+            "user": [
+                1185
+            ],
+            "user_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_max_fields": {
+            "created_at": [
+                805
+            ],
+            "mint_acct": [
+                5
+            ],
+            "token_amount": [
+                7
+            ],
+            "tx_sig": [
+                5
+            ],
+            "user_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_max_order_by": {
+            "created_at": [
+                342
+            ],
+            "mint_acct": [
+                342
+            ],
+            "token_amount": [
+                342
+            ],
+            "tx_sig": [
+                342
+            ],
+            "user_acct": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_min_fields": {
+            "created_at": [
+                805
+            ],
+            "mint_acct": [
+                5
+            ],
+            "token_amount": [
+                7
+            ],
+            "tx_sig": [
+                5
+            ],
+            "user_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_min_order_by": {
+            "created_at": [
+                342
+            ],
+            "mint_acct": [
+                342
+            ],
+            "token_amount": [
+                342
+            ],
+            "tx_sig": [
+                342
+            ],
+            "user_acct": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_mutation_response": {
+            "affected_rows": [
+                3
+            ],
+            "returning": [
+                1098
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_order_by": {
+            "created_at": [
+                342
+            ],
+            "mint_acct": [
+                342
+            ],
+            "token": [
+                905
+            ],
+            "token_amount": [
+                342
+            ],
+            "transaction": [
+                1016
+            ],
+            "tx_sig": [
+                342
+            ],
+            "user": [
+                1187
+            ],
+            "user_acct": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_select_column": {},
+        "user_deposits_set_input": {
+            "created_at": [
+                805
+            ],
+            "mint_acct": [
+                5
+            ],
+            "token_amount": [
+                7
+            ],
+            "tx_sig": [
+                5
+            ],
+            "user_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stddev_fields": {
+            "token_amount": [
+                2
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stddev_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stddev_pop_fields": {
+            "token_amount": [
+                2
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stddev_pop_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stddev_samp_fields": {
+            "token_amount": [
+                2
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stddev_samp_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stream_cursor_input": {
+            "initial_value": [
+                1125
+            ],
+            "ordering": [
+                117
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_stream_cursor_value_input": {
+            "created_at": [
+                805
+            ],
+            "mint_acct": [
+                5
+            ],
+            "token_amount": [
+                7
+            ],
+            "tx_sig": [
+                5
+            ],
+            "user_acct": [
+                5
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_sum_fields": {
+            "token_amount": [
+                7
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_sum_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_updates": {
+            "_inc": [
+                1108
+            ],
+            "_set": [
+                1117
+            ],
+            "where": [
+                1107
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_var_pop_fields": {
+            "token_amount": [
+                2
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_var_pop_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_var_samp_fields": {
+            "token_amount": [
+                2
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_var_samp_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_variance_fields": {
+            "token_amount": [
+                2
+            ],
+            "__typename": [
+                5
+            ]
+        },
+        "user_deposits_variance_order_by": {
+            "token_amount": [
+                342
+            ],
+            "__typename": [
+                5
+            ]
+        },
         "user_performance": {
             "created_at": [
                 805
@@ -23709,7 +24369,7 @@ export default {
                 7
             ],
             "user": [
-                1139
+                1176
             ],
             "user_acct": [
                 5
@@ -23726,10 +24386,10 @@ export default {
         },
         "user_performance_aggregate": {
             "aggregate": [
-                1102
+                1139
             ],
             "nodes": [
-                1098
+                1135
             ],
             "__typename": [
                 5
@@ -23737,7 +24397,7 @@ export default {
         },
         "user_performance_aggregate_bool_exp": {
             "count": [
-                1101
+                1138
             ],
             "__typename": [
                 5
@@ -23745,13 +24405,13 @@ export default {
         },
         "user_performance_aggregate_bool_exp_count": {
             "arguments": [
-                1119
+                1156
             ],
             "distinct": [
                 0
             ],
             "filter": [
-                1107
+                1144
             ],
             "predicate": [
                 4
@@ -23762,13 +24422,13 @@ export default {
         },
         "user_performance_aggregate_fields": {
             "avg": [
-                1105
+                1142
             ],
             "count": [
                 3,
                 {
                     "columns": [
-                        1119,
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "distinct": [
@@ -23777,31 +24437,31 @@ export default {
                 }
             ],
             "max": [
-                1111
+                1148
             ],
             "min": [
-                1113
+                1150
             ],
             "stddev": [
-                1121
+                1158
             ],
             "stddev_pop": [
-                1123
+                1160
             ],
             "stddev_samp": [
-                1125
+                1162
             ],
             "sum": [
-                1129
+                1166
             ],
             "var_pop": [
-                1133
+                1170
             ],
             "var_samp": [
-                1135
+                1172
             ],
             "variance": [
-                1137
+                1174
             ],
             "__typename": [
                 5
@@ -23809,37 +24469,37 @@ export default {
         },
         "user_performance_aggregate_order_by": {
             "avg": [
-                1106
+                1143
             ],
             "count": [
                 342
             ],
             "max": [
-                1112
+                1149
             ],
             "min": [
-                1114
+                1151
             ],
             "stddev": [
-                1122
+                1159
             ],
             "stddev_pop": [
-                1124
+                1161
             ],
             "stddev_samp": [
-                1126
+                1163
             ],
             "sum": [
-                1130
+                1167
             ],
             "var_pop": [
-                1134
+                1171
             ],
             "var_samp": [
-                1136
+                1173
             ],
             "variance": [
-                1138
+                1175
             ],
             "__typename": [
                 5
@@ -23847,10 +24507,10 @@ export default {
         },
         "user_performance_arr_rel_insert_input": {
             "data": [
-                1110
+                1147
             ],
             "on_conflict": [
-                1116
+                1153
             ],
             "__typename": [
                 5
@@ -23898,13 +24558,13 @@ export default {
         },
         "user_performance_bool_exp": {
             "_and": [
-                1107
+                1144
             ],
             "_not": [
-                1107
+                1144
             ],
             "_or": [
-                1107
+                1144
             ],
             "created_at": [
                 806
@@ -23925,7 +24585,7 @@ export default {
                 8
             ],
             "user": [
-                1142
+                1179
             ],
             "user_acct": [
                 6
@@ -23975,7 +24635,7 @@ export default {
                 7
             ],
             "user": [
-                1148
+                1185
             ],
             "user_acct": [
                 5
@@ -24111,7 +24771,7 @@ export default {
                 3
             ],
             "returning": [
-                1098
+                1135
             ],
             "__typename": [
                 5
@@ -24119,13 +24779,13 @@ export default {
         },
         "user_performance_on_conflict": {
             "constraint": [
-                1108
+                1145
             ],
             "update_columns": [
-                1131
+                1168
             ],
             "where": [
-                1107
+                1144
             ],
             "__typename": [
                 5
@@ -24151,7 +24811,7 @@ export default {
                 342
             ],
             "user": [
-                1150
+                1187
             ],
             "user_acct": [
                 342
@@ -24326,7 +24986,7 @@ export default {
         },
         "user_performance_stream_cursor_input": {
             "initial_value": [
-                1128
+                1165
             ],
             "ordering": [
                 117
@@ -24407,13 +25067,13 @@ export default {
         "user_performance_update_column": {},
         "user_performance_updates": {
             "_inc": [
-                1109
+                1146
             ],
             "_set": [
-                1120
+                1157
             ],
             "where": [
-                1107
+                1144
             ],
             "__typename": [
                 5
@@ -24634,12 +25294,12 @@ export default {
             "user_acct": [
                 5
             ],
-            "user_performances": [
+            "user_deposits": [
                 1098,
                 {
                     "distinct_on": [
-                        1119,
-                        "[user_performance_select_column!]"
+                        1116,
+                        "[user_deposits_select_column!]"
                     ],
                     "limit": [
                         3
@@ -24648,19 +25308,41 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
-                        "[user_performance_order_by!]"
+                        1115,
+                        "[user_deposits_order_by!]"
                     ],
                     "where": [
                         1107
                     ]
                 }
             ],
-            "user_performances_aggregate": [
+            "user_deposits_aggregate": [
                 1099,
                 {
                     "distinct_on": [
-                        1119,
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_performances": [
+                1135,
+                {
+                    "distinct_on": [
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "limit": [
@@ -24670,11 +25352,33 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
+                        1154,
                         "[user_performance_order_by!]"
                     ],
                     "where": [
-                        1107
+                        1144
+                    ]
+                }
+            ],
+            "user_performances_aggregate": [
+                1136,
+                {
+                    "distinct_on": [
+                        1156,
+                        "[user_performance_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1154,
+                        "[user_performance_order_by!]"
+                    ],
+                    "where": [
+                        1144
                     ]
                 }
             ],
@@ -24684,10 +25388,10 @@ export default {
         },
         "users_aggregate": {
             "aggregate": [
-                1141
+                1178
             ],
             "nodes": [
-                1139
+                1176
             ],
             "__typename": [
                 5
@@ -24698,7 +25402,7 @@ export default {
                 3,
                 {
                     "columns": [
-                        1152,
+                        1189,
                         "[users_select_column!]"
                     ],
                     "distinct": [
@@ -24707,10 +25411,10 @@ export default {
                 }
             ],
             "max": [
-                1145
+                1182
             ],
             "min": [
-                1146
+                1183
             ],
             "__typename": [
                 5
@@ -24718,13 +25422,13 @@ export default {
         },
         "users_bool_exp": {
             "_and": [
-                1142
+                1179
             ],
             "_not": [
-                1142
+                1179
             ],
             "_or": [
-                1142
+                1179
             ],
             "created_at": [
                 806
@@ -24744,11 +25448,17 @@ export default {
             "user_acct": [
                 6
             ],
-            "user_performances": [
+            "user_deposits": [
                 1107
             ],
-            "user_performances_aggregate": [
+            "user_deposits_aggregate": [
                 1100
+            ],
+            "user_performances": [
+                1144
+            ],
+            "user_performances_aggregate": [
+                1137
             ],
             "__typename": [
                 5
@@ -24768,8 +25478,11 @@ export default {
             "user_acct": [
                 5
             ],
-            "user_performances": [
+            "user_deposits": [
                 1104
+            ],
+            "user_performances": [
+                1141
             ],
             "__typename": [
                 5
@@ -24802,7 +25515,7 @@ export default {
                 3
             ],
             "returning": [
-                1139
+                1176
             ],
             "__typename": [
                 5
@@ -24810,10 +25523,10 @@ export default {
         },
         "users_obj_rel_insert_input": {
             "data": [
-                1144
+                1181
             ],
             "on_conflict": [
-                1149
+                1186
             ],
             "__typename": [
                 5
@@ -24821,13 +25534,13 @@ export default {
         },
         "users_on_conflict": {
             "constraint": [
-                1143
+                1180
             ],
             "update_columns": [
-                1156
+                1193
             ],
             "where": [
-                1142
+                1179
             ],
             "__typename": [
                 5
@@ -24846,8 +25559,11 @@ export default {
             "user_acct": [
                 342
             ],
-            "user_performances_aggregate": [
+            "user_deposits_aggregate": [
                 1103
+            ],
+            "user_performances_aggregate": [
+                1140
             ],
             "__typename": [
                 5
@@ -24875,7 +25591,7 @@ export default {
         },
         "users_stream_cursor_input": {
             "initial_value": [
-                1155
+                1192
             ],
             "ordering": [
                 117
@@ -24898,10 +25614,10 @@ export default {
         "users_update_column": {},
         "users_updates": {
             "_set": [
-                1153
+                1190
             ],
             "where": [
-                1142
+                1179
             ],
             "__typename": [
                 5
@@ -24910,31 +25626,31 @@ export default {
         "uuid": {},
         "uuid_comparison_exp": {
             "_eq": [
-                1158
+                1195
             ],
             "_gt": [
-                1158
+                1195
             ],
             "_gte": [
-                1158
+                1195
             ],
             "_in": [
-                1158
+                1195
             ],
             "_is_null": [
                 0
             ],
             "_lt": [
-                1158
+                1195
             ],
             "_lte": [
-                1158
+                1195
             ],
             "_neq": [
-                1158
+                1195
             ],
             "_nin": [
-                1158
+                1195
             ],
             "__typename": [
                 5
@@ -25949,7 +26665,7 @@ export default {
                 694,
                 {
                     "reaction_id": [
-                        1158,
+                        1195,
                         "uuid!"
                     ]
                 }
@@ -26002,7 +26718,7 @@ export default {
                 735,
                 {
                     "id": [
-                        1158,
+                        1195,
                         "uuid!"
                     ]
                 }
@@ -26495,11 +27211,55 @@ export default {
                     ]
                 }
             ],
-            "user_performance": [
+            "user_deposits": [
                 1098,
                 {
                     "distinct_on": [
-                        1119,
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_deposits_aggregate": [
+                1099,
+                {
+                    "distinct_on": [
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_performance": [
+                1135,
+                {
+                    "distinct_on": [
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "limit": [
@@ -26509,19 +27269,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
+                        1154,
                         "[user_performance_order_by!]"
                     ],
                     "where": [
-                        1107
+                        1144
                     ]
                 }
             ],
             "user_performance_aggregate": [
-                1099,
+                1136,
                 {
                     "distinct_on": [
-                        1119,
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "limit": [
@@ -26531,16 +27291,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
+                        1154,
                         "[user_performance_order_by!]"
                     ],
                     "where": [
-                        1107
+                        1144
                     ]
                 }
             ],
             "user_performance_by_pk": [
-                1098,
+                1135,
                 {
                     "proposal_acct": [
                         5,
@@ -26553,10 +27313,10 @@ export default {
                 }
             ],
             "users": [
-                1139,
+                1176,
                 {
                     "distinct_on": [
-                        1152,
+                        1189,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -26566,19 +27326,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1150,
+                        1187,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        1142
+                        1179
                     ]
                 }
             ],
             "users_aggregate": [
-                1140,
+                1177,
                 {
                     "distinct_on": [
-                        1152,
+                        1189,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -26588,16 +27348,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1150,
+                        1187,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        1142
+                        1179
                     ]
                 }
             ],
             "users_by_pk": [
-                1139,
+                1176,
                 {
                     "user_acct": [
                         5,
@@ -26944,7 +27704,7 @@ export default {
                 694,
                 {
                     "reaction_id": [
-                        1158,
+                        1195,
                         "uuid!"
                     ]
                 }
@@ -26962,7 +27722,7 @@ export default {
                 735,
                 {
                     "id": [
-                        1158,
+                        1195,
                         "uuid!"
                     ]
                 }
@@ -27140,17 +27900,26 @@ export default {
                     ]
                 }
             ],
-            "delete_user_performance": [
-                1115,
+            "delete_user_deposits": [
+                1114,
                 {
                     "where": [
                         1107,
+                        "user_deposits_bool_exp!"
+                    ]
+                }
+            ],
+            "delete_user_performance": [
+                1152,
+                {
+                    "where": [
+                        1144,
                         "user_performance_bool_exp!"
                     ]
                 }
             ],
             "delete_user_performance_by_pk": [
-                1098,
+                1135,
                 {
                     "proposal_acct": [
                         5,
@@ -27163,16 +27932,16 @@ export default {
                 }
             ],
             "delete_users": [
-                1147,
+                1184,
                 {
                     "where": [
-                        1142,
+                        1179,
                         "users_bool_exp!"
                     ]
                 }
             ],
             "delete_users_by_pk": [
-                1139,
+                1176,
                 {
                     "user_acct": [
                         5,
@@ -27852,51 +28621,69 @@ export default {
                     ]
                 }
             ],
-            "insert_user_performance": [
-                1115,
+            "insert_user_deposits": [
+                1114,
                 {
                     "objects": [
-                        1110,
+                        1109,
+                        "[user_deposits_insert_input!]!"
+                    ]
+                }
+            ],
+            "insert_user_deposits_one": [
+                1098,
+                {
+                    "object": [
+                        1109,
+                        "user_deposits_insert_input!"
+                    ]
+                }
+            ],
+            "insert_user_performance": [
+                1152,
+                {
+                    "objects": [
+                        1147,
                         "[user_performance_insert_input!]!"
                     ],
                     "on_conflict": [
-                        1116
+                        1153
                     ]
                 }
             ],
             "insert_user_performance_one": [
-                1098,
+                1135,
                 {
                     "object": [
-                        1110,
+                        1147,
                         "user_performance_insert_input!"
                     ],
                     "on_conflict": [
-                        1116
+                        1153
                     ]
                 }
             ],
             "insert_users": [
-                1147,
+                1184,
                 {
                     "objects": [
-                        1144,
+                        1181,
                         "[users_insert_input!]!"
                     ],
                     "on_conflict": [
-                        1149
+                        1186
                     ]
                 }
             ],
             "insert_users_one": [
-                1139,
+                1176,
                 {
                     "object": [
-                        1144,
+                        1181,
                         "users_insert_input!"
                     ],
                     "on_conflict": [
-                        1149
+                        1186
                     ]
                 }
             ],
@@ -29004,74 +29791,98 @@ export default {
                     ]
                 }
             ],
-            "update_user_performance": [
-                1115,
+            "update_user_deposits": [
+                1114,
                 {
                     "_inc": [
-                        1109
+                        1108
                     ],
                     "_set": [
-                        1120
+                        1117
                     ],
                     "where": [
                         1107,
+                        "user_deposits_bool_exp!"
+                    ]
+                }
+            ],
+            "update_user_deposits_many": [
+                1114,
+                {
+                    "updates": [
+                        1128,
+                        "[user_deposits_updates!]!"
+                    ]
+                }
+            ],
+            "update_user_performance": [
+                1152,
+                {
+                    "_inc": [
+                        1146
+                    ],
+                    "_set": [
+                        1157
+                    ],
+                    "where": [
+                        1144,
                         "user_performance_bool_exp!"
                     ]
                 }
             ],
             "update_user_performance_by_pk": [
-                1098,
+                1135,
                 {
                     "_inc": [
-                        1109
+                        1146
                     ],
                     "_set": [
-                        1120
+                        1157
                     ],
                     "pk_columns": [
-                        1118,
+                        1155,
                         "user_performance_pk_columns_input!"
                     ]
                 }
             ],
             "update_user_performance_many": [
-                1115,
+                1152,
                 {
                     "updates": [
-                        1132,
+                        1169,
                         "[user_performance_updates!]!"
                     ]
                 }
             ],
             "update_users": [
-                1147,
+                1184,
                 {
                     "_set": [
-                        1153
+                        1190
                     ],
                     "where": [
-                        1142,
+                        1179,
                         "users_bool_exp!"
                     ]
                 }
             ],
             "update_users_by_pk": [
-                1139,
+                1176,
                 {
                     "_set": [
-                        1153
+                        1190
                     ],
                     "pk_columns": [
-                        1151,
+                        1188,
                         "users_pk_columns_input!"
                     ]
                 }
             ],
             "update_users_many": [
-                1147,
+                1184,
                 {
                     "updates": [
-                        1157,
+                        1194,
                         "[users_updates!]!"
                     ]
                 }
@@ -30377,7 +31188,7 @@ export default {
                 694,
                 {
                     "reaction_id": [
-                        1158,
+                        1195,
                         "uuid!"
                     ]
                 }
@@ -30446,7 +31257,7 @@ export default {
                 735,
                 {
                     "id": [
-                        1158,
+                        1195,
                         "uuid!"
                     ]
                 }
@@ -31099,11 +31910,71 @@ export default {
                     ]
                 }
             ],
-            "user_performance": [
+            "user_deposits": [
                 1098,
                 {
                     "distinct_on": [
-                        1119,
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_deposits_aggregate": [
+                1099,
+                {
+                    "distinct_on": [
+                        1116,
+                        "[user_deposits_select_column!]"
+                    ],
+                    "limit": [
+                        3
+                    ],
+                    "offset": [
+                        3
+                    ],
+                    "order_by": [
+                        1115,
+                        "[user_deposits_order_by!]"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_deposits_stream": [
+                1098,
+                {
+                    "batch_size": [
+                        3,
+                        "Int!"
+                    ],
+                    "cursor": [
+                        1124,
+                        "[user_deposits_stream_cursor_input]!"
+                    ],
+                    "where": [
+                        1107
+                    ]
+                }
+            ],
+            "user_performance": [
+                1135,
+                {
+                    "distinct_on": [
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "limit": [
@@ -31113,19 +31984,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
+                        1154,
                         "[user_performance_order_by!]"
                     ],
                     "where": [
-                        1107
+                        1144
                     ]
                 }
             ],
             "user_performance_aggregate": [
-                1099,
+                1136,
                 {
                     "distinct_on": [
-                        1119,
+                        1156,
                         "[user_performance_select_column!]"
                     ],
                     "limit": [
@@ -31135,16 +32006,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1117,
+                        1154,
                         "[user_performance_order_by!]"
                     ],
                     "where": [
-                        1107
+                        1144
                     ]
                 }
             ],
             "user_performance_by_pk": [
-                1098,
+                1135,
                 {
                     "proposal_acct": [
                         5,
@@ -31157,26 +32028,26 @@ export default {
                 }
             ],
             "user_performance_stream": [
-                1098,
+                1135,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        1127,
+                        1164,
                         "[user_performance_stream_cursor_input]!"
                     ],
                     "where": [
-                        1107
+                        1144
                     ]
                 }
             ],
             "users": [
-                1139,
+                1176,
                 {
                     "distinct_on": [
-                        1152,
+                        1189,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -31186,19 +32057,19 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1150,
+                        1187,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        1142
+                        1179
                     ]
                 }
             ],
             "users_aggregate": [
-                1140,
+                1177,
                 {
                     "distinct_on": [
-                        1152,
+                        1189,
                         "[users_select_column!]"
                     ],
                     "limit": [
@@ -31208,16 +32079,16 @@ export default {
                         3
                     ],
                     "order_by": [
-                        1150,
+                        1187,
                         "[users_order_by!]"
                     ],
                     "where": [
-                        1142
+                        1179
                     ]
                 }
             ],
             "users_by_pk": [
-                1139,
+                1176,
                 {
                     "user_acct": [
                         5,
@@ -31226,18 +32097,18 @@ export default {
                 }
             ],
             "users_stream": [
-                1139,
+                1176,
                 {
                     "batch_size": [
                         3,
                         "Int!"
                     ],
                     "cursor": [
-                        1154,
+                        1191,
                         "[users_stream_cursor_input]!"
                     ],
                     "where": [
-                        1142
+                        1179
                     ]
                 }
             ],

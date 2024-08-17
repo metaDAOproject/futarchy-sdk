@@ -11,8 +11,6 @@ import {
 } from "@/types/user";
 import { PublicKey } from "@solana/web3.js";
 import { FutarchyProtocol, ProposalState } from "@/types";
-import { PriceMath } from "@metadaoproject/futarchy";
-import { BN } from "@coral-xyz/anchor";
 
 export class FutarchyIndexerUserClient implements FutarchyUserClient {
   private graphqlClient: IndexerGraphQLClient;
@@ -55,7 +53,6 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
         }
         return where;
       }, {} as user_performance_bool_exp);
-
     const { user_performance } = await this.graphqlClient.query?.({
       user_performance: {
         __args: {
@@ -100,32 +97,17 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
         }
       }
     });
-
+    try{
     return user_performance
       .map<UserPerformance | null>((p) => {
         const proposal = p.proposal;
         const proposalDetails = proposal.proposal_details[0];
+        const sumVolume = (p.volume_bought + p.volume_sold);
+        const subVolume = (p.volume_bought - p.volume_sold);
+        const volume = sumVolume
 
-        const volume =
-          PriceMath.getHumanAmount(
-            new BN(p.volume_bought),
-            new BN(proposal.dao.tokenByQuoteAcct?.decimals ?? 6)
-          ) +
-          PriceMath.getHumanAmount(
-            new BN(p.volume_sold),
-            new BN(proposal.dao.tokenByQuoteAcct?.decimals ?? 6)
-          );
-
-        const pnl =
-          PriceMath.getHumanAmount(
-            new BN(p.volume_bought),
-            new BN(proposal.dao.tokenByQuoteAcct?.decimals ?? 6)
-          ) -
-          PriceMath.getHumanAmount(
-            new BN(p.volume_sold),
-            new BN(proposal.dao.tokenByQuoteAcct?.decimals ?? 6)
-          );
-
+        const pnl = subVolume
+        
         return {
           userAcct: new PublicKey(p.user_acct),
           proposalAcct: new PublicKey(p.proposal_acct),
@@ -170,6 +152,10 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
         };
       })
       .filter((p): p is UserPerformance => !!p);
+    } catch(err){
+      console.error(err)
+      return []
+    }
   }
 
   async fetchTopTradersByDao(daoSlug: string): Promise<UserRanking[]> {
@@ -183,10 +169,7 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
 
     return top_dao_traders
       .map<UserRanking>((u) => ({
-        totalVolume: PriceMath.getHumanAmount(
-          new BN(u.total_volume ?? 0),
-          6 // USDC is always 6...
-        ),
+        totalVolume: u.total_volume ?? 0,
         userAcct: new PublicKey(u.user_acct)
       }))
       .sort((a, b) => b.totalVolume - a.totalVolume)

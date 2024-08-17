@@ -213,4 +213,30 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
     })
   }
 
+  async fetchProposalUserAndTrades(proposalAcct: string): Promise<{}>{
+    const { user_count_and_trade_count_per_proposal } = await this.graphqlClient.query({
+      user_count_and_trade_count_per_proposal: {
+        __args: {
+          proposal_account: proposalAcct,
+          where: {
+            proposal_account: {
+              _eq: proposalAcct
+            }
+          }
+        },
+        proposal_acct: true,
+        user_count: true,
+        trade_count: true,
+      }
+    })
+
+    return user_count_and_trade_count_per_proposal.map<{}>(d => {
+      return {
+        proposalAcct: d.proposal_account,
+        userCount: d.user_count,
+        tradeCount: d.trade_count,
+      }
+    })
+  }
+
 }

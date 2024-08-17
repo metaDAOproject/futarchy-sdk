@@ -20032,9 +20032,6 @@ columns and relationships of "user_deposits"
 type user_deposits {
   created_at: timestamptz!
   mint_acct: String!
-
-  """An object relationship"""
-  token: tokens!
   token_amount: bigint!
   tx_sig: String!
   user_acct: String!
@@ -20079,7 +20076,6 @@ input user_deposits_bool_exp {
   _or: [user_deposits_bool_exp!]
   created_at: timestamptz_comparison_exp
   mint_acct: String_comparison_exp
-  token: tokens_bool_exp
   token_amount: bigint_comparison_exp
   tx_sig: String_comparison_exp
   user_acct: String_comparison_exp
@@ -20098,7 +20094,6 @@ input type for inserting data into table "user_deposits"
 input user_deposits_insert_input {
   created_at: timestamptz
   mint_acct: String
-  token: tokens_obj_rel_insert_input
   token_amount: bigint
   tx_sig: String
   user_acct: String
@@ -20137,7 +20132,6 @@ type user_deposits_mutation_response {
 input user_deposits_order_by {
   created_at: order_by
   mint_acct: order_by
-  token: tokens_order_by
   token_amount: order_by
   tx_sig: order_by
   user_acct: order_by
@@ -20249,17 +20243,18 @@ type user_performance {
   """An object relationship"""
   proposal: proposals!
   proposal_acct: String!
-  tokens_bought: bigint!
+  tokens_bought: numeric!
 
   """amount of tokens sold"""
-  tokens_sold: bigint!
-  total_volume: bigint
+  tokens_sold: numeric!
+  total_volume: numeric
+  updated_at: timestamptz
 
   """An object relationship"""
   user: users!
   user_acct: String!
-  volume_bought: bigint!
-  volume_sold: bigint!
+  volume_bought: numeric!
+  volume_sold: numeric!
 }
 
 """
@@ -20359,13 +20354,14 @@ input user_performance_bool_exp {
   created_at: timestamptz_comparison_exp
   proposal: proposals_bool_exp
   proposal_acct: String_comparison_exp
-  tokens_bought: bigint_comparison_exp
-  tokens_sold: bigint_comparison_exp
-  total_volume: bigint_comparison_exp
+  tokens_bought: numeric_comparison_exp
+  tokens_sold: numeric_comparison_exp
+  total_volume: numeric_comparison_exp
+  updated_at: timestamptz_comparison_exp
   user: users_bool_exp
   user_acct: String_comparison_exp
-  volume_bought: bigint_comparison_exp
-  volume_sold: bigint_comparison_exp
+  volume_bought: numeric_comparison_exp
+  volume_sold: numeric_comparison_exp
 }
 
 """
@@ -20382,12 +20378,12 @@ enum user_performance_constraint {
 input type for incrementing numeric columns in table "user_performance"
 """
 input user_performance_inc_input {
-  tokens_bought: bigint
+  tokens_bought: numeric
 
   """amount of tokens sold"""
-  tokens_sold: bigint
-  volume_bought: bigint
-  volume_sold: bigint
+  tokens_sold: numeric
+  volume_bought: numeric
+  volume_sold: numeric
 }
 
 """
@@ -20397,28 +20393,30 @@ input user_performance_insert_input {
   created_at: timestamptz
   proposal: proposals_obj_rel_insert_input
   proposal_acct: String
-  tokens_bought: bigint
+  tokens_bought: numeric
 
   """amount of tokens sold"""
-  tokens_sold: bigint
+  tokens_sold: numeric
+  updated_at: timestamptz
   user: users_obj_rel_insert_input
   user_acct: String
-  volume_bought: bigint
-  volume_sold: bigint
+  volume_bought: numeric
+  volume_sold: numeric
 }
 
 """aggregate max on columns"""
 type user_performance_max_fields {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: bigint
+  tokens_bought: numeric
 
   """amount of tokens sold"""
-  tokens_sold: bigint
-  total_volume: bigint
+  tokens_sold: numeric
+  total_volume: numeric
+  updated_at: timestamptz
   user_acct: String
-  volume_bought: bigint
-  volume_sold: bigint
+  volume_bought: numeric
+  volume_sold: numeric
 }
 
 """
@@ -20432,6 +20430,7 @@ input user_performance_max_order_by {
   """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
+  updated_at: order_by
   user_acct: order_by
   volume_bought: order_by
   volume_sold: order_by
@@ -20441,14 +20440,15 @@ input user_performance_max_order_by {
 type user_performance_min_fields {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: bigint
+  tokens_bought: numeric
 
   """amount of tokens sold"""
-  tokens_sold: bigint
-  total_volume: bigint
+  tokens_sold: numeric
+  total_volume: numeric
+  updated_at: timestamptz
   user_acct: String
-  volume_bought: bigint
-  volume_sold: bigint
+  volume_bought: numeric
+  volume_sold: numeric
 }
 
 """
@@ -20462,6 +20462,7 @@ input user_performance_min_order_by {
   """amount of tokens sold"""
   tokens_sold: order_by
   total_volume: order_by
+  updated_at: order_by
   user_acct: order_by
   volume_bought: order_by
   volume_sold: order_by
@@ -20495,6 +20496,7 @@ input user_performance_order_by {
   tokens_bought: order_by
   tokens_sold: order_by
   total_volume: order_by
+  updated_at: order_by
   user: users_order_by
   user_acct: order_by
   volume_bought: order_by
@@ -20527,6 +20529,9 @@ enum user_performance_select_column {
   total_volume
 
   """column name"""
+  updated_at
+
+  """column name"""
   user_acct
 
   """column name"""
@@ -20542,13 +20547,14 @@ input type for updating data in table "user_performance"
 input user_performance_set_input {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: bigint
+  tokens_bought: numeric
 
   """amount of tokens sold"""
-  tokens_sold: bigint
+  tokens_sold: numeric
+  updated_at: timestamptz
   user_acct: String
-  volume_bought: bigint
-  volume_sold: bigint
+  volume_bought: numeric
+  volume_sold: numeric
 }
 
 """aggregate stddev on columns"""
@@ -20638,25 +20644,26 @@ input user_performance_stream_cursor_input {
 input user_performance_stream_cursor_value_input {
   created_at: timestamptz
   proposal_acct: String
-  tokens_bought: bigint
+  tokens_bought: numeric
 
   """amount of tokens sold"""
-  tokens_sold: bigint
-  total_volume: bigint
+  tokens_sold: numeric
+  total_volume: numeric
+  updated_at: timestamptz
   user_acct: String
-  volume_bought: bigint
-  volume_sold: bigint
+  volume_bought: numeric
+  volume_sold: numeric
 }
 
 """aggregate sum on columns"""
 type user_performance_sum_fields {
-  tokens_bought: bigint
+  tokens_bought: numeric
 
   """amount of tokens sold"""
-  tokens_sold: bigint
-  total_volume: bigint
-  volume_bought: bigint
-  volume_sold: bigint
+  tokens_sold: numeric
+  total_volume: numeric
+  volume_bought: numeric
+  volume_sold: numeric
 }
 
 """
@@ -20687,6 +20694,9 @@ enum user_performance_update_column {
 
   """column name"""
   tokens_sold
+
+  """column name"""
+  updated_at
 
   """column name"""
   user_acct

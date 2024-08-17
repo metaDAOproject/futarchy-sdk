@@ -23749,9 +23749,6 @@ export default {
             "mint_acct": [
                 5
             ],
-            "token": [
-                896
-            ],
             "token_amount": [
                 7
             ],
@@ -23847,9 +23844,6 @@ export default {
             "mint_acct": [
                 6
             ],
-            "token": [
-                900
-            ],
             "token_amount": [
                 8
             ],
@@ -23877,9 +23871,6 @@ export default {
             ],
             "mint_acct": [
                 5
-            ],
-            "token": [
-                907
             ],
             "token_amount": [
                 7
@@ -23951,9 +23942,6 @@ export default {
             ],
             "mint_acct": [
                 346
-            ],
-            "token": [
-                909
             ],
             "token_amount": [
                 346
@@ -24101,13 +24089,16 @@ export default {
                 5
             ],
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
             ],
             "total_volume": [
-                7
+                344
+            ],
+            "updated_at": [
+                809
             ],
             "user": [
                 1167
@@ -24116,10 +24107,10 @@ export default {
                 5
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5
@@ -24317,13 +24308,16 @@ export default {
                 6
             ],
             "tokens_bought": [
-                8
+                345
             ],
             "tokens_sold": [
-                8
+                345
             ],
             "total_volume": [
-                8
+                345
+            ],
+            "updated_at": [
+                810
             ],
             "user": [
                 1170
@@ -24332,10 +24326,10 @@ export default {
                 6
             ],
             "volume_bought": [
-                8
+                345
             ],
             "volume_sold": [
-                8
+                345
             ],
             "__typename": [
                 5
@@ -24344,16 +24338,16 @@ export default {
         "user_performance_constraint": {},
         "user_performance_inc_input": {
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5
@@ -24370,10 +24364,13 @@ export default {
                 5
             ],
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
+            ],
+            "updated_at": [
+                809
             ],
             "user": [
                 1176
@@ -24382,10 +24379,10 @@ export default {
                 5
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5
@@ -24399,22 +24396,25 @@ export default {
                 5
             ],
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
             ],
             "total_volume": [
-                7
+                344
+            ],
+            "updated_at": [
+                809
             ],
             "user_acct": [
                 5
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5
@@ -24434,6 +24434,9 @@ export default {
                 346
             ],
             "total_volume": [
+                346
+            ],
+            "updated_at": [
                 346
             ],
             "user_acct": [
@@ -24457,22 +24460,25 @@ export default {
                 5
             ],
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
             ],
             "total_volume": [
-                7
+                344
+            ],
+            "updated_at": [
+                809
             ],
             "user_acct": [
                 5
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5
@@ -24492,6 +24498,9 @@ export default {
                 346
             ],
             "total_volume": [
+                346
+            ],
+            "updated_at": [
                 346
             ],
             "user_acct": [
@@ -24551,6 +24560,9 @@ export default {
             "total_volume": [
                 346
             ],
+            "updated_at": [
+                346
+            ],
             "user": [
                 1178
             ],
@@ -24587,19 +24599,22 @@ export default {
                 5
             ],
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
+            ],
+            "updated_at": [
+                809
             ],
             "user_acct": [
                 5
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5
@@ -24744,22 +24759,25 @@ export default {
                 5
             ],
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
             ],
             "total_volume": [
-                7
+                344
+            ],
+            "updated_at": [
+                809
             ],
             "user_acct": [
                 5
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5
@@ -24767,19 +24785,19 @@ export default {
         },
         "user_performance_sum_fields": {
             "tokens_bought": [
-                7
+                344
             ],
             "tokens_sold": [
-                7
+                344
             ],
             "total_volume": [
-                7
+                344
             ],
             "volume_bought": [
-                7
+                344
             ],
             "volume_sold": [
-                7
+                344
             ],
             "__typename": [
                 5

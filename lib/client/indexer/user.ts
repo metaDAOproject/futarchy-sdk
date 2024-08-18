@@ -8,6 +8,7 @@ import {
   UserPerformanceFetchRequest,
   UserRanking,
   UserDeposit,
+  ProposalUserAndTradeCount,
 } from "@/types/user";
 import { PublicKey } from "@solana/web3.js";
 import { FutarchyProtocol, ProposalState } from "@/types";
@@ -59,11 +60,18 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
           where: userPerformanceWhere
         },
         user_acct: true,
+        dao_acct: true,
         proposal_acct: true,
         tokens_bought: true,
         tokens_sold: true,
         volume_bought: true,
         volume_sold: true,
+        tokens_bought_resolving_market: true,
+        tokens_sold_resolving_market: true,
+        volume_bought_resolving_market: true,
+        volume_sold_resolving_market: true,
+        buy_orders_count: true,
+        sell_orders_count: true,
         total_volume: true,
         created_at: true,
         proposal: {
@@ -106,16 +114,28 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
         const subVolume = (p.volume_bought - p.volume_sold);
         const volume = sumVolume
 
-        const pnl = subVolume
+        const sumResolvingMarketVolume = (p.volume_bought_resolving_market + p.volume_sold_resolving_market)
+        const subResolvingMarketVolume = (p.volume_bought_resolving_market - p.volume_sold_resolving_market)
+        const resolvingMarketVolume = sumResolvingMarketVolume
+
+        const pnl = subResolvingMarketVolume
+
         
         return {
           userAcct: new PublicKey(p.user_acct),
+          daoAcct: new PublicKey(p.dao_acct),
           proposalAcct: new PublicKey(p.proposal_acct),
           tokensBought: p.tokens_bought,
           tokensSold: p.tokens_sold,
           volumeBought: p.volume_bought,
           volumeSold: p.volume_sold,
           totalVolume: p.total_volume,
+          tokensBoughtResolvingMarket: p.tokens_bought_resolving_market,
+          tokensSoldResolvingMarket: p.tokens_sold_resolving_market,
+          volumeBoughtResolvingMarket: p.volume_bought_resolving_market,
+          volumeSoldResolvingMarket: p.volume_sold_resolving_market,
+          buyOrderCount: p.buy_orders_count,
+          sellOrderCount: p.sell_orders_count,
           createdAt: new Date(p.created_at),
           pnl: pnl,
           proposal: {
@@ -213,13 +233,13 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
     })
   }
 
-  async fetchProposalUserAndTrades(proposalAcct: string): Promise<{}>{
+  async fetchProposalUserAndTrades(proposalAcct: string | null): Promise<ProposalUserAndTradeCount[]>{
     const { user_count_and_trade_count_per_proposal } = await this.graphqlClient.query({
       user_count_and_trade_count_per_proposal: {
         __args: {
-          proposal_account: proposalAcct,
+          args: { proposal_acct: proposalAcct },
           where: {
-            proposal_account: {
+            proposal_acct: {
               _eq: proposalAcct
             }
           }
@@ -230,9 +250,9 @@ export class FutarchyIndexerUserClient implements FutarchyUserClient {
       }
     })
 
-    return user_count_and_trade_count_per_proposal.map<{}>(d => {
+    return user_count_and_trade_count_per_proposal.map<ProposalUserAndTradeCount>(d => {
       return {
-        proposalAcct: d.proposal_account,
+        proposalAcct: new PublicKey(d.proposal_acct),
         userCount: d.user_count,
         tradeCount: d.trade_count,
       }

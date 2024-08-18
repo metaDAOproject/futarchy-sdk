@@ -13,11 +13,18 @@ export type User = {
 
 export type UserPerformance = {
   proposalAcct: PublicKey;
+  daoAcct: PublicKey;
   tokensBought: string;
   tokensSold: string;
   volumeBought: string;
   volumeSold: string;
   totalVolume: number;
+  tokensBoughtResolvingMarket: string;
+  tokensSoldResolvingMarket: string;
+  volumeBoughtResolvingMarket: string;
+  volumeSoldResolvingMarket: string;
+  buyOrderCount: number;
+  sellOrderCount: number;
   proposal: Pick<
     ProposalWithFullData,
     | "publicKey"
@@ -44,4 +51,10 @@ export type UserDeposit = {
   txSig: string;
   createdAt: Date;
   token: Pick<TokenProps, "decimals" | "name">;
+}
+
+export type ProposalUserAndTradeCount = {
+  proposalAcct: PublicKey;
+  userCount: number;
+  tradeCount: number;
 }

@@ -24879,9 +24879,6 @@ export default {
             "tokens_sold_resolving_market": [
                 344
             ],
-            "total_volume": [
-                344
-            ],
             "volume_bought": [
                 344
             ],
@@ -24930,9 +24927,6 @@ export default {
                 344
             ],
             "tokens_sold_resolving_market": [
-                344
-            ],
-            "total_volume": [
                 344
             ],
             "updated_at": [
@@ -25297,9 +25291,6 @@ export default {
                 344
             ],
             "tokens_sold_resolving_market": [
-                344
-            ],
-            "total_volume": [
                 344
             ],
             "updated_at": [

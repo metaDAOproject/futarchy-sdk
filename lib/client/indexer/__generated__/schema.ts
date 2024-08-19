@@ -5973,7 +5973,7 @@ export interface user_performance {
     buy_orders_count: Scalars['bigint']
     created_at: Scalars['timestamptz']
     /** An object relationship */
-    dao: (daos | null)
+    dao: daos
     dao_acct: Scalars['String']
     /** An object relationship */
     proposal: proposals
@@ -5984,7 +5984,7 @@ export interface user_performance {
     /** amount of tokens sold */
     tokens_sold: Scalars['numeric']
     tokens_sold_resolving_market: Scalars['numeric']
-    total_volume: Scalars['numeric']
+    total_volume: (Scalars['numeric'] | null)
     updated_at: (Scalars['timestamptz'] | null)
     /** An object relationship */
     user: users
@@ -6177,7 +6177,7 @@ export interface user_performance_sum_fields {
 
 
 /** update columns of table "user_performance" */
-export type user_performance_update_column = 'buy_orders_count' | 'created_at' | 'dao_acct' | 'proposal_acct' | 'sell_orders_count' | 'tokens_bought' | 'tokens_bought_resolving_market' | 'tokens_sold' | 'tokens_sold_resolving_market' | 'total_volume' | 'updated_at' | 'user_acct' | 'volume_bought' | 'volume_bought_resolving_market' | 'volume_sold' | 'volume_sold_resolving_market'
+export type user_performance_update_column = 'buy_orders_count' | 'created_at' | 'dao_acct' | 'proposal_acct' | 'sell_orders_count' | 'tokens_bought' | 'tokens_bought_resolving_market' | 'tokens_sold' | 'tokens_sold_resolving_market' | 'updated_at' | 'user_acct' | 'volume_bought' | 'volume_bought_resolving_market' | 'volume_sold' | 'volume_sold_resolving_market'
 
 
 /** aggregate var_pop on columns */
@@ -18147,13 +18147,13 @@ export interface user_performance_bool_exp {_and?: (user_performance_bool_exp[] 
 /** input type for incrementing numeric columns in table "user_performance" */
 export interface user_performance_inc_input {buy_orders_count?: (Scalars['bigint'] | null),sell_orders_count?: (Scalars['bigint'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_bought_resolving_market?: (Scalars['numeric'] | null),
 /** amount of tokens sold */
-tokens_sold?: (Scalars['numeric'] | null),tokens_sold_resolving_market?: (Scalars['numeric'] | null),total_volume?: (Scalars['numeric'] | null),volume_bought?: (Scalars['numeric'] | null),volume_bought_resolving_market?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null),volume_sold_resolving_market?: (Scalars['numeric'] | null)}
+tokens_sold?: (Scalars['numeric'] | null),tokens_sold_resolving_market?: (Scalars['numeric'] | null),volume_bought?: (Scalars['numeric'] | null),volume_bought_resolving_market?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null),volume_sold_resolving_market?: (Scalars['numeric'] | null)}
 
 
 /** input type for inserting data into table "user_performance" */
 export interface user_performance_insert_input {buy_orders_count?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),dao?: (daos_obj_rel_insert_input | null),dao_acct?: (Scalars['String'] | null),proposal?: (proposals_obj_rel_insert_input | null),proposal_acct?: (Scalars['String'] | null),sell_orders_count?: (Scalars['bigint'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_bought_resolving_market?: (Scalars['numeric'] | null),
 /** amount of tokens sold */
-tokens_sold?: (Scalars['numeric'] | null),tokens_sold_resolving_market?: (Scalars['numeric'] | null),total_volume?: (Scalars['numeric'] | null),updated_at?: (Scalars['timestamptz'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_bought_resolving_market?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null),volume_sold_resolving_market?: (Scalars['numeric'] | null)}
+tokens_sold?: (Scalars['numeric'] | null),tokens_sold_resolving_market?: (Scalars['numeric'] | null),updated_at?: (Scalars['timestamptz'] | null),user?: (users_obj_rel_insert_input | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_bought_resolving_market?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null),volume_sold_resolving_market?: (Scalars['numeric'] | null)}
 
 
 /** aggregate max on columns */
@@ -18242,7 +18242,7 @@ export interface user_performance_pk_columns_input {proposal_acct: Scalars['Stri
 /** input type for updating data in table "user_performance" */
 export interface user_performance_set_input {buy_orders_count?: (Scalars['bigint'] | null),created_at?: (Scalars['timestamptz'] | null),dao_acct?: (Scalars['String'] | null),proposal_acct?: (Scalars['String'] | null),sell_orders_count?: (Scalars['bigint'] | null),tokens_bought?: (Scalars['numeric'] | null),tokens_bought_resolving_market?: (Scalars['numeric'] | null),
 /** amount of tokens sold */
-tokens_sold?: (Scalars['numeric'] | null),tokens_sold_resolving_market?: (Scalars['numeric'] | null),total_volume?: (Scalars['numeric'] | null),updated_at?: (Scalars['timestamptz'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_bought_resolving_market?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null),volume_sold_resolving_market?: (Scalars['numeric'] | null)}
+tokens_sold?: (Scalars['numeric'] | null),tokens_sold_resolving_market?: (Scalars['numeric'] | null),updated_at?: (Scalars['timestamptz'] | null),user_acct?: (Scalars['String'] | null),volume_bought?: (Scalars['numeric'] | null),volume_bought_resolving_market?: (Scalars['numeric'] | null),volume_sold?: (Scalars['numeric'] | null),volume_sold_resolving_market?: (Scalars['numeric'] | null)}
 
 
 /** aggregate stddev on columns */
@@ -22946,7 +22946,6 @@ export const enumUserPerformanceUpdateColumn = {
    tokens_bought_resolving_market: 'tokens_bought_resolving_market' as const,
    tokens_sold: 'tokens_sold' as const,
    tokens_sold_resolving_market: 'tokens_sold_resolving_market' as const,
-   total_volume: 'total_volume' as const,
    updated_at: 'updated_at' as const,
    user_acct: 'user_acct' as const,
    volume_bought: 'volume_bought' as const,

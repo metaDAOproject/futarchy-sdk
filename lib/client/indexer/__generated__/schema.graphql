@@ -20565,8 +20565,8 @@ type user_performance {
   created_at: timestamptz!
 
   """An object relationship"""
-  dao: daos
-  dao_acct: String
+  dao: daos!
+  dao_acct: String!
 
   """An object relationship"""
   proposal: proposals!
@@ -20578,7 +20578,7 @@ type user_performance {
   """amount of tokens sold"""
   tokens_sold: numeric!
   tokens_sold_resolving_market: numeric!
-  total_volume: numeric!
+  total_volume: numeric
   updated_at: timestamptz
 
   """An object relationship"""
@@ -20739,7 +20739,6 @@ input user_performance_inc_input {
   """amount of tokens sold"""
   tokens_sold: numeric
   tokens_sold_resolving_market: numeric
-  total_volume: numeric
   volume_bought: numeric
   volume_bought_resolving_market: numeric
   volume_sold: numeric
@@ -20763,7 +20762,6 @@ input user_performance_insert_input {
   """amount of tokens sold"""
   tokens_sold: numeric
   tokens_sold_resolving_market: numeric
-  total_volume: numeric
   updated_at: timestamptz
   user: users_obj_rel_insert_input
   user_acct: String
@@ -20982,7 +20980,6 @@ input user_performance_set_input {
   """amount of tokens sold"""
   tokens_sold: numeric
   tokens_sold_resolving_market: numeric
-  total_volume: numeric
   updated_at: timestamptz
   user_acct: String
   volume_bought: numeric
@@ -21198,9 +21195,6 @@ enum user_performance_update_column {
 
   """column name"""
   tokens_sold_resolving_market
-
-  """column name"""
-  total_volume
 
   """column name"""
   updated_at

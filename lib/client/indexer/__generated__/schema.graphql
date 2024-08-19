@@ -2231,6 +2231,42 @@ type daos {
   twap_initial_observation: bigint
   twap_max_observation_change_per_update: bigint
   updated_at: timestamptz!
+
+  """An array relationship"""
+  user_performances(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): [user_performance!]!
+
+  """An aggregate relationship"""
+  user_performances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_performance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_performance_order_by!]
+
+    """filter the rows returned"""
+    where: user_performance_bool_exp
+  ): user_performance_aggregate!
 }
 
 """
@@ -2348,6 +2384,8 @@ input daos_bool_exp {
   twap_initial_observation: bigint_comparison_exp
   twap_max_observation_change_per_update: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user_performances: user_performance_bool_exp
+  user_performances_aggregate: user_performance_aggregate_bool_exp
 }
 
 """
@@ -2407,6 +2445,7 @@ input daos_insert_input {
   twap_initial_observation: bigint
   twap_max_observation_change_per_update: bigint
   updated_at: timestamptz
+  user_performances: user_performance_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -2537,6 +2576,7 @@ input daos_order_by {
   twap_initial_observation: order_by
   twap_max_observation_change_per_update: order_by
   updated_at: order_by
+  user_performances_aggregate: user_performance_aggregate_order_by
 }
 
 """primary key columns input for table: daos"""
@@ -10536,6 +10576,42 @@ input proposal_details_variance_order_by {
   proposal_id: order_by
 }
 
+type proposal_statistics {
+  proposal_acct: String!
+  trade_count: numeric
+  user_count: bigint
+}
+
+"""
+Boolean expression to filter rows from the logical model for "proposal_statistics". All fields are combined with a logical 'AND'.
+"""
+input proposal_statistics_bool_exp_bool_exp {
+  _and: [proposal_statistics_bool_exp_bool_exp!]
+  _not: proposal_statistics_bool_exp_bool_exp
+  _or: [proposal_statistics_bool_exp_bool_exp!]
+  proposal_acct: String_comparison_exp
+  trade_count: numeric_comparison_exp
+  user_count: bigint_comparison_exp
+}
+
+enum proposal_statistics_enum_name {
+  """column name"""
+  proposal_acct
+
+  """column name"""
+  trade_count
+
+  """column name"""
+  user_count
+}
+
+"""Ordering options when selecting data from "proposal_statistics"."""
+input proposal_statistics_order_by {
+  proposal_acct: order_by
+  trade_count: order_by
+  user_count: order_by
+}
+
 """
 columns and relationships of "proposal_total_trade_volume"
 """
@@ -13158,10 +13234,27 @@ type query_root {
 
   """fetch data from the table: "twaps" using primary key columns"""
   twaps_by_pk(market_acct: String!, updated_slot: bigint!): twaps
+  user_count_and_trade_count_per_proposal(
+    """user_count_and_trade_count_per_proposalNative Query Arguments"""
+    args: user_count_and_trade_count_per_proposal_arguments!
 
-  """
-  fetch data from the table: "user_deposits"
-  """
+    """distinct select on columns"""
+    distinct_on: [proposal_statistics_enum_name!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_statistics_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_statistics_bool_exp_bool_exp
+  ): [proposal_statistics!]!
+
+  """An array relationship"""
   user_deposits(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -13179,9 +13272,7 @@ type query_root {
     where: user_deposits_bool_exp
   ): [user_deposits!]!
 
-  """
-  fetch aggregated fields from the table: "user_deposits"
-  """
+  """An aggregate relationship"""
   user_deposits_aggregate(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -15535,10 +15626,27 @@ type subscription_root {
     """filter the rows returned"""
     where: twaps_bool_exp
   ): [twaps!]!
+  user_count_and_trade_count_per_proposal(
+    """user_count_and_trade_count_per_proposalNative Query Arguments"""
+    args: user_count_and_trade_count_per_proposal_arguments!
 
-  """
-  fetch data from the table: "user_deposits"
-  """
+    """distinct select on columns"""
+    distinct_on: [proposal_statistics_enum_name!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [proposal_statistics_order_by!]
+
+    """filter the rows returned"""
+    where: proposal_statistics_bool_exp_bool_exp
+  ): [proposal_statistics!]!
+
+  """An array relationship"""
   user_deposits(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -15556,9 +15664,7 @@ type subscription_root {
     where: user_deposits_bool_exp
   ): [user_deposits!]!
 
-  """
-  fetch aggregated fields from the table: "user_deposits"
-  """
+  """An aggregate relationship"""
   user_deposits_aggregate(
     """distinct select on columns"""
     distinct_on: [user_deposits_select_column!]
@@ -17606,6 +17712,42 @@ type tokens {
   ): token_accts_aggregate!
   updated_at: timestamptz!
 
+  """An array relationship"""
+  user_deposits(
+    """distinct select on columns"""
+    distinct_on: [user_deposits_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_deposits_order_by!]
+
+    """filter the rows returned"""
+    where: user_deposits_bool_exp
+  ): [user_deposits!]!
+
+  """An aggregate relationship"""
+  user_deposits_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_deposits_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_deposits_order_by!]
+
+    """filter the rows returned"""
+    where: user_deposits_bool_exp
+  ): user_deposits_aggregate!
+
   """An object relationship"""
   vault_by_finalize: conditional_vaults
 
@@ -17672,6 +17814,8 @@ input tokens_bool_exp {
   token_accts: token_accts_bool_exp
   token_accts_aggregate: token_accts_aggregate_bool_exp
   updated_at: timestamptz_comparison_exp
+  user_deposits: user_deposits_bool_exp
+  user_deposits_aggregate: user_deposits_aggregate_bool_exp
   vault_by_finalize: conditional_vaults_bool_exp
   vault_by_revert: conditional_vaults_bool_exp
 }
@@ -17712,6 +17856,7 @@ input tokens_insert_input {
   token_acct_balances: token_acct_balances_arr_rel_insert_input
   token_accts: token_accts_arr_rel_insert_input
   updated_at: timestamptz
+  user_deposits: user_deposits_arr_rel_insert_input
   vault_by_finalize: conditional_vaults_obj_rel_insert_input
   vault_by_revert: conditional_vaults_obj_rel_insert_input
 }
@@ -17784,6 +17929,7 @@ input tokens_order_by {
   token_acct_balances_aggregate: token_acct_balances_aggregate_order_by
   token_accts_aggregate: token_accts_aggregate_order_by
   updated_at: order_by
+  user_deposits_aggregate: user_deposits_aggregate_order_by
   vault_by_finalize: conditional_vaults_order_by
   vault_by_revert: conditional_vaults_order_by
 }
@@ -18995,6 +19141,42 @@ type transactions {
     where: transaction_watchers_bool_exp
   ): transaction_watchers_aggregate!
   tx_sig: String!
+
+  """An array relationship"""
+  user_deposits(
+    """distinct select on columns"""
+    distinct_on: [user_deposits_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_deposits_order_by!]
+
+    """filter the rows returned"""
+    where: user_deposits_bool_exp
+  ): [user_deposits!]!
+
+  """An aggregate relationship"""
+  user_deposits_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_deposits_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_deposits_order_by!]
+
+    """filter the rows returned"""
+    where: user_deposits_bool_exp
+  ): user_deposits_aggregate!
 }
 
 """
@@ -19053,6 +19235,8 @@ input transactions_bool_exp {
   transaction_watchers: transaction_watchers_bool_exp
   transaction_watchers_aggregate: transaction_watchers_aggregate_bool_exp
   tx_sig: String_comparison_exp
+  user_deposits: user_deposits_bool_exp
+  user_deposits_aggregate: user_deposits_aggregate_bool_exp
 }
 
 """
@@ -19090,6 +19274,7 @@ input transactions_insert_input {
   transaction_watcher_transactions: transaction_watcher_transactions_arr_rel_insert_input
   transaction_watchers: transaction_watchers_arr_rel_insert_input
   tx_sig: String
+  user_deposits: user_deposits_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -19157,6 +19342,7 @@ input transactions_order_by {
   transaction_watcher_transactions_aggregate: transaction_watcher_transactions_aggregate_order_by
   transaction_watchers_aggregate: transaction_watchers_aggregate_order_by
   tx_sig: order_by
+  user_deposits_aggregate: user_deposits_aggregate_order_by
 }
 
 """primary key columns input for table: transactions"""
@@ -20026,14 +20212,29 @@ input twaps_variance_order_by {
   updated_slot: order_by
 }
 
+"""user_count_and_trade_count_per_proposalNative Query Arguments"""
+input user_count_and_trade_count_per_proposal_arguments {
+  """the proposal account"""
+  proposal_acct: String
+}
+
 """
 columns and relationships of "user_deposits"
 """
 type user_deposits {
   created_at: timestamptz!
   mint_acct: String!
+
+  """An object relationship"""
+  token: tokens!
   token_amount: bigint!
+
+  """An object relationship"""
+  transaction: transactions!
   tx_sig: String!
+
+  """An object relationship"""
+  user: users!
   user_acct: String!
 }
 
@@ -20043,6 +20244,17 @@ aggregated selection of "user_deposits"
 type user_deposits_aggregate {
   aggregate: user_deposits_aggregate_fields
   nodes: [user_deposits!]!
+}
+
+input user_deposits_aggregate_bool_exp {
+  count: user_deposits_aggregate_bool_exp_count
+}
+
+input user_deposits_aggregate_bool_exp_count {
+  arguments: [user_deposits_select_column!]
+  distinct: Boolean
+  filter: user_deposits_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -20062,9 +20274,40 @@ type user_deposits_aggregate_fields {
   variance: user_deposits_variance_fields
 }
 
+"""
+order by aggregate values of table "user_deposits"
+"""
+input user_deposits_aggregate_order_by {
+  avg: user_deposits_avg_order_by
+  count: order_by
+  max: user_deposits_max_order_by
+  min: user_deposits_min_order_by
+  stddev: user_deposits_stddev_order_by
+  stddev_pop: user_deposits_stddev_pop_order_by
+  stddev_samp: user_deposits_stddev_samp_order_by
+  sum: user_deposits_sum_order_by
+  var_pop: user_deposits_var_pop_order_by
+  var_samp: user_deposits_var_samp_order_by
+  variance: user_deposits_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "user_deposits"
+"""
+input user_deposits_arr_rel_insert_input {
+  data: [user_deposits_insert_input!]!
+}
+
 """aggregate avg on columns"""
 type user_deposits_avg_fields {
   token_amount: Float
+}
+
+"""
+order by avg() on columns of table "user_deposits"
+"""
+input user_deposits_avg_order_by {
+  token_amount: order_by
 }
 
 """
@@ -20076,8 +20319,11 @@ input user_deposits_bool_exp {
   _or: [user_deposits_bool_exp!]
   created_at: timestamptz_comparison_exp
   mint_acct: String_comparison_exp
+  token: tokens_bool_exp
   token_amount: bigint_comparison_exp
+  transaction: transactions_bool_exp
   tx_sig: String_comparison_exp
+  user: users_bool_exp
   user_acct: String_comparison_exp
 }
 
@@ -20094,8 +20340,11 @@ input type for inserting data into table "user_deposits"
 input user_deposits_insert_input {
   created_at: timestamptz
   mint_acct: String
+  token: tokens_obj_rel_insert_input
   token_amount: bigint
+  transaction: transactions_obj_rel_insert_input
   tx_sig: String
+  user: users_obj_rel_insert_input
   user_acct: String
 }
 
@@ -20108,6 +20357,17 @@ type user_deposits_max_fields {
   user_acct: String
 }
 
+"""
+order by max() on columns of table "user_deposits"
+"""
+input user_deposits_max_order_by {
+  created_at: order_by
+  mint_acct: order_by
+  token_amount: order_by
+  tx_sig: order_by
+  user_acct: order_by
+}
+
 """aggregate min on columns"""
 type user_deposits_min_fields {
   created_at: timestamptz
@@ -20115,6 +20375,17 @@ type user_deposits_min_fields {
   token_amount: bigint
   tx_sig: String
   user_acct: String
+}
+
+"""
+order by min() on columns of table "user_deposits"
+"""
+input user_deposits_min_order_by {
+  created_at: order_by
+  mint_acct: order_by
+  token_amount: order_by
+  tx_sig: order_by
+  user_acct: order_by
 }
 
 """
@@ -20132,8 +20403,11 @@ type user_deposits_mutation_response {
 input user_deposits_order_by {
   created_at: order_by
   mint_acct: order_by
+  token: tokens_order_by
   token_amount: order_by
+  transaction: transactions_order_by
   tx_sig: order_by
+  user: users_order_by
   user_acct: order_by
 }
 
@@ -20173,14 +20447,35 @@ type user_deposits_stddev_fields {
   token_amount: Float
 }
 
+"""
+order by stddev() on columns of table "user_deposits"
+"""
+input user_deposits_stddev_order_by {
+  token_amount: order_by
+}
+
 """aggregate stddev_pop on columns"""
 type user_deposits_stddev_pop_fields {
   token_amount: Float
 }
 
+"""
+order by stddev_pop() on columns of table "user_deposits"
+"""
+input user_deposits_stddev_pop_order_by {
+  token_amount: order_by
+}
+
 """aggregate stddev_samp on columns"""
 type user_deposits_stddev_samp_fields {
   token_amount: Float
+}
+
+"""
+order by stddev_samp() on columns of table "user_deposits"
+"""
+input user_deposits_stddev_samp_order_by {
+  token_amount: order_by
 }
 
 """
@@ -20208,6 +20503,13 @@ type user_deposits_sum_fields {
   token_amount: bigint
 }
 
+"""
+order by sum() on columns of table "user_deposits"
+"""
+input user_deposits_sum_order_by {
+  token_amount: order_by
+}
+
 input user_deposits_updates {
   """increments the numeric columns with given value of the filtered values"""
   _inc: user_deposits_inc_input
@@ -20224,9 +20526,23 @@ type user_deposits_var_pop_fields {
   token_amount: Float
 }
 
+"""
+order by var_pop() on columns of table "user_deposits"
+"""
+input user_deposits_var_pop_order_by {
+  token_amount: order_by
+}
+
 """aggregate var_samp on columns"""
 type user_deposits_var_samp_fields {
   token_amount: Float
+}
+
+"""
+order by var_samp() on columns of table "user_deposits"
+"""
+input user_deposits_var_samp_order_by {
+  token_amount: order_by
 }
 
 """aggregate variance on columns"""
@@ -20235,18 +20551,33 @@ type user_deposits_variance_fields {
 }
 
 """
+order by variance() on columns of table "user_deposits"
+"""
+input user_deposits_variance_order_by {
+  token_amount: order_by
+}
+
+"""
 columns and relationships of "user_performance"
 """
 type user_performance {
+  buy_orders_count: bigint!
   created_at: timestamptz!
+
+  """An object relationship"""
+  dao: daos!
+  dao_acct: String!
 
   """An object relationship"""
   proposal: proposals!
   proposal_acct: String!
+  sell_orders_count: bigint!
   tokens_bought: numeric!
+  tokens_bought_resolving_market: numeric!
 
   """amount of tokens sold"""
   tokens_sold: numeric!
+  tokens_sold_resolving_market: numeric!
   total_volume: numeric
   updated_at: timestamptz
 
@@ -20254,7 +20585,9 @@ type user_performance {
   user: users!
   user_acct: String!
   volume_bought: numeric!
+  volume_bought_resolving_market: numeric!
   volume_sold: numeric!
+  volume_sold_resolving_market: numeric!
 }
 
 """
@@ -20322,26 +20655,38 @@ input user_performance_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type user_performance_avg_fields {
+  buy_orders_count: Float
+  sell_orders_count: Float
   tokens_bought: Float
+  tokens_bought_resolving_market: Float
 
   """amount of tokens sold"""
   tokens_sold: Float
+  tokens_sold_resolving_market: Float
   total_volume: Float
   volume_bought: Float
+  volume_bought_resolving_market: Float
   volume_sold: Float
+  volume_sold_resolving_market: Float
 }
 
 """
 order by avg() on columns of table "user_performance"
 """
 input user_performance_avg_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """
@@ -20351,17 +20696,25 @@ input user_performance_bool_exp {
   _and: [user_performance_bool_exp!]
   _not: user_performance_bool_exp
   _or: [user_performance_bool_exp!]
+  buy_orders_count: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
+  dao: daos_bool_exp
+  dao_acct: String_comparison_exp
   proposal: proposals_bool_exp
   proposal_acct: String_comparison_exp
+  sell_orders_count: bigint_comparison_exp
   tokens_bought: numeric_comparison_exp
+  tokens_bought_resolving_market: numeric_comparison_exp
   tokens_sold: numeric_comparison_exp
+  tokens_sold_resolving_market: numeric_comparison_exp
   total_volume: numeric_comparison_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
   user_acct: String_comparison_exp
   volume_bought: numeric_comparison_exp
+  volume_bought_resolving_market: numeric_comparison_exp
   volume_sold: numeric_comparison_exp
+  volume_sold_resolving_market: numeric_comparison_exp
 }
 
 """
@@ -20378,94 +20731,136 @@ enum user_performance_constraint {
 input type for incrementing numeric columns in table "user_performance"
 """
 input user_performance_inc_input {
+  buy_orders_count: bigint
+  sell_orders_count: bigint
   tokens_bought: numeric
+  tokens_bought_resolving_market: numeric
 
   """amount of tokens sold"""
   tokens_sold: numeric
+  tokens_sold_resolving_market: numeric
   volume_bought: numeric
+  volume_bought_resolving_market: numeric
   volume_sold: numeric
+  volume_sold_resolving_market: numeric
 }
 
 """
 input type for inserting data into table "user_performance"
 """
 input user_performance_insert_input {
+  buy_orders_count: bigint
   created_at: timestamptz
+  dao: daos_obj_rel_insert_input
+  dao_acct: String
   proposal: proposals_obj_rel_insert_input
   proposal_acct: String
+  sell_orders_count: bigint
   tokens_bought: numeric
+  tokens_bought_resolving_market: numeric
 
   """amount of tokens sold"""
   tokens_sold: numeric
+  tokens_sold_resolving_market: numeric
   updated_at: timestamptz
   user: users_obj_rel_insert_input
   user_acct: String
   volume_bought: numeric
+  volume_bought_resolving_market: numeric
   volume_sold: numeric
+  volume_sold_resolving_market: numeric
 }
 
 """aggregate max on columns"""
 type user_performance_max_fields {
+  buy_orders_count: bigint
   created_at: timestamptz
+  dao_acct: String
   proposal_acct: String
+  sell_orders_count: bigint
   tokens_bought: numeric
+  tokens_bought_resolving_market: numeric
 
   """amount of tokens sold"""
   tokens_sold: numeric
+  tokens_sold_resolving_market: numeric
   total_volume: numeric
   updated_at: timestamptz
   user_acct: String
   volume_bought: numeric
+  volume_bought_resolving_market: numeric
   volume_sold: numeric
+  volume_sold_resolving_market: numeric
 }
 
 """
 order by max() on columns of table "user_performance"
 """
 input user_performance_max_order_by {
+  buy_orders_count: order_by
   created_at: order_by
+  dao_acct: order_by
   proposal_acct: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   updated_at: order_by
   user_acct: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """aggregate min on columns"""
 type user_performance_min_fields {
+  buy_orders_count: bigint
   created_at: timestamptz
+  dao_acct: String
   proposal_acct: String
+  sell_orders_count: bigint
   tokens_bought: numeric
+  tokens_bought_resolving_market: numeric
 
   """amount of tokens sold"""
   tokens_sold: numeric
+  tokens_sold_resolving_market: numeric
   total_volume: numeric
   updated_at: timestamptz
   user_acct: String
   volume_bought: numeric
+  volume_bought_resolving_market: numeric
   volume_sold: numeric
+  volume_sold_resolving_market: numeric
 }
 
 """
 order by min() on columns of table "user_performance"
 """
 input user_performance_min_order_by {
+  buy_orders_count: order_by
   created_at: order_by
+  dao_acct: order_by
   proposal_acct: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   updated_at: order_by
   user_acct: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """
@@ -20490,17 +20885,25 @@ input user_performance_on_conflict {
 
 """Ordering options when selecting data from "user_performance"."""
 input user_performance_order_by {
+  buy_orders_count: order_by
   created_at: order_by
+  dao: daos_order_by
+  dao_acct: order_by
   proposal: proposals_order_by
   proposal_acct: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   updated_at: order_by
   user: users_order_by
   user_acct: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """primary key columns input for table: user_performance"""
@@ -20514,16 +20917,31 @@ select columns of table "user_performance"
 """
 enum user_performance_select_column {
   """column name"""
+  buy_orders_count
+
+  """column name"""
   created_at
+
+  """column name"""
+  dao_acct
 
   """column name"""
   proposal_acct
 
   """column name"""
+  sell_orders_count
+
+  """column name"""
   tokens_bought
 
   """column name"""
+  tokens_bought_resolving_market
+
+  """column name"""
   tokens_sold
+
+  """column name"""
+  tokens_sold_resolving_market
 
   """column name"""
   total_volume
@@ -20538,95 +20956,144 @@ enum user_performance_select_column {
   volume_bought
 
   """column name"""
+  volume_bought_resolving_market
+
+  """column name"""
   volume_sold
+
+  """column name"""
+  volume_sold_resolving_market
 }
 
 """
 input type for updating data in table "user_performance"
 """
 input user_performance_set_input {
+  buy_orders_count: bigint
   created_at: timestamptz
+  dao_acct: String
   proposal_acct: String
+  sell_orders_count: bigint
   tokens_bought: numeric
+  tokens_bought_resolving_market: numeric
 
   """amount of tokens sold"""
   tokens_sold: numeric
+  tokens_sold_resolving_market: numeric
   updated_at: timestamptz
   user_acct: String
   volume_bought: numeric
+  volume_bought_resolving_market: numeric
   volume_sold: numeric
+  volume_sold_resolving_market: numeric
 }
 
 """aggregate stddev on columns"""
 type user_performance_stddev_fields {
+  buy_orders_count: Float
+  sell_orders_count: Float
   tokens_bought: Float
+  tokens_bought_resolving_market: Float
 
   """amount of tokens sold"""
   tokens_sold: Float
+  tokens_sold_resolving_market: Float
   total_volume: Float
   volume_bought: Float
+  volume_bought_resolving_market: Float
   volume_sold: Float
+  volume_sold_resolving_market: Float
 }
 
 """
 order by stddev() on columns of table "user_performance"
 """
 input user_performance_stddev_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type user_performance_stddev_pop_fields {
+  buy_orders_count: Float
+  sell_orders_count: Float
   tokens_bought: Float
+  tokens_bought_resolving_market: Float
 
   """amount of tokens sold"""
   tokens_sold: Float
+  tokens_sold_resolving_market: Float
   total_volume: Float
   volume_bought: Float
+  volume_bought_resolving_market: Float
   volume_sold: Float
+  volume_sold_resolving_market: Float
 }
 
 """
 order by stddev_pop() on columns of table "user_performance"
 """
 input user_performance_stddev_pop_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type user_performance_stddev_samp_fields {
+  buy_orders_count: Float
+  sell_orders_count: Float
   tokens_bought: Float
+  tokens_bought_resolving_market: Float
 
   """amount of tokens sold"""
   tokens_sold: Float
+  tokens_sold_resolving_market: Float
   total_volume: Float
   volume_bought: Float
+  volume_bought_resolving_market: Float
   volume_sold: Float
+  volume_sold_resolving_market: Float
 }
 
 """
 order by stddev_samp() on columns of table "user_performance"
 """
 input user_performance_stddev_samp_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """
@@ -20642,41 +21109,60 @@ input user_performance_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input user_performance_stream_cursor_value_input {
+  buy_orders_count: bigint
   created_at: timestamptz
+  dao_acct: String
   proposal_acct: String
+  sell_orders_count: bigint
   tokens_bought: numeric
+  tokens_bought_resolving_market: numeric
 
   """amount of tokens sold"""
   tokens_sold: numeric
+  tokens_sold_resolving_market: numeric
   total_volume: numeric
   updated_at: timestamptz
   user_acct: String
   volume_bought: numeric
+  volume_bought_resolving_market: numeric
   volume_sold: numeric
+  volume_sold_resolving_market: numeric
 }
 
 """aggregate sum on columns"""
 type user_performance_sum_fields {
+  buy_orders_count: bigint
+  sell_orders_count: bigint
   tokens_bought: numeric
+  tokens_bought_resolving_market: numeric
 
   """amount of tokens sold"""
   tokens_sold: numeric
+  tokens_sold_resolving_market: numeric
   total_volume: numeric
   volume_bought: numeric
+  volume_bought_resolving_market: numeric
   volume_sold: numeric
+  volume_sold_resolving_market: numeric
 }
 
 """
 order by sum() on columns of table "user_performance"
 """
 input user_performance_sum_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """
@@ -20684,16 +21170,31 @@ update columns of table "user_performance"
 """
 enum user_performance_update_column {
   """column name"""
+  buy_orders_count
+
+  """column name"""
   created_at
+
+  """column name"""
+  dao_acct
 
   """column name"""
   proposal_acct
 
   """column name"""
+  sell_orders_count
+
+  """column name"""
   tokens_bought
 
   """column name"""
+  tokens_bought_resolving_market
+
+  """column name"""
   tokens_sold
+
+  """column name"""
+  tokens_sold_resolving_market
 
   """column name"""
   updated_at
@@ -20705,7 +21206,13 @@ enum user_performance_update_column {
   volume_bought
 
   """column name"""
+  volume_bought_resolving_market
+
+  """column name"""
   volume_sold
+
+  """column name"""
+  volume_sold_resolving_market
 }
 
 input user_performance_updates {
@@ -20721,74 +21228,110 @@ input user_performance_updates {
 
 """aggregate var_pop on columns"""
 type user_performance_var_pop_fields {
+  buy_orders_count: Float
+  sell_orders_count: Float
   tokens_bought: Float
+  tokens_bought_resolving_market: Float
 
   """amount of tokens sold"""
   tokens_sold: Float
+  tokens_sold_resolving_market: Float
   total_volume: Float
   volume_bought: Float
+  volume_bought_resolving_market: Float
   volume_sold: Float
+  volume_sold_resolving_market: Float
 }
 
 """
 order by var_pop() on columns of table "user_performance"
 """
 input user_performance_var_pop_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """aggregate var_samp on columns"""
 type user_performance_var_samp_fields {
+  buy_orders_count: Float
+  sell_orders_count: Float
   tokens_bought: Float
+  tokens_bought_resolving_market: Float
 
   """amount of tokens sold"""
   tokens_sold: Float
+  tokens_sold_resolving_market: Float
   total_volume: Float
   volume_bought: Float
+  volume_bought_resolving_market: Float
   volume_sold: Float
+  volume_sold_resolving_market: Float
 }
 
 """
 order by var_samp() on columns of table "user_performance"
 """
 input user_performance_var_samp_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """aggregate variance on columns"""
 type user_performance_variance_fields {
+  buy_orders_count: Float
+  sell_orders_count: Float
   tokens_bought: Float
+  tokens_bought_resolving_market: Float
 
   """amount of tokens sold"""
   tokens_sold: Float
+  tokens_sold_resolving_market: Float
   total_volume: Float
   volume_bought: Float
+  volume_bought_resolving_market: Float
   volume_sold: Float
+  volume_sold_resolving_market: Float
 }
 
 """
 order by variance() on columns of table "user_performance"
 """
 input user_performance_variance_order_by {
+  buy_orders_count: order_by
+  sell_orders_count: order_by
   tokens_bought: order_by
+  tokens_bought_resolving_market: order_by
 
   """amount of tokens sold"""
   tokens_sold: order_by
+  tokens_sold_resolving_market: order_by
   total_volume: order_by
   volume_bought: order_by
+  volume_bought_resolving_market: order_by
   volume_sold: order_by
+  volume_sold_resolving_market: order_by
 }
 
 """
@@ -20871,6 +21414,42 @@ type users {
   user_acct: String!
 
   """An array relationship"""
+  user_deposits(
+    """distinct select on columns"""
+    distinct_on: [user_deposits_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_deposits_order_by!]
+
+    """filter the rows returned"""
+    where: user_deposits_bool_exp
+  ): [user_deposits!]!
+
+  """An aggregate relationship"""
+  user_deposits_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_deposits_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_deposits_order_by!]
+
+    """filter the rows returned"""
+    where: user_deposits_bool_exp
+  ): user_deposits_aggregate!
+
+  """An array relationship"""
   user_performances(
     """distinct select on columns"""
     distinct_on: [user_performance_select_column!]
@@ -20937,6 +21516,8 @@ input users_bool_exp {
   sessions: sessions_bool_exp
   sessions_aggregate: sessions_aggregate_bool_exp
   user_acct: String_comparison_exp
+  user_deposits: user_deposits_bool_exp
+  user_deposits_aggregate: user_deposits_aggregate_bool_exp
   user_performances: user_performance_bool_exp
   user_performances_aggregate: user_performance_aggregate_bool_exp
 }
@@ -20959,6 +21540,7 @@ input users_insert_input {
   orders: orders_arr_rel_insert_input
   sessions: sessions_arr_rel_insert_input
   user_acct: String
+  user_deposits: user_deposits_arr_rel_insert_input
   user_performances: user_performance_arr_rel_insert_input
 }
 
@@ -21010,6 +21592,7 @@ input users_order_by {
   orders_aggregate: orders_aggregate_order_by
   sessions_aggregate: sessions_aggregate_order_by
   user_acct: order_by
+  user_deposits_aggregate: user_deposits_aggregate_order_by
   user_performances_aggregate: user_performance_aggregate_order_by
 }
 

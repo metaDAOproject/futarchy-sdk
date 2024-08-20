@@ -20,10 +20,8 @@ import {
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
-import {
-  Client as IndexerGraphQLClient,
-  generateSubscriptionOp
-} from "./__generated__";
+import { Client as IndexerGraphQLClient } from "./__generated__";
+import { ClientOptions } from "./__generated__/runtime";
 import {
   CreateProposalInstruction,
   ProposalOnChainFields,
@@ -35,25 +33,23 @@ import { BN } from "@coral-xyz/anchor";
 import { PriceMath } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
 import { Client as GQLWebSocketClient } from "graphql-ws";
-import { SUPPORTED_EMOJIS } from "@/constants/reactions";
-import { ReactionType } from "@/types/reactions";
 import dayjs from "dayjs";
 import { createSlug } from "@/utils";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
   private rpcProposalsClient: FutarchyRPCProposalsClient;
-  private graphqlClient: IndexerGraphQLClient;
+  private getGQLClient: (options?: ClientOptions) => IndexerGraphQLClient;
   private graphqlWSClient: GQLWebSocketClient;
 
   constructor(
     rpcProposalsClient: FutarchyRPCProposalsClient,
-    graphqlClient: IndexerGraphQLClient,
+    getGQLClient: (options?: ClientOptions) => IndexerGraphQLClient,
     graphqlWSClient: GQLWebSocketClient,
     protocolMap: Map<string, FutarchyProtocol>
   ) {
     this.rpcProposalsClient = rpcProposalsClient;
-    this.graphqlClient = graphqlClient;
+    this.getGQLClient = getGQLClient;
     this.graphqlWSClient = graphqlWSClient;
     this.protocolMap = protocolMap;
   }
@@ -68,7 +64,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     }
   ): Promise<Proposal[]> {
     const { offset, orderBy, pageSize } = config;
-    const { proposals } = await this.graphqlClient.query?.({
+    const { proposals } = await this.getGQLClient({}).query?.({
       proposals: {
         __args: {
           where: {
@@ -278,7 +274,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
 
   async fetchTopProposals(daoSlug: string): Promise<ProposalRanking[]> {
     try {
-      const { proposals } = await this.graphqlClient.query?.({
+      const { proposals } = await this.getGQLClient({}).query?.({
         proposals: {
           __args: {
             order_by: [
@@ -332,7 +328,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   async fetchProposal(
     proposalAcct: PublicKey
   ): Promise<(ProposalWithFullData & ProposalDaoConfiguration) | undefined> {
-    const { proposals } = await this.graphqlClient.query?.({
+    const { proposals } = await this.getGQLClient({}).query?.({
       proposals: {
         __args: {
           where: { proposal_acct: { _eq: proposalAcct.toBase58() } },
@@ -608,7 +604,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     };
   }
   async fetchProposalCounts(daoSlug: string): Promise<ProposalCounts> {
-    const { proposals } = await this.graphqlClient.query?.({
+    const { proposals } = await this.getGQLClient({}).query?.({
       proposals: {
         __args: {
           where: {
@@ -665,7 +661,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
-    proposalInputs: ProposalInputs
+    proposalInputs: ProposalInputs,
+    authId: string
   ): Promise<
     [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
   > {
@@ -698,7 +695,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               .filter((dao) => dao.protocol.deploymentVersion === version)
               .slice(-1)[0];
 
-            this.saveProposalDetails(propDetails, currentDao, version);
+            this.saveProposalDetails(propDetails, currentDao, version, authId);
           }
         }
       });
@@ -715,7 +712,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
 
   // we should really probably change this column to a sequence so we don't have to manually fetch this OR we should just get rid of the column
   async getProposalIdAndEndSlot(): Promise<[number, number]> {
-    const result = await this.graphqlClient.query({
+    const result = await this.getGQLClient({}).query({
       proposal_details: {
         __args: {
           order_by: [{ proposal_id: "desc" }],
@@ -741,7 +738,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   async saveProposalDetails(
     proposalDetails: ProposalDetails,
     dao: Dao,
-    version: ProgramVersionLabel
+    version: ProgramVersionLabel,
+    authId: string
   ) {
     const {
       proposalAcct,
@@ -767,7 +765,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
       );
 
       // Insert conditional vaults
-      const conditionalVaultsResult = await this.graphqlClient.mutation({
+      const conditionalVaultsResult = await this.getGQLClient({
+        headers: {
+          Authorization: `Bearer ${authId}`
+        }
+      }).mutation({
         insert_conditional_vaults: {
           __args: {
             objects: [
@@ -814,11 +816,16 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         return;
 
       // Insert into proposals table
-      const proposalsResult = await this.graphqlClient.mutation({
+      const proposalsResult = await this.getGQLClient({
+        headers: {
+          Authorization: `Bearer ${authId}`
+        }
+      }).mutation({
         insert_proposals_one: {
           __args: {
             object: {
               autocrat_version: parseFloat(version.split("V")[1]),
+              description_url: proposalOnChain.account.descriptionUrl,
               dao_acct: dao.publicKey.toBase58(),
               proposal_acct: proposalAcct.toBase58(),
               proposal_num: proposalOnChain.account.number,
@@ -833,7 +840,16 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               initial_slot: proposalOnChain.account.slotEnqueued.toNumber(),
               end_slot: proposalOnChain.account.slotEnqueued
                 .add(new BN(slotsPerProposal))
-                .toNumber()
+                .toNumber(),
+              pass_threshold_bps: dao.daoAccount.passThresholdBps,
+              duration_in_slots: dao.daoAccount.slotsPerProposal,
+              min_base_futarchic_liquidity:
+                dao.daoAccount.minBaseFutarchicLiquidity,
+              min_quote_futarchic_liquidity:
+                dao.daoAccount.minQuoteFutarchicLiquidity,
+              twap_initial_observation: dao.daoAccount.twapInitialObservation,
+              twap_max_observation_change_per_update:
+                dao.daoAccount.twapMaxObservationChangePerUpdate
             }
           },
           proposal_acct: true // Fields you want to return after insertion
@@ -842,7 +858,11 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
 
       if (!proposalsResult.insert_proposals_one?.proposal_acct) return;
 
-      const result = await this.graphqlClient.mutation({
+      await this.getGQLClient({
+        headers: {
+          Authorization: `Bearer ${authId}`
+        }
+      }).mutation({
         insert_proposal_details_one: {
           __args: {
             object: {

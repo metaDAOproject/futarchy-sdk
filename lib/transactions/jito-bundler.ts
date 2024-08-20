@@ -110,7 +110,7 @@ export class JitoBundler implements Bundler {
         } else {
           resolve([res.result, result.value[0].transactions]);
         }
-      }, 6_000); // waiting a bit for the bundle to register to query it
+      }, 12_000); // waiting a bit for the bundle to register to query it
     });
   }
 

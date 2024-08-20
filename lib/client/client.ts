@@ -74,7 +74,8 @@ export interface FutarchyProposalsClient {
     version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
-    proposalDetails: ProposalInputs
+    proposalDetails: ProposalInputs,
+    authId: string
   ): Promise<
     [Observable<TransactionProcessingUpdate>, ProposalOnChainFields] | undefined
   >;
@@ -84,7 +85,8 @@ export interface FutarchyProposalsClient {
   saveProposalDetails(
     proposalDetails: ProposalDetails,
     dao: Dao,
-    version: ProgramVersionLabel
+    version: ProgramVersionLabel,
+    authId: string
   ): void;
   updateProposalAccounts(accounts: ProposalAccounts): void;
   mergeConditionalTokensForUnderlyingTokens(
@@ -236,6 +238,7 @@ export interface CreateProposal {
     version: ProgramVersionLabel,
     instructionParams: CreateProposalInstruction,
     marketParams: MarketParams,
-    url: string
+    url: string,
+    authId: string
   ): void;
 }

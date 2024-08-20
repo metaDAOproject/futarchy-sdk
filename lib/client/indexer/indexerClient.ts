@@ -75,7 +75,7 @@ export class FutarchyIndexerClient implements FutarchyClient {
     );
     this.proposals = new FutarchyIndexerProposalsClient(
       rpcClient.proposals,
-      graphqlClient,
+      getClient,
       this.wsClient,
       this.protocolMap
     );

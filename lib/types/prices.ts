@@ -1,8 +1,6 @@
-import { TokenProps } from "./tokens";
-
 export type TwapObservation = {
-  priceRaw?: number;
-  priceUi: number;
+  priceRaw?: number | null;
+  priceUi: number | null;
   slot?: number;
   createdAt: Date;
 };
@@ -11,18 +9,18 @@ export type TwapObservation = {
  * Quote and Base amounts generally available on market spot prices
  */
 export type SpotObservation = {
-  priceRaw?: number;
-  priceUi: number;
+  priceRaw?: number | null;
+  priceUi: number | null;
   createdAt: Date;
   quoteAmount?: number;
   baseAmount?: number;
 };
 
 export type ProposalMarketPrices = {
-  price: number;
+  price: number | null;
   acct: string;
-  quoteAmount: number;
-  baseAmount: number;
+  quoteAmount: number | null;
+  baseAmount: number | null;
 };
 
 /**

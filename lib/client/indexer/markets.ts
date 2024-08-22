@@ -275,16 +275,16 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
         twap_chart_data_stream: {
-          token_amount: number;
-          updated_slot: number;
+          token_amount: number | null;
+          updated_slot: number | null;
           interv: string;
           // TODO this query might be a bit slow... hasura warned about caching directive, we need to watch for this
           market: {
             tokenByQuoteMintAcct: {
-              decimals: number;
+              decimals: number | null;
             };
             tokenByBaseMintAcct: {
-              decimals: number;
+              decimals: number | null;
             };
           };
         }[];
@@ -1058,14 +1058,14 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
         proposal_bars_stream: {
           bar_start_time: string;
-          fail_base_amount: number;
+          fail_base_amount: number | null;
           fail_market_acct: string;
-          fail_price: number;
-          fail_quote_amount: number;
-          pass_base_amount: number;
+          fail_price: number | null;
+          fail_quote_amount: number | null;
+          pass_base_amount: number | null;
           pass_market_acct: string;
-          pass_price: number;
-          pass_quote_amount: number;
+          pass_price: number | null;
+          pass_quote_amount: number | null;
           proposal_acct: string;
         }[];
       }>(

@@ -19,12 +19,14 @@ import {
   AmmIDL as AMM_IDL
 } from "@metadaoproject/futarchy";
 import { FutarchyMarketsRPCClient } from "./markets";
+import { FutarchyRPCSocialsClient } from "./socials";
 
 export class FutarchyRPCClient implements FutarchyClient {
   public daos: FutarchyRPCDaoClient;
   public proposals: FutarchyRPCProposalsClient;
   public balances: FutarchyRPCBalancesClient;
   public markets: FutarchyMarketsRPCClient;
+  public socials: FutarchyRPCSocialsClient;
   public futarchyProtocols: FutarchyProtocol[];
 
   private constructor(
@@ -42,6 +44,8 @@ export class FutarchyRPCClient implements FutarchyClient {
       transactionSender
     );
     this.balances = new FutarchyRPCBalancesClient(rpcProvider);
+
+    this.socials = new FutarchyRPCSocialsClient();
 
     this.markets = new FutarchyMarketsRPCClient(
       rpcProvider,

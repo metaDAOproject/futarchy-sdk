@@ -169,4 +169,22 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
       subscriber.next({ fail: 0, pass: 0 });
     });
   }
+
+  /**
+   * @deprecated This function is not implemented yet and likely never will be for RPC client.
+   */
+  async fetchProposalBars(
+    proposalAcct: PublicKey
+  ): Promise<ProposalMarketPricesAggregate[]> {
+    return [];
+  }
+
+  /**
+   * @deprecated This function is not implemented yet and likely never will be for RPC client.
+   */
+  watchProposalBars(
+    proposalAcct: PublicKey
+  ): Observable<ProposalMarketPricesAggregate[]> {
+    return new Observable();
+  }
 }

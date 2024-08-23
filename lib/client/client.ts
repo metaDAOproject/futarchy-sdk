@@ -156,6 +156,11 @@ export interface FutarchyMarketsClient {
   watchOrdersForMarket(
     marketAcct: PublicKey
   ): Observable<{ orders: Order[]; totalOrders: number }>;
+  fetchTwapPrices(
+    marketKey: PublicKey,
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<TwapObservation[]>;
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]>;
   watchSpotPrices(marketKey: PublicKey): Observable<SpotObservation[]>;
   watchProposalBars(

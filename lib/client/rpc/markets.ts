@@ -186,4 +186,15 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   ): Observable<ProposalMarketPricesAggregate[]> {
     return new Observable();
   }
+
+  /**
+   * @deprecated This function is not implemented yet and likely never will be for RPC client.
+   */
+  async fetchTwapPrices(
+    marketKey: PublicKey,
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<TwapObservation[]> {
+    return [];
+  }
 }

@@ -20,7 +20,8 @@ import {
   ProposalAccounts,
   ProgramVersionLabel,
   ProposalWithFullData,
-  Dao
+  Dao,
+  ProposalRanking
 } from "@/types";
 import { SwapType } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
@@ -103,6 +104,7 @@ export interface FutarchyProposalsClient {
     proposal: string,
     user?: string
   ) => Observable<ReactionResponse>;
+  fetchTopProposals(daoSlug: string): Promise<ProposalRanking[]>;
 }
 
 export interface FutarchyBalancesClient {

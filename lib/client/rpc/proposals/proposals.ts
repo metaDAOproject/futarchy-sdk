@@ -20,6 +20,7 @@ import {
 import {
   BalanceLockedInProposal,
   ProposalAccounts,
+  ProposalRanking,
   ProposalWithFullData
 } from "@/types/proposals";
 import { FutarchyProposalsClient } from "@/client";
@@ -508,7 +509,9 @@ export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
     return resp;
   }
 
-  // TO DO INDEXER
   public async saveProposalDetails(proposalDetails: ProposalDetails) {}
   public async updateProposalAccounts(accounts: ProposalAccounts) {}
+  public async fetchTopProposals(daoSlug: string): Promise<ProposalRanking[]> {
+    return [];
+  }
 }

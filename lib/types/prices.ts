@@ -1,7 +1,6 @@
 export type TwapObservation = {
   priceRaw?: number | null;
   priceUi: number | null;
-  slot?: number;
   createdAt: Date;
 };
 

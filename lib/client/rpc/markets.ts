@@ -113,8 +113,7 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
                 market?.quoteToken.decimals!!
               ),
               priceRaw: twapPrice.toNumber(),
-              createdAt: new Date(),
-              slot: 0
+              createdAt: new Date()
             }
           ]);
         });

@@ -22,6 +22,7 @@ import {
 } from "@/types/prices";
 import { PublicKey } from "@solana/web3.js";
 import { Observable } from "rxjs";
+import { prices_chart_data_bool_exp } from "../indexer/__generated__";
 
 export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   // we have generic interface for orderbooks. when adding phoenix, this could be rethunk
@@ -196,5 +197,25 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
     endDate?: Date
   ): Promise<TwapObservation[]> {
     return [];
+  }
+
+  async fetchCurrentSpotPrice(marketKey: PublicKey): Promise<SpotObservation> {
+    throw new Error("not implemented");
+  }
+  async fetchCurrentTwapPrice(
+    marketKey: PublicKey
+  ): Promise<TwapObservation[]> {
+    throw new Error("not implemented");
+  }
+
+  watchCurrentSpotPrice(
+    marketKey: PublicKey,
+    filters?: prices_chart_data_bool_exp
+  ): Observable<SpotObservation> {
+    throw new Error("not implemented");
+  }
+
+  watchCurrentTwapPrice(marketKey: PublicKey): Observable<TwapObservation[]> {
+    throw new Error("not implemented");
   }
 }

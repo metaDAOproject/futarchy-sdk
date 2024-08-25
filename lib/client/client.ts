@@ -41,6 +41,7 @@ import {
 } from "@/types/createProp";
 import { ReactionResponse } from "@/types/reactions";
 import { UserPerformance, UserPerformanceFetchRequest } from "@/types/user";
+import { prices_chart_data_bool_exp } from "./indexer/__generated__";
 
 export interface FutarchyClient {
   daos: FutarchyDaoClient;
@@ -169,6 +170,13 @@ export interface FutarchyMarketsClient {
   fetchProposalBars(
     proposalAcct: PublicKey
   ): Promise<ProposalMarketPricesAggregate[]>;
+  fetchCurrentSpotPrice(marketKey: PublicKey): Promise<SpotObservation>;
+  fetchCurrentTwapPrice(marketKey: PublicKey): Promise<TwapObservation[]>;
+  watchCurrentTwapPrice(marketKey: PublicKey): Observable<TwapObservation[]>;
+  watchCurrentSpotPrice(
+    marketKey: PublicKey,
+    filters?: prices_chart_data_bool_exp
+  ): Observable<SpotObservation>;
 }
 
 export interface FutarchyOrderbookMarketsClient<

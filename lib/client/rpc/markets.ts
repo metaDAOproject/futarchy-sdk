@@ -218,4 +218,13 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   watchCurrentTwapPrice(marketKey: PublicKey): Observable<TwapObservation[]> {
     throw new Error("not implemented");
   }
+  async fetchUserOrdersForMarkets(
+    owner: PublicKey,
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Promise<{ orders: Order[]; totalOrders: number }> {
+    throw new Error("not implemented");
+  }
 }

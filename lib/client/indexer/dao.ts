@@ -61,6 +61,10 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
             created_at: true,
             program_acct: true,
             dao_acct: true,
+            min_base_futarchic_liquidity: true,
+            min_quote_futarchic_liquidity: true,
+            twap_initial_observation: true,
+            twap_max_observation_change_per_update: true,
             tokenByBaseAcct: {
               decimals: true,
               symbol: true,
@@ -230,7 +234,12 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                   : undefined,
                 proposalCount: d.proposals_aggregate.aggregate?.count,
                 passThresholdBps: d.pass_threshold_bps,
-                slotsPerProposal: d.slots_per_proposal
+                slotsPerProposal: d.slots_per_proposal,
+                twapInitialObservation: d.twap_initial_observation,
+                twapMaxObservationChangePerUpdate:
+                  d.twap_max_observation_change_per_update,
+                minBaseFutarchicLiquidity: d.min_base_futarchic_liquidity,
+                minQuoteFutarchicLiquidity: d.min_quote_futarchic_liquidity
               },
               publicKey: new PublicKey(d.dao_acct),
               protocol: this.protocolMap.get(d.program_acct)

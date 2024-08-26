@@ -1,6 +1,6 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "4.0.0-alpha.45",
+  "version": "4.0.0-alpha.46",
   "main": "dist",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

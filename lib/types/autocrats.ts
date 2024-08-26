@@ -130,6 +130,10 @@ export type DaoDetails__GQL = {
     slots_per_proposal: number | null;
     treasury_acct: string | null;
     created_at: string | null;
+    min_base_futarchic_liquidity: number | null;
+    min_quote_futarchic_liquidity: number | null;
+    twap_initial_observation: number | null;
+    twap_max_observation_change_per_update: number | null;
     tokenByBaseAcct: {
       symbol: string;
       decimals: number;

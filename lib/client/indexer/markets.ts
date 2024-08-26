@@ -675,7 +675,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       limit: 1
     });
   }
-  fetchUserOrdersForMarkets(
+  async fetchUserOrdersForMarkets(
     owner: PublicKey,
     passMarketAcct: PublicKey,
     failMarketAcct: PublicKey,

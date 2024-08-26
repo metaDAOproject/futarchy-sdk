@@ -177,6 +177,13 @@ export interface FutarchyMarketsClient {
     marketKey: PublicKey,
     filters?: prices_chart_data_bool_exp
   ): Observable<SpotObservation>;
+  fetchUserOrdersForMarkets(
+    owner: PublicKey,
+    passMarketAcct: PublicKey,
+    failMarketAcct: PublicKey,
+    page?: number,
+    pageSize?: number
+  ): Promise<{ orders: Order[]; totalOrders: number }>;
 }
 
 export interface FutarchyOrderbookMarketsClient<

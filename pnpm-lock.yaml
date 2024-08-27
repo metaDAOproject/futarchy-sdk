@@ -59,6 +59,9 @@ dependencies:
   bs58:
     specifier: ^6.0.0
     version: 6.0.0
+  camelcase:
+    specifier: ^8.0.0
+    version: 8.0.0
   dayjs:
     specifier: ^1.11.11
     version: 1.11.11
@@ -2608,6 +2611,11 @@ packages:
   /camelcase@6.3.0:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
+    dev: false
+
+  /camelcase@8.0.0:
+    resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
+    engines: {node: '>=16'}
     dev: false
 
   /capability@0.2.5:

@@ -431,6 +431,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
 
     const proposal = proposals[0];
 
+    const rpcProposal =
+      await this.rpcProposalsClient.autocratClient.getProposal(proposalAcct);
     const relatedProtocol = this.protocolMap.get(
       proposal.dao.program.program_acct
     );
@@ -473,7 +475,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         quoteVault: new PublicKey(proposal.quote_vault ?? 5),
         descriptionUrl: proposal.description_url ?? "",
         //TODO pass in actual instruction...
-        instruction: {} as any,
+        instruction: rpcProposal.instruction,
         number: proposal.proposal_num,
         openbookFailMarket: new PublicKey(proposal.fail_market_acct ?? 5),
         openbookPassMarket: new PublicKey(proposal.pass_market_acct ?? 5),

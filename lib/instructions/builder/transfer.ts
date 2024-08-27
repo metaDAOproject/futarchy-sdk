@@ -8,16 +8,6 @@ import {
   getAssociatedTokenAddress
 } from "@solana/spl-token";
 import { PublicKey, TransactionInstruction } from "@solana/web3.js";
-import { ProposalInstruction } from ".";
-import { PublicKey } from "@metaplex-foundation/js";
-import {
-  TOKEN_PROGRAM_ID,
-  createAssociatedTokenAccountIdempotentInstruction,
-  createTransferInstruction,
-  getAccount,
-  getAssociatedTokenAddress
-} from "@solana/spl-token";
-import { TransactionInstruction } from "@solana/web3.js";
 
 export async function buildTransferInstruction(
   daoTreasury: PublicKey,

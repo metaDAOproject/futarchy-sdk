@@ -49,7 +49,7 @@ import { CreateProposalClient } from "./createProposal";
 import { autocratVersionToConditionalVaultMap } from "@/constants";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
-  private rpcProvider: AnchorProvider;
+  public rpcProvider: AnchorProvider;
   private futarchyProtocols: FutarchyProtocol[];
   public transactionSender: TransactionSender | undefined;
   private finalizeProposalClient: FinalizeProposalClient;

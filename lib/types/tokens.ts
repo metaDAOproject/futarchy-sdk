@@ -42,4 +42,3 @@ export type TokenMetadataResponse = TokenProps & {
 };
 
 export type TokenAccountMetadata = MetadataAccountData & { json: JsonMetadata };
-export { Metadata as MetaplexMetadata } from "@metaplex-foundation/mpl-token-metadata";

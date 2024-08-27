@@ -1,11 +1,7 @@
 import { FutarchyIndexerClient, FutarchyRPCClient } from "@/client";
 import { autocratVersionToTwapMap } from "@/constants";
 import { TransactionSender } from "@/transactions";
-import {
-  AmmMarketFetchRequest,
-  OpenbookMarketFetchRequest,
-  OpenbookMarket,
-} from "@/types";
+import { OpenbookMarketFetchRequest } from "@/types";
 import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { describe, test, expect, beforeAll } from "bun:test";
@@ -23,7 +19,7 @@ describe("FutarchyIndexerClient Integration Test", () => {
     if (wallet.publicKey === null) return;
 
     provider = new AnchorProvider(connection, wallet, {
-      commitment: "processed",
+      commitment: "processed"
     });
 
     // Setup TransactionSender - assumed to be available or mock as needed
@@ -38,11 +34,13 @@ describe("FutarchyIndexerClient Integration Test", () => {
 
     const indexerUrl = "https://test-graphql.hello.xyz";
     const indexerWSUrl = "wss://test-graphql.hello.xyz";
+    const balancesApiURL = "https://balances-api.xyz";
 
     indexerClient = FutarchyIndexerClient.make(
       rpcClient,
       indexerUrl,
-      indexerWSUrl
+      indexerWSUrl,
+      balancesApiURL
     );
   });
 

@@ -1,5 +1,10 @@
 import { PublicKey } from "@solana/web3.js";
 
+import {
+  JsonMetadata,
+  MetadataAccountData
+} from "@metaplex-foundation/mpl-token-metadata";
+
 export type TokenProps = {
   url: string | null;
   publicKey: string | null;
@@ -35,3 +40,5 @@ export type TokenMetadataResponse = TokenProps & {
   isFallback?: boolean;
   source: TokenMetadataSource;
 };
+
+export type TokenAccountMetadata = MetadataAccountData & { json: JsonMetadata };

@@ -1,3 +1,4 @@
+import { ProposalInstruction } from "@/types";
 import { AnchorProvider } from "@coral-xyz/anchor";
 import {
   TOKEN_PROGRAM_ID,
@@ -7,9 +8,7 @@ import {
   getAssociatedTokenAddress
 } from "@solana/spl-token";
 import { PublicKey, TransactionInstruction } from "@solana/web3.js";
-import { ProposalInstruction } from ".";
 
-// Transfer
 export async function buildTransferInstruction(
   daoTreasury: PublicKey,
   destination: PublicKey,

@@ -1,10 +1,11 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "4.0.0-alpha.47",
+  "version": "4.0.0-alpha.48",
+  "type": "module",
   "main": "dist",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",
+    "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.json -s ./lib -o ./dist && tsc-alias -p tsconfig.build.json",
     "build:tests": "tsc && tscpaths -p tsconfig.json -s ./tests -o ./dist"
   },
   "keywords": [
@@ -36,7 +37,8 @@
     "dayjs": "^1.11.11",
     "graphql-ws": "^5.16.0",
     "numeral": "^2.0.6",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "tsc-alias": "^1.8.10"
   },
   "devDependencies": {
     "semantic-release": "^24.0.0",

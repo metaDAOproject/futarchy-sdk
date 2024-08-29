@@ -1,7 +1,15 @@
 export type TwapObservation = {
   priceRaw?: number | null;
   priceUi: number | null;
+  oracleData?: TwapOracleData | null;
   createdAt: Date;
+};
+
+export type TwapOracleData = {
+  lastObservation: number;
+  lastPrice: number;
+  observationAgg: number;
+  updatedSlot: number;
 };
 
 /**

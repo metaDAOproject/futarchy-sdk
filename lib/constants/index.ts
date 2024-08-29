@@ -6,10 +6,10 @@ export * from "./reactions"
 import { PublicKey } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
 import { AutocratProgram, ProgramVersion } from "@/types";
-import AUTOCRAT_V0_IDL from "@/idl/autocrat_v0.json";
-import AUTOCRAT_V0_1_IDL from "@/idl/autocrat_v0.1.json";
-import AUTOCRAT_V0_2_IDL from "@/idl/autocrat_v0.2.json";
-import AUTOCRAT_V0_3_IDL from "@/idl/autocrat_v0.3.json";
+import AUTOCRAT_V0_IDL from "@/idl/autocrat_v0.json" assert {type: "json"};
+import AUTOCRAT_V0_1_IDL from "@/idl/autocrat_v0.1.json" assert {type: "json"};
+import AUTOCRAT_V0_2_IDL from "@/idl/autocrat_v0.2.json" assert {type: "json"};
+import AUTOCRAT_V0_3_IDL from "@/idl/autocrat_v0.3.json" assert {type: "json"};
 
 export const SYSTEM_PROGRAM: PublicKey = new PublicKey(
   "11111111111111111111111111111111"

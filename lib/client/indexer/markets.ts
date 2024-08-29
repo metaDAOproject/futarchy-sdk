@@ -23,6 +23,7 @@ import {
 import {
   generateSubscriptionOp,
   Client as IndexerGraphQLClient,
+  order_by,
   orders_bool_exp,
   orders_order_by,
   orders_select_column,
@@ -134,8 +135,11 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return market;
   }
 
-  watchCurrentTwapPrice(marketKey: PublicKey): Observable<TwapObservation[]> {
-    const { query, variables } = generateSubscriptionOp({
+  watchCurrentTwapPrice(
+    marketKey: PublicKey,
+    includeOracleData?: boolean
+  ): Observable<TwapObservation[]> {
+    const queryForGenerate = {
       twap_chart_data: {
         __args: {
           where: {
@@ -143,7 +147,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           },
           order_by: [
             {
-              interv: "desc"
+              interv: "desc" as order_by
             }
           ],
           limit: 1
@@ -158,8 +162,31 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           }
         },
         interv: true
-      }
-    });
+      },
+      twaps: undefined as any
+    };
+
+    if (includeOracleData) {
+      queryForGenerate.twaps = {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() }
+          },
+          order_by: [
+            {
+              created_at: "desc" as order_by
+            }
+          ],
+          limit: 1
+        },
+        last_observation: true,
+        last_price: true,
+        observation_agg: true,
+        updated_slot: true
+      };
+    }
+
+    const { query, variables } = generateSubscriptionOp(queryForGenerate);
 
     return new Observable((subscriber) => {
       const subscriptionCleanup = this.graphqlWSClient.subscribe<{
@@ -177,20 +204,38 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             };
           };
         }[];
+        twaps: {
+          last_observation: number;
+          last_price: number;
+          observation_agg: number;
+          updated_slot: number;
+        }[];
       }>(
         { query, variables },
         {
-          next: (data) => {
+          next: ({ data }) => {
+            const twaps = data?.twaps;
             const twapObservations =
-              data.data?.twap_chart_data?.map<TwapObservation>((d) => ({
-                priceUi: PriceMath.getHumanPrice(
-                  new BN(d.token_amount),
-                  d.market?.tokenByBaseMintAcct.decimals!!,
-                  d.market?.tokenByQuoteMintAcct.decimals!!
-                ),
-                priceRaw: d.token_amount,
-                createdAt: new Date(d.interv)
-              }));
+              data?.twap_chart_data?.map<TwapObservation>((d, i) => {
+                const latestTwaps = twaps?.[i];
+                return {
+                  priceUi: PriceMath.getHumanPrice(
+                    new BN(d.token_amount),
+                    d.market?.tokenByBaseMintAcct?.decimals!!,
+                    d.market?.tokenByQuoteMintAcct.decimals!!
+                  ),
+                  priceRaw: d.token_amount,
+                  createdAt: new Date(d.interv),
+                  oracleData: latestTwaps
+                    ? {
+                        lastObservation: latestTwaps.last_observation,
+                        lastPrice: latestTwaps.last_price,
+                        observationAgg: latestTwaps.observation_agg,
+                        updatedSlot: latestTwaps.updated_slot
+                      }
+                    : null
+                };
+              });
             subscriber.next(twapObservations);
           },
           error: (error) => subscriber.error(error),
@@ -203,9 +248,10 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   }
 
   async fetchCurrentTwapPrice(
-    marketKey: PublicKey
+    marketKey: PublicKey,
+    includeOracleData?: boolean
   ): Promise<TwapObservation[]> {
-    const { twap_chart_data } = await this.graphqlClient.query({
+    const query = {
       twap_chart_data: {
         __args: {
           where: {
@@ -213,7 +259,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           },
           order_by: [
             {
-              interv: "desc"
+              interv: "desc" as order_by
             }
           ],
           limit: 1
@@ -228,19 +274,55 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
           }
         },
         interv: true
-      }
-    });
+      },
+      twaps: undefined as any
+    };
 
-    const twapObservations = twap_chart_data?.map<TwapObservation>((d) => ({
-      priceUi: PriceMath.getHumanPrice(
-        new BN(d.token_amount),
-        d.market?.tokenByBaseMintAcct?.decimals!!,
-        d.market?.tokenByQuoteMintAcct.decimals!!
-      ),
-      priceRaw: d.token_amount,
-      createdAt: new Date(d.interv)
-    }));
-    return twapObservations;
+    if (includeOracleData) {
+      query.twaps = {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toString() }
+          },
+          order_by: [
+            {
+              created_at: "desc" as order_by
+            }
+          ],
+          limit: 1
+        },
+        last_observation: true,
+        last_price: true,
+        observation_agg: true,
+        updated_slot: true
+      };
+    }
+
+    const { twap_chart_data, twaps } = await this.graphqlClient.query(query);
+    const latestTwapChartData = twap_chart_data?.[0];
+    const latestTwaps = twaps?.[0];
+
+    if (!latestTwapChartData) return [];
+
+    return [
+      {
+        priceUi: PriceMath.getHumanPrice(
+          new BN(latestTwapChartData.token_amount),
+          latestTwapChartData.market?.tokenByBaseMintAcct?.decimals!!,
+          latestTwapChartData.market?.tokenByQuoteMintAcct.decimals!!
+        ),
+        priceRaw: latestTwapChartData.token_amount,
+        createdAt: new Date(latestTwapChartData.interv),
+        oracleData: latestTwaps
+          ? {
+              lastObservation: latestTwaps.last_observation,
+              lastPrice: latestTwaps.last_price,
+              observationAgg: latestTwaps.observation_agg,
+              updatedSlot: latestTwaps.updated_slot
+            }
+          : null
+      }
+    ];
   }
 
   watchTwapPrices(marketKey: PublicKey): Observable<TwapObservation[]> {

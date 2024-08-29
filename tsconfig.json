@@ -16,5 +16,9 @@
     "paths": {
       "@/*": ["./lib/*"]
     }
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "resolveFullExtension": ".js"
   }
 }

@@ -1,5 +1,5 @@
-export * from "./client";
-export * from "./constants";
+export * from "./client/index.js";
+export * from "./constants/index.js";
 export * from "./openbookTwap";
 export * from "./nonce";
 export * from "./transactions/";

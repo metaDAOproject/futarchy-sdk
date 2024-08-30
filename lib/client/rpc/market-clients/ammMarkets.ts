@@ -11,7 +11,8 @@ import {
   SwapPreview
 } from "@/types/amm";
 import { TransactionProcessingUpdate } from "@/types/transactions";
-import { BN, Program, Provider } from "@coral-xyz/anchor";
+import anchor from "@coral-xyz/anchor";
+import BN from "bn.js";
 import {
   AMM_PROGRAM_ID,
   AmmAccount,
@@ -27,14 +28,14 @@ import { AccountInfo, PublicKey } from "@solana/web3.js";
 import { Observable } from "rxjs";
 
 export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
-  private rpcProvider: Provider;
-  private amm: Program<AmmIDLType>;
+  private rpcProvider: anchor.Provider;
+  private amm: anchor.Program<AmmIDLType>;
   private ammClient: AmmClient;
   private transactionSender: TransactionSender | undefined;
 
   constructor(
-    rpcProvider: Provider,
-    amm: Program<AmmIDLType>,
+    rpcProvider: anchor.Provider,
+    amm: anchor.Program<AmmIDLType>,
     ammClient: AmmClient,
     transactionSender: TransactionSender | undefined
   ) {
@@ -113,7 +114,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     );
 
     const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
-      maxBaseAmountArg,
+      maxBaseAmountArg.toNumber(),
       slippage
     );
     const baseReserve = ammMarket.baseAmount;
@@ -194,7 +195,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     );
 
     const maxBaseAmountWithSlippage = calculateMaxWithSlippage(
-      maxBaseAmountArg,
+      maxBaseAmountArg.toNumber(),
       slippage
     );
 
@@ -421,7 +422,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
     slippageBps: BN
   ): SwapPreview {
     const swapType = isBuyBase ? { buy: {} } : { sell: {} };
-    let startPrice = amm.quoteAmount / amm.baseAmount;
+    let startPrice = amm.quoteAmount.toNumber() / amm.baseAmount.toNumber();
 
     const { expectedOut, newBaseReserves, newQuoteReserves } =
       this.ammClient.simulateSwap(
@@ -432,16 +433,16 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
         slippageBps
       );
 
-    const finalPrice = newQuoteReserves / newBaseReserves;
+    const finalPrice = newQuoteReserves.toNumber() / newBaseReserves.toNumber();
 
     // NOTE: Default is selling into USDC
-    let avgSwapPrice = expectedOut / inputAmount;
-    let humanInput = inputAmount / 10 ** amm.baseMintDecimals;
-    let humanOutput = expectedOut / 10 ** amm.quoteMintDecimals;
+    let avgSwapPrice = expectedOut.toNumber() / inputAmount.toNumber();
+    let humanInput = inputAmount.toNumber() / 10 ** amm.baseMintDecimals;
+    let humanOutput = expectedOut.toNumber() / 10 ** amm.quoteMintDecimals;
     if (swapType.buy) {
-      avgSwapPrice = inputAmount / expectedOut;
-      humanInput = inputAmount / 10 ** amm.quoteMintDecimals;
-      humanOutput = expectedOut / 10 ** amm.baseMintDecimals;
+      avgSwapPrice = inputAmount.toNumber() / expectedOut.toNumber();
+      humanInput = inputAmount.toNumber() / 10 ** amm.quoteMintDecimals;
+      humanOutput = expectedOut.toNumber() / 10 ** amm.baseMintDecimals;
     }
 
     const priceImpact = Math.abs(finalPrice - startPrice) / startPrice;
@@ -454,7 +455,7 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       outputUnits: humanOutput,
       startPrice,
       finalPrice,
-      avgSwapPrice: inputAmount / expectedOut,
+      avgSwapPrice: inputAmount.toNumber() / expectedOut.toNumber(),
       priceImpact
     };
   }

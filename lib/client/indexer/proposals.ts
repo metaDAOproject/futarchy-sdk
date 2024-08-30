@@ -29,7 +29,7 @@ import {
   ProposalDetails,
   ProposalInputs
 } from "@/types/createProp";
-import { BN } from "@coral-xyz/anchor";
+import BN from "bn.js";
 import { PriceMath } from "@metadaoproject/futarchy";
 import { Observable } from "rxjs";
 import { Client as GQLWebSocketClient } from "graphql-ws";
@@ -452,7 +452,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           prev +
           PriceMath.getHumanAmount(
             new BN(curr.filled_base_amount),
-            new BN(proposal.dao.tokenByBaseAcct?.decimals ?? 6)
+            proposal.dao.tokenByBaseAcct?.decimals ?? 6
           ) *
             curr.quote_price,
         0
@@ -463,7 +463,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
           prev +
           PriceMath.getHumanAmount(
             new BN(curr.filled_base_amount),
-            new BN(proposal.dao.tokenByBaseAcct?.decimals ?? 6)
+            proposal.dao.tokenByBaseAcct?.decimals ?? 6
           ) *
             curr.quote_price,
         0

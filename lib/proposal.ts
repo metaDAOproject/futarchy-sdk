@@ -53,8 +53,8 @@ export function getProposalFromAccount(
     passMarket: new PublicKey(passMarket ?? 5),
     publicKey,
     // TODO: Review
-    startSlot: account.slotEnqueued,
-    endSlot: account.slotEnqueued + (86400000 / 400) * 3,
+    startSlot: account.slotEnqueued.toNumber(),
+    endSlot: account.slotEnqueued.toNumber() + (86400000 / 400) * 3,
     // TODO: We can do better than this ;)
     creationDate: new Date(),
     // TODO: :)

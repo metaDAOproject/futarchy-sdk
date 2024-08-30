@@ -1,4 +1,4 @@
-import { BN, Program, Provider } from "@coral-xyz/anchor";
+import { Program, Provider } from "@coral-xyz/anchor";
 import {
   AutocratProgram,
   FutarchyProtocol,
@@ -13,6 +13,7 @@ import { PublicKey } from "@solana/web3.js";
 import { createSlug } from "@/utils";
 import { Autocrat, IDL as AUTOCRAT_V0_3_IDL } from "@/idl/autocrat_v0.3";
 import { AUTOCRAT_PROGRAM_ID } from "@metadaoproject/futarchy";
+import BN from "bn.js";
 
 export class FutarchyRPCDaoClient implements FutarchyDaoClient {
   private futarchyProtocols: FutarchyProtocol[];
@@ -118,7 +119,7 @@ export class FutarchyRPCDaoClient implements FutarchyDaoClient {
     const slotsPerProposal: BN =
       protocol.deploymentVersion === "V0"
         ? new BN(2160000)
-        : daoAccount.slotsPerProposal;
+        : daoAccount.slotsPerProposal ?? new BN(2160000);
     const quoteMint = daoAccount.usdcMint;
     if (baseMint) {
       const baseToken = await enrichTokenMetadata(baseMint, this.rpcProvider);

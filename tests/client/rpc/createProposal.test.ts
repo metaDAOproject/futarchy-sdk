@@ -1,5 +1,5 @@
 import { JitoBundler, TransactionSender } from "@/transactions";
-import { AnchorProvider, BN, utils } from "@coral-xyz/anchor";
+import { AnchorProvider, utils } from "@coral-xyz/anchor";
 import {
   Connection,
   PublicKey,
@@ -18,6 +18,7 @@ import {
 } from "@metadaoproject/futarchy";
 import { createMockWallet } from "tests/test-utils";
 import { FutarchyRPCClient } from "@/client/rpc";
+import BN from "bn.js";
 
 // export const provider = AnchorProvider.env();
 // setProvider(provider);

@@ -1,4 +1,5 @@
-import { BN, Program, Provider } from "@coral-xyz/anchor";
+import anchor from "@coral-xyz/anchor";
+import BN from "bn.js";
 import {
   Market as OBMarket,
   Order as OBOrder,
@@ -42,14 +43,14 @@ import { SendTransactionResponse } from "@/types/transactions";
 export class FutarchyOpenbookMarketsRPCClient
   implements FutarchyOrderbookMarketsClient<OpenbookMarket, OpenbookOrder>
 {
-  private openbook: Program<OpenbookV2>;
+  private openbook: anchor.Program<OpenbookV2>;
   private openbookClient: OpenBookV2Client;
-  private rpcProvider: Provider;
+  private rpcProvider: anchor.Provider;
   private transactionSender: TransactionSender | undefined;
 
   constructor(
-    rpcProvider: Provider,
-    openbook: Program<OpenbookV2>,
+    rpcProvider: anchor.Provider,
+    openbook: anchor.Program<OpenbookV2>,
     openbookClient: OpenBookV2Client,
     transactionSender: TransactionSender | undefined
   ) {
@@ -177,7 +178,7 @@ export class FutarchyOpenbookMarketsRPCClient
       size: bookSideOrder.size,
       filled:
         bookSideOrder.size -
-        getPartiallyFilledAmountFromBookSideOrder(bookSideOrder),
+        getPartiallyFilledAmountFromBookSideOrder(bookSideOrder).toNumber(),
       owner: bookSideOrder.leafNode.owner,
       clientOrderId: bookSideOrder.leafNode.clientOrderId,
       market: bookSideOrder.market.pubkey,
@@ -236,7 +237,9 @@ export class FutarchyOpenbookMarketsRPCClient
     const [openOrdersIx, openOrdersAccountAddress] =
       await this.openbookClient.createOpenOrdersIx(
         market.publicKey,
-        `${shortKey(this.transactionSender.owner)}-${shortKey(accountIndex)}`,
+        `${shortKey(this.transactionSender.owner)}-${shortKey(
+          accountIndex.toString()
+        )}`,
         this.transactionSender.owner,
         // TODO do we have delegate?
         null,
@@ -246,7 +249,7 @@ export class FutarchyOpenbookMarketsRPCClient
 
     const placeLimitOrderArgs = this.createPlaceOrderArgs({
       orderType: placeOrderType,
-      accountIndex,
+      accountIndex: accountIndex.toNumber(),
       market: market.marketInstance,
       isAsk: order.side === "ask",
       amount: order.size,
@@ -343,7 +346,7 @@ export class FutarchyOpenbookMarketsRPCClient
     const _priceLots = market.priceUiToLots(priceCalc);
     const maxBaseLots = market.baseUiToLots(amount);
     let maxQuoteLotsIncludingFees = market.quoteUiToLots(
-      priceLots.mul(maxBaseLots)
+      priceLots.mul(maxBaseLots).toNumber()
     );
 
     if (_priceLots === priceLots) {

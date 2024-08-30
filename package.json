@@ -1,6 +1,6 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "4.0.0-alpha.48",
+  "version": "4.0.0-alpha.49",
   "type": "module",
   "main": "dist",
   "scripts": {
@@ -30,8 +30,10 @@
     "@solana/spl-token": "^0.3.11",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.91.7",
+    "@types/bn.js": "^5.1.5",
     "@types/bun": "^1.1.0",
     "@types/numeral": "^2.0.4",
+    "bn.js": "^5.2.1",
     "bs58": "^6.0.0",
     "camelcase": "^8.0.0",
     "dayjs": "^1.11.11",

@@ -31,7 +31,7 @@ import {
   TwapObservation
 } from "@/types/prices";
 import { TransactionProcessingUpdate } from "@/types/transactions";
-import { BN } from "@coral-xyz/anchor";
+import BN from "bn.js";
 import {
   CreateProposalInstruction,
   ProposalOnChainFields,

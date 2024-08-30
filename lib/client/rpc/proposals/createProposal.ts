@@ -26,7 +26,7 @@ import {
   OpenbookMarketParams
 } from "@/types/createProp";
 import { TransactionProcessingUpdate } from "@/types/transactions";
-import { AnchorProvider, Program, BN, utils } from "@coral-xyz/anchor";
+import { AnchorProvider, Program, utils } from "@coral-xyz/anchor";
 import {
   AutocratClient,
   InstructionUtils,
@@ -55,6 +55,7 @@ import { ConditionalVault as Conditional_vault_v0_2 } from "@/idl/conditional_va
 import { Observable } from "rxjs";
 import { buildMemoInstruction } from "@/instructions/builder/memo";
 import { buildTransferInstruction } from "@/instructions/builder/transfer";
+import BN from "bn.js";
 
 export class CreateProposalClient implements CreateProposal {
   private proposalsClient: FutarchyProposalsClient;
@@ -529,8 +530,8 @@ export class CreateProposalClient implements CreateProposal {
       dao.publicKey,
       url,
       onPassIx.instruction,
-      marketParams.baseLiquidity,
-      marketParams.quoteLiquidity
+      new BN(marketParams.baseLiquidity),
+      new BN(marketParams.quoteLiquidity)
     );
 
     const txResp = this.transactionSender?.send(

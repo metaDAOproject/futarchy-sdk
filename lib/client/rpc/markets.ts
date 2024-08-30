@@ -23,6 +23,7 @@ import {
 import { PublicKey } from "@solana/web3.js";
 import { Observable } from "rxjs";
 import { prices_chart_data_bool_exp } from "../indexer/__generated__";
+import { BN_0 } from "@/constants";
 
 export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
   // we have generic interface for orderbooks. when adding phoenix, this could be rethunk
@@ -109,11 +110,11 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
           subscriber.next([
             {
               priceUi: PriceMath.getHumanPrice(
-                twapPrice,
+                twapPrice ?? BN_0,
                 market?.baseToken.decimals!!,
                 market?.quoteToken.decimals!!
               ),
-              priceRaw: twapPrice.toNumber(),
+              priceRaw: twapPrice?.toNumber(),
               createdAt: new Date()
             }
           ]);
@@ -130,8 +131,8 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
         .fetchMarket(new AmmMarketFetchRequest(marketKey))
         .then((market) => {
           const ammPrice = PriceMath.getAmmPriceFromReserves(
-            market?.baseAmount,
-            market?.quoteAmount
+            market?.baseAmount ?? BN_0,
+            market?.quoteAmount ?? BN_0
           );
           subscriber.next([
             {

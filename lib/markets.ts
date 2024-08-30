@@ -1,4 +1,4 @@
-import { BN } from "@coral-xyz/anchor";
+import BN from "bn.js";
 import { Market, MarketType, ProgramVersionLabel } from "./types";
 
 export function getMarketTypeFromProtocolVersion(

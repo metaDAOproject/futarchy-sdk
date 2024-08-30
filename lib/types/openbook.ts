@@ -1,4 +1,4 @@
-import { BN, IdlAccounts, IdlTypes, Program } from "@coral-xyz/anchor";
+import { IdlAccounts, IdlTypes, Program } from "@coral-xyz/anchor";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import {
   MarketAccount,
@@ -6,7 +6,7 @@ import {
   OpenOrdersAccount,
   LeafNode,
   Market as OBMarket,
-  OracleConfigParams,
+  OracleConfigParams
 } from "@openbook-dex/openbook-v2";
 import {
   AccountWithKey,
@@ -16,11 +16,12 @@ import {
   VaultAccount,
   Market,
   MarketFetchRequest,
-  OrderbookMarket,
+  OrderbookMarket
 } from "@/types";
 import { OpenbookTwapV0_1 } from "@/idl/openbook_twap_v0.1";
 import { OpenbookTwapV0_2 } from "@/idl/openbook_twap_v0.2";
 import { OpenbookTwap } from "@/idl/openbook_twap";
+import BN from "bn.js";
 
 /**
  * Order

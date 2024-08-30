@@ -3,7 +3,7 @@ import {
   Transaction,
   TransactionInstruction
 } from "@solana/web3.js";
-import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
+import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import {
   TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountIdempotentInstruction,
@@ -47,6 +47,7 @@ import {
 import { FinalizeProposalClient } from "./finalizeProposal";
 import { CreateProposalClient } from "./createProposal";
 import { autocratVersionToConditionalVaultMap } from "@/constants";
+import BN from "bn.js";
 
 export class FutarchyRPCProposalsClient implements FutarchyProposalsClient {
   public rpcProvider: AnchorProvider;

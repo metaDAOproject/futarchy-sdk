@@ -32,7 +32,7 @@ import {
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import { FutarchyMarketsRPCClient } from "../rpc/markets";
 import { PriceMath } from "@metadaoproject/futarchy";
-import { BN } from "@coral-xyz/anchor";
+import BN from "bn.js";
 
 export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
   public openbook: FutarchyIndexerOpenbookMarketsClient;
@@ -135,10 +135,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     return market;
   }
 
-  watchCurrentTwapPrice(
-    marketKey: PublicKey,
-    includeOracleData?: boolean
-  ): Observable<TwapObservation[]> {
+  watchCurrentTwapPrice(marketKey: PublicKey): Observable<TwapObservation[]> {
     const queryForGenerate = {
       twap_chart_data: {
         __args: {
@@ -166,26 +163,6 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       twaps: undefined as any
     };
 
-    if (includeOracleData) {
-      queryForGenerate.twaps = {
-        __args: {
-          where: {
-            market_acct: { _eq: marketKey.toString() }
-          },
-          order_by: [
-            {
-              created_at: "desc" as order_by
-            }
-          ],
-          limit: 1
-        },
-        last_observation: true,
-        last_price: true,
-        observation_agg: true,
-        updated_slot: true
-      };
-    }
-
     const { query, variables } = generateSubscriptionOp(queryForGenerate);
 
     return new Observable((subscriber) => {
@@ -204,20 +181,12 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             };
           };
         }[];
-        twaps: {
-          last_observation: number;
-          last_price: number;
-          observation_agg: number;
-          updated_slot: number;
-        }[];
       }>(
         { query, variables },
         {
           next: ({ data }) => {
-            const twaps = data?.twaps;
             const twapObservations =
               data?.twap_chart_data?.map<TwapObservation>((d, i) => {
-                const latestTwaps = twaps?.[i];
                 return {
                   priceUi: PriceMath.getHumanPrice(
                     new BN(d.token_amount),
@@ -226,14 +195,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
                   ),
                   priceRaw: d.token_amount,
                   createdAt: new Date(d.interv),
-                  oracleData: latestTwaps
-                    ? {
-                        lastObservation: latestTwaps.last_observation,
-                        lastPrice: latestTwaps.last_price,
-                        observationAgg: latestTwaps.observation_agg,
-                        updatedSlot: latestTwaps.updated_slot
-                      }
-                    : null
+                  oracleData: null
                 };
               });
             subscriber.next(twapObservations);
@@ -377,7 +339,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             const twapObservations =
               data.data?.twap_chart_data_stream?.map<TwapObservation>((d) => ({
                 priceUi: PriceMath.getHumanPrice(
-                  new BN(d.token_amount),
+                  new BN(d.token_amount ?? 0),
                   d.market?.tokenByBaseMintAcct.decimals!!,
                   d.market?.tokenByQuoteMintAcct.decimals!!
                 ),

@@ -1,4 +1,3 @@
-import { BN } from "@coral-xyz/anchor";
 import {
   Connection,
   Keypair,
@@ -6,10 +5,11 @@ import {
   SystemProgram,
   Transaction
 } from "@solana/web3.js";
+import BN from "bn.js";
 
 const NONCE_ACCOUNT_LENGTH = 5;
 
-export async function createNonce(connection: Connection): BN {
+export async function createNonce(connection: Connection): Promise<BN> {
   const nonceAuthKeypair = new Keypair();
   const newNonceTx = new Transaction();
   const rent = await connection.getMinimumBalanceForRentExemption(
@@ -52,8 +52,6 @@ export async function createNonce(connection: Connection): BN {
     const nonceAccount = NonceAccount.fromAccountData(accountInfo.data);
 
     return new BN(Number(nonceAccount.nonce));
-
-    return;
   } catch (error) {
     console.error("Failed to create nonce account: ", error);
     throw error;

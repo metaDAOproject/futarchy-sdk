@@ -1,6 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import { Market, MarketFetchRequest } from "./markets";
-import { BN } from "@coral-xyz/anchor";
+import BN from "bn.js";
 import { TokenProps } from "./tokens";
 
 export class AmmMarketFetchRequest implements MarketFetchRequest {

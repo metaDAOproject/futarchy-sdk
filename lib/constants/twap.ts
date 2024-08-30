@@ -1,6 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { Idl } from "@coral-xyz/anchor";
-import { BN } from "@coral-xyz/anchor";
+import BN from "bn.js";
 
 import { ProgramVersionLabel } from "@/types";
 import {

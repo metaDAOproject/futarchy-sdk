@@ -12,6 +12,7 @@ import {
   dao_details_bool_exp
 } from "./__generated__";
 import { PublicKey } from "@solana/web3.js";
+import BN from "bn.js";
 
 export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -234,12 +235,17 @@ export class FutarchyIndexerDaoClient implements FutarchyDaoClient {
                   : undefined,
                 proposalCount: d.proposals_aggregate.aggregate?.count,
                 passThresholdBps: d.pass_threshold_bps,
-                slotsPerProposal: d.slots_per_proposal,
-                twapInitialObservation: d.twap_initial_observation,
-                twapMaxObservationChangePerUpdate:
-                  d.twap_max_observation_change_per_update,
-                minBaseFutarchicLiquidity: d.min_base_futarchic_liquidity,
-                minQuoteFutarchicLiquidity: d.min_quote_futarchic_liquidity
+                slotsPerProposal: new BN(d.slots_per_proposal ?? 0),
+                twapInitialObservation: new BN(d.twap_initial_observation ?? 0),
+                twapMaxObservationChangePerUpdate: new BN(
+                  d.twap_max_observation_change_per_update ?? 0
+                ),
+                minBaseFutarchicLiquidity: new BN(
+                  d.min_base_futarchic_liquidity ?? 0
+                ),
+                minQuoteFutarchicLiquidity: new BN(
+                  d.min_quote_futarchic_liquidity ?? 0
+                )
               },
               publicKey: new PublicKey(d.dao_acct),
               protocol: this.protocolMap.get(d.program_acct)

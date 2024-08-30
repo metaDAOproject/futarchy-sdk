@@ -2,7 +2,7 @@ import { FutarchyRPCClient } from "@/client";
 import { autocratVersionToTwapMap } from "@/constants";
 import { TransactionSender } from "@/transactions";
 import { AmmMarketFetchRequest, OpenbookMarketFetchRequest } from "@/types";
-import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
+import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { describe, test, expect, beforeAll } from "bun:test";
 import { createMockWallet } from "tests/test-utils";
@@ -18,7 +18,7 @@ describe("FutarchyRPCClient Integration Test", () => {
     if (wallet.publicKey === null) return;
 
     provider = new AnchorProvider(connection, wallet, {
-      commitment: "processed",
+      commitment: "processed"
     });
 
     // Setup TransactionSender - assumed to be available or mock as needed

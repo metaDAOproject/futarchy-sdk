@@ -3,9 +3,7 @@ import {
   getAssociatedTokenAddressSync
 } from "@solana/spl-token";
 import {
-  Dao,
   DaoAggregate,
-  FutarchyProtocol,
   TokenProps,
   TokenWithBalance,
   TokenWithBalancePDAAndProposal,
@@ -14,8 +12,9 @@ import {
 import { FutarchyBalancesClient } from "@/client";
 import { PublicKey } from "@solana/web3.js";
 import { Proposal } from "@/types/proposals";
-import { BN, Provider } from "@coral-xyz/anchor";
+import { Provider } from "@coral-xyz/anchor";
 import { Observable, retry } from "rxjs";
+import BN from "bn.js";
 
 const PASS_USDC_URL =
   "https://imagedelivery.net/HYEnlujCFMCgj6yA728xIw/f38677ab-8ec6-4706-6606-7d4e0a3cfc00/public";
@@ -155,11 +154,12 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
         tokenWithPDA.pda,
         (accountInfo) => {
           const accountData = AccountLayout.decode(accountInfo.data);
-          const dividedTokenAmount =
-            new BN(accountData.amount) /
-            new BN(10).pow(new BN(tokenWithPDA.token.decimals));
+          const dividedTokenAmount = new BN(Number(accountData.amount)).div(
+            new BN(10).pow(new BN(tokenWithPDA.token.decimals))
+          );
+          // this is bugged if value is decimal/between 0 and 1
           const tokenVal: TokenWithBalance = {
-            balance: dividedTokenAmount,
+            balance: dividedTokenAmount.toNumber(),
             token: tokenWithPDA.token
           };
           subscriber.next(tokenVal);

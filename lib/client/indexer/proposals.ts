@@ -1,4 +1,4 @@
-import { PublicKey } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import {
   Proposal,
   DaoAggregate,
@@ -16,7 +16,10 @@ import {
   GovernanceParticipant,
   ProposalRanking,
   ProposalRequestConfig,
-  ProposalDaoConfiguration
+  ProposalDaoConfiguration,
+  ProposalInstruction,
+  VaultAccountWithKey,
+  VaultAccount
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -35,6 +38,7 @@ import { Observable } from "rxjs";
 import { Client as GQLWebSocketClient } from "graphql-ws";
 import dayjs from "dayjs";
 import { createSlug } from "@/utils";
+import { SUPPORTED_EMOJIS } from "@/constants";
 
 export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   private protocolMap: Map<string, FutarchyProtocol>;
@@ -844,14 +848,15 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
                 .add(new BN(slotsPerProposal))
                 .toNumber(),
               pass_threshold_bps: dao.daoAccount.passThresholdBps,
-              duration_in_slots: dao.daoAccount.slotsPerProposal,
+              duration_in_slots: dao.daoAccount.slotsPerProposal?.toNumber(),
               min_base_futarchic_liquidity:
-                dao.daoAccount.minBaseFutarchicLiquidity,
+                dao.daoAccount.minBaseFutarchicLiquidity?.toNumber(),
               min_quote_futarchic_liquidity:
-                dao.daoAccount.minQuoteFutarchicLiquidity,
-              twap_initial_observation: dao.daoAccount.twapInitialObservation,
+                dao.daoAccount.minQuoteFutarchicLiquidity?.toNumber(),
+              twap_initial_observation:
+                dao.daoAccount.twapInitialObservation?.toNumber(),
               twap_max_observation_change_per_update:
-                dao.daoAccount.twapMaxObservationChangePerUpdate
+                dao.daoAccount.twapMaxObservationChangePerUpdate?.toNumber()
             }
           },
           proposal_acct: true // Fields you want to return after insertion

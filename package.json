@@ -1,6 +1,6 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "4.0.0-alpha.50",
+  "version": "4.0.0-alpha.51",
   "type": "module",
   "main": "dist",
   "scripts": {
@@ -15,7 +15,7 @@
     "crypto"
   ],
   "dependencies": {
-    "@coral-xyz/anchor": "^0.28.1-beta.2",
+    "@coral-xyz/anchor": "^0.29.0",
     "@coral-xyz/borsh": "^0.30.1",
     "@metadaoproject/futarchy": "0.3.0-alpha.10",
     "@metadaoproject/futarchy-ts": "4.1.0",
@@ -40,9 +40,11 @@
     "graphql-ws": "^5.16.0",
     "numeral": "^2.0.6",
     "rxjs": "^7.8.1",
-    "tsc-alias": "^1.8.10"
+    "tsc-alias": "^1.8.10",
+    "utf8": "^3.0.0"
   },
   "devDependencies": {
+    "@types/utf8": "^3.0.3",
     "semantic-release": "^24.0.0",
     "tsconfig-paths": "^4.2.0",
     "tscpaths": "^0.0.9",

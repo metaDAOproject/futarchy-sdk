@@ -1,4 +1,4 @@
-import { Keypair, PublicKey } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import {
   Proposal,
   DaoAggregate,
@@ -17,9 +17,7 @@ import {
   ProposalRanking,
   ProposalRequestConfig,
   ProposalDaoConfiguration,
-  ProposalInstruction,
-  VaultAccountWithKey,
-  VaultAccount
+  NextProposalValues
 } from "@/types";
 import { FutarchyProposalsClient } from "@/client";
 import { FutarchyRPCProposalsClient } from "@/client/rpc";
@@ -717,28 +715,69 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
   }
 
   // we should really probably change this column to a sequence so we don't have to manually fetch this OR we should just get rid of the column
-  async getProposalIdAndEndSlot(): Promise<[number, number]> {
-    const result = await this.getGQLClient({}).query({
-      proposal_details: {
-        __args: {
-          order_by: [{ proposal_id: "desc" }],
-          limit: 1
-        },
-        proposal: {
-          dao: {
-            slots_per_proposal: true
-          }
-        },
-        proposal_id: true
-      }
-    });
+  async getNextProposalValues(
+    proposalSlug: string
+  ): Promise<NextProposalValues> {
+    const [latestProposalResult, matchingSlugProposals] = await Promise.all([
+      this.getGQLClient({}).query({
+        proposal_details: {
+          __args: {
+            order_by: [{ proposal_id: "desc" }],
+            limit: 1
+          },
+          proposal: {
+            dao: {
+              slots_per_proposal: true
+            }
+          },
+          proposal_id: true
+        }
+      }),
+      this.getGQLClient({}).query({
+        proposal_details: {
+          __args: {
+            where: {
+              slug: { _ilike: proposalSlug }
+            }
+          },
+          slug: true
+        }
+      })
+    ]);
 
-    const latestProposal = result.proposal_details[0];
+    const existingSlugs = matchingSlugProposals.proposal_details.map(
+      (p) => p.slug ?? ""
+    );
+
+    const latestProposal = latestProposalResult.proposal_details[0];
     const proposalId = latestProposal ? latestProposal.proposal_id + 1 : 0;
     const slotsPerProposal =
       latestProposal.proposal?.dao.slots_per_proposal ?? 0;
 
-    return [proposalId, slotsPerProposal];
+    return {
+      proposalId,
+      proposalDuration: slotsPerProposal,
+      proposalSlug: this.getNewProposalSlug(existingSlugs, proposalSlug)
+    };
+  }
+
+  private getNewProposalSlug(
+    existingSlugs: string[],
+    desiredSlug: string
+  ): string {
+    if (!existingSlugs.includes(desiredSlug)) {
+      return desiredSlug;
+    }
+
+    let counter = 1;
+    let newSlug = `${desiredSlug}-${counter}`;
+
+    while (existingSlugs.includes(newSlug)) {
+      counter++;
+      newSlug = `${desiredSlug}-${counter}`;
+    }
+
+    return newSlug;
   }
 
   async saveProposalDetails(
@@ -762,8 +801,8 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
     } = proposalDetails;
 
     try {
-      const [latestPropID, slotsPerProposal] =
-        await this.getProposalIdAndEndSlot();
+      const { proposalId, proposalSlug, proposalDuration } =
+        await this.getNextProposalValues(slug);
 
       const proposalOnChain = await this.rpcProposalsClient.fetchProposal(
         dao,
@@ -845,7 +884,7 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
               updated_at: new Date(),
               initial_slot: proposalOnChain.account.slotEnqueued.toNumber(),
               end_slot: proposalOnChain.account.slotEnqueued
-                .add(new BN(slotsPerProposal))
+                .add(new BN(proposalDuration))
                 .toNumber(),
               pass_threshold_bps: dao.daoAccount.passThresholdBps,
               duration_in_slots: dao.daoAccount.slotsPerProposal?.toNumber(),
@@ -873,14 +912,14 @@ export class FutarchyIndexerProposalsClient implements FutarchyProposalsClient {
         insert_proposal_details_one: {
           __args: {
             object: {
-              proposal_id: latestPropID,
+              proposal_id: proposalId,
               proposal_acct:
                 proposalsResult.insert_proposals_one?.proposal_acct,
               title: title,
               description: description,
               categories: categories,
               content: content,
-              slug: slug,
+              slug: proposalSlug,
               proposer_acct: proposerAcct.toBase58(),
               base_cond_vault_acct: baseCondVaultAcct.toBase58(),
               quote_cond_vault_acct: quoteCondVaultAcct.toBase58(),

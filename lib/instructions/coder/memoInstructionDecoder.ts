@@ -1,12 +1,9 @@
-import { Idl } from '@coral-xyz/anchor';
-import {
-  Instruction,
-  InstructionDisplay,
-} from '@coral-xyz/anchor/dist/cjs/coder/borsh/instruction';
+import { Idl, Instruction } from '@coral-xyz/anchor';
 import { AccountMeta } from '@solana/web3.js';
 import bs58 from 'bs58';
 import { Buffer } from 'buffer';
 import { DecodeInstructionCoder } from '@/types/instructions';
+import { InstructionDisplay } from '@/types';
 
 export class MemoInstructionDecoder implements DecodeInstructionCoder {
   public constructor(private _idl: Idl) {}

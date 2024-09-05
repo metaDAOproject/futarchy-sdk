@@ -1,7 +1,6 @@
-import { Instruction } from '@coral-xyz/anchor';
-import { InstructionDisplay } from '@coral-xyz/anchor/dist/cjs/coder/borsh/instruction';
 import { Connection, PublicKey } from '@solana/web3.js';
-import { ProposalInstruction } from '..';
+import { InstructionDisplay, ProposalInstruction } from '..';
+import { Instruction } from '@coral-xyz/anchor';
 
 export enum InstructionFieldTypes {
   Text,

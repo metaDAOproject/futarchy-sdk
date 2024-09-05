@@ -5,7 +5,7 @@ import {
   VersionedTransaction
 } from "@solana/web3.js";
 import { Bundler } from "./bundles";
-import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
+import bs58 from 'bs58';
 import { TransactionMessage } from "@solana/web3.js";
 import { Message } from "@solana/web3.js";
 import {

@@ -37,8 +37,7 @@ import { enrichTokenMetadata } from "@/tokens";
 import { getTwapMarketKey } from "@/openbookTwap";
 import { BASE_FORMAT, MAX_MARKET_PRICE, NUMERAL_FORMAT } from "@/constants";
 import { shortKey } from "@/utils";
-import { utf8 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
-import { SendTransactionResponse } from "@/types/transactions";
+import utf8 from 'utf8';
 
 export class FutarchyOpenbookMarketsRPCClient
   implements FutarchyOrderbookMarketsClient<OpenbookMarket, OpenbookOrder>
@@ -91,7 +90,7 @@ export class FutarchyOpenbookMarketsRPCClient
       );
 
       const marketName = utf8
-        .decode(new Uint8Array(obMarket.account.name))
+        .decode(new Uint8Array(obMarket.account.name).toString())
         .split("\x00")[0];
 
       const baseTokenWithSymbol = !baseToken.isFallback

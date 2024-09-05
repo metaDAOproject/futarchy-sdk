@@ -81,15 +81,6 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             market_acct: { _eq: request.marketKey.toBase58() }
           }
         },
-        tokenAcctByBidsTokenAcct: {
-          token: {
-            decimals: true,
-            image_url: true,
-            symbol: true,
-            name: true,
-            mint_acct: true
-          }
-        },
         token: {
           decimals: true,
           image_url: true,

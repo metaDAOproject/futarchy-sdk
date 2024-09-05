@@ -111,6 +111,12 @@ export type ProposalDaoConfiguration = {
   minBaseFutarchicLiquidity: number;
 };
 
+export type NextProposalValues = {
+  proposalId: number;
+  proposalDuration: number;
+  proposalSlug: string;
+} 
+
 export type GovernanceParticipant = {
   publicKey: string;
   name?: string;

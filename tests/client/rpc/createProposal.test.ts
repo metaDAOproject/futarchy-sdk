@@ -8,7 +8,7 @@ import {
 } from "@solana/web3.js";
 import { describe, test, beforeAll } from "bun:test";
 import { ProposalInstruction } from "@/types";
-import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
+import bs58 from 'bs58';
 import {
   AMM_PROGRAM_ID,
   AUTOCRAT_PROGRAM_ID,

@@ -1,9 +1,9 @@
-import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 import {
   CompiledInstruction,
   PublicKey,
   TransactionInstruction
 } from "@solana/web3.js";
+import bs58 from 'bs58';
 
 export function convertTransactionInstruction(
   instruction: TransactionInstruction,

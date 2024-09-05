@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@coral-xyz/anchor':
-    specifier: ^0.28.1-beta.2
-    version: 0.28.1-beta.2
+    specifier: ^0.29.0
+    version: 0.29.0
   '@coral-xyz/borsh':
     specifier: ^0.30.1
     version: 0.30.1(@solana/web3.js@1.91.7)
@@ -85,6 +85,9 @@ dependencies:
     version: 1.8.10
 
 devDependencies:
+  '@types/utf8':
+    specifier: ^3.0.3
+    version: 3.0.3
   semantic-release:
     specifier: ^24.0.0
     version: 24.1.0(typescript@5.4.5)
@@ -2046,6 +2049,10 @@ packages:
 
   /@types/semver@7.5.8:
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
+    dev: true
+
+  /@types/utf8@3.0.3:
+    resolution: {integrity: sha512-+lqLGxWZsEe4Z6OrzBI7Ym4SMUTaMS5yOrHZ0/IL0bpIye1Qbs4PpobJL2mLDbftUXlPFZR7fu6d1yM+bHLX1w==}
     dev: true
 
   /@types/ws@7.4.7:

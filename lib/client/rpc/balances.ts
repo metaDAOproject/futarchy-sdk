@@ -154,12 +154,11 @@ export class FutarchyRPCBalancesClient implements FutarchyBalancesClient {
         tokenWithPDA.pda,
         (accountInfo) => {
           const accountData = AccountLayout.decode(accountInfo.data);
-          const dividedTokenAmount = new BN(Number(accountData.amount)).div(
-            new BN(10).pow(new BN(tokenWithPDA.token.decimals))
-          );
+          const dividedTokenAmount = Number(accountData.amount) /
+            10 ** tokenWithPDA.token.decimals;
           // this is bugged if value is decimal/between 0 and 1
           const tokenVal: TokenWithBalance = {
-            balance: dividedTokenAmount.toNumber(),
+            balance: dividedTokenAmount,
             token: tokenWithPDA.token
           };
           subscriber.next(tokenVal);

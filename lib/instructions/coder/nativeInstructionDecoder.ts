@@ -1,16 +1,15 @@
 import { Idl, Instruction } from '@coral-xyz/anchor';
-import { IdlCoder } from '@coral-xyz/anchor/dist/cjs/coder/borsh/idl';
-import { IdlField } from '@coral-xyz/anchor/dist/cjs/idl';
 import * as borsh from '@coral-xyz/borsh';
 import { AccountMeta } from '@solana/web3.js';
 import bs58 from 'bs58';
 import { Buffer } from 'buffer';
-import { InstructionDisplay } from '@coral-xyz/anchor/dist/cjs/coder/borsh/instruction';
 import { Layout } from '@solana/buffer-layout';
 import camelCase from 'camelcase';
 
 import { InstructionFormatter } from '../formatter';
 import { DecodeInstructionCoder } from '@/types/instructions';
+import { IdlField, IdlInstruction, IdlTypeDef, InstructionDisplay } from '@/types';
+import { IdlCoder } from './idl-coder';
 
 /**
  * this is a stripped down version of the BorshInstructionCoder (1). All we care about for incompatible (aka non-anchor) programs
@@ -71,9 +70,9 @@ export class NativeInstructionDecoder implements DecodeInstructionCoder {
   // given an instruction layout, derive the layout that can be used to decode each respective field
   private static parseIxLayout(idl: Idl): Map<string, Layout<Object>> {
 
-    const ixLayouts = idl.instructions?.map((m: any): [string, Layout<Object>] => {
-      const fieldLayouts = m.args.map((arg: IdlField) =>
-        IdlCoder.fieldLayout(arg, [...idl.types || []]),
+    const ixLayouts = idl.instructions?.map((m: IdlInstruction): [string, Layout<Object>] => {
+      const fieldLayouts = m.args.map((arg) =>
+        IdlCoder.fieldLayout(arg, [...idl.types || []] as IdlTypeDef[]),
       );
       const name = camelCase(m.name);
       return [name, borsh.struct(fieldLayouts, name)];

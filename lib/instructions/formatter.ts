@@ -1,20 +1,7 @@
-import { Idl, IdlAccounts } from '@coral-xyz/anchor';
-import {
-  IdlAccount,
-  IdlField,
-  IdlType,
-  IdlTypeDef,
-  IdlTypeDefTyStruct,
-  IdlTypeDefined,
-  IdlTypeOption,
-  IdlTypeVec,
-} from '@coral-xyz/anchor/dist/cjs/idl';
+import { IdlAccount, IdlField, IdlType, IdlTypeDef, IdlTypeDefined, IdlTypeDefTyStruct, IdlTypeOption, IdlTypeVec, InstructionDisplay } from '@/types';
+import { Idl, IdlAccounts, Instruction } from '@coral-xyz/anchor';
 import { AccountMeta } from '@solana/web3.js';
 import camelCase from 'camelcase';
-import {
-  Instruction,
-  InstructionDisplay,
-} from '@coral-xyz/anchor/dist/cjs/coder/borsh/instruction';
 
 const sentenceCase = (field: string): string => {
   const result = field.replace(/([A-Z])/g, ' $1');
@@ -44,7 +31,7 @@ export class InstructionFormatter {
       data: InstructionFormatter.formatIdlData(
         idlField,
         ix.data[idlField.name as keyof typeof ix.data],
-        idl.types,
+        idl.types as IdlTypeDef[],
       ),
     }));
 

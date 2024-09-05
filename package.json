@@ -40,7 +40,8 @@
     "graphql-ws": "^5.16.0",
     "numeral": "^2.0.6",
     "rxjs": "^7.8.1",
-    "tsc-alias": "^1.8.10"
+    "tsc-alias": "^1.8.10",
+    "utf8": "^3.0.0"
   },
   "devDependencies": {
     "@types/utf8": "^3.0.3",

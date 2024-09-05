@@ -83,6 +83,9 @@ dependencies:
   tsc-alias:
     specifier: ^1.8.10
     version: 1.8.10
+  utf8:
+    specifier: ^3.0.0
+    version: 3.0.0
 
 devDependencies:
   '@types/utf8':

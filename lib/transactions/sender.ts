@@ -18,7 +18,12 @@ import {
   SendTransactionOptions
 } from "../types/transactions";
 import { AnchorProvider } from "@coral-xyz/anchor";
-import { Observable, Subscriber, shareReplay } from "rxjs";
+import {
+  Observable,
+  Subscriber,
+  distinctUntilKeyChanged,
+  shareReplay
+} from "rxjs";
 import { Bundler } from "./bundles";
 
 type SingleOrArray<T> = T | T[];
@@ -238,7 +243,9 @@ export class TransactionSender {
           };
         });
     });
-    return obs.pipe(shareReplay());
+
+    // preventing duplicate status from coming through
+    return obs.pipe(shareReplay()).pipe(distinctUntilKeyChanged("status"));
   }
 
   private async handleSignatureResult(

@@ -18,7 +18,8 @@ import { Observable } from "rxjs";
 import {
   ProposalMarketPricesAggregate,
   SpotObservation,
-  TwapObservation
+  TwapObservation,
+  TwapOracleData
 } from "@/types/prices";
 import {
   generateSubscriptionOp,
@@ -131,7 +132,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       twap_chart_data: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() }
+            market_acct: { _eq: marketKey.toBase58() }
           },
           order_by: [
             {
@@ -200,6 +201,102 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
     });
   }
 
+  watchCurrentTwapOracle(marketKey: PublicKey): Observable<TwapOracleData> {
+    const queryForGenerate = {
+      twaps: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toBase58() }
+          },
+          order_by: [
+            {
+              created_at: "desc" as order_by
+            }
+          ],
+          limit: 1
+        },
+        last_observation: true,
+        last_price: true,
+        observation_agg: true,
+        updated_slot: true
+      }
+    };
+
+    const { query, variables } = generateSubscriptionOp(queryForGenerate);
+
+    return new Observable<TwapOracleData>((subscriber) => {
+      const subscriptionCleanup = this.graphqlWSClient.subscribe<{
+        twaps: {
+          last_observation: number;
+          last_price: number;
+          observation_agg: number;
+          updated_slot: number;
+        }[];
+      }>(
+        { query, variables },
+        {
+          next: ({ data }) => {
+            const twapObservations = data?.twaps?.map<TwapOracleData>((d) => {
+              return {
+                lastObservation: d.last_observation,
+                lastPrice: d.last_price,
+                observationAgg: d.observation_agg,
+                updatedSlot: d.updated_slot
+              };
+            });
+            if (!twapObservations?.[0]) return;
+            subscriber.next(twapObservations[0]);
+          },
+          error: (error) => subscriber.error(error),
+          complete: () => subscriber.complete()
+        }
+      );
+
+      return () => subscriptionCleanup();
+    });
+  }
+
+  async fetchCurrentTwapOracle(
+    marketKey: PublicKey
+  ): Promise<TwapOracleData | null> {
+    const query = {
+      twaps: {
+        __args: {
+          where: {
+            market_acct: { _eq: marketKey.toBase58() }
+          },
+          order_by: [
+            {
+              created_at: "desc" as order_by
+            }
+          ],
+          limit: 1
+        },
+        last_observation: true,
+        last_price: true,
+        observation_agg: true,
+        updated_slot: true
+      }
+    };
+
+    try {
+      const { twaps } = await this.graphqlClient.query(query);
+      const latestTwap = twaps?.[0];
+
+      if (!latestTwap) return null;
+
+      return {
+        lastObservation: latestTwap.last_observation,
+        lastPrice: latestTwap.last_price,
+        observationAgg: latestTwap.observation_agg,
+        updatedSlot: latestTwap.updated_slot
+      };
+    } catch (error) {
+      console.error("Error fetching current TWAP oracle:", error);
+      throw error;
+    }
+  }
+
   async fetchCurrentTwapPrice(
     marketKey: PublicKey,
     includeOracleData?: boolean
@@ -208,7 +305,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       twap_chart_data: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() }
+            market_acct: { _eq: marketKey.toBase58() }
           },
           order_by: [
             {
@@ -235,7 +332,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       query.twaps = {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() }
+            market_acct: { _eq: marketKey.toBase58() }
           },
           order_by: [
             {
@@ -291,7 +388,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             }
           ],
           where: {
-            market_acct: { _eq: marketKey.toString() }
+            market_acct: { _eq: marketKey.toBase58() }
           }
         },
         token_amount: true,
@@ -363,7 +460,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       twap_chart_data: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() },
+            market_acct: { _eq: marketKey.toBase58() },
             interv
           },
           order_by: [
@@ -846,7 +943,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       prices_chart_data: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() },
+            market_acct: { _eq: marketKey.toBase58() },
             prices_type: {
               _in: ["spot", "conditional"]
             },
@@ -902,7 +999,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       prices_chart_data: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() },
+            market_acct: { _eq: marketKey.toBase58() },
             prices_type: {
               _in: ["spot", "conditional"]
             }
@@ -938,7 +1035,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
       prices_chart_data: {
         __args: {
           where: {
-            market_acct: { _eq: marketKey.toString() },
+            market_acct: { _eq: marketKey.toBase58() },
             prices_type: {
               _in: ["spot", "conditional"]
             },
@@ -977,7 +1074,7 @@ export class FutarchyIndexerMarketsClient implements FutarchyMarketsClient {
             }
           ],
           where: {
-            market_acct: { _eq: marketKey.toString() },
+            market_acct: { _eq: marketKey.toBase58() },
             prices_type: {
               _in: ["spot", "conditional"]
             }

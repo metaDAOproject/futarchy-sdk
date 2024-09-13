@@ -2,7 +2,7 @@ import { FutarchyAmmMarketsClient } from "@/client";
 import { enrichTokenMetadata } from "@/tokens";
 import { calculateMaxWithSlippage, calculateMinWithSlippage } from "@/trading";
 import { TransactionSender } from "@/transactions/sender";
-import { TokenWithBalance } from "@/types";
+import { TokenWithBalance, VaultAccountWithProtocol } from "@/types";
 import {
   AddLiquiditySimulationResponse,
   AmmMarket,
@@ -13,10 +13,13 @@ import {
 import { TransactionProcessingUpdate } from "@/types/transactions";
 import anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
+import numeral from "numeral";
 import {
   AMM_PROGRAM_ID,
   AmmAccount,
   AmmClient,
+  AutocratClient,
+  InstructionUtils,
   PriceMath,
   SwapType,
   getAmmAddr,
@@ -24,24 +27,27 @@ import {
 } from "@metadaoproject/futarchy";
 import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
-import { AccountInfo, PublicKey } from "@solana/web3.js";
+import { AccountInfo, PublicKey, Transaction } from "@solana/web3.js";
 import { Observable } from "rxjs";
 
 export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
   private rpcProvider: anchor.Provider;
   private amm: anchor.Program<AmmIDLType>;
   private ammClient: AmmClient;
+  private autocratClient: AutocratClient;
   private transactionSender: TransactionSender | undefined;
 
   constructor(
     rpcProvider: anchor.Provider,
     amm: anchor.Program<AmmIDLType>,
     ammClient: AmmClient,
+    autocratClient: AutocratClient,
     transactionSender: TransactionSender | undefined
   ) {
     this.rpcProvider = rpcProvider;
     this.amm = amm;
     this.ammClient = ammClient;
+    this.autocratClient = autocratClient;
     this.transactionSender = transactionSender;
   }
 
@@ -385,6 +391,77 @@ export class FutarchyAmmMarketsRPCClient implements FutarchyAmmMarketsClient {
       {
         customErrors: [this.ammClient.program.idl.errors],
         CUs: 80_000
+      },
+      { title: "Swapping" }
+    );
+  }
+
+  async mintAndSwap(
+    mintAmount: number,
+    vaultAccountAddress: PublicKey,
+    vaultAccount: VaultAccountWithProtocol,
+    ammMarket: AmmMarket,
+    swapType: SwapType,
+    inputAmount: number,
+    outputAmountMin: number,
+    slippage: number
+  ) {
+    if (!this.transactionSender) {
+      console.error("Transaction sender is undefined");
+      return;
+    }
+    let [inputToken, outputToken] = swapType.buy
+      ? [ammMarket.quoteToken, ammMarket.baseToken]
+      : [ammMarket.baseToken, ammMarket.quoteToken];
+
+    const inputAmountScaled: BN = PriceMath.getChainAmount(
+      inputAmount,
+      inputToken.decimals
+    );
+    const outputAmountMinScaled: BN = PriceMath.getChainAmount(
+      outputAmountMin,
+      outputToken.decimals
+    );
+    // TODO don't need to do this if we use new futarchy SDK with slippage on preview calculation
+    const outputAmountWithSlippage = new BN(
+      calculateMinWithSlippage(outputAmountMinScaled.toNumber(), slippage)
+    );
+
+    const { decimals } = await enrichTokenMetadata(
+      vaultAccount.conditionalOnFinalizeTokenMint,
+      this.rpcProvider
+    );
+
+    const mintIx =
+      await this.autocratClient.vaultClient.mintConditionalTokensIx(
+        vaultAccountAddress,
+        vaultAccount.underlyingTokenMint,
+        new BN(
+          numeral(mintAmount)
+            .multiply(10 ** (decimals || 0))
+            .format("0")
+        )
+      );
+
+    const swapIx = await this.ammClient.swapIx(
+      ammMarket.publicKey,
+      ammMarket.baseMint,
+      ammMarket.quoteMint,
+      swapType,
+      inputAmountScaled,
+      outputAmountWithSlippage
+    );
+
+    const ixs = await InstructionUtils.getInstructions(mintIx, swapIx);
+
+    const tx = new Transaction().add(...ixs);
+
+    return this.transactionSender?.send(
+      [tx],
+      this.rpcProvider.connection,
+      {
+        customErrors: [this.ammClient.program.idl.errors],
+        CUs: 150_000
       },
       { title: "Swapping" }
     );

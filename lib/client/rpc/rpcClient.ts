@@ -16,7 +16,10 @@ import {
   AMM_PROGRAM_ID,
   Amm as AmmIDLType,
   AmmClient,
-  AmmIDL as AMM_IDL
+  AmmIDL as AMM_IDL,
+  AutocratClient,
+  AUTOCRAT_PROGRAM_ID,
+  CONDITIONAL_VAULT_PROGRAM_ID
 } from "@metadaoproject/futarchy";
 import { FutarchyMarketsRPCClient } from "./markets";
 import { FutarchyRPCSocialsClient } from "./socials";
@@ -53,6 +56,7 @@ export class FutarchyRPCClient implements FutarchyClient {
       new OpenBookV2Client(rpcProvider, OPENBOOK_PROGRAM_ID),
       new Program<AmmIDLType>(AMM_IDL, AMM_PROGRAM_ID, rpcProvider),
       new AmmClient(rpcProvider, AMM_PROGRAM_ID, []),
+      new AutocratClient(rpcProvider, AUTOCRAT_PROGRAM_ID, CONDITIONAL_VAULT_PROGRAM_ID, AMM_PROGRAM_ID, []),
       transactionSender
     );
   }

@@ -123,8 +123,6 @@ export class FutarchyIndexerClient implements FutarchyClient {
         { query, variables },
         {
           next: (data) => {
-            console.log(data);
-
             subscriber.next(data.data?.prices[0].updated_slot);
           },
           error: (error) => subscriber.error(error),

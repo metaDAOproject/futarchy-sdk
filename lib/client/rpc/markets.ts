@@ -11,7 +11,7 @@ import {
 } from "@/types";
 import { FutarchyMarketsClient } from "@/client";
 import { TransactionSender } from "@/transactions/sender";
-import { AmmClient, PriceMath } from "@metadaoproject/futarchy";
+import { AmmClient, AutocratClient, PriceMath } from "@metadaoproject/futarchy";
 import { FutarchyOpenbookMarketsRPCClient } from "./market-clients/openbookMarkets";
 import { FutarchyAmmMarketsRPCClient } from "./market-clients/ammMarkets";
 import { Amm as AmmIDLType } from "@/idl/amm_v0.3";
@@ -36,6 +36,7 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
     openbookClient: OpenBookV2Client,
     amm: Program<AmmIDLType>,
     ammClient: AmmClient,
+    autocratClient: AutocratClient,
     transactionSender: TransactionSender | undefined
   ) {
     this.openbook = new FutarchyOpenbookMarketsRPCClient(
@@ -48,6 +49,7 @@ export class FutarchyMarketsRPCClient implements FutarchyMarketsClient {
       rpcProvider,
       amm,
       ammClient,
+      autocratClient,
       transactionSender
     );
   }

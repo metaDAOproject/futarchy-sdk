@@ -9,11 +9,13 @@ import {
   SwapPreview,
   TokenMetadataSource,
   TokenProps,
-  TokenWithBalance
+  TokenWithBalance,
+  VaultAccountWithProtocol
 } from "@/types";
 import { PublicKey } from "@solana/web3.js";
 import { SwapType } from "@metadaoproject/futarchy";
-import { SendTransactionResponse } from "@/types/transactions";
+import { TransactionProcessingUpdate } from "@/types/transactions";
+import { Observable } from "rxjs";
 
 export class FutarchyIndexerAmmMarketsClient
   implements FutarchyAmmMarketsClient
@@ -103,6 +105,28 @@ export class FutarchyIndexerAmmMarketsClient
     slippage: number
   ) {
     return this.rpcMarketsClient.swap(
+      ammMarket,
+      swapType,
+      inputAmount,
+      outputAmountMin,
+      slippage
+    );
+  }
+
+  async mintAndSwap(
+    mintAmount: number,
+    vaultAccountAddress: PublicKey,
+    vaultAccount: VaultAccountWithProtocol,
+    ammMarket: AmmMarket,
+    swapType: SwapType,
+    inputAmount: number,
+    outputAmountMin: number,
+    slippage: number
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined> {
+    return this.rpcMarketsClient.mintAndSwap(
+      mintAmount,
+      vaultAccountAddress,
+      vaultAccount,
       ammMarket,
       swapType,
       inputAmount,

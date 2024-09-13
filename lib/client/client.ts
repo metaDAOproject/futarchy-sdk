@@ -216,6 +216,16 @@ export interface FutarchyAmmMarketsClient {
     outputAmountMin: number,
     slippage: number
   ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
+  mintAndSwap(
+    mintAmount: number,
+    vaultAccountAddress: PublicKey,
+    vaultAccount: VaultAccountWithProtocol,
+    ammMarket: AmmMarket,
+    swapType: SwapType,
+    inputAmount: number,
+    outputAmountMin: number,
+    slippage: number
+  ): Promise<Observable<TransactionProcessingUpdate> | undefined>;
   removeLiquidity(
     ammMarket: AmmMarket,
     lpTokensToBurn: number,

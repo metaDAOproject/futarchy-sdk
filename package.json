@@ -1,6 +1,6 @@
 {
   "name": "@metadaoproject/futarchy-sdk",
-  "version": "4.0.0-alpha.52",
+  "version": "4.0.0-alpha.53",
   "type": "module",
   "main": "dist",
   "scripts": {
